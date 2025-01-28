@@ -119,6 +119,9 @@ void load(void);
 /* 命令行 */
 void cli(void);
 
+/* 传感器校准 */
+void sensor_calibrate(void);
+
 /* 菜单编码器页面 */
 void menu_encoder_page(void);
 
@@ -127,6 +130,9 @@ void menu_motor_page(void);
 
 /* 陀螺仪、加速度计页面 */
 void menu_gyro_acc_page(void);
+
+/* 菜单欧拉角页面 */
+void menu_euler_angle_page(void);
 
 /* 菜单底盘数据页面 */
 void menu_chassis_page(void);

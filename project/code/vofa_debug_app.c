@@ -229,14 +229,14 @@ void game_start(void)
 		path_search();
 		path_draw();
 		tft180_show_gray_image(0, 0, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-		path_control(linear_speed_target);
+ 		path_control(linear_speed_target);
 		
 		wireless_uart_read_buffer(&data_rx_char,1);
 		if(data_rx_char == '\n' || data_rx_char == '\r')
 		{
-			yaw = 0;
-			linear_speed = 0;
-			angular_speed = 0;
+			chassis_yaw = 0;
+			chassis_linear_speed = 0;
+			chassis_angular_speed = 0;
 			break;
 		}
 	}
@@ -247,67 +247,67 @@ void remote_control(void)
 {
 	uint8 data_rx_char; 
 	
-	yaw = 0;
-	linear_speed = 0;
-	angular_speed = 0;
+	chassis_yaw = 0;
+	chassis_linear_speed = 0;
+	chassis_angular_speed = 0;
 	int16 time = 0;
 	
 	while(1)
 	{	
 		cli_clear();
 		printf("press Q to exit\n");  
-		printf("YAW : %f\nL_SPEED : %f\nA_SPEED : %f\n",yaw,angular_speed,linear_speed);
+		printf("YAW : %f\nL_SPEED : %f\nA_SPEED : %f\n",chassis_yaw,chassis_angular_speed,chassis_linear_speed);
 		wireless_uart_read_buffer(&data_rx_char,1);
 		
 		/* 操控 */
 		// 前进
 		if(data_rx_char == 'w')
 		{
-			yaw = 0;
-			linear_speed += 0.3;
-			angular_speed = 0;
+			chassis_yaw = 0;
+			chassis_linear_speed += 0.3;
+			chassis_angular_speed = 0;
 			data_rx_char = 0;
 			time = 0;
 		}
 		// 左转
 		else if(data_rx_char == 'a')
 		{
-			yaw = 0;
-			angular_speed = -1;
+			chassis_yaw = 0;
+			chassis_angular_speed = -1;
 			data_rx_char = 0;
 			time = 0;
 		}
 		// 后退
 		else if(data_rx_char == 's')
 		{
-			yaw = 0;
-			linear_speed -= 0.3;
-			angular_speed = 0;
+			chassis_yaw = 0;
+			chassis_linear_speed -= 0.3;
+			chassis_angular_speed = 0;
 			data_rx_char = 0;
 			time = 0;
 		}
 		// 右转
 		else if(data_rx_char == 'd')
 		{
-			yaw = 0;
-			angular_speed = 1;
+			chassis_yaw = 0;
+			chassis_angular_speed = 1;
 			data_rx_char = 0;
 			time = 0;
 		}
 		// 刹车
 		else if(data_rx_char == 'e')
 		{
-			yaw = 0;
-			linear_speed = 0;
-			angular_speed = 0;
+			chassis_yaw = 0;
+			chassis_linear_speed = 0;
+			chassis_angular_speed = 0;
 			time = 0;
 		}
 		// 退出
 		else if(data_rx_char == 'q')
 		{
-			yaw = 0;
-			linear_speed = 0;
-			angular_speed = 0;
+			chassis_yaw = 0;
+			chassis_linear_speed = 0;
+			chassis_angular_speed = 0;
 			break;
 		}
 		// 按键未按下超时
@@ -315,8 +315,8 @@ void remote_control(void)
 		{
 			if(time > 40)
 			{
-				linear_speed = 0;
-				angular_speed = 0;
+				chassis_linear_speed = 0;
+				chassis_angular_speed = 0;
 			}
 			else
 			{
@@ -324,9 +324,9 @@ void remote_control(void)
 			}
 		}
 		// 限幅
-		if(abs(linear_speed) > 6)
+		if(abs(chassis_linear_speed) > 6)
 		{
-			linear_speed = 6*abs(linear_speed)/linear_speed;
+			chassis_linear_speed = 6*abs(chassis_linear_speed)/chassis_linear_speed;
 		}
 	}
 }
@@ -334,8 +334,8 @@ void remote_control(void)
 /* 菜单 */
 void menu(void)
 {
-	yaw = 0;
-	linear_speed = 0;
-	angular_speed = 0;
+	chassis_yaw = 0;
+	chassis_linear_speed = 0;
+	chassis_angular_speed = 0;
 	menu_service_start();
 }

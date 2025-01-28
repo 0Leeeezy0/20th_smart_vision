@@ -16,9 +16,6 @@ API：
 
 #include "common.h"
 
-int16 path[MT9V03X_H][2] = {0};	// 路径线x、y坐标
-_PID_ path_pid;
-
 /* 赛道循迹控制初始化 */
 void path_control_init(void)
 {
@@ -76,8 +73,8 @@ void path_search(void)
 void path_control(float path_control_speed)
 {
 	path_err = path[control_point-path_start][0] - MT9V03X_W/2;
-	angular_speed = path_control_pid(PATH_PID_KIND,path_pid,path_err);
-	linear_speed = path_control_speed;
+	chassis_angular_speed = path_control_pid(PATH_PID_KIND,path_pid,path_err);
+	chassis_linear_speed = path_control_speed;
 }
 
 /* 循迹PID参数结构体初始化 */
@@ -103,7 +100,7 @@ float path_control_pid(float (*p)(_PID_* pid,float target,float feedback),_PID_ 
 {
 	float gyro_now_err;
 	static float gyro_last_err;
-	gyro_now_err = gyro_z;
+	gyro_now_err = yaw;
 	float value = p(&path_pid,0,-path_err)-PATH_PID[3]*(gyro_now_err-gyro_last_err);
 	gyro_last_err = gyro_now_err;
 	

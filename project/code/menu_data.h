@@ -23,6 +23,7 @@ typedef struct
 }_MENU_DATA_NAME_TYPE_;
 
 //-----------------------------------实时数据-----------------------------------//
+
 /* 菜单编码器数据 */
 typedef struct
 {
@@ -55,9 +56,18 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ acc_z;
 }_MENU_GYRO_ACC_;
 
+/* 欧拉角数据 */
+typedef struct
+{
+	_MENU_DATA_NAME_TYPE_ roll;
+	_MENU_DATA_NAME_TYPE_ pitch;
+	_MENU_DATA_NAME_TYPE_ yaw;
+}_MENU_EULER_ANGLE_;
+
 //-----------------------------------------------------------------------------//
 
 //-----------------------------------参数-----------------------------------//
+
 /* 菜单底盘参数 */
 typedef struct
 {
@@ -84,6 +94,7 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ d;
 	_MENU_DATA_NAME_TYPE_ output_limit;
 	_MENU_DATA_NAME_TYPE_ i_limit;
+	_MENU_DATA_NAME_TYPE_ gyro_i_limit;
 //	_MENU_DATA_NAME_TYPE_ value;
 //	_MENU_DATA_NAME_TYPE_ delta;
 //	_MENU_DATA_NAME_TYPE_ now_err;
@@ -96,6 +107,7 @@ typedef struct
 extern _MENU_ENCODER_ MENU_ENCODER;
 extern _MENU_MOTOR_ MENU_MOTOR;
 extern _MENU_GYRO_ACC_ MENU_GYRO_ACC;
+extern _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
 extern _MENU_CHASSIS_ MENU_CHASSIS;
 extern _MENU_PATH_ MENU_PATH;
 extern _MENU_PID_ MENU_MOTOR_1_PID;

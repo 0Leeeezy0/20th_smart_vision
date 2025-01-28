@@ -60,7 +60,7 @@ int main(void)
     while(1)
     {
         // 此处编写需要循环执行的代码
-		if(GYRO_ACC_CALIBRATION)
+		if(gyro_calibration_flag && acc_calibration_flag)
 		{
 			menu_service_start();
 		}

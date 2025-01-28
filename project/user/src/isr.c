@@ -52,13 +52,14 @@ void PIT_IRQHandler(void)
 		
 		acc_get();
 		gyro_get();
+		euler_angle();
 			
         pit_flag_clear(PIT_CH0);
     }
     /* µ×ÅÌ¿ØÖÆÖÐ¶Ï */
     if(pit_flag_get(PIT_CH1))
     {
-		chassis_control_move(CHASSIS_PID_KIND,yaw,linear_speed,angular_speed);
+		chassis_control_move(CHASSIS_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_angular_speed);
 		
         pit_flag_clear(PIT_CH1);
     }

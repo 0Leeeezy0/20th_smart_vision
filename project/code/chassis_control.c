@@ -22,9 +22,6 @@ API：
 
 #include "common.h"
 
-_CHASSIS_CONTROL_ chassis_control;
-_CHASSIS_PID_ chassis_pid;
-
 /* 电机传感器初始化 */
 void motor_sensor_init(void)
 {
@@ -126,10 +123,14 @@ void gyro_get(void)
 	static int epoch = 0;
 	imu660ra_get_gyro();
 	
-	if(epoch < GYRO_ACC_CALIBRATION_EPOCH)
+	if(gyro_calibration_flag == FALSE)
 	{
-		GYRO_ACC_CALIBRATION = FALSE;
-		
+		if(epoch == 0)
+		{
+			gyro_x_calibration = 0;
+			gyro_y_calibration = 0;
+			gyro_z_calibration = 0;
+		}
 		gyro_x = imu660ra_gyro_transition(imu660ra_gyro_x);
 		gyro_y = imu660ra_gyro_transition(imu660ra_gyro_y);
 		gyro_z = imu660ra_gyro_transition(imu660ra_gyro_z);
@@ -139,11 +140,15 @@ void gyro_get(void)
 		gyro_z_calibration += gyro_z/GYRO_ACC_CALIBRATION_EPOCH;
 		
 		epoch++;
+		
+		if(epoch >= GYRO_ACC_CALIBRATION_EPOCH)
+		{
+			epoch = 0;
+			gyro_calibration_flag = TRUE;
+		}
 	}	
 	else
 	{
-		GYRO_ACC_CALIBRATION = TRUE;
-		
 		gyro_x = imu660ra_gyro_transition(imu660ra_gyro_x)-gyro_x_calibration;
 		gyro_y = imu660ra_gyro_transition(imu660ra_gyro_y)-gyro_y_calibration;
 		gyro_z = imu660ra_gyro_transition(imu660ra_gyro_z)-gyro_z_calibration;
@@ -161,12 +166,14 @@ void acc_get(void)
 	static int epoch = 0;
 	imu660ra_get_acc();
 	
-	if(epoch < GYRO_ACC_CALIBRATION_EPOCH)
+	if(acc_calibration_flag == FALSE)
 	{
-		GYRO_ACC_CALIBRATION = FALSE;
-		
-		imu660ra_get_acc();
-		
+		if(epoch == 0)
+		{
+			acc_x_calibration = 0;
+			acc_y_calibration = 0;
+			acc_z_calibration = 0;
+		}
 		acc_x = imu660ra_acc_transition(imu660ra_acc_x);
 		acc_y = imu660ra_acc_transition(imu660ra_acc_y);
 		acc_z = imu660ra_acc_transition(imu660ra_acc_z);
@@ -174,54 +181,38 @@ void acc_get(void)
 		acc_x_calibration += acc_x/GYRO_ACC_CALIBRATION_EPOCH;
 		acc_y_calibration += acc_y/GYRO_ACC_CALIBRATION_EPOCH;
 		acc_z_calibration += acc_z/GYRO_ACC_CALIBRATION_EPOCH;
-		
+	
 		epoch++;
+		
+		if(epoch > GYRO_ACC_CALIBRATION_EPOCH)
+		{
+			epoch = 0;
+			acc_calibration_flag = TRUE;
+		}
 	}
 	else
 	{
-		GYRO_ACC_CALIBRATION = TRUE;
-		
 		acc_x = imu660ra_acc_transition(imu660ra_acc_x)-acc_x_calibration;
 		acc_y = imu660ra_acc_transition(imu660ra_acc_y)-acc_y_calibration;
 		acc_z = imu660ra_acc_transition(imu660ra_acc_z)-acc_z_calibration;
 	}
 }
 
-/* 现实偏航角解算 */
-float real_yaw()
-{
-	float real_yaw;
-	float tan = acc_y/acc_x;
-	
-	if(acc_x > GYRO_ACC_GATA_LIMIT)
+/* 欧拉角解算 */
+void euler_angle(void)
+{	
+	if(gyro_calibration_flag || acc_calibration_flag)
 	{
-		real_yaw = RAD2DEG(atan(tan))+180;
+		roll += gyro_x*SENSOR_IT_TIME/1000;
+		pitch += gyro_y*SENSOR_IT_TIME/1000;
+		yaw += gyro_z*SENSOR_IT_TIME/1000;
 	}
-	if(acc_x < -GYRO_ACC_GATA_LIMIT)
+	else
 	{
-		if(acc_y > GYRO_ACC_GATA_LIMIT)
-		{
-			real_yaw = RAD2DEG(atan(tan))+180;
-		}
-		if(acc_y >= -GYRO_ACC_GATA_LIMIT && acc_y <= GYRO_ACC_GATA_LIMIT)
-		{
-			real_yaw = 0;
-		}
-		if(acc_y < -GYRO_ACC_GATA_LIMIT)
-		{
-			real_yaw = RAD2DEG(atan(tan))-180;
-		}
+		roll = 0;
+		pitch = 0;
+		yaw = 0;
 	}
-	if(acc_x >= -GYRO_ACC_GATA_LIMIT && acc_x <= GYRO_ACC_GATA_LIMIT && acc_y > GYRO_ACC_GATA_LIMIT)
-	{
-		real_yaw = (float)90;
-	}
-	if(acc_x >= -GYRO_ACC_GATA_LIMIT && acc_x <= GYRO_ACC_GATA_LIMIT && acc_y < -GYRO_ACC_GATA_LIMIT)
-	{
-		real_yaw = (float)-90;
-	}
-	
-	return real_yaw;
 }
 
 /* 底盘PID参数结构体初始化 */
@@ -383,15 +374,15 @@ float positional_pid(_PID_* pid,float target,float feedback)
 }
 
 /* 运动学逆解算 */
-_CHASSIS_CONTROL_ inverse_kinematics(float yaw,float linear_speed,float angular_speed)
+_CHASSIS_CONTROL_ inverse_kinematics(float chassis_yaw,float chassis_linear_speed,float chassis_angular_speed)
 {
 	_CHASSIS_CONTROL_ chassis_control;
-	float x_speed = linear_speed*sinf(DEG2RAD(yaw));
-	float y_speed = (float)linear_speed*cosf(DEG2RAD(yaw));
+	float x_speed = chassis_linear_speed*sinf(DEG2RAD(chassis_yaw));
+	float y_speed = (float)chassis_linear_speed*cosf(DEG2RAD(chassis_yaw));
 	
-	chassis_control.motor_1_speed = -x_speed+angular_speed;
-	chassis_control.motor_2_speed = x_speed*COS60+y_speed*COS30+angular_speed;
-	chassis_control.motor_3_speed = x_speed*COS60-y_speed*COS30+angular_speed;
+	chassis_control.motor_1_speed = -x_speed+chassis_angular_speed;
+	chassis_control.motor_2_speed = x_speed*COS60+y_speed*COS30+chassis_angular_speed;
+	chassis_control.motor_3_speed = x_speed*COS60-y_speed*COS30+chassis_angular_speed;
 	
 	return chassis_control;
 }

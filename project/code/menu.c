@@ -43,20 +43,22 @@ API：
 static _MENU_PAGE_ menu_page[] = 
 {
 	/* 页面名称         标题使能     级别 序号    行数   页面函数指针 */
-	{"ROOT"         	,FALSE 		,0 	,0 		,13 ,menu_root_page},
+	{"ROOT"         	,FALSE 		,0 	,0 		,15 ,menu_root_page},
 	{"START"        	,TRUE 		,1 	,0 		,0 	,start},
 	{"SAVE"        		,TRUE 		,1 	,1 		,0 	,save},
 	{"LOAD"				,TRUE 		,1 	,2 		,0 	,load},
 	{"CLI"				,TRUE 		,1 	,3 		,0 	,cli},
-	{"ENCODER"			,TRUE 		,1 	,4 		,6 	,menu_encoder_page},
-	{"MOTOR"			,TRUE 		,1 	,5 		,3 	,menu_motor_page},
-	{"GYRO_ACC"			,TRUE 		,1 	,6 		,6 	,menu_gyro_acc_page},
-	{"CHASSIS"			,TRUE 		,1 	,7 		,3 	,menu_chassis_page},
-	{"PATH"				,TRUE		,1	,8		,5	,menu_path_page},
-	{"MOTOR_1 PID"		,TRUE 		,1 	,9 		,5 	,menu_motor_1_pid_page},
-	{"MOTOR_2 PID"		,TRUE 		,1 	,10 	,5 	,menu_motor_2_pid_page},
-	{"MOTOR_3 PID"		,TRUE 		,1 	,11 	,5 	,menu_motor_3_pid_page},
-	{"PATH PID"			,TRUE 		,1 	,12 	,5 	,menu_path_pid_page},
+	{"CALIBRATE"		,TRUE 		,1 	,4 		,0 	,sensor_calibrate},
+	{"ENCODER"			,TRUE 		,1 	,5 		,6 	,menu_encoder_page},
+	{"MOTOR"			,TRUE 		,1 	,6 		,3 	,menu_motor_page},
+	{"GYRO_ACC"			,TRUE 		,1 	,7 		,6 	,menu_gyro_acc_page},
+	{"EULER_ANGLE"      ,TRUE		,1	,8		,3	,menu_euler_angle_page},
+	{"CHASSIS"			,TRUE 		,1 	,9 		,3 	,menu_chassis_page},
+	{"PATH"				,TRUE		,1	,10		,5	,menu_path_page},
+	{"MOTOR_1 PID"		,TRUE 		,1 	,11 	,5 	,menu_motor_1_pid_page},
+	{"MOTOR_2 PID"		,TRUE 		,1 	,12 	,5 	,menu_motor_2_pid_page},
+	{"MOTOR_3 PID"		,TRUE 		,1 	,13 	,5 	,menu_motor_3_pid_page},
+	{"PATH PID"			,TRUE 		,1 	,14 	,5 	,menu_path_pid_page},
 };
 
 static int16 num = 0;	// 页面在列表中的序号
@@ -98,9 +100,9 @@ void menu_page_init(FUNC_PAGE func_page)
 	point_row_num = 0;
 	
 	// 停车
-	yaw = 0;
-	linear_speed = 0;
-	angular_speed = 0;
+	chassis_yaw = 0;
+	chassis_linear_speed = 0;
+	chassis_angular_speed = 0;
 	
 	screen_clear();
 	for(i = 0;i < sizeof(menu_page)/sizeof(menu_page[0]);i++)
@@ -305,6 +307,7 @@ void menu_root_page(void)
 void start(void)
 {
 	menu_page_init(start);
+	system_delay_ms(1000);
 	while(1)
 	{
 		menu_back_button_show();
@@ -343,6 +346,33 @@ void cli(void)
 		
 		debug_cli_init();
 		cli_service_start();
+	}
+}
+
+/* 传感器校准 */
+void sensor_calibrate(void)
+{
+	menu_page_init(sensor_calibrate);
+	system_delay_ms(1000);
+	// 开始陀螺仪、加速度计校准
+	gyro_calibration_flag = FALSE;
+	acc_calibration_flag = FALSE;
+	while(1)
+	{
+		menu_back_button_show();
+		menu_point();
+		menu_title_show();
+		
+		if(gyro_calibration_flag && acc_calibration_flag)
+		{
+			screen_clear();
+			screen_string(0,MENU_ROW_PITCH,"CALIBRATE_DONE");
+		}
+		else
+		{
+			screen_clear();
+			screen_string(0,MENU_ROW_PITCH,"KEEP STOP");
+		}
 	}
 }
 
@@ -424,18 +454,42 @@ void menu_gyro_acc_page(void)
 	
 		// 显示陀螺仪
 		screen_string(0,MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_x.name);
-		screen_float(60,MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_x.data_float,2,3);
+		screen_float(60,MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_x.data_float,2,4);
 		screen_string(0,2*MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_y.name);
-		screen_float(60,2*MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_y.data_float,2,3);
+		screen_float(60,2*MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_y.data_float,2,4);
 		screen_string(0,3*MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_z.name);
-		screen_float(60,3*MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_z.data_float,2,3);
+		screen_float(60,3*MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_z.data_float,2,4);
 		// 显示加速度计
 		screen_string(0,4*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_x.name);
-		screen_float(60,4*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_x.data_float,2,3);
+		screen_float(60,4*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_x.data_float,2,4);
 		screen_string(0,5*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_y.name);
-		screen_float(60,5*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_y.data_float,2,3);
+		screen_float(60,5*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_y.data_float,2,4);
 		screen_string(0,6*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_z.name);
-		screen_float(60,6*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_z.data_float,2,3);
+		screen_float(60,6*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_z.data_float,2,4);
+	}
+}
+
+/* 菜单欧拉角页面 */
+void menu_euler_angle_page(void)
+{
+	menu_page_init(menu_euler_angle_page);
+	while(1)
+	{
+		menu_back_button_show();
+		menu_point();
+		menu_title_show();
+	
+		MENU_EULER_ANGLE.roll.data_float = roll;
+		MENU_EULER_ANGLE.pitch.data_float = pitch;
+		MENU_EULER_ANGLE.yaw.data_float = yaw;
+	
+		// 显示陀螺仪
+		screen_string(0,MENU_ROW_PITCH,MENU_EULER_ANGLE.roll.name);
+		screen_float(60,MENU_ROW_PITCH,MENU_EULER_ANGLE.roll.data_float,3,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_EULER_ANGLE.pitch.name);
+		screen_float(60,2*MENU_ROW_PITCH,MENU_EULER_ANGLE.pitch.data_float,3,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_EULER_ANGLE.yaw.name);
+		screen_float(60,3*MENU_ROW_PITCH,MENU_EULER_ANGLE.yaw.data_float,3,3);
 	}
 }
 
@@ -450,9 +504,9 @@ void menu_chassis_page(void)
 		menu_data_change(menu_chassis_data_add,menu_chassis_data_reduce);
 		menu_title_show();
 	
-		MENU_CHASSIS.yaw.data_float = yaw;
-		MENU_CHASSIS.linear_speed.data_float = linear_speed;
-		MENU_CHASSIS.angular_speed.data_float = angular_speed;
+		MENU_CHASSIS.yaw.data_float = chassis_yaw;
+		MENU_CHASSIS.linear_speed.data_float = chassis_linear_speed;
+		MENU_CHASSIS.angular_speed.data_float = chassis_angular_speed;
 	
 		// 显示底盘数据
 		
@@ -605,6 +659,7 @@ void menu_path_pid_page(void)
 		MENU_PATH_PID.d.data_float = path_pid.d;
 		MENU_PATH_PID.output_limit.data_float = path_pid.output_limit;
 		MENU_PATH_PID.i_limit.data_float = path_pid.i_limit;
+		MENU_PATH_PID.gyro_i_limit.data_float = PATH_PID[3];
 	
 		// 显示电机3 PID数据
 		screen_string(0,MENU_ROW_PITCH,MENU_PATH_PID.p.name);
@@ -617,6 +672,8 @@ void menu_path_pid_page(void)
 		screen_float(60,4*MENU_ROW_PITCH,MENU_PATH_PID.output_limit.data_float,1,5);
 		screen_string(0,5*MENU_ROW_PITCH,MENU_PATH_PID.i_limit.name);
 		screen_float(60,5*MENU_ROW_PITCH,MENU_PATH_PID.i_limit.data_float,1,5);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH_PID.gyro_i_limit.name);
+		screen_float(60,6*MENU_ROW_PITCH,MENU_PATH_PID.gyro_i_limit.data_float,1,5);
 	}
 }
 
@@ -629,18 +686,18 @@ void menu_chassis_data_add(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ yaw+=1; break; }
-		case 1:{ linear_speed+=0.1; break; }
-		case 2:{ angular_speed+=0.1; break; }
+		case 0:{ chassis_yaw+=1; break; }
+		case 1:{ chassis_linear_speed+=0.1; break; }
+		case 2:{ chassis_angular_speed+=0.1; break; }
 	}
 }
 void menu_chassis_data_reduce(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ yaw-=1; break; }
-		case 1:{ linear_speed-=0.1; break; }
-		case 2:{ angular_speed-=0.1; break; }
+		case 0:{ chassis_yaw-=1; break; }
+		case 1:{ chassis_linear_speed-=0.1; break; }
+		case 2:{ chassis_angular_speed-=0.1; break; }
 	}
 }
 
@@ -761,6 +818,7 @@ void menu_path_pid_reduce(void)
 		case 2:{ path_pid.d-=0.00005; break; }
 		case 3:{ path_pid.output_limit-=0.05; break; }
 		case 4:{ path_pid.i_limit-=0.005; break; }
+		case 5:{ PATH_PID[3]-=0.005; break; }
 	}
 }
 

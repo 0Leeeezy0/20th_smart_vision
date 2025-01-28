@@ -53,6 +53,12 @@ typedef struct
 	_PID_ motor_3_pid;
 }_CHASSIS_PID_;
 
+/* 标志位 */
+extern uint8 gyro_calibration_flag;	// 陀螺仪校准
+extern uint8 acc_calibration_flag;	// 加速度计校准
+
+/****************************** 实时数据 ******************************/
+
 /* 编码器计数数值（rad*1024） */
 extern int16 encoder_1_count;
 extern int16 encoder_2_count;
@@ -78,11 +84,21 @@ extern float acc_x;
 extern float acc_y;
 extern float acc_z;
 
+/* 欧拉角 */
+extern float roll;	// 滚转角
+extern float pitch;	// 俯仰角	
+extern float yaw;	// 偏航角
+
 /* 图像 */
 extern uint8 image_OTSU[MT9V03X_H][MT9V03X_W];
 
-/* 标志位 */
-extern uint8 GYRO_ACC_CALIBRATION;	// 陀螺仪、加速度计校准完成标志位
+/* 循迹 */
+extern int16 path_err;
+
+/* 路径线坐标 */
+extern int16 path[MT9V03X_H][2];	// 路径线x、y坐标
+
+/**********************************************************************/
 
 /****************************** 参数 ******************************/
 
@@ -95,14 +111,13 @@ extern float PID_MOTOR_3[3];
 extern float PATH_PID[4];
 
 /* 底盘控制参数 */
-extern float yaw;
-extern float linear_speed;
-extern float angular_speed;
+extern float chassis_yaw;
+extern float chassis_linear_speed;
+extern float chassis_angular_speed;
 extern _CHASSIS_CONTROL_ chassis_control;
 extern _CHASSIS_PID_ chassis_pid;
 
 /* 循迹控制参数 */
-extern int16 path_err;
 extern _PID_ path_pid;
 
 /* 循线 */
@@ -119,8 +134,5 @@ extern float path_err_limit;	// PID循迹误差限幅
 extern float path_pid_i_limit;	// 循迹PID位置式积分项限幅
 
 /******************************************************************/
-
-/* 路径线坐标 */
-extern int16 path[MT9V03X_H][2];	// 路径线x、y坐标
 
 #endif

@@ -55,8 +55,8 @@ void gyro_get(void);
 /* 加速度计值获取(现实值 g(m/s^2)) */
 void acc_get(void);
 
-/* 现实偏航角解算 */
-float real_yaw();
+/* 欧拉角解算 */
+void euler_angle(void);
 
 /* 单电机PID控制 */
 _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);
