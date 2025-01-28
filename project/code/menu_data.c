@@ -14,6 +14,7 @@ _MENU_ENCODER_ MENU_ENCODER;
 _MENU_MOTOR_ MENU_MOTOR;
 _MENU_GYRO_ACC_ MENU_GYRO_ACC;
 _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
+_MENU_SHIFT_ MENU_SHIFT;
 _MENU_CHASSIS_ MENU_CHASSIS;
 _MENU_PATH_ MENU_PATH;
 _MENU_PID_ MENU_MOTOR_1_PID;
@@ -48,9 +49,17 @@ void menu_data_leeeezy_init(void)
 	MENU_EULER_ANGLE.pitch.name = "PITCH";
 	MENU_EULER_ANGLE.yaw.name = "YAW";
 	
+	MENU_SHIFT.shift_speed_x.name = "SPEED_X";
+	MENU_SHIFT.shift_speed_y.name = "SPEED_Y";
+	MENU_SHIFT.shift_speed_z.name = "SPEED_Z";
+	MENU_SHIFT.shift_x.name = "SHIFT_X";
+	MENU_SHIFT.shift_y.name = "SHIFT_Y";
+	MENU_SHIFT.shift_z.name = "SHIFT_Z";
+	
 	MENU_CHASSIS.yaw.name = "YAW";
 	MENU_CHASSIS.linear_speed.name = "L_SPEED";
 	MENU_CHASSIS.angular_speed.name = "A_SPEED";
+	MENU_CHASSIS.rotate_angle.name = "ANGLE";
 	
 	MENU_PATH.linear_speed_target.name = "L_S_TAR";
 	MENU_PATH.path_start.name = "START";

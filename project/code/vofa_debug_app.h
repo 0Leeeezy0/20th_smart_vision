@@ -70,6 +70,9 @@ void gyro_update(void);
 /* 加速度计上传 */
 void acc_update(void);
 
+/* 欧拉角上传 */
+void euler_angle_update(void);
+
 /* 循迹路径误差上传 */
 void path_err_update(void);
 
@@ -78,6 +81,9 @@ void update_data_add(void);
 
 /* 上传数据结束 */
 void update_data_end(void);
+
+/* 上传数据 */
+void update_data(void);
 
 /* 发车 */
 void game_start(void);

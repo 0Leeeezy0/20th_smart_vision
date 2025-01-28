@@ -53,14 +53,16 @@ void PIT_IRQHandler(void)
 		acc_get();
 		gyro_get();
 		euler_angle();
+		shift_integral();
 			
         pit_flag_clear(PIT_CH0);
     }
     /* µ×ÅÌ¿ØÖÆÖÐ¶Ï */
     if(pit_flag_get(PIT_CH1))
     {
-		chassis_control_move(CHASSIS_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_angular_speed);
-		
+		chassis_control_move(MOTOR_PID_KIND,chassis_linear_speed,chassis_angular_speed);
+//		chassis_control_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_rotate_angle);
+//		chassis_control_translate(MOTOR_PID_KIND,TRANSLATE_PID_KIND,chassis_yaw,chassis_linear_speed);
         pit_flag_clear(PIT_CH1);
     }
     

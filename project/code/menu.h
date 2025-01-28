@@ -60,7 +60,9 @@ typedef void (*FUNC_CLEAR)(void);
 /* 菜单页面函数指针 */
 typedef void (*FUNC_PAGE)(void);
 /* 菜单页面服务指针 */
-typedef void (*FUNC_SERVICE)(void);
+typedef void (*FUNC_PAGE_SERVICE)(void);
+/* 菜单页面返回服务指针 */
+typedef void (*FUNC_PAGE_BACK_SERVICE)(void);
 
 /* 菜单页面 */
 typedef struct
@@ -88,17 +90,14 @@ void key_action_get(void);
 /* 返回按键显示 */
 void menu_back_button_show(void);
 
-/* 页面标题显示 */
-void menu_title_show(void);
-
 /* 菜单返回 */
-void menu_back(void);
+void menu_back(FUNC_PAGE_BACK_SERVICE func_page_back_service);
 
 /* 菜单选项指针 */
 void menu_point(void);
 
 /* 菜单数据更改 */
-void menu_data_change(FUNC_SERVICE func_service_add,FUNC_SERVICE func_service_reduce);
+void menu_data_change(FUNC_PAGE_SERVICE func_service_add,FUNC_PAGE_SERVICE func_service_reduce);
 
 /* 根页面 */
 void menu_root_page(void);
@@ -134,6 +133,9 @@ void menu_gyro_acc_page(void);
 /* 菜单欧拉角页面 */
 void menu_euler_angle_page(void);
 
+/* 菜单位移积聚页面 */
+void menu_shift_page(void);
+
 /* 菜单底盘数据页面 */
 void menu_chassis_page(void);
 
@@ -156,29 +158,38 @@ void menu_path_pid_page(void);
 
 /****************************** 菜单页面服务 ******************************/
 
+/* 空 */
+void NONE(void);
+
+/* 菜单启动页面返回服务 */
+void menu_start_page_back_service(void);
+
+/* 菜单欧拉角页面返回服务 */
+void menu_euler_angle_page_back_service(void);
+
 /* 菜单底盘数据页面服务 */
-void menu_chassis_data_add(void);
-void menu_chassis_data_reduce(void);
+void menu_chassis_data_add_service(void);
+void menu_chassis_data_reduce_service(void);
 
 /* 菜单循线数据页面服务 */
-void menu_path_data_add(void);
-void menu_path_data_reduce(void);
+void menu_path_data_add_service(void);
+void menu_path_data_reduce_service(void);
 
 /* 菜单电机1 PID页面服务 */
-void menu_motor_1_pid_add(void);
-void menu_motor_1_pid_reduce(void);
+void menu_motor_1_pid_add_service(void);
+void menu_motor_1_pid_reduce_service(void);
 
 /* 菜单电机2 PID页面服务 */
-void menu_motor_2_pid_add(void);
-void menu_motor_2_pid_reduce(void);
+void menu_motor_2_pid_add_service(void);
+void menu_motor_2_pid_reduce_service(void);
 
 /* 菜单电机3 PID页面服务 */
-void menu_motor_3_pid_add(void);
-void menu_motor_3_pid_reduce(void);
+void menu_motor_3_pid_add_service(void);
+void menu_motor_3_pid_reduce_service(void);
 
 /* 菜单循迹 PID页面服务 */
-void menu_path_pid_add(void);
-void menu_path_pid_reduce(void);
+void menu_path_pid_add_service(void);
+void menu_path_pid_reduce_service(void);
 
 /*************************************************************************/
 

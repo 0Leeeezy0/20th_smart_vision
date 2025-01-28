@@ -27,10 +27,17 @@ Project File Date:  01/09/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\KEIL\ARM\ARMCLANG\Bin'
 Build target 'nor_sdram_zf_dtcm'
-compiling menu_data.c...
+../code/menu.c(812): warning: expression result unused [-Wunused-value]
+                case 4:{ chassis_pid.motor_2_pid.i_limit+5; break; }
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+../code/menu.c(823): warning: expression result unused [-Wunused-value]
+                case 4:{ chassis_pid.motor_2_pid.i_limit-5; break; }
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+2 warnings generated.
+compiling menu.c...
 linking...
-Program Size: Code=89184 RO-data=17232 RW-data=880 ZI-data=49140  
-".\Objects\rt1064.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=91664 RO-data=17080 RW-data=804 ZI-data=49468  
+".\Objects\rt1064.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -43,7 +50,7 @@ Package Vendor: NXP
   D:/KEIL/ARM/Pack/NXP/MIMXRT1064_DFP/19.0.0/devices/MIMXRT1064
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

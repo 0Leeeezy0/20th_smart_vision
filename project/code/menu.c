@@ -42,23 +42,24 @@ API：
 /* 页面列表 */
 static _MENU_PAGE_ menu_page[] = 
 {
-	/* 页面名称         标题使能     级别 序号    行数   页面函数指针 */
-	{"ROOT"         	,FALSE 		,0 	,0 		,15 ,menu_root_page},
-	{"START"        	,TRUE 		,1 	,0 		,0 	,start},
-	{"SAVE"        		,TRUE 		,1 	,1 		,0 	,save},
-	{"LOAD"				,TRUE 		,1 	,2 		,0 	,load},
-	{"CLI"				,TRUE 		,1 	,3 		,0 	,cli},
-	{"CALIBRATE"		,TRUE 		,1 	,4 		,0 	,sensor_calibrate},
-	{"ENCODER"			,TRUE 		,1 	,5 		,6 	,menu_encoder_page},
-	{"MOTOR"			,TRUE 		,1 	,6 		,3 	,menu_motor_page},
-	{"GYRO_ACC"			,TRUE 		,1 	,7 		,6 	,menu_gyro_acc_page},
-	{"EULER_ANGLE"      ,TRUE		,1	,8		,3	,menu_euler_angle_page},
-	{"CHASSIS"			,TRUE 		,1 	,9 		,3 	,menu_chassis_page},
-	{"PATH"				,TRUE		,1	,10		,5	,menu_path_page},
-	{"MOTOR_1 PID"		,TRUE 		,1 	,11 	,5 	,menu_motor_1_pid_page},
-	{"MOTOR_2 PID"		,TRUE 		,1 	,12 	,5 	,menu_motor_2_pid_page},
-	{"MOTOR_3 PID"		,TRUE 		,1 	,13 	,5 	,menu_motor_3_pid_page},
-	{"PATH PID"			,TRUE 		,1 	,14 	,5 	,menu_path_pid_page},
+	/* 页面名称         标题使能     级别 序号    参数行数   页面函数指针 */
+	{"ROOT"         	,FALSE 		,0 	,0 		,16 	,menu_root_page},
+	{"START"        	,TRUE 		,1 	,0 		,0 		,start},
+	{"SAVE"        		,TRUE 		,1 	,1 		,0 		,save},
+	{"LOAD"				,TRUE 		,1 	,2 		,0 		,load},
+	{"CLI"				,TRUE 		,1 	,3 		,0 		,cli},
+	{"CALIBRATE"		,TRUE 		,1 	,4 		,0 		,sensor_calibrate},
+	{"ENCODER"			,TRUE 		,1 	,5 		,0 		,menu_encoder_page},
+	{"MOTOR"			,TRUE 		,1 	,6 		,0 		,menu_motor_page},
+	{"GYRO_ACC"			,TRUE 		,1 	,7 		,0 		,menu_gyro_acc_page},
+	{"EULER_ANGLE"      ,TRUE		,1	,8		,0		,menu_euler_angle_page},
+	{"SHIFT"			,TRUE		,1	,9		,0		,menu_shift_page},
+	{"CHASSIS"			,TRUE 		,1 	,10 	,4 		,menu_chassis_page},
+	{"PATH"				,TRUE		,1	,11		,5		,menu_path_page},
+	{"MOTOR_1 PID"		,TRUE 		,1 	,12 	,5 		,menu_motor_1_pid_page},
+	{"MOTOR_2 PID"		,TRUE 		,1 	,13 	,5 		,menu_motor_2_pid_page},
+	{"MOTOR_3 PID"		,TRUE 		,1 	,14 	,5 		,menu_motor_3_pid_page},
+	{"PATH PID"			,TRUE 		,1 	,15 	,6 		,menu_path_pid_page},
 };
 
 static int16 num = 0;	// 页面在列表中的序号
@@ -99,11 +100,6 @@ void menu_page_init(FUNC_PAGE func_page)
 	int16 i = 0;
 	point_row_num = 0;
 	
-	// 停车
-	chassis_yaw = 0;
-	chassis_linear_speed = 0;
-	chassis_angular_speed = 0;
-	
 	screen_clear();
 	for(i = 0;i < sizeof(menu_page)/sizeof(menu_page[0]);i++)
 	{
@@ -137,16 +133,6 @@ void key_action_get(void)
 	key_scanner();
 }
 
-/* 返回按键显示 */
-void menu_back_button_show(void)
-{
-	switch(SCREEN_KIND)
-	{
-		case 0:{ screen_string(0,140,"BACK"); break; }
-		case 1:{ screen_string(0,300,"BACK"); break; }
-	}
-}
-
 /* 页面标题显示 */
 void menu_title_show(void)
 {
@@ -154,17 +140,30 @@ void menu_title_show(void)
 }
 
 /* 菜单返回 */
-void menu_back(void)
+void menu_back(FUNC_PAGE_BACK_SERVICE func_page_back_service)
 {
 	int16 i = 0;
-	point_row_num = 0;
-	screen_clear();
-	for(i = 0;i < sizeof(menu_page)/sizeof(menu_page[0]);i++)
+	switch(SCREEN_KIND)
 	{
-		if(menu_page[i].page_level == last_page_level && menu_page[i].page_num == last_page_num)
+		case 0:{ screen_string(0,140,"BACK"); break; }
+		case 1:{ screen_string(0,300,"BACK"); break; }
+	}
+	// 返回判断
+	if(key_get_state(UP) == KEY_LONG_PRESS && page_level > 0 && point_row_num == menu_page[num].page_row_num)
+	{
+		key_clear_all_state();
+		for(i = 0;i < sizeof(menu_page)/sizeof(menu_page[0]);i++)
 		{
-			menu_page[i].func_page();	
-			break;
+			if(menu_page[i].page_level == last_page_level && menu_page[i].page_num == last_page_num)
+			{
+				point_row_num = 0;
+				if(func_page_back_service != NULL)
+				{
+					func_page_back_service();
+				}
+				menu_page[i].func_page();	
+				break;
+			}
 		}
 	}
 }
@@ -203,12 +202,6 @@ void menu_point(void)
 			}
 		}	
 	}
-	// 返回键
-	else if(key_get_state(UP) == KEY_LONG_PRESS && page_level > 0 && point_row_num == menu_page[num].page_row_num)
-	{
-		key_clear_all_state();
-		menu_back();
-	}
 		
 	// 如果显示标题则需要 point_row_num+1才能正确显示指针
 	if(menu_page[num].title_show)
@@ -245,8 +238,8 @@ void menu_point(void)
 	}
 }
 
-/* 菜单数据更改 */
-void menu_data_change(FUNC_SERVICE func_service_add,FUNC_SERVICE func_service_reduce)
+/* 菜单数据更改服务 */
+void menu_data_change(FUNC_PAGE_SERVICE func_service_add,FUNC_PAGE_SERVICE func_service_reduce)
 {
 	// 获取状态
 	if(key_get_state(LEFT) == KEY_SHORT_PRESS)	// 左键短按左移
@@ -310,7 +303,7 @@ void start(void)
 	system_delay_ms(1000);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(menu_start_page_back_service);
 		menu_point();
 		menu_title_show();
 		
@@ -340,7 +333,7 @@ void cli(void)
 	menu_page_init(cli);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
 		menu_title_show();
 		
@@ -359,7 +352,7 @@ void sensor_calibrate(void)
 	acc_calibration_flag = FALSE;
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
 		menu_title_show();
 		
@@ -382,7 +375,7 @@ void menu_encoder_page(void)
 	menu_page_init(menu_encoder_page);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
 		menu_title_show();
 	
@@ -417,7 +410,7 @@ void menu_motor_page(void)
 	menu_page_init(menu_motor_page);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
 		menu_title_show();	
 		
@@ -441,7 +434,7 @@ void menu_gyro_acc_page(void)
 	menu_page_init(menu_gyro_acc_page);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
 		menu_title_show();
 		
@@ -475,10 +468,12 @@ void menu_euler_angle_page(void)
 	menu_page_init(menu_euler_angle_page);
 	while(1)
 	{
-		menu_back_button_show();
+		update_data();
+		menu_back(menu_euler_angle_page_back_service);
 		menu_point();
 		menu_title_show();
 	
+		euler_angle_flag = TRUE;
 		MENU_EULER_ANGLE.roll.data_float = roll;
 		MENU_EULER_ANGLE.pitch.data_float = pitch;
 		MENU_EULER_ANGLE.yaw.data_float = yaw;
@@ -493,20 +488,56 @@ void menu_euler_angle_page(void)
 	}
 }
 
+/* 菜单位移积聚页面 */
+void menu_shift_page(void)
+{
+	menu_page_init(menu_shift_page);
+	while(1)
+	{
+		menu_back(NULL);
+		menu_point();
+		menu_title_show();
+	
+		MENU_SHIFT.shift_speed_x.data_float = shift_speed_x;
+		MENU_SHIFT.shift_speed_y.data_float = shift_speed_y;
+		MENU_SHIFT.shift_speed_z.data_float = shift_speed_z;
+		MENU_SHIFT.shift_x.data_float = shift_x;
+		MENU_SHIFT.shift_y.data_float = shift_y;
+		MENU_SHIFT.shift_z.data_float = shift_z;
+		
+		// 显示位移数据
+		screen_string(0,MENU_ROW_PITCH,MENU_SHIFT.shift_speed_x.name);
+		screen_float(60,MENU_ROW_PITCH,MENU_SHIFT.shift_speed_x.data_float,3,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_SHIFT.shift_speed_y.name);
+		screen_float(60,2*MENU_ROW_PITCH,MENU_SHIFT.shift_speed_y.data_float,3,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_SHIFT.shift_speed_z.name);
+		screen_float(60,3*MENU_ROW_PITCH,MENU_SHIFT.shift_speed_z.data_float,3,3);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_SHIFT.shift_x.name);
+		screen_float(60,4*MENU_ROW_PITCH,MENU_SHIFT.shift_x.data_float,4,2);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_SHIFT.shift_y.name);
+		screen_float(60,5*MENU_ROW_PITCH,MENU_SHIFT.shift_y.data_float,4,2);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_SHIFT.shift_z.name);
+		screen_float(60,6*MENU_ROW_PITCH,MENU_SHIFT.shift_z.data_float,4,2);
+	}
+}
+
 /* 菜单底盘数据页面 */
 void menu_chassis_page(void)
 {
 	menu_page_init(menu_chassis_page);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
-		menu_data_change(menu_chassis_data_add,menu_chassis_data_reduce);
+		menu_data_change(menu_chassis_data_add_service,menu_chassis_data_reduce_service);
 		menu_title_show();
+		
+		euler_angle_flag = TRUE;
 	
 		MENU_CHASSIS.yaw.data_float = chassis_yaw;
 		MENU_CHASSIS.linear_speed.data_float = chassis_linear_speed;
 		MENU_CHASSIS.angular_speed.data_float = chassis_angular_speed;
+		MENU_CHASSIS.rotate_angle.data_float = chassis_rotate_angle;
 	
 		// 显示底盘数据
 		
@@ -516,6 +547,8 @@ void menu_chassis_page(void)
 		screen_float(60,2*MENU_ROW_PITCH,MENU_CHASSIS.linear_speed.data_float,2,3);
 		screen_string(0,3*MENU_ROW_PITCH,MENU_CHASSIS.angular_speed.name);
 		screen_float(60,3*MENU_ROW_PITCH,MENU_CHASSIS.angular_speed.data_float,2,3);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_CHASSIS.rotate_angle.name);
+		screen_float(60,4*MENU_ROW_PITCH,MENU_CHASSIS.rotate_angle.data_float,3,3);
 	}
 }
 
@@ -525,9 +558,9 @@ void menu_path_page(void)
 	menu_page_init(menu_path_page);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
-		menu_data_change(menu_path_data_add,menu_path_data_reduce);
+		menu_data_change(menu_path_data_add_service,menu_path_data_reduce_service);
 		menu_title_show();
 		
 		MENU_PATH.linear_speed_target.data_float = linear_speed_target;
@@ -556,9 +589,9 @@ void menu_motor_1_pid_page(void)
 	menu_page_init(menu_motor_1_pid_page);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
-		menu_data_change(menu_motor_1_pid_add,menu_motor_1_pid_reduce);
+		menu_data_change(menu_motor_1_pid_add_service,menu_motor_1_pid_reduce_service);
 		menu_title_show();
 	
 		MENU_MOTOR_1_PID.p.data_float = chassis_pid.motor_1_pid.p;
@@ -587,9 +620,9 @@ void menu_motor_2_pid_page(void)
 	menu_page_init(menu_motor_2_pid_page);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
-		menu_data_change(menu_motor_2_pid_add,menu_motor_2_pid_reduce);
+		menu_data_change(menu_motor_2_pid_add_service,menu_motor_2_pid_reduce_service);
 		menu_title_show();
 	
 		MENU_MOTOR_2_PID.p.data_float = chassis_pid.motor_2_pid.p;
@@ -618,9 +651,9 @@ void menu_motor_3_pid_page(void)
 	menu_page_init(menu_motor_3_pid_page);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
-		menu_data_change(menu_motor_3_pid_add,menu_motor_3_pid_reduce);
+		menu_data_change(menu_motor_3_pid_add_service,menu_motor_3_pid_reduce_service);
 		menu_title_show();
 	
 		MENU_MOTOR_3_PID.p.data_float = chassis_pid.motor_3_pid.p;
@@ -649,9 +682,9 @@ void menu_path_pid_page(void)
 	menu_page_init(menu_path_pid_page);
 	while(1)
 	{
-		menu_back_button_show();
+		menu_back(NULL);
 		menu_point();
-		menu_data_change(menu_path_pid_add,menu_path_pid_reduce);
+		menu_data_change(menu_path_pid_add_service,menu_path_pid_reduce_service);
 		menu_title_show();
 	
 		MENU_PATH_PID.p.data_float = path_pid.p;
@@ -680,29 +713,47 @@ void menu_path_pid_page(void)
 /**********************************************************************/
 
 /****************************** 菜单页面服务 ******************************/
+/* 菜单启动页面返回服务 */
+void menu_start_page_back_service(void)
+{
+	// 停车
+	chassis_yaw = 0;
+	chassis_linear_speed = 0;
+	chassis_angular_speed = 0;
+	chassis_rotate_angle = 0;
+}
+
+/* 菜单欧拉角页面返回服务 */
+void menu_euler_angle_page_back_service(void)
+{
+	// 停止解算
+	euler_angle_flag = FALSE;
+}
 
 /* 菜单底盘数据页面服务 */
-void menu_chassis_data_add(void)
+void menu_chassis_data_add_service(void)
 {
 	switch(point_row_num)
 	{
 		case 0:{ chassis_yaw+=1; break; }
 		case 1:{ chassis_linear_speed+=0.1; break; }
 		case 2:{ chassis_angular_speed+=0.1; break; }
+		case 3:{ chassis_rotate_angle+=1; break; }
 	}
 }
-void menu_chassis_data_reduce(void)
+void menu_chassis_data_reduce_service(void)
 {
 	switch(point_row_num)
 	{
 		case 0:{ chassis_yaw-=1; break; }
 		case 1:{ chassis_linear_speed-=0.1; break; }
 		case 2:{ chassis_angular_speed-=0.1; break; }
+		case 3:{ chassis_rotate_angle-=1; break; }
 	}
 }
 
 /* 菜单循线数据页面服务 */
-void menu_path_data_add(void)
+void menu_path_data_add_service(void)
 {
 	switch(point_row_num)
 	{
@@ -713,7 +764,7 @@ void menu_path_data_add(void)
 		case 4:{ prediction_point+=1; break; }
 	}
 }
-void menu_path_data_reduce(void)
+void menu_path_data_reduce_service(void)
 {
 	switch(point_row_num)
 	{
@@ -726,7 +777,7 @@ void menu_path_data_reduce(void)
 }
 
 /* 菜单电机1 PID页面服务 */
-void menu_motor_1_pid_add(void)
+void menu_motor_1_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
@@ -737,7 +788,7 @@ void menu_motor_1_pid_add(void)
 		case 4:{ chassis_pid.motor_1_pid.i_limit+=5; break; }
 	}
 }
-void menu_motor_1_pid_reduce(void)
+void menu_motor_1_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
@@ -750,7 +801,7 @@ void menu_motor_1_pid_reduce(void)
 }
 
 /* 菜单电机2 PID页面服务 */
-void menu_motor_2_pid_add(void)
+void menu_motor_2_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
@@ -761,7 +812,7 @@ void menu_motor_2_pid_add(void)
 		case 4:{ chassis_pid.motor_2_pid.i_limit+5; break; }
 	}
 }
-void menu_motor_2_pid_reduce(void)
+void menu_motor_2_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
@@ -774,7 +825,7 @@ void menu_motor_2_pid_reduce(void)
 }
 
 /* 菜单电机3 PID页面服务 */
-void menu_motor_3_pid_add(void)
+void menu_motor_3_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
@@ -785,7 +836,7 @@ void menu_motor_3_pid_add(void)
 		case 4:{ chassis_pid.motor_3_pid.i_limit+=5; break; }
 	}
 }
-void menu_motor_3_pid_reduce(void)
+void menu_motor_3_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
@@ -798,7 +849,7 @@ void menu_motor_3_pid_reduce(void)
 }
 
 /* 菜单循迹 PID页面服务 */
-void menu_path_pid_add(void)
+void menu_path_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
@@ -806,10 +857,10 @@ void menu_path_pid_add(void)
 		case 1:{ path_pid.i+=0.00005; break; }
 		case 2:{ path_pid.d+=0.00005; break; }
 		case 3:{ path_pid.output_limit+=0.05; break; }
-		case 4:{ path_pid.i_limit+=0.005; break; }
+		case 4:{ PATH_PID[3]+=0.005; break; }
 	}
 }
-void menu_path_pid_reduce(void)
+void menu_path_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{

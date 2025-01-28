@@ -64,6 +64,24 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ yaw;
 }_MENU_EULER_ANGLE_;
 
+/* 位移积聚参数 */
+typedef struct
+{
+	_MENU_DATA_NAME_TYPE_ shift_speed_x;
+	_MENU_DATA_NAME_TYPE_ shift_speed_y;
+	_MENU_DATA_NAME_TYPE_ shift_speed_z;
+	_MENU_DATA_NAME_TYPE_ shift_x;
+	_MENU_DATA_NAME_TYPE_ shift_y;
+	_MENU_DATA_NAME_TYPE_ shift_z;
+}_MENU_SHIFT_;
+
+/* 菜单参数 */
+extern _MENU_ENCODER_ MENU_ENCODER;
+extern _MENU_MOTOR_ MENU_MOTOR;
+extern _MENU_GYRO_ACC_ MENU_GYRO_ACC;
+extern _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
+extern _MENU_SHIFT_ MENU_SHIFT;
+
 //-----------------------------------------------------------------------------//
 
 //-----------------------------------参数-----------------------------------//
@@ -74,6 +92,7 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ yaw;
 	_MENU_DATA_NAME_TYPE_ linear_speed;
 	_MENU_DATA_NAME_TYPE_ angular_speed;
+	_MENU_DATA_NAME_TYPE_ rotate_angle;
 }_MENU_CHASSIS_;
 
 /* 菜单循线参数 */
@@ -104,10 +123,6 @@ typedef struct
 }_MENU_PID_;
 
 /* 菜单数据 */
-extern _MENU_ENCODER_ MENU_ENCODER;
-extern _MENU_MOTOR_ MENU_MOTOR;
-extern _MENU_GYRO_ACC_ MENU_GYRO_ACC;
-extern _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
 extern _MENU_CHASSIS_ MENU_CHASSIS;
 extern _MENU_PATH_ MENU_PATH;
 extern _MENU_PID_ MENU_MOTOR_1_PID;

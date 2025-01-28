@@ -51,11 +51,14 @@ typedef struct
 	_PID_ motor_1_pid;
 	_PID_ motor_2_pid;
 	_PID_ motor_3_pid;
+	_PID_ rotate_pid;
+	_PID_ translate_pid;
 }_CHASSIS_PID_;
 
 /* 标志位 */
 extern uint8 gyro_calibration_flag;	// 陀螺仪校准
 extern uint8 acc_calibration_flag;	// 加速度计校准
+extern uint8 euler_angle_flag;			// 欧拉角解算标志位
 
 /****************************** 实时数据 ******************************/
 
@@ -89,6 +92,14 @@ extern float roll;	// 滚转角
 extern float pitch;	// 俯仰角	
 extern float yaw;	// 偏航角
 
+/* 位移积聚 */
+extern float shift_speed_x;
+extern float shift_speed_y;
+extern float shift_speed_z;
+extern float shift_x;
+extern float shift_y;
+extern float shift_z;
+
 /* 图像 */
 extern uint8 image_OTSU[MT9V03X_H][MT9V03X_W];
 
@@ -107,13 +118,17 @@ extern float PID_MOTOR_1[3];
 extern float PID_MOTOR_2[3];
 extern float PID_MOTOR_3[3];
 
+/* 转动PID参数 */
+extern float ROTATE_PID[3];
+
 /* 循迹PID参数 */
 extern float PATH_PID[4];
 
 /* 底盘控制参数 */
-extern float chassis_yaw;
-extern float chassis_linear_speed;
-extern float chassis_angular_speed;
+extern float chassis_yaw;				// 底盘航向角
+extern float chassis_linear_speed;		// 底盘线速度
+extern float chassis_angular_speed;		// 底盘角速度
+extern float chassis_rotate_angle;		// 底盘转动角度
 extern _CHASSIS_CONTROL_ chassis_control;
 extern _CHASSIS_PID_ chassis_pid;
 
@@ -132,6 +147,8 @@ extern float duty_limit;	// PID占空比限幅
 extern float chassis_pid_i_limit;	// 底盘PID位置式积分项限幅
 extern float path_err_limit;	// PID循迹误差限幅
 extern float path_pid_i_limit;	// 循迹PID位置式积分项限幅
+extern float rotate_speed_limit;			// PID转动速度限幅
+extern float rotate_pid_i_limit;		// 转动PID位置式积分项限幅
 
 /******************************************************************/
 

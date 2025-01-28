@@ -37,14 +37,7 @@ static _CMD_APP_LIST_ cli_app_list[]=
 /* 命令行用户APP */
 static _CMD_APP_LIST_ user_app_list[]=
 {
-	{"theory_motor_speed_update",25,"theory_motor_speed",theory_motor_speed_update},
-	{"real_motor_speed_update",23,"real_motor_speed",real_motor_speed_update},
-	{"motor_duty_update",17,"motor_duty",motor_duty_update},
-	{"gyro_update",11,"gyro_value",gyro_update},
-	{"acc_update",10,"acc_value",acc_update},
-	{"path_err_update",15,"path_err",path_err_update},
-	{"update_data_add",15," ",update_data_add},
-	{"update_data_end",15," ",update_data_end},
+	{"update_data",11," ",update_data},
 	{"game_start",10,"start your fucking car",game_start},
 	{"remote_control",14,"remote control",remote_control},
 	{"menu",4,"menu",menu}
@@ -200,6 +193,12 @@ void acc_update(void)
 	printf("%f,%f,%f",acc_x,acc_y,acc_z);
 }
 
+/* 欧拉角上传 */
+void euler_angle_update(void)
+{	
+	printf("%f,%f,%f",roll,pitch,yaw);
+}
+
 /* 循迹路径误差上传 */
 void path_err_update(void)
 {
@@ -216,6 +215,22 @@ void update_data_add(void)
 void update_data_end(void)
 {
 	printf("\n");
+}
+
+/* 上传数据 */
+void update_data(void)
+{
+	uint8 data_rx_char;
+	wireless_uart_read_buffer(&data_rx_char,1);
+	euler_angle_update();
+	update_data_end();
+	if(data_rx_char == 'q')
+	{
+		chassis_yaw = 0;
+		chassis_linear_speed = 0;
+		chassis_angular_speed = 0;
+//		break;
+	}
 }
 
 /* 发车 */
