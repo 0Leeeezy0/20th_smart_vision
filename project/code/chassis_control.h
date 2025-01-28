@@ -5,6 +5,7 @@ API：
 ****用户****
 初始化
 移动
+底盘PID参数结构体初始化
 ************
 
 ****底层****
@@ -12,7 +13,6 @@ API：
 电机驱动
 编码器值获取
 编码器值清空
-底盘PID参数结构体初始化
 单电机PID控制
 增量式PID
 位置式PID
@@ -30,7 +30,10 @@ API：
 void chassis_control_init();
 
 /* 移动 */
-void chassis_control_move(float (*p)(_PID_* pid,float motor_speed,float motor_feedback_speed),float yaw,float linear_speed,float angular_speed);
+void chassis_control_move(float (*FUNC)(_PID_*,float,float),float yaw,float linear_speed,float angular_speed);
+
+/* 底盘PID参数结构体初始化 */
+_CHASSIS_PID_ chassis_pid_init(void);
 //-----------------------------------------------------------------------------//
 
 //-----------------------------------底盘底层函数-----------------------------------//
@@ -55,11 +58,8 @@ void acc_get(void);
 /* 现实偏航角解算 */
 float real_yaw();
 
-/* 底盘PID参数结构体初始化 */
-_CHASSIS_PID_ chassis_pid_init(void);
-
 /* 单电机PID控制 */
-_CHASSIS_CONTROL_ motor_pid(float (*p)(_PID_* pid,float target,float feedback),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);
+_CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);
 
 /* 增量式PID */
 float incremental_pid(_PID_* pid,float target,float feedback);

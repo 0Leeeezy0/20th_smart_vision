@@ -485,14 +485,34 @@
               <FilePath>..\code\cv.h</FilePath>
             </File>
             <File>
-              <FileName>uart.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\uart.h</FilePath>
+              <FileName>vofa_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\vofa_debug.c</FilePath>
             </File>
             <File>
-              <FileName>uart.c</FileName>
+              <FileName>vofa_debug.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\vofa_debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>vofa_debug_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\code\uart.c</FilePath>
+              <FilePath>..\code\vofa_debug_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>vofa_debug_app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\vofa_debug_app.h</FilePath>
+            </File>
+            <File>
+              <FileName>menu_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\menu_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>menu_data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\menu_data.h</FilePath>
             </File>
           </Files>
         </Group>

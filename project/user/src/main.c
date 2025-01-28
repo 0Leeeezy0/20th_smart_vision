@@ -52,41 +52,18 @@ int main(void)
     // 此处编写用户代码 例如外设初始化代码等
 	path_control_init();
 	tft180_init();
-//	wireless_uart_init();
-	chassis_control_init();
+	wireless_uart_init();
 	path_control_init();
-	
+	chassis_control_init();
+	menu_init();
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
         // 此处编写需要循环执行的代码
-		threshold();
-		path_search();
-		path_draw();
-		tft180_show_gray_image(0, 0, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-		path_control(3);
-//		yaw = 0;
-//		linear_speed = 0;
-//		angular_speed = 2;
-		
-		printf("%f,%f,%f,%f,%f,%f\n",encoder_1_speed,encoder_2_speed,encoder_3_speed,chassis_control.motor_1_speed,chassis_control.motor_2_speed,chassis_control.motor_3_speed);
-
-//		tft180_show_float(0, 0, encoder_1_speed, 2,4);
-//		tft180_show_float(0, 20, encoder_2_speed, 2,4);
-//		tft180_show_float(0, 40, encoder_3_speed, 2,4);
-//		int16 err;
-//		err = path[CONTROL_POINT-PATH_START][0] - MT9V03X_W/2;
-//		tft180_show_int(0, 120, err, 4);
-//		tft180_show_int(0, 140, chassis_control.motor_2.duty, 4);
-//		tft180_show_int(0, 100, chassis_control.motor_3.duty, 4);
-//		
-//		tft180_show_float(60, 0, acc_x, 2,4);
-//		tft180_show_float(60, 20, acc_y, 2,4);
-//		tft180_show_float(60, 40, acc_z, 2,4);
-//		tft180_show_float(0, 120, acc_x_calibration, 2,4);
-//		
-//		tft180_show_float(60, 60, real_yaw(), 2,4);
-		
+		if(GYRO_ACC_CALIBRATION)
+		{
+			menu_service_start();
+		}
 		// 此处编写需要循环执行的代码
     }
 }

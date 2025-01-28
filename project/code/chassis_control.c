@@ -2,28 +2,34 @@
 该文件用于车模底盘控制
 
 API：
-电机传感器初始化
+****用户****
+初始化
+移动
+底盘PID参数结构体初始化
+************
+
+****底层****
+电机编码器初始化
 电机驱动
 编码器值获取
 编码器值清空
-单电机PID闭环控制
+单电机PID控制
+增量式PID
+位置式PID
 运动学逆解算
+************
 */
 
 #include "common.h"
 
 _CHASSIS_CONTROL_ chassis_control;
-
-static _CHASSIS_PID_ chassis_pid;
+_CHASSIS_PID_ chassis_pid;
 
 /* 电机传感器初始化 */
 void motor_sensor_init(void)
 {
-	// 控制中断初始化
-	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
-	
-	// 传感器初始化
-	pit_ms_init (SENSOR_IT_CH, SENSOR_IT_TIME);	// 传感器中断初始化
+	/* 传感器初始化 */
+	imu660ra_init();
 	
 	encoder_dir_init(ENCODER_1_MODULE_NUM,ENCODER_1_CH1,ENCODER_1_CH2);
 	encoder_dir_init(ENCODER_2_MODULE_NUM,ENCODER_2_CH1,ENCODER_2_CH2);
@@ -49,11 +55,16 @@ void motor_sensor_init(void)
 	gpio_init(MOTOR_2_DIR,GPO,0,GPO_PUSH_PULL);
 	gpio_init(MOTOR_3_DIR,GPO,0,GPO_PUSH_PULL);
 	
-//	imu660ra_init();
+	// 控制中断初始化
+	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
+	
+	// 传感器中断初始化
+	pit_ms_init (SENSOR_IT_CH, SENSOR_IT_TIME);	// 传感器中断初始化
 	
 	// 中断使能
 	pit_enable(CONTROL_IT_CH);
 	pit_enable(SENSOR_IT_CH);
+//	interrupt_global_enable(0);
 }
 
 
@@ -117,6 +128,8 @@ void gyro_get(void)
 	
 	if(epoch < GYRO_ACC_CALIBRATION_EPOCH)
 	{
+		GYRO_ACC_CALIBRATION = FALSE;
+		
 		gyro_x = imu660ra_gyro_transition(imu660ra_gyro_x);
 		gyro_y = imu660ra_gyro_transition(imu660ra_gyro_y);
 		gyro_z = imu660ra_gyro_transition(imu660ra_gyro_z);
@@ -129,6 +142,8 @@ void gyro_get(void)
 	}	
 	else
 	{
+		GYRO_ACC_CALIBRATION = TRUE;
+		
 		gyro_x = imu660ra_gyro_transition(imu660ra_gyro_x)-gyro_x_calibration;
 		gyro_y = imu660ra_gyro_transition(imu660ra_gyro_y)-gyro_y_calibration;
 		gyro_z = imu660ra_gyro_transition(imu660ra_gyro_z)-gyro_z_calibration;
@@ -148,6 +163,8 @@ void acc_get(void)
 	
 	if(epoch < GYRO_ACC_CALIBRATION_EPOCH)
 	{
+		GYRO_ACC_CALIBRATION = FALSE;
+		
 		imu660ra_get_acc();
 		
 		acc_x = imu660ra_acc_transition(imu660ra_acc_x);
@@ -162,6 +179,8 @@ void acc_get(void)
 	}
 	else
 	{
+		GYRO_ACC_CALIBRATION = TRUE;
+		
 		acc_x = imu660ra_acc_transition(imu660ra_acc_x)-acc_x_calibration;
 		acc_y = imu660ra_acc_transition(imu660ra_acc_y)-acc_y_calibration;
 		acc_z = imu660ra_acc_transition(imu660ra_acc_z)-acc_z_calibration;
@@ -214,8 +233,8 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	chassis_pid.motor_1_pid.p = PID_MOTOR_1[0];
 	chassis_pid.motor_1_pid.i = PID_MOTOR_1[1];
 	chassis_pid.motor_1_pid.d = PID_MOTOR_1[2];
-	chassis_pid.motor_1_pid.output_limit = PID_MOTOR_1[3];
-	chassis_pid.motor_1_pid.i_limit = PID_MOTOR_1[4];
+	chassis_pid.motor_1_pid.output_limit = duty_limit;
+	chassis_pid.motor_1_pid.i_limit = chassis_pid_i_limit;
 	chassis_pid.motor_1_pid.now_err = 0;
 	chassis_pid.motor_1_pid.last_err = 0;
 	chassis_pid.motor_1_pid.last_last_err = 0;
@@ -224,8 +243,8 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	chassis_pid.motor_2_pid.p = PID_MOTOR_2[0];
 	chassis_pid.motor_2_pid.i = PID_MOTOR_2[1];
 	chassis_pid.motor_2_pid.d = PID_MOTOR_2[2];
-	chassis_pid.motor_2_pid.output_limit = PID_MOTOR_2[3];
-	chassis_pid.motor_2_pid.i_limit = PID_MOTOR_2[4];
+	chassis_pid.motor_2_pid.output_limit = duty_limit;
+	chassis_pid.motor_2_pid.i_limit = chassis_pid_i_limit;
 	chassis_pid.motor_2_pid.now_err = 0;
 	chassis_pid.motor_2_pid.last_err = 0;
 	chassis_pid.motor_2_pid.last_last_err = 0;
@@ -234,8 +253,8 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	chassis_pid.motor_3_pid.p = PID_MOTOR_3[0];
 	chassis_pid.motor_3_pid.i = PID_MOTOR_3[1];
 	chassis_pid.motor_3_pid.d = PID_MOTOR_3[2];
-	chassis_pid.motor_3_pid.output_limit = PID_MOTOR_3[3];
-	chassis_pid.motor_3_pid.i_limit = PID_MOTOR_3[4];
+	chassis_pid.motor_3_pid.output_limit = duty_limit;
+	chassis_pid.motor_3_pid.i_limit = chassis_pid_i_limit;
 	chassis_pid.motor_3_pid.now_err = 0;
 	chassis_pid.motor_3_pid.last_err = 0;
 	chassis_pid.motor_3_pid.last_last_err = 0;
@@ -244,7 +263,7 @@ _CHASSIS_PID_ chassis_pid_init(void)
 }
 
 /* 单电机PID控制 */
-_CHASSIS_CONTROL_ motor_pid(float (*p)(_PID_* pid,float motor_speed,float motor_feedback_speed),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
+_CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_* pid,float motor_speed,float motor_feedback_speed),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
 {
 	_CHASSIS_CONTROL_ motor_control;
 
@@ -252,7 +271,7 @@ _CHASSIS_CONTROL_ motor_pid(float (*p)(_PID_* pid,float motor_speed,float motor_
 	{
 		case MOTOR_1:
 		{ 
-			motor_control.motor_1.duty = p(&(chassis_pid -> motor_1_pid),motor_speed,motor_1_speed);
+			motor_control.motor_1.duty = FUNC(&(chassis_pid -> motor_1_pid),motor_speed,motor_1_speed);
 			if(motor_control.motor_1.duty > 0)
 			{
 				motor_control.motor_1.dir = 0;
@@ -266,7 +285,7 @@ _CHASSIS_CONTROL_ motor_pid(float (*p)(_PID_* pid,float motor_speed,float motor_
 		}
 		case MOTOR_2:
 		{
-			motor_control.motor_2.duty = p(&(chassis_pid -> motor_2_pid),motor_speed,motor_2_speed);
+			motor_control.motor_2.duty = FUNC(&(chassis_pid -> motor_2_pid),motor_speed,motor_2_speed);
 			if(motor_control.motor_2.duty > 0)
 			{
 				motor_control.motor_2.dir = 0;
@@ -280,7 +299,7 @@ _CHASSIS_CONTROL_ motor_pid(float (*p)(_PID_* pid,float motor_speed,float motor_
 		}
 		case MOTOR_3:
 		{
-			motor_control.motor_3.duty = p(&(chassis_pid -> motor_3_pid),motor_speed,motor_3_speed);
+			motor_control.motor_3.duty = FUNC(&(chassis_pid -> motor_3_pid),motor_speed,motor_3_speed);
 			if(motor_control.motor_3.duty > 0)
 			{
 				motor_control.motor_3.dir = 0;
@@ -339,6 +358,7 @@ float positional_pid(_PID_* pid,float target,float feedback)
 				
 	// 更新参数
 	pid -> sigma_err += pid -> now_err;
+	pid -> last_err = pid -> now_err;
 	
 	// 输出限幅
 	if(pid -> value > pid -> output_limit)
@@ -383,15 +403,15 @@ void chassis_control_init()
 	chassis_pid = chassis_pid_init();
 }
 /* 移动 */
-void chassis_control_move(float (*p)(_PID_* pid,float motor_speed,float motor_feedback_speed),float yaw,float linear_speed,float angular_speed)
+void chassis_control_move(float (*FUNC)(_PID_* pid,float motor_speed,float motor_feedback_speed),float yaw,float linear_speed,float angular_speed)
 {
 	// 运动学逆解算
 	chassis_control = inverse_kinematics(yaw,linear_speed,angular_speed);
 	
 	// 电机闭环PID解算
-	chassis_control.motor_1 = motor_pid(p,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
-	chassis_control.motor_2 = motor_pid(p,&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
-	chassis_control.motor_3 = motor_pid(p,&chassis_pid,MOTOR_3,chassis_control.motor_3_speed).motor_3;
+	chassis_control.motor_1 = motor_pid(FUNC,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
+	chassis_control.motor_2 = motor_pid(FUNC,&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
+	chassis_control.motor_3 = motor_pid(FUNC,&chassis_pid,MOTOR_3,chassis_control.motor_3_speed).motor_3;
 	
 	// 电机驱动
 	motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);

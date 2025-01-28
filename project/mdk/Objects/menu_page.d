@@ -1,5 +1,5 @@
-./objects/chassis_control.o: ..\code\chassis_control.c \
-  ..\user\inc\common.h D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
+./objects/menu_page.o: ..\code\menu_page.c ..\user\inc\common.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdint.h \
@@ -108,4 +108,4 @@
   ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h \
   ..\user\inc\data.h ..\code\chassis_control.h ..\code\path_control.h \
   ..\code\cv.h ..\code\vofa_debug.h ..\code\vofa_debug_app.h \
-  ..\code\menu.h ..\code\menu_data.h
+  ..\code\menu.h ..\code\menu_page.h

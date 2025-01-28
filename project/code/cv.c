@@ -2,6 +2,8 @@
 该文件用于图像处理
 
 API：
+二值化
+绘制路径线
 */
 
 #include "common.h"
@@ -47,7 +49,7 @@ void threshold(void)
 void path_draw(void)
 {
 	int num = 0;
-	for(num = 0;num < PATH_END-PATH_START;num++)
+	for(num = 0;num < path_end-path_start;num++)
 	{
 		image_OTSU[path[num][1]][path[num][0]] = 0;
 	}

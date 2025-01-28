@@ -50,8 +50,8 @@ void PIT_IRQHandler(void)
 		encoder_get();
 		encoder_clear();
 		
-//		acc_get();
-//		gyro_get();
+		acc_get();
+		gyro_get();
 			
         pit_flag_clear(PIT_CH0);
     }
@@ -68,8 +68,10 @@ void PIT_IRQHandler(void)
         pit_flag_clear(PIT_CH2);
     }
     
+	/* ∞¥º¸…®√Ë÷–∂œ */
     if(pit_flag_get(PIT_CH3))
     {
+		key_action_get();
         pit_flag_clear(PIT_CH3);
     }
 

@@ -63,6 +63,11 @@ extern float encoder_1_speed;
 extern float encoder_2_speed;
 extern float encoder_3_speed;
 
+/* 电机速度（rad/s） */
+extern float motor_1_speed;
+extern float motor_2_speed;
+extern float motor_3_speed;
+
 /* 三轴角速度（°/s） */
 extern float gyro_x;
 extern float gyro_y;
@@ -73,31 +78,49 @@ extern float acc_x;
 extern float acc_y;
 extern float acc_z;
 
-/* 电机速度（rad/s） */
-extern float motor_1_speed;
-extern float motor_2_speed;
-extern float motor_3_speed;
+/* 图像 */
+extern uint8 image_OTSU[MT9V03X_H][MT9V03X_W];
+
+/* 标志位 */
+extern uint8 GYRO_ACC_CALIBRATION;	// 陀螺仪、加速度计校准完成标志位
+
+/****************************** 参数 ******************************/
 
 /* 单电机PID参数 */
-extern float PID_MOTOR_1[5];
-extern float PID_MOTOR_2[5];
-extern float PID_MOTOR_3[5];
+extern float PID_MOTOR_1[3];
+extern float PID_MOTOR_2[3];
+extern float PID_MOTOR_3[3];
 
 /* 循迹PID参数 */
-extern float PATH_PID[5];
+extern float PATH_PID[4];
 
 /* 底盘控制参数 */
 extern float yaw;
 extern float linear_speed;
 extern float angular_speed;
 extern _CHASSIS_CONTROL_ chassis_control;
+extern _CHASSIS_PID_ chassis_pid;
 
-/* 图像 */
-extern uint8 image_OTSU[MT9V03X_H][MT9V03X_W];
+/* 循迹控制参数 */
+extern int16 path_err;
+extern _PID_ path_pid;
+
+/* 循线 */
+extern float linear_speed_target;	// 循迹线速度
+extern int16 path_start;	// 路径线寻找开始高度
+extern int16 path_end;	// 路径线寻找结束高度
+extern int16 control_point;	// 控制点高度（速度 3 30 速度 8 45）
+extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
+
+/* PID */
+extern float duty_limit;	// PID占空比限幅
+extern float chassis_pid_i_limit;	// 底盘PID位置式积分项限幅
+extern float path_err_limit;	// PID循迹误差限幅
+extern float path_pid_i_limit;	// 循迹PID位置式积分项限幅
+
+/******************************************************************/
 
 /* 路径线坐标 */
-extern int16 path[PATH_END-PATH_START][2];	// 路径线x、y坐标
-
-extern int16 num;
+extern int16 path[MT9V03X_H][2];	// 路径线x、y坐标
 
 #endif
