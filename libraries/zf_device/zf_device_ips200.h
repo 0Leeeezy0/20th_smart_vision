@@ -105,7 +105,7 @@
 #define IPS200_D6_PIN_PARALLEL8         (D14)
 #define IPS200_D7_PIN_PARALLEL8         (D15)
 
-#define IPS200_DEFAULT_DISPLAY_DIR      (IPS200_PORTAIT)                        // 默认的显示方向
+#define IPS200_DEFAULT_DISPLAY_DIR      (IPS200_PORTAIT_180)                        // 默认的显示方向
 #define IPS200_DEFAULT_PENCOLOR         (RGB565_RED    )                        // 默认的画笔颜色
 #define IPS200_DEFAULT_BGCOLOR          (RGB565_WHITE  )                        // 默认的背景颜色
 #define IPS200_DEFAULT_DISPLAY_FONT     (IPS200_8X16_FONT)                      // 默认的字体模式

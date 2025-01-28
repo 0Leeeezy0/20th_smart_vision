@@ -1,5 +1,5 @@
-./objects/cv.o: ..\code\cv.c ..\user\inc\common.h \
-  D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
+./objects/ai_track_control.o: ..\code\ai_track_control.c \
+  ..\user\inc\common.h D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdint.h \

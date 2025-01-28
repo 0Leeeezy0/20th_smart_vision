@@ -73,7 +73,17 @@ void path_search(void)
 void path_control(float path_control_speed)
 {
 	path_err = path[control_point-path_start][0] - MT9V03X_W/2;
-	chassis_angular_speed = path_control_pid(PATH_PID_KIND,path_pid,path_err);
+	chassis_motion_flag = CHASSIS_MOVE;
+	if(abs(path_err) > 15)
+	{
+		chassis_yaw = 0;
+		chassis_angular_speed = path_control_pid(PATH_PID_KIND,path_pid,path_err);
+	}
+	else
+	{
+		chassis_yaw = 1.2*path_err;
+		chassis_angular_speed = 0;
+	}
 	chassis_linear_speed = path_control_speed;
 }
 
@@ -96,12 +106,12 @@ _PID_ path_control_pid_init(void)
 }
 
 /* Ñ­¼£PID */
-float path_control_pid(float (*p)(_PID_* pid,float target,float feedback),_PID_ path_pid,int16 path_err)
+float path_control_pid(float (*FUNC_PATH)(_PID_* pid,float target,float feedback),_PID_ path_pid,int16 path_err)
 {
 	float gyro_now_err;
-	static float gyro_last_err;
-	gyro_now_err = yaw;
-	float value = p(&path_pid,0,-path_err)-PATH_PID[3]*(gyro_now_err-gyro_last_err);
+	static float gyro_last_err = 0;
+	gyro_now_err = GYRO_Z_FORWARD*gyro_z;
+	float value = FUNC_PATH(&path_pid,0,-path_err)-PATH_PID[3]*(gyro_now_err-gyro_last_err);
 	gyro_last_err = gyro_now_err;
 	
 	return value;

@@ -108,4 +108,5 @@
   ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h \
   ..\user\inc\data.h ..\code\chassis_control.h ..\code\path_control.h \
   ..\code\cv.h ..\code\vofa_debug.h ..\code\vofa_debug_app.h \
-  ..\code\menu.h ..\code\menu_data.h
+  ..\code\menu.h ..\code\menu_data.h ..\code\ai_track_control.h \
+  ..\code\task_dispatch.h

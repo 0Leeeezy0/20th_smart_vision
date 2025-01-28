@@ -48,8 +48,12 @@ API：
 typedef void (*FUNC_STRING)(uint16, uint16, const char dat[]);
 /* 显示整型函数指针 */
 typedef void (*FUNC_INT)(uint16, uint16, const int32, uint8);
-/* 显浮点型函数指针 */
+/* 显示无符号整型函数指针 */
+typedef void (*FUNC_UINT)(uint16, uint16, const uint32, uint8);
+/* 显示浮点型函数指针 */
 typedef void (*FUNC_FLOAT)(uint16, uint16, const double, uint8, uint8);
+/* 显示灰度图像 */
+typedef void (*FUNC_IMAGE)(uint16 x, uint16 y, const uint8 *image, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height, uint8 threshold);
 /* 清屏函数指针 */
 typedef void (*FUNC_CLEAR)(void);
 
@@ -133,8 +137,11 @@ void menu_gyro_acc_page(void);
 /* 菜单欧拉角页面 */
 void menu_euler_angle_page(void);
 
-/* 菜单位移积聚页面 */
-void menu_shift_page(void);
+/* 菜单平动位移页面 */
+void menu_translate_shift_page(void);
+
+/* MCXVISION摄像头数据页面 */
+void menu_mcxvision_page(void);
 
 /* 菜单底盘数据页面 */
 void menu_chassis_page(void);
@@ -158,14 +165,15 @@ void menu_path_pid_page(void);
 
 /****************************** 菜单页面服务 ******************************/
 
-/* 空 */
-void NONE(void);
-
-/* 菜单启动页面返回服务 */
-void menu_start_page_back_service(void);
-
 /* 菜单欧拉角页面返回服务 */
 void menu_euler_angle_page_back_service(void);
+
+/* 平动位移解算页面返回服务 */
+void menu_translate_shift_page_back_service(void);
+
+/* 菜单MCXVISION数据页面服务 */
+void menu_mcxvision_data_add_service(void);
+void menu_mcxvision_data_reduce_service(void);
 
 /* 菜单底盘数据页面服务 */
 void menu_chassis_data_add_service(void);

@@ -19,6 +19,7 @@ typedef struct
 {
 	char* name;
 	int16 data_int16;
+	uint8 data_uint8;
 	float data_float;
 }_MENU_DATA_NAME_TYPE_;
 
@@ -64,15 +65,11 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ yaw;
 }_MENU_EULER_ANGLE_;
 
-/* 位移积聚参数 */
+/* 位移数据 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ shift_speed_x;
-	_MENU_DATA_NAME_TYPE_ shift_speed_y;
-	_MENU_DATA_NAME_TYPE_ shift_speed_z;
-	_MENU_DATA_NAME_TYPE_ shift_x;
-	_MENU_DATA_NAME_TYPE_ shift_y;
-	_MENU_DATA_NAME_TYPE_ shift_z;
+	_MENU_DATA_NAME_TYPE_ shift_yaw;
+	_MENU_DATA_NAME_TYPE_ shift_distance;
 }_MENU_SHIFT_;
 
 /* 菜单参数 */
@@ -86,10 +83,22 @@ extern _MENU_SHIFT_ MENU_SHIFT;
 
 //-----------------------------------参数-----------------------------------//
 
+/* MCXVISION参数 */
+typedef struct
+{
+	_MENU_DATA_NAME_TYPE_ mcxvision_enable_flag;
+	_MENU_DATA_NAME_TYPE_ track_linear_speed_target;
+	_MENU_DATA_NAME_TYPE_ track_linear_speed_revise;
+	_MENU_DATA_NAME_TYPE_ detection_box_width_limit;
+	_MENU_DATA_NAME_TYPE_ detection_box_width_std;
+	_MENU_DATA_NAME_TYPE_ detection_box_center_limit;
+}_MENU_MCXVISION_;
+
 /* 菜单底盘参数 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ yaw;
+	_MENU_DATA_NAME_TYPE_ motion_kind;
+	_MENU_DATA_NAME_TYPE_ chassis_yaw;
 	_MENU_DATA_NAME_TYPE_ linear_speed;
 	_MENU_DATA_NAME_TYPE_ angular_speed;
 	_MENU_DATA_NAME_TYPE_ rotate_angle;
@@ -123,6 +132,7 @@ typedef struct
 }_MENU_PID_;
 
 /* 菜单数据 */
+extern _MENU_MCXVISION_ MENU_MCXVISION;
 extern _MENU_CHASSIS_ MENU_CHASSIS;
 extern _MENU_PATH_ MENU_PATH;
 extern _MENU_PID_ MENU_MOTOR_1_PID;

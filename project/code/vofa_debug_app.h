@@ -33,7 +33,7 @@ typedef struct
 {
 	char* CMD;	// 命令
 	uint32 CMD_LEN;	// 命令长度
-	uint8* CMD_DESCRIPTION;	// 命令介绍
+	char* CMD_DESCRIPTION;	// 命令介绍
 	void (*CMD_FUNC)(void);	//对应处理函数
 }_CMD_APP_LIST_;
 

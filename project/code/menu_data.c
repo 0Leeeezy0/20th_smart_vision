@@ -15,6 +15,7 @@ _MENU_MOTOR_ MENU_MOTOR;
 _MENU_GYRO_ACC_ MENU_GYRO_ACC;
 _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
 _MENU_SHIFT_ MENU_SHIFT;
+_MENU_MCXVISION_ MENU_MCXVISION;
 _MENU_CHASSIS_ MENU_CHASSIS;
 _MENU_PATH_ MENU_PATH;
 _MENU_PID_ MENU_MOTOR_1_PID;
@@ -49,19 +50,23 @@ void menu_data_leeeezy_init(void)
 	MENU_EULER_ANGLE.pitch.name = "PITCH";
 	MENU_EULER_ANGLE.yaw.name = "YAW";
 	
-	MENU_SHIFT.shift_speed_x.name = "SPEED_X";
-	MENU_SHIFT.shift_speed_y.name = "SPEED_Y";
-	MENU_SHIFT.shift_speed_z.name = "SPEED_Z";
-	MENU_SHIFT.shift_x.name = "SHIFT_X";
-	MENU_SHIFT.shift_y.name = "SHIFT_Y";
-	MENU_SHIFT.shift_z.name = "SHIFT_Z";
+	MENU_SHIFT.shift_yaw.name = "YAW";
+	MENU_SHIFT.shift_distance.name = "DISTANCE";
+
+	MENU_MCXVISION.mcxvision_enable_flag.name = "STATE";
+	MENU_MCXVISION.track_linear_speed_target.name = "TARTGET";
+	MENU_MCXVISION.track_linear_speed_revise.name = "REVISE";
+	MENU_MCXVISION.detection_box_width_limit.name = "W_LIMIT";
+	MENU_MCXVISION.detection_box_width_std.name = "STD";
+	MENU_MCXVISION.detection_box_center_limit.name = "CENTER_ERR_LIMIT";
 	
-	MENU_CHASSIS.yaw.name = "YAW";
-	MENU_CHASSIS.linear_speed.name = "L_SPEED";
-	MENU_CHASSIS.angular_speed.name = "A_SPEED";
+	MENU_CHASSIS.motion_kind.name = "KIND";
+	MENU_CHASSIS.chassis_yaw.name = "CHASSIS_YAW";
+	MENU_CHASSIS.linear_speed.name = "LINEAR_SPEED";
+	MENU_CHASSIS.angular_speed.name = "ANGULAR_SPEED";
 	MENU_CHASSIS.rotate_angle.name = "ANGLE";
 	
-	MENU_PATH.linear_speed_target.name = "L_S_TAR";
+	MENU_PATH.linear_speed_target.name = "LINEAR_SPEED_TAR";
 	MENU_PATH.path_start.name = "START";
 	MENU_PATH.path_end.name = "END";
 	MENU_PATH.control_point.name = "CONTROL";
@@ -70,27 +75,27 @@ void menu_data_leeeezy_init(void)
 	MENU_MOTOR_1_PID.p.name = "1_P";
 	MENU_MOTOR_1_PID.i.name = "1_I";
 	MENU_MOTOR_1_PID.d.name = "1_D";
-	MENU_MOTOR_1_PID.output_limit.name = "O_LIMIT";
+	MENU_MOTOR_1_PID.output_limit.name = "OUTPUT_LIMIT";
 	MENU_MOTOR_1_PID.i_limit.name = "I_LIMIT";
 	
 	MENU_MOTOR_2_PID.p.name = "2_P";
 	MENU_MOTOR_2_PID.i.name = "2_I";
 	MENU_MOTOR_2_PID.d.name = "2_D";
-	MENU_MOTOR_2_PID.output_limit.name = "O_LIMIT";
+	MENU_MOTOR_2_PID.output_limit.name = "OUTPUT_LIMIT";
 	MENU_MOTOR_2_PID.i_limit.name = "I_LIMIT";
 	
 	MENU_MOTOR_3_PID.p.name = "3_P";
 	MENU_MOTOR_3_PID.i.name = "3_I";
 	MENU_MOTOR_3_PID.d.name = "3_D";
-	MENU_MOTOR_3_PID.output_limit.name = "O_LIMIT";
+	MENU_MOTOR_3_PID.output_limit.name = "OUTPUT_LIMIT";
 	MENU_MOTOR_3_PID.i_limit.name = "I_LIMIT";
 	
 	MENU_PATH_PID.p.name = "PATH_P";
 	MENU_PATH_PID.i.name = "PATH_I";
 	MENU_PATH_PID.d.name = "PATH_D";
-	MENU_PATH_PID.output_limit.name = "O_LIMIT";
+	MENU_PATH_PID.output_limit.name = "OUTPUT_LIMIT";
 	MENU_PATH_PID.i_limit.name = "I_LIMIT";
-	MENU_PATH_PID.gyro_i_limit.name = "G_LIMIT";
+	MENU_PATH_PID.gyro_i_limit.name = "GYRO_LIMIT";
 }
 
 /* 杨队菜单数据初始化 */

@@ -51,10 +51,10 @@ int main(void)
 
     // 此处编写用户代码 例如外设初始化代码等
 	path_control_init();
-	tft180_init();
 	wireless_uart_init();
 	path_control_init();
 	chassis_control_init();
+	ai_camera_init();
 	menu_init();
     // 此处编写用户代码 例如外设初始化代码等
     while(1)

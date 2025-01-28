@@ -319,26 +319,36 @@ void euler_angle(void)
 	}
 }
 
-/* 位移积聚 */
-void shift_integral(void)
-{	
-	if(gyro_calibration_flag || acc_calibration_flag)
+/* 平动位移解算 */
+void translate_shift(void)
+{
+	static float x_distance,y_distance;
+	if(translate_shift_flag)
 	{
-		shift_speed_x += acc_x*SENSOR_IT_TIME/1000;
-		shift_speed_y += acc_y*SENSOR_IT_TIME/1000;
-		shift_speed_z += acc_z*SENSOR_IT_TIME/1000;
-		shift_x += shift_speed_x;
-		shift_y += shift_speed_y;
-		shift_z += shift_speed_z;
+		float converte = 1000/SENSOR_IT_TIME;
+		float x_speed = (motor_2_speed*COS60+motor_3_speed*COS60-motor_1_speed);
+		float y_speed = (motor_2_speed*SIN60-motor_3_speed*SIN60);
+	
+		x_distance += x_speed/converte;
+		y_distance += y_speed/converte;
+		shift_yaw = RAD2DEG(atan(x_distance/y_distance));
+		if(x_distance > 0 && y_distance <0)
+		{
+			shift_yaw = shift_yaw+180;
+		}
+		else if(x_distance < 0 && y_distance <0)
+		{
+			shift_yaw = shift_yaw-180;
+		}
+		
+		shift_distance = sqrt(x_distance*x_distance+y_distance*y_distance)*TRANSLATE_SHIFT_REVISE;
 	}
 	else
 	{
-		shift_speed_x = 0;
-		shift_speed_y = 0;
-		shift_speed_z = 0;
-		shift_x = 0;
-		shift_y = 0;
-		shift_z = 0;
+		x_distance = 0;
+		y_distance = 0;
+		shift_yaw = 0;
+		shift_distance = 0;
 	}
 }
 
@@ -386,6 +396,16 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	chassis_pid.rotate_pid.now_err = 0;
 	chassis_pid.rotate_pid.last_err = 0;
 	chassis_pid.rotate_pid.last_last_err = 0;
+	
+	// 底盘转动 PID
+	chassis_pid.rotate_pid.p = ROTATE_PID[0];
+	chassis_pid.rotate_pid.i = ROTATE_PID[1];
+	chassis_pid.rotate_pid.d = ROTATE_PID[2];
+	chassis_pid.rotate_pid.output_limit = rotate_speed_limit;
+	chassis_pid.rotate_pid.i_limit = rotate_pid_i_limit;
+	chassis_pid.rotate_pid.now_err = 0;
+	chassis_pid.rotate_pid.last_err = 0;
+	chassis_pid.rotate_pid.last_last_err = 0; 
 	
 	return chassis_pid;
 }
@@ -531,11 +551,24 @@ void chassis_control_init()
 	chassis_pid = chassis_pid_init();
 }
 
+/* 停止 */
+void chassis_control_stop(void)
+{
+	chassis_yaw = 0;
+	chassis_linear_speed = 0;
+	chassis_angular_speed = 0;
+	chassis_rotate_angle = 0;
+	// 电机驱动
+	motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
+	motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
+	motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir);
+}
+
 /* 移动 */
-void chassis_control_move(float (*FUNC)(_PID_*,float,float),float linear_speed,float angular_speed)
+void chassis_control_move(float (*FUNC)(_PID_*,float,float),float chassis_yaw,float linear_speed,float angular_speed)
 {
 	// 运动学逆解算
-	chassis_control = inverse_kinematics(0,linear_speed,angular_speed);
+	chassis_control = inverse_kinematics(chassis_yaw,linear_speed,angular_speed);
 	
 	// 电机闭环PID解算
 	chassis_control.motor_1 = motor_pid(FUNC,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
@@ -548,41 +581,33 @@ void chassis_control_move(float (*FUNC)(_PID_*,float,float),float linear_speed,f
 	motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
 }
 
-/* 转动 */
-void chassis_control_rotate(float (*FUNC_MOTOR)(_PID_* pid,float,float),float (*FUNC_ROTATE)(_PID_*,float,float),float rotate_angle)
+/* 转动角度 */
+void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_* pid,float,float),float (*FUNC_ROTATE)(_PID_*,float,float),float rotate_angle)
 {
 	euler_angle_flag = TRUE;
 	
-	// 运动学逆解算
-	chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid),rotate_angle,yaw));
+	if(abs(GYRO_Z_FORWARD*yaw-rotate_angle) > 0.5)
+	{
+		// 运动学逆解算
+		chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid),rotate_angle,GYRO_Z_FORWARD*yaw));
 	
-	// 电机闭环PID解算
-	chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
-	chassis_control.motor_2 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
-	chassis_control.motor_3 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_3,chassis_control.motor_3_speed).motor_3;
+		// 电机闭环PID解算
+		chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
+		chassis_control.motor_2 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
+		chassis_control.motor_3 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_3,chassis_control.motor_3_speed).motor_3;
 	
-	// 电机驱动
-	motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
-	motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
-	motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
+		// 电机驱动
+		motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
+		motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
+		motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
+	}
+	else
+	{
+		// 电机驱动
+		motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
+		motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
+		motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir);
+		euler_angle_flag = FALSE;
+	}
 }
-
-/* 平动 */
-void chassis_control_translate(float (*FUNC_MOTOR)(_PID_*,float,float),float (*FUNC_TRANSLATE)(_PID_*,float,float),float yaw,float linear_speed)
-{
-	euler_angle_flag = TRUE;
-	// 运动学逆解算
-	chassis_control = inverse_kinematics(yaw,linear_speed,FUNC_TRANSLATE(&(chassis_pid.translate_pid),0,yaw));
-	
-	// 电机闭环PID解算
-	chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
-	chassis_control.motor_2 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
-	chassis_control.motor_3 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_3,chassis_control.motor_3_speed).motor_3;
-	
-	// 电机驱动
-	motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
-	motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
-	motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
-}
-
 

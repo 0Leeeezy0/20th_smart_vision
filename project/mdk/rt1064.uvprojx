@@ -425,16 +425,6 @@
           <GroupName>code</GroupName>
           <Files>
             <File>
-              <FileName>ai_camera.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\ai_camera.c</FilePath>
-            </File>
-            <File>
-              <FileName>ai_camera.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\ai_camera.h</FilePath>
-            </File>
-            <File>
               <FileName>menu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\code\menu.c</FilePath>
@@ -513,6 +503,26 @@
               <FileName>menu_data.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\code\menu_data.h</FilePath>
+            </File>
+            <File>
+              <FileName>task_dispatch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\task_dispatch.c</FilePath>
+            </File>
+            <File>
+              <FileName>task_dispatch.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\task_dispatch.h</FilePath>
+            </File>
+            <File>
+              <FileName>ai_track_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\ai_track_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>ai_track_control.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\ai_track_control.h</FilePath>
             </File>
           </Files>
         </Group>

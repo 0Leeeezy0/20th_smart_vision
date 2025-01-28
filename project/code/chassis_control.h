@@ -29,14 +29,14 @@ API：
 /* 初始化 */
 void chassis_control_init();
 
+/* 停止 */
+void chassis_control_stop(void);
+
 /* 移动 */
-void chassis_control_move(float (*FUNC)(_PID_*,float,float),float linear_speed,float angular_speed);
+void chassis_control_move(float (*FUNC)(_PID_*,float,float),float chassis_yaw,float linear_speed,float angular_speed);
 
 /* 转动 */
-void chassis_control_rotate(float (*FUNC_MOTOR)(_PID_* pid,float,float),float (*FUNC_ROTATE)(_PID_*,float,float),float rotate_angle);
-
-/* 平动 */
-void chassis_control_translate(float (*FUNC_MOTOR)(_PID_*,float,float),float (*FUNC_TRANSLATE)(_PID_*,float,float),float yaw,float linear_speed);
+void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_* pid,float,float),float (*FUNC_ROTATE)(_PID_*,float,float),float rotate_angle);
 
 /* 底盘PID参数结构体初始化 */
 _CHASSIS_PID_ chassis_pid_init(void);
@@ -64,8 +64,8 @@ void acc_get(void);
 /* 欧拉角解算 */
 void euler_angle(void);
 
-/* 位移积聚 */
-void shift_integral(void);
+/* 平动位移解算 */
+void translate_shift(void);
 
 /* 单电机PID控制 */
 _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);

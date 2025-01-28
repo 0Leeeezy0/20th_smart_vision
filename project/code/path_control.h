@@ -32,6 +32,6 @@ void path_control(float path_control_speed);
 _PID_ path_control_pid_init(void);
 
 /* Ñ­¼£PID */
-float path_control_pid(float (*p)(_PID_* pid,float target,float feedback),_PID_ path_pid,int16 path_err);
+float path_control_pid(float (*FUNC_PATH)(_PID_* pid,float target,float feedback),_PID_ path_pid,int16 path_err);
 
 #endif

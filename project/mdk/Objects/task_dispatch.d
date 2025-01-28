@@ -1,4 +1,4 @@
-./objects/cv.o: ..\code\cv.c ..\user\inc\common.h \
+./objects/task_dispatch.o: ..\code\task_dispatch.c ..\user\inc\common.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \

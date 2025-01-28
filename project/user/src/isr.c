@@ -53,21 +53,28 @@ void PIT_IRQHandler(void)
 		acc_get();
 		gyro_get();
 		euler_angle();
-		shift_integral();
+		translate_shift();
 			
         pit_flag_clear(PIT_CH0);
     }
     /* 底盘控制中断 */
     if(pit_flag_get(PIT_CH1))
     {
-		chassis_control_move(MOTOR_PID_KIND,chassis_linear_speed,chassis_angular_speed);
-//		chassis_control_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_rotate_angle);
-//		chassis_control_translate(MOTOR_PID_KIND,TRANSLATE_PID_KIND,chassis_yaw,chassis_linear_speed);
+		switch(chassis_motion_flag)
+		{
+			case CHASSIS_STOP:{ chassis_control_stop();	break; }
+			case CHASSIS_MOVE:{ chassis_control_move(MOTOR_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_angular_speed); break; }
+			case CHASSIS_ANGLE_ROTATE:{ chassis_control_angle_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_rotate_angle); break; }
+		}
         pit_flag_clear(PIT_CH1);
     }
     
     if(pit_flag_get(PIT_CH2))
     {
+		if(mcxvision_upgrade_time_count_flag)
+		{
+			mcxvision_upgrade_time_count++;
+		}
         pit_flag_clear(PIT_CH2);
     }
     
@@ -120,10 +127,13 @@ void LPUART4_IRQHandler(void)
 {
     if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART4))
     {
+		// MCXVision串口接收中断
+		extern void uart_rx_interrupt_handler();
+        uart_rx_interrupt_handler();
         // 接收中断 
-        flexio_camera_uart_handler();
-        
-        gnss_uart_callback();
+//        flexio_camera_uart_handler();
+//        
+//        gnss_uart_callback();
     }
         
     LPUART_ClearStatusFlags(LPUART4, kLPUART_RxOverrunFlag);    // 不允许删除
