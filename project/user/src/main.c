@@ -48,23 +48,31 @@ int main(void)
     debug_init();                   // 调试端口初始化
 
     // 此处编写用户代码 例如外设初始化代码等
-	motor_encoder_init();
-	path_control_init();
+//	path_control_init();
+	tft180_init();
 	chassis_control_init();
-	ips200_init(IPS200_TYPE_SPI);
+	
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
         // 此处编写需要循环执行的代码
-		threshold();
-		ips200_show_gray_image(40,10,image,MT9V03X_W,MT9V03X_H,MT9V03X_W,MT9V03X_H,0);
+//		threshold();
+//		ips200_show_gray_image(40,10,image_OTSU[0],MT9V03X_W,MT9V03X_H,MT9V03X_W,MT9V03X_H,0);
+		speed = 0;
+		yaw = 30;
+		system_delay_ms(1000);
+		yaw = 150;
+		system_delay_ms(1000);
+		yaw = -90;
+		system_delay_ms(1000);
 		
-//		ips200_show_float(20, 20, chassis_control.motor_1_speed, 2,4);
-//		ips200_show_float(20, 40, chassis_control.motor_2_speed, 2,4);
-//		ips200_show_float(20, 60, chassis_control.motor_3_speed, 2,4);
-//		ips200_show_int(20, 100, chassis_control.motor_1.duty, 4);
-//		ips200_show_int(20, 120, chassis_control.motor_2.duty, 4);
-//		ips200_show_int(20, 140, chassis_control.motor_3.duty, 4);
+		
+//		tft180_show_float(0, 0, encoder_1_speed, 2,4);
+//		tft180_show_float(0, 20, encoder_2_speed, 2,4);
+//		tft180_show_float(0, 40, encoder_3_speed, 2,4);
+//		tft180_show_int(0, 60, chassis_control.motor_1.duty, 4);
+//		tft180_show_int(0, 80, chassis_control.motor_2.duty, 4);
+//		tft180_show_int(0, 100, chassis_control.motor_3.duty, 4);
 		
 		// 此处编写需要循环执行的代码
     }

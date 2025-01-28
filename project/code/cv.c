@@ -6,13 +6,13 @@ API£º
 
 #include "common.h"
 
-uint8 image[MT9V03X_W][MT9V03X_H] = {0};
+uint8 image_OTSU[MT9V03X_H][MT9V03X_W];
 
 /* ¶þÖµ»¯ */
-void threshold(void)
+void threshold()
 {
-	int16 img_pixel_value_avg;
-	int16 sampling_num;
+	int img_pixel_value_avg = 0;
+	int16 sampling_num = 0;
 	int16 x,y;
 	for(x = 0;x < MT9V03X_W;)
 	{
@@ -24,21 +24,20 @@ void threshold(void)
 		}
 		x+=THRESHOLD_SAMPLING_DISTANCE;
 	}
-//	img_pixel_value_avg = img_pixel_value_avg/sampling_num;
-	img_pixel_value_avg = 150;
-	
-	
+		
+	img_pixel_value_avg = img_pixel_value_avg/sampling_num;
+		
 	for(x = 0;x < MT9V03X_W;x++)
 	{
 		for(y = 0;y < MT9V03X_H;y++)
 		{
 			if(mt9v03x_image[y][x] >= img_pixel_value_avg)
 			{
-				image[x][y] = 255;
+				image_OTSU[y][x] = 255;
 			}
 			else
 			{
-				image[x][y] = 0;
+				image_OTSU[y][x] = 0;
 			}
 		}
 	}

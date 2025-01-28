@@ -56,6 +56,7 @@ void PIT_IRQHandler(void)
     if(pit_flag_get(PIT_CH1))
     {
 		chassis_control_move(yaw,speed);
+		
         pit_flag_clear(PIT_CH1);
     }
     

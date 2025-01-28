@@ -76,6 +76,6 @@ extern float speed;
 extern _CHASSIS_CONTROL_ chassis_control;
 
 /* Í¼Ïñ */
-extern uint8 image[MT9V03X_W][MT9V03X_H];
+extern uint8 image_OTSU[MT9V03X_H][MT9V03X_W];
 
 #endif

@@ -35,8 +35,8 @@
 #define MOTOR_3_FRONT_DIR -1
 
 /* 系统参数 */
-#define ENCODER_IT_TIME 5 // 编码器值获取中断周期 ms
-#define CONTROL_IT_TIME 10 // 控制中断周期 ms
+#define ENCODER_IT_TIME 10 // 编码器值获取中断周期 ms
+#define CONTROL_IT_TIME 20 // 控制中断周期 ms
 #define AI_CAMERA_READ_IT_TIME	10 // AI摄像头读取中断周期 ms
 #define ENCODER_IT_CH PIT_CH0 	// 编码器值获取中断号
 #define CONTROL_IT_CH PIT_CH1	// 控制中断号
@@ -44,7 +44,7 @@
 #define GEAR_RATIO (float)(4.4*26/36)	// 齿轮比（编码器转速：电机输出侧转速）
 #define DUTY_LIMIT 5000	// PID占空比限幅
 #define CENTER_WHEEL_DISTANCE 
-#define THRESHOLD_SAMPLING_DISTANCE 3	// 二值化采样间隔
+#define THRESHOLD_SAMPLING_DISTANCE 10	// 二值化采样间隔
 
 /* 固定公式 */
 #define SIN30 (float)0.5

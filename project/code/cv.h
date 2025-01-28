@@ -7,7 +7,9 @@ API£º
 #ifndef _CV_H_
 #define _CV_H_
 
+#include "common.h"
+
 /* ¶þÖµ»¯ */
-void threshold(void);
+void threshold();
 
 #endif
