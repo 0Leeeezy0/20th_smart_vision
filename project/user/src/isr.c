@@ -33,11 +33,7 @@
 * 2022-09-21        SeekFree            first version
 ********************************************************************************************************************/
 
-#include "zf_common_headfile.h"
-#include "zf_common_debug.h"
-#include "isr.h"
-
-
+#include "common.h"
 
 
 void CSI_IRQHandler(void)
@@ -48,13 +44,18 @@ void CSI_IRQHandler(void)
 
 void PIT_IRQHandler(void)
 {
+	/* 编码器获取中断 */
     if(pit_flag_get(PIT_CH0))
     {
+		encoder_get();
+		encoder_clear();
+		
         pit_flag_clear(PIT_CH0);
     }
-    
+    // 底盘控制中断
     if(pit_flag_get(PIT_CH1))
     {
+		chassis_control_move(yaw,speed);
         pit_flag_clear(PIT_CH1);
     }
     

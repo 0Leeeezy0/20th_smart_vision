@@ -105,4 +105,5 @@
   ..\..\libraries\components\sdmmc\common\fsl_sdmmc_spec.h \
   ..\..\libraries\components\sdmmc\sdmmc_config.h \
   ..\..\libraries\sdk\board\clock_config.h ..\user\inc\common.h \
-  ..\code\chassis_control.h
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h ..\user\inc\isr.h \
+  ..\code\chassis_control.h ..\code\path_control.h ..\code\cv.h

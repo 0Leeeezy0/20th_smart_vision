@@ -1,4 +1,5 @@
-./objects/isr.o: ..\user\src\isr.c \
+./objects/isr.o: ..\user\src\isr.c ..\user\inc\common.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdint.h \
@@ -104,4 +105,6 @@
   ..\..\libraries\sdk\drives\fsl_usdhc.h \
   ..\..\libraries\components\sdmmc\common\fsl_sdmmc_spec.h \
   ..\..\libraries\components\sdmmc\sdmmc_config.h \
-  ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h
+  ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h \
+  ..\user\inc\data.h ..\code\chassis_control.h ..\code\path_control.h \
+  ..\code\cv.h

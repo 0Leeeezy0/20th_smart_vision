@@ -7,6 +7,7 @@
 ".\objects\chassis_control.o"
 ".\objects\element_action.o"
 ".\objects\path_control.o"
+".\objects\cv.o"
 ".\objects\zf_common_clock.o"
 ".\objects\zf_common_debug.o"
 ".\objects\zf_common_fifo.o"

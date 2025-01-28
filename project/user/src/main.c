@@ -42,7 +42,6 @@
 // 本例程是开源库移植用空工程
 #include "common.h"
 
-
 int main(void)
 {
     clock_init(SYSTEM_CLOCK_600M);  // 不可删除
@@ -50,12 +49,24 @@ int main(void)
 
     // 此处编写用户代码 例如外设初始化代码等
 	motor_encoder_init();
+	path_control_init();
+	chassis_control_init();
+	ips200_init(IPS200_TYPE_SPI);
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
         // 此处编写需要循环执行的代码
-		motor_set_duty(MOTOR_3,3000,1);
-	// 此处编写需要循环执行的代码
+		threshold();
+		ips200_show_gray_image(40,10,image,MT9V03X_W,MT9V03X_H,MT9V03X_W,MT9V03X_H,0);
+		
+//		ips200_show_float(20, 20, chassis_control.motor_1_speed, 2,4);
+//		ips200_show_float(20, 40, chassis_control.motor_2_speed, 2,4);
+//		ips200_show_float(20, 60, chassis_control.motor_3_speed, 2,4);
+//		ips200_show_int(20, 100, chassis_control.motor_1.duty, 4);
+//		ips200_show_int(20, 120, chassis_control.motor_2.duty, 4);
+//		ips200_show_int(20, 140, chassis_control.motor_3.duty, 4);
+		
+		// 此处编写需要循环执行的代码
     }
 }
 

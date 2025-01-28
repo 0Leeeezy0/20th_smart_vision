@@ -474,6 +474,16 @@
               <FileType>5</FileType>
               <FilePath>..\code\path_control.h</FilePath>
             </File>
+            <File>
+              <FileName>cv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\cv.c</FilePath>
+            </File>
+            <File>
+              <FileName>cv.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\cv.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
