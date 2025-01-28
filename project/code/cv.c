@@ -9,7 +9,7 @@ API：
 uint8 image_OTSU[MT9V03X_H][MT9V03X_W];
 
 /* 二值化 */
-void threshold()
+void threshold(void)
 {
 	int img_pixel_value_avg = 0;
 	int16 sampling_num = 0;
@@ -42,3 +42,15 @@ void threshold()
 		}
 	}
 }
+
+/* 绘制路径线 */
+void path_draw(void)
+{
+	int num = 0;
+	for(num = 0;num < PATH_END-PATH_START;num++)
+	{
+		image_OTSU[path[num][1]][path[num][0]] = 0;
+	}
+}
+
+

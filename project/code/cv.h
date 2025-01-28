@@ -10,6 +10,9 @@ API：
 #include "common.h"
 
 /* 二值化 */
-void threshold();
+void threshold(void);
+
+/* 绘制路径线 */
+void path_draw(void);
 
 #endif

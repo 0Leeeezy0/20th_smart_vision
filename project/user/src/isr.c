@@ -44,18 +44,21 @@ void CSI_IRQHandler(void)
 
 void PIT_IRQHandler(void)
 {
-	/* 编码器获取中断 */
+	/* 传感器值获取中断 */
     if(pit_flag_get(PIT_CH0))
     {
 		encoder_get();
 		encoder_clear();
 		
+//		acc_get();
+//		gyro_get();
+			
         pit_flag_clear(PIT_CH0);
     }
-    // 底盘控制中断
+    /* 底盘控制中断 */
     if(pit_flag_get(PIT_CH1))
     {
-		chassis_control_move(yaw,speed);
+		chassis_control_move(CHASSIS_PID_KIND,yaw,linear_speed,angular_speed);
 		
         pit_flag_clear(PIT_CH1);
     }

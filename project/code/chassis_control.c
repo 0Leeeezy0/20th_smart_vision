@@ -2,7 +2,7 @@
 该文件用于车模底盘控制
 
 API：
-电机编码器初始化
+电机传感器初始化
 电机驱动
 编码器值获取
 编码器值清空
@@ -12,17 +12,18 @@ API：
 
 #include "common.h"
 
-static _CHASSIS_PID_ chassis_pid;
 _CHASSIS_CONTROL_ chassis_control;
 
-/* 电机编码器初始化 */
-void motor_encoder_init(void)
+static _CHASSIS_PID_ chassis_pid;
+
+/* 电机传感器初始化 */
+void motor_sensor_init(void)
 {
 	// 控制中断初始化
-	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 编码器中断初始化
+	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
 	
-	// 编码器初始化
-	pit_ms_init (ENCODER_IT_CH, ENCODER_IT_TIME);	// 编码器中断初始化
+	// 传感器初始化
+	pit_ms_init (SENSOR_IT_CH, SENSOR_IT_TIME);	// 传感器中断初始化
 	
 	encoder_dir_init(ENCODER_1_MODULE_NUM,ENCODER_1_CH1,ENCODER_1_CH2);
 	encoder_dir_init(ENCODER_2_MODULE_NUM,ENCODER_2_CH1,ENCODER_2_CH2);
@@ -48,9 +49,11 @@ void motor_encoder_init(void)
 	gpio_init(MOTOR_2_DIR,GPO,0,GPO_PUSH_PULL);
 	gpio_init(MOTOR_3_DIR,GPO,0,GPO_PUSH_PULL);
 	
+//	imu660ra_init();
+	
 	// 中断使能
 	pit_enable(CONTROL_IT_CH);
-	pit_enable(ENCODER_IT_CH);
+	pit_enable(SENSOR_IT_CH);
 }
 
 
@@ -84,9 +87,9 @@ void encoder_get(void)
 	encoder_2_count = encoder_get_count(ENCODER_2_MODULE_NUM);
 	encoder_3_count = encoder_get_count(ENCODER_3_MODULE_NUM);
 	
-	encoder_1_speed = (float)encoder_get_count(ENCODER_1_MODULE_NUM)/(1024*(float)ENCODER_IT_TIME/1000);
-	encoder_2_speed = (float)encoder_get_count(ENCODER_2_MODULE_NUM)/(1024*(float)ENCODER_IT_TIME/1000);
-	encoder_3_speed = (float)encoder_get_count(ENCODER_3_MODULE_NUM)/(1024*(float)ENCODER_IT_TIME/1000);
+	encoder_1_speed = (float)encoder_get_count(ENCODER_1_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
+	encoder_2_speed = (float)encoder_get_count(ENCODER_2_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
+	encoder_3_speed = (float)encoder_get_count(ENCODER_3_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
 	
 	motor_1_speed = (float)encoder_1_speed/GEAR_RATIO;
 	motor_2_speed = (float)encoder_2_speed/GEAR_RATIO;
@@ -101,40 +104,147 @@ void encoder_clear(void)
 	encoder_clear_count(ENCODER_3_MODULE_NUM);
 }
 
+/* 陀螺仪值获取(现实值 °/s) */
+void gyro_get(void)
+{
+	/* 陀螺仪校准值 */
+	static float gyro_x_calibration = 0;
+	static float gyro_y_calibration = 0;
+	static float gyro_z_calibration = 0;
+
+	static int epoch = 0;
+	imu660ra_get_gyro();
+	
+	if(epoch < GYRO_ACC_CALIBRATION_EPOCH)
+	{
+		gyro_x = imu660ra_gyro_transition(imu660ra_gyro_x);
+		gyro_y = imu660ra_gyro_transition(imu660ra_gyro_y);
+		gyro_z = imu660ra_gyro_transition(imu660ra_gyro_z);
+		
+		gyro_x_calibration += gyro_x/GYRO_ACC_CALIBRATION_EPOCH;
+		gyro_y_calibration += gyro_y/GYRO_ACC_CALIBRATION_EPOCH;
+		gyro_z_calibration += gyro_z/GYRO_ACC_CALIBRATION_EPOCH;
+		
+		epoch++;
+	}	
+	else
+	{
+		gyro_x = imu660ra_gyro_transition(imu660ra_gyro_x)-gyro_x_calibration;
+		gyro_y = imu660ra_gyro_transition(imu660ra_gyro_y)-gyro_y_calibration;
+		gyro_z = imu660ra_gyro_transition(imu660ra_gyro_z)-gyro_z_calibration;
+	}
+}
+
+/* 加速度计值获取(现实值 g(m/s^2)) */
+void acc_get(void)
+{
+	/* 加速度计校准值 */
+	static float acc_x_calibration = 0;
+	static float acc_y_calibration = 0;
+	static float acc_z_calibration = 0;
+	
+	static int epoch = 0;
+	imu660ra_get_acc();
+	
+	if(epoch < GYRO_ACC_CALIBRATION_EPOCH)
+	{
+		imu660ra_get_acc();
+		
+		acc_x = imu660ra_acc_transition(imu660ra_acc_x);
+		acc_y = imu660ra_acc_transition(imu660ra_acc_y);
+		acc_z = imu660ra_acc_transition(imu660ra_acc_z);
+		
+		acc_x_calibration += acc_x/GYRO_ACC_CALIBRATION_EPOCH;
+		acc_y_calibration += acc_y/GYRO_ACC_CALIBRATION_EPOCH;
+		acc_z_calibration += acc_z/GYRO_ACC_CALIBRATION_EPOCH;
+		
+		epoch++;
+	}
+	else
+	{
+		acc_x = imu660ra_acc_transition(imu660ra_acc_x)-acc_x_calibration;
+		acc_y = imu660ra_acc_transition(imu660ra_acc_y)-acc_y_calibration;
+		acc_z = imu660ra_acc_transition(imu660ra_acc_z)-acc_z_calibration;
+	}
+}
+
+/* 现实偏航角解算 */
+float real_yaw()
+{
+	float real_yaw;
+	float tan = acc_y/acc_x;
+	
+	if(acc_x > GYRO_ACC_GATA_LIMIT)
+	{
+		real_yaw = RAD2DEG(atan(tan))+180;
+	}
+	if(acc_x < -GYRO_ACC_GATA_LIMIT)
+	{
+		if(acc_y > GYRO_ACC_GATA_LIMIT)
+		{
+			real_yaw = RAD2DEG(atan(tan))+180;
+		}
+		if(acc_y >= -GYRO_ACC_GATA_LIMIT && acc_y <= GYRO_ACC_GATA_LIMIT)
+		{
+			real_yaw = 0;
+		}
+		if(acc_y < -GYRO_ACC_GATA_LIMIT)
+		{
+			real_yaw = RAD2DEG(atan(tan))-180;
+		}
+	}
+	if(acc_x >= -GYRO_ACC_GATA_LIMIT && acc_x <= GYRO_ACC_GATA_LIMIT && acc_y > GYRO_ACC_GATA_LIMIT)
+	{
+		real_yaw = (float)90;
+	}
+	if(acc_x >= -GYRO_ACC_GATA_LIMIT && acc_x <= GYRO_ACC_GATA_LIMIT && acc_y < -GYRO_ACC_GATA_LIMIT)
+	{
+		real_yaw = (float)-90;
+	}
+	
+	return real_yaw;
+}
+
 /* 底盘PID参数结构体初始化 */
 _CHASSIS_PID_ chassis_pid_init(void)
 {
 	static _CHASSIS_PID_ chassis_pid;
 
-	// 电机1 pid
+	// 电机1 PID
 	chassis_pid.motor_1_pid.p = PID_MOTOR_1[0];
 	chassis_pid.motor_1_pid.i = PID_MOTOR_1[1];
 	chassis_pid.motor_1_pid.d = PID_MOTOR_1[2];
-	chassis_pid.motor_1_pid.now_err =  0;
-	chassis_pid.motor_1_pid.last_err =  0;
-	chassis_pid.motor_1_pid.last_last_err =  0;
+	chassis_pid.motor_1_pid.output_limit = PID_MOTOR_1[3];
+	chassis_pid.motor_1_pid.i_limit = PID_MOTOR_1[4];
+	chassis_pid.motor_1_pid.now_err = 0;
+	chassis_pid.motor_1_pid.last_err = 0;
+	chassis_pid.motor_1_pid.last_last_err = 0;
 	
-	// 电机2 pid
+	// 电机2 PID
 	chassis_pid.motor_2_pid.p = PID_MOTOR_2[0];
 	chassis_pid.motor_2_pid.i = PID_MOTOR_2[1];
 	chassis_pid.motor_2_pid.d = PID_MOTOR_2[2];
-	chassis_pid.motor_2_pid.now_err =  0;
-	chassis_pid.motor_2_pid.last_err =  0;
-	chassis_pid.motor_2_pid.last_last_err =  0;
+	chassis_pid.motor_2_pid.output_limit = PID_MOTOR_2[3];
+	chassis_pid.motor_2_pid.i_limit = PID_MOTOR_2[4];
+	chassis_pid.motor_2_pid.now_err = 0;
+	chassis_pid.motor_2_pid.last_err = 0;
+	chassis_pid.motor_2_pid.last_last_err = 0;
 	
-	// 电机3 pid
+	// 电机3 PID
 	chassis_pid.motor_3_pid.p = PID_MOTOR_3[0];
 	chassis_pid.motor_3_pid.i = PID_MOTOR_3[1];
 	chassis_pid.motor_3_pid.d = PID_MOTOR_3[2];
-	chassis_pid.motor_3_pid.now_err =  0;
-	chassis_pid.motor_3_pid.last_err =  0;
-	chassis_pid.motor_3_pid.last_last_err =  0;
+	chassis_pid.motor_3_pid.output_limit = PID_MOTOR_3[3];
+	chassis_pid.motor_3_pid.i_limit = PID_MOTOR_3[4];
+	chassis_pid.motor_3_pid.now_err = 0;
+	chassis_pid.motor_3_pid.last_err = 0;
+	chassis_pid.motor_3_pid.last_last_err = 0;
 	
 	return chassis_pid;
 }
 
 /* 单电机PID控制 */
-_CHASSIS_CONTROL_ motor_pid(_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
+_CHASSIS_CONTROL_ motor_pid(float (*p)(_PID_* pid,float motor_speed,float motor_feedback_speed),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
 {
 	_CHASSIS_CONTROL_ motor_control;
 
@@ -142,7 +252,7 @@ _CHASSIS_CONTROL_ motor_pid(_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,flo
 	{
 		case MOTOR_1:
 		{ 
-			motor_control.motor_1.duty = incremental_pid(&(chassis_pid -> motor_1_pid),motor_speed,motor_1_speed);
+			motor_control.motor_1.duty = p(&(chassis_pid -> motor_1_pid),motor_speed,motor_1_speed);
 			if(motor_control.motor_1.duty > 0)
 			{
 				motor_control.motor_1.dir = 0;
@@ -151,12 +261,12 @@ _CHASSIS_CONTROL_ motor_pid(_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,flo
 			{
 				motor_control.motor_1.dir = 1;
 			}
-			motor_control.motor_1.duty = abs(motor_control.motor_1.duty);
+			motor_control.motor_1.duty = (int16)abs(motor_control.motor_1.duty);
 			break;
 		}
 		case MOTOR_2:
 		{
-			motor_control.motor_2.duty = incremental_pid(&(chassis_pid -> motor_2_pid),motor_speed,motor_2_speed);
+			motor_control.motor_2.duty = p(&(chassis_pid -> motor_2_pid),motor_speed,motor_2_speed);
 			if(motor_control.motor_2.duty > 0)
 			{
 				motor_control.motor_2.dir = 0;
@@ -165,12 +275,12 @@ _CHASSIS_CONTROL_ motor_pid(_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,flo
 			{
 				motor_control.motor_2.dir = 1;
 			}
-			motor_control.motor_2.duty = abs(motor_control.motor_2.duty);
+			motor_control.motor_2.duty = (int16)abs(motor_control.motor_2.duty);
 			break;
 		}
 		case MOTOR_3:
 		{
-			motor_control.motor_3.duty = incremental_pid(&(chassis_pid -> motor_3_pid),motor_speed,motor_3_speed);
+			motor_control.motor_3.duty = p(&(chassis_pid -> motor_3_pid),motor_speed,motor_3_speed);
 			if(motor_control.motor_3.duty > 0)
 			{
 				motor_control.motor_3.dir = 0;
@@ -179,7 +289,7 @@ _CHASSIS_CONTROL_ motor_pid(_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,flo
 			{
 				motor_control.motor_3.dir = 1;
 			}
-			motor_control.motor_3.duty = abs(motor_control.motor_3.duty);
+			motor_control.motor_3.duty = (int16)abs(motor_control.motor_3.duty);
 			break;
 		}
 	}
@@ -187,9 +297,9 @@ _CHASSIS_CONTROL_ motor_pid(_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,flo
 }
 
 /* 增量式PID */
-int16 incremental_pid(_PID_* pid,float motor_speed,float motor_feedback_speed)
+float incremental_pid(_PID_* pid,float target,float feedback)
 {
-	pid -> now_err = motor_speed-motor_feedback_speed;
+	pid -> now_err = target-feedback;
 	// 增量式 p
 	pid -> delta += (pid -> p)*(pid -> now_err-pid -> last_err);
 	// 增量式 i
@@ -203,32 +313,65 @@ int16 incremental_pid(_PID_* pid,float motor_speed,float motor_feedback_speed)
 	pid -> last_last_err = pid -> last_err;
 	pid -> delta = 0;
 	
-	// 限幅
-	if(pid -> value > DUTY_LIMIT)
+	// 输出限幅
+	if(pid -> value > pid -> output_limit)
 	{
-		pid -> value = DUTY_LIMIT;
+		pid -> value = pid -> output_limit;
 	}
-	if(pid -> value < -DUTY_LIMIT)
+	if(pid -> value < -pid -> output_limit)
 	{
-		pid -> value = -DUTY_LIMIT;
+		pid -> value = -pid -> output_limit;
 	}
 	
 	return pid -> value;
 }
 
-
 /*位置式PID*/
+float positional_pid(_PID_* pid,float target,float feedback)
+{
+	pid -> now_err = target-feedback;
+	// 增量式 p
+	pid -> value += (pid -> p)*(pid -> now_err);
+	// 增量式 i
+	pid -> value += (pid -> i)*pid -> sigma_err;
+	// 增量式 d
+	pid -> value += (pid -> d)*(pid -> now_err-pid -> last_err);
+				
+	// 更新参数
+	pid -> sigma_err += pid -> now_err;
+	
+	// 输出限幅
+	if(pid -> value > pid -> output_limit)
+	{
+		pid -> value = pid -> output_limit;
+	}
+	if(pid -> value < -pid -> output_limit)
+	{
+		pid -> value = -pid -> output_limit;
+	}
+	// 积分限幅
+	if(pid -> sigma_err > pid -> i_limit)
+	{
+		pid -> sigma_err = pid -> i_limit;
+	}
+	if(pid -> sigma_err < -pid -> i_limit)
+	{
+		pid -> sigma_err = -pid -> i_limit;
+	}
+	
+	return pid -> value;
+}
 
 /* 运动学逆解算 */
-_CHASSIS_CONTROL_ inverse_kinematics(float yaw,float speed)
+_CHASSIS_CONTROL_ inverse_kinematics(float yaw,float linear_speed,float angular_speed)
 {
 	_CHASSIS_CONTROL_ chassis_control;
-	float x_speed = speed*sinf(DEG2RAD(yaw));
-	float y_speed = (float)speed*cosf(DEG2RAD(yaw));
+	float x_speed = linear_speed*sinf(DEG2RAD(yaw));
+	float y_speed = (float)linear_speed*cosf(DEG2RAD(yaw));
 	
-	chassis_control.motor_1_speed = -x_speed;
-	chassis_control.motor_2_speed = x_speed*COS60+y_speed*COS30;
-	chassis_control.motor_3_speed = x_speed*COS60-y_speed*COS30;
+	chassis_control.motor_1_speed = -x_speed+angular_speed;
+	chassis_control.motor_2_speed = x_speed*COS60+y_speed*COS30+angular_speed;
+	chassis_control.motor_3_speed = x_speed*COS60-y_speed*COS30+angular_speed;
 	
 	return chassis_control;
 }
@@ -236,19 +379,19 @@ _CHASSIS_CONTROL_ inverse_kinematics(float yaw,float speed)
 /* 初始化 */
 void chassis_control_init()
 {
-	motor_encoder_init();
+	motor_sensor_init();
 	chassis_pid = chassis_pid_init();
 }
 /* 移动 */
-void chassis_control_move(float yaw,float speed)
+void chassis_control_move(float (*p)(_PID_* pid,float motor_speed,float motor_feedback_speed),float yaw,float linear_speed,float angular_speed)
 {
 	// 运动学逆解算
-	chassis_control = inverse_kinematics(yaw,speed);
+	chassis_control = inverse_kinematics(yaw,linear_speed,angular_speed);
 	
 	// 电机闭环PID解算
-	chassis_control.motor_1 = motor_pid(&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
-	chassis_control.motor_2 = motor_pid(&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
-	chassis_control.motor_3 = motor_pid(&chassis_pid,MOTOR_3,chassis_control.motor_3_speed).motor_3;
+	chassis_control.motor_1 = motor_pid(p,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
+	chassis_control.motor_2 = motor_pid(p,&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
+	chassis_control.motor_3 = motor_pid(p,&chassis_pid,MOTOR_3,chassis_control.motor_3_speed).motor_3;
 	
 	// 电机驱动
 	motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);

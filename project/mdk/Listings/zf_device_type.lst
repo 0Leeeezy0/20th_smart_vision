@@ -1,0 +1,1050 @@
+	.text
+	.syntax unified
+	.eabi_attribute	67, "2.09"	@ Tag_conformance
+	.cpu	cortex-m7
+	.eabi_attribute	6, 13	@ Tag_CPU_arch
+	.eabi_attribute	7, 77	@ Tag_CPU_arch_profile
+	.eabi_attribute	8, 0	@ Tag_ARM_ISA_use
+	.eabi_attribute	9, 2	@ Tag_THUMB_ISA_use
+	.fpu	fpv5-d16
+	.eabi_attribute	36, 1	@ Tag_FP_HP_extension
+	.eabi_attribute	34, 1	@ Tag_CPU_unaligned_access
+	.eabi_attribute	17, 1	@ Tag_ABI_PCS_GOT_use
+	.eabi_attribute	20, 2	@ Tag_ABI_FP_denormal
+	.eabi_attribute	21, 0	@ Tag_ABI_FP_exceptions
+	.eabi_attribute	23, 1	@ Tag_ABI_FP_number_model
+	.eabi_attribute	24, 1	@ Tag_ABI_align_needed
+	.eabi_attribute	25, 1	@ Tag_ABI_align_preserved
+	.eabi_attribute	28, 1	@ Tag_ABI_VFP_args
+	.eabi_attribute	38, 1	@ Tag_ABI_FP_16bit_format
+	.eabi_attribute	18, 2	@ Tag_ABI_PCS_wchar_t
+	.eabi_attribute	26, 1	@ Tag_ABI_enum_size
+	.eabi_attribute	14, 0	@ Tag_ABI_PCS_R9_use
+	.file	"zf_device_type.c"
+	.file	1 "E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" "../../libraries/zf_device/zf_device_type.h"
+	.file	2 "E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" "../../libraries/zf_device/zf_device_type.c"
+	.section	.text.type_default_callback,"ax",%progbits
+	.hidden	type_default_callback           @ -- Begin function type_default_callback
+	.globl	type_default_callback
+	.p2align	3
+	.type	type_default_callback,%function
+	.code	16                              @ @type_default_callback
+	.thumb_func
+type_default_callback:
+.Lfunc_begin0:
+	.loc	2 62 0                          @ ../../libraries/zf_device/zf_device_type.c:62:0
+	.fnstart
+	.cfi_sections .debug_frame
+	.cfi_startproc
+@ %bb.0:
+	.loc	2 63 1 prologue_end             @ ../../libraries/zf_device/zf_device_type.c:63:1
+	bx	lr
+.Ltmp0:
+.Lfunc_end0:
+	.size	type_default_callback, .Lfunc_end0-type_default_callback
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.set_camera_type,"ax",%progbits
+	.hidden	set_camera_type                 @ -- Begin function set_camera_type
+	.globl	set_camera_type
+	.p2align	3
+	.type	set_camera_type,%function
+	.code	16                              @ @set_camera_type
+	.thumb_func
+set_camera_type:
+.Lfunc_begin1:
+	.loc	2 76 0                          @ ../../libraries/zf_device/zf_device_type.c:76:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.pad	#20
+	sub	sp, #20
+	.cfi_def_cfa_offset 20
+                                        @ kill: def $r12 killed $r0
+	strb.w	r0, [sp, #19]
+	str	r1, [sp, #12]
+	str	r2, [sp, #8]
+	str	r3, [sp, #4]
+.Ltmp1:
+	.loc	2 77 19 prologue_end            @ ../../libraries/zf_device/zf_device_type.c:77:19
+	ldrb.w	r0, [sp, #19]
+	.loc	2 77 17 is_stmt 0               @ ../../libraries/zf_device/zf_device_type.c:77:17
+	movw	r1, :lower16:camera_type
+	movt	r1, :upper16:camera_type
+	strb	r0, [r1]
+	.loc	2 78 29 is_stmt 1               @ ../../libraries/zf_device/zf_device_type.c:78:29
+	ldr	r0, [sp, #4]
+	.loc	2 78 28 is_stmt 0               @ ../../libraries/zf_device/zf_device_type.c:78:28
+	cbnz	r0, .LBB1_2
+	b	.LBB1_1
+.LBB1_1:
+	.loc	2 0 28                          @ ../../libraries/zf_device/zf_device_type.c:0:28
+	movw	r0, :lower16:type_default_callback
+	movt	r0, :upper16:type_default_callback
+	.loc	2 78 28                         @ ../../libraries/zf_device/zf_device_type.c:78:28
+	str	r0, [sp]                        @ 4-byte Spill
+	b	.LBB1_3
+.LBB1_2:
+	.loc	2 78 81                         @ ../../libraries/zf_device/zf_device_type.c:78:81
+	ldr	r0, [sp, #4]
+	.loc	2 78 28                         @ ../../libraries/zf_device/zf_device_type.c:78:28
+	str	r0, [sp]                        @ 4-byte Spill
+	b	.LBB1_3
+.LBB1_3:
+	ldr	r0, [sp]                        @ 4-byte Reload
+	.loc	2 78 25                         @ ../../libraries/zf_device/zf_device_type.c:78:25
+	movw	r1, :lower16:camera_uart_handler
+	movt	r1, :upper16:camera_uart_handler
+	str	r0, [r1]
+	.loc	2 79 1 is_stmt 1                @ ../../libraries/zf_device/zf_device_type.c:79:1
+	add	sp, #20
+	bx	lr
+.Ltmp2:
+.Lfunc_end1:
+	.size	set_camera_type, .Lfunc_end1-set_camera_type
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.set_flexio_camera_type,"ax",%progbits
+	.hidden	set_flexio_camera_type          @ -- Begin function set_flexio_camera_type
+	.globl	set_flexio_camera_type
+	.p2align	3
+	.type	set_flexio_camera_type,%function
+	.code	16                              @ @set_flexio_camera_type
+	.thumb_func
+set_flexio_camera_type:
+.Lfunc_begin2:
+	.loc	2 89 0                          @ ../../libraries/zf_device/zf_device_type.c:89:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.pad	#24
+	sub	sp, #24
+	.cfi_def_cfa_offset 24
+                                        @ kill: def $r12 killed $r0
+	strb.w	r0, [sp, #23]
+	str	r1, [sp, #16]
+	str	r2, [sp, #12]
+	str	r3, [sp, #8]
+.Ltmp3:
+	.loc	2 90 26 prologue_end            @ ../../libraries/zf_device/zf_device_type.c:90:26
+	ldrb.w	r0, [sp, #23]
+	.loc	2 90 24 is_stmt 0               @ ../../libraries/zf_device/zf_device_type.c:90:24
+	movw	r1, :lower16:flexio_camera_type
+	movt	r1, :upper16:flexio_camera_type
+	strb	r0, [r1]
+	.loc	2 91 36 is_stmt 1               @ ../../libraries/zf_device/zf_device_type.c:91:36
+	ldr	r0, [sp, #8]
+	.loc	2 91 35 is_stmt 0               @ ../../libraries/zf_device/zf_device_type.c:91:35
+	cbnz	r0, .LBB2_2
+	b	.LBB2_1
+.LBB2_1:
+	.loc	2 0 35                          @ ../../libraries/zf_device/zf_device_type.c:0:35
+	movw	r0, :lower16:type_default_callback
+	movt	r0, :upper16:type_default_callback
+	.loc	2 91 35                         @ ../../libraries/zf_device/zf_device_type.c:91:35
+	str	r0, [sp, #4]                    @ 4-byte Spill
+	b	.LBB2_3
+.LBB2_2:
+	.loc	2 91 88                         @ ../../libraries/zf_device/zf_device_type.c:91:88
+	ldr	r0, [sp, #8]
+	.loc	2 91 35                         @ ../../libraries/zf_device/zf_device_type.c:91:35
+	str	r0, [sp, #4]                    @ 4-byte Spill
+	b	.LBB2_3
+.LBB2_3:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	.loc	2 91 32                         @ ../../libraries/zf_device/zf_device_type.c:91:32
+	movw	r1, :lower16:flexio_camera_uart_handler
+	movt	r1, :upper16:flexio_camera_uart_handler
+	str	r0, [r1]
+	.loc	2 92 37 is_stmt 1               @ ../../libraries/zf_device/zf_device_type.c:92:37
+	ldr	r0, [sp, #16]
+	.loc	2 92 36 is_stmt 0               @ ../../libraries/zf_device/zf_device_type.c:92:36
+	cbnz	r0, .LBB2_5
+	b	.LBB2_4
+.LBB2_4:
+	.loc	2 0 36                          @ ../../libraries/zf_device/zf_device_type.c:0:36
+	movw	r0, :lower16:type_default_callback
+	movt	r0, :upper16:type_default_callback
+	.loc	2 92 36                         @ ../../libraries/zf_device/zf_device_type.c:92:36
+	str	r0, [sp]                        @ 4-byte Spill
+	b	.LBB2_6
+.LBB2_5:
+	.loc	2 92 90                         @ ../../libraries/zf_device/zf_device_type.c:92:90
+	ldr	r0, [sp, #16]
+	.loc	2 92 36                         @ ../../libraries/zf_device/zf_device_type.c:92:36
+	str	r0, [sp]                        @ 4-byte Spill
+	b	.LBB2_6
+.LBB2_6:
+	ldr	r0, [sp]                        @ 4-byte Reload
+	.loc	2 92 33                         @ ../../libraries/zf_device/zf_device_type.c:92:33
+	movw	r1, :lower16:flexio_camera_vsync_handler
+	movt	r1, :upper16:flexio_camera_vsync_handler
+	str	r0, [r1]
+	.loc	2 93 1 is_stmt 1                @ ../../libraries/zf_device/zf_device_type.c:93:1
+	add	sp, #24
+	bx	lr
+.Ltmp4:
+.Lfunc_end2:
+	.size	set_flexio_camera_type, .Lfunc_end2-set_flexio_camera_type
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.set_wireless_type,"ax",%progbits
+	.hidden	set_wireless_type               @ -- Begin function set_wireless_type
+	.globl	set_wireless_type
+	.p2align	3
+	.type	set_wireless_type,%function
+	.code	16                              @ @set_wireless_type
+	.thumb_func
+set_wireless_type:
+.Lfunc_begin3:
+	.loc	2 104 0                         @ ../../libraries/zf_device/zf_device_type.c:104:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.pad	#16
+	sub	sp, #16
+	.cfi_def_cfa_offset 16
+                                        @ kill: def $r2 killed $r0
+	strb.w	r0, [sp, #15]
+	str	r1, [sp, #8]
+.Ltmp5:
+	.loc	2 105 21 prologue_end           @ ../../libraries/zf_device/zf_device_type.c:105:21
+	ldrb.w	r1, [sp, #15]
+	.loc	2 105 19 is_stmt 0              @ ../../libraries/zf_device/zf_device_type.c:105:19
+	movw	r0, :lower16:wireless_type
+	movt	r0, :upper16:wireless_type
+	strb	r1, [r0]
+.Ltmp6:
+	.loc	2 106 20 is_stmt 1              @ ../../libraries/zf_device/zf_device_type.c:106:20
+	ldrb	r0, [r0]
+.Ltmp7:
+	.loc	2 106 8 is_stmt 0               @ ../../libraries/zf_device/zf_device_type.c:106:8
+	cmp	r0, #4
+	bne	.LBB3_5
+	b	.LBB3_1
+.LBB3_1:
+.Ltmp8:
+	.loc	2 108 41 is_stmt 1              @ ../../libraries/zf_device/zf_device_type.c:108:41
+	ldr	r0, [sp, #8]
+	.loc	2 108 40 is_stmt 0              @ ../../libraries/zf_device/zf_device_type.c:108:40
+	cbnz	r0, .LBB3_3
+	b	.LBB3_2
+.LBB3_2:
+	.loc	2 0 40                          @ ../../libraries/zf_device/zf_device_type.c:0:40
+	movw	r0, :lower16:type_default_callback
+	movt	r0, :upper16:type_default_callback
+	.loc	2 108 40                        @ ../../libraries/zf_device/zf_device_type.c:108:40
+	str	r0, [sp, #4]                    @ 4-byte Spill
+	b	.LBB3_4
+.LBB3_3:
+	.loc	2 108 97                        @ ../../libraries/zf_device/zf_device_type.c:108:97
+	ldr	r0, [sp, #8]
+	.loc	2 108 40                        @ ../../libraries/zf_device/zf_device_type.c:108:40
+	str	r0, [sp, #4]                    @ 4-byte Spill
+	b	.LBB3_4
+.LBB3_4:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	.loc	2 108 37                        @ ../../libraries/zf_device/zf_device_type.c:108:37
+	movw	r1, :lower16:wireless_module_spi_handler
+	movt	r1, :upper16:wireless_module_spi_handler
+	str	r0, [r1]
+	.loc	2 109 5 is_stmt 1               @ ../../libraries/zf_device/zf_device_type.c:109:5
+	b	.LBB3_9
+.Ltmp9:
+.LBB3_5:
+	.loc	2 112 42                        @ ../../libraries/zf_device/zf_device_type.c:112:42
+	ldr	r0, [sp, #8]
+	.loc	2 112 41 is_stmt 0              @ ../../libraries/zf_device/zf_device_type.c:112:41
+	cbnz	r0, .LBB3_7
+	b	.LBB3_6
+.LBB3_6:
+	.loc	2 0 41                          @ ../../libraries/zf_device/zf_device_type.c:0:41
+	movw	r0, :lower16:type_default_callback
+	movt	r0, :upper16:type_default_callback
+	.loc	2 112 41                        @ ../../libraries/zf_device/zf_device_type.c:112:41
+	str	r0, [sp]                        @ 4-byte Spill
+	b	.LBB3_8
+.LBB3_7:
+	.loc	2 112 98                        @ ../../libraries/zf_device/zf_device_type.c:112:98
+	ldr	r0, [sp, #8]
+	.loc	2 112 41                        @ ../../libraries/zf_device/zf_device_type.c:112:41
+	str	r0, [sp]                        @ 4-byte Spill
+	b	.LBB3_8
+.LBB3_8:
+	ldr	r0, [sp]                        @ 4-byte Reload
+	.loc	2 112 38                        @ ../../libraries/zf_device/zf_device_type.c:112:38
+	movw	r1, :lower16:wireless_module_uart_handler
+	movt	r1, :upper16:wireless_module_uart_handler
+	str	r0, [r1]
+	b	.LBB3_9
+.Ltmp10:
+.LBB3_9:
+	.loc	2 114 1 is_stmt 1               @ ../../libraries/zf_device/zf_device_type.c:114:1
+	add	sp, #16
+	bx	lr
+.Ltmp11:
+.Lfunc_end3:
+	.size	set_wireless_type, .Lfunc_end3-set_wireless_type
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.set_tof_type,"ax",%progbits
+	.hidden	set_tof_type                    @ -- Begin function set_tof_type
+	.globl	set_tof_type
+	.p2align	3
+	.type	set_tof_type,%function
+	.code	16                              @ @set_tof_type
+	.thumb_func
+set_tof_type:
+.Lfunc_begin4:
+	.loc	2 125 0                         @ ../../libraries/zf_device/zf_device_type.c:125:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.pad	#12
+	sub	sp, #12
+	.cfi_def_cfa_offset 12
+                                        @ kill: def $r2 killed $r0
+	strb.w	r0, [sp, #11]
+	str	r1, [sp, #4]
+.Ltmp12:
+	.loc	2 126 16 prologue_end           @ ../../libraries/zf_device/zf_device_type.c:126:16
+	ldrb.w	r0, [sp, #11]
+	.loc	2 126 14 is_stmt 0              @ ../../libraries/zf_device/zf_device_type.c:126:14
+	movw	r1, :lower16:tof_type
+	movt	r1, :upper16:tof_type
+	strb	r0, [r1]
+	.loc	2 127 33 is_stmt 1              @ ../../libraries/zf_device/zf_device_type.c:127:33
+	ldr	r0, [sp, #4]
+	.loc	2 127 32 is_stmt 0              @ ../../libraries/zf_device/zf_device_type.c:127:32
+	cbnz	r0, .LBB4_2
+	b	.LBB4_1
+.LBB4_1:
+	.loc	2 0 32                          @ ../../libraries/zf_device/zf_device_type.c:0:32
+	movw	r0, :lower16:type_default_callback
+	movt	r0, :upper16:type_default_callback
+	.loc	2 127 32                        @ ../../libraries/zf_device/zf_device_type.c:127:32
+	str	r0, [sp]                        @ 4-byte Spill
+	b	.LBB4_3
+.LBB4_2:
+	.loc	2 127 85                        @ ../../libraries/zf_device/zf_device_type.c:127:85
+	ldr	r0, [sp, #4]
+	.loc	2 127 32                        @ ../../libraries/zf_device/zf_device_type.c:127:32
+	str	r0, [sp]                        @ 4-byte Spill
+	b	.LBB4_3
+.LBB4_3:
+	ldr	r0, [sp]                        @ 4-byte Reload
+	.loc	2 127 29                        @ ../../libraries/zf_device/zf_device_type.c:127:29
+	movw	r1, :lower16:tof_module_exti_handler
+	movt	r1, :upper16:tof_module_exti_handler
+	str	r0, [r1]
+	.loc	2 128 1 is_stmt 1               @ ../../libraries/zf_device/zf_device_type.c:128:1
+	add	sp, #12
+	bx	lr
+.Ltmp13:
+.Lfunc_end4:
+	.size	set_tof_type, .Lfunc_end4-set_tof_type
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.hidden	camera_type                     @ @camera_type
+	.type	camera_type,%object
+	.section	.bss.camera_type,"aw",%nobits
+	.globl	camera_type
+camera_type:
+	.byte	0                               @ 0x0
+	.size	camera_type, 1
+
+	.hidden	camera_uart_handler             @ @camera_uart_handler
+	.type	camera_uart_handler,%object
+	.section	.data.camera_uart_handler,"aw",%progbits
+	.globl	camera_uart_handler
+	.p2align	2, 0x0
+camera_uart_handler:
+	.long	type_default_callback
+	.size	camera_uart_handler, 4
+
+	.hidden	flexio_camera_type              @ @flexio_camera_type
+	.type	flexio_camera_type,%object
+	.section	.bss.flexio_camera_type,"aw",%nobits
+	.globl	flexio_camera_type
+flexio_camera_type:
+	.byte	0                               @ 0x0
+	.size	flexio_camera_type, 1
+
+	.hidden	flexio_camera_vsync_handler     @ @flexio_camera_vsync_handler
+	.type	flexio_camera_vsync_handler,%object
+	.section	.data.flexio_camera_vsync_handler,"aw",%progbits
+	.globl	flexio_camera_vsync_handler
+	.p2align	2, 0x0
+flexio_camera_vsync_handler:
+	.long	type_default_callback
+	.size	flexio_camera_vsync_handler, 4
+
+	.hidden	flexio_camera_uart_handler      @ @flexio_camera_uart_handler
+	.type	flexio_camera_uart_handler,%object
+	.section	.data.flexio_camera_uart_handler,"aw",%progbits
+	.globl	flexio_camera_uart_handler
+	.p2align	2, 0x0
+flexio_camera_uart_handler:
+	.long	type_default_callback
+	.size	flexio_camera_uart_handler, 4
+
+	.hidden	wireless_type                   @ @wireless_type
+	.type	wireless_type,%object
+	.section	.bss.wireless_type,"aw",%nobits
+	.globl	wireless_type
+wireless_type:
+	.byte	0                               @ 0x0
+	.size	wireless_type, 1
+
+	.hidden	wireless_module_uart_handler    @ @wireless_module_uart_handler
+	.type	wireless_module_uart_handler,%object
+	.section	.data.wireless_module_uart_handler,"aw",%progbits
+	.globl	wireless_module_uart_handler
+	.p2align	2, 0x0
+wireless_module_uart_handler:
+	.long	type_default_callback
+	.size	wireless_module_uart_handler, 4
+
+	.hidden	wireless_module_spi_handler     @ @wireless_module_spi_handler
+	.type	wireless_module_spi_handler,%object
+	.section	.data.wireless_module_spi_handler,"aw",%progbits
+	.globl	wireless_module_spi_handler
+	.p2align	2, 0x0
+wireless_module_spi_handler:
+	.long	type_default_callback
+	.size	wireless_module_spi_handler, 4
+
+	.hidden	tof_type                        @ @tof_type
+	.type	tof_type,%object
+	.section	.bss.tof_type,"aw",%nobits
+	.globl	tof_type
+tof_type:
+	.byte	0                               @ 0x0
+	.size	tof_type, 1
+
+	.hidden	tof_module_exti_handler         @ @tof_module_exti_handler
+	.type	tof_module_exti_handler,%object
+	.section	.data.tof_module_exti_handler,"aw",%progbits
+	.globl	tof_module_exti_handler
+	.p2align	2, 0x0
+tof_module_exti_handler:
+	.long	type_default_callback
+	.size	tof_module_exti_handler, 4
+
+	.section	.debug_abbrev,"",%progbits
+	.byte	1                               @ Abbreviation Code
+	.byte	17                              @ DW_TAG_compile_unit
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	37                              @ DW_AT_producer
+	.byte	14                              @ DW_FORM_strp
+	.byte	19                              @ DW_AT_language
+	.byte	5                               @ DW_FORM_data2
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	16                              @ DW_AT_stmt_list
+	.byte	23                              @ DW_FORM_sec_offset
+	.byte	27                              @ DW_AT_comp_dir
+	.byte	14                              @ DW_FORM_strp
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	85                              @ DW_AT_ranges
+	.byte	23                              @ DW_FORM_sec_offset
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	2                               @ Abbreviation Code
+	.byte	52                              @ DW_TAG_variable
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	63                              @ DW_AT_external
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	3                               @ Abbreviation Code
+	.byte	22                              @ DW_TAG_typedef
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	4                               @ Abbreviation Code
+	.byte	4                               @ DW_TAG_enumeration_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	5                               @ Abbreviation Code
+	.byte	40                              @ DW_TAG_enumerator
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	28                              @ DW_AT_const_value
+	.byte	15                              @ DW_FORM_udata
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	6                               @ Abbreviation Code
+	.byte	36                              @ DW_TAG_base_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	62                              @ DW_AT_encoding
+	.byte	11                              @ DW_FORM_data1
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	7                               @ Abbreviation Code
+	.byte	15                              @ DW_TAG_pointer_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	8                               @ Abbreviation Code
+	.byte	21                              @ DW_TAG_subroutine_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	9                               @ Abbreviation Code
+	.byte	46                              @ DW_TAG_subprogram
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	18                              @ DW_AT_high_pc
+	.byte	6                               @ DW_FORM_data4
+	.byte	64                              @ DW_AT_frame_base
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	63                              @ DW_AT_external
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	10                              @ Abbreviation Code
+	.byte	46                              @ DW_TAG_subprogram
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	18                              @ DW_AT_high_pc
+	.byte	6                               @ DW_FORM_data4
+	.byte	64                              @ DW_AT_frame_base
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	63                              @ DW_AT_external
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	11                              @ Abbreviation Code
+	.byte	5                               @ DW_TAG_formal_parameter
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	0                               @ EOM(3)
+	.section	.debug_info,"",%progbits
+.Lcu_begin0:
+	.long	.Ldebug_info_end0-.Ldebug_info_start0 @ Length of Unit
+.Ldebug_info_start0:
+	.short	4                               @ DWARF version number
+	.long	.debug_abbrev                   @ Offset Into Abbrev. Section
+	.byte	4                               @ Address Size (in bytes)
+	.byte	1                               @ Abbrev [1] 0xb:0x26f DW_TAG_compile_unit
+	.long	.Linfo_string0                  @ DW_AT_producer
+	.short	12                              @ DW_AT_language
+	.long	.Linfo_string1                  @ DW_AT_name
+	.long	.Lline_table_start0             @ DW_AT_stmt_list
+	.long	.Linfo_string2                  @ DW_AT_comp_dir
+	.long	0                               @ DW_AT_low_pc
+	.long	.Ldebug_ranges0                 @ DW_AT_ranges
+	.byte	2                               @ Abbrev [2] 0x26:0x11 DW_TAG_variable
+	.long	.Linfo_string3                  @ DW_AT_name
+	.long	55                              @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	41                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	camera_type
+	.byte	3                               @ Abbrev [3] 0x37:0xb DW_TAG_typedef
+	.long	66                              @ DW_AT_type
+	.long	.Linfo_string10                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	48                              @ DW_AT_decl_line
+	.byte	4                               @ Abbrev [4] 0x42:0x27 DW_TAG_enumeration_type
+	.long	105                             @ DW_AT_type
+	.byte	1                               @ DW_AT_byte_size
+	.byte	1                               @ DW_AT_decl_file
+	.byte	41                              @ DW_AT_decl_line
+	.byte	5                               @ Abbrev [5] 0x4a:0x6 DW_TAG_enumerator
+	.long	.Linfo_string5                  @ DW_AT_name
+	.byte	0                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0x50:0x6 DW_TAG_enumerator
+	.long	.Linfo_string6                  @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0x56:0x6 DW_TAG_enumerator
+	.long	.Linfo_string7                  @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0x5c:0x6 DW_TAG_enumerator
+	.long	.Linfo_string8                  @ DW_AT_name
+	.byte	3                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0x62:0x6 DW_TAG_enumerator
+	.long	.Linfo_string9                  @ DW_AT_name
+	.byte	4                               @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	6                               @ Abbrev [6] 0x69:0x7 DW_TAG_base_type
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	8                               @ DW_AT_encoding
+	.byte	1                               @ DW_AT_byte_size
+	.byte	2                               @ Abbrev [2] 0x70:0x11 DW_TAG_variable
+	.long	.Linfo_string11                 @ DW_AT_name
+	.long	129                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	42                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	camera_uart_handler
+	.byte	3                               @ Abbrev [3] 0x81:0xb DW_TAG_typedef
+	.long	140                             @ DW_AT_type
+	.long	.Linfo_string12                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	67                              @ DW_AT_decl_line
+	.byte	7                               @ Abbrev [7] 0x8c:0x5 DW_TAG_pointer_type
+	.long	145                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0x91:0x1 DW_TAG_subroutine_type
+                                        @ DW_AT_prototyped
+	.byte	2                               @ Abbrev [2] 0x92:0x11 DW_TAG_variable
+	.long	.Linfo_string13                 @ DW_AT_name
+	.long	55                              @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	44                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	flexio_camera_type
+	.byte	2                               @ Abbrev [2] 0xa3:0x11 DW_TAG_variable
+	.long	.Linfo_string14                 @ DW_AT_name
+	.long	129                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	45                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	flexio_camera_vsync_handler
+	.byte	2                               @ Abbrev [2] 0xb4:0x11 DW_TAG_variable
+	.long	.Linfo_string15                 @ DW_AT_name
+	.long	129                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	46                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	flexio_camera_uart_handler
+	.byte	2                               @ Abbrev [2] 0xc5:0x11 DW_TAG_variable
+	.long	.Linfo_string16                 @ DW_AT_name
+	.long	214                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	48                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	wireless_type
+	.byte	3                               @ Abbrev [3] 0xd6:0xb DW_TAG_typedef
+	.long	225                             @ DW_AT_type
+	.long	.Linfo_string23                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	58                              @ DW_AT_decl_line
+	.byte	4                               @ Abbrev [4] 0xe1:0x2d DW_TAG_enumeration_type
+	.long	105                             @ DW_AT_type
+	.byte	1                               @ DW_AT_byte_size
+	.byte	1                               @ DW_AT_decl_file
+	.byte	50                              @ DW_AT_decl_line
+	.byte	5                               @ Abbrev [5] 0xe9:0x6 DW_TAG_enumerator
+	.long	.Linfo_string17                 @ DW_AT_name
+	.byte	0                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0xef:0x6 DW_TAG_enumerator
+	.long	.Linfo_string18                 @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0xf5:0x6 DW_TAG_enumerator
+	.long	.Linfo_string19                 @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0xfb:0x6 DW_TAG_enumerator
+	.long	.Linfo_string20                 @ DW_AT_name
+	.byte	3                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0x101:0x6 DW_TAG_enumerator
+	.long	.Linfo_string21                 @ DW_AT_name
+	.byte	4                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0x107:0x6 DW_TAG_enumerator
+	.long	.Linfo_string22                 @ DW_AT_name
+	.byte	5                               @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0x10e:0x11 DW_TAG_variable
+	.long	.Linfo_string24                 @ DW_AT_name
+	.long	129                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	49                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	wireless_module_uart_handler
+	.byte	2                               @ Abbrev [2] 0x11f:0x11 DW_TAG_variable
+	.long	.Linfo_string25                 @ DW_AT_name
+	.long	129                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	50                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	wireless_module_spi_handler
+	.byte	2                               @ Abbrev [2] 0x130:0x11 DW_TAG_variable
+	.long	.Linfo_string26                 @ DW_AT_name
+	.long	321                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	52                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	tof_type
+	.byte	3                               @ Abbrev [3] 0x141:0xb DW_TAG_typedef
+	.long	332                             @ DW_AT_type
+	.long	.Linfo_string30                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	65                              @ DW_AT_decl_line
+	.byte	4                               @ Abbrev [4] 0x14c:0x1b DW_TAG_enumeration_type
+	.long	105                             @ DW_AT_type
+	.byte	1                               @ DW_AT_byte_size
+	.byte	1                               @ DW_AT_decl_file
+	.byte	60                              @ DW_AT_decl_line
+	.byte	5                               @ Abbrev [5] 0x154:0x6 DW_TAG_enumerator
+	.long	.Linfo_string27                 @ DW_AT_name
+	.byte	0                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0x15a:0x6 DW_TAG_enumerator
+	.long	.Linfo_string28                 @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	5                               @ Abbrev [5] 0x160:0x6 DW_TAG_enumerator
+	.long	.Linfo_string29                 @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0x167:0x11 DW_TAG_variable
+	.long	.Linfo_string31                 @ DW_AT_name
+	.long	129                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	2                               @ DW_AT_decl_file
+	.byte	53                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	tof_module_exti_handler
+	.byte	9                               @ Abbrev [9] 0x178:0x11 DW_TAG_subprogram
+	.long	.Lfunc_begin0                   @ DW_AT_low_pc
+	.long	.Lfunc_end0-.Lfunc_begin0       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string32                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	61                              @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+                                        @ DW_AT_external
+	.byte	10                              @ Abbrev [10] 0x189:0x4a DW_TAG_subprogram
+	.long	.Lfunc_begin1                   @ DW_AT_low_pc
+	.long	.Lfunc_end1-.Lfunc_begin1       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string33                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	75                              @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+                                        @ DW_AT_external
+	.byte	11                              @ Abbrev [11] 0x19a:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	19
+	.long	.Linfo_string37                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	75                              @ DW_AT_decl_line
+	.long	55                              @ DW_AT_type
+	.byte	11                              @ Abbrev [11] 0x1a8:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string38                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	75                              @ DW_AT_decl_line
+	.long	129                             @ DW_AT_type
+	.byte	11                              @ Abbrev [11] 0x1b6:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string39                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	75                              @ DW_AT_decl_line
+	.long	129                             @ DW_AT_type
+	.byte	11                              @ Abbrev [11] 0x1c4:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	75                              @ DW_AT_decl_line
+	.long	129                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x1d3:0x4a DW_TAG_subprogram
+	.long	.Lfunc_begin2                   @ DW_AT_low_pc
+	.long	.Lfunc_end2-.Lfunc_begin2       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string34                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	88                              @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+                                        @ DW_AT_external
+	.byte	11                              @ Abbrev [11] 0x1e4:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	23
+	.long	.Linfo_string37                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	88                              @ DW_AT_decl_line
+	.long	55                              @ DW_AT_type
+	.byte	11                              @ Abbrev [11] 0x1f2:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	16
+	.long	.Linfo_string38                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	88                              @ DW_AT_decl_line
+	.long	129                             @ DW_AT_type
+	.byte	11                              @ Abbrev [11] 0x200:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string39                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	88                              @ DW_AT_decl_line
+	.long	129                             @ DW_AT_type
+	.byte	11                              @ Abbrev [11] 0x20e:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	88                              @ DW_AT_decl_line
+	.long	129                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x21d:0x2e DW_TAG_subprogram
+	.long	.Lfunc_begin3                   @ DW_AT_low_pc
+	.long	.Lfunc_end3-.Lfunc_begin3       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string35                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	103                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+                                        @ DW_AT_external
+	.byte	11                              @ Abbrev [11] 0x22e:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	15
+	.long	.Linfo_string37                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	103                             @ DW_AT_decl_line
+	.long	214                             @ DW_AT_type
+	.byte	11                              @ Abbrev [11] 0x23c:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string41                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	103                             @ DW_AT_decl_line
+	.long	129                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x24b:0x2e DW_TAG_subprogram
+	.long	.Lfunc_begin4                   @ DW_AT_low_pc
+	.long	.Lfunc_end4-.Lfunc_begin4       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string36                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	124                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+                                        @ DW_AT_external
+	.byte	11                              @ Abbrev [11] 0x25c:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	11
+	.long	.Linfo_string37                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	124                             @ DW_AT_decl_line
+	.long	321                             @ DW_AT_type
+	.byte	11                              @ Abbrev [11] 0x26a:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string42                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	124                             @ DW_AT_decl_line
+	.long	129                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	0                               @ End Of Children Mark
+.Ldebug_info_end0:
+	.section	.debug_ranges,"",%progbits
+.Ldebug_ranges0:
+	.long	.Lfunc_begin0
+	.long	.Lfunc_end0
+	.long	.Lfunc_begin1
+	.long	.Lfunc_end1
+	.long	.Lfunc_begin2
+	.long	.Lfunc_end2
+	.long	.Lfunc_begin3
+	.long	.Lfunc_end3
+	.long	.Lfunc_begin4
+	.long	.Lfunc_end4
+	.long	0
+	.long	0
+	.section	.debug_str,"MS",%progbits,1
+.Linfo_string0:
+	.asciz	"Component: Arm Compiler for Embedded 6.19 Tool: armclang [5e73cb00]" @ string offset=0
+.Linfo_string1:
+	.asciz	"../../libraries/zf_device\\zf_device_type.c" @ string offset=68
+.Linfo_string2:
+	.asciz	"E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" @ string offset=111
+.Linfo_string3:
+	.asciz	"camera_type"                   @ string offset=233
+.Linfo_string4:
+	.asciz	"unsigned char"                 @ string offset=245
+.Linfo_string5:
+	.asciz	"NO_CAMERE"                     @ string offset=259
+.Linfo_string6:
+	.asciz	"CAMERA_BIN_IIC"                @ string offset=269
+.Linfo_string7:
+	.asciz	"CAMERA_BIN_UART"               @ string offset=284
+.Linfo_string8:
+	.asciz	"CAMERA_GRAYSCALE"              @ string offset=300
+.Linfo_string9:
+	.asciz	"CAMERA_COLOR"                  @ string offset=317
+.Linfo_string10:
+	.asciz	"camera_type_enum"              @ string offset=330
+.Linfo_string11:
+	.asciz	"camera_uart_handler"           @ string offset=347
+.Linfo_string12:
+	.asciz	"callback_function"             @ string offset=367
+.Linfo_string13:
+	.asciz	"flexio_camera_type"            @ string offset=385
+.Linfo_string14:
+	.asciz	"flexio_camera_vsync_handler"   @ string offset=404
+.Linfo_string15:
+	.asciz	"flexio_camera_uart_handler"    @ string offset=432
+.Linfo_string16:
+	.asciz	"wireless_type"                 @ string offset=459
+.Linfo_string17:
+	.asciz	"NO_WIRELESS"                   @ string offset=473
+.Linfo_string18:
+	.asciz	"WIRELESS_UART"                 @ string offset=485
+.Linfo_string19:
+	.asciz	"BLUETOOTH_CH9141"              @ string offset=499
+.Linfo_string20:
+	.asciz	"WIFI_UART"                     @ string offset=516
+.Linfo_string21:
+	.asciz	"WIFI_SPI"                      @ string offset=526
+.Linfo_string22:
+	.asciz	"BLE6A20"                       @ string offset=535
+.Linfo_string23:
+	.asciz	"wireless_type_enum"            @ string offset=543
+.Linfo_string24:
+	.asciz	"wireless_module_uart_handler"  @ string offset=562
+.Linfo_string25:
+	.asciz	"wireless_module_spi_handler"   @ string offset=591
+.Linfo_string26:
+	.asciz	"tof_type"                      @ string offset=619
+.Linfo_string27:
+	.asciz	"NO_TOF"                        @ string offset=628
+.Linfo_string28:
+	.asciz	"TOF_DL1A"                      @ string offset=635
+.Linfo_string29:
+	.asciz	"TOF_DL1B"                      @ string offset=644
+.Linfo_string30:
+	.asciz	"tof_type_enum"                 @ string offset=653
+.Linfo_string31:
+	.asciz	"tof_module_exti_handler"       @ string offset=667
+.Linfo_string32:
+	.asciz	"type_default_callback"         @ string offset=691
+.Linfo_string33:
+	.asciz	"set_camera_type"               @ string offset=713
+.Linfo_string34:
+	.asciz	"set_flexio_camera_type"        @ string offset=729
+.Linfo_string35:
+	.asciz	"set_wireless_type"             @ string offset=752
+.Linfo_string36:
+	.asciz	"set_tof_type"                  @ string offset=770
+.Linfo_string37:
+	.asciz	"type_set"                      @ string offset=783
+.Linfo_string38:
+	.asciz	"vsync_callback"                @ string offset=792
+.Linfo_string39:
+	.asciz	"dma_callback"                  @ string offset=807
+.Linfo_string40:
+	.asciz	"uart_callback"                 @ string offset=820
+.Linfo_string41:
+	.asciz	"wireless_callback"             @ string offset=834
+.Linfo_string42:
+	.asciz	"exti_callback"                 @ string offset=852
+	.ident	"Component: Arm Compiler for Embedded 6.19 Tool: armclang [5e73cb00]"
+	.section	".note.GNU-stack","",%progbits
+	.eabi_attribute	30, 6	@ Tag_ABI_optimization_goals
+	.ARM_attribute	16, 1	@ Tag_AV_eba
+	.section	.debug_line,"",%progbits
+.Lline_table_start0:

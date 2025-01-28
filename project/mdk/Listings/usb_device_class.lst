@@ -1,0 +1,3689 @@
+	.text
+	.syntax unified
+	.eabi_attribute	67, "2.09"	@ Tag_conformance
+	.cpu	cortex-m7
+	.eabi_attribute	6, 13	@ Tag_CPU_arch
+	.eabi_attribute	7, 77	@ Tag_CPU_arch_profile
+	.eabi_attribute	8, 0	@ Tag_ARM_ISA_use
+	.eabi_attribute	9, 2	@ Tag_THUMB_ISA_use
+	.fpu	fpv5-d16
+	.eabi_attribute	36, 1	@ Tag_FP_HP_extension
+	.eabi_attribute	34, 1	@ Tag_CPU_unaligned_access
+	.eabi_attribute	17, 1	@ Tag_ABI_PCS_GOT_use
+	.eabi_attribute	20, 2	@ Tag_ABI_FP_denormal
+	.eabi_attribute	21, 0	@ Tag_ABI_FP_exceptions
+	.eabi_attribute	23, 1	@ Tag_ABI_FP_number_model
+	.eabi_attribute	24, 1	@ Tag_ABI_align_needed
+	.eabi_attribute	25, 1	@ Tag_ABI_align_preserved
+	.eabi_attribute	28, 1	@ Tag_ABI_VFP_args
+	.eabi_attribute	38, 1	@ Tag_ABI_FP_16bit_format
+	.eabi_attribute	18, 2	@ Tag_ABI_PCS_wchar_t
+	.eabi_attribute	26, 1	@ Tag_ABI_enum_size
+	.eabi_attribute	14, 0	@ Tag_ABI_PCS_R9_use
+	.file	"usb_device_class.c"
+	.file	1 "E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" "../../libraries/components/usb/include\\usb.h"
+	.file	2 "E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" "../../libraries/components/usb/usb_cdc_adapter/usb_device_class.h"
+	.file	3 "D:\\KEIL\\ARM\\ARMCLANG\\Bin\\..\\include" "stdint.h"
+	.file	4 "E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" "../../libraries/components/usb/device\\usb_device.h"
+	.file	5 "E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" "../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c"
+	.section	.text.USB_DeviceClassGetDeviceHandle,"ax",%progbits
+	.hidden	USB_DeviceClassGetDeviceHandle  @ -- Begin function USB_DeviceClassGetDeviceHandle
+	.globl	USB_DeviceClassGetDeviceHandle
+	.p2align	3
+	.type	USB_DeviceClassGetDeviceHandle,%function
+	.code	16                              @ @USB_DeviceClassGetDeviceHandle
+	.thumb_func
+USB_DeviceClassGetDeviceHandle:
+.Lfunc_begin0:
+	.loc	5 288 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:288:0
+	.fnstart
+	.cfi_sections .debug_frame
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#16
+	sub	sp, #16
+	.cfi_def_cfa_offset 24
+                                        @ kill: def $r2 killed $r0
+	strb.w	r0, [sp, #14]
+	str	r1, [sp, #8]
+	movs	r0, #0
+.Ltmp0:
+	.loc	5 289 14 prologue_end           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:289:14
+	str	r0, [sp, #4]
+	.loc	5 290 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:290:5
+	str	r0, [sp]
+	mov	r0, sp
+	.loc	5 292 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:292:5
+	bl	OSA_EnterCritical
+	.loc	5 293 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:293:5
+	b	.LBB0_1
+.LBB0_1:                                @ =>This Inner Loop Header: Depth=1
+.Ltmp1:
+	.loc	5 293 12 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:293:12
+	ldr	r0, [sp, #4]
+.Ltmp2:
+	.loc	5 293 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:293:5
+	cbnz	r0, .LBB0_7
+	b	.LBB0_2
+.LBB0_2:                                @   in Loop: Header=BB0_1 Depth=1
+.Ltmp3:
+	.loc	5 295 51 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:295:51
+	ldr	r0, [sp, #4]
+	.loc	5 295 22 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:295:22
+	lsls	r1, r0, #4
+	movw	r0, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r0, :upper16:s_UsbDeviceCommonClassStruct
+	.loc	5 295 58                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:295:58
+	ldr	r0, [r0, r1]
+	.loc	5 295 66                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:295:66
+	cbz	r0, .LBB0_5
+	b	.LBB0_3
+.LBB0_3:                                @   in Loop: Header=BB0_1 Depth=1
+	.loc	5 296 14 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:296:14
+	ldrb.w	r0, [sp, #14]
+	.loc	5 296 59 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:296:59
+	ldr	r2, [sp, #4]
+	.loc	5 296 30                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:296:30
+	movw	r1, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r1, :upper16:s_UsbDeviceCommonClassStruct
+	add.w	r1, r1, r2, lsl #4
+	.loc	5 296 66                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:296:66
+	ldrb	r1, [r1, #14]
+.Ltmp4:
+	.loc	5 295 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:295:13
+	cmp	r0, r1
+	bne	.LBB0_5
+	b	.LBB0_4
+.LBB0_4:
+.Ltmp5:
+	.loc	5 298 52                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:298:52
+	ldr	r0, [sp, #4]
+	.loc	5 298 23 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:298:23
+	lsls	r1, r0, #4
+	movw	r0, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r0, :upper16:s_UsbDeviceCommonClassStruct
+	.loc	5 298 59                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:298:59
+	ldr	r0, [r0, r1]
+	.loc	5 298 14                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:298:14
+	ldr	r1, [sp, #8]
+	.loc	5 298 21                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:298:21
+	str	r0, [r1]
+	.loc	5 299 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:299:13
+	ldr	r0, [sp]
+	bl	OSA_ExitCritical
+	movs	r0, #0
+	.loc	5 300 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:300:13
+	strb.w	r0, [sp, #15]
+	b	.LBB0_8
+.Ltmp6:
+.LBB0_5:                                @   in Loop: Header=BB0_1 Depth=1
+	.loc	5 302 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:302:5
+	b	.LBB0_6
+.Ltmp7:
+.LBB0_6:                                @   in Loop: Header=BB0_1 Depth=1
+	.loc	5 293 48                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:293:48
+	ldr	r0, [sp, #4]
+	adds	r0, #1
+	str	r0, [sp, #4]
+	.loc	5 293 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:293:5
+	b	.LBB0_1
+.Ltmp8:
+.LBB0_7:
+	.loc	5 303 5 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:303:5
+	ldr	r0, [sp]
+	bl	OSA_ExitCritical
+	movs	r0, #4
+	.loc	5 304 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:304:5
+	strb.w	r0, [sp, #15]
+	b	.LBB0_8
+.LBB0_8:
+	.loc	5 305 1                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:305:1
+	ldrb.w	r0, [sp, #15]
+	add	sp, #16
+	pop	{r7, pc}
+.Ltmp9:
+.Lfunc_end0:
+	.size	USB_DeviceClassGetDeviceHandle, .Lfunc_end0-USB_DeviceClassGetDeviceHandle
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.USB_DeviceClassEvent,"ax",%progbits
+	.hidden	USB_DeviceClassEvent            @ -- Begin function USB_DeviceClassEvent
+	.globl	USB_DeviceClassEvent
+	.p2align	3
+	.type	USB_DeviceClassEvent,%function
+	.code	16                              @ @USB_DeviceClassEvent
+	.thumb_func
+USB_DeviceClassEvent:
+.Lfunc_begin1:
+	.loc	5 322 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:322:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#24
+	sub	sp, #24
+	.cfi_def_cfa_offset 32
+                                        @ kill: def $r3 killed $r1
+	str	r0, [sp, #16]
+	strb.w	r1, [sp, #15]
+	str	r2, [sp, #8]
+	movs	r0, #1
+.Ltmp10:
+	.loc	5 327 18 prologue_end           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:327:18
+	strb.w	r0, [sp]
+.Ltmp11:
+	.loc	5 329 17                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:329:17
+	ldr	r0, [sp, #8]
+.Ltmp12:
+	.loc	5 329 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:329:9
+	cbnz	r0, .LBB1_2
+	b	.LBB1_1
+.LBB1_1:
+	.loc	5 0 9                           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:9
+	movs	r0, #4
+.Ltmp13:
+	.loc	5 331 9 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:331:9
+	strb.w	r0, [sp, #23]
+	b	.LBB1_19
+.Ltmp14:
+.LBB1_2:
+	.loc	5 335 58                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:335:58
+	ldr	r0, [sp, #16]
+	add	r1, sp, #4
+	.loc	5 335 19 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:335:19
+	bl	USB_DeviceClassGetHandleByDeviceHandle
+	.loc	5 335 17                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:335:17
+	strb.w	r0, [sp, #1]
+.Ltmp15:
+	.loc	5 336 32 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:336:32
+	ldrb.w	r0, [sp, #1]
+.Ltmp16:
+	.loc	5 336 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:336:9
+	cbz	r0, .LBB1_4
+	b	.LBB1_3
+.LBB1_3:
+	.loc	5 0 9                           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:9
+	movs	r0, #4
+.Ltmp17:
+	.loc	5 338 9 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:338:9
+	strb.w	r0, [sp, #23]
+	b	.LBB1_19
+.Ltmp18:
+.LBB1_4:
+	.loc	5 0 9 is_stmt 0                 @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:9
+	movs	r0, #0
+.Ltmp19:
+	.loc	5 341 21 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:341:21
+	strb.w	r0, [sp, #2]
+	.loc	5 341 10 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:341:10
+	b	.LBB1_5
+.LBB1_5:                                @ =>This Loop Header: Depth=1
+                                        @     Child Loop BB1_7 Depth 2
+.Ltmp20:
+	.loc	5 341 27                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:341:27
+	ldrb.w	r0, [sp, #2]
+	.loc	5 341 40                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:341:40
+	ldr	r1, [sp, #4]
+	.loc	5 341 53                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:341:53
+	ldr	r1, [r1, #4]
+	.loc	5 341 65                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:341:65
+	ldrb	r1, [r1, #8]
+.Ltmp21:
+	.loc	5 341 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:341:5
+	cmp	r0, r1
+	bge	.LBB1_18
+	b	.LBB1_6
+.LBB1_6:                                @   in Loop: Header=BB1_5 Depth=1
+	.loc	5 0 5                           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:5
+	movs	r0, #0
+.Ltmp22:
+	.loc	5 343 23 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:343:23
+	strb.w	r0, [sp, #3]
+	.loc	5 343 14 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:343:14
+	b	.LBB1_7
+.LBB1_7:                                @   Parent Loop BB1_5 Depth=1
+                                        @ =>  This Inner Loop Header: Depth=2
+.Ltmp23:
+	.loc	5 343 29                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:343:29
+	ldrb.w	r0, [sp, #3]
+.Ltmp24:
+	.loc	5 343 9                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:343:9
+	cmp	r0, #0
+	bne	.LBB1_16
+	b	.LBB1_8
+.LBB1_8:                                @   in Loop: Header=BB1_7 Depth=2
+.Ltmp25:
+	.loc	5 345 46 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:345:46
+	ldrb.w	r1, [sp, #3]
+	.loc	5 345 17 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:345:17
+	movw	r0, :lower16:s_UsbDeviceClassInterfaceMap
+	movt	r0, :upper16:s_UsbDeviceClassInterfaceMap
+	add.w	r0, r0, r1, lsl #4
+	.loc	5 345 56                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:345:56
+	ldrb	r0, [r0, #12]
+	.loc	5 346 17 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:346:17
+	ldr	r1, [sp, #4]
+	.loc	5 346 30 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:346:30
+	ldr	r1, [r1, #4]
+	.loc	5 346 42                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:346:42
+	ldr	r1, [r1]
+	.loc	5 346 49                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:346:49
+	ldrb.w	r2, [sp, #2]
+	.loc	5 346 17                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:346:17
+	add.w	r2, r2, r2, lsl #1
+	add.w	r1, r1, r2, lsl #2
+	.loc	5 346 61                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:346:61
+	ldr	r1, [r1, #8]
+	.loc	5 346 78                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:346:78
+	ldrb	r1, [r1, #4]
+.Ltmp26:
+	.loc	5 345 17 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:345:17
+	cmp	r0, r1
+	bne	.LBB1_14
+	b	.LBB1_9
+.LBB1_9:                                @   in Loop: Header=BB1_5 Depth=1
+.Ltmp27:
+	.loc	5 349 60                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:349:60
+	ldrb.w	r1, [sp, #3]
+	.loc	5 349 31 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:349:31
+	movw	r0, :lower16:s_UsbDeviceClassInterfaceMap
+	movt	r0, :upper16:s_UsbDeviceClassInterfaceMap
+	add.w	r0, r0, r1, lsl #4
+	.loc	5 349 70                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:349:70
+	ldr	r3, [r0, #8]
+	.loc	5 350 29 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:350:29
+	ldr	r0, [sp, #4]
+	.loc	5 350 42 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:350:42
+	ldr	r0, [r0, #4]
+	.loc	5 350 54                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:350:54
+	ldr	r0, [r0]
+	.loc	5 350 61                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:350:61
+	ldrb.w	r1, [sp, #2]
+	.loc	5 350 29                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:350:29
+	add.w	r1, r1, r1, lsl #1
+	add.w	r0, r0, r1, lsl #2
+	.loc	5 350 73                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:350:73
+	ldr	r0, [r0, #4]
+	.loc	5 350 86                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:350:86
+	ldrb.w	r1, [sp, #15]
+	.loc	5 350 93                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:350:93
+	ldr	r2, [sp, #8]
+	.loc	5 349 31 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:349:31
+	blx	r3
+	.loc	5 349 29 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:349:29
+	strb.w	r0, [sp, #1]
+.Ltmp28:
+	.loc	5 353 51 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:353:51
+	ldrb.w	r0, [sp, #1]
+.Ltmp29:
+	.loc	5 353 21 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:353:21
+	cmp	r0, #5
+	bne	.LBB1_11
+	b	.LBB1_10
+.LBB1_10:
+	.loc	5 0 21                          @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:21
+	movs	r0, #5
+.Ltmp30:
+	.loc	5 355 21 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:355:21
+	strb.w	r0, [sp, #23]
+	b	.LBB1_19
+.Ltmp31:
+.LBB1_11:                               @   in Loop: Header=BB1_5 Depth=1
+	.loc	5 358 44                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:358:44
+	ldrb.w	r0, [sp, #1]
+.Ltmp32:
+	.loc	5 358 21 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:358:21
+	cbnz	r0, .LBB1_13
+	b	.LBB1_12
+.LBB1_12:                               @   in Loop: Header=BB1_5 Depth=1
+	.loc	5 0 21                          @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:21
+	movs	r0, #0
+.Ltmp33:
+	.loc	5 360 28 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:360:28
+	strb.w	r0, [sp]
+	.loc	5 361 17                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:361:17
+	b	.LBB1_13
+.Ltmp34:
+.LBB1_13:                               @   in Loop: Header=BB1_5 Depth=1
+	.loc	5 362 17                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:362:17
+	b	.LBB1_16
+.Ltmp35:
+.LBB1_14:                               @   in Loop: Header=BB1_7 Depth=2
+	.loc	5 364 9                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:364:9
+	b	.LBB1_15
+.Ltmp36:
+.LBB1_15:                               @   in Loop: Header=BB1_7 Depth=2
+	.loc	5 343 97                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:343:97
+	ldrb.w	r0, [sp, #3]
+	adds	r0, #1
+	strb.w	r0, [sp, #3]
+	.loc	5 343 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:343:9
+	b	.LBB1_7
+.Ltmp37:
+.LBB1_16:                               @   in Loop: Header=BB1_5 Depth=1
+	.loc	5 365 5 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:365:5
+	b	.LBB1_17
+.Ltmp38:
+.LBB1_17:                               @   in Loop: Header=BB1_5 Depth=1
+	.loc	5 341 82                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:341:82
+	ldrb.w	r0, [sp, #2]
+	adds	r0, #1
+	strb.w	r0, [sp, #2]
+	.loc	5 341 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:341:5
+	b	.LBB1_5
+.Ltmp39:
+.LBB1_18:
+	.loc	5 367 12 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:367:12
+	ldrb.w	r0, [sp]
+	.loc	5 367 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:367:5
+	strb.w	r0, [sp, #23]
+	b	.LBB1_19
+.LBB1_19:
+	.loc	5 368 1 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:368:1
+	ldrb.w	r0, [sp, #23]
+	add	sp, #24
+	pop	{r7, pc}
+.Ltmp40:
+.Lfunc_end1:
+	.size	USB_DeviceClassEvent, .Lfunc_end1-USB_DeviceClassEvent
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.USB_DeviceClassGetHandleByDeviceHandle,"ax",%progbits
+	.p2align	3                               @ -- Begin function USB_DeviceClassGetHandleByDeviceHandle
+	.type	USB_DeviceClassGetHandleByDeviceHandle,%function
+	.code	16                              @ @USB_DeviceClassGetHandleByDeviceHandle
+	.thumb_func
+USB_DeviceClassGetHandleByDeviceHandle:
+.Lfunc_begin2:
+	.loc	5 258 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:258:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#24
+	sub	sp, #24
+	.cfi_def_cfa_offset 32
+	str	r0, [sp, #16]
+	str	r1, [sp, #12]
+	movs	r0, #0
+.Ltmp41:
+	.loc	5 259 14 prologue_end           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:259:14
+	str	r0, [sp, #8]
+	.loc	5 260 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:260:5
+	str	r0, [sp, #4]
+	add	r0, sp, #4
+	.loc	5 262 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:262:5
+	bl	OSA_EnterCritical
+	.loc	5 263 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:263:5
+	b	.LBB2_1
+.LBB2_1:                                @ =>This Inner Loop Header: Depth=1
+.Ltmp42:
+	.loc	5 263 12 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:263:12
+	ldr	r0, [sp, #8]
+.Ltmp43:
+	.loc	5 263 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:263:5
+	cbnz	r0, .LBB2_6
+	b	.LBB2_2
+.LBB2_2:                                @   in Loop: Header=BB2_1 Depth=1
+.Ltmp44:
+	.loc	5 265 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:265:13
+	ldr	r0, [sp, #16]
+	.loc	5 265 58 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:265:58
+	ldr	r1, [sp, #8]
+	.loc	5 265 29                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:265:29
+	lsls	r2, r1, #4
+	movw	r1, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r1, :upper16:s_UsbDeviceCommonClassStruct
+	.loc	5 265 65                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:265:65
+	ldr	r1, [r1, r2]
+.Ltmp45:
+	.loc	5 265 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:265:13
+	cmp	r0, r1
+	bne	.LBB2_4
+	b	.LBB2_3
+.LBB2_3:
+.Ltmp46:
+	.loc	5 267 53 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:267:53
+	ldr	r1, [sp, #8]
+	.loc	5 267 24 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:267:24
+	movw	r0, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r0, :upper16:s_UsbDeviceCommonClassStruct
+	add.w	r0, r0, r1, lsl #4
+	.loc	5 267 14                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:267:14
+	ldr	r1, [sp, #12]
+	.loc	5 267 21                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:267:21
+	str	r0, [r1]
+	.loc	5 268 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:268:13
+	ldr	r0, [sp, #4]
+	bl	OSA_ExitCritical
+	movs	r0, #0
+	.loc	5 269 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:269:13
+	strb.w	r0, [sp, #23]
+	b	.LBB2_7
+.Ltmp47:
+.LBB2_4:                                @   in Loop: Header=BB2_1 Depth=1
+	.loc	5 271 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:271:5
+	b	.LBB2_5
+.Ltmp48:
+.LBB2_5:                                @   in Loop: Header=BB2_1 Depth=1
+	.loc	5 263 48                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:263:48
+	ldr	r0, [sp, #8]
+	adds	r0, #1
+	str	r0, [sp, #8]
+	.loc	5 263 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:263:5
+	b	.LBB2_1
+.Ltmp49:
+.LBB2_6:
+	.loc	5 272 5 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:272:5
+	ldr	r0, [sp, #4]
+	bl	OSA_ExitCritical
+	movs	r0, #4
+	.loc	5 273 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:273:5
+	strb.w	r0, [sp, #23]
+	b	.LBB2_7
+.LBB2_7:
+	.loc	5 274 1                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:274:1
+	ldrb.w	r0, [sp, #23]
+	add	sp, #24
+	pop	{r7, pc}
+.Ltmp50:
+.Lfunc_end2:
+	.size	USB_DeviceClassGetHandleByDeviceHandle, .Lfunc_end2-USB_DeviceClassGetHandleByDeviceHandle
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.USB_DeviceClassCallback,"ax",%progbits
+	.hidden	USB_DeviceClassCallback         @ -- Begin function USB_DeviceClassCallback
+	.globl	USB_DeviceClassCallback
+	.p2align	3
+	.type	USB_DeviceClassCallback,%function
+	.code	16                              @ @USB_DeviceClassCallback
+	.thumb_func
+USB_DeviceClassCallback:
+.Lfunc_begin3:
+	.loc	5 382 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:382:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#24
+	sub	sp, #24
+	.cfi_def_cfa_offset 32
+	str	r0, [sp, #16]
+	str	r1, [sp, #12]
+	str	r2, [sp, #8]
+.Ltmp51:
+	.loc	5 387 53 prologue_end           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:387:53
+	ldr	r0, [sp, #16]
+	add	r1, sp, #4
+	.loc	5 387 14 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:387:14
+	bl	USB_DeviceClassGetHandleByDeviceHandle
+	.loc	5 387 12                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:387:12
+	strb.w	r0, [sp, #3]
+.Ltmp52:
+	.loc	5 388 32 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:388:32
+	ldrb.w	r0, [sp, #3]
+.Ltmp53:
+	.loc	5 388 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:388:9
+	cbz	r0, .LBB3_2
+	b	.LBB3_1
+.LBB3_1:
+.Ltmp54:
+	.loc	5 390 16 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:390:16
+	ldrb.w	r0, [sp, #3]
+	.loc	5 390 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:390:9
+	strb.w	r0, [sp, #23]
+	b	.LBB3_5
+.Ltmp55:
+.LBB3_2:
+	.loc	5 393 47 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:393:47
+	ldr	r0, [sp, #12]
+.Ltmp56:
+	.loc	5 393 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:393:9
+	cmp	r0, #1
+	bne	.LBB3_4
+	b	.LBB3_3
+.LBB3_3:
+.Ltmp57:
+	.loc	5 403 41 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:403:41
+	ldr	r0, [sp, #16]
+	.loc	5 403 49 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:403:49
+	ldr	r1, [sp, #4]
+	.loc	5 403 15                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:403:15
+	bl	USB_DeviceControlPipeInit
+	.loc	5 406 36 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:406:36
+	ldr	r0, [sp, #16]
+	.loc	5 406 78 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:406:78
+	ldr	r2, [sp, #4]
+	movs	r1, #2
+	.loc	5 406 15                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:406:15
+	bl	USB_DeviceClassEvent
+	.loc	5 408 5 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:408:5
+	b	.LBB3_4
+.Ltmp58:
+.LBB3_4:
+	.loc	5 412 14                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:412:14
+	ldr	r0, [sp, #4]
+	.loc	5 412 27 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:412:27
+	ldr	r0, [r0, #4]
+	.loc	5 412 39                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:412:39
+	ldr	r3, [r0, #4]
+	.loc	5 412 54                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:412:54
+	ldr	r0, [sp, #16]
+	.loc	5 412 62                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:412:62
+	ldr	r1, [sp, #12]
+	.loc	5 412 69                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:412:69
+	ldr	r2, [sp, #8]
+	.loc	5 412 14                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:412:14
+	blx	r3
+	.loc	5 412 12                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:412:12
+	strb.w	r0, [sp, #3]
+	.loc	5 413 12 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:413:12
+	ldrb.w	r0, [sp, #3]
+	.loc	5 413 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:413:5
+	strb.w	r0, [sp, #23]
+	b	.LBB3_5
+.LBB3_5:
+	.loc	5 414 1 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:414:1
+	ldrb.w	r0, [sp, #23]
+	add	sp, #24
+	pop	{r7, pc}
+.Ltmp59:
+.Lfunc_end3:
+	.size	USB_DeviceClassCallback, .Lfunc_end3-USB_DeviceClassCallback
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.USB_DeviceClassInit,"ax",%progbits
+	.hidden	USB_DeviceClassInit             @ -- Begin function USB_DeviceClassInit
+	.globl	USB_DeviceClassInit
+	.p2align	3
+	.type	USB_DeviceClassInit,%function
+	.code	16                              @ @USB_DeviceClassInit
+	.thumb_func
+USB_DeviceClassInit:
+.Lfunc_begin4:
+	.loc	5 438 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:438:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#24
+	sub	sp, #24
+	.cfi_def_cfa_offset 32
+                                        @ kill: def $r3 killed $r0
+	strb.w	r0, [sp, #22]
+	str	r1, [sp, #16]
+	str	r2, [sp, #12]
+.Ltmp60:
+	.loc	5 444 18 prologue_end           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:444:18
+	ldr	r0, [sp, #12]
+	.loc	5 444 26 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:444:26
+	cbz	r0, .LBB4_3
+	b	.LBB4_1
+.LBB4_1:
+	.loc	5 444 38                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:444:38
+	ldr	r0, [sp, #16]
+	.loc	5 444 50                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:444:50
+	cbz	r0, .LBB4_3
+	b	.LBB4_2
+.LBB4_2:
+	.loc	5 444 85                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:444:85
+	ldr	r0, [sp, #16]
+	.loc	5 444 97                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:444:97
+	ldr	r0, [r0, #4]
+.Ltmp61:
+	.loc	5 444 9                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:444:9
+	cbnz	r0, .LBB4_4
+	b	.LBB4_3
+.LBB4_3:
+	.loc	5 0 9                           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:9
+	movs	r0, #4
+.Ltmp62:
+	.loc	5 446 9 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:446:9
+	strb.w	r0, [sp, #23]
+	b	.LBB4_19
+.Ltmp63:
+.LBB4_4:
+	.loc	5 450 43                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:450:43
+	ldrb.w	r0, [sp, #22]
+	add	r1, sp, #8
+	.loc	5 450 13 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:450:13
+	bl	USB_DeviceClassAllocateHandle
+	.loc	5 450 11                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:450:11
+	strb.w	r0, [sp, #7]
+.Ltmp64:
+	.loc	5 451 32 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:451:32
+	ldrb.w	r0, [sp, #7]
+.Ltmp65:
+	.loc	5 451 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:451:9
+	cbz	r0, .LBB4_6
+	b	.LBB4_5
+.LBB4_5:
+.Ltmp66:
+	.loc	5 453 16 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:453:16
+	ldrb.w	r0, [sp, #7]
+	.loc	5 453 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:453:9
+	strb.w	r0, [sp, #23]
+	b	.LBB4_19
+.Ltmp67:
+.LBB4_6:
+	.loc	5 456 31 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:456:31
+	ldr	r0, [sp, #16]
+	.loc	5 456 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:456:5
+	ldr	r1, [sp, #8]
+	.loc	5 456 29                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:456:29
+	str	r0, [r1, #4]
+	.loc	5 459 28 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:459:28
+	ldrb.w	r0, [sp, #22]
+	.loc	5 459 68 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:459:68
+	ldr	r2, [sp, #8]
+	.loc	5 459 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:459:13
+	movw	r1, :lower16:USB_DeviceClassCallback
+	movt	r1, :upper16:USB_DeviceClassCallback
+	bl	USB_DeviceInit
+	.loc	5 459 11                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:459:11
+	strb.w	r0, [sp, #7]
+.Ltmp68:
+	.loc	5 461 32 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:461:32
+	ldrb.w	r0, [sp, #7]
+.Ltmp69:
+	.loc	5 461 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:461:9
+	cbz	r0, .LBB4_8
+	b	.LBB4_7
+.LBB4_7:
+.Ltmp70:
+	.loc	5 470 32 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:470:32
+	ldr	r0, [sp, #8]
+	.loc	5 470 45 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:470:45
+	ldr	r0, [r0]
+	.loc	5 470 15                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:470:15
+	bl	USB_DeviceDeinit
+	.loc	5 471 41 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:471:41
+	ldrb.w	r0, [sp, #22]
+	.loc	5 471 15 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:471:15
+	bl	USB_DeviceClassFreeHandle
+	.loc	5 473 16 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:473:16
+	ldrb.w	r0, [sp, #7]
+	.loc	5 473 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:473:9
+	strb.w	r0, [sp, #23]
+	b	.LBB4_19
+.Ltmp71:
+.LBB4_8:
+	.loc	5 0 9                           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:9
+	movs	r0, #0
+.Ltmp72:
+	.loc	5 477 21 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:477:21
+	strb.w	r0, [sp, #5]
+	.loc	5 477 10 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:477:10
+	b	.LBB4_9
+.LBB4_9:                                @ =>This Loop Header: Depth=1
+                                        @     Child Loop BB4_11 Depth 2
+.Ltmp73:
+	.loc	5 477 27                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:477:27
+	ldrb.w	r0, [sp, #5]
+	.loc	5 477 40                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:477:40
+	ldr	r1, [sp, #8]
+	.loc	5 477 53                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:477:53
+	ldr	r1, [r1, #4]
+	.loc	5 477 65                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:477:65
+	ldrb	r1, [r1, #8]
+.Ltmp74:
+	.loc	5 477 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:477:5
+	cmp	r0, r1
+	bge	.LBB4_18
+	b	.LBB4_10
+.LBB4_10:                               @   in Loop: Header=BB4_9 Depth=1
+	.loc	5 0 5                           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:5
+	movs	r0, #0
+.Ltmp75:
+	.loc	5 479 23 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:479:23
+	strb.w	r0, [sp, #6]
+	.loc	5 479 14 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:479:14
+	b	.LBB4_11
+.LBB4_11:                               @   Parent Loop BB4_9 Depth=1
+                                        @ =>  This Inner Loop Header: Depth=2
+.Ltmp76:
+	.loc	5 479 29                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:479:29
+	ldrb.w	r0, [sp, #6]
+.Ltmp77:
+	.loc	5 479 9                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:479:9
+	cmp	r0, #1
+	bhi	.LBB4_16
+	b	.LBB4_12
+.LBB4_12:                               @   in Loop: Header=BB4_11 Depth=2
+.Ltmp78:
+	.loc	5 482 17 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:482:17
+	ldr	r0, [sp, #8]
+	.loc	5 482 30 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:482:30
+	ldr	r0, [r0, #4]
+	.loc	5 482 42                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:482:42
+	ldr	r0, [r0]
+	.loc	5 482 49                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:482:49
+	ldrb.w	r1, [sp, #5]
+	.loc	5 482 17                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:482:17
+	add.w	r1, r1, r1, lsl #1
+	add.w	r0, r0, r1, lsl #2
+	.loc	5 482 61                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:482:61
+	ldr	r0, [r0, #8]
+	.loc	5 482 78                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:482:78
+	ldrb	r0, [r0, #4]
+	.loc	5 483 46 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:483:46
+	ldrb.w	r2, [sp, #6]
+	.loc	5 483 17 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:483:17
+	movw	r1, :lower16:s_UsbDeviceClassInterfaceMap
+	movt	r1, :upper16:s_UsbDeviceClassInterfaceMap
+	add.w	r1, r1, r2, lsl #4
+	.loc	5 483 56                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:483:56
+	ldrb	r1, [r1, #12]
+.Ltmp79:
+	.loc	5 482 17 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:482:17
+	cmp	r0, r1
+	bne	.LBB4_14
+	b	.LBB4_13
+.LBB4_13:                               @   in Loop: Header=BB4_11 Depth=2
+.Ltmp80:
+	.loc	5 494 52                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:494:52
+	ldrb.w	r0, [sp, #6]
+	.loc	5 494 23 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:494:23
+	lsls	r1, r0, #4
+	movw	r0, :lower16:s_UsbDeviceClassInterfaceMap
+	movt	r0, :upper16:s_UsbDeviceClassInterfaceMap
+	.loc	5 494 62                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:494:62
+	ldr	r3, [r0, r1]
+	.loc	5 495 21 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:495:21
+	ldrb.w	r0, [sp, #22]
+	.loc	5 495 36 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:495:36
+	ldr	r1, [sp, #8]
+	.loc	5 495 49                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:495:49
+	ldr	r1, [r1, #4]
+	.loc	5 495 61                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:495:61
+	ldr	r1, [r1]
+	.loc	5 495 68                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:495:68
+	ldrb.w	r2, [sp, #5]
+	.loc	5 495 36                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:495:36
+	add.w	r2, r2, r2, lsl #1
+	add.w	r1, r1, r2, lsl #2
+	.loc	5 496 66 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:496:66
+	adds	r2, r1, #4
+	.loc	5 494 23                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:494:23
+	blx	r3
+	.loc	5 498 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:498:13
+	b	.LBB4_14
+.Ltmp81:
+.LBB4_14:                               @   in Loop: Header=BB4_11 Depth=2
+	.loc	5 499 9                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:499:9
+	b	.LBB4_15
+.Ltmp82:
+.LBB4_15:                               @   in Loop: Header=BB4_11 Depth=2
+	.loc	5 480 22                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:480:22
+	ldrb.w	r0, [sp, #6]
+	adds	r0, #1
+	strb.w	r0, [sp, #6]
+	.loc	5 479 9                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:479:9
+	b	.LBB4_11
+.Ltmp83:
+.LBB4_16:                               @   in Loop: Header=BB4_9 Depth=1
+	.loc	5 500 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:500:5
+	b	.LBB4_17
+.Ltmp84:
+.LBB4_17:                               @   in Loop: Header=BB4_9 Depth=1
+	.loc	5 477 82                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:477:82
+	ldrb.w	r0, [sp, #5]
+	adds	r0, #1
+	strb.w	r0, [sp, #5]
+	.loc	5 477 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:477:5
+	b	.LBB4_9
+.Ltmp85:
+.LBB4_18:
+	.loc	5 502 15 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:502:15
+	ldr	r0, [sp, #8]
+	.loc	5 502 28 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:502:28
+	ldr	r0, [r0]
+	.loc	5 502 6                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:502:6
+	ldr	r1, [sp, #12]
+	.loc	5 502 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:502:13
+	str	r0, [r1]
+	.loc	5 503 12 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:503:12
+	ldrb.w	r0, [sp, #7]
+	.loc	5 503 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:503:5
+	strb.w	r0, [sp, #23]
+	b	.LBB4_19
+.LBB4_19:
+	.loc	5 504 1 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:504:1
+	ldrb.w	r0, [sp, #23]
+	add	sp, #24
+	pop	{r7, pc}
+.Ltmp86:
+.Lfunc_end4:
+	.size	USB_DeviceClassInit, .Lfunc_end4-USB_DeviceClassInit
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.USB_DeviceClassAllocateHandle,"ax",%progbits
+	.p2align	3                               @ -- Begin function USB_DeviceClassAllocateHandle
+	.type	USB_DeviceClassAllocateHandle,%function
+	.code	16                              @ @USB_DeviceClassAllocateHandle
+	.thumb_func
+USB_DeviceClassAllocateHandle:
+.Lfunc_begin5:
+	.loc	5 146 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:146:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#24
+	sub	sp, #24
+	.cfi_def_cfa_offset 32
+                                        @ kill: def $r2 killed $r0
+	strb.w	r0, [sp, #22]
+	str	r1, [sp, #16]
+	movs	r0, #0
+.Ltmp87:
+	.loc	5 148 5 prologue_end            @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:148:5
+	str	r0, [sp, #4]                    @ 4-byte Spill
+	str	r0, [sp, #8]
+	add	r0, sp, #8
+	.loc	5 150 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:150:5
+	bl	OSA_EnterCritical
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+.Ltmp88:
+	.loc	5 152 16                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:152:16
+	str	r0, [sp, #12]
+	.loc	5 152 10 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:152:10
+	b	.LBB5_1
+.LBB5_1:                                @ =>This Inner Loop Header: Depth=1
+.Ltmp89:
+	.loc	5 152 22                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:152:22
+	ldr	r0, [sp, #12]
+.Ltmp90:
+	.loc	5 152 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:152:5
+	cbnz	r0, .LBB5_7
+	b	.LBB5_2
+.LBB5_2:                                @   in Loop: Header=BB5_1 Depth=1
+.Ltmp91:
+	.loc	5 154 51 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:154:51
+	ldr	r0, [sp, #12]
+	.loc	5 154 22 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:154:22
+	lsls	r1, r0, #4
+	movw	r0, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r0, :upper16:s_UsbDeviceCommonClassStruct
+	.loc	5 154 58                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:154:58
+	ldr	r0, [r0, r1]
+	.loc	5 154 66                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:154:66
+	cbz	r0, .LBB5_5
+	b	.LBB5_3
+.LBB5_3:                                @   in Loop: Header=BB5_1 Depth=1
+	.loc	5 155 14 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:155:14
+	ldrb.w	r0, [sp, #22]
+	.loc	5 155 59 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:155:59
+	ldr	r2, [sp, #12]
+	.loc	5 155 30                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:155:30
+	movw	r1, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r1, :upper16:s_UsbDeviceCommonClassStruct
+	add.w	r1, r1, r2, lsl #4
+	.loc	5 155 66                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:155:66
+	ldrb	r1, [r1, #14]
+.Ltmp92:
+	.loc	5 154 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:154:13
+	cmp	r0, r1
+	bne	.LBB5_5
+	b	.LBB5_4
+.LBB5_4:
+.Ltmp93:
+	.loc	5 157 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:157:13
+	ldr	r0, [sp, #8]
+	bl	OSA_ExitCritical
+	movs	r0, #1
+	.loc	5 158 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:158:13
+	strb.w	r0, [sp, #23]
+	b	.LBB5_14
+.Ltmp94:
+.LBB5_5:                                @   in Loop: Header=BB5_1 Depth=1
+	.loc	5 160 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:160:5
+	b	.LBB5_6
+.Ltmp95:
+.LBB5_6:                                @   in Loop: Header=BB5_1 Depth=1
+	.loc	5 152 58                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:152:58
+	ldr	r0, [sp, #12]
+	adds	r0, #1
+	str	r0, [sp, #12]
+	.loc	5 152 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:152:5
+	b	.LBB5_1
+.Ltmp96:
+.LBB5_7:
+	.loc	5 0 5                           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:5
+	movs	r0, #0
+.Ltmp97:
+	.loc	5 162 16 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:162:16
+	str	r0, [sp, #12]
+	.loc	5 162 10 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:162:10
+	b	.LBB5_8
+.LBB5_8:                                @ =>This Inner Loop Header: Depth=1
+.Ltmp98:
+	.loc	5 162 22                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:162:22
+	ldr	r0, [sp, #12]
+.Ltmp99:
+	.loc	5 162 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:162:5
+	cbnz	r0, .LBB5_13
+	b	.LBB5_9
+.LBB5_9:                                @   in Loop: Header=BB5_8 Depth=1
+.Ltmp100:
+	.loc	5 164 50 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:164:50
+	ldr	r0, [sp, #12]
+	.loc	5 164 21 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:164:21
+	lsls	r1, r0, #4
+	movw	r0, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r0, :upper16:s_UsbDeviceCommonClassStruct
+	.loc	5 164 57                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:164:57
+	ldr	r0, [r0, r1]
+.Ltmp101:
+	.loc	5 164 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:164:13
+	cbnz	r0, .LBB5_11
+	b	.LBB5_10
+.LBB5_10:
+.Ltmp102:
+	.loc	5 166 64 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:166:64
+	ldrb.w	r1, [sp, #22]
+	.loc	5 166 42 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:166:42
+	ldr	r2, [sp, #12]
+	.loc	5 166 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:166:13
+	movw	r0, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r0, :upper16:s_UsbDeviceCommonClassStruct
+	add.w	r2, r0, r2, lsl #4
+	.loc	5 166 62                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:166:62
+	strb	r1, [r2, #14]
+	.loc	5 167 87 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:167:87
+	ldr	r2, [sp, #12]
+	.loc	5 167 64 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:167:64
+	movw	r1, :lower16:s_UsbDeviceSetupBuffer
+	movt	r1, :upper16:s_UsbDeviceSetupBuffer
+	add.w	r1, r1, r2, lsl #3
+	.loc	5 167 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:167:13
+	add.w	r2, r0, r2, lsl #4
+	.loc	5 167 62                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:167:62
+	str	r1, [r2, #8]
+	.loc	5 168 94 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:168:94
+	ldr	r1, [sp, #12]
+	.loc	5 168 65 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:168:65
+	add.w	r0, r0, r1, lsl #4
+	.loc	5 168 14                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:168:14
+	ldr	r1, [sp, #16]
+	.loc	5 168 62                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:168:62
+	str	r0, [r1]
+	.loc	5 169 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:169:13
+	ldr	r0, [sp, #8]
+	bl	OSA_ExitCritical
+	movs	r0, #0
+	.loc	5 170 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:170:13
+	strb.w	r0, [sp, #23]
+	b	.LBB5_14
+.Ltmp103:
+.LBB5_11:                               @   in Loop: Header=BB5_8 Depth=1
+	.loc	5 172 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:172:5
+	b	.LBB5_12
+.Ltmp104:
+.LBB5_12:                               @   in Loop: Header=BB5_8 Depth=1
+	.loc	5 162 58                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:162:58
+	ldr	r0, [sp, #12]
+	adds	r0, #1
+	str	r0, [sp, #12]
+	.loc	5 162 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:162:5
+	b	.LBB5_8
+.Ltmp105:
+.LBB5_13:
+	.loc	5 174 5 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:174:5
+	ldr	r0, [sp, #8]
+	bl	OSA_ExitCritical
+	movs	r0, #2
+	.loc	5 175 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:175:5
+	strb.w	r0, [sp, #23]
+	b	.LBB5_14
+.LBB5_14:
+	.loc	5 176 1                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:176:1
+	ldrb.w	r0, [sp, #23]
+	add	sp, #24
+	pop	{r7, pc}
+.Ltmp106:
+.Lfunc_end5:
+	.size	USB_DeviceClassAllocateHandle, .Lfunc_end5-USB_DeviceClassAllocateHandle
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.USB_DeviceClassFreeHandle,"ax",%progbits
+	.p2align	3                               @ -- Begin function USB_DeviceClassFreeHandle
+	.type	USB_DeviceClassFreeHandle,%function
+	.code	16                              @ @USB_DeviceClassFreeHandle
+	.thumb_func
+USB_DeviceClassFreeHandle:
+.Lfunc_begin6:
+	.loc	5 189 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:189:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#16
+	sub	sp, #16
+	.cfi_def_cfa_offset 24
+                                        @ kill: def $r1 killed $r0
+	strb.w	r0, [sp, #14]
+	movs	r0, #0
+.Ltmp107:
+	.loc	5 190 14 prologue_end           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:190:14
+	str	r0, [sp, #8]
+	.loc	5 191 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:191:5
+	str	r0, [sp, #4]
+	add	r0, sp, #4
+	.loc	5 193 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:193:5
+	bl	OSA_EnterCritical
+	.loc	5 194 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:194:5
+	b	.LBB6_1
+.LBB6_1:                                @ =>This Inner Loop Header: Depth=1
+.Ltmp108:
+	.loc	5 194 12 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:194:12
+	ldr	r0, [sp, #8]
+.Ltmp109:
+	.loc	5 194 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:194:5
+	cbnz	r0, .LBB6_7
+	b	.LBB6_2
+.LBB6_2:                                @   in Loop: Header=BB6_1 Depth=1
+.Ltmp110:
+	.loc	5 196 51 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:196:51
+	ldr	r0, [sp, #8]
+	.loc	5 196 22 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:196:22
+	lsls	r1, r0, #4
+	movw	r0, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r0, :upper16:s_UsbDeviceCommonClassStruct
+	.loc	5 196 58                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:196:58
+	ldr	r0, [r0, r1]
+	.loc	5 196 66                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:196:66
+	cbz	r0, .LBB6_5
+	b	.LBB6_3
+.LBB6_3:                                @   in Loop: Header=BB6_1 Depth=1
+	.loc	5 197 14 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:197:14
+	ldrb.w	r0, [sp, #14]
+	.loc	5 197 59 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:197:59
+	ldr	r2, [sp, #8]
+	.loc	5 197 30                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:197:30
+	movw	r1, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r1, :upper16:s_UsbDeviceCommonClassStruct
+	add.w	r1, r1, r2, lsl #4
+	.loc	5 197 66                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:197:66
+	ldrb	r1, [r1, #14]
+.Ltmp111:
+	.loc	5 196 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:196:13
+	cmp	r0, r1
+	bne	.LBB6_5
+	b	.LBB6_4
+.LBB6_4:
+.Ltmp112:
+	.loc	5 199 42                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:199:42
+	ldr	r0, [sp, #8]
+	.loc	5 199 13 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:199:13
+	lsls	r2, r0, #4
+	movw	r1, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r1, :upper16:s_UsbDeviceCommonClassStruct
+	movs	r0, #0
+	.loc	5 199 62                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:199:62
+	str	r0, [sp]                        @ 4-byte Spill
+	str	r0, [r1, r2]
+	.loc	5 200 42 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:200:42
+	ldr	r2, [sp, #8]
+	.loc	5 200 13 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:200:13
+	add.w	r2, r1, r2, lsl #4
+	.loc	5 200 62                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:200:62
+	str	r0, [r2, #4]
+	.loc	5 201 42 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:201:42
+	ldr	r2, [sp, #8]
+	.loc	5 201 13 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:201:13
+	add.w	r1, r1, r2, lsl #4
+	.loc	5 201 62                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:201:62
+	strb	r0, [r1, #14]
+	.loc	5 202 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:202:13
+	ldr	r0, [sp, #4]
+	bl	OSA_ExitCritical
+	ldr	r0, [sp]                        @ 4-byte Reload
+	.loc	5 203 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:203:13
+	strb.w	r0, [sp, #15]
+	b	.LBB6_8
+.Ltmp113:
+.LBB6_5:                                @   in Loop: Header=BB6_1 Depth=1
+	.loc	5 205 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:205:5
+	b	.LBB6_6
+.Ltmp114:
+.LBB6_6:                                @   in Loop: Header=BB6_1 Depth=1
+	.loc	5 194 48                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:194:48
+	ldr	r0, [sp, #8]
+	adds	r0, #1
+	str	r0, [sp, #8]
+	.loc	5 194 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:194:5
+	b	.LBB6_1
+.Ltmp115:
+.LBB6_7:
+	.loc	5 206 5 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:206:5
+	ldr	r0, [sp, #4]
+	bl	OSA_ExitCritical
+	movs	r0, #4
+	.loc	5 208 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:208:5
+	strb.w	r0, [sp, #15]
+	b	.LBB6_8
+.LBB6_8:
+	.loc	5 209 1                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:209:1
+	ldrb.w	r0, [sp, #15]
+	add	sp, #16
+	pop	{r7, pc}
+.Ltmp116:
+.Lfunc_end6:
+	.size	USB_DeviceClassFreeHandle, .Lfunc_end6-USB_DeviceClassFreeHandle
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.USB_DeviceClassDeinit,"ax",%progbits
+	.hidden	USB_DeviceClassDeinit           @ -- Begin function USB_DeviceClassDeinit
+	.globl	USB_DeviceClassDeinit
+	.p2align	3
+	.type	USB_DeviceClassDeinit,%function
+	.code	16                              @ @USB_DeviceClassDeinit
+	.thumb_func
+USB_DeviceClassDeinit:
+.Lfunc_begin7:
+	.loc	5 517 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:517:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#16
+	sub	sp, #16
+	.cfi_def_cfa_offset 24
+                                        @ kill: def $r1 killed $r0
+	strb.w	r0, [sp, #14]
+.Ltmp117:
+	.loc	5 524 52 prologue_end           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:524:52
+	ldrb.w	r0, [sp, #14]
+	add	r1, sp, #8
+	.loc	5 524 13 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:524:13
+	bl	USB_DeviceClassGetHandleByControllerId
+	.loc	5 524 11                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:524:11
+	strb.w	r0, [sp, #7]
+.Ltmp118:
+	.loc	5 526 32 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:526:32
+	ldrb.w	r0, [sp, #7]
+.Ltmp119:
+	.loc	5 526 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:526:9
+	cbz	r0, .LBB7_2
+	b	.LBB7_1
+.LBB7_1:
+.Ltmp120:
+	.loc	5 528 16 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:528:16
+	ldrb.w	r0, [sp, #7]
+	.loc	5 528 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:528:9
+	strb.w	r0, [sp, #15]
+	b	.LBB7_15
+.Ltmp121:
+.LBB7_2:
+	.loc	5 0 9                           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:9
+	movs	r0, #0
+.Ltmp122:
+	.loc	5 532 21 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:532:21
+	strb.w	r0, [sp, #5]
+	.loc	5 532 10 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:532:10
+	b	.LBB7_3
+.LBB7_3:                                @ =>This Loop Header: Depth=1
+                                        @     Child Loop BB7_5 Depth 2
+.Ltmp123:
+	.loc	5 532 27                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:532:27
+	ldrb.w	r0, [sp, #5]
+	.loc	5 532 40                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:532:40
+	ldr	r1, [sp, #8]
+	.loc	5 532 53                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:532:53
+	ldr	r1, [r1, #4]
+	.loc	5 532 65                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:532:65
+	ldrb	r1, [r1, #8]
+.Ltmp124:
+	.loc	5 532 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:532:5
+	cmp	r0, r1
+	bge	.LBB7_12
+	b	.LBB7_4
+.LBB7_4:                                @   in Loop: Header=BB7_3 Depth=1
+	.loc	5 0 5                           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:0:5
+	movs	r0, #0
+.Ltmp125:
+	.loc	5 534 23 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:534:23
+	strb.w	r0, [sp, #6]
+	.loc	5 534 14 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:534:14
+	b	.LBB7_5
+.LBB7_5:                                @   Parent Loop BB7_3 Depth=1
+                                        @ =>  This Inner Loop Header: Depth=2
+.Ltmp126:
+	.loc	5 534 29                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:534:29
+	ldrb.w	r0, [sp, #6]
+.Ltmp127:
+	.loc	5 534 9                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:534:9
+	cmp	r0, #1
+	bhi	.LBB7_10
+	b	.LBB7_6
+.LBB7_6:                                @   in Loop: Header=BB7_5 Depth=2
+.Ltmp128:
+	.loc	5 537 17 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:537:17
+	ldr	r0, [sp, #8]
+	.loc	5 537 30 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:537:30
+	ldr	r0, [r0, #4]
+	.loc	5 537 42                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:537:42
+	ldr	r0, [r0]
+	.loc	5 537 49                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:537:49
+	ldrb.w	r1, [sp, #5]
+	.loc	5 537 17                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:537:17
+	add.w	r1, r1, r1, lsl #1
+	add.w	r0, r0, r1, lsl #2
+	.loc	5 537 61                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:537:61
+	ldr	r0, [r0, #8]
+	.loc	5 537 78                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:537:78
+	ldrb	r0, [r0, #4]
+	.loc	5 538 46 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:538:46
+	ldrb.w	r2, [sp, #6]
+	.loc	5 538 17 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:538:17
+	movw	r1, :lower16:s_UsbDeviceClassInterfaceMap
+	movt	r1, :upper16:s_UsbDeviceClassInterfaceMap
+	add.w	r1, r1, r2, lsl #4
+	.loc	5 538 56                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:538:56
+	ldrb	r1, [r1, #12]
+.Ltmp129:
+	.loc	5 537 17 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:537:17
+	cmp	r0, r1
+	bne	.LBB7_8
+	b	.LBB7_7
+.LBB7_7:                                @   in Loop: Header=BB7_5 Depth=2
+.Ltmp130:
+	.loc	5 548 52                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:548:52
+	ldrb.w	r1, [sp, #6]
+	.loc	5 548 23 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:548:23
+	movw	r0, :lower16:s_UsbDeviceClassInterfaceMap
+	movt	r0, :upper16:s_UsbDeviceClassInterfaceMap
+	add.w	r0, r0, r1, lsl #4
+	.loc	5 548 62                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:548:62
+	ldr	r1, [r0, #4]
+	.loc	5 549 21 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:549:21
+	ldr	r0, [sp, #8]
+	.loc	5 549 34 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:549:34
+	ldr	r0, [r0, #4]
+	.loc	5 549 46                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:549:46
+	ldr	r0, [r0]
+	.loc	5 549 53                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:549:53
+	ldrb.w	r2, [sp, #5]
+	.loc	5 549 21                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:549:21
+	add.w	r2, r2, r2, lsl #1
+	add.w	r0, r0, r2, lsl #2
+	.loc	5 549 65                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:549:65
+	ldr	r0, [r0, #4]
+	.loc	5 548 23 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:548:23
+	blx	r1
+	.loc	5 551 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:551:13
+	b	.LBB7_8
+.Ltmp131:
+.LBB7_8:                                @   in Loop: Header=BB7_5 Depth=2
+	.loc	5 552 9                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:552:9
+	b	.LBB7_9
+.Ltmp132:
+.LBB7_9:                                @   in Loop: Header=BB7_5 Depth=2
+	.loc	5 535 22                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:535:22
+	ldrb.w	r0, [sp, #6]
+	adds	r0, #1
+	strb.w	r0, [sp, #6]
+	.loc	5 534 9                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:534:9
+	b	.LBB7_5
+.Ltmp133:
+.LBB7_10:                               @   in Loop: Header=BB7_3 Depth=1
+	.loc	5 553 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:553:5
+	b	.LBB7_11
+.Ltmp134:
+.LBB7_11:                               @   in Loop: Header=BB7_3 Depth=1
+	.loc	5 532 82                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:532:82
+	ldrb.w	r0, [sp, #5]
+	adds	r0, #1
+	strb.w	r0, [sp, #5]
+	.loc	5 532 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:532:5
+	b	.LBB7_3
+.Ltmp135:
+.LBB7_12:
+	.loc	5 556 30 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:556:30
+	ldr	r0, [sp, #8]
+	.loc	5 556 43 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:556:43
+	ldr	r0, [r0]
+	.loc	5 556 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:556:13
+	bl	USB_DeviceDeinit
+	.loc	5 556 11                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:556:11
+	strb.w	r0, [sp, #7]
+.Ltmp136:
+	.loc	5 557 32 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:557:32
+	ldrb.w	r0, [sp, #7]
+.Ltmp137:
+	.loc	5 557 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:557:9
+	cbnz	r0, .LBB7_14
+	b	.LBB7_13
+.LBB7_13:
+.Ltmp138:
+	.loc	5 566 41 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:566:41
+	ldrb.w	r0, [sp, #14]
+	.loc	5 566 15 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:566:15
+	bl	USB_DeviceClassFreeHandle
+	.loc	5 568 5 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:568:5
+	b	.LBB7_14
+.Ltmp139:
+.LBB7_14:
+	.loc	5 569 12                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:569:12
+	ldrb.w	r0, [sp, #7]
+	.loc	5 569 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:569:5
+	strb.w	r0, [sp, #15]
+	b	.LBB7_15
+.LBB7_15:
+	.loc	5 570 1 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:570:1
+	ldrb.w	r0, [sp, #15]
+	add	sp, #16
+	pop	{r7, pc}
+.Ltmp140:
+.Lfunc_end7:
+	.size	USB_DeviceClassDeinit, .Lfunc_end7-USB_DeviceClassDeinit
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.USB_DeviceClassGetHandleByControllerId,"ax",%progbits
+	.p2align	3                               @ -- Begin function USB_DeviceClassGetHandleByControllerId
+	.type	USB_DeviceClassGetHandleByControllerId,%function
+	.code	16                              @ @USB_DeviceClassGetHandleByControllerId
+	.thumb_func
+USB_DeviceClassGetHandleByControllerId:
+.Lfunc_begin8:
+	.loc	5 225 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:225:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#16
+	sub	sp, #16
+	.cfi_def_cfa_offset 24
+                                        @ kill: def $r2 killed $r0
+	strb.w	r0, [sp, #14]
+	str	r1, [sp, #8]
+	movs	r0, #0
+.Ltmp141:
+	.loc	5 226 14 prologue_end           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:226:14
+	str	r0, [sp, #4]
+	.loc	5 227 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:227:5
+	str	r0, [sp]
+	mov	r0, sp
+	.loc	5 229 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:229:5
+	bl	OSA_EnterCritical
+	.loc	5 230 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:230:5
+	b	.LBB8_1
+.LBB8_1:                                @ =>This Inner Loop Header: Depth=1
+.Ltmp142:
+	.loc	5 230 12 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:230:12
+	ldr	r0, [sp, #4]
+.Ltmp143:
+	.loc	5 230 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:230:5
+	cbnz	r0, .LBB8_7
+	b	.LBB8_2
+.LBB8_2:                                @   in Loop: Header=BB8_1 Depth=1
+.Ltmp144:
+	.loc	5 232 51 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:232:51
+	ldr	r0, [sp, #4]
+	.loc	5 232 22 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:232:22
+	lsls	r1, r0, #4
+	movw	r0, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r0, :upper16:s_UsbDeviceCommonClassStruct
+	.loc	5 232 58                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:232:58
+	ldr	r0, [r0, r1]
+	.loc	5 232 66                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:232:66
+	cbz	r0, .LBB8_5
+	b	.LBB8_3
+.LBB8_3:                                @   in Loop: Header=BB8_1 Depth=1
+	.loc	5 233 14 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:233:14
+	ldrb.w	r0, [sp, #14]
+	.loc	5 233 59 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:233:59
+	ldr	r2, [sp, #4]
+	.loc	5 233 30                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:233:30
+	movw	r1, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r1, :upper16:s_UsbDeviceCommonClassStruct
+	add.w	r1, r1, r2, lsl #4
+	.loc	5 233 66                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:233:66
+	ldrb	r1, [r1, #14]
+.Ltmp145:
+	.loc	5 232 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:232:13
+	cmp	r0, r1
+	bne	.LBB8_5
+	b	.LBB8_4
+.LBB8_4:
+.Ltmp146:
+	.loc	5 235 53                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:235:53
+	ldr	r1, [sp, #4]
+	.loc	5 235 24 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:235:24
+	movw	r0, :lower16:s_UsbDeviceCommonClassStruct
+	movt	r0, :upper16:s_UsbDeviceCommonClassStruct
+	add.w	r0, r0, r1, lsl #4
+	.loc	5 235 14                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:235:14
+	ldr	r1, [sp, #8]
+	.loc	5 235 21                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:235:21
+	str	r0, [r1]
+	.loc	5 236 13 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:236:13
+	ldr	r0, [sp]
+	bl	OSA_ExitCritical
+	movs	r0, #0
+	.loc	5 237 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:237:13
+	strb.w	r0, [sp, #15]
+	b	.LBB8_8
+.Ltmp147:
+.LBB8_5:                                @   in Loop: Header=BB8_1 Depth=1
+	.loc	5 239 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:239:5
+	b	.LBB8_6
+.Ltmp148:
+.LBB8_6:                                @   in Loop: Header=BB8_1 Depth=1
+	.loc	5 230 48                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:230:48
+	ldr	r0, [sp, #4]
+	adds	r0, #1
+	str	r0, [sp, #4]
+	.loc	5 230 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:230:5
+	b	.LBB8_1
+.Ltmp149:
+.LBB8_7:
+	.loc	5 240 5 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:240:5
+	ldr	r0, [sp]
+	bl	OSA_ExitCritical
+	movs	r0, #4
+	.loc	5 241 5                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:241:5
+	strb.w	r0, [sp, #15]
+	b	.LBB8_8
+.LBB8_8:
+	.loc	5 242 1                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:242:1
+	ldrb.w	r0, [sp, #15]
+	add	sp, #16
+	pop	{r7, pc}
+.Ltmp150:
+.Lfunc_end8:
+	.size	USB_DeviceClassGetHandleByControllerId, .Lfunc_end8-USB_DeviceClassGetHandleByControllerId
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.USB_DeviceClassGetSpeed,"ax",%progbits
+	.hidden	USB_DeviceClassGetSpeed         @ -- Begin function USB_DeviceClassGetSpeed
+	.globl	USB_DeviceClassGetSpeed
+	.p2align	3
+	.type	USB_DeviceClassGetSpeed,%function
+	.code	16                              @ @USB_DeviceClassGetSpeed
+	.thumb_func
+USB_DeviceClassGetSpeed:
+.Lfunc_begin9:
+	.loc	5 585 0                         @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:585:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#16
+	sub	sp, #16
+	.cfi_def_cfa_offset 24
+                                        @ kill: def $r2 killed $r0
+	strb.w	r0, [sp, #14]
+	str	r1, [sp, #8]
+.Ltmp151:
+	.loc	5 590 52 prologue_end           @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:590:52
+	ldrb.w	r0, [sp, #14]
+	add	r1, sp, #4
+	.loc	5 590 13 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:590:13
+	bl	USB_DeviceClassGetHandleByControllerId
+	.loc	5 590 11                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:590:11
+	strb.w	r0, [sp, #3]
+.Ltmp152:
+	.loc	5 592 32 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:592:32
+	ldrb.w	r0, [sp, #3]
+.Ltmp153:
+	.loc	5 592 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:592:9
+	cbz	r0, .LBB9_2
+	b	.LBB9_1
+.LBB9_1:
+.Ltmp154:
+	.loc	5 594 16 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:594:16
+	ldrb.w	r0, [sp, #3]
+	.loc	5 594 9 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:594:9
+	strb.w	r0, [sp, #15]
+	b	.LBB9_3
+.Ltmp155:
+.LBB9_2:
+	.loc	5 598 33 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:598:33
+	ldr	r0, [sp, #4]
+	.loc	5 598 46 is_stmt 0              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:598:46
+	ldr	r0, [r0]
+	.loc	5 598 78                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:598:78
+	ldr	r2, [sp, #8]
+	movs	r1, #2
+	.loc	5 598 13                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:598:13
+	bl	USB_DeviceGetStatus
+	.loc	5 598 11                        @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:598:11
+	strb.w	r0, [sp, #3]
+	.loc	5 600 12 is_stmt 1              @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:600:12
+	ldrb.w	r0, [sp, #3]
+	.loc	5 600 5 is_stmt 0               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:600:5
+	strb.w	r0, [sp, #15]
+	b	.LBB9_3
+.LBB9_3:
+	.loc	5 601 1 is_stmt 1               @ ../../libraries/components/usb/usb_cdc_adapter/usb_device_class.c:601:1
+	ldrb.w	r0, [sp, #15]
+	add	sp, #16
+	pop	{r7, pc}
+.Ltmp156:
+.Lfunc_end9:
+	.size	USB_DeviceClassGetSpeed, .Lfunc_end9-USB_DeviceClassGetSpeed
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.type	s_UsbDeviceCommonClassStruct,%object @ @s_UsbDeviceCommonClassStruct
+	.section	.bss.s_UsbDeviceCommonClassStruct,"aw",%nobits
+	.p2align	2, 0x0
+s_UsbDeviceCommonClassStruct:
+	.zero	16
+	.size	s_UsbDeviceCommonClassStruct, 16
+
+	.type	s_UsbDeviceClassInterfaceMap,%object @ @s_UsbDeviceClassInterfaceMap
+	.section	.rodata.s_UsbDeviceClassInterfaceMap,"a",%progbits
+	.p2align	2, 0x0
+s_UsbDeviceClassInterfaceMap:
+	.long	USB_DeviceCdcAcmInit
+	.long	USB_DeviceCdcAcmDeinit
+	.long	USB_DeviceCdcAcmEvent
+	.byte	2                               @ 0x2
+	.zero	3
+	.zero	16
+	.size	s_UsbDeviceClassInterfaceMap, 32
+
+	.type	s_UsbDeviceSetupBuffer,%object  @ @s_UsbDeviceSetupBuffer
+	.section	.bss.s_UsbDeviceSetupBuffer,"aw",%nobits
+	.p2align	2, 0x0
+s_UsbDeviceSetupBuffer:
+	.zero	8
+	.size	s_UsbDeviceSetupBuffer, 8
+
+	.section	.debug_abbrev,"",%progbits
+	.byte	1                               @ Abbreviation Code
+	.byte	17                              @ DW_TAG_compile_unit
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	37                              @ DW_AT_producer
+	.byte	14                              @ DW_FORM_strp
+	.byte	19                              @ DW_AT_language
+	.byte	5                               @ DW_FORM_data2
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	16                              @ DW_AT_stmt_list
+	.byte	23                              @ DW_FORM_sec_offset
+	.byte	27                              @ DW_AT_comp_dir
+	.byte	14                              @ DW_FORM_strp
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	85                              @ DW_AT_ranges
+	.byte	23                              @ DW_FORM_sec_offset
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	2                               @ Abbreviation Code
+	.byte	52                              @ DW_TAG_variable
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.ascii	"\210\001"                      @ DW_AT_alignment
+	.byte	15                              @ DW_FORM_udata
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	3                               @ Abbreviation Code
+	.byte	1                               @ DW_TAG_array_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	4                               @ Abbreviation Code
+	.byte	33                              @ DW_TAG_subrange_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	55                              @ DW_AT_count
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	5                               @ Abbreviation Code
+	.byte	22                              @ DW_TAG_typedef
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	6                               @ Abbreviation Code
+	.byte	19                              @ DW_TAG_structure_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	7                               @ Abbreviation Code
+	.byte	13                              @ DW_TAG_member
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	56                              @ DW_AT_data_member_location
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	8                               @ Abbreviation Code
+	.byte	22                              @ DW_TAG_typedef
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	9                               @ Abbreviation Code
+	.byte	15                              @ DW_TAG_pointer_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	10                              @ Abbreviation Code
+	.byte	15                              @ DW_TAG_pointer_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	11                              @ Abbreviation Code
+	.byte	19                              @ DW_TAG_structure_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	12                              @ Abbreviation Code
+	.byte	13                              @ DW_TAG_member
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	56                              @ DW_AT_data_member_location
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	13                              @ Abbreviation Code
+	.byte	21                              @ DW_TAG_subroutine_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	14                              @ Abbreviation Code
+	.byte	5                               @ DW_TAG_formal_parameter
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	15                              @ Abbreviation Code
+	.byte	4                               @ DW_TAG_enumeration_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	16                              @ Abbreviation Code
+	.byte	40                              @ DW_TAG_enumerator
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	28                              @ DW_AT_const_value
+	.byte	15                              @ DW_FORM_udata
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	17                              @ Abbreviation Code
+	.byte	36                              @ DW_TAG_base_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	62                              @ DW_AT_encoding
+	.byte	11                              @ DW_FORM_data1
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	18                              @ Abbreviation Code
+	.byte	36                              @ DW_TAG_base_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	62                              @ DW_AT_encoding
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	19                              @ Abbreviation Code
+	.byte	52                              @ DW_TAG_variable
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	20                              @ Abbreviation Code
+	.byte	38                              @ DW_TAG_const_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	21                              @ Abbreviation Code
+	.byte	46                              @ DW_TAG_subprogram
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	18                              @ DW_AT_high_pc
+	.byte	6                               @ DW_FORM_data4
+	.byte	64                              @ DW_AT_frame_base
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	63                              @ DW_AT_external
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	22                              @ Abbreviation Code
+	.byte	5                               @ DW_TAG_formal_parameter
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	23                              @ Abbreviation Code
+	.byte	52                              @ DW_TAG_variable
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	24                              @ Abbreviation Code
+	.byte	46                              @ DW_TAG_subprogram
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	18                              @ DW_AT_high_pc
+	.byte	6                               @ DW_FORM_data4
+	.byte	64                              @ DW_AT_frame_base
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	25                              @ Abbreviation Code
+	.byte	46                              @ DW_TAG_subprogram
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	18                              @ DW_AT_high_pc
+	.byte	6                               @ DW_FORM_data4
+	.byte	64                              @ DW_AT_frame_base
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	26                              @ Abbreviation Code
+	.byte	5                               @ DW_TAG_formal_parameter
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	27                              @ Abbreviation Code
+	.byte	52                              @ DW_TAG_variable
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	0                               @ EOM(3)
+	.section	.debug_info,"",%progbits
+.Lcu_begin0:
+	.long	.Ldebug_info_end0-.Ldebug_info_start0 @ Length of Unit
+.Ldebug_info_start0:
+	.short	4                               @ DWARF version number
+	.long	.debug_abbrev                   @ Offset Into Abbrev. Section
+	.byte	4                               @ Address Size (in bytes)
+	.byte	1                               @ Abbrev [1] 0xb:0x9fb DW_TAG_compile_unit
+	.long	.Linfo_string0                  @ DW_AT_producer
+	.short	12                              @ DW_AT_language
+	.long	.Linfo_string1                  @ DW_AT_name
+	.long	.Lline_table_start0             @ DW_AT_stmt_list
+	.long	.Linfo_string2                  @ DW_AT_comp_dir
+	.long	0                               @ DW_AT_low_pc
+	.long	.Ldebug_ranges0                 @ DW_AT_ranges
+	.byte	2                               @ Abbrev [2] 0x26:0x12 DW_TAG_variable
+	.long	.Linfo_string3                  @ DW_AT_name
+	.long	56                              @ DW_AT_type
+	.byte	5                               @ DW_AT_decl_file
+	.byte	124                             @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_alignment
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	s_UsbDeviceCommonClassStruct
+	.byte	3                               @ Abbrev [3] 0x38:0xc DW_TAG_array_type
+	.long	68                              @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x3d:0x6 DW_TAG_subrange_type
+	.long	1046                            @ DW_AT_type
+	.byte	1                               @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	5                               @ Abbrev [5] 0x44:0xc DW_TAG_typedef
+	.long	80                              @ DW_AT_type
+	.long	.Linfo_string93                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.short	318                             @ DW_AT_decl_line
+	.byte	6                               @ Abbrev [6] 0x50:0x4b DW_TAG_structure_type
+	.long	.Linfo_string92                 @ DW_AT_name
+	.byte	16                              @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.short	304                             @ DW_AT_decl_line
+	.byte	7                               @ Abbrev [7] 0x59:0xd DW_TAG_member
+	.long	.Linfo_string4                  @ DW_AT_name
+	.long	155                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.short	306                             @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	7                               @ Abbrev [7] 0x66:0xd DW_TAG_member
+	.long	.Linfo_string6                  @ DW_AT_name
+	.long	167                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.short	307                             @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	7                               @ Abbrev [7] 0x73:0xd DW_TAG_member
+	.long	.Linfo_string89                 @ DW_AT_name
+	.long	1041                            @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.short	308                             @ DW_AT_decl_line
+	.byte	8                               @ DW_AT_data_member_location
+	.byte	7                               @ Abbrev [7] 0x80:0xd DW_TAG_member
+	.long	.Linfo_string90                 @ DW_AT_name
+	.long	902                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.short	309                             @ DW_AT_decl_line
+	.byte	12                              @ DW_AT_data_member_location
+	.byte	7                               @ Abbrev [7] 0x8d:0xd DW_TAG_member
+	.long	.Linfo_string91                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.short	317                             @ DW_AT_decl_line
+	.byte	14                              @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	8                               @ Abbrev [8] 0x9b:0xb DW_TAG_typedef
+	.long	166                             @ DW_AT_type
+	.long	.Linfo_string5                  @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	81                              @ DW_AT_decl_line
+	.byte	9                               @ Abbrev [9] 0xa6:0x1 DW_TAG_pointer_type
+	.byte	10                              @ Abbrev [10] 0xa7:0x5 DW_TAG_pointer_type
+	.long	172                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0xac:0xb DW_TAG_typedef
+	.long	183                             @ DW_AT_type
+	.long	.Linfo_string88                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	160                             @ DW_AT_decl_line
+	.byte	11                              @ Abbrev [11] 0xb7:0x2d DW_TAG_structure_type
+	.long	.Linfo_string87                 @ DW_AT_name
+	.byte	12                              @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	155                             @ DW_AT_decl_line
+	.byte	12                              @ Abbrev [12] 0xbf:0xc DW_TAG_member
+	.long	.Linfo_string7                  @ DW_AT_name
+	.long	228                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	157                             @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0xcb:0xc DW_TAG_member
+	.long	.Linfo_string85                 @ DW_AT_name
+	.long	1004                            @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	158                             @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0xd7:0xc DW_TAG_member
+	.long	.Linfo_string39                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	159                             @ DW_AT_decl_line
+	.byte	8                               @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0xe4:0x5 DW_TAG_pointer_type
+	.long	233                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0xe9:0xb DW_TAG_typedef
+	.long	244                             @ DW_AT_type
+	.long	.Linfo_string84                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	147                             @ DW_AT_decl_line
+	.byte	11                              @ Abbrev [11] 0xf4:0x2d DW_TAG_structure_type
+	.long	.Linfo_string83                 @ DW_AT_name
+	.byte	12                              @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	141                             @ DW_AT_decl_line
+	.byte	12                              @ Abbrev [12] 0xfc:0xc DW_TAG_member
+	.long	.Linfo_string8                  @ DW_AT_name
+	.long	289                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	143                             @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x108:0xc DW_TAG_member
+	.long	.Linfo_string36                 @ DW_AT_name
+	.long	477                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	145                             @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x114:0xc DW_TAG_member
+	.long	.Linfo_string37                 @ DW_AT_name
+	.long	506                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	146                             @ DW_AT_decl_line
+	.byte	8                               @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	8                               @ Abbrev [8] 0x121:0xb DW_TAG_typedef
+	.long	300                             @ DW_AT_type
+	.long	.Linfo_string35                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	131                             @ DW_AT_decl_line
+	.byte	10                              @ Abbrev [10] 0x12c:0x5 DW_TAG_pointer_type
+	.long	305                             @ DW_AT_type
+	.byte	13                              @ Abbrev [13] 0x131:0x15 DW_TAG_subroutine_type
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_prototyped
+	.byte	14                              @ Abbrev [14] 0x136:0x5 DW_TAG_formal_parameter
+	.long	477                             @ DW_AT_type
+	.byte	14                              @ Abbrev [14] 0x13b:0x5 DW_TAG_formal_parameter
+	.long	488                             @ DW_AT_type
+	.byte	14                              @ Abbrev [14] 0x140:0x5 DW_TAG_formal_parameter
+	.long	166                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	8                               @ Abbrev [8] 0x146:0xb DW_TAG_typedef
+	.long	337                             @ DW_AT_type
+	.long	.Linfo_string31                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	74                              @ DW_AT_decl_line
+	.byte	15                              @ Abbrev [15] 0x151:0x85 DW_TAG_enumeration_type
+	.long	470                             @ DW_AT_type
+	.long	.Linfo_string30                 @ DW_AT_name
+	.byte	1                               @ DW_AT_byte_size
+	.byte	1                               @ DW_AT_decl_file
+	.byte	48                              @ DW_AT_decl_line
+	.byte	16                              @ Abbrev [16] 0x15d:0x6 DW_TAG_enumerator
+	.long	.Linfo_string10                 @ DW_AT_name
+	.byte	0                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x163:0x6 DW_TAG_enumerator
+	.long	.Linfo_string11                 @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x169:0x6 DW_TAG_enumerator
+	.long	.Linfo_string12                 @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x16f:0x6 DW_TAG_enumerator
+	.long	.Linfo_string13                 @ DW_AT_name
+	.byte	3                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x175:0x6 DW_TAG_enumerator
+	.long	.Linfo_string14                 @ DW_AT_name
+	.byte	4                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x17b:0x6 DW_TAG_enumerator
+	.long	.Linfo_string15                 @ DW_AT_name
+	.byte	5                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x181:0x6 DW_TAG_enumerator
+	.long	.Linfo_string16                 @ DW_AT_name
+	.byte	6                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x187:0x6 DW_TAG_enumerator
+	.long	.Linfo_string17                 @ DW_AT_name
+	.byte	7                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x18d:0x6 DW_TAG_enumerator
+	.long	.Linfo_string18                 @ DW_AT_name
+	.byte	8                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x193:0x6 DW_TAG_enumerator
+	.long	.Linfo_string19                 @ DW_AT_name
+	.byte	9                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x199:0x6 DW_TAG_enumerator
+	.long	.Linfo_string20                 @ DW_AT_name
+	.byte	10                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x19f:0x6 DW_TAG_enumerator
+	.long	.Linfo_string21                 @ DW_AT_name
+	.byte	11                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x1a5:0x6 DW_TAG_enumerator
+	.long	.Linfo_string22                 @ DW_AT_name
+	.byte	12                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x1ab:0x6 DW_TAG_enumerator
+	.long	.Linfo_string23                 @ DW_AT_name
+	.byte	13                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x1b1:0x6 DW_TAG_enumerator
+	.long	.Linfo_string24                 @ DW_AT_name
+	.byte	14                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x1b7:0x6 DW_TAG_enumerator
+	.long	.Linfo_string25                 @ DW_AT_name
+	.byte	15                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x1bd:0x6 DW_TAG_enumerator
+	.long	.Linfo_string26                 @ DW_AT_name
+	.byte	16                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x1c3:0x6 DW_TAG_enumerator
+	.long	.Linfo_string27                 @ DW_AT_name
+	.byte	17                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x1c9:0x6 DW_TAG_enumerator
+	.long	.Linfo_string28                 @ DW_AT_name
+	.byte	18                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x1cf:0x6 DW_TAG_enumerator
+	.long	.Linfo_string29                 @ DW_AT_name
+	.byte	19                              @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	17                              @ Abbrev [17] 0x1d6:0x7 DW_TAG_base_type
+	.long	.Linfo_string9                  @ DW_AT_name
+	.byte	8                               @ DW_AT_encoding
+	.byte	1                               @ DW_AT_byte_size
+	.byte	8                               @ Abbrev [8] 0x1dd:0xb DW_TAG_typedef
+	.long	166                             @ DW_AT_type
+	.long	.Linfo_string32                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	22                              @ DW_AT_decl_line
+	.byte	8                               @ Abbrev [8] 0x1e8:0xb DW_TAG_typedef
+	.long	499                             @ DW_AT_type
+	.long	.Linfo_string34                 @ DW_AT_name
+	.byte	3                               @ DW_AT_decl_file
+	.byte	64                              @ DW_AT_decl_line
+	.byte	17                              @ Abbrev [17] 0x1f3:0x7 DW_TAG_base_type
+	.long	.Linfo_string33                 @ DW_AT_name
+	.byte	7                               @ DW_AT_encoding
+	.byte	4                               @ DW_AT_byte_size
+	.byte	10                              @ Abbrev [10] 0x1fa:0x5 DW_TAG_pointer_type
+	.long	511                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0x1ff:0xb DW_TAG_typedef
+	.long	522                             @ DW_AT_type
+	.long	.Linfo_string82                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	128                             @ DW_AT_decl_line
+	.byte	11                              @ Abbrev [11] 0x20a:0x2d DW_TAG_structure_type
+	.long	.Linfo_string81                 @ DW_AT_name
+	.byte	8                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	123                             @ DW_AT_decl_line
+	.byte	12                              @ Abbrev [12] 0x212:0xc DW_TAG_member
+	.long	.Linfo_string38                 @ DW_AT_name
+	.long	567                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	125                             @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x21e:0xc DW_TAG_member
+	.long	.Linfo_string67                 @ DW_AT_name
+	.long	920                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	126                             @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x22a:0xc DW_TAG_member
+	.long	.Linfo_string80                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	127                             @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x237:0x5 DW_TAG_pointer_type
+	.long	572                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0x23c:0xb DW_TAG_typedef
+	.long	583                             @ DW_AT_type
+	.long	.Linfo_string66                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	115                             @ DW_AT_decl_line
+	.byte	11                              @ Abbrev [11] 0x247:0x21 DW_TAG_structure_type
+	.long	.Linfo_string65                 @ DW_AT_name
+	.byte	8                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	111                             @ DW_AT_decl_line
+	.byte	12                              @ Abbrev [12] 0x24f:0xc DW_TAG_member
+	.long	.Linfo_string39                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	113                             @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x25b:0xc DW_TAG_member
+	.long	.Linfo_string41                 @ DW_AT_name
+	.long	627                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	114                             @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	8                               @ Abbrev [8] 0x268:0xb DW_TAG_typedef
+	.long	470                             @ DW_AT_type
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	3                               @ DW_AT_decl_file
+	.byte	62                              @ DW_AT_decl_line
+	.byte	10                              @ Abbrev [10] 0x273:0x5 DW_TAG_pointer_type
+	.long	632                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0x278:0xb DW_TAG_typedef
+	.long	643                             @ DW_AT_type
+	.long	.Linfo_string64                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	103                             @ DW_AT_decl_line
+	.byte	11                              @ Abbrev [11] 0x283:0x51 DW_TAG_structure_type
+	.long	.Linfo_string63                 @ DW_AT_name
+	.byte	12                              @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	95                              @ DW_AT_decl_line
+	.byte	12                              @ Abbrev [12] 0x28b:0xc DW_TAG_member
+	.long	.Linfo_string42                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	97                              @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x297:0xc DW_TAG_member
+	.long	.Linfo_string43                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	98                              @ DW_AT_decl_line
+	.byte	1                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x2a3:0xc DW_TAG_member
+	.long	.Linfo_string44                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	99                              @ DW_AT_decl_line
+	.byte	2                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x2af:0xc DW_TAG_member
+	.long	.Linfo_string45                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	100                             @ DW_AT_decl_line
+	.byte	3                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x2bb:0xc DW_TAG_member
+	.long	.Linfo_string46                 @ DW_AT_name
+	.long	724                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	101                             @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x2c7:0xc DW_TAG_member
+	.long	.Linfo_string39                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	102                             @ DW_AT_decl_line
+	.byte	8                               @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x2d4:0x5 DW_TAG_pointer_type
+	.long	729                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0x2d9:0xb DW_TAG_typedef
+	.long	740                             @ DW_AT_type
+	.long	.Linfo_string62                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	87                              @ DW_AT_decl_line
+	.byte	11                              @ Abbrev [11] 0x2e4:0x2d DW_TAG_structure_type
+	.long	.Linfo_string61                 @ DW_AT_name
+	.byte	16                              @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	82                              @ DW_AT_decl_line
+	.byte	12                              @ Abbrev [12] 0x2ec:0xc DW_TAG_member
+	.long	.Linfo_string47                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	84                              @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x2f8:0xc DW_TAG_member
+	.long	.Linfo_string48                 @ DW_AT_name
+	.long	785                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	85                              @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x304:0xc DW_TAG_member
+	.long	.Linfo_string60                 @ DW_AT_name
+	.long	166                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	86                              @ DW_AT_decl_line
+	.byte	12                              @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	8                               @ Abbrev [8] 0x311:0xb DW_TAG_typedef
+	.long	796                             @ DW_AT_type
+	.long	.Linfo_string59                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	74                              @ DW_AT_decl_line
+	.byte	11                              @ Abbrev [11] 0x31c:0x21 DW_TAG_structure_type
+	.long	.Linfo_string58                 @ DW_AT_name
+	.byte	8                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	70                              @ DW_AT_decl_line
+	.byte	12                              @ Abbrev [12] 0x324:0xc DW_TAG_member
+	.long	.Linfo_string39                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	72                              @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x330:0xc DW_TAG_member
+	.long	.Linfo_string49                 @ DW_AT_name
+	.long	829                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	73                              @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x33d:0x5 DW_TAG_pointer_type
+	.long	834                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0x342:0xb DW_TAG_typedef
+	.long	845                             @ DW_AT_type
+	.long	.Linfo_string57                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	62                              @ DW_AT_decl_line
+	.byte	11                              @ Abbrev [11] 0x34d:0x39 DW_TAG_structure_type
+	.long	.Linfo_string56                 @ DW_AT_name
+	.byte	6                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	56                              @ DW_AT_decl_line
+	.byte	12                              @ Abbrev [12] 0x355:0xc DW_TAG_member
+	.long	.Linfo_string50                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	58                              @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x361:0xc DW_TAG_member
+	.long	.Linfo_string51                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	59                              @ DW_AT_decl_line
+	.byte	1                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x36d:0xc DW_TAG_member
+	.long	.Linfo_string52                 @ DW_AT_name
+	.long	902                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	60                              @ DW_AT_decl_line
+	.byte	2                               @ DW_AT_data_member_location
+	.byte	12                              @ Abbrev [12] 0x379:0xc DW_TAG_member
+	.long	.Linfo_string55                 @ DW_AT_name
+	.long	616                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	61                              @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	8                               @ Abbrev [8] 0x386:0xb DW_TAG_typedef
+	.long	913                             @ DW_AT_type
+	.long	.Linfo_string54                 @ DW_AT_name
+	.byte	3                               @ DW_AT_decl_file
+	.byte	63                              @ DW_AT_decl_line
+	.byte	17                              @ Abbrev [17] 0x391:0x7 DW_TAG_base_type
+	.long	.Linfo_string53                 @ DW_AT_name
+	.byte	7                               @ DW_AT_encoding
+	.byte	2                               @ DW_AT_byte_size
+	.byte	8                               @ Abbrev [8] 0x398:0xb DW_TAG_typedef
+	.long	931                             @ DW_AT_type
+	.long	.Linfo_string79                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	37                              @ DW_AT_decl_line
+	.byte	15                              @ Abbrev [15] 0x3a3:0x49 DW_TAG_enumeration_type
+	.long	470                             @ DW_AT_type
+	.long	.Linfo_string78                 @ DW_AT_name
+	.byte	1                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	25                              @ DW_AT_decl_line
+	.byte	16                              @ Abbrev [16] 0x3af:0x6 DW_TAG_enumerator
+	.long	.Linfo_string68                 @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x3b5:0x6 DW_TAG_enumerator
+	.long	.Linfo_string69                 @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x3bb:0x6 DW_TAG_enumerator
+	.long	.Linfo_string70                 @ DW_AT_name
+	.byte	3                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x3c1:0x6 DW_TAG_enumerator
+	.long	.Linfo_string71                 @ DW_AT_name
+	.byte	4                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x3c7:0x6 DW_TAG_enumerator
+	.long	.Linfo_string72                 @ DW_AT_name
+	.byte	5                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x3cd:0x6 DW_TAG_enumerator
+	.long	.Linfo_string73                 @ DW_AT_name
+	.byte	6                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x3d3:0x6 DW_TAG_enumerator
+	.long	.Linfo_string74                 @ DW_AT_name
+	.byte	7                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x3d9:0x6 DW_TAG_enumerator
+	.long	.Linfo_string75                 @ DW_AT_name
+	.byte	8                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x3df:0x6 DW_TAG_enumerator
+	.long	.Linfo_string76                 @ DW_AT_name
+	.byte	9                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x3e5:0x6 DW_TAG_enumerator
+	.long	.Linfo_string77                 @ DW_AT_name
+	.byte	10                              @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	8                               @ Abbrev [8] 0x3ec:0xb DW_TAG_typedef
+	.long	1015                            @ DW_AT_type
+	.long	.Linfo_string86                 @ DW_AT_name
+	.byte	4                               @ DW_AT_decl_file
+	.byte	178                             @ DW_AT_decl_line
+	.byte	10                              @ Abbrev [10] 0x3f7:0x5 DW_TAG_pointer_type
+	.long	1020                            @ DW_AT_type
+	.byte	13                              @ Abbrev [13] 0x3fc:0x15 DW_TAG_subroutine_type
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_prototyped
+	.byte	14                              @ Abbrev [14] 0x401:0x5 DW_TAG_formal_parameter
+	.long	155                             @ DW_AT_type
+	.byte	14                              @ Abbrev [14] 0x406:0x5 DW_TAG_formal_parameter
+	.long	488                             @ DW_AT_type
+	.byte	14                              @ Abbrev [14] 0x40b:0x5 DW_TAG_formal_parameter
+	.long	166                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x411:0x5 DW_TAG_pointer_type
+	.long	616                             @ DW_AT_type
+	.byte	18                              @ Abbrev [18] 0x416:0x7 DW_TAG_base_type
+	.long	.Linfo_string94                 @ DW_AT_name
+	.byte	8                               @ DW_AT_byte_size
+	.byte	7                               @ DW_AT_encoding
+	.byte	19                              @ Abbrev [19] 0x41d:0x11 DW_TAG_variable
+	.long	.Linfo_string95                 @ DW_AT_name
+	.long	1070                            @ DW_AT_type
+	.byte	5                               @ DW_AT_decl_file
+	.byte	77                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	s_UsbDeviceClassInterfaceMap
+	.byte	3                               @ Abbrev [3] 0x42e:0xc DW_TAG_array_type
+	.long	1082                            @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x433:0x6 DW_TAG_subrange_type
+	.long	1046                            @ DW_AT_type
+	.byte	2                               @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	20                              @ Abbrev [20] 0x43a:0x5 DW_TAG_const_type
+	.long	1087                            @ DW_AT_type
+	.byte	5                               @ Abbrev [5] 0x43f:0xc DW_TAG_typedef
+	.long	1099                            @ DW_AT_type
+	.long	.Linfo_string103                @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.short	301                             @ DW_AT_decl_line
+	.byte	6                               @ Abbrev [6] 0x44b:0x3e DW_TAG_structure_type
+	.long	.Linfo_string102                @ DW_AT_name
+	.byte	16                              @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.short	295                             @ DW_AT_decl_line
+	.byte	7                               @ Abbrev [7] 0x454:0xd DW_TAG_member
+	.long	.Linfo_string96                 @ DW_AT_name
+	.long	1161                            @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.short	297                             @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	7                               @ Abbrev [7] 0x461:0xd DW_TAG_member
+	.long	.Linfo_string98                 @ DW_AT_name
+	.long	1204                            @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.short	298                             @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_data_member_location
+	.byte	7                               @ Abbrev [7] 0x46e:0xd DW_TAG_member
+	.long	.Linfo_string100                @ DW_AT_name
+	.long	1232                            @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.short	299                             @ DW_AT_decl_line
+	.byte	8                               @ DW_AT_data_member_location
+	.byte	7                               @ Abbrev [7] 0x47b:0xd DW_TAG_member
+	.long	.Linfo_string67                 @ DW_AT_name
+	.long	920                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.short	300                             @ DW_AT_decl_line
+	.byte	12                              @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	5                               @ Abbrev [5] 0x489:0xc DW_TAG_typedef
+	.long	1173                            @ DW_AT_type
+	.long	.Linfo_string97                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.short	286                             @ DW_AT_decl_line
+	.byte	10                              @ Abbrev [10] 0x495:0x5 DW_TAG_pointer_type
+	.long	1178                            @ DW_AT_type
+	.byte	13                              @ Abbrev [13] 0x49a:0x15 DW_TAG_subroutine_type
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_prototyped
+	.byte	14                              @ Abbrev [14] 0x49f:0x5 DW_TAG_formal_parameter
+	.long	616                             @ DW_AT_type
+	.byte	14                              @ Abbrev [14] 0x4a4:0x5 DW_TAG_formal_parameter
+	.long	228                             @ DW_AT_type
+	.byte	14                              @ Abbrev [14] 0x4a9:0x5 DW_TAG_formal_parameter
+	.long	1199                            @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x4af:0x5 DW_TAG_pointer_type
+	.long	477                             @ DW_AT_type
+	.byte	5                               @ Abbrev [5] 0x4b4:0xc DW_TAG_typedef
+	.long	1216                            @ DW_AT_type
+	.long	.Linfo_string99                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.short	290                             @ DW_AT_decl_line
+	.byte	10                              @ Abbrev [10] 0x4c0:0x5 DW_TAG_pointer_type
+	.long	1221                            @ DW_AT_type
+	.byte	13                              @ Abbrev [13] 0x4c5:0xb DW_TAG_subroutine_type
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_prototyped
+	.byte	14                              @ Abbrev [14] 0x4ca:0x5 DW_TAG_formal_parameter
+	.long	477                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	5                               @ Abbrev [5] 0x4d0:0xc DW_TAG_typedef
+	.long	1244                            @ DW_AT_type
+	.long	.Linfo_string101                @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.short	292                             @ DW_AT_decl_line
+	.byte	10                              @ Abbrev [10] 0x4dc:0x5 DW_TAG_pointer_type
+	.long	1249                            @ DW_AT_type
+	.byte	13                              @ Abbrev [13] 0x4e1:0x15 DW_TAG_subroutine_type
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_prototyped
+	.byte	14                              @ Abbrev [14] 0x4e6:0x5 DW_TAG_formal_parameter
+	.long	166                             @ DW_AT_type
+	.byte	14                              @ Abbrev [14] 0x4eb:0x5 DW_TAG_formal_parameter
+	.long	488                             @ DW_AT_type
+	.byte	14                              @ Abbrev [14] 0x4f0:0x5 DW_TAG_formal_parameter
+	.long	166                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	2                               @ Abbrev [2] 0x4f6:0x12 DW_TAG_variable
+	.long	.Linfo_string104                @ DW_AT_name
+	.long	1288                            @ DW_AT_type
+	.byte	5                               @ DW_AT_decl_file
+	.byte	126                             @ DW_AT_decl_line
+	.byte	4                               @ DW_AT_alignment
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	s_UsbDeviceSetupBuffer
+	.byte	3                               @ Abbrev [3] 0x508:0x12 DW_TAG_array_type
+	.long	616                             @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x50d:0x6 DW_TAG_subrange_type
+	.long	1046                            @ DW_AT_type
+	.byte	1                               @ DW_AT_count
+	.byte	4                               @ Abbrev [4] 0x513:0x6 DW_TAG_subrange_type
+	.long	1046                            @ DW_AT_type
+	.byte	8                               @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	15                              @ Abbrev [15] 0x51a:0x31 DW_TAG_enumeration_type
+	.long	470                             @ DW_AT_type
+	.long	.Linfo_string111                @ DW_AT_name
+	.byte	1                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	40                              @ DW_AT_decl_line
+	.byte	16                              @ Abbrev [16] 0x526:0x6 DW_TAG_enumerator
+	.long	.Linfo_string105                @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x52c:0x6 DW_TAG_enumerator
+	.long	.Linfo_string106                @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x532:0x6 DW_TAG_enumerator
+	.long	.Linfo_string107                @ DW_AT_name
+	.byte	3                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x538:0x6 DW_TAG_enumerator
+	.long	.Linfo_string108                @ DW_AT_name
+	.byte	4                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x53e:0x6 DW_TAG_enumerator
+	.long	.Linfo_string109                @ DW_AT_name
+	.byte	5                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x544:0x6 DW_TAG_enumerator
+	.long	.Linfo_string110                @ DW_AT_name
+	.byte	6                               @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	15                              @ Abbrev [15] 0x54b:0x97 DW_TAG_enumeration_type
+	.long	470                             @ DW_AT_type
+	.long	.Linfo_string135                @ DW_AT_name
+	.byte	1                               @ DW_AT_byte_size
+	.byte	4                               @ DW_AT_decl_file
+	.byte	107                             @ DW_AT_decl_line
+	.byte	16                              @ Abbrev [16] 0x557:0x6 DW_TAG_enumerator
+	.long	.Linfo_string112                @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x55d:0x6 DW_TAG_enumerator
+	.long	.Linfo_string113                @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x563:0x6 DW_TAG_enumerator
+	.long	.Linfo_string114                @ DW_AT_name
+	.byte	3                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x569:0x6 DW_TAG_enumerator
+	.long	.Linfo_string115                @ DW_AT_name
+	.byte	4                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x56f:0x6 DW_TAG_enumerator
+	.long	.Linfo_string116                @ DW_AT_name
+	.byte	5                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x575:0x6 DW_TAG_enumerator
+	.long	.Linfo_string117                @ DW_AT_name
+	.byte	6                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x57b:0x6 DW_TAG_enumerator
+	.long	.Linfo_string118                @ DW_AT_name
+	.byte	7                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x581:0x6 DW_TAG_enumerator
+	.long	.Linfo_string119                @ DW_AT_name
+	.byte	8                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x587:0x6 DW_TAG_enumerator
+	.long	.Linfo_string120                @ DW_AT_name
+	.byte	9                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x58d:0x6 DW_TAG_enumerator
+	.long	.Linfo_string121                @ DW_AT_name
+	.byte	10                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x593:0x6 DW_TAG_enumerator
+	.long	.Linfo_string122                @ DW_AT_name
+	.byte	11                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x599:0x6 DW_TAG_enumerator
+	.long	.Linfo_string123                @ DW_AT_name
+	.byte	12                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x59f:0x6 DW_TAG_enumerator
+	.long	.Linfo_string124                @ DW_AT_name
+	.byte	13                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5a5:0x6 DW_TAG_enumerator
+	.long	.Linfo_string125                @ DW_AT_name
+	.byte	14                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5ab:0x6 DW_TAG_enumerator
+	.long	.Linfo_string126                @ DW_AT_name
+	.byte	15                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5b1:0x6 DW_TAG_enumerator
+	.long	.Linfo_string127                @ DW_AT_name
+	.byte	16                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5b7:0x6 DW_TAG_enumerator
+	.long	.Linfo_string128                @ DW_AT_name
+	.byte	17                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5bd:0x6 DW_TAG_enumerator
+	.long	.Linfo_string129                @ DW_AT_name
+	.byte	18                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5c3:0x6 DW_TAG_enumerator
+	.long	.Linfo_string130                @ DW_AT_name
+	.byte	19                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5c9:0x6 DW_TAG_enumerator
+	.long	.Linfo_string131                @ DW_AT_name
+	.byte	20                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5cf:0x6 DW_TAG_enumerator
+	.long	.Linfo_string132                @ DW_AT_name
+	.byte	21                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5d5:0x6 DW_TAG_enumerator
+	.long	.Linfo_string133                @ DW_AT_name
+	.byte	22                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5db:0x6 DW_TAG_enumerator
+	.long	.Linfo_string134                @ DW_AT_name
+	.byte	23                              @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	15                              @ Abbrev [15] 0x5e2:0x61 DW_TAG_enumeration_type
+	.long	470                             @ DW_AT_type
+	.long	.Linfo_string150                @ DW_AT_name
+	.byte	1                               @ DW_AT_byte_size
+	.byte	4                               @ DW_AT_decl_file
+	.byte	24                              @ DW_AT_decl_line
+	.byte	16                              @ Abbrev [16] 0x5ee:0x6 DW_TAG_enumerator
+	.long	.Linfo_string136                @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5f4:0x6 DW_TAG_enumerator
+	.long	.Linfo_string137                @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x5fa:0x6 DW_TAG_enumerator
+	.long	.Linfo_string138                @ DW_AT_name
+	.byte	3                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x600:0x6 DW_TAG_enumerator
+	.long	.Linfo_string139                @ DW_AT_name
+	.byte	4                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x606:0x6 DW_TAG_enumerator
+	.long	.Linfo_string140                @ DW_AT_name
+	.byte	5                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x60c:0x6 DW_TAG_enumerator
+	.long	.Linfo_string141                @ DW_AT_name
+	.byte	6                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x612:0x6 DW_TAG_enumerator
+	.long	.Linfo_string142                @ DW_AT_name
+	.byte	7                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x618:0x6 DW_TAG_enumerator
+	.long	.Linfo_string143                @ DW_AT_name
+	.byte	8                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x61e:0x6 DW_TAG_enumerator
+	.long	.Linfo_string144                @ DW_AT_name
+	.byte	9                               @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x624:0x6 DW_TAG_enumerator
+	.long	.Linfo_string145                @ DW_AT_name
+	.byte	10                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x62a:0x6 DW_TAG_enumerator
+	.long	.Linfo_string146                @ DW_AT_name
+	.byte	11                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x630:0x6 DW_TAG_enumerator
+	.long	.Linfo_string147                @ DW_AT_name
+	.byte	12                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x636:0x6 DW_TAG_enumerator
+	.long	.Linfo_string148                @ DW_AT_name
+	.byte	13                              @ DW_AT_const_value
+	.byte	16                              @ Abbrev [16] 0x63c:0x6 DW_TAG_enumerator
+	.long	.Linfo_string149                @ DW_AT_name
+	.byte	14                              @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	21                              @ Abbrev [21] 0x643:0x53 DW_TAG_subprogram
+	.long	.Lfunc_begin0                   @ DW_AT_low_pc
+	.long	.Lfunc_end0-.Lfunc_begin0       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string151                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	287                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	22                              @ Abbrev [22] 0x659:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	14
+	.long	.Linfo_string91                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	287                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x668:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	287                             @ DW_AT_decl_line
+	.long	2539                            @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x677:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string39                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	289                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x686:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	0
+	.long	.Linfo_string161                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	290                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	21                              @ Abbrev [21] 0x696:0x8f DW_TAG_subprogram
+	.long	.Lfunc_begin1                   @ DW_AT_low_pc
+	.long	.Lfunc_end1-.Lfunc_begin1       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string152                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	321                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	22                              @ Abbrev [22] 0x6ac:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	16
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	321                             @ DW_AT_decl_line
+	.long	155                             @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x6bb:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	15
+	.long	.Linfo_string162                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	321                             @ DW_AT_decl_line
+	.long	2544                            @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x6ca:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string164                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	321                             @ DW_AT_decl_line
+	.long	166                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x6d9:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string36                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	323                             @ DW_AT_decl_line
+	.long	2555                            @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x6e8:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	3
+	.long	.Linfo_string165                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	324                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x6f7:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	2
+	.long	.Linfo_string166                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	325                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x706:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	1
+	.long	.Linfo_string167                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	326                             @ DW_AT_decl_line
+	.long	326                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x715:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	0
+	.long	.Linfo_string168                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	327                             @ DW_AT_decl_line
+	.long	326                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	24                              @ Abbrev [24] 0x725:0x53 DW_TAG_subprogram
+	.long	.Lfunc_begin2                   @ DW_AT_low_pc
+	.long	.Lfunc_end2-.Lfunc_begin2       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string153                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	256                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x73b:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	16
+	.long	.Linfo_string169                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	256                             @ DW_AT_decl_line
+	.long	155                             @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x74a:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	257                             @ DW_AT_decl_line
+	.long	2560                            @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x759:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string39                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	259                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x768:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string161                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	260                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	21                              @ Abbrev [21] 0x778:0x62 DW_TAG_subprogram
+	.long	.Lfunc_begin3                   @ DW_AT_low_pc
+	.long	.Lfunc_end3-.Lfunc_begin3       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string154                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	381                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	22                              @ Abbrev [22] 0x78e:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	16
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	381                             @ DW_AT_decl_line
+	.long	155                             @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x79d:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string162                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	381                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x7ac:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string164                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	381                             @ DW_AT_decl_line
+	.long	166                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x7bb:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string36                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	383                             @ DW_AT_decl_line
+	.long	2555                            @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x7ca:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	3
+	.long	.Linfo_string168                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	384                             @ DW_AT_decl_line
+	.long	326                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	21                              @ Abbrev [21] 0x7da:0x80 DW_TAG_subprogram
+	.long	.Lfunc_begin4                   @ DW_AT_low_pc
+	.long	.Lfunc_end4-.Lfunc_begin4       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string155                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	433                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	22                              @ Abbrev [22] 0x7f0:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	22
+	.long	.Linfo_string91                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	434                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x7ff:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	16
+	.long	.Linfo_string6                  @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	435                             @ DW_AT_decl_line
+	.long	167                             @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x80e:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	436                             @ DW_AT_decl_line
+	.long	2539                            @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x81d:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string36                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	439                             @ DW_AT_decl_line
+	.long	2555                            @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x82c:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	7
+	.long	.Linfo_string170                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	440                             @ DW_AT_decl_line
+	.long	326                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x83b:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	6
+	.long	.Linfo_string165                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	441                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x84a:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	5
+	.long	.Linfo_string166                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	442                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	25                              @ Abbrev [25] 0x85a:0x4e DW_TAG_subprogram
+	.long	.Lfunc_begin5                   @ DW_AT_low_pc
+	.long	.Lfunc_end5-.Lfunc_begin5       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string156                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	145                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+	.byte	26                              @ Abbrev [26] 0x86f:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	22
+	.long	.Linfo_string91                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	145                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	26                              @ Abbrev [26] 0x87d:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	16
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	145                             @ DW_AT_decl_line
+	.long	2560                            @ DW_AT_type
+	.byte	27                              @ Abbrev [27] 0x88b:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string39                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	147                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	27                              @ Abbrev [27] 0x899:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string161                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	148                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	25                              @ Abbrev [25] 0x8a8:0x40 DW_TAG_subprogram
+	.long	.Lfunc_begin6                   @ DW_AT_low_pc
+	.long	.Lfunc_end6-.Lfunc_begin6       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string157                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	188                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+	.byte	26                              @ Abbrev [26] 0x8bd:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	14
+	.long	.Linfo_string91                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	188                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	27                              @ Abbrev [27] 0x8cb:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string39                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	190                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	27                              @ Abbrev [27] 0x8d9:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string161                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	191                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	21                              @ Abbrev [21] 0x8e8:0x62 DW_TAG_subprogram
+	.long	.Lfunc_begin7                   @ DW_AT_low_pc
+	.long	.Lfunc_end7-.Lfunc_begin7       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string158                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	515                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	22                              @ Abbrev [22] 0x8fe:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	14
+	.long	.Linfo_string91                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	515                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x90d:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string36                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	518                             @ DW_AT_decl_line
+	.long	2555                            @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x91c:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	7
+	.long	.Linfo_string170                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	519                             @ DW_AT_decl_line
+	.long	326                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x92b:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	6
+	.long	.Linfo_string165                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	520                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x93a:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	5
+	.long	.Linfo_string166                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	521                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	25                              @ Abbrev [25] 0x94a:0x4e DW_TAG_subprogram
+	.long	.Lfunc_begin8                   @ DW_AT_low_pc
+	.long	.Lfunc_end8-.Lfunc_begin8       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string159                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	223                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+	.byte	26                              @ Abbrev [26] 0x95f:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	14
+	.long	.Linfo_string91                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	223                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	26                              @ Abbrev [26] 0x96d:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	224                             @ DW_AT_decl_line
+	.long	2560                            @ DW_AT_type
+	.byte	27                              @ Abbrev [27] 0x97b:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string39                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	226                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	27                              @ Abbrev [27] 0x989:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	0
+	.long	.Linfo_string161                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.byte	227                             @ DW_AT_decl_line
+	.long	488                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	21                              @ Abbrev [21] 0x998:0x53 DW_TAG_subprogram
+	.long	.Lfunc_begin9                   @ DW_AT_low_pc
+	.long	.Lfunc_end9-.Lfunc_begin9       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string160                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	582                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	326                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	22                              @ Abbrev [22] 0x9ae:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	14
+	.long	.Linfo_string91                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	582                             @ DW_AT_decl_line
+	.long	616                             @ DW_AT_type
+	.byte	22                              @ Abbrev [22] 0x9bd:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string171                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	583                             @ DW_AT_decl_line
+	.long	1041                            @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x9cc:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string36                 @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	586                             @ DW_AT_decl_line
+	.long	2555                            @ DW_AT_type
+	.byte	23                              @ Abbrev [23] 0x9db:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	3
+	.long	.Linfo_string170                @ DW_AT_name
+	.byte	5                               @ DW_AT_decl_file
+	.short	587                             @ DW_AT_decl_line
+	.long	326                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x9eb:0x5 DW_TAG_pointer_type
+	.long	155                             @ DW_AT_type
+	.byte	8                               @ Abbrev [8] 0x9f0:0xb DW_TAG_typedef
+	.long	1306                            @ DW_AT_type
+	.long	.Linfo_string163                @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	48                              @ DW_AT_decl_line
+	.byte	10                              @ Abbrev [10] 0x9fb:0x5 DW_TAG_pointer_type
+	.long	68                              @ DW_AT_type
+	.byte	10                              @ Abbrev [10] 0xa00:0x5 DW_TAG_pointer_type
+	.long	2555                            @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+.Ldebug_info_end0:
+	.section	.debug_ranges,"",%progbits
+.Ldebug_ranges0:
+	.long	.Lfunc_begin0
+	.long	.Lfunc_end0
+	.long	.Lfunc_begin1
+	.long	.Lfunc_end1
+	.long	.Lfunc_begin2
+	.long	.Lfunc_end2
+	.long	.Lfunc_begin3
+	.long	.Lfunc_end3
+	.long	.Lfunc_begin4
+	.long	.Lfunc_end4
+	.long	.Lfunc_begin5
+	.long	.Lfunc_end5
+	.long	.Lfunc_begin6
+	.long	.Lfunc_end6
+	.long	.Lfunc_begin7
+	.long	.Lfunc_end7
+	.long	.Lfunc_begin8
+	.long	.Lfunc_end8
+	.long	.Lfunc_begin9
+	.long	.Lfunc_end9
+	.long	0
+	.long	0
+	.section	.debug_str,"MS",%progbits,1
+.Linfo_string0:
+	.asciz	"Component: Arm Compiler for Embedded 6.19 Tool: armclang [5e73cb00]" @ string offset=0
+.Linfo_string1:
+	.asciz	"../../libraries/components/usb/usb_cdc_adapter\\usb_device_class.c" @ string offset=68
+.Linfo_string2:
+	.asciz	"E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" @ string offset=134
+.Linfo_string3:
+	.asciz	"s_UsbDeviceCommonClassStruct"  @ string offset=256
+.Linfo_string4:
+	.asciz	"handle"                        @ string offset=285
+.Linfo_string5:
+	.asciz	"usb_device_handle"             @ string offset=292
+.Linfo_string6:
+	.asciz	"configList"                    @ string offset=310
+.Linfo_string7:
+	.asciz	"config"                        @ string offset=321
+.Linfo_string8:
+	.asciz	"classCallback"                 @ string offset=328
+.Linfo_string9:
+	.asciz	"unsigned char"                 @ string offset=342
+.Linfo_string10:
+	.asciz	"kStatus_USB_Success"           @ string offset=356
+.Linfo_string11:
+	.asciz	"kStatus_USB_Error"             @ string offset=376
+.Linfo_string12:
+	.asciz	"kStatus_USB_Busy"              @ string offset=394
+.Linfo_string13:
+	.asciz	"kStatus_USB_InvalidHandle"     @ string offset=411
+.Linfo_string14:
+	.asciz	"kStatus_USB_InvalidParameter"  @ string offset=437
+.Linfo_string15:
+	.asciz	"kStatus_USB_InvalidRequest"    @ string offset=466
+.Linfo_string16:
+	.asciz	"kStatus_USB_ControllerNotFound" @ string offset=493
+.Linfo_string17:
+	.asciz	"kStatus_USB_InvalidControllerInterface" @ string offset=524
+.Linfo_string18:
+	.asciz	"kStatus_USB_NotSupported"      @ string offset=563
+.Linfo_string19:
+	.asciz	"kStatus_USB_Retry"             @ string offset=588
+.Linfo_string20:
+	.asciz	"kStatus_USB_TransferStall"     @ string offset=606
+.Linfo_string21:
+	.asciz	"kStatus_USB_TransferFailed"    @ string offset=632
+.Linfo_string22:
+	.asciz	"kStatus_USB_AllocFail"         @ string offset=659
+.Linfo_string23:
+	.asciz	"kStatus_USB_LackSwapBuffer"    @ string offset=681
+.Linfo_string24:
+	.asciz	"kStatus_USB_TransferCancel"    @ string offset=708
+.Linfo_string25:
+	.asciz	"kStatus_USB_BandwidthFail"     @ string offset=735
+.Linfo_string26:
+	.asciz	"kStatus_USB_MSDStatusFail"     @ string offset=761
+.Linfo_string27:
+	.asciz	"kStatus_USB_EHCIAttached"      @ string offset=787
+.Linfo_string28:
+	.asciz	"kStatus_USB_EHCIDetached"      @ string offset=812
+.Linfo_string29:
+	.asciz	"kStatus_USB_DataOverRun"       @ string offset=837
+.Linfo_string30:
+	.asciz	"_usb_status"                   @ string offset=861
+.Linfo_string31:
+	.asciz	"usb_status_t"                  @ string offset=873
+.Linfo_string32:
+	.asciz	"class_handle_t"                @ string offset=886
+.Linfo_string33:
+	.asciz	"unsigned int"                  @ string offset=901
+.Linfo_string34:
+	.asciz	"uint32_t"                      @ string offset=914
+.Linfo_string35:
+	.asciz	"usb_device_class_callback_t"   @ string offset=923
+.Linfo_string36:
+	.asciz	"classHandle"                   @ string offset=951
+.Linfo_string37:
+	.asciz	"classInfomation"               @ string offset=963
+.Linfo_string38:
+	.asciz	"interfaceList"                 @ string offset=979
+.Linfo_string39:
+	.asciz	"count"                         @ string offset=993
+.Linfo_string40:
+	.asciz	"uint8_t"                       @ string offset=999
+.Linfo_string41:
+	.asciz	"interfaces"                    @ string offset=1007
+.Linfo_string42:
+	.asciz	"classCode"                     @ string offset=1018
+.Linfo_string43:
+	.asciz	"subclassCode"                  @ string offset=1028
+.Linfo_string44:
+	.asciz	"protocolCode"                  @ string offset=1041
+.Linfo_string45:
+	.asciz	"interfaceNumber"               @ string offset=1054
+.Linfo_string46:
+	.asciz	"interface"                     @ string offset=1070
+.Linfo_string47:
+	.asciz	"alternateSetting"              @ string offset=1080
+.Linfo_string48:
+	.asciz	"endpointList"                  @ string offset=1097
+.Linfo_string49:
+	.asciz	"endpoint"                      @ string offset=1110
+.Linfo_string50:
+	.asciz	"endpointAddress"               @ string offset=1119
+.Linfo_string51:
+	.asciz	"transferType"                  @ string offset=1135
+.Linfo_string52:
+	.asciz	"maxPacketSize"                 @ string offset=1148
+.Linfo_string53:
+	.asciz	"unsigned short"                @ string offset=1162
+.Linfo_string54:
+	.asciz	"uint16_t"                      @ string offset=1177
+.Linfo_string55:
+	.asciz	"interval"                      @ string offset=1186
+.Linfo_string56:
+	.asciz	"_usb_device_endpoint_struct"   @ string offset=1195
+.Linfo_string57:
+	.asciz	"usb_device_endpoint_struct_t"  @ string offset=1223
+.Linfo_string58:
+	.asciz	"_usb_device_endpoint_list"     @ string offset=1252
+.Linfo_string59:
+	.asciz	"usb_device_endpoint_list_t"    @ string offset=1278
+.Linfo_string60:
+	.asciz	"classSpecific"                 @ string offset=1305
+.Linfo_string61:
+	.asciz	"_usb_device_interface_struct"  @ string offset=1319
+.Linfo_string62:
+	.asciz	"usb_device_interface_struct_t" @ string offset=1348
+.Linfo_string63:
+	.asciz	"_usb_device_interfaces_struct" @ string offset=1378
+.Linfo_string64:
+	.asciz	"usb_device_interfaces_struct_t" @ string offset=1408
+.Linfo_string65:
+	.asciz	"_usb_device_interface_list"    @ string offset=1439
+.Linfo_string66:
+	.asciz	"usb_device_interface_list_t"   @ string offset=1466
+.Linfo_string67:
+	.asciz	"type"                          @ string offset=1494
+.Linfo_string68:
+	.asciz	"kUSB_DeviceClassTypeHid"       @ string offset=1499
+.Linfo_string69:
+	.asciz	"kUSB_DeviceClassTypeCdc"       @ string offset=1523
+.Linfo_string70:
+	.asciz	"kUSB_DeviceClassTypeMsc"       @ string offset=1547
+.Linfo_string71:
+	.asciz	"kUSB_DeviceClassTypeMtp"       @ string offset=1571
+.Linfo_string72:
+	.asciz	"kUSB_DeviceClassTypeAudio"     @ string offset=1595
+.Linfo_string73:
+	.asciz	"kUSB_DeviceClassTypePhdc"      @ string offset=1621
+.Linfo_string74:
+	.asciz	"kUSB_DeviceClassTypeVideo"     @ string offset=1646
+.Linfo_string75:
+	.asciz	"kUSB_DeviceClassTypePrinter"   @ string offset=1672
+.Linfo_string76:
+	.asciz	"kUSB_DeviceClassTypeDfu"       @ string offset=1700
+.Linfo_string77:
+	.asciz	"kUSB_DeviceClassTypeCcid"      @ string offset=1724
+.Linfo_string78:
+	.asciz	"_usb_usb_device_class_type"    @ string offset=1749
+.Linfo_string79:
+	.asciz	"usb_device_class_type_t"       @ string offset=1776
+.Linfo_string80:
+	.asciz	"configurations"                @ string offset=1800
+.Linfo_string81:
+	.asciz	"_usb_device_class_struct"      @ string offset=1815
+.Linfo_string82:
+	.asciz	"usb_device_class_struct_t"     @ string offset=1840
+.Linfo_string83:
+	.asciz	"_usb_device_class_config_struct" @ string offset=1866
+.Linfo_string84:
+	.asciz	"usb_device_class_config_struct_t" @ string offset=1898
+.Linfo_string85:
+	.asciz	"deviceCallback"                @ string offset=1931
+.Linfo_string86:
+	.asciz	"usb_device_callback_t"         @ string offset=1946
+.Linfo_string87:
+	.asciz	"_usb_device_class_config_list_struct" @ string offset=1968
+.Linfo_string88:
+	.asciz	"usb_device_class_config_list_struct_t" @ string offset=2005
+.Linfo_string89:
+	.asciz	"setupBuffer"                   @ string offset=2043
+.Linfo_string90:
+	.asciz	"standardTranscationBuffer"     @ string offset=2055
+.Linfo_string91:
+	.asciz	"controllerId"                  @ string offset=2081
+.Linfo_string92:
+	.asciz	"_usb_device_common_class_struct" @ string offset=2094
+.Linfo_string93:
+	.asciz	"usb_device_common_class_struct_t" @ string offset=2126
+.Linfo_string94:
+	.asciz	"__ARRAY_SIZE_TYPE__"           @ string offset=2159
+.Linfo_string95:
+	.asciz	"s_UsbDeviceClassInterfaceMap"  @ string offset=2179
+.Linfo_string96:
+	.asciz	"classInit"                     @ string offset=2208
+.Linfo_string97:
+	.asciz	"usb_device_class_init_call_t"  @ string offset=2218
+.Linfo_string98:
+	.asciz	"classDeinit"                   @ string offset=2247
+.Linfo_string99:
+	.asciz	"usb_device_class_deinit_call_t" @ string offset=2259
+.Linfo_string100:
+	.asciz	"classEventCallback"            @ string offset=2290
+.Linfo_string101:
+	.asciz	"usb_device_class_event_callback_t" @ string offset=2309
+.Linfo_string102:
+	.asciz	"_usb_device_class_map"         @ string offset=2343
+.Linfo_string103:
+	.asciz	"usb_device_class_map_t"        @ string offset=2365
+.Linfo_string104:
+	.asciz	"s_UsbDeviceSetupBuffer"        @ string offset=2388
+.Linfo_string105:
+	.asciz	"kUSB_DeviceClassEventClassRequest" @ string offset=2411
+.Linfo_string106:
+	.asciz	"kUSB_DeviceClassEventDeviceReset" @ string offset=2445
+.Linfo_string107:
+	.asciz	"kUSB_DeviceClassEventSetConfiguration" @ string offset=2478
+.Linfo_string108:
+	.asciz	"kUSB_DeviceClassEventSetInterface" @ string offset=2516
+.Linfo_string109:
+	.asciz	"kUSB_DeviceClassEventSetEndpointHalt" @ string offset=2550
+.Linfo_string110:
+	.asciz	"kUSB_DeviceClassEventClearEndpointHalt" @ string offset=2587
+.Linfo_string111:
+	.asciz	"_usb_device_class_event"       @ string offset=2626
+.Linfo_string112:
+	.asciz	"kUSB_DeviceEventBusReset"      @ string offset=2650
+.Linfo_string113:
+	.asciz	"kUSB_DeviceEventSuspend"       @ string offset=2675
+.Linfo_string114:
+	.asciz	"kUSB_DeviceEventResume"        @ string offset=2699
+.Linfo_string115:
+	.asciz	"kUSB_DeviceEventSleeped"       @ string offset=2722
+.Linfo_string116:
+	.asciz	"kUSB_DeviceEventLPMResume"     @ string offset=2746
+.Linfo_string117:
+	.asciz	"kUSB_DeviceEventError"         @ string offset=2772
+.Linfo_string118:
+	.asciz	"kUSB_DeviceEventDetach"        @ string offset=2794
+.Linfo_string119:
+	.asciz	"kUSB_DeviceEventAttach"        @ string offset=2817
+.Linfo_string120:
+	.asciz	"kUSB_DeviceEventSetConfiguration" @ string offset=2840
+.Linfo_string121:
+	.asciz	"kUSB_DeviceEventSetInterface"  @ string offset=2873
+.Linfo_string122:
+	.asciz	"kUSB_DeviceEventGetDeviceDescriptor" @ string offset=2902
+.Linfo_string123:
+	.asciz	"kUSB_DeviceEventGetConfigurationDescriptor" @ string offset=2938
+.Linfo_string124:
+	.asciz	"kUSB_DeviceEventGetStringDescriptor" @ string offset=2981
+.Linfo_string125:
+	.asciz	"kUSB_DeviceEventGetHidDescriptor" @ string offset=3017
+.Linfo_string126:
+	.asciz	"kUSB_DeviceEventGetHidReportDescriptor" @ string offset=3050
+.Linfo_string127:
+	.asciz	"kUSB_DeviceEventGetHidPhysicalDescriptor" @ string offset=3089
+.Linfo_string128:
+	.asciz	"kUSB_DeviceEventGetBOSDescriptor" @ string offset=3130
+.Linfo_string129:
+	.asciz	"kUSB_DeviceEventGetDeviceQualifierDescriptor" @ string offset=3163
+.Linfo_string130:
+	.asciz	"kUSB_DeviceEventVendorRequest" @ string offset=3208
+.Linfo_string131:
+	.asciz	"kUSB_DeviceEventSetRemoteWakeup" @ string offset=3238
+.Linfo_string132:
+	.asciz	"kUSB_DeviceEventGetConfiguration" @ string offset=3270
+.Linfo_string133:
+	.asciz	"kUSB_DeviceEventGetInterface"  @ string offset=3303
+.Linfo_string134:
+	.asciz	"kUSB_DeviceEventSetBHNPEnable" @ string offset=3332
+.Linfo_string135:
+	.asciz	"_usb_device_event"             @ string offset=3362
+.Linfo_string136:
+	.asciz	"kUSB_DeviceStatusTestMode"     @ string offset=3380
+.Linfo_string137:
+	.asciz	"kUSB_DeviceStatusSpeed"        @ string offset=3406
+.Linfo_string138:
+	.asciz	"kUSB_DeviceStatusOtg"          @ string offset=3429
+.Linfo_string139:
+	.asciz	"kUSB_DeviceStatusDevice"       @ string offset=3450
+.Linfo_string140:
+	.asciz	"kUSB_DeviceStatusEndpoint"     @ string offset=3474
+.Linfo_string141:
+	.asciz	"kUSB_DeviceStatusDeviceState"  @ string offset=3500
+.Linfo_string142:
+	.asciz	"kUSB_DeviceStatusAddress"      @ string offset=3529
+.Linfo_string143:
+	.asciz	"kUSB_DeviceStatusSynchFrame"   @ string offset=3554
+.Linfo_string144:
+	.asciz	"kUSB_DeviceStatusBus"          @ string offset=3582
+.Linfo_string145:
+	.asciz	"kUSB_DeviceStatusBusSuspend"   @ string offset=3603
+.Linfo_string146:
+	.asciz	"kUSB_DeviceStatusBusSleep"     @ string offset=3631
+.Linfo_string147:
+	.asciz	"kUSB_DeviceStatusBusResume"    @ string offset=3657
+.Linfo_string148:
+	.asciz	"kUSB_DeviceStatusRemoteWakeup" @ string offset=3684
+.Linfo_string149:
+	.asciz	"kUSB_DeviceStatusBusSleepResume" @ string offset=3714
+.Linfo_string150:
+	.asciz	"_usb_device_status"            @ string offset=3746
+.Linfo_string151:
+	.asciz	"USB_DeviceClassGetDeviceHandle" @ string offset=3765
+.Linfo_string152:
+	.asciz	"USB_DeviceClassEvent"          @ string offset=3796
+.Linfo_string153:
+	.asciz	"USB_DeviceClassGetHandleByDeviceHandle" @ string offset=3817
+.Linfo_string154:
+	.asciz	"USB_DeviceClassCallback"       @ string offset=3856
+.Linfo_string155:
+	.asciz	"USB_DeviceClassInit"           @ string offset=3880
+.Linfo_string156:
+	.asciz	"USB_DeviceClassAllocateHandle" @ string offset=3900
+.Linfo_string157:
+	.asciz	"USB_DeviceClassFreeHandle"     @ string offset=3930
+.Linfo_string158:
+	.asciz	"USB_DeviceClassDeinit"         @ string offset=3956
+.Linfo_string159:
+	.asciz	"USB_DeviceClassGetHandleByControllerId" @ string offset=3978
+.Linfo_string160:
+	.asciz	"USB_DeviceClassGetSpeed"       @ string offset=4017
+.Linfo_string161:
+	.asciz	"osaCurrentSr"                  @ string offset=4041
+.Linfo_string162:
+	.asciz	"event"                         @ string offset=4054
+.Linfo_string163:
+	.asciz	"usb_device_class_event_t"      @ string offset=4060
+.Linfo_string164:
+	.asciz	"param"                         @ string offset=4085
+.Linfo_string165:
+	.asciz	"mapIndex"                      @ string offset=4091
+.Linfo_string166:
+	.asciz	"classIndex"                    @ string offset=4100
+.Linfo_string167:
+	.asciz	"errorReturn"                   @ string offset=4111
+.Linfo_string168:
+	.asciz	"status"                        @ string offset=4123
+.Linfo_string169:
+	.asciz	"deviceHandle"                  @ string offset=4130
+.Linfo_string170:
+	.asciz	"error"                         @ string offset=4143
+.Linfo_string171:
+	.asciz	"speed"                         @ string offset=4149
+	.ident	"Component: Arm Compiler for Embedded 6.19 Tool: armclang [5e73cb00]"
+	.section	".note.GNU-stack","",%progbits
+	.eabi_attribute	30, 6	@ Tag_ABI_optimization_goals
+	.ARM_attribute	16, 1	@ Tag_AV_eba
+	.section	.debug_line,"",%progbits
+.Lline_table_start0:

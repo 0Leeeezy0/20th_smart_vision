@@ -484,6 +484,16 @@
               <FileType>5</FileType>
               <FilePath>..\code\cv.h</FilePath>
             </File>
+            <File>
+              <FileName>uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\uart.h</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\uart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

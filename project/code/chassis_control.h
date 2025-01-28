@@ -30,12 +30,12 @@ API：
 void chassis_control_init();
 
 /* 移动 */
-void chassis_control_move(float yaw,float speed);
+void chassis_control_move(float (*p)(_PID_* pid,float motor_speed,float motor_feedback_speed),float yaw,float linear_speed,float angular_speed);
 //-----------------------------------------------------------------------------//
 
 //-----------------------------------底盘底层函数-----------------------------------//
-/* 电机编码器初始化 */
-void motor_encoder_init(void);
+/* 电机传感器初始化 */
+void motor_sensor_init(void);
 
 /* 电机驱动 */
 void motor_set_duty(_MOTOR_NUM_ motor_num,const uint32 duty,uint8 dir);
@@ -46,17 +46,29 @@ void encoder_get(void);
 /* 编码器值清空 */
 void encoder_clear(void);
 
+/* 陀螺仪值获取(现实值 °/s) */
+void gyro_get(void);
+
+/* 加速度计值获取(现实值 g(m/s^2)) */
+void acc_get(void);
+
+/* 现实偏航角解算 */
+float real_yaw();
+
 /* 底盘PID参数结构体初始化 */
 _CHASSIS_PID_ chassis_pid_init(void);
 
 /* 单电机PID控制 */
-_CHASSIS_CONTROL_ motor_pid(_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);
+_CHASSIS_CONTROL_ motor_pid(float (*p)(_PID_* pid,float target,float feedback),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);
 
 /* 增量式PID */
-int16 incremental_pid(_PID_* pid,float motor_speed,float motor_feedback_speed);
+float incremental_pid(_PID_* pid,float target,float feedback);
+
+/*位置式PID*/
+float positional_pid(_PID_* pid,float target,float feedback);
 
 /* 运动学逆解算 */
-_CHASSIS_CONTROL_ inverse_kinematics(float yaw,float speed);
+_CHASSIS_CONTROL_ inverse_kinematics(float yaw,float linear_speed,float angular_speed);
 //-----------------------------------------------------------------------------//
 
 #endif

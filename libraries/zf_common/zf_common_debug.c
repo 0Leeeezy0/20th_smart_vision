@@ -40,6 +40,8 @@
 #include "zf_driver_pwm.h"
 #include "zf_driver_uart.h"
 
+#include "zf_device_wireless_uart.h"
+
 #include "zf_common_debug.h"
 
 #if DEBUG_UART_USE_INTERRUPT                                                    // 如果启用 debug uart 接收中断
@@ -354,7 +356,7 @@ int32_t fputc (int32_t ch, FILE* f)
 {
     if(zf_debug_init_flag)
     {
-        uart_write_byte(DEBUG_UART_INDEX, (ch & 0xFF));
+        wireless_uart_send_byte((ch & 0xFF));
     }
     return ch;
 }

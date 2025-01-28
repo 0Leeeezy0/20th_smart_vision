@@ -107,4 +107,4 @@
   ..\..\libraries\components\sdmmc\sdmmc_config.h \
   ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h \
   ..\user\inc\data.h ..\code\chassis_control.h ..\code\path_control.h \
-  ..\code\cv.h
+  ..\code\cv.h ..\code\uart.h

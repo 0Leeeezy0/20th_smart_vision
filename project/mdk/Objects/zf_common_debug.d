@@ -30,4 +30,5 @@
   ..\..\libraries\zf_driver\zf_driver_pwm.h \
   ..\..\libraries\zf_driver\zf_driver_uart.h \
   ..\..\libraries\sdk\drives\fsl_lpuart.h \
+  ..\..\libraries\zf_device\zf_device_wireless_uart.h \
   ..\..\libraries\zf_common\zf_common_debug.h
