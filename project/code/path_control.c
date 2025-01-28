@@ -72,8 +72,8 @@ void path_search(void)
 /* 循迹控制 */
 void path_control(float path_control_speed)
 {
-	path_err = path[control_point-path_start][0] - MT9V03X_W/2;
 	chassis_motion_flag = CHASSIS_MOVE;
+	path_err = path[control_point-path_start][0] - MT9V03X_W/2;
 	if(abs(path_err) > 15)
 	{
 		chassis_yaw = 0;
@@ -88,30 +88,44 @@ void path_control(float path_control_speed)
 }
 
 /* 循迹PID参数结构体初始化 */
-_PID_ path_control_pid_init(void)
+_PATH_PID_ path_control_pid_init(void)
 {
-	static _PID_ path_pid;
+	static _PATH_PID_ path_pid;
 
 	// 循迹 PID
-	path_pid.p = PATH_PID[0];
-	path_pid.i = PATH_PID[1];
-	path_pid.d = PATH_PID[2];
-	path_pid.output_limit = path_err_limit;
-	path_pid.i_limit = path_pid_i_limit;
-	path_pid.now_err =  0;
-	path_pid.last_err =  0;
-	path_pid.last_last_err =  0;
+	for(uint8 i = 0;i < 3; i++)
+	{
+		path_pid.path_pid_parameters[i].p = PATH_PID[i][0];
+		path_pid.path_pid_parameters[i].i = PATH_PID[i][1];
+		path_pid.path_pid_parameters[i].d = PATH_PID[i][2];
+		path_pid.path_pid_parameters[i].output_limit = path_err_limit;
+		path_pid.path_pid_parameters[i].i_limit = path_pid_i_limit;
+	}
+	path_pid.path_pid_variable.now_err =  0;
+	path_pid.path_pid_variable.last_err =  0;
+	path_pid.path_pid_variable.last_last_err =  0;
 	
 	return path_pid;
 }
 
 /* 循迹PID */
-float path_control_pid(float (*FUNC_PATH)(_PID_* pid,float target,float feedback),_PID_ path_pid,int16 path_err)
+float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_PATH_PID_ path_pid,int16 path_err)
 {
-	float gyro_now_err;
+	float gyro_now_err,value;
 	static float gyro_last_err = 0;
 	gyro_now_err = GYRO_Z_FORWARD*gyro_z;
-	float value = FUNC_PATH(&path_pid,0,-path_err)-PATH_PID[3]*(gyro_now_err-gyro_last_err);
+	if(abs(path_err) > 15 && abs(path_err) < 25)
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
+	}
+	else if(abs(path_err) >= 25 && abs(path_err) < 40)
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
+	}
+	else
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
+	}
 	gyro_last_err = gyro_now_err;
 	
 	return value;

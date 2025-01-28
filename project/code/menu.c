@@ -43,7 +43,7 @@ API：
 static _MENU_PAGE_ menu_page[] = 
 {
 	/* 页面名称         标题使能     级别 序号    参数行数   页面函数指针 */
-	{"ROOT"         	,FALSE 		,0 	,0 		,17 	,menu_root_page},
+	{"ROOT"         	,FALSE 		,0 	,0 		,18 	,menu_root_page},
 	{"START"        	,TRUE 		,1 	,0 		,0 		,start},
 	{"SAVE"        		,TRUE 		,1 	,1 		,0 		,save},
 	{"LOAD"				,TRUE 		,1 	,2 		,0 		,load},
@@ -60,7 +60,8 @@ static _MENU_PAGE_ menu_page[] =
 	{"MOTOR_1 PID"		,TRUE 		,1 	,13 	,5 		,menu_motor_1_pid_page},
 	{"MOTOR_2 PID"		,TRUE 		,1 	,14 	,5 		,menu_motor_2_pid_page},
 	{"MOTOR_3 PID"		,TRUE 		,1 	,15 	,5 		,menu_motor_3_pid_page},
-	{"PATH PID"			,TRUE 		,1 	,16 	,6 		,menu_path_pid_page},
+	{"PATH PID"			,TRUE 		,1 	,16 	,7 		,menu_path_pid_page},
+	{"ROTATE_PID"		,TRUE		,1	,17		,6		,menu_rotate_angle_pid_page}
 };
 
 static int16 num = 0;	// 页面在列表中的序号
@@ -320,9 +321,10 @@ void start(void)
 		screen_image(0, MENU_ROW_PITCH, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
 		switch(control_mode_flag)
 		{
-			case PATH_CONTROL_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"PATH"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,path_err,6); break; }	// 循迹控制
-			case MCXVISION_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCX"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,track_err,6); break; }	// MCXVISION跟踪控制
+			case PATH_CONTROL_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"PATH"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,path_err,3); break; }	// 循迹控制
+			case MCXVISION_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCX"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_err,3); break; }	// MCXVISION跟踪控制
 			case OPENART_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"OPEN"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// OPENART跟踪控制
+			case BLOCK_MOVE_OUT_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"BLOCK_MOVE_OUT"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// OPENART跟踪控制
 		}
 		camera_control_dispatch();
 //		path_control(path_linear_speed_target);
@@ -637,11 +639,11 @@ void menu_motor_1_pid_page(void)
 		
 		chassis_motion_flag = CHASSIS_MOVE;
 	
-		MENU_MOTOR_1_PID.p.data_float = chassis_pid.motor_1_pid.p;
-		MENU_MOTOR_1_PID.i.data_float = chassis_pid.motor_1_pid.i;
-		MENU_MOTOR_1_PID.d.data_float = chassis_pid.motor_1_pid.d;
-		MENU_MOTOR_1_PID.output_limit.data_float = chassis_pid.motor_1_pid.output_limit;
-		MENU_MOTOR_1_PID.i_limit.data_float = chassis_pid.motor_1_pid.i_limit;
+		MENU_MOTOR_1_PID.p.data_float = chassis_pid.motor_1_pid_parameters.p;
+		MENU_MOTOR_1_PID.i.data_float = chassis_pid.motor_1_pid_parameters.i;
+		MENU_MOTOR_1_PID.d.data_float = chassis_pid.motor_1_pid_parameters.d;
+		MENU_MOTOR_1_PID.output_limit.data_float = chassis_pid.motor_1_pid_parameters.output_limit;
+		MENU_MOTOR_1_PID.i_limit.data_float = chassis_pid.motor_1_pid_parameters.i_limit;
 	
 		// 显示电机1 PID数据
 		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_1_PID.p.name);
@@ -670,11 +672,11 @@ void menu_motor_2_pid_page(void)
 		
 		chassis_motion_flag = CHASSIS_MOVE;
 	
-		MENU_MOTOR_2_PID.p.data_float = chassis_pid.motor_2_pid.p;
-		MENU_MOTOR_2_PID.i.data_float = chassis_pid.motor_2_pid.i;
-		MENU_MOTOR_2_PID.d.data_float = chassis_pid.motor_2_pid.d;
-		MENU_MOTOR_2_PID.output_limit.data_float = chassis_pid.motor_2_pid.output_limit;
-		MENU_MOTOR_2_PID.i_limit.data_float = chassis_pid.motor_2_pid.i_limit;
+		MENU_MOTOR_2_PID.p.data_float = chassis_pid.motor_2_pid_parameters.p;
+		MENU_MOTOR_2_PID.i.data_float = chassis_pid.motor_2_pid_parameters.i;
+		MENU_MOTOR_2_PID.d.data_float = chassis_pid.motor_2_pid_parameters.d;
+		MENU_MOTOR_2_PID.output_limit.data_float = chassis_pid.motor_2_pid_parameters.output_limit;
+		MENU_MOTOR_2_PID.i_limit.data_float = chassis_pid.motor_2_pid_parameters.i_limit;
 	
 		// 显示电机2 PID数据
 		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_2_PID.p.name);
@@ -703,11 +705,11 @@ void menu_motor_3_pid_page(void)
 		
 		chassis_motion_flag = CHASSIS_MOVE;
 	
-		MENU_MOTOR_3_PID.p.data_float = chassis_pid.motor_3_pid.p;
-		MENU_MOTOR_3_PID.i.data_float = chassis_pid.motor_3_pid.i;
-		MENU_MOTOR_3_PID.d.data_float = chassis_pid.motor_3_pid.d;
-		MENU_MOTOR_3_PID.output_limit.data_float = chassis_pid.motor_3_pid.output_limit;
-		MENU_MOTOR_3_PID.i_limit.data_float = chassis_pid.motor_3_pid.i_limit;
+		MENU_MOTOR_3_PID.p.data_float = chassis_pid.motor_3_pid_parameters.p;
+		MENU_MOTOR_3_PID.i.data_float = chassis_pid.motor_3_pid_parameters.i;
+		MENU_MOTOR_3_PID.d.data_float = chassis_pid.motor_3_pid_parameters.d;
+		MENU_MOTOR_3_PID.output_limit.data_float = chassis_pid.motor_3_pid_parameters.output_limit;
+		MENU_MOTOR_3_PID.i_limit.data_float = chassis_pid.motor_3_pid_parameters.i_limit;
 	
 		// 显示电机3 PID数据
 		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_3_PID.p.name);
@@ -734,26 +736,61 @@ void menu_path_pid_page(void)
 		menu_data_change(menu_path_pid_add_service,menu_path_pid_reduce_service);
 		menu_title_show();
 	
-		MENU_PATH_PID.p.data_float = path_pid.p;
-		MENU_PATH_PID.i.data_float = path_pid.i;
-		MENU_PATH_PID.d.data_float = path_pid.d;
-		MENU_PATH_PID.output_limit.data_float = path_pid.output_limit;
-		MENU_PATH_PID.i_limit.data_float = path_pid.i_limit;
-		MENU_PATH_PID.gyro_i_limit.data_float = PATH_PID[3];
+		MENU_PATH_PID.PATH_PID.p.data_float = path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].p;
+		MENU_PATH_PID.PATH_PID.i.data_float = path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i;
+		MENU_PATH_PID.PATH_PID.d.data_float = path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].d;
+		MENU_PATH_PID.PATH_PID.output_limit.data_float = path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].output_limit;
+		MENU_PATH_PID.PATH_PID.i_limit.data_float = path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit;
+		MENU_PATH_PID.PATH_PID.gyro_i_limit.data_float = PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3];
 	
 		// 显示电机3 PID数据
-		screen_string(0,MENU_ROW_PITCH,MENU_PATH_PID.p.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH_PID.p.data_float,1,5);
-		screen_string(0,2*MENU_ROW_PITCH,MENU_PATH_PID.i.name);
-		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_PATH_PID.i.data_float,1,5);
-		screen_string(0,3*MENU_ROW_PITCH,MENU_PATH_PID.d.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_PATH_PID.d.data_float,1,5);
-		screen_string(0,4*MENU_ROW_PITCH,MENU_PATH_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_PATH_PID.output_limit.data_float,1,5);
-		screen_string(0,5*MENU_ROW_PITCH,MENU_PATH_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_PATH_PID.i_limit.data_float,1,5);
-		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH_PID.gyro_i_limit.name);
-		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_PATH_PID.gyro_i_limit.data_float,1,5);
+		screen_string(0,MENU_ROW_PITCH,MENU_PATH_PID.pid_kind.name);
+		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH_PID.pid_kind.data_uint8,1);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.p.name);
+		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.p.data_float,1,5);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.i.name);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.i.data_float,1,5);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.d.name);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.d.data_float,1,5);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.output_limit.data_float,1,5);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.i_limit.data_float,1,5);
+		screen_string(0,7*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.gyro_i_limit.name);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.gyro_i_limit.data_float,1,5);
+	}
+}
+
+/* 菜单转动角度 PID角度 */
+void menu_rotate_angle_pid_page(void)
+{
+	menu_page_init(menu_rotate_angle_pid_page);
+	while(1)
+	{
+		menu_back(NULL);
+		menu_point();
+		menu_data_change(menu_rotate_angle_pid_add_service,menu_rotate_angle_pid_reduce_service);
+		menu_title_show();
+	
+		MENU_ROTATE_PID.ROTATE_PID.p.data_float = chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].p;
+		MENU_ROTATE_PID.ROTATE_PID.i.data_float = chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i;
+		MENU_ROTATE_PID.ROTATE_PID.d.data_float = chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].d;
+		MENU_ROTATE_PID.ROTATE_PID.output_limit.data_float = chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].output_limit;
+		MENU_ROTATE_PID.ROTATE_PID.i_limit.data_float = chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i_limit;
+	
+		// 显示电机3 PID数据
+		screen_string(0,MENU_ROW_PITCH,MENU_ROTATE_PID.pid_kind.name);
+		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_ROTATE_PID.pid_kind.data_uint8,1);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.p.name);
+		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.p.data_float,1,5);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.i.name);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.i.data_float,1,5);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.d.name);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.d.data_float,1,5);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.output_limit.data_float,1,5);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.i_limit.data_float,1,5);
 	}
 }
 
@@ -871,22 +908,22 @@ void menu_motor_1_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_1_pid.p+=1; break; }
-		case 1:{ chassis_pid.motor_1_pid.i+=0.1; break; }
-		case 2:{ chassis_pid.motor_1_pid.d+=1; break; }
-		case 3:{ chassis_pid.motor_1_pid.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_1_pid.i_limit+=5; break; }
+		case 0:{ chassis_pid.motor_1_pid_parameters.p+=1; break; }
+		case 1:{ chassis_pid.motor_1_pid_parameters.i+=0.1; break; }
+		case 2:{ chassis_pid.motor_1_pid_parameters.d+=1; break; }
+		case 3:{ chassis_pid.motor_1_pid_parameters.output_limit+=5; break; }
+		case 4:{ chassis_pid.motor_1_pid_parameters.i_limit+=5; break; }
 	}
 }
 void menu_motor_1_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_1_pid.p-=1; break; }
-		case 1:{ chassis_pid.motor_1_pid.i-=0.1; break; }
-		case 2:{ chassis_pid.motor_1_pid.d-=1; break; }
-		case 3:{ chassis_pid.motor_1_pid.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_1_pid.i_limit-=5; break; }
+		case 0:{ chassis_pid.motor_1_pid_parameters.p-=1; break; }
+		case 1:{ chassis_pid.motor_1_pid_parameters.i-=0.1; break; }
+		case 2:{ chassis_pid.motor_1_pid_parameters.d-=1; break; }
+		case 3:{ chassis_pid.motor_1_pid_parameters.output_limit-=5; break; }
+		case 4:{ chassis_pid.motor_1_pid_parameters.i_limit-=5; break; }
 	}
 }
 
@@ -895,22 +932,22 @@ void menu_motor_2_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_2_pid.p+=1; break; }
-		case 1:{ chassis_pid.motor_2_pid.i+=0.1; break; }
-		case 2:{ chassis_pid.motor_2_pid.d+=1; break; }
-		case 3:{ chassis_pid.motor_2_pid.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_2_pid.i_limit+=5; break; }
+		case 0:{ chassis_pid.motor_2_pid_parameters.p+=1; break; }
+		case 1:{ chassis_pid.motor_2_pid_parameters.i+=0.1; break; }
+		case 2:{ chassis_pid.motor_2_pid_parameters.d+=1; break; }
+		case 3:{ chassis_pid.motor_2_pid_parameters.output_limit+=5; break; }
+		case 4:{ chassis_pid.motor_2_pid_parameters.i_limit+=5; break; }
 	}
 }
 void menu_motor_2_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_2_pid.p-=1; break; }
-		case 1:{ chassis_pid.motor_2_pid.i-=0.1; break; }
-		case 2:{ chassis_pid.motor_2_pid.d-=1; break; }
-		case 3:{ chassis_pid.motor_2_pid.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_2_pid.i_limit-=5; break; }
+		case 0:{ chassis_pid.motor_2_pid_parameters.p-=1; break; }
+		case 1:{ chassis_pid.motor_2_pid_parameters.i-=0.1; break; }
+		case 2:{ chassis_pid.motor_2_pid_parameters.d-=1; break; }
+		case 3:{ chassis_pid.motor_2_pid_parameters.output_limit-=5; break; }
+		case 4:{ chassis_pid.motor_2_pid_parameters.i_limit-=5; break; }
 	}
 }
 
@@ -919,22 +956,22 @@ void menu_motor_3_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_3_pid.p+=1; break; }
-		case 1:{ chassis_pid.motor_3_pid.i+=0.1; break; }
-		case 2:{ chassis_pid.motor_3_pid.d+=1; break; }
-		case 3:{ chassis_pid.motor_3_pid.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_3_pid.i_limit+=5; break; }
+		case 0:{ chassis_pid.motor_3_pid_parameters.p+=1; break; }
+		case 1:{ chassis_pid.motor_3_pid_parameters.i+=0.1; break; }
+		case 2:{ chassis_pid.motor_3_pid_parameters.d+=1; break; }
+		case 3:{ chassis_pid.motor_3_pid_parameters.output_limit+=5; break; }
+		case 4:{ chassis_pid.motor_3_pid_parameters.i_limit+=5; break; }
 	}
 }
 void menu_motor_3_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_3_pid.p-=1; break; }
-		case 1:{ chassis_pid.motor_3_pid.i-=0.1; break; }
-		case 2:{ chassis_pid.motor_3_pid.d-=1; break; }
-		case 3:{ chassis_pid.motor_3_pid.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_3_pid.i_limit-=5; break; }
+		case 0:{ chassis_pid.motor_3_pid_parameters.p-=1; break; }
+		case 1:{ chassis_pid.motor_3_pid_parameters.i-=0.1; break; }
+		case 2:{ chassis_pid.motor_3_pid_parameters.d-=1; break; }
+		case 3:{ chassis_pid.motor_3_pid_parameters.output_limit-=5; break; }
+		case 4:{ chassis_pid.motor_3_pid_parameters.i_limit-=5; break; }
 	}
 }
 
@@ -943,23 +980,68 @@ void menu_path_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_pid.p+=0.0005; break; }
-		case 1:{ path_pid.i+=0.00005; break; }
-		case 2:{ path_pid.d+=0.00005; break; }
-		case 3:{ path_pid.output_limit+=0.05; break; }
-		case 4:{ PATH_PID[3]+=0.005; break; }
+		case 0:{ MENU_PATH_PID.pid_kind.data_uint8+=1; break; }
+		case 1:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].p+=0.0005; break; }
+		case 2:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i+=0.00005; break; }
+		case 3:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].d+=0.00005; break; }
+		case 4:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].output_limit+=0.05; break; }
+		case 5:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit+=0.005; break; }
+		case 6:{ PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3]+=0.005; break; }
+	}
+	if(MENU_PATH_PID.pid_kind.data_uint8 > 2)
+	{
+		MENU_PATH_PID.pid_kind.data_uint8 = 0;
 	}
 }
 void menu_path_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_pid.p-=0.0005; break; }
-		case 1:{ path_pid.i-=0.00005; break; }
-		case 2:{ path_pid.d-=0.00005; break; }
-		case 3:{ path_pid.output_limit-=0.05; break; }
-		case 4:{ path_pid.i_limit-=0.005; break; }
-		case 5:{ PATH_PID[3]-=0.005; break; }
+		case 0:{ MENU_PATH_PID.pid_kind.data_uint8-=1; break; }
+		case 1:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].p-=0.0005; break; }
+		case 2:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i-=0.00005; break; }
+		case 3:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].d-=0.00005; break; }
+		case 4:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].output_limit-=0.05; break; }
+		case 5:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit-=0.005; break; }
+		case 6:{ PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3]-=0.005; break; }
+	}
+	if(MENU_PATH_PID.pid_kind.data_uint8 > 2)
+	{
+		MENU_PATH_PID.pid_kind.data_uint8 = 2;
+	}
+}
+
+/* 菜单转动角度 PID页面服务 */
+void menu_rotate_angle_pid_add_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ MENU_ROTATE_PID.pid_kind.data_uint8 += 1; break; }
+		case 1:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].p+=0.0005; break; }
+		case 2:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i+=0.00005; break; }
+		case 3:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].d+=0.00005; break; }
+		case 4:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].output_limit+=0.05; break; }
+		case 5:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i_limit+=0.005; break; }
+	}
+	if(MENU_ROTATE_PID.pid_kind.data_uint8 > 2)
+	{
+		MENU_ROTATE_PID.pid_kind.data_uint8 = 0;
+	}
+}
+void menu_rotate_angle_pid_reduce_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ MENU_ROTATE_PID.pid_kind.data_uint8 -= 1; break; }
+		case 1:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].p-=0.0005; break; }
+		case 2:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i-=0.00005; break; }
+		case 3:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].d-=0.00005; break; }
+		case 4:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].output_limit-=0.05; break; }
+		case 5:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i_limit-=0.005; break; }
+	}
+	if(MENU_ROTATE_PID.pid_kind.data_uint8 > 2)
+	{
+		MENU_ROTATE_PID.pid_kind.data_uint8 = 2;
 	}
 }
 

@@ -68,7 +68,7 @@ void PIT_IRQHandler(void)
 		}
         pit_flag_clear(PIT_CH1);
     }
-    
+    /* AI摄像头更新计时中断 */
     if(pit_flag_get(PIT_CH2))
     {
 		if(mcxvision_upgrade_time_count_flag)

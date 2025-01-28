@@ -27,50 +27,10 @@ Project File Date:  01/13/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\KEIL\ARM\ARMCLANG\Bin'
 Build target 'nor_sdram_zf_dtcm'
-compiling isr.c...
-compiling menu_data.c...
-compiling main.c...
-compiling menu.c...
-../code/vofa_debug.c(91): warning: incompatible pointer types assigning to 'struct _CLI_DATA_ *' from '_CLI_DATA_ *' [-Wincompatible-pointer-types]
-        cli_Data -> CLI_Data_Header = cli_Data;
-                                    ^ ~~~~~~~~
-../code/vofa_debug.c(103): warning: incompatible pointer types assigning to 'struct _CLI_DATA_ *' from '_CLI_DATA_ *' [-Wincompatible-pointer-types]
-        (*cli_data) -> CLI_Data_Next = cli_data_next;
-                                     ^ ~~~~~~~~~~~~~
-../code/vofa_debug.c(112): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-        _CLI_DATA_* cli_data_get = (cli_data -> CLI_Data_Header);
-                    ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/vofa_debug.c(122): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-                cli_data_get = (cli_data_get -> CLI_Data_Next);
-                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/vofa_debug.c(130): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-        _CLI_DATA_* cli_data_header = cli_data -> CLI_Data_Header;
-                    ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/vofa_debug.c(135): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-                cli_data_header = (cli_data_header -> CLI_Data_Next);
-                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/vofa_debug.c(144): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-        _CLI_DATA_* cli_data_Last = (*cli_data) -> CLI_Data_Header;
-                    ^               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/vofa_debug.c(158): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-                cli_data_Last = cli_data_Last -> CLI_Data_Next;
-                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-8 warnings generated.
-compiling vofa_debug.c...
-compiling cv.c...
-../code/vofa_debug_app.c(111): warning: non-void function does not return a value in all control paths [-Wreturn-type]
-}
-^
-1 warning generated.
-compiling vofa_debug_app.c...
-compiling chassis_control.c...
-compiling ai_track_control.c...
-compiling data.c...
 compiling task_dispatch.c...
-compiling path_control.c...
 linking...
-Program Size: Code=98232 RO-data=17356 RW-data=844 ZI-data=49436  
-".\Objects\rt1064.axf" - 0 Error(s), 9 Warning(s).
+Program Size: Code=100912 RO-data=17380 RW-data=916 ZI-data=49684  
+".\Objects\rt1064.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 

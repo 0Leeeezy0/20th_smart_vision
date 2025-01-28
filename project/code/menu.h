@@ -161,6 +161,9 @@ void menu_motor_3_pid_page(void);
 /* 菜单循迹 PID页面 */
 void menu_path_pid_page(void);
 
+/* 菜单转动角度 PID角度 */
+void menu_rotate_angle_pid_page(void);
+
 /**********************************************************************/
 
 /****************************** 菜单页面服务 ******************************/
@@ -198,6 +201,10 @@ void menu_motor_3_pid_reduce_service(void);
 /* 菜单循迹 PID页面服务 */
 void menu_path_pid_add_service(void);
 void menu_path_pid_reduce_service(void);
+
+/* 菜单转动角度 PID页面服务 */
+void menu_rotate_angle_pid_add_service(void);
+void menu_rotate_angle_pid_reduce_service(void);
 
 /*************************************************************************/
 

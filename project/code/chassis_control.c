@@ -358,60 +358,53 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	static _CHASSIS_PID_ chassis_pid;
 
 	// 电机1 PID
-	chassis_pid.motor_1_pid.p = PID_MOTOR_1[0];
-	chassis_pid.motor_1_pid.i = PID_MOTOR_1[1];
-	chassis_pid.motor_1_pid.d = PID_MOTOR_1[2];
-	chassis_pid.motor_1_pid.output_limit = duty_limit;
-	chassis_pid.motor_1_pid.i_limit = chassis_pid_i_limit;
-	chassis_pid.motor_1_pid.now_err = 0;
-	chassis_pid.motor_1_pid.last_err = 0;
-	chassis_pid.motor_1_pid.last_last_err = 0;
+	chassis_pid.motor_1_pid_parameters.p = PID_MOTOR_1[0];
+	chassis_pid.motor_1_pid_parameters.i = PID_MOTOR_1[1];
+	chassis_pid.motor_1_pid_parameters.d = PID_MOTOR_1[2];
+	chassis_pid.motor_1_pid_parameters.output_limit = duty_limit;
+	chassis_pid.motor_1_pid_parameters.i_limit = chassis_pid_i_limit;
+	chassis_pid.motor_1_pid_variable.now_err = 0;
+	chassis_pid.motor_1_pid_variable.last_err = 0;
+	chassis_pid.motor_1_pid_variable.last_last_err = 0;
 	
 	// 电机2 PID
-	chassis_pid.motor_2_pid.p = PID_MOTOR_2[0];
-	chassis_pid.motor_2_pid.i = PID_MOTOR_2[1];
-	chassis_pid.motor_2_pid.d = PID_MOTOR_2[2];
-	chassis_pid.motor_2_pid.output_limit = duty_limit;
-	chassis_pid.motor_2_pid.i_limit = chassis_pid_i_limit;
-	chassis_pid.motor_2_pid.now_err = 0;
-	chassis_pid.motor_2_pid.last_err = 0;
-	chassis_pid.motor_2_pid.last_last_err = 0;
+	chassis_pid.motor_2_pid_parameters.p = PID_MOTOR_2[0];
+	chassis_pid.motor_2_pid_parameters.i = PID_MOTOR_2[1];
+	chassis_pid.motor_2_pid_parameters.d = PID_MOTOR_2[2];
+	chassis_pid.motor_2_pid_parameters.output_limit = duty_limit;
+	chassis_pid.motor_2_pid_parameters.i_limit = chassis_pid_i_limit;
+	chassis_pid.motor_2_pid_variable.now_err = 0;
+	chassis_pid.motor_2_pid_variable.last_err = 0;
+	chassis_pid.motor_2_pid_variable.last_last_err = 0;
 	
 	// 电机3 PID
-	chassis_pid.motor_3_pid.p = PID_MOTOR_3[0];
-	chassis_pid.motor_3_pid.i = PID_MOTOR_3[1];
-	chassis_pid.motor_3_pid.d = PID_MOTOR_3[2];
-	chassis_pid.motor_3_pid.output_limit = duty_limit;
-	chassis_pid.motor_3_pid.i_limit = chassis_pid_i_limit;
-	chassis_pid.motor_3_pid.now_err = 0;
-	chassis_pid.motor_3_pid.last_err = 0;
-	chassis_pid.motor_3_pid.last_last_err = 0;
+	chassis_pid.motor_3_pid_parameters.p = PID_MOTOR_3[0];
+	chassis_pid.motor_3_pid_parameters.i = PID_MOTOR_3[1];
+	chassis_pid.motor_3_pid_parameters.d = PID_MOTOR_3[2];
+	chassis_pid.motor_3_pid_parameters.output_limit = duty_limit;
+	chassis_pid.motor_3_pid_parameters.i_limit = chassis_pid_i_limit;
+	chassis_pid.motor_3_pid_variable.now_err = 0;
+	chassis_pid.motor_3_pid_variable.last_err = 0;
+	chassis_pid.motor_3_pid_variable.last_last_err = 0;
 	
 	// 底盘转动 PID
-	chassis_pid.rotate_pid.p = ROTATE_PID[0];
-	chassis_pid.rotate_pid.i = ROTATE_PID[1];
-	chassis_pid.rotate_pid.d = ROTATE_PID[2];
-	chassis_pid.rotate_pid.output_limit = rotate_speed_limit;
-	chassis_pid.rotate_pid.i_limit = rotate_pid_i_limit;
-	chassis_pid.rotate_pid.now_err = 0;
-	chassis_pid.rotate_pid.last_err = 0;
-	chassis_pid.rotate_pid.last_last_err = 0;
-	
-	// 底盘转动 PID
-	chassis_pid.rotate_pid.p = ROTATE_PID[0];
-	chassis_pid.rotate_pid.i = ROTATE_PID[1];
-	chassis_pid.rotate_pid.d = ROTATE_PID[2];
-	chassis_pid.rotate_pid.output_limit = rotate_speed_limit;
-	chassis_pid.rotate_pid.i_limit = rotate_pid_i_limit;
-	chassis_pid.rotate_pid.now_err = 0;
-	chassis_pid.rotate_pid.last_err = 0;
-	chassis_pid.rotate_pid.last_last_err = 0; 
+	for(int i = 0;i < 3;i++)
+	{
+		chassis_pid.rotate_pid_parameters[i].p = ROTATE_PID[i][0];
+		chassis_pid.rotate_pid_parameters[i].i = ROTATE_PID[i][1];
+		chassis_pid.rotate_pid_parameters[i].d = ROTATE_PID[i][2];
+		chassis_pid.rotate_pid_parameters[i].output_limit = rotate_speed_limit;
+		chassis_pid.rotate_pid_parameters[i].i_limit = rotate_pid_i_limit;
+	}
+	chassis_pid.rotate_pid_variable.now_err = 0;
+	chassis_pid.rotate_pid_variable.last_err = 0;
+	chassis_pid.rotate_pid_variable.last_last_err = 0; 
 	
 	return chassis_pid;
 }
 
 /* 单电机PID控制 */
-_CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
+_CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
 {
 	_CHASSIS_CONTROL_ motor_control;
 
@@ -419,7 +412,7 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_*,float,float),_CHASSIS_PID_* cha
 	{
 		case MOTOR_1:
 		{ 
-			motor_control.motor_1.duty = FUNC(&(chassis_pid -> motor_1_pid),motor_speed,motor_1_speed);
+			motor_control.motor_1.duty = FUNC(&(chassis_pid -> motor_1_pid_parameters),&(chassis_pid -> motor_1_pid_variable),motor_speed,motor_1_speed);
 			if(motor_control.motor_1.duty > 0)
 			{
 				motor_control.motor_1.dir = 0;
@@ -433,7 +426,7 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_*,float,float),_CHASSIS_PID_* cha
 		}
 		case MOTOR_2:
 		{
-			motor_control.motor_2.duty = FUNC(&(chassis_pid -> motor_2_pid),motor_speed,motor_2_speed);
+			motor_control.motor_2.duty = FUNC(&(chassis_pid -> motor_2_pid_parameters),&(chassis_pid -> motor_2_pid_variable),motor_speed,motor_2_speed);
 			if(motor_control.motor_2.duty > 0)
 			{
 				motor_control.motor_2.dir = 0;
@@ -447,7 +440,7 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_*,float,float),_CHASSIS_PID_* cha
 		}
 		case MOTOR_3:
 		{
-			motor_control.motor_3.duty = FUNC(&(chassis_pid -> motor_3_pid),motor_speed,motor_3_speed);
+			motor_control.motor_3.duty = FUNC(&(chassis_pid -> motor_3_pid_parameters),&(chassis_pid -> motor_3_pid_variable),motor_speed,motor_3_speed);
 			if(motor_control.motor_3.duty > 0)
 			{
 				motor_control.motor_3.dir = 0;
@@ -464,70 +457,70 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_*,float,float),_CHASSIS_PID_* cha
 }
 
 /* 增量式PID */
-float incremental_pid(_PID_* pid,float target,float feedback)
+float incremental_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback)
 {
-	pid -> now_err = target-feedback;
+	pid_variable -> now_err = target-feedback;
 	// 增量式 p
-	pid -> delta += (pid -> p)*(pid -> now_err-pid -> last_err);
+	pid_variable -> delta += (pid_paraments -> p)*(pid_variable -> now_err-pid_variable -> last_err);
 	// 增量式 i
-	pid -> delta += (pid -> i)*pid -> now_err;
+	pid_variable -> delta += (pid_paraments -> i)*pid_variable -> now_err;
 	// 增量式 d
-	pid -> delta += (pid -> d)*(pid -> now_err-2*pid -> last_err+pid -> last_last_err);
+	pid_variable -> delta += (pid_paraments -> d)*(pid_variable -> now_err-2*pid_variable -> last_err+pid_variable -> last_last_err);
 				
 	// 更新参数
-	pid -> value += pid -> delta;
-	pid -> last_err = pid -> now_err;
-	pid -> last_last_err = pid -> last_err;
-	pid -> delta = 0;
+	pid_paraments -> value += pid_variable -> delta;
+	pid_variable -> last_err = pid_variable -> now_err;
+	pid_variable -> last_last_err = pid_variable -> last_err;
+	pid_variable -> delta = 0;
 	
 	// 输出限幅
-	if(pid -> value > pid -> output_limit)
+	if(pid_paraments -> value > pid_paraments -> output_limit)
 	{
-		pid -> value = pid -> output_limit;
+		pid_paraments -> value = pid_paraments -> output_limit;
 	}
-	if(pid -> value < -pid -> output_limit)
+	if(pid_paraments -> value < -pid_paraments -> output_limit)
 	{
-		pid -> value = -pid -> output_limit;
+		pid_paraments -> value = -pid_paraments -> output_limit;
 	}
 	
-	return pid -> value;
+	return pid_paraments -> value;
 }
 
 /*位置式PID*/
-float positional_pid(_PID_* pid,float target,float feedback)
+float positional_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback)
 {
-	pid -> now_err = target-feedback;
+	pid_variable -> now_err = target-feedback;
 	// 增量式 p
-	pid -> value += (pid -> p)*(pid -> now_err);
+	pid_paraments -> value += (pid_paraments -> p)*(pid_variable -> now_err);
 	// 增量式 i
-	pid -> value += (pid -> i)*pid -> sigma_err;
+	pid_paraments -> value += (pid_paraments -> i)*pid_variable -> sigma_err;
 	// 增量式 d
-	pid -> value += (pid -> d)*(pid -> now_err-pid -> last_err);
+	pid_paraments -> value += (pid_paraments -> d)*(pid_variable -> now_err-pid_variable -> last_err);
 				
 	// 更新参数
-	pid -> sigma_err += pid -> now_err;
-	pid -> last_err = pid -> now_err;
+	pid_variable -> sigma_err += pid_variable -> now_err;
+	pid_variable -> last_err = pid_variable -> now_err;
 	
 	// 输出限幅
-	if(pid -> value > pid -> output_limit)
+	if(pid_paraments -> value > pid_paraments -> output_limit)
 	{
-		pid -> value = pid -> output_limit;
+		pid_paraments -> value = pid_paraments -> output_limit;
 	}
-	if(pid -> value < -pid -> output_limit)
+	if(pid_paraments -> value < -pid_paraments -> output_limit)
 	{
-		pid -> value = -pid -> output_limit;
+		pid_paraments -> value = -pid_paraments -> output_limit;
 	}
 	// 积分限幅
-	if(pid -> sigma_err > pid -> i_limit)
+	if(pid_variable -> sigma_err > pid_paraments -> i_limit)
 	{
-		pid -> sigma_err = pid -> i_limit;
+		pid_variable -> sigma_err = pid_paraments -> i_limit;
 	}
-	if(pid -> sigma_err < -pid -> i_limit)
+	if(pid_variable -> sigma_err < -pid_paraments -> i_limit)
 	{
-		pid -> sigma_err = -pid -> i_limit;
+		pid_variable -> sigma_err = -pid_paraments -> i_limit;
 	}
 	
-	return pid -> value;
+	return pid_paraments -> value;
 }
 
 /* 运动学逆解算 */
@@ -565,7 +558,7 @@ void chassis_control_stop(void)
 }
 
 /* 移动 */
-void chassis_control_move(float (*FUNC)(_PID_*,float,float),float chassis_yaw,float linear_speed,float angular_speed)
+void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float angular_speed)
 {
 	// 运动学逆解算
 	chassis_control = inverse_kinematics(chassis_yaw,linear_speed,angular_speed);
@@ -582,15 +575,25 @@ void chassis_control_move(float (*FUNC)(_PID_*,float,float),float chassis_yaw,fl
 }
 
 /* 转动角度 */
-void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_* pid,float,float),float (*FUNC_ROTATE)(_PID_*,float,float),float rotate_angle)
+void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float rotate_angle)
 {
 	euler_angle_flag = TRUE;
 	
-	if(abs(GYRO_Z_FORWARD*yaw-rotate_angle) > 0.5)
+	// 运动学逆解算
+	if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) > 0.5)
 	{
-		// 运动学逆解算
-		chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid),rotate_angle,GYRO_Z_FORWARD*yaw));
-	
+		if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 10)
+		{
+			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[0]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		}
+		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 10 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 40)
+		{
+			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[1]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		}
+		else
+		{
+			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[2]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		}
 		// 电机闭环PID解算
 		chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
 		chassis_control.motor_2 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
@@ -606,8 +609,9 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_* pid,float,float),fl
 		// 电机驱动
 		motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
 		motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
-		motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir);
-		euler_angle_flag = FALSE;
+		motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir); 
 	}
 }
+
+/*  */
 

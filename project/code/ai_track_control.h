@@ -23,9 +23,6 @@ typedef struct
 /* AI摄像头初始化 */
 void ai_camera_init(void);
 
-/* MCXVISION摄像头追踪PID初始化 */
-_PID_ mcxvision_track_pid_init(void);
-
 /* MCXVISION摄像头初始化 */
 void mcxvision_init(void);
 

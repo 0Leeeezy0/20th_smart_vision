@@ -29,9 +29,9 @@ void path_search(void);
 void path_control(float path_control_speed);
 
 /* 循迹PID参数结构体初始化 */
-_PID_ path_control_pid_init(void);
+_PATH_PID_ path_control_pid_init(void);
 
 /* 循迹PID */
-float path_control_pid(float (*FUNC_PATH)(_PID_* pid,float target,float feedback),_PID_ path_pid,int16 path_err);
+float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_PATH_PID_ path_pid,int16 path_err);
 
 #endif

@@ -33,10 +33,10 @@ void chassis_control_init();
 void chassis_control_stop(void);
 
 /* 移动 */
-void chassis_control_move(float (*FUNC)(_PID_*,float,float),float chassis_yaw,float linear_speed,float angular_speed);
+void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float angular_speed);
 
-/* 转动 */
-void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_* pid,float,float),float (*FUNC_ROTATE)(_PID_*,float,float),float rotate_angle);
+/* 转动角度 */
+void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float rotate_angle);
 
 /* 底盘PID参数结构体初始化 */
 _CHASSIS_PID_ chassis_pid_init(void);
@@ -68,13 +68,13 @@ void euler_angle(void);
 void translate_shift(void);
 
 /* 单电机PID控制 */
-_CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);
+_CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);
 
 /* 增量式PID */
-float incremental_pid(_PID_* pid,float target,float feedback);
+float incremental_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback);
 
 /*位置式PID*/
-float positional_pid(_PID_* pid,float target,float feedback);
+float positional_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback);
 
 /* 运动学逆解算 */
 _CHASSIS_CONTROL_ inverse_kinematics(float yaw,float linear_speed,float angular_speed);

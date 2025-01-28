@@ -78,7 +78,7 @@
 
 #define MCXVISION_IMAGE_WIDTH		( 320 )			// MCXVISION摄像头图像宽度
 #define MCXVISION_IMAGE_HIGHT		( 320 )			// MCXVISION摄像头图像高度
-#define MCXVISION_UPGRADE_TIME		( 200 )				// MCXVISION摄像头数据更新时间：超出该时间则清空接收区并回到总钻风循线模式
+#define MCXVISION_UPGRADE_TIME		( 300 )			// MCXVISION摄像头数据更新时间：超出该时间则清空接收区并回到总钻风循线模式
 
 /**************************************************************************/
 

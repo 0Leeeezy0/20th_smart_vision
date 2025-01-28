@@ -21,7 +21,8 @@ _MENU_PATH_ MENU_PATH;
 _MENU_PID_ MENU_MOTOR_1_PID;
 _MENU_PID_ MENU_MOTOR_2_PID;
 _MENU_PID_ MENU_MOTOR_3_PID;
-_MENU_PID_ MENU_PATH_PID;
+_MENU_PATH_PID_ MENU_PATH_PID;
+_MENU_ROTATE_PID_ MENU_ROTATE_PID;
 
 /* 大佐数据初始化 */
 void menu_data_leeeezy_init(void)
@@ -90,12 +91,22 @@ void menu_data_leeeezy_init(void)
 	MENU_MOTOR_3_PID.output_limit.name = "OUTPUT_LIMIT";
 	MENU_MOTOR_3_PID.i_limit.name = "I_LIMIT";
 	
-	MENU_PATH_PID.p.name = "PATH_P";
-	MENU_PATH_PID.i.name = "PATH_I";
-	MENU_PATH_PID.d.name = "PATH_D";
-	MENU_PATH_PID.output_limit.name = "OUTPUT_LIMIT";
-	MENU_PATH_PID.i_limit.name = "I_LIMIT";
-	MENU_PATH_PID.gyro_i_limit.name = "GYRO_LIMIT";
+	MENU_PATH_PID.pid_kind.name = "KIND";
+	MENU_PATH_PID.pid_kind.data_uint8 = 0;
+	MENU_PATH_PID.PATH_PID.p.name = "PATH_P";
+	MENU_PATH_PID.PATH_PID.i.name = "PATH_I";
+	MENU_PATH_PID.PATH_PID.d.name = "PATH_D";
+	MENU_PATH_PID.PATH_PID.output_limit.name = "OUTPUT_LIMIT";
+	MENU_PATH_PID.PATH_PID.i_limit.name = "I_LIMIT";
+	MENU_PATH_PID.PATH_PID.gyro_i_limit.name = "GYRO_LIMIT";
+	
+	MENU_ROTATE_PID.pid_kind.name = "KIND";
+	MENU_ROTATE_PID.pid_kind.data_uint8 = 0;
+	MENU_ROTATE_PID.ROTATE_PID.p.name = "P";
+	MENU_ROTATE_PID.ROTATE_PID.i.name = "I";
+	MENU_ROTATE_PID.ROTATE_PID.d.name = "D";
+	MENU_ROTATE_PID.ROTATE_PID.output_limit.name = "OUTPUT_LIMIT";
+	MENU_ROTATE_PID.ROTATE_PID.i_limit.name = "I_LIMIT";
 }
 
 /* 杨队菜单数据初始化 */

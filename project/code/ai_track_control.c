@@ -144,10 +144,10 @@ void mcxvision_track_control(float track_linear_speed)
 			chassis_yaw = 0;
 			chassis_linear_speed = 0;
 			chassis_angular_speed = 0;
+			control_mode_flag = BLOCK_MOVE_OUT_MODE;
 		}
 	}
 }
-
 
 //-------------------------------------------------------------------------------------------------------------------
 // 函数简介     UART_INDEX 的接收中断处理函数 这个函数将在 UART_INDEX 对应的中断调用 详见 isr.c
@@ -184,4 +184,5 @@ void uart_rx_interrupt_handler (void)
         fifo_clear(&uart_data_fifo);
     }
 }
+
 

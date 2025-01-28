@@ -22,9 +22,10 @@ typedef enum
 /* 控制模式类型 */
 typedef enum
 {
-	PATH_CONTROL_MODE = 0,
-	MCXVISION_TRACK_MODE = 1,
-	OPENART_TRACK_MODE = 2
+	PATH_CONTROL_MODE = 0,		// 循迹控制模式
+	MCXVISION_TRACK_MODE = 1,	// MCXVISION追踪控制模式
+	OPENART_TRACK_MODE = 2,		// OPENART追踪控制模式
+	BLOCK_MOVE_OUT_MODE = 3		// 方块推离模式
 }_CONTROL_MODE_;
 
 /* 电机运动控制 */
@@ -43,12 +44,17 @@ typedef struct
 	float output_limit;
 	float i_limit;
 	float value;
+}_PID_PARAMETERS_;
+
+/* PID闭环变量 */
+typedef struct
+{
 	float delta;
 	float now_err;
 	float last_err;
 	float last_last_err;
 	float sigma_err;
-}_PID_;
+}_PID_VARIABLE_;
 
 /* 底盘运动控制 */
 typedef struct
@@ -64,11 +70,29 @@ typedef struct
 /* 底盘PID */
 typedef struct
 {
-	_PID_ motor_1_pid;
-	_PID_ motor_2_pid;
-	_PID_ motor_3_pid;
-	_PID_ rotate_pid;
+	_PID_PARAMETERS_ motor_1_pid_parameters;
+	_PID_VARIABLE_ motor_1_pid_variable;
+	_PID_PARAMETERS_ motor_2_pid_parameters;
+	_PID_VARIABLE_ motor_2_pid_variable;
+	_PID_PARAMETERS_ motor_3_pid_parameters;
+	_PID_VARIABLE_ motor_3_pid_variable;
+	_PID_PARAMETERS_ rotate_pid_parameters[3];
+	_PID_VARIABLE_ rotate_pid_variable;
 }_CHASSIS_PID_;
+
+/* 循迹PID */
+typedef struct
+{
+	_PID_PARAMETERS_ path_pid_parameters[3];	
+	_PID_VARIABLE_ path_pid_variable;				
+}_PATH_PID_;
+
+/* MCXVSION追踪PID */
+typedef struct
+{
+	_PID_PARAMETERS_ mcxvision_track_pid_paraments;	
+	_PID_VARIABLE_ mcxvision_track_pid_variable;	
+}_MCXVISION_TRACK_PID_;
 
 /* 标志位 */
 extern uint8 gyro_calibration_flag;	// 陀螺仪校准
@@ -142,24 +166,24 @@ extern float PID_MOTOR_2[3];
 extern float PID_MOTOR_3[3];
 
 /* 转动PID参数 */
-extern float ROTATE_PID[3];
+extern float ROTATE_PID[3][3];
 
 /* 循迹PID参数 */
-extern float PATH_PID[4];
+extern float PATH_PID[3][4];
 
 /* 底盘控制参数 */
-extern float chassis_yaw;				// 底盘航向角
-extern float chassis_linear_speed;		// 底盘线速度
-extern float chassis_angular_speed;		// 底盘角速度
-extern float chassis_rotate_angle;		// 底盘转动角度
-extern _CHASSIS_CONTROL_ chassis_control;
-extern _CHASSIS_PID_ chassis_pid;
+extern float chassis_yaw;					// 底盘航向角
+extern float chassis_linear_speed;			// 底盘线速度
+extern float chassis_angular_speed;			// 底盘角速度
+extern float chassis_rotate_angle;			// 底盘转动角度
+extern _CHASSIS_CONTROL_ chassis_control;	// 底盘电机解算参数
+extern _CHASSIS_PID_ chassis_pid;			// 底盘PID
 
 /* 循迹控制参数 */
-extern _PID_ path_pid;
+extern _PATH_PID_ path_pid;							// 循迹PID
 
 /* AI追踪控制参数 */
-extern _PID_ mcxvision_track_pid;	// MCXVISION追踪
+extern _MCXVISION_TRACK_PID_ mcxvision_track_pid;	// MCXVISION追踪PID
 
 /* 循迹 */
 extern float path_linear_speed_target;	// 循迹线速度
@@ -174,6 +198,7 @@ extern float track_linear_speed_revise;	// 追踪修正线速度
 extern int16 detection_box_width_limit;	// MCXVISION摄像头识别框宽度阈值
 extern int16 detection_box_width_std;	// MCXVISION摄像头识别框宽度标准阈值
 extern int16 detection_box_center_limit;	// MCXVISION摄像头识别框中心阈值
+extern uint16 block_distance;			// 方块距离TOF距离
 
 /* PID */
 extern float duty_limit;	// PID占空比限幅

@@ -131,6 +131,20 @@ typedef struct
 //	_MENU_DATA_NAME_TYPE_ sigma_err;
 }_MENU_PID_;
 
+/* 菜单循迹PID参数 */
+typedef struct
+{
+	_MENU_DATA_NAME_TYPE_ pid_kind;
+	_MENU_PID_ PATH_PID;
+}_MENU_PATH_PID_;
+
+/* 菜单转动角度PID参数 */
+typedef struct
+{
+	_MENU_DATA_NAME_TYPE_ pid_kind;
+	_MENU_PID_ ROTATE_PID;
+}_MENU_ROTATE_PID_;
+
 /* 菜单数据 */
 extern _MENU_MCXVISION_ MENU_MCXVISION;
 extern _MENU_CHASSIS_ MENU_CHASSIS;
@@ -138,7 +152,8 @@ extern _MENU_PATH_ MENU_PATH;
 extern _MENU_PID_ MENU_MOTOR_1_PID;
 extern _MENU_PID_ MENU_MOTOR_2_PID;
 extern _MENU_PID_ MENU_MOTOR_3_PID;
-extern _MENU_PID_ MENU_PATH_PID;
+extern _MENU_PATH_PID_ MENU_PATH_PID;
+extern _MENU_ROTATE_PID_ MENU_ROTATE_PID;
 
 //--------------------------------------------------------------------------//
 
