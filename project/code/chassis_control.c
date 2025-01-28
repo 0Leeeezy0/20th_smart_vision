@@ -361,8 +361,8 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	chassis_pid.motor_1_pid_parameters.p = PID_MOTOR_1[0];
 	chassis_pid.motor_1_pid_parameters.i = PID_MOTOR_1[1];
 	chassis_pid.motor_1_pid_parameters.d = PID_MOTOR_1[2];
-	chassis_pid.motor_1_pid_parameters.output_limit = duty_limit;
-	chassis_pid.motor_1_pid_parameters.i_limit = chassis_pid_i_limit;
+	chassis_pid.motor_1_pid_parameters.output_limit = PID_MOTOR_1[3];
+	chassis_pid.motor_1_pid_parameters.i_limit = PID_MOTOR_1[4];
 	chassis_pid.motor_1_pid_variable.now_err = 0;
 	chassis_pid.motor_1_pid_variable.last_err = 0;
 	chassis_pid.motor_1_pid_variable.last_last_err = 0;
@@ -371,8 +371,8 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	chassis_pid.motor_2_pid_parameters.p = PID_MOTOR_2[0];
 	chassis_pid.motor_2_pid_parameters.i = PID_MOTOR_2[1];
 	chassis_pid.motor_2_pid_parameters.d = PID_MOTOR_2[2];
-	chassis_pid.motor_2_pid_parameters.output_limit = duty_limit;
-	chassis_pid.motor_2_pid_parameters.i_limit = chassis_pid_i_limit;
+	chassis_pid.motor_2_pid_parameters.output_limit = PID_MOTOR_2[3];
+	chassis_pid.motor_2_pid_parameters.i_limit = PID_MOTOR_2[4];
 	chassis_pid.motor_2_pid_variable.now_err = 0;
 	chassis_pid.motor_2_pid_variable.last_err = 0;
 	chassis_pid.motor_2_pid_variable.last_last_err = 0;
@@ -381,20 +381,20 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	chassis_pid.motor_3_pid_parameters.p = PID_MOTOR_3[0];
 	chassis_pid.motor_3_pid_parameters.i = PID_MOTOR_3[1];
 	chassis_pid.motor_3_pid_parameters.d = PID_MOTOR_3[2];
-	chassis_pid.motor_3_pid_parameters.output_limit = duty_limit;
-	chassis_pid.motor_3_pid_parameters.i_limit = chassis_pid_i_limit;
+	chassis_pid.motor_3_pid_parameters.output_limit = PID_MOTOR_3[3];
+	chassis_pid.motor_3_pid_parameters.i_limit = PID_MOTOR_3[4];
 	chassis_pid.motor_3_pid_variable.now_err = 0;
 	chassis_pid.motor_3_pid_variable.last_err = 0;
 	chassis_pid.motor_3_pid_variable.last_last_err = 0;
 	
 	// 底盘转动 PID
-	for(int i = 0;i < 3;i++)
+	for(int i = 0;i < 4;i++)
 	{
 		chassis_pid.rotate_pid_parameters[i].p = ROTATE_PID[i][0];
 		chassis_pid.rotate_pid_parameters[i].i = ROTATE_PID[i][1];
 		chassis_pid.rotate_pid_parameters[i].d = ROTATE_PID[i][2];
-		chassis_pid.rotate_pid_parameters[i].output_limit = rotate_speed_limit;
-		chassis_pid.rotate_pid_parameters[i].i_limit = rotate_pid_i_limit;
+		chassis_pid.rotate_pid_parameters[i].output_limit = ROTATE_PID[i][3];
+		chassis_pid.rotate_pid_parameters[i].i_limit = ROTATE_PID[i][4];
 	}
 	chassis_pid.rotate_pid_variable.now_err = 0;
 	chassis_pid.rotate_pid_variable.last_err = 0;
@@ -582,17 +582,21 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 	// 运动学逆解算
 	if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) > 0.5)
 	{
-		if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 10)
+		if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 5)
 		{
 			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[0]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
-		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 10 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 40)
+		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 5 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 20)
 		{
 			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[1]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
-		else
+		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 20 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 60)
 		{
 			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[2]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		}
+		else
+		{
+			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[3]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		// 电机闭环PID解算
 		chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
@@ -613,5 +617,15 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 	}
 }
 
-/*  */
+/* 底盘总控制 */
+void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis_yaw_,float _chassis_linear_speed_,float _chassis_angular_speed_,float _chassis_rotate_angle_,uint32 _delay_ms_)
+{
+	chassis_motion_flag = _chassis_motion_flag_;
+	chassis_yaw = _chassis_yaw_;
+	chassis_linear_speed = _chassis_linear_speed_;
+	chassis_angular_speed = _chassis_angular_speed_;
+	chassis_rotate_angle = _chassis_rotate_angle_;
+	system_delay_ms(_delay_ms_);
+	euler_angle_flag = FALSE;
+}
 

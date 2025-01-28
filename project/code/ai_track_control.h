@@ -39,7 +39,7 @@ void detection_result_upgrade_judge(void);
 void mcxvision_max_detection_box_center_get(void);	// YJC是大傻逼  
 
 /* MCXVISION摄像头追踪控制 */
-void mcxvision_track_control(float track_linear_speed);
+void mcxvision_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_mode_flag);
 
 /* 接收中断处理函数 */
 void uart_rx_interrupt_handler (void);

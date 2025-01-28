@@ -116,8 +116,9 @@ void mcxvision_max_detection_box_center_get(void)	// YJC是大傻逼
 }
 
 /* MCXVISION摄像头追踪控制 */
-void mcxvision_track_control(float track_linear_speed)
+void mcxvision_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_mode_flag)
 {
+	static int16 num = 0;	// 符合偏移阈值的图像次数
 	track_err = track_x_center-MCXVISION_IMAGE_WIDTH/2;
 	chassis_motion_flag = CHASSIS_MOVE;
 	if(max_detection_box_width < detection_box_width_std-4)
@@ -138,14 +139,27 @@ void mcxvision_track_control(float track_linear_speed)
 			chassis_yaw = 90*abs(track_err)/track_err;
 			chassis_linear_speed = track_linear_speed_revise;
 			chassis_angular_speed = 0;
+			if(abs(track_err) <= 8)
+			{
+				num++;
+			}
 		}
 		else
 		{
 			chassis_yaw = 0;
 			chassis_linear_speed = 0;
 			chassis_angular_speed = 0;
-			control_mode_flag = BLOCK_MOVE_OUT_MODE;
+			control_mode_flag = track_finsh_next_mode_flag;
+			num = 0;
 		}
+	}
+	if(num > 10)
+	{
+		chassis_yaw = 0;
+		chassis_linear_speed = 0;
+		chassis_angular_speed = 0;
+		control_mode_flag = track_finsh_next_mode_flag;
+		num = 0;
 	}
 }
 

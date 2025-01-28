@@ -9,14 +9,14 @@ API：
 
 /* 控制模式选择 */
 static void control_mode_choose(void)
-{ 
-	if(max_detection_box_width > detection_box_width_limit && abs(track_x_center-MCXVISION_IMAGE_WIDTH/2) < detection_box_center_limit && mcxvision_enable_flag == TRUE && control_mode_flag != BLOCK_MOVE_OUT_MODE)
+{
+	if(control_mode_flag == track_finsh_next_mode_flag)
+	{
+		control_mode_flag = track_finsh_next_mode_flag;
+	}
+	else if(max_detection_box_width > detection_box_width_limit && abs(track_x_center-MCXVISION_IMAGE_WIDTH/2) < detection_box_center_limit && mcxvision_enable_flag == TRUE && control_mode_flag != BLOCK_MOVE_OUT_MODE)
 	{
 		control_mode_flag = MCXVISION_TRACK_MODE;
-	}
-	else if(control_mode_flag == BLOCK_MOVE_OUT_MODE)
-	{
-		control_mode_flag = BLOCK_MOVE_OUT_MODE;
 	}
 	else
 	{
@@ -25,8 +25,8 @@ static void control_mode_choose(void)
 	
 }
 
-/* 摄像头控制任务调度 */
-void camera_control_dispatch(void)
+/* 控制模式调度 */
+void control_mode_dispatch(void)
 {
 	if(mcxvision_enable_flag == TRUE)
 	{
@@ -37,9 +37,10 @@ void camera_control_dispatch(void)
 	switch(control_mode_flag)
 	{
 		case PATH_CONTROL_MODE:{ path_control(path_linear_speed_target); break; }	// 循迹控制
-		case MCXVISION_TRACK_MODE:{ mcxvision_track_control(track_linear_speed_target); break; }	// MCXVISION跟踪控制
+		case MCXVISION_TRACK_MODE:{ mcxvision_track_control(track_linear_speed_target,track_finsh_next_mode_flag); break; }	// MCXVISION跟踪控制
 		case OPENART_TRACK_MODE:{ break; }	// OPENART跟踪控制
-		case BLOCK_MOVE_OUT_MODE:{ block_move_out_control(); control_mode_flag = PATH_CONTROL_MODE; break; }
+		case BLOCK_RETRACK_MODE:{ chassis_total_control(CHASSIS_MOVE,45,2,0,0,1250); chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,-90,3000); control_mode_flag = PATH_CONTROL_MODE; track_finsh_next_mode_flag = BLOCK_MOVE_OUT_MODE; break; }		// 方块侧面重追踪模式
+		case BLOCK_MOVE_OUT_MODE:{ block_move_out_control(); control_mode_flag = PATH_CONTROL_MODE; track_finsh_next_mode_flag = BLOCK_RETRACK_MODE; break; }	// 方块推离模式
 	}
 }
 
@@ -47,47 +48,9 @@ void camera_control_dispatch(void)
 void block_move_out_control(void)
 {
 	// 推
-	chassis_motion_flag = CHASSIS_MOVE;
-	chassis_yaw = 45;
-	chassis_linear_speed = 1;
-	chassis_angular_speed = 0;
-	chassis_rotate_angle = 0;
-	system_delay_ms(3000);
-	euler_angle_flag = FALSE;
-	chassis_motion_flag = CHASSIS_ANGLE_ROTATE;
-	chassis_yaw = 0;
-	chassis_linear_speed = 0;
-	chassis_angular_speed = 0;
-	chassis_rotate_angle = -90;
-	system_delay_ms(3000);
-	euler_angle_flag = FALSE;
-	chassis_motion_flag = CHASSIS_MOVE;
-	chassis_yaw = 0;
-	chassis_linear_speed = 2;
-	chassis_angular_speed = 0;
-	chassis_rotate_angle = 0;
-	system_delay_ms(2500);
-	euler_angle_flag = FALSE;
+	chassis_total_control(CHASSIS_MOVE,0,2,0,0,2500);
 	// 回
-	chassis_motion_flag = CHASSIS_MOVE;
-	chassis_yaw = 180;
-	chassis_linear_speed = 2;
-	chassis_angular_speed = 0;
-	chassis_rotate_angle = 0;
-	system_delay_ms(2500);
-	euler_angle_flag = FALSE;
-	chassis_motion_flag = CHASSIS_ANGLE_ROTATE;
-	chassis_yaw = 0;
-	chassis_linear_speed = 0;
-	chassis_angular_speed = 0;
-	chassis_rotate_angle = 90;
-	system_delay_ms(3000);
-	euler_angle_flag = FALSE;
-	chassis_motion_flag = CHASSIS_MOVE;
-	chassis_yaw = -135;
-	chassis_linear_speed = 1;
-	chassis_angular_speed = 0;
-	chassis_rotate_angle = 0;
-	system_delay_ms(3000);
-	euler_angle_flag = FALSE;
+	chassis_total_control(CHASSIS_MOVE,180,2,0,0,2500);
+	chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,90,3000);
+	chassis_total_control(CHASSIS_MOVE,-135,2,0,0,1250);
 }

@@ -98,8 +98,8 @@ _PATH_PID_ path_control_pid_init(void)
 		path_pid.path_pid_parameters[i].p = PATH_PID[i][0];
 		path_pid.path_pid_parameters[i].i = PATH_PID[i][1];
 		path_pid.path_pid_parameters[i].d = PATH_PID[i][2];
-		path_pid.path_pid_parameters[i].output_limit = path_err_limit;
-		path_pid.path_pid_parameters[i].i_limit = path_pid_i_limit;
+		path_pid.path_pid_parameters[i].output_limit = PATH_PID[i][4];
+		path_pid.path_pid_parameters[i].i_limit = PATH_PID[i][5];
 	}
 	path_pid.path_pid_variable.now_err =  0;
 	path_pid.path_pid_variable.last_err =  0;

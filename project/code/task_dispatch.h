@@ -9,8 +9,8 @@ API：
 
 #include "common.h"
 
-/* 摄像头控制任务调度 */
-void camera_control_dispatch(void);
+/* 控制模式调度 */
+void control_mode_dispatch(void);
 
 /* 推箱子 */
 void block_move_out_control(void);

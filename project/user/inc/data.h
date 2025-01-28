@@ -25,7 +25,8 @@ typedef enum
 	PATH_CONTROL_MODE = 0,		// 循迹控制模式
 	MCXVISION_TRACK_MODE = 1,	// MCXVISION追踪控制模式
 	OPENART_TRACK_MODE = 2,		// OPENART追踪控制模式
-	BLOCK_MOVE_OUT_MODE = 3		// 方块推离模式
+	BLOCK_RETRACK_MODE = 3,		// 方块侧面重追踪控制模式
+	BLOCK_MOVE_OUT_MODE = 4		// 方块推离模式
 }_CONTROL_MODE_;
 
 /* 电机运动控制 */
@@ -76,7 +77,7 @@ typedef struct
 	_PID_VARIABLE_ motor_2_pid_variable;
 	_PID_PARAMETERS_ motor_3_pid_parameters;
 	_PID_VARIABLE_ motor_3_pid_variable;
-	_PID_PARAMETERS_ rotate_pid_parameters[3];
+	_PID_PARAMETERS_ rotate_pid_parameters[4];
 	_PID_VARIABLE_ rotate_pid_variable;
 }_CHASSIS_PID_;
 
@@ -102,6 +103,7 @@ extern uint8 translate_shift_flag;				// 平动位移解算标志位
 extern uint8 mcxvision_upgrade_time_count_flag;	// MCXVISION更新计时标志位
 extern _CHASSIS_MOTION_ chassis_motion_flag;	// 底盘运动方式标志位
 extern _CONTROL_MODE_ control_mode_flag;	// 控制模式标志位
+extern _CONTROL_MODE_ track_finsh_next_mode_flag;	// 追踪结束模式切换标志位
 extern uint8 mcxvision_enable_flag;	// MCXVISION摄像头使能标志位
 
 /****************************** 实时数据 ******************************/
@@ -161,15 +163,15 @@ extern int16 track_err;	// 追踪误差
 /****************************** 参数 ******************************/
 
 /* 单电机PID参数 */
-extern float PID_MOTOR_1[3];
-extern float PID_MOTOR_2[3];
-extern float PID_MOTOR_3[3];
+extern float PID_MOTOR_1[5];
+extern float PID_MOTOR_2[5];
+extern float PID_MOTOR_3[5];
 
 /* 转动PID参数 */
-extern float ROTATE_PID[3][3];
+extern float ROTATE_PID[4][5];
 
 /* 循迹PID参数 */
-extern float PATH_PID[3][4];
+extern float PATH_PID[3][6];
 
 /* 底盘控制参数 */
 extern float chassis_yaw;					// 底盘航向角
@@ -199,17 +201,6 @@ extern int16 detection_box_width_limit;	// MCXVISION摄像头识别框宽度阈值
 extern int16 detection_box_width_std;	// MCXVISION摄像头识别框宽度标准阈值
 extern int16 detection_box_center_limit;	// MCXVISION摄像头识别框中心阈值
 extern uint16 block_distance;			// 方块距离TOF距离
-
-/* PID */
-extern float duty_limit;	// PID占空比限幅
-extern float chassis_pid_i_limit;	// 底盘PID位置式积分项限幅
-extern float path_err_limit;	// PID循迹误差限幅
-extern float path_pid_i_limit;	// 循迹PID位置式积分项限幅
-extern float rotate_speed_limit;			// PID转动速度限幅
-extern float rotate_pid_i_limit;		// 转动PID位置式积分项限幅
-extern float translate_speed_limit;			// PID平动修正角速度限幅
-extern float translate_pid_i_limit;		// 平动PID位置式积分项限幅
-
 
 /******************************************************************/
 

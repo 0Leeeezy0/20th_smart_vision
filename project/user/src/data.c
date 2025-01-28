@@ -61,6 +61,7 @@ uint8 translate_shift_flag = FALSE;				// 平动位移解算标志位
 uint8 mcxvision_upgrade_time_count_flag = FALSE;	// MCXVISION更新计时标志位
 _CHASSIS_MOTION_ chassis_motion_flag = CHASSIS_MOVE;	// 底盘运动方式标志位
 _CONTROL_MODE_ control_mode_flag = PATH_CONTROL_MODE;	// 摄像头类型标志位
+_CONTROL_MODE_ track_finsh_next_mode_flag = BLOCK_RETRACK_MODE;	// 追踪结束模式切换标志位
 uint8 mcxvision_enable_flag = TRUE;	// MCXVISION摄像头使能标志位
 
 /**********************************************************************/
@@ -71,13 +72,6 @@ uint8 mcxvision_enable_flag = TRUE;	// MCXVISION摄像头使能标志位
 _CHASSIS_PID_ chassis_pid;						// 底盘
 _PATH_PID_ path_pid;							// 循迹
 _MCXVISION_TRACK_PID_ mcxvision_track_pid;		// MCXVISION追踪
-
-float duty_limit = 7000;			// PID占空比限幅
-float chassis_pid_i_limit = 500;	// 底盘PID位置式积分项限幅
-float path_err_limit = 1.3;			// PID循迹误差限幅（速度：3：0.8 速度：6：1.0 速度：8：1.3）
-float path_pid_i_limit = 0.1;		// 循迹PID位置式积分项限幅
-float rotate_speed_limit = 1;		// PID转动速度限幅
-float rotate_pid_i_limit = 0.1;		// 转动PID位置式积分项限幅
 
 /* 循线 */
 float path_linear_speed_target = 6;	// 循迹线速度
@@ -96,44 +90,44 @@ uint16 block_distance = 90;		// 方块距离TOF距离
 
 /* 
 	单电机PID参数 
-	P I D
+	P I D 输出限幅 积分项限幅
 */
 #if MOTOR_PID_CHOOSE == 0
 // 增量式
-float PID_MOTOR_1[3] = {50 ,10 ,0};
-float PID_MOTOR_2[3] = {50 ,10 ,0};
-float PID_MOTOR_3[3] = {50 ,10 ,0};
+float PID_MOTOR_1[5] = {50 ,10 ,0 ,7000 ,500};
+float PID_MOTOR_2[5] = {50 ,10 ,0 ,7000 ,500};
+float PID_MOTOR_3[5] = {50 ,10 ,0 ,7000 ,500};
 #elif MOTOR_PID_CHOOSE == 1
 // 位置式
-float PID_MOTOR_1[3] = {250 ,0.1 ,400};
-float PID_MOTOR_2[3] = {250 ,0.1 ,400};
-float PID_MOTOR_3[3] = {250 ,0.1 ,400};
+float PID_MOTOR_1[5] = {250 ,0.1 ,400 ,7000 ,500};
+float PID_MOTOR_2[5] = {250 ,0.1 ,400 ,7000 ,500};
+float PID_MOTOR_3[5] = {250 ,0.1 ,400 ,7000 ,500};
 #endif
 
 /* 
 	转动PID参数 
-	P I D
+	P I D 输出限幅 积分项限幅
 */
 #if ROTATE_PID_CHOOSE == 0
 // 增量式 ( 小角度 中角度 大角度 )
-float ROTATE_PID[3][3] = {{0.0004 ,0.0002 ,0.005},{0.0007 ,0.0006 ,0.005},{0.001 ,0.0012 ,0.005}};
+float ROTATE_PID[4][5] = {{0.0004 ,0.0002 ,0.005 ,1 ,0.1},{0.0005 ,0.0006 ,0.005 ,1.6 ,0.1},{0.0009 ,0.00012 ,0.005 ,1.8 ,0.1},{0.001 ,0.0016 ,0.005 ,2.2 ,0.1}};
 #elif ROTATE_PID_CHOOSE == 1
 // 位置式 ( 小角度 中角度 大角度 )
-float ROTATE_PID[3] = {0.05 ,0 ,0.1};
+float ROTATE_PID[5] = {0.05 ,0 ,0.1 ,1.3 ,1};
 #endif
 
 /* 
 	循迹PID参数 
-	P I D 陀螺仪微分项
+	P I D 陀螺仪微分项 输出限幅 积分项限幅
 */
 #if PATH_PID_CHOOSE == 0
 // 增量式 ( 小误差 中误差 大误差 )
-//float PATH_PID[4] = {0.040 ,0.0026 ,0.005 ,0.005};	// linear_speed = 3
-//float PATH_PID[4] = {0.041 ,0.0038 ,0.00949 ,0.0055};	// linear_speed = 6
-float PATH_PID[3][4] = {{0.047 ,0.047 ,0.1 ,0.0055},{0.047 ,0.047 ,0.1 ,0.0055},{0.047 ,0.0047 ,0.1 ,0.0055}};	// linear_speed = 8
+//float PATH_PID[6] = {0.040 ,0.0026 ,0.005 ,0.005 ,0.8 ,1};	// linear_speed = 3
+//float PATH_PID[6] = {0.041 ,0.0038 ,0.00949 ,0.0055 ,1 ,1};	// linear_speed = 6
+float PATH_PID[3][6] = {{0.047 ,0.047 ,0.1 ,0.0055 ,1.3 ,1},{0.047 ,0.047 ,0.1 ,0.0055 ,1.3 ,1},{0.047 ,0.0047 ,0.1 ,0.0055 ,1.3 ,1}};	// linear_speed = 8
 #elif PATH_PID_CHOOSE == 1
 // 位置式
-float PATH_PID[4] = {0.05 ,0 ,0.1 ,0.001};
+float PATH_PID[6] = {0.05 ,0 ,0.1 ,0.001 ,1.3 ,1};
 #endif
 
 /******************************************************************/

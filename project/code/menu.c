@@ -322,11 +322,12 @@ void start(void)
 		switch(control_mode_flag)
 		{
 			case PATH_CONTROL_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"PATH"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,path_err,3); break; }	// Ñ­¼£¿ØÖÆ
-			case MCXVISION_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCX"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_err,3); break; }	// MCXVISION¸ú×Ù¿ØÖÆ
-			case OPENART_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"OPEN"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// OPENART¸ú×Ù¿ØÖÆ
+			case MCXVISION_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCXVISION"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_err,3); break; }	// MCXVISION¸ú×Ù¿ØÖÆ
+			case OPENART_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"OPENART"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// OPENART¸ú×Ù¿ØÖÆ
+			case BLOCK_RETRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"RETRACK"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// ·½¿é²àÃæÖØ×·×Ù¿ØÖÆ
 			case BLOCK_MOVE_OUT_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"BLOCK_MOVE_OUT"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// OPENART¸ú×Ù¿ØÖÆ
 		}
-		camera_control_dispatch();
+		control_mode_dispatch();
 //		path_control(path_linear_speed_target);
 	}
 }
@@ -1023,7 +1024,7 @@ void menu_rotate_angle_pid_add_service(void)
 		case 4:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].output_limit+=0.05; break; }
 		case 5:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i_limit+=0.005; break; }
 	}
-	if(MENU_ROTATE_PID.pid_kind.data_uint8 > 2)
+	if(MENU_ROTATE_PID.pid_kind.data_uint8 > 3)
 	{
 		MENU_ROTATE_PID.pid_kind.data_uint8 = 0;
 	}
