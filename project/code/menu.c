@@ -54,14 +54,15 @@ static _MENU_PAGE_ menu_page[] =
 	{"GYRO_ACC"			,TRUE 		,1 	,7 		,0 		,menu_gyro_acc_page},
 	{"EULER_ANGLE"      ,TRUE		,1	,8		,0		,menu_euler_angle_page},
 	{"TRANSLATE_SHIFT"	,TRUE		,1	,9		,0		,menu_translate_shift_page},
-	{"MCXVISION"		,TRUE		,1	,10		,6		,menu_mcxvision_page},
-	{"CHASSIS"			,TRUE 		,1 	,11 	,5 		,menu_chassis_page},
-	{"PATH"				,TRUE		,1	,12		,5		,menu_path_page},
-	{"MOTOR_1 PID"		,TRUE 		,1 	,13 	,5 		,menu_motor_1_pid_page},
-	{"MOTOR_2 PID"		,TRUE 		,1 	,14 	,5 		,menu_motor_2_pid_page},
-	{"MOTOR_3 PID"		,TRUE 		,1 	,15 	,5 		,menu_motor_3_pid_page},
-	{"PATH PID"			,TRUE 		,1 	,16 	,7 		,menu_path_pid_page},
-	{"ROTATE_PID"		,TRUE		,1	,17		,6		,menu_rotate_angle_pid_page}
+	{"AI_CAMERA_0"		,TRUE		,1	,10		,6		,menu_ai_camera_0_page},
+	{"AI_CAMERA_1"		,TRUE		,1	,11		,6		,menu_ai_camera_1_page},
+	{"CHASSIS"			,TRUE 		,1 	,12 	,5 		,menu_chassis_page},
+	{"PATH"				,TRUE		,1	,13		,5		,menu_path_page},
+	{"MOTOR_1 PID"		,TRUE 		,1 	,14 	,5 		,menu_motor_1_pid_page},
+	{"MOTOR_2 PID"		,TRUE 		,1 	,15 	,5 		,menu_motor_2_pid_page},
+	{"MOTOR_3 PID"		,TRUE 		,1 	,16 	,5 		,menu_motor_3_pid_page},
+	{"PATH PID"			,TRUE 		,1 	,17 	,7 		,menu_path_pid_page},
+	{"ROTATE_PID"		,TRUE		,1	,18		,6		,menu_rotate_angle_pid_page}
 };
 
 static int16 num = 0;	// 页面在列表中的序号
@@ -321,11 +322,10 @@ void start(void)
 		screen_image(0, MENU_ROW_PITCH, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
 		switch(control_mode_flag)
 		{
-			case PATH_CONTROL_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"PATH"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,path_err,3); break; }	// 循迹控制
-			case MCXVISION_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCXVISION"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_err,3); break; }	// MCXVISION跟踪控制
-			case OPENART_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"OPENART"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// OPENART跟踪控制
-			case BLOCK_RETRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"RETRACK"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// 方块侧面重追踪控制
-			case BLOCK_MOVE_OUT_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"BLOCK_MOVE_OUT"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// 方块推离模式
+			case PATH_CONTROL_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"PATH"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,path_err,3); screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,track_x_center,3); screen_int(DATA_MAX_COL,10*MENU_ROW_PITCH,detection_box_width,3); break; }	// 循迹控制
+			case AI_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCXVISION"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_err,3); break; }	// MCXVISION跟踪控制
+			case BLOCK_RETRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"RETRACK"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3); break; }	// 方块侧面重追踪控制
+			case BLOCK_MOVE_OUT_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"BLOCK_MOVE_OUT"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3); break; }	// 方块推离模式
 		}
 		control_mode_dispatch();
 		// path_control(path_linear_speed_target);
@@ -529,10 +529,10 @@ void menu_translate_shift_page(void)
 	}
 }
 
-/* MCXVISION摄像头数据页面 */
-void menu_mcxvision_page(void)
+/* AI摄像头0 数据页面 */
+void menu_ai_camera_0_page(void)
 {
-	menu_page_init(menu_mcxvision_page);
+	menu_page_init(menu_ai_camera_0_page);
 	while(1)
 	{
 		menu_back(NULL);
@@ -540,26 +540,39 @@ void menu_mcxvision_page(void)
 		menu_data_change(menu_mcxvision_data_add_service,menu_mcxvision_data_reduce_service);
 		menu_title_show();
 		
-		MENU_MCXVISION.mcxvision_enable_flag.data_uint8 = mcxvision_enable_flag;
-		MENU_MCXVISION.track_linear_speed_target.data_float = track_linear_speed_target;
-		MENU_MCXVISION.track_linear_speed_revise.data_float = track_linear_speed_revise;
-		MENU_MCXVISION.detection_box_width_limit.data_int16 = detection_box_width_limit;
-		MENU_MCXVISION.detection_box_width_std.data_int16 = detection_box_width_std;
-		MENU_MCXVISION.detection_box_center_limit.data_int16 = detection_box_center_limit;
+		MENU_AI_CAMERA_0.ai_camera_0_enable_flag.data_uint8 = ai_camera_0_enable_flag;
+		MENU_AI_CAMERA_0.track_linear_speed_target.data_float = track_linear_speed_target;
+		MENU_AI_CAMERA_0.track_linear_speed_revise.data_float = track_linear_speed_revise;
+		MENU_AI_CAMERA_0.detection_box_width_limit.data_int16 = detection_box_width_limit;
+		MENU_AI_CAMERA_0.detection_box_width_std.data_int16 = detection_box_width_std;
+		MENU_AI_CAMERA_0.detection_box_center_limit.data_int16 = detection_box_center_limit;
 		
 		// 显示MCXVISION摄像头数据
-		screen_string(0,MENU_ROW_PITCH,MENU_MCXVISION.mcxvision_enable_flag.name);
-		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MCXVISION.mcxvision_enable_flag.data_uint8,1);
-		screen_string(0,2*MENU_ROW_PITCH,MENU_MCXVISION.track_linear_speed_target.name);
-		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MCXVISION.track_linear_speed_target.data_float,2,4);
-		screen_string(0,3*MENU_ROW_PITCH,MENU_MCXVISION.track_linear_speed_revise.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MCXVISION.track_linear_speed_revise.data_float,2,4);
-		screen_string(0,4*MENU_ROW_PITCH,MENU_MCXVISION.detection_box_width_limit.name);
-		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MCXVISION.detection_box_width_limit.data_int16,3);
-		screen_string(0,5*MENU_ROW_PITCH,MENU_MCXVISION.detection_box_width_std.name);
-		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MCXVISION.detection_box_width_std.data_int16,3);
-		screen_string(0,6*MENU_ROW_PITCH,MENU_MCXVISION.detection_box_center_limit.name);
-		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MCXVISION.detection_box_center_limit.data_int16,3);
+		screen_string(0,MENU_ROW_PITCH,MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name);
+		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_AI_CAMERA_0.ai_camera_0_enable_flag.data_uint8,1);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_AI_CAMERA_0.track_linear_speed_target.name);
+		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_AI_CAMERA_0.track_linear_speed_target.data_float,2,4);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_AI_CAMERA_0.track_linear_speed_revise.name);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_AI_CAMERA_0.track_linear_speed_revise.data_float,2,4);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_limit.name);
+		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_limit.data_int16,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_std.name);
+		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_std.data_int16,3);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.name);
+		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.data_int16,3);
+	}
+}
+
+/* AI摄像头1 数据页面 */
+void menu_ai_camera_1_page(void)
+{
+	menu_page_init(menu_ai_camera_1_page);
+	while(1)
+	{
+		menu_back(NULL);
+		menu_point();
+		menu_data_change(menu_mcxvision_data_add_service,menu_mcxvision_data_reduce_service);
+		menu_title_show();
 	}
 }
 
@@ -818,32 +831,32 @@ void menu_mcxvision_data_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ mcxvision_enable_flag+=1; break; }
+		case 0:{ ai_camera_0_enable_flag+=1; break; }
 		case 1:{ track_linear_speed_target+=0.01; break; }
 		case 2:{ track_linear_speed_revise+=0.01; break; }
 		case 3:{ detection_box_width_limit+=1; break; }
 		case 4:{ detection_box_width_std+=1; break; }
 		case 5:{ detection_box_center_limit+=1; break; }
 	}
-	if(mcxvision_enable_flag > 1)
+	if(ai_camera_0_enable_flag > 1)
 	{
-		mcxvision_enable_flag = 0;
+		ai_camera_0_enable_flag = 0;
 	}
 }
 void menu_mcxvision_data_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ mcxvision_enable_flag-=1; break; }
+		case 0:{ ai_camera_0_enable_flag-=1; break; }
 		case 1:{ track_linear_speed_target-=0.01; break; }
 		case 2:{ track_linear_speed_revise-=0.01; break; }
 		case 3:{ detection_box_width_limit-=1; break; }
 		case 4:{ detection_box_width_std-=1; break; }
 		case 5:{ detection_box_center_limit-=1; break; }
 	}
-	if(mcxvision_enable_flag > 1)
+	if(ai_camera_0_enable_flag > 1)
 	{
-		mcxvision_enable_flag = 1;
+		ai_camera_0_enable_flag = 1;
 	}
 }
 

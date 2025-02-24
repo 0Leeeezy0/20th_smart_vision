@@ -68,13 +68,13 @@ void PIT_IRQHandler(void)
 		}
         pit_flag_clear(PIT_CH1);
     }
-    /* AI摄像头更新计时中断 */
+    /* 计时中断 */
     if(pit_flag_get(PIT_CH2))
     {
-		if(mcxvision_upgrade_time_count_flag)
-		{
-			mcxvision_upgrade_time_count++;
-		}
+		if(chassis_move_time_count_flag)
+			chassis_move_time_count++;
+		else
+			chassis_move_time_count = 0;
         pit_flag_clear(PIT_CH2);
     }
     
@@ -93,8 +93,8 @@ void LPUART1_IRQHandler(void)
     if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART1))
     {
         
-        extern void uart_rx_interrupt_handler_openart();
-		uart_rx_interrupt_handler_openart();
+        extern void uart_rx_interrupt_handler_ai_camera_1();
+		uart_rx_interrupt_handler_ai_camera_1();
         // 接收中断
     #if DEBUG_UART_USE_INTERRUPT                        // 如果开启 debug 串口中断
         debug_interrupr_handler();                      // 调用 debug 串口接收处理函数 数据会被 debug 环形缓冲区读取
@@ -131,8 +131,8 @@ void LPUART4_IRQHandler(void)
     if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART4))
     {
 		// MCXVision串口接收中断
-		extern void uart_rx_interrupt_handler_mcxvison();
-        uart_rx_interrupt_handler_mcxvison();
+		extern void uart_rx_interrupt_handler_ai_camera_0();
+        uart_rx_interrupt_handler_ai_camera_0();
         // 接收中断 
 //        flexio_camera_uart_handler();
 //        

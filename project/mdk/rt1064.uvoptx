@@ -791,8 +791,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\code\ai_track_control.c</PathWithFileName>
-      <FilenameWithoutPath>ai_track_control.c</FilenameWithoutPath>
+      <PathWithFileName>..\code\ai_camera.c</PathWithFileName>
+      <FilenameWithoutPath>ai_camera.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -803,8 +803,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\code\ai_track_control.h</PathWithFileName>
-      <FilenameWithoutPath>ai_track_control.h</FilenameWithoutPath>
+      <PathWithFileName>..\code\ai_camera.h</PathWithFileName>
+      <FilenameWithoutPath>ai_camera.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -856,7 +856,7 @@
 
   <Group>
     <GroupName>zf_common</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1056,7 +1056,7 @@
 
   <Group>
     <GroupName>zf_driver</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

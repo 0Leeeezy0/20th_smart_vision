@@ -607,6 +607,8 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 		motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
 		motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
 		motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
+		
+		chassis_rotate_finsh_flag = FALSE;
 	}
 	else
 	{
@@ -614,18 +616,52 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 		motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
 		motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
 		motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir); 
+		chassis_rotate_finsh_flag = TRUE;
 	}
 }
 
-/* 底盘总控制 */
+/* 
+	底盘总控制
+	用于推箱子任务
+*/
 void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis_yaw_,float _chassis_linear_speed_,float _chassis_angular_speed_,float _chassis_rotate_angle_,uint32 _delay_ms_)
 {
 	chassis_motion_flag = _chassis_motion_flag_;
+	chassis_rotate_finsh_flag = FALSE;
+	
 	chassis_yaw = _chassis_yaw_;
 	chassis_linear_speed = _chassis_linear_speed_;
 	chassis_angular_speed = _chassis_angular_speed_;
 	chassis_rotate_angle = _chassis_rotate_angle_;
-	system_delay_ms(_delay_ms_);
+	
+	// 阻塞式等待旋转结束
+	if(chassis_motion_flag == CHASSIS_ANGLE_ROTATE)
+	{
+		while(1)
+		{
+			if(chassis_rotate_finsh_flag == TRUE)
+				break;
+		}
+	}
+	// 延时等待移动完成
+	else
+	{
+		chassis_move_time_count_flag = TRUE;
+		// 若方块推出赛道，则退出循环
+		while(chassis_move_time_count <= _delay_ms_)
+		{
+			if(ai_camera_1_detection_result.is_move_out == TRUE)
+			{
+				chassis_move_time_count_flag = FALSE;
+				break;
+			}
+		}
+		chassis_move_time_count_flag = FALSE;
+	}
+		
+	// 停车 
+	chassis_motion_flag = CHASSIS_STOP;
+		
 	euler_angle_flag = FALSE;
 }
 

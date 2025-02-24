@@ -11,7 +11,7 @@
 ".\objects\vofa_debug_app.o"
 ".\objects\menu_data.o"
 ".\objects\task_dispatch.o"
-".\objects\ai_track_control.o"
+".\objects\ai_camera.o"
 ".\objects\zf_common_clock.o"
 ".\objects\zf_common_debug.o"
 ".\objects\zf_common_fifo.o"

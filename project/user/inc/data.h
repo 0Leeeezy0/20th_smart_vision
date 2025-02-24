@@ -23,13 +23,12 @@ typedef enum
 typedef enum
 {
 	PATH_CONTROL_MODE = 0,		// 循迹控制模式
-	MCXVISION_TRACK_MODE = 1,	// MCXVISION追踪控制模式
-	OPENART_TRACK_MODE = 2,		// OPENART追踪控制模式
-	BLOCK_RETRACK_MODE = 3,		// 方块侧面重追踪控制模式
-	BLOCK_MOVE_OUT_MODE = 4		// 方块推离模式
+	AI_TRACK_MODE = 1,			// AI追踪控制模式
+	BLOCK_RETRACK_MODE = 2,		// 方块侧面重追踪控制模式
+	BLOCK_MOVE_OUT_MODE = 3		// 方块推离模式
 }_CONTROL_MODE_;
 
-/* OPRNART识别标签 */
+/* AI摄像头1 识别标签 */
 typedef enum
 {
 	wrench = 0,				// 扳手
@@ -47,7 +46,7 @@ typedef enum
 	headphones = 12,		// 耳机
 	monitor = 13,			// 显示器
 	speaker = 14			// 音响
-}_OPENART_DETECTION_LABLE_;
+}_AI_CAMERA_1_DETECTION_LABLE_;
 
 /* 电机运动控制 */
 typedef struct
@@ -108,31 +107,34 @@ typedef struct
 	_PID_VARIABLE_ path_pid_variable;				
 }_PATH_PID_;
 
-/* MCXVSION追踪PID */
+/* AI追踪PID */
 typedef struct
 {
-	_PID_PARAMETERS_ mcxvision_track_pid_paraments;	
-	_PID_VARIABLE_ mcxvision_track_pid_variable;	
-}_MCXVISION_TRACK_PID_;
+	_PID_PARAMETERS_ ai_track_pid_paraments;	
+	_PID_VARIABLE_ ai_track_pid_variable;	
+}_AI_TRACK_PID_;
 
-/* OPENART识别结果 */
+/* AI识别结果 */
 typedef struct
 {
-	uint8 result_kind;					// 识别结果类别（0：标签 1：手写字）
-	_OPENART_DETECTION_LABLE_ lable;	// 识别标签结果
+	uint8 result_kind;					// 识别结果类别（0：标签 1：手写字 2：啥都没有）
+	uint8 is_move_out;					// 方块推出赛道（0：未推出 1：推出）
+	_AI_CAMERA_1_DETECTION_LABLE_ lable;	// 识别标签结果
 	uint8 num;							// 识别手写数字结果
-}_OPENART_DETECTION_RESULT_;
+}_AI_CAMERA_1_DETECTION_RESULT_;
 
 /* 标志位 */
 extern uint8 gyro_calibration_flag;	// 陀螺仪校准
 extern uint8 acc_calibration_flag;	// 加速度计校准
 extern uint8 euler_angle_flag;			// 欧拉角解算标志位
 extern uint8 translate_shift_flag;				// 平动位移解算标志位
-extern uint8 mcxvision_upgrade_time_count_flag;	// MCXVISION更新计时标志位
 extern _CHASSIS_MOTION_ chassis_motion_flag;	// 底盘运动方式标志位
+extern uint8 chassis_rotate_finsh_flag;			// 底盘旋转结束标志位
+extern uint8 chassis_move_time_count_flag;				// 底盘移动计时标志位
 extern _CONTROL_MODE_ control_mode_flag;	// 控制模式标志位
 extern _CONTROL_MODE_ track_finsh_next_mode_flag;	// 追踪结束模式切换标志位
-extern uint8 mcxvision_enable_flag;	// MCXVISION摄像头使能标志位
+extern uint8 ai_camera_0_enable_flag;	// AI摄像头0 使能标志位
+extern uint8 ai_camera_1_enable_flag;	// AI摄像头1 使能标志位
 
 /****************************** 实时数据 ******************************/
 
@@ -181,9 +183,8 @@ extern int16 path_err;
 extern int16 path[MT9V03X_H][2];	// 路径线x、y坐标
 
 /* AI追踪 */
-extern int16 mcxvision_upgrade_time_count;	// MCXVISION摄像头更新计时
 extern int16 track_x_center;	// 追踪中心X坐标
-extern int16 max_detection_box_width;	// 最大识别框宽度
+extern int16 detection_box_width;	// 识别框宽度
 extern int16 track_err;	// 追踪误差
 
 /**********************************************************************/
@@ -206,6 +207,7 @@ extern float chassis_yaw;					// 底盘航向角
 extern float chassis_linear_speed;			// 底盘线速度
 extern float chassis_angular_speed;			// 底盘角速度
 extern float chassis_rotate_angle;			// 底盘转动角度
+extern uint32 chassis_move_time_count;  		// 底盘移动计时
 extern _CHASSIS_CONTROL_ chassis_control;	// 底盘电机解算参数
 extern _CHASSIS_PID_ chassis_pid;			// 底盘PID
 
@@ -213,7 +215,7 @@ extern _CHASSIS_PID_ chassis_pid;			// 底盘PID
 extern _PATH_PID_ path_pid;							// 循迹PID
 
 /* AI追踪控制参数 */
-extern _MCXVISION_TRACK_PID_ mcxvision_track_pid;	// MCXVISION追踪PID
+extern _AI_TRACK_PID_ ai_track_pid;	// MCXVISION追踪PID
 
 /* 循迹 */
 extern float path_linear_speed_target;	// 循迹线速度
@@ -222,16 +224,15 @@ extern int16 path_end;	// 路径线寻找结束高度
 extern int16 control_point;	// 控制点高度（速度 3 30 速度 8 45）
 extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 
-/* MCXVISION追踪 */
+/* AI追踪 */
 extern float track_linear_speed_target;	// 追踪线速度
 extern float track_linear_speed_revise;	// 追踪修正线速度
-extern int16 detection_box_width_limit;	// MCXVISION摄像头识别框宽度阈值
-extern int16 detection_box_width_std;	// MCXVISION摄像头识别框宽度标准阈值
-extern int16 detection_box_center_limit;	// MCXVISION摄像头识别框中心阈值 
-extern uint16 block_distance;			// 方块距离TOF距离
+extern int16 detection_box_width_limit;	// AI摄像头识别框宽度阈值
+extern int16 detection_box_width_std;	// AI摄像头识别框宽度标准阈值
+extern int16 detection_box_center_limit;	// AI摄像头识别框中心阈值 
 
-/* OPENART识别 */
-extern _OPENART_DETECTION_RESULT_ openart_detection_result;
+/* AI识别结果 */
+extern _AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result;
 
 /******************************************************************/
 

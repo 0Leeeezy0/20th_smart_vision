@@ -140,8 +140,11 @@ void menu_euler_angle_page(void);
 /* 菜单平动位移页面 */
 void menu_translate_shift_page(void);
 
-/* MCXVISION摄像头数据页面 */
-void menu_mcxvision_page(void);
+/* AI摄像头0 数据页面 */
+void menu_ai_camera_0_page(void);
+
+/* AI摄像头1 数据页面 */
+void menu_ai_camera_1_page(void);
 
 /* 菜单底盘数据页面 */
 void menu_chassis_page(void);

@@ -43,17 +43,17 @@
 #define RIGHT_PIN 	( C14 )
 #define PRESS_PIN 	( C11 )
 
-/* MCXVISION摄像头串口引脚 */
-#define MCXVISION_UART_INDEX			( UART_4 )                              
-#define MCXVISION_UART_BAUDRATE         ( 115200 )                            
-#define MCXVISION_UART_TX_PIN           ( UART4_TX_C16 )                       
-#define MCXVISION_UART_RX_PIN           ( UART4_RX_C17 ) 
+/* AI摄像头0 串口引脚 */
+#define AI_CAMERA_0_UART_INDEX				( UART_4 )                              
+#define AI_CAMERA_0_UART_BAUDRATE         	( 115200 )                            
+#define AI_CAMERA_0_UART_TX_PIN           	( UART4_TX_C16 )                       
+#define AI_CAMERA_0_UART_RX_PIN           	( UART4_RX_C17 ) 
 
-/* OPENART摄像头串口引脚 */
-#define OPENART_UART_INDEX			    ( UART_1 )                              
-#define OPENART_UART_BAUDRATE           ( 115200 )                            
-#define OPENART_UART_TX_PIN             ( UART1_TX_B12 )                       
-#define OPENART_UART_RX_PIN             ( UART1_RX_B13 ) 
+/* AI摄像头1 串口引脚 */
+#define AI_CAMERA_1_UART_INDEX			    ( UART_1 )                              
+#define AI_CAMERA_1_UART_BAUDRATE           ( 115200 )                            
+#define AI_CAMERA_1_UART_TX_PIN             ( UART1_TX_B12 )                       
+#define AI_CAMERA_1_UART_RX_PIN             ( UART1_RX_B13 ) 
 
 
 /* 底盘参数*/
@@ -73,20 +73,20 @@
 #define SENSOR_IT_TIME 							( 1 ) 					// 传感器值获取中断周期 ms
 #define CONTROL_IT_CH 							( PIT_CH1 )				// 控制中断号
 #define CONTROL_IT_TIME  						( 10 )					// 控制中断周期 ms
-#define AI_CAMERA_UPGRADE_TIME_COUNT_IT_CH 		( PIT_CH2 )				// AI摄像头更新计时中断号
-#define AI_CAMERA_UPGRADE_TIME_COUNT_IT_TIME	( 1 )					// AI摄像头更新计时中断周期 ms
+#define TIME_COUNT_IT_CH 						( PIT_CH2 )				// 计时中断号
+#define TIME_COUNT_IT_TIME						( 1 )					// 计时中断周期 ms
 #define MENU_KEY_SCAN_IT_CH 					( PIT_CH3 )				// 按键扫描中断号
 #define MENU_KEY_SCAN_IT_TIME					( 20 )  				// 按键扫描中断周期 ms
-#define MCXVISION_UART_PRIORITY     			( LPUART2_IRQn )  		// MCXVISON摄像头串口接收中断号
-#define OPENART_UART_PRIORITY     			    ( LPUART1_IRQn )  		// OPENART摄像头串口接收中断号
+#define AI_CAMERA_0_UART_PRIORITY     			( LPUART2_IRQn )  		// AI摄像头0 串口接收中断号
+#define AI_CAMERA_1_UART_PRIORITY     			( LPUART1_IRQn )  		// AI摄像头1串口接收中断号
 
 /*********************************************************************/
 
 /****************************** AI摄像头参数 ******************************/
 
-#define MCXVISION_IMAGE_WIDTH		( 320 )			// MCXVISION摄像头图像宽度
-#define MCXVISION_IMAGE_HIGHT		( 320 )			// MCXVISION摄像头图像高度
-#define MCXVISION_UPGRADE_TIME		( 300 )			// MCXVISION摄像头数据更新时间：超出该时间则清空接收区并回到总钻风循线模式
+#define AI_CAMERA_0_IMAGE_WIDTH		( 160 )			// AI摄像头0 图像宽度
+#define AI_CAMERA_0_IMAGE_HIGHT		( 120 )			// AI摄像头0 图像高度
+#define AI_CAMERA_0_UPGRADE_TIME	( 300 )			// AI摄像头0 数据更新时间：超出该时间则清空接收区并回到总钻风循线模式
 
 /**************************************************************************/
 
@@ -174,7 +174,7 @@
 #include "vofa_debug_app.h"
 #include "menu.h"
 #include "menu_data.h"
-#include "ai_track_control.h"
+#include "ai_camera.h"
 #include "task_dispatch.h"
 
 /* PID选择 */

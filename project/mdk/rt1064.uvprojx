@@ -515,14 +515,14 @@
               <FilePath>..\code\task_dispatch.h</FilePath>
             </File>
             <File>
-              <FileName>ai_track_control.c</FileName>
+              <FileName>ai_camera.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\code\ai_track_control.c</FilePath>
+              <FilePath>..\code\ai_camera.c</FilePath>
             </File>
             <File>
-              <FileName>ai_track_control.h</FileName>
+              <FileName>ai_camera.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\code\ai_track_control.h</FilePath>
+              <FilePath>..\code\ai_camera.h</FilePath>
             </File>
           </Files>
         </Group>

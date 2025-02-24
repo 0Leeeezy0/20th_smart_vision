@@ -15,7 +15,8 @@ _MENU_MOTOR_ MENU_MOTOR;
 _MENU_GYRO_ACC_ MENU_GYRO_ACC;
 _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
 _MENU_SHIFT_ MENU_SHIFT;
-_MENU_MCXVISION_ MENU_MCXVISION;
+_MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
+_MENU_AI_CAMERA_1_ MENU_AI_CAMERA_1;
 _MENU_CHASSIS_ MENU_CHASSIS;
 _MENU_PATH_ MENU_PATH;
 _MENU_PID_ MENU_MOTOR_1_PID;
@@ -54,12 +55,17 @@ void menu_data_leeeezy_init(void)
 	MENU_SHIFT.shift_yaw.name = "YAW";
 	MENU_SHIFT.shift_distance.name = "DISTANCE";
 
-	MENU_MCXVISION.mcxvision_enable_flag.name = "STATE";
-	MENU_MCXVISION.track_linear_speed_target.name = "TARTGET";
-	MENU_MCXVISION.track_linear_speed_revise.name = "REVISE";
-	MENU_MCXVISION.detection_box_width_limit.name = "W_LIMIT";
-	MENU_MCXVISION.detection_box_width_std.name = "STD";
-	MENU_MCXVISION.detection_box_center_limit.name = "CENTER_ERR_LIMIT";
+	MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name = "STATE";
+	MENU_AI_CAMERA_0.track_linear_speed_target.name = "TARTGET";
+	MENU_AI_CAMERA_0.track_linear_speed_revise.name = "REVISE";
+	MENU_AI_CAMERA_0.detection_box_width_limit.name = "W_LIMIT";
+	MENU_AI_CAMERA_0.detection_box_width_std.name = "STD";
+	MENU_AI_CAMERA_0.detection_box_center_limit.name = "CENTER_ERR_LIMIT";
+	
+	MENU_AI_CAMERA_1.ai_camera_1_enable_flag.name = "STATE";
+	MENU_AI_CAMERA_1.detection_lable_result.name = "DETECTION_LABLE";
+	MENU_AI_CAMERA_1.detection_num_result.name = "DETECTION_NUM";
+	MENU_AI_CAMERA_1.block_position.name = "BLOCK_POSITION";
 	
 	MENU_CHASSIS.motion_kind.name = "KIND";
 	MENU_CHASSIS.chassis_yaw.name = "CHASSIS_YAW";

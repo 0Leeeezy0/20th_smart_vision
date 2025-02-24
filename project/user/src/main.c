@@ -53,17 +53,22 @@ int main(void)
 	chassis_control_init();
 	ai_camera_init();
 	menu_init();
+	// 计时中断初始化
+	pit_ms_init (TIME_COUNT_IT_CH, TIME_COUNT_IT_TIME);
+	// 中断使能
+	pit_enable(TIME_COUNT_IT_CH);
+	
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
         // 此处编写需要循环执行的代码
-		if(gyro_calibration_flag && acc_calibration_flag)
-		{
-			menu_service_start();
-		}
+//		if(gyro_calibration_flag && acc_calibration_flag)
+//		{
+//			menu_service_start();
+//		}
         
-        // ips200_show_int(10,10,1,3);
-        
+		ips200_show_int(DATA_MAX_COL,9*MENU_ROW_PITCH,track_x_center,3); ips200_show_int(DATA_MAX_COL,10*MENU_ROW_PITCH,detection_box_width,3);
+		
 		// 此处编写需要循环执行的代码
     }
 }
