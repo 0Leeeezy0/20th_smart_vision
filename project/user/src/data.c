@@ -80,13 +80,15 @@ int16 path_end = 70;			// 路径线寻找结束高度
 int16 control_point = 55;		// 控制点高度（速度：3：30 速度：6：50 速度：8：55）
 int16 prediction_point = 50;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 
-/* AI追踪 */
+/* MCXVISION追踪 */
 float track_linear_speed_target = 2.5;	// 追踪线速度
 float track_linear_speed_revise = 0.5;	// 追踪修正线速度
 int16 detection_box_width_limit = 40;	// MCXVISION摄像头识别框宽度阈值
 int16 detection_box_width_std = 100;	// MCXVISION摄像头识别框宽度标准阈值
 int16 detection_box_center_limit = 80;	// MCXVISION摄像头识别框中心误差阈值
 uint16 block_distance = 90;		// 方块距离TOF距离
+/* OPENART识别 */
+_OPENART_DETECTION_RESULT_	openart_detection_result;
 
 /* 
 	单电机PID参数 

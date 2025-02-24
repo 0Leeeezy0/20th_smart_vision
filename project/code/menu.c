@@ -153,7 +153,7 @@ void menu_back(FUNC_PAGE_BACK_SERVICE func_page_back_service)
 		case 1:{ screen_string(0,300,"BACK"); break; }
 	}
 	// 返回判断
-	if(key_get_state(UP) == KEY_LONG_PRESS && page_level > 0 && point_row_num == menu_page[num].page_row_num)
+	if(key_get_state(PRESS) == KEY_SHORT_PRESS && page_level > 0 && point_row_num == menu_page[num].page_row_num)
 	{
 		key_clear_all_state();
 		for(i = 0;i < sizeof(menu_page)/sizeof(menu_page[0]);i++)
@@ -189,7 +189,7 @@ void menu_point(void)
 		key_clear_all_state();
 	}
 	// 正常选项
-	else if(key_get_state(DOWN) == KEY_LONG_PRESS && point_row_num < menu_page[num].page_row_num)
+	else if(key_get_state(PRESS) == KEY_LONG_PRESS && point_row_num < menu_page[num].page_row_num)
 	{
 		int16 i = 0;
 		screen_clear();
@@ -325,10 +325,10 @@ void start(void)
 			case MCXVISION_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCXVISION"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_err,3); break; }	// MCXVISION跟踪控制
 			case OPENART_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"OPENART"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// OPENART跟踪控制
 			case BLOCK_RETRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"RETRACK"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// 方块侧面重追踪控制
-			case BLOCK_MOVE_OUT_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"BLOCK_MOVE_OUT"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// OPENART跟踪控制
+			case BLOCK_MOVE_OUT_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"BLOCK_MOVE_OUT"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,mcxvision_upgrade_time_count,6); break; }	// 方块推离模式
 		}
 		control_mode_dispatch();
-//		path_control(path_linear_speed_target);
+		// path_control(path_linear_speed_target);
 	}
 }
 

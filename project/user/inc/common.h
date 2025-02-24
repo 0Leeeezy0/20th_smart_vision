@@ -5,14 +5,14 @@
 
 /* 以下顺序都是摄像头支架后为1开始顺时针记数 */
 /* 电机驱动引脚 */
-#define MOTOR_1_DIR 	( D2 )
-#define MOTOR_1_PWM 	( PWM2_MODULE3_CHB_D3 )
+#define MOTOR_1_DIR 	( C9 )
+#define MOTOR_1_PWM 	( PWM2_MODULE1_CHA_C8 )
 
-#define MOTOR_2_DIR 	( C9 )
-#define MOTOR_2_PWM 	( PWM2_MODULE1_CHA_C8 )
+#define MOTOR_2_DIR 	( C7 )
+#define MOTOR_2_PWM 	( PWM2_MODULE0_CHA_C6 ) 
 
-#define MOTOR_3_DIR 	( C7 )
-#define MOTOR_3_PWM 	( PWM2_MODULE0_CHA_C6 )
+#define MOTOR_3_DIR 	( D2 )
+#define MOTOR_3_PWM 	( PWM2_MODULE3_CHB_D3 ) 
 
 /* 编码器引脚 */
 #define ENCODER_1_MODULE_NUM 	( QTIMER2_ENCODER1 )
@@ -34,20 +34,27 @@
 */
 #define MOTOR_1_FRONT_DIR 	( -1 )
 #define MOTOR_2_FRONT_DIR 	( 1 )
-#define MOTOR_3_FRONT_DIR 	( -1 )
+#define MOTOR_3_FRONT_DIR 	( 1 )
 
 /* 按键引脚 */
-#define UP_PIN 		( C15 )
-#define DOWN_PIN 	( ( C14 )
-#define LEFT_PIN 	( C13 )
-#define RIGHT_PIN 	( C12 )
+#define UP_PIN 		( C13 )
+#define DOWN_PIN 	( C15 )
+#define LEFT_PIN 	( C12 )
+#define RIGHT_PIN 	( C14 )
 #define PRESS_PIN 	( C11 )
 
 /* MCXVISION摄像头串口引脚 */
 #define MCXVISION_UART_INDEX			( UART_4 )                              
 #define MCXVISION_UART_BAUDRATE         ( 115200 )                            
 #define MCXVISION_UART_TX_PIN           ( UART4_TX_C16 )                       
-#define MCXVISION_UART_RX_PIN           ( UART4_RX_C17 )   
+#define MCXVISION_UART_RX_PIN           ( UART4_RX_C17 ) 
+
+/* OPENART摄像头串口引脚 */
+#define OPENART_UART_INDEX			    ( UART_1 )                              
+#define OPENART_UART_BAUDRATE           ( 115200 )                            
+#define OPENART_UART_TX_PIN             ( UART1_TX_B12 )                       
+#define OPENART_UART_RX_PIN             ( UART1_RX_B13 ) 
+
 
 /* 底盘参数*/
 #define GEAR_RATIO 		(float)(4.4*26/36)				// 齿轮比（ 编码器转速/电机输出侧转速 ）
@@ -70,7 +77,8 @@
 #define AI_CAMERA_UPGRADE_TIME_COUNT_IT_TIME	( 1 )					// AI摄像头更新计时中断周期 ms
 #define MENU_KEY_SCAN_IT_CH 					( PIT_CH3 )				// 按键扫描中断号
 #define MENU_KEY_SCAN_IT_TIME					( 20 )  				// 按键扫描中断周期 ms
-#define MCXVISION_UART_PRIORITY     			( LPUART4_IRQn )  		// MCXVISON摄像头串口接收中断号
+#define MCXVISION_UART_PRIORITY     			( LPUART2_IRQn )  		// MCXVISON摄像头串口接收中断号
+#define OPENART_UART_PRIORITY     			    ( LPUART1_IRQn )  		// OPENART摄像头串口接收中断号
 
 /*********************************************************************/
 

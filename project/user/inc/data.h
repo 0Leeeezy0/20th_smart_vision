@@ -29,6 +29,26 @@ typedef enum
 	BLOCK_MOVE_OUT_MODE = 4		// 方块推离模式
 }_CONTROL_MODE_;
 
+/* OPRNART识别标签 */
+typedef enum
+{
+	wrench = 0,				// 扳手
+	soldering_iron = 1,		// 电烙铁
+	electrodrill = 2,		// 电钻
+	tape_measure = 3,		// 米尺
+	screwdriver = 4,		// 螺丝刀
+	pliers = 5,				// 签字
+	oscillograph = 6,		// 示波器
+	multimeter = 7,			// 万用表
+	printer = 8,			// 打印机
+	keyboard = 9,			// 键盘
+	mobilephone = 10,		// 手机
+	mouse = 11,				// 鼠标
+	headphones = 12,		// 耳机
+	monitor = 13,			// 显示器
+	speaker = 14			// 音响
+}_OPENART_DETECTION_LABLE_;
+
 /* 电机运动控制 */
 typedef struct
 {
@@ -94,6 +114,14 @@ typedef struct
 	_PID_PARAMETERS_ mcxvision_track_pid_paraments;	
 	_PID_VARIABLE_ mcxvision_track_pid_variable;	
 }_MCXVISION_TRACK_PID_;
+
+/* OPENART识别结果 */
+typedef struct
+{
+	uint8 result_kind;					// 识别结果类别（0：标签 1：手写字）
+	_OPENART_DETECTION_LABLE_ lable;	// 识别标签结果
+	uint8 num;							// 识别手写数字结果
+}_OPENART_DETECTION_RESULT_;
 
 /* 标志位 */
 extern uint8 gyro_calibration_flag;	// 陀螺仪校准
@@ -194,13 +222,16 @@ extern int16 path_end;	// 路径线寻找结束高度
 extern int16 control_point;	// 控制点高度（速度 3 30 速度 8 45）
 extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 
-/* AI追踪 */
+/* MCXVISION追踪 */
 extern float track_linear_speed_target;	// 追踪线速度
 extern float track_linear_speed_revise;	// 追踪修正线速度
 extern int16 detection_box_width_limit;	// MCXVISION摄像头识别框宽度阈值
 extern int16 detection_box_width_std;	// MCXVISION摄像头识别框宽度标准阈值
-extern int16 detection_box_center_limit;	// MCXVISION摄像头识别框中心阈值
+extern int16 detection_box_center_limit;	// MCXVISION摄像头识别框中心阈值 
 extern uint16 block_distance;			// 方块距离TOF距离
+
+/* OPENART识别 */
+extern _OPENART_DETECTION_RESULT_ openart_detection_result;
 
 /******************************************************************/
 

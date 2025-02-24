@@ -42,15 +42,12 @@
 // 本例程是开源库移植用空工程
 #include "common.h"
 
-extern float acc_x_calibration;
-
 int main(void)
 {
     clock_init(SYSTEM_CLOCK_600M);  // 不可删除
     debug_init();                   // 调试端口初始化
 
     // 此处编写用户代码 例如外设初始化代码等
-	path_control_init();
 	wireless_uart_init();
 	path_control_init();
 	chassis_control_init();
@@ -64,6 +61,9 @@ int main(void)
 		{
 			menu_service_start();
 		}
+        
+        // ips200_show_int(10,10,1,3);
+        
 		// 此处编写需要循环执行的代码
     }
 }
