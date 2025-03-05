@@ -141,6 +141,21 @@
 
 /**********************************************************************/
 
+/****************************** 赛道元素提取参数 ******************************/
+
+#define TRACK_WIDTH 					( 50 )	// 赛道在前瞻点高度的宽度
+#define SIDE_EXTRACT_START_Y 			( 90 )	// 边线开始提取高度
+#define SIDE_EXTRACT_END_Y 				( 10 )	// 边线结束提取高度
+#define POINT_DISTANCE 					( 10 )	// 拐点/弯点距离
+#define SKIP_POINT_DISTANCE 			( 20 )	// 跳过点的距离（识别到拐点后跳过多少距离）	
+#define INFLECTION_POINT_ANGLE_MIN 		( 70 )	// 拐点最小角度阈值
+#define INFLECTION_POINT_ANGLE_MAX 		( 135 )	// 拐点最大角度阈值
+#define BEND_POINT_ANGLE_MIN 			( 120 )	// 弯点最小角度阈值
+#define BEND_POINT_ANGLE_MAX 			(170)	// 弯点最大角度阈值
+
+/**********************************************************************/
+
+
 /****************************** PID ******************************/
 
 #define MOTOR_PID_CHOOSE 			( 1 )		// 电机PID类型（ 增量式：0   位置式：1）

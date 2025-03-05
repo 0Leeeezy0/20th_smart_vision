@@ -22,11 +22,20 @@ API：
 /* 赛道循迹控制初始化 */
 void path_control_init(void);
 
-/* 路径线扫描 */
-void path_search(void);
+/* 路径线提取 */
+void path_extract(void);
+
+/* 边线提取 */
+void side_extract(void);
 
 /* 循迹控制 */
 void path_control(float path_control_speed);
+
+/* 边线点类型判断 */
+void side_point_kind_judge(void);
+
+/* 元素判断 */
+void element_judge(void);
 
 /* 循迹PID参数结构体初始化 */
 _PATH_PID_ path_control_pid_init(void);

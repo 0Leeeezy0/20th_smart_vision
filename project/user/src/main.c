@@ -62,12 +62,10 @@ int main(void)
     while(1)
     {
         // 此处编写需要循环执行的代码
-//		if(gyro_calibration_flag && acc_calibration_flag)
-//		{
-//			menu_service_start();
-//		}
-        
-		ips200_show_int(DATA_MAX_COL,9*MENU_ROW_PITCH,track_x_center,3); ips200_show_int(DATA_MAX_COL,10*MENU_ROW_PITCH,detection_box_width,3);
+		if(gyro_calibration_flag && acc_calibration_flag)
+		{
+			menu_service_start();
+		}
 		
 		// 此处编写需要循环执行的代码
     }

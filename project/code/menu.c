@@ -312,21 +312,28 @@ void start(void)
 	system_delay_ms(1000);
 	while(1)
 	{
-//		screen_clear();
+		// screen_clear();
 		menu_back(NULL);
 		menu_point();
 		menu_title_show();
 		threshold();
-		path_search();
+		side_extract();
+		side_point_kind_judge();
+		element_judge();
+		path_extract();
 		path_draw();
+		// ips200_draw_point(50, 100, RGB565_RED);
 		screen_image(0, MENU_ROW_PITCH, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-		switch(control_mode_flag)
-		{
-			case PATH_CONTROL_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"PATH"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,path_err,3); screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,track_x_center,3); screen_int(DATA_MAX_COL,10*MENU_ROW_PITCH,detection_box_width,3); break; }	// 循迹控制
-			case AI_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCXVISION"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_err,3); break; }	// MCXVISION跟踪控制
-			case BLOCK_RETRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"RETRACK"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3); break; }	// 方块侧面重追踪控制
-			case BLOCK_MOVE_OUT_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"BLOCK_MOVE_OUT"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3); break; }	// 方块推离模式
-		}
+		screen_image(0, MT9V03X_H+MENU_ROW_PITCH, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
+		screen_int(0,MT9V03X_H*2+MENU_ROW_PITCH*2,L_inflection_point_num,3);
+		screen_int(DATA_MAX_COL,MT9V03X_H*2+MENU_ROW_PITCH*2,R_inflection_point_num,3);
+//		switch(control_mode_flag)
+//		{
+//			case PATH_CONTROL_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"PATH"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,path_err,3); screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,track_x_center,3); screen_int(DATA_MAX_COL,10*MENU_ROW_PITCH,detection_box_width,3); break; }	// 循迹控制
+//			case AI_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCXVISION"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_err,3); break; }	// MCXVISION跟踪控制
+//			case BLOCK_RETRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"RETRACK"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3); break; }	// 方块侧面重追踪控制
+//			case BLOCK_MOVE_OUT_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"BLOCK_MOVE_OUT"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3); break; }	// 方块推离模式
+//		}
 		control_mode_dispatch();
 		// path_control(path_linear_speed_target);
 	}

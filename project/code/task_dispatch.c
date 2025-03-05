@@ -10,16 +10,15 @@ API：
 /* 控制模式选择 */
 static void control_mode_choose(void)
 {
-	if(control_mode_flag == BLOCK_RETRACK_MODE || control_mode_flag == BLOCK_MOVE_OUT_MODE || track_finsh_next_mode_flag == BLOCK_MOVE_OUT_MODE);
-	else if(detection_box_width > detection_box_width_limit && abs(track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2) < detection_box_center_limit && ai_camera_0_enable_flag == TRUE && control_mode_flag != BLOCK_MOVE_OUT_MODE)
+	if((control_mode_flag == BLOCK_RETRACK_MODE || control_mode_flag == BLOCK_MOVE_OUT_MODE || track_finsh_next_mode_flag == BLOCK_MOVE_OUT_MODE) && ai_camera_0_enable_flag == TRUE)
 	{
+		if(detection_box_width == 0 && track_x_center == 0)
+			control_mode_flag = PATH_CONTROL_MODE;
+	}
+	else if(detection_box_width > detection_box_width_limit && abs(track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2) < detection_box_center_limit && ai_camera_0_enable_flag == TRUE)
 		control_mode_flag = AI_TRACK_MODE;
-	}
 	else
-	{
 		control_mode_flag = PATH_CONTROL_MODE;
-	}
-	
 }
 
 /* 控制模式调度 */
@@ -39,7 +38,7 @@ void control_mode_dispatch(void)
 void block_move_out_control(void)
 {
 	// 推
-	chassis_total_control(CHASSIS_MOVE,0,2,0,0,10000);
+	chassis_total_control(CHASSIS_MOVE,0,2,0,0,0);
 	// 回
 	chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,90,0);
 }

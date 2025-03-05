@@ -186,6 +186,7 @@ extern int16 path[MT9V03X_H][2];	// 路径线x、y坐标
 extern int16 track_x_center;	// 追踪中心X坐标
 extern int16 detection_box_width;	// 识别框宽度
 extern int16 track_err;	// 追踪误差
+extern int16 track_x;
 
 /**********************************************************************/
 
@@ -219,8 +220,20 @@ extern _AI_TRACK_PID_ ai_track_pid;	// MCXVISION追踪PID
 
 /* 循迹 */
 extern float path_linear_speed_target;	// 循迹线速度
-extern int16 path_start;	// 路径线寻找开始高度
-extern int16 path_end;	// 路径线寻找结束高度
+extern int16 path_start;	// 路径线提取开始高度
+extern int16 path_end;	// 路径线提取结束高度
+extern int16 L_side[MT9V03X_H*3][2];	// 左边线坐标
+extern int16 R_side[MT9V03X_H*3][2];	// 右边线坐标
+extern int16 L_side_point_num;		// 左边线点数量
+extern int16 R_side_point_num;		// 右边线点数量
+extern int16 L_inflection_point[MT9V03X_H*2][2];	// 左边线拐点坐标
+extern int16 R_inflection_point[MT9V03X_H*2][2];	// 右边线拐点坐标
+extern int16 L_inflection_point_num;		// 左边线拐点数量
+extern int16 R_inflection_point_num;		// 右边线拐点数量
+extern int16 L_bend_point[MT9V03X_H*2][2];		// 左边线弯点坐标
+extern int16 R_bend_point[MT9V03X_H*2][2];		// 右边线弯点坐标
+extern int16 L_bend_point_num;		// 左边线弯点数量
+extern int16 R_bend_point_num;		// 右边线弯点数量
 extern int16 control_point;	// 控制点高度（速度 3 30 速度 8 45）
 extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 

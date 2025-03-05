@@ -17,4 +17,7 @@ void threshold(void);
 /* 绘制路径线 */
 void path_draw(void);
 
+/* 绘制直线 */
+void line_draw(uint16 x_start, uint16 y_start, uint16 x_end, uint16 y_end);
+
 #endif

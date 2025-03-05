@@ -628,6 +628,7 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 {
 	chassis_motion_flag = _chassis_motion_flag_;
 	chassis_rotate_finsh_flag = FALSE;
+	chassis_move_time_count_flag = FALSE;
 	
 	chassis_yaw = _chassis_yaw_;
 	chassis_linear_speed = _chassis_linear_speed_;
@@ -640,7 +641,9 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 		while(1)
 		{
 			if(chassis_rotate_finsh_flag == TRUE)
+			{
 				break;
+			}	
 		}
 	}
 	// 延时等待移动完成
@@ -648,13 +651,16 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 	{
 		chassis_move_time_count_flag = TRUE;
 		// 若方块推出赛道，则退出循环
-		while(chassis_move_time_count <= _delay_ms_)
+		while(1)
 		{
-			if(ai_camera_1_detection_result.is_move_out == TRUE)
+			if(ai_camera_1_detection_result.is_move_out == TRUE && _delay_ms_ == 0)
 			{
-				chassis_move_time_count_flag = FALSE;
 				break;
-			}
+			}				
+			if(chassis_move_time_count > _delay_ms_ && _delay_ms_ != 0)
+			{
+				break;
+			}	
 		}
 		chassis_move_time_count_flag = FALSE;
 	}

@@ -50,6 +50,7 @@ int16 path[MT9V03X_H][2] = {0};	// 路径线x、y坐标
 
 /* AI追踪 */
 int16 track_x_center;	// 追踪中心X坐标
+int16 track_x;
 int16 detection_box_width;	// 识别框宽度
 int16 track_err = 0;	// 追踪误差
 
@@ -77,10 +78,22 @@ _AI_TRACK_PID_ ai_track_pid;		// AI追踪
 
 /* 循线 */
 float path_linear_speed_target = 6;	// 循迹线速度
-int16 path_start = 10;			// 路径线寻找开始高度
-int16 path_end = 70;			// 路径线寻找结束高度
-int16 control_point = 55;		// 控制点高度（速度：3：30 速度：6：50 速度：8：55）
-int16 prediction_point = 50;	// 预测点高度：其横坐标将作为下一帧的搜线起点
+int16 path_start = 10;			// 路径线提取开始高度
+int16 path_end = 70;			// 路径线提取结束高度
+int16 L_side[MT9V03X_H*3][2] = {0};	// 左边线坐标
+int16 R_side[MT9V03X_H*3][2] = {0};	// 右边线坐标
+int16 L_side_point_num = 0;		// 左边线点数量
+int16 R_side_point_num = 0;		// 右边线点数量
+int16 L_inflection_point[MT9V03X_H*2][2] = {0};	// 左边线拐点坐标
+int16 R_inflection_point[MT9V03X_H*2][2] = {0};	// 右边线拐点坐标
+int16 L_inflection_point_num = 0;		// 左边线拐点数量
+int16 R_inflection_point_num = 0;		// 右边线拐点数量
+int16 L_bend_point[MT9V03X_H*2][2] = {0};	// 左边线弯点坐标
+int16 R_bend_point[MT9V03X_H*2][2] = {0};	// 右边线弯点坐标
+int16 L_bend_point_num = 0;		// 左边线弯点数量
+int16 R_bend_point_num = 0;		// 右编线弯点数量
+int16 control_point = 30;		// 控制点高度（速度：3：20 速度：6：30 速度：8：55）
+int16 prediction_point = 20;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 
 /* AI追踪 */
 float track_linear_speed_target = 2.5;	// 追踪线速度

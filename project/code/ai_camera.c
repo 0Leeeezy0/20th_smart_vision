@@ -18,6 +18,13 @@ static uint8 fifo_get_data_ai_camera_1[64];                            // fifo Ê
 
 static uint8  ai_camera_0_upgrade_flag = 0;	// AIÉãÏñÍ·0 ¸üÐÂ±êÖ¾Î»
 
+typedef struct
+{
+    uint16 res_x;
+    uint16 res_w;
+}od_result_t;
+volatile od_result_t od_result[10];
+
 /* AIÉãÏñÍ·³õÊ¼»¯ */
 void ai_camera_init(void)
 {
@@ -47,18 +54,18 @@ void ai_camera_1_init(void)
 /* AIÉãÏñÍ·1 Ê¶±ð½á¹û×ª»» */
 static void ai_camera_1_data_transform(uint8 ai_camera_1_detection_result_raw)
 {
+	ai_camera_1_detection_result.is_move_out = FALSE;
 	// ÆÕÍ¨lable
 	if(ai_camera_1_detection_result_raw >= 0 && ai_camera_1_detection_result_raw <= 14)
 	{
 		ai_camera_1_detection_result.result_kind = 0;
-		ai_camera_1_detection_result.is_move_out = FALSE;
+		
 		ai_camera_1_detection_result.lable = (_AI_CAMERA_1_DETECTION_LABLE_)ai_camera_1_detection_result_raw;
 	}
 	// ÊÖÐ´Êý×Ö
 	else if(ai_camera_1_detection_result_raw > 14 && ai_camera_1_detection_result_raw <= 114)
 	{
 		ai_camera_1_detection_result.result_kind = 1;
-		ai_camera_1_detection_result.is_move_out = FALSE;
 		ai_camera_1_detection_result.num = ai_camera_1_detection_result_raw-15;
 	}
 	// É¶¶¼Ã»ÓÐ
@@ -134,23 +141,35 @@ void uart_rx_interrupt_handler_ai_camera_0 (void)
 	static uint16 ai_camera_0_detection_box_width;	// AIÉãÏñÍ·0 Ê¶±ð¿ò¿í¶È
 	
 //    get_data = uart_read_byte(UART_INDEX);                                      // ½ÓÊÕÊý¾Ý while µÈ´ýÊ½ ²»½¨ÒéÔÚÖÐ¶ÏÊ¹ÓÃ
-	uint8 get_data = 0;
-	uint32 fifo_data_count = 0;                         // fifo Êý¾Ý¸öÊý
-
-    uart_query_byte(AI_CAMERA_0_UART_INDEX, &get_data);                           // ½ÓÊÕÊý¾Ý ²éÑ¯Ê½ ÓÐÊý¾Ý»á·µ»Ø TRUE Ã»ÓÐÊý¾Ý»á·µ»Ø FALSE
-    fifo_write_buffer(&uart_data_fifo_ai_camera_0, &get_data, 2);                           // ½«Êý¾ÝÐ´Èë fifo ÖÐ
-    
-    fifo_data_count = fifo_used(&uart_data_fifo_ai_camera_0);                           // ²é¿´ fifo ÊÇ·ñÓÐÊý¾Ý
-    if(fifo_data_count != 0)                                                // ¶ÁÈ¡µ½Êý¾ÝÁË
+	uint8 get_data = 0;                                                             // ½ÓÊÕÊý¾Ý±äÁ¿
+    uint32 temp_length = 0;
+    uint8 od_num = 0;
+    uart_query_byte(AI_CAMERA_0_UART_INDEX, &get_data);  
     {
-        fifo_read_buffer(&uart_data_fifo_ai_camera_0, fifo_get_data_ai_camera_0, &fifo_data_count, FIFO_READ_AND_CLEAN);    // ½« fifo ÖÐÊý¾Ý¶Á³ö²¢Çå¿Õ fifo ¹ÒÔØµÄ»º³å
-        uart_write_buffer(AI_CAMERA_0_UART_INDEX, fifo_get_data_ai_camera_0, fifo_data_count);      // ½«¶ÁÈ¡µ½µÄÊý¾Ý·¢ËÍ³öÈ¥
-		
-        ai_camera_0_detection_x1 = fifo_get_data_ai_camera_0[0]-48;
-		ai_camera_0_detection_box_width = fifo_get_data_ai_camera_0[1]-48;
-		detection_box_width = ai_camera_0_detection_box_width;
-		track_x_center = ai_camera_0_detection_x1 + ai_camera_0_detection_box_width/2;
+        fifo_write_buffer(&uart_data_fifo_ai_camera_0, &get_data, 1);   
     }
+    
+    if(0xFF == get_data)
+    {
+        // ¶ÁÈ¡µÚ1¸öÊý¾Ý£¬ÓÃÓÚÅÐ¶ÏÖ¡Í·£¬Ê¹ÓÃÍêÇå³ý´ËÊý¾Ý
+        temp_length = 1;
+        fifo_read_buffer(&uart_data_fifo_ai_camera_0, fifo_get_data_ai_camera_0, &temp_length, FIFO_READ_AND_CLEAN);
+        if(0xAA == fifo_get_data_ai_camera_0[0])
+        {
+            // ¶ÁÈ¡µÚ1¸öÊý¾Ý£¬ÓÃÓÚ»ñÈ¡Ä¿±êÐòºÅ£¬Ê¹ÓÃÍêÇå³ý´ËÊý¾Ý
+            temp_length = 1;
+            fifo_read_buffer(&uart_data_fifo_ai_camera_0, fifo_get_data_ai_camera_0, &temp_length, FIFO_READ_AND_CLEAN);
+            track_x = fifo_get_data_ai_camera_0[0];
+            // ¶ÁÈ¡8¸öÊý¾Ý£¬ÓÃÓÚ»ñÈ¡Ä¿±êÊý¾Ý£¬È»ºó×ªÒÆµ½½á¹¹ÌåÊý×éÖÐ
+            temp_length = 1;
+            fifo_read_buffer(&uart_data_fifo_ai_camera_0, fifo_get_data_ai_camera_0, &temp_length, FIFO_READ_AND_CLEAN);
+            detection_box_width = fifo_get_data_ai_camera_0[0];
+            track_x_center = track_x + detection_box_width/2;
+            
+        }
+        fifo_clear(&uart_data_fifo_ai_camera_0);
+    }
+    
 }
 
 //-------------------------------------------------------------------------------------------------------------------
@@ -175,7 +194,7 @@ void uart_rx_interrupt_handler_ai_camera_1 (void)
     {
         fifo_read_buffer(&uart_data_fifo_ai_camera_1, fifo_get_data_ai_camera_1, &fifo_data_count, FIFO_READ_AND_CLEAN);    // ½« fifo ÖÐÊý¾Ý¶Á³ö²¢Çå¿Õ fifo ¹ÒÔØµÄ»º³å
         uart_write_buffer(AI_CAMERA_1_UART_INDEX, fifo_get_data_ai_camera_1, fifo_data_count);      // ½«¶ÁÈ¡µ½µÄÊý¾Ý·¢ËÍ³öÈ¥
-        ai_camera_1_detection_result_raw = fifo_get_data_ai_camera_1[0] - 49;
+        ai_camera_1_detection_result_raw = fifo_get_data_ai_camera_1[0];
 		ai_camera_1_data_transform(ai_camera_1_detection_result_raw);
     }
 }
