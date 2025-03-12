@@ -388,7 +388,7 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	chassis_pid.motor_3_pid_variable.last_last_err = 0;
 	
 	// 底盘转动 PID
-	for(int i = 0;i < 4;i++)
+	for(int i = 0;i < 8;i++)
 	{
 		chassis_pid.rotate_pid_parameters[i].p = ROTATE_PID[i][0];
 		chassis_pid.rotate_pid_parameters[i].i = ROTATE_PID[i][1];
@@ -586,17 +586,33 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 		{
 			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[0]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
-		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 5 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 20)
+		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 5 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 15)
 		{
 			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[1]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
-		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 20 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 60)
+		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 15 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 25)
 		{
 			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[2]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
-		else
+		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 25 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 35)
 		{
 			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[3]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		}
+		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 35 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 45)
+		{
+			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[4]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		}
+		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 45 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 55)
+		{
+			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[5]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		}
+		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 55 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 65)
+		{
+			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[6]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		}
+		else
+		{
+			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[7]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		// 电机闭环PID解算
 		chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
@@ -612,7 +628,7 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 	}
 	else
 	{
-		// 电机驱动
+		// 电机停止
 		motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
 		motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
 		motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir); 

@@ -96,14 +96,14 @@ typedef struct
 	_PID_VARIABLE_ motor_2_pid_variable;
 	_PID_PARAMETERS_ motor_3_pid_parameters;
 	_PID_VARIABLE_ motor_3_pid_variable;
-	_PID_PARAMETERS_ rotate_pid_parameters[4];
+	_PID_PARAMETERS_ rotate_pid_parameters[8];
 	_PID_VARIABLE_ rotate_pid_variable;
 }_CHASSIS_PID_;
 
 /* 循迹PID */
 typedef struct
 {
-	_PID_PARAMETERS_ path_pid_parameters[3];	
+	_PID_PARAMETERS_ path_pid_parameters[4];	
 	_PID_VARIABLE_ path_pid_variable;				
 }_PATH_PID_;
 
@@ -198,10 +198,10 @@ extern float PID_MOTOR_2[5];
 extern float PID_MOTOR_3[5];
 
 /* 转动PID参数 */
-extern float ROTATE_PID[4][5];
+extern float ROTATE_PID[8][5];
 
 /* 循迹PID参数 */
-extern float PATH_PID[3][6];
+extern float PATH_PID[4][6];
 
 /* 底盘控制参数 */
 extern float chassis_yaw;					// 底盘航向角
@@ -219,6 +219,7 @@ extern _PATH_PID_ path_pid;							// 循迹PID
 extern _AI_TRACK_PID_ ai_track_pid;	// MCXVISION追踪PID
 
 /* 循迹 */
+extern int16 mid_x;	// 循线开始中点
 extern float path_linear_speed_target;	// 循迹线速度
 extern int16 path_start;	// 路径线提取开始高度
 extern int16 path_end;	// 路径线提取结束高度

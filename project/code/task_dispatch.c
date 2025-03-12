@@ -40,5 +40,5 @@ void block_move_out_control(void)
 	// ÍÆ
 	chassis_total_control(CHASSIS_MOVE,0,2,0,0,0);
 	// »Ø
-	chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,90,0);
+	chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,100,0);
 }

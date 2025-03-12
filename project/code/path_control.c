@@ -28,6 +28,8 @@ void path_extract(void)
 {
 	int16 x,y;
 	static int16 num = 0;
+	if(mid_x == MT9V03X_W/2)
+		num = 0;
 	if(num < 10)
 	{
 		path[0][0] = MT9V03X_W/2;
@@ -72,8 +74,6 @@ void path_extract(void)
 /* 边线线提取 */
 void side_extract(void)
 {
-    // 图像中点
-    static int midX = MT9V03X_W/2;
     // 八临域寻线变量设置
     int seed_grow_dir[8][4] = {{0,1,0,1},{1,1,-1,1},{1,0,-1,0},{1,-1,-1,-1},{0,-1,0,-1},{-1,-1,1,-1},{-1,0,1,0},{-1,1,1,1}};    // 种子X,Y方向的生长向量：从正下方逆时针 和 从正下方顺时针 
     int grow_dir_idx = 0;
@@ -85,7 +85,7 @@ void side_extract(void)
 
     // 寻找种子起点
     // 左边线种子
-    for(int X = midX;X >= 0;X--)
+    for(int X = mid_x;X >= 0;X--)
     {
         if(image_OTSU[SIDE_EXTRACT_START_Y-1][X] == 0)    // 黑色
         {
@@ -105,7 +105,7 @@ void side_extract(void)
         }
     }
     // 右边线种子
-    for(int X = midX;X <= MT9V03X_W-1;X++)
+    for(int X = mid_x;X <= MT9V03X_W-1;X++)
     {
         if(image_OTSU[SIDE_EXTRACT_START_Y-1][X] == 0)    // 黑色
         {
@@ -125,8 +125,8 @@ void side_extract(void)
         }
     }
 
-    // 更新midX
-    midX = (L_side[0][0] + R_side[0][0])/2;
+    // 更新mid_x
+    mid_x = (L_side[0][0] + R_side[0][0])/2;
 
     // 爬线
     // 左边线
@@ -273,11 +273,13 @@ void side_point_kind_judge(void)
         }
 
         // 计算拐点并存储坐标，前提：拐点坐标不再边框上
-        if(abs(vectorAngle[0]) > INFLECTION_POINT_ANGLE_MIN && abs(vectorAngle[0]) < INFLECTION_POINT_ANGLE_MAX && L_side[i][0] < MT9V03X_W-11 && (vector[0][0]+vector[1][0]) < 0)
+        if(abs(vectorAngle[0]) > INFLECTION_POINT_ANGLE_MIN && abs(vectorAngle[0]) < INFLECTION_POINT_ANGLE_MAX && L_side[i][0] > 11 && (vector[0][0]+vector[1][0]) < 0)
         {
             //  cout << abs(AngleVector[0]) << endl;
             L_inflection_point[L_inflection_point_num][0] = L_side[i][0];
             L_inflection_point[L_inflection_point_num][1] = L_side[i][1];
+			if(L_side[i][0] > SIDE_END)
+				break;
             if(L_inflection_point_num < MT9V03X_H*2-1)	/************************注意***************************/
                 L_inflection_point_num++;
             else
@@ -322,11 +324,13 @@ void side_point_kind_judge(void)
         }
 
         // 计算拐点并存储坐标，前提：拐点坐标不再边框上
-        if(abs(vectorAngle[1]) > INFLECTION_POINT_ANGLE_MIN && abs(vectorAngle[1]) < INFLECTION_POINT_ANGLE_MAX && R_side[i][0] > 10 && (vector[0][2]+vector[1][2]) > 0)
+        if(abs(vectorAngle[1]) > INFLECTION_POINT_ANGLE_MIN && abs(vectorAngle[1]) < INFLECTION_POINT_ANGLE_MAX && R_side[i][0] < MT9V03X_W-11 && (vector[0][2]+vector[1][2]) > 0)
         {
             //  cout << abs(AngleVector[0]) << endl;
             R_inflection_point[R_inflection_point_num][0] = R_side[i][0];
             R_inflection_point[R_inflection_point_num][1] = R_side[i][1];
+			if(R_side[i][0] < MT9V03X_W-SIDE_END)
+				break;
             if(R_inflection_point_num < MT9V03X_H*2-1)	/************************注意***************************/
                 R_inflection_point_num++;
             else
@@ -404,15 +408,18 @@ void path_control(float path_control_speed)
 	path_err = path[control_point-path_start][0] - MT9V03X_W/2;
 	if(abs(path_err) > 15)
 	{
+		chassis_linear_speed = path_control_speed;
 		chassis_yaw = 0;
 		chassis_angular_speed = path_control_pid(PATH_PID_KIND,path_pid,path_err);
 	}
 	else
 	{
-		chassis_yaw = 1.2*path_err;
+		
+		chassis_yaw = path_control_pid(PATH_PID_KIND,path_pid,path_err);
 		chassis_angular_speed = 0;
+		chassis_linear_speed = path_control_speed;
 	}
-	chassis_linear_speed = path_control_speed;
+	
 }
 
 /* 循迹PID参数结构体初始化 */
@@ -421,7 +428,7 @@ _PATH_PID_ path_control_pid_init(void)
 	static _PATH_PID_ path_pid;
 
 	// 循迹 PID
-	for(uint8 i = 0;i < 3; i++)
+	for(uint8 i = 0;i < 4; i++)
 	{
 		path_pid.path_pid_parameters[i].p = PATH_PID[i][0];
 		path_pid.path_pid_parameters[i].i = PATH_PID[i][1];
@@ -442,17 +449,21 @@ float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,floa
 	float gyro_now_err,value;
 	static float gyro_last_err = 0;
 	gyro_now_err = GYRO_Z_FORWARD*gyro_z;
-	if(abs(path_err) > 15 && abs(path_err) < 25)
+	if(abs(path_err) < 15)
 	{
 		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
 	}
-	else if(abs(path_err) >= 25 && abs(path_err) < 40)
+	else if(abs(path_err) >= 15 && abs(path_err) < 25)
 	{
 		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
 	}
-	else
+	else if(abs(path_err) >= 25 && abs(path_err) < 40)
 	{
 		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
+	}
+	else
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[3]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
 	}
 	gyro_last_err = gyro_now_err;
 	

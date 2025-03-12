@@ -171,6 +171,9 @@ void menu_rotate_angle_pid_page(void);
 
 /****************************** 菜单页面服务 ******************************/
 
+/* 菜单启动页面返回服务 */
+void menu_start_page_back_service(void);
+
 /* 菜单欧拉角页面返回服务 */
 void menu_euler_angle_page_back_service(void);
 

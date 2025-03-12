@@ -43,7 +43,7 @@ API：
 static _MENU_PAGE_ menu_page[] = 
 {
 	/* 页面名称         标题使能     级别 序号    参数行数   页面函数指针 */
-	{"ROOT"         	,FALSE 		,0 	,0 		,18 	,menu_root_page},
+	{"ROOT"         	,FALSE 		,0 	,0 		,19 	,menu_root_page},
 	{"START"        	,TRUE 		,1 	,0 		,0 		,start},
 	{"SAVE"        		,TRUE 		,1 	,1 		,0 		,save},
 	{"LOAD"				,TRUE 		,1 	,2 		,0 		,load},
@@ -313,7 +313,7 @@ void start(void)
 	while(1)
 	{
 		// screen_clear();
-		menu_back(NULL);
+		menu_back(menu_start_page_back_service);
 		menu_point();
 		menu_title_show();
 		threshold();
@@ -325,8 +325,9 @@ void start(void)
 		// ips200_draw_point(50, 100, RGB565_RED);
 		screen_image(0, MENU_ROW_PITCH, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
 		screen_image(0, MT9V03X_H+MENU_ROW_PITCH, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-		screen_int(0,MT9V03X_H*2+MENU_ROW_PITCH*2,L_inflection_point_num,3);
-		screen_int(DATA_MAX_COL,MT9V03X_H*2+MENU_ROW_PITCH*2,R_inflection_point_num,3);
+		screen_int(0,2*MT9V03X_H+2*MENU_ROW_PITCH,L_inflection_point_num,3);
+		screen_int(DATA_MAX_COL/2,2*MT9V03X_H+2*MENU_ROW_PITCH,path_err,3);
+		screen_int(DATA_MAX_COL,2*MT9V03X_H+2*MENU_ROW_PITCH,R_inflection_point_num,3);
 //		switch(control_mode_flag)
 //		{
 //			case PATH_CONTROL_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"PATH"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,path_err,3); screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,track_x_center,3); screen_int(DATA_MAX_COL,10*MENU_ROW_PITCH,detection_box_width,3); break; }	// 循迹控制
@@ -774,7 +775,7 @@ void menu_path_pid_page(void)
 		screen_string(0,4*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.d.name);
 		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.d.data_float,1,5);
 		screen_string(0,5*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.output_limit.data_float,1,5);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.output_limit.data_float,2,5);
 		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.i_limit.name);
 		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.i_limit.data_float,1,5);
 		screen_string(0,7*MENU_ROW_PITCH,MENU_PATH_PID.PATH_PID.gyro_i_limit.name);
@@ -818,6 +819,13 @@ void menu_rotate_angle_pid_page(void)
 /**********************************************************************/
 
 /****************************** 菜单页面服务 ******************************/
+
+/* 菜单启动页面返回服务 */
+void menu_start_page_back_service(void)
+{
+	// 循线起点初始化
+	mid_x = MT9V03X_W/2;
+}
 
 /* 菜单欧拉角页面返回服务 */
 void menu_euler_angle_page_back_service(void)
@@ -1005,11 +1013,11 @@ void menu_path_pid_add_service(void)
 		case 1:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].p+=0.0005; break; }
 		case 2:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i+=0.00005; break; }
 		case 3:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].d+=0.00005; break; }
-		case 4:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].output_limit+=0.05; break; }
-		case 5:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit+=0.005; break; }
-		case 6:{ PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3]+=0.005; break; }
+		case 4:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].output_limit+=0.0005; break; }
+		case 5:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit+=0.0005; break; }
+		case 6:{ PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3]+=0.0005; break; }
 	}
-	if(MENU_PATH_PID.pid_kind.data_uint8 > 2)
+	if(MENU_PATH_PID.pid_kind.data_uint8 > 3)
 	{
 		MENU_PATH_PID.pid_kind.data_uint8 = 0;
 	}
@@ -1022,13 +1030,13 @@ void menu_path_pid_reduce_service(void)
 		case 1:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].p-=0.0005; break; }
 		case 2:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i-=0.00005; break; }
 		case 3:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].d-=0.00005; break; }
-		case 4:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].output_limit-=0.05; break; }
-		case 5:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit-=0.005; break; }
-		case 6:{ PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3]-=0.005; break; }
+		case 4:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].output_limit-=0.0005; break; }
+		case 5:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit-=0.0005; break; }
+		case 6:{ PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3]-=0.0005; break; }
 	}
-	if(MENU_PATH_PID.pid_kind.data_uint8 > 2)
+	if(MENU_PATH_PID.pid_kind.data_uint8 > 3)
 	{
-		MENU_PATH_PID.pid_kind.data_uint8 = 2;
+		MENU_PATH_PID.pid_kind.data_uint8 = 3;
 	}
 }
 
@@ -1041,10 +1049,10 @@ void menu_rotate_angle_pid_add_service(void)
 		case 1:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].p+=0.0005; break; }
 		case 2:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i+=0.00005; break; }
 		case 3:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].d+=0.00005; break; }
-		case 4:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].output_limit+=0.05; break; }
+		case 4:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].output_limit+=0.005; break; }
 		case 5:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i_limit+=0.005; break; }
 	}
-	if(MENU_ROTATE_PID.pid_kind.data_uint8 > 3)
+	if(MENU_ROTATE_PID.pid_kind.data_uint8 > 7)
 	{
 		MENU_ROTATE_PID.pid_kind.data_uint8 = 0;
 	}
@@ -1057,10 +1065,10 @@ void menu_rotate_angle_pid_reduce_service(void)
 		case 1:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].p-=0.0005; break; }
 		case 2:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i-=0.00005; break; }
 		case 3:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].d-=0.00005; break; }
-		case 4:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].output_limit-=0.05; break; }
+		case 4:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].output_limit-=0.005; break; }
 		case 5:{ chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i_limit-=0.005; break; }
 	}
-	if(MENU_ROTATE_PID.pid_kind.data_uint8 > 2)
+	if(MENU_ROTATE_PID.pid_kind.data_uint8 > 7)
 	{
 		MENU_ROTATE_PID.pid_kind.data_uint8 = 2;
 	}

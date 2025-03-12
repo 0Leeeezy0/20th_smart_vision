@@ -196,6 +196,7 @@ void uart_rx_interrupt_handler_ai_camera_1 (void)
         uart_write_buffer(AI_CAMERA_1_UART_INDEX, fifo_get_data_ai_camera_1, fifo_data_count);      // 将读取到的数据发送出去
         ai_camera_1_detection_result_raw = fifo_get_data_ai_camera_1[0];
 		ai_camera_1_data_transform(ai_camera_1_detection_result_raw);
+//		printf("%s",ai_camera_1_detection_result_raw);
     }
 }
 
