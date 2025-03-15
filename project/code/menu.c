@@ -44,7 +44,7 @@ static _MENU_PAGE_ menu_page[] =
 {
 	/* 页面名称         标题使能     级别 序号    参数行数   页面函数指针 */
 	{"ROOT"         	,FALSE 		,0 	,0 		,19 	,menu_root_page},
-	{"START"        	,TRUE 		,1 	,0 		,0 		,start},
+	{"DEBUG"        	,TRUE 		,1 	,0 		,0 		,debug},
 	{"SAVE"        		,TRUE 		,1 	,1 		,0 		,save},
 	{"LOAD"				,TRUE 		,1 	,2 		,0 		,load},
 	{"CLI"				,TRUE 		,1 	,3 		,0 		,cli},
@@ -79,6 +79,8 @@ static FUNC_UINT screen_uint;
 static FUNC_FLOAT screen_float;
 static FUNC_IMAGE screen_image;
 static FUNC_CLEAR screen_clear;
+static FUNC_DRAW_LINE screen_draw_line;
+static FUNC_DRAW_POINT screen_draw_point;
 
 /****************************** 菜单组件 ******************************/
 
@@ -90,8 +92,8 @@ void menu_init(void)
 	
 	switch(SCREEN_KIND)
 	{
-		case 0:{ screen_string = &(tft180_show_string); screen_int = &(tft180_show_int); screen_float = &(tft180_show_float); screen_clear = &(tft180_clear); screen_image = &(tft180_show_gray_image); screen_uint = &(tft180_show_uint); break; }
-		case 1:{ screen_string = &(ips200_show_string); screen_int = &(ips200_show_int); screen_float = &(ips200_show_float); screen_clear = &(ips200_clear); screen_image = &(ips200_show_gray_image); screen_uint = &(ips200_show_uint); break; }
+		case 0:{ screen_string = &(tft180_show_string); screen_int = &(tft180_show_int); screen_float = &(tft180_show_float); screen_clear = &(tft180_clear); screen_image = &(tft180_show_gray_image); screen_uint = &(tft180_show_uint); screen_draw_line = &(tft180_draw_line); screen_draw_point = &(tft180_draw_point); break; }
+		case 1:{ screen_string = &(ips200_show_string); screen_int = &(ips200_show_int); screen_float = &(ips200_show_float); screen_clear = &(ips200_clear); screen_image = &(ips200_show_gray_image); screen_uint = &(ips200_show_uint); screen_draw_line = &(ips200_draw_line); screen_draw_point = &(ips200_draw_point); break; }
 	}
 	
 	key_init(10);
@@ -286,6 +288,10 @@ void menu_root_page(void)
 		// 停止解算
 		euler_angle_flag = FALSE;
 		translate_shift_flag = FALSE;
+		
+		if(key_get_state(ULTIMATE) == KEY_SHORT_PRESS)
+			start();
+		
 		// 支持无限页数
 		for(i = 0;i < sizeof(menu_page)/sizeof(menu_page[0]);i++)
 		{
@@ -308,15 +314,63 @@ void menu_root_page(void)
 /* 启动 */
 void start(void)
 {
-	menu_page_init(start);
+	menu_page_init(debug);
+	int i;
+	for(i = 0;i <= 20;i++)
+	{
+		if(i <=9)
+		{
+			gpio_set_level(BUZZER_PIN, 0);
+			system_delay_ms(100-10*i);
+			gpio_set_level(BUZZER_PIN, 1);
+			system_delay_ms(10*i);
+		}
+		else
+		{
+			gpio_set_level(BUZZER_PIN, 0);
+			system_delay_ms(10);
+			gpio_set_level(BUZZER_PIN, 1);
+			system_delay_ms(90);
+		}	
+	}
+	gpio_set_level(BUZZER_PIN, 0);
+	
+	while(1)
+	{
+		if(key_get_state(ULTIMATE) == KEY_SHORT_PRESS)
+		{
+			gpio_set_level(BUZZER_PIN, 0);
+			menu_root_page();
+		}
+		threshold(mt9v03x_image);
+		dilate(mt9v03x_image);
+		erode(mt9v03x_image);
+		side_extract();
+		side_point_kind_judge();
+		element_judge();
+		path_extract();
+		path_draw();
+		control_mode_dispatch();
+	}
+}
+
+/* 调试 */
+void debug(void)
+{
+	menu_page_init(debug);
 	system_delay_ms(1000);
+	
+	int point_draw[8][2] = {{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
+	
 	while(1)
 	{
 		// screen_clear();
-		menu_back(menu_start_page_back_service);
+		menu_back(menu_debug_page_back_service);
 		menu_point();
 		menu_title_show();
-		threshold();
+		threshold(mt9v03x_image);
+		dilate(mt9v03x_image);
+		erode(mt9v03x_image);
 		side_extract();
 		side_point_kind_judge();
 		element_judge();
@@ -325,18 +379,31 @@ void start(void)
 		// ips200_draw_point(50, 100, RGB565_RED);
 		screen_image(0, MENU_ROW_PITCH, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
 		screen_image(0, MT9V03X_H+MENU_ROW_PITCH, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
+		screen_draw_line(0, MT9V03X_H+MENU_ROW_PITCH+SIDE_EXTRACT_START_Y, MT9V03X_W, MT9V03X_H+MENU_ROW_PITCH+SIDE_EXTRACT_START_Y ,RGB565_RED);
+		screen_draw_line(0, MT9V03X_H+MENU_ROW_PITCH+SIDE_EXTRACT_END_Y, MT9V03X_W, MT9V03X_H+MENU_ROW_PITCH+SIDE_EXTRACT_END_Y ,RGB565_RED);
+		for(int i = 0;i < L_inflection_point_num;i++)
+		{
+			for(int j = 0;j < 8;j++)
+			{
+				screen_draw_point(L_inflection_point[i][0]+point_draw[j][0], MT9V03X_H+MENU_ROW_PITCH+L_inflection_point[i][1]+point_draw[j][1], RGB565_RED);
+			}
+		}
+		for(int i = 0;i < R_inflection_point_num;i++)
+		{
+			for(int j = 0;j < 8;j++)
+			{
+				screen_draw_point(R_inflection_point[i][0]+point_draw[j][0], MT9V03X_H+MENU_ROW_PITCH+R_inflection_point[i][1]+point_draw[j][1], RGB565_RED);
+			}
+		}
+		screen_draw_line(0, MT9V03X_H+MENU_ROW_PITCH+SIDE_EXTRACT_END_Y, MT9V03X_W, MT9V03X_H+MENU_ROW_PITCH+SIDE_EXTRACT_END_Y ,RGB565_RED);
 		screen_int(0,2*MT9V03X_H+2*MENU_ROW_PITCH,L_inflection_point_num,3);
 		screen_int(DATA_MAX_COL/2,2*MT9V03X_H+2*MENU_ROW_PITCH,path_err,3);
 		screen_int(DATA_MAX_COL,2*MT9V03X_H+2*MENU_ROW_PITCH,R_inflection_point_num,3);
-//		switch(control_mode_flag)
-//		{
-//			case PATH_CONTROL_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"PATH"); screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,path_err,3); screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,track_x_center,3); screen_int(DATA_MAX_COL,10*MENU_ROW_PITCH,detection_box_width,3); break; }	// 循迹控制
-//			case AI_TRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"MCXVISION"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_err,3); break; }	// MCXVISION跟踪控制
-//			case BLOCK_RETRACK_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"RETRACK"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3); break; }	// 方块侧面重追踪控制
-//			case BLOCK_MOVE_OUT_MODE:{ screen_string(0,6*MENU_ROW_PITCH,"BLOCK_MOVE_OUT"); screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3); break; }	// 方块推离模式
-//		}
+		screen_int(0,2*MT9V03X_H+3*MENU_ROW_PITCH,L_bend_point_num,3);
+		screen_int(DATA_MAX_COL,2*MT9V03X_H+3*MENU_ROW_PITCH,R_bend_point_num,3);
+		screen_float(0,2*MT9V03X_H+4*MENU_ROW_PITCH,(float)L_frame_point_num/(float)L_side_point_num,2,2);
+		screen_float(DATA_MAX_COL,2*MT9V03X_H+4*MENU_ROW_PITCH,(float)R_frame_point_num/(float)R_side_point_num,2,2);
 		control_mode_dispatch();
-		// path_control(path_linear_speed_target);
 	}
 }
 
@@ -825,6 +892,17 @@ void menu_start_page_back_service(void)
 {
 	// 循线起点初始化
 	mid_x = MT9V03X_W/2;
+	// 关闭蜂鸣器
+	gpio_set_level(BUZZER_PIN, 0);
+}
+
+/* 菜单调试页面返回服务 */
+void menu_debug_page_back_service(void)
+{
+	// 循线起点初始化
+	mid_x = MT9V03X_W/2;
+	// 关闭蜂鸣器
+	gpio_set_level(BUZZER_PIN, 0);
 }
 
 /* 菜单欧拉角页面返回服务 */

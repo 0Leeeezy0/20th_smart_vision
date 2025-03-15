@@ -80,6 +80,9 @@ void side_extract(void)
     // ³õÊ¼»¯
     L_side_point_num = 0;
     R_side_point_num = 0;
+	L_frame_point_num = 0;
+	R_frame_point_num = 0;
+    R_side_point_num = 0;
     memset(L_side, 0, sizeof(L_side));
     memset(R_side, 0, sizeof(R_side));
 
@@ -101,6 +104,7 @@ void side_extract(void)
             L_side[0][0] = 0;
             L_side[0][1] = SIDE_EXTRACT_START_Y-1;
 			ips200_draw_point(L_side[0][0], L_side[0][1]+MT9V03X_H*2, RGB565_RED);
+			L_frame_point_num++;
             break;
         }
     }
@@ -121,6 +125,7 @@ void side_extract(void)
             R_side[0][0] = MT9V03X_W-1;
             R_side[0][1] = SIDE_EXTRACT_START_Y-1;
 			ips200_draw_point(R_side[0][0], R_side[0][1]+MT9V03X_H*2, RGB565_RED);
+			R_frame_point_num++;
             break;
         }
     }
@@ -165,6 +170,7 @@ void side_extract(void)
                 L_side[L_side_point_num+1][0] = L_side[L_side_point_num][0]+seed_grow_dir[grow_dir_idx][0];
                 L_side[L_side_point_num+1][1] = L_side[L_side_point_num][1]+seed_grow_dir[grow_dir_idx][1];
                 L_side_point_num+=1;
+				L_frame_point_num++;
                 grow_dir_idx = 0;
             }
             grow_dir_idx++;
@@ -215,6 +221,7 @@ void side_extract(void)
                 R_side[R_side_point_num+1][0] = R_side[R_side_point_num][0]+seed_grow_dir[grow_dir_idx][2];
                 R_side[R_side_point_num+1][1] = R_side[R_side_point_num][1]+seed_grow_dir[grow_dir_idx][3];
                 R_side_point_num+=1;
+				R_frame_point_num++;
                 grow_dir_idx = 0;
             }
             grow_dir_idx++;
@@ -357,12 +364,14 @@ void side_point_kind_judge(void)
 /* ÔªËØÅÐ¶Ï */
 void element_judge(void)
 {
+	element_kind = STRIGHT;
 	if(L_inflection_point_num >= 2 && R_inflection_point_num >= 2)
 	{
 		line_draw(L_inflection_point[0][0], L_inflection_point[0][1], L_inflection_point[1][0], L_inflection_point[1][1]);
 		line_draw(R_inflection_point[0][0], R_inflection_point[0][1], R_inflection_point[1][0], R_inflection_point[1][1]);
 		line_draw(L_inflection_point[0][0], L_inflection_point[0][1], 0, MT9V03X_H-1);
 		line_draw(R_inflection_point[0][0], R_inflection_point[0][1], MT9V03X_W-1, MT9V03X_H-1);
+		element_kind = ACROSS;
 	}
 	else if(L_inflection_point_num == 1 && R_inflection_point_num >= 2)
 	{
@@ -372,6 +381,7 @@ void element_judge(void)
 			line_draw(R_inflection_point[0][0], R_inflection_point[0][1], R_inflection_point[1][0], R_inflection_point[1][1]);
 			line_draw(L_inflection_point[0][0], L_inflection_point[0][1], 0, MT9V03X_H-1);
 			line_draw(R_inflection_point[0][0], R_inflection_point[0][1], MT9V03X_W-1, MT9V03X_H-1);
+			element_kind = ACROSS;
 		}
 	}
 	else if(L_inflection_point_num >= 2 && R_inflection_point_num == 1)
@@ -382,6 +392,7 @@ void element_judge(void)
 			line_draw(R_inflection_point[0][0], R_inflection_point[0][1], L_inflection_point[1][0]+TRACK_WIDTH, L_inflection_point[1][1]);
 			line_draw(L_inflection_point[0][0], L_inflection_point[0][1], 0, MT9V03X_H-1);
 			line_draw(R_inflection_point[0][0], R_inflection_point[0][1], MT9V03X_W-1, MT9V03X_H-1);
+			element_kind = ACROSS;
 		}
 	}
 	else if(L_inflection_point_num == 1 && R_inflection_point_num == 1)
@@ -390,13 +401,30 @@ void element_judge(void)
 		line_draw(R_inflection_point[0][0], R_inflection_point[0][1], MT9V03X_W/2+TRACK_WIDTH/2, 0);
 		line_draw(L_inflection_point[0][0], L_inflection_point[0][1], 0, MT9V03X_H-1);
 		line_draw(R_inflection_point[0][0], R_inflection_point[0][1], MT9V03X_W-1, MT9V03X_H-1);
+		element_kind = ACROSS;
 	}
-	else if(L_inflection_point_num == 0 && R_inflection_point_num == 1)
+	else if(L_inflection_point_num == 0 && R_inflection_point_num == 1 && (float)L_frame_point_num/(float)L_side_point_num >= FRAME_SIDE_POINT_NUM_RATIO)
 	{
+		line_draw(R_inflection_point[0][0], R_inflection_point[0][1], MT9V03X_W-1, MT9V03X_H-1);
+		line_draw(R_inflection_point[0][0], R_inflection_point[0][1], L_side[L_side_point_num-1][0]+TRACK_WIDTH, L_side[L_side_point_num-1][1]);
+		element_kind = ACROSS;
 		/* R_CIRCLE */
 	}
-	else if(L_inflection_point_num == 1 && R_inflection_point_num == 0)
+	else if(L_inflection_point_num == 1 && R_inflection_point_num == 0 && (float)R_frame_point_num/(float)R_side_point_num >= FRAME_SIDE_POINT_NUM_RATIO)
 	{
+		line_draw(L_inflection_point[0][0], L_inflection_point[0][1], 0, MT9V03X_H-1);
+		line_draw(L_inflection_point[0][0], L_inflection_point[0][1], R_side[R_side_point_num-1][0]-TRACK_WIDTH, R_side[R_side_point_num-1][1]);
+		element_kind = ACROSS;
+		/* L_CIRCLE */
+	}
+	else if(L_inflection_point_num == 0 && R_inflection_point_num == 1 && L_bend_point_num <= 3)
+	{
+		element_kind = CIRCLE;
+		/* R_CIRCLE */
+	}
+	else if(L_inflection_point_num == 1 && R_inflection_point_num == 0 && R_bend_point_num <= 3)
+	{
+		element_kind = CIRCLE;
 		/* L_CIRCLE */
 	}
 }

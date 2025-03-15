@@ -8,10 +8,19 @@ API：
 
 #include "common.h"
 
-uint8 image_OTSU[MT9V03X_H][MT9V03X_W];
+uint8 image_OTSU[MT9V03X_H][MT9V03X_W] = {0};
+uint8 image_dilate[MT9V03X_H][MT9V03X_W] = {0};
+uint8 image_erode[MT9V03X_H][MT9V03X_W] = {0};
+
+// 结构元素（3x3矩阵）
+static int kernel[3][3] = {
+    {255, 255, 255},
+    {255, 255, 255},
+    {255, 255, 255}
+};
 
 /* 二值化 */
-void threshold(void)
+void threshold(uint8 input[MT9V03X_H][MT9V03X_W])
 {
 	int32 img_pixel_value_avg = 0;
 	int32 sampling_num = 0;
@@ -20,7 +29,7 @@ void threshold(void)
 	{
 		for(y = 0;y < MT9V03X_H;)
 		{
-			img_pixel_value_avg += mt9v03x_image[y][x];
+			img_pixel_value_avg += input[y][x];
 			sampling_num++;
 			y+=THRESHOLD_SAMPLING_DISTANCE;
 		}
@@ -33,7 +42,7 @@ void threshold(void)
 	{
 		for(y = 0;y < MT9V03X_H;y++)
 		{
-			if(mt9v03x_image[y][x] >= img_pixel_value_avg)
+			if(input[y][x] >= img_pixel_value_avg)
 			{
 				image_OTSU[y][x] = 255;
 			}
@@ -43,6 +52,66 @@ void threshold(void)
 			}
 		}
 	}
+}
+
+/* 图形学膨胀 */
+void dilate(uint8 input[MT9V03X_H][MT9V03X_W]) 
+{
+    int i, j, m, n;
+    int max_val = 0;
+
+    for (i = 1; i < MT9V03X_H - 1; i++) 
+	{
+        for (j = 1; j < MT9V03X_W - 1; j++) 
+		{
+            max_val = 0;
+            // 遍历结构元素
+            for (m = -1; m <= 1; m++) 
+			{
+                for (n = -1; n <= 1; n++) 
+				{
+                    if (kernel[m + 1][n + 1] == 255 && input[i + m][j + n] == 255) 
+					{
+                        max_val = 255;
+                        break;
+                    }
+                }
+                if (max_val == 255) break;
+            }
+            image_dilate[i][j] = max_val;
+        }
+    }
+}
+
+/* 腐蚀操作函数 */
+void erode(uint8 input[MT9V03X_H][MT9V03X_W]) 
+{
+    int i, j, m, n;
+    int min_val;
+
+    // 遍历图像的每个像素（忽略边界）
+    for (i = 1; i < MT9V03X_H - 1; i++)
+	{
+        for (j = 1; j < MT9V03X_W - 1; j++) 
+		{
+            min_val = 1; // 初始化最小值
+            // 遍历结构元素
+            for (m = -1; m <= 1; m++) 
+			{
+                for (n = -1; n <= 1; n++) 
+				{
+                    // 如果结构元素为1且图像中对应像素为0，则设置min_val为0
+                    if (kernel[m + 1][n + 1] == 255 && input[i + m][j + n] == 0) 
+					{
+                        min_val = 0;
+                        break;
+                    }
+                }
+                if (min_val == 0) break; // 如果已经找到0，提前退出
+            }
+            image_erode[i][j] = min_val; // 设置输出图像的像素值
+        }
+    }
 }
 
 /* 水漫算法 */

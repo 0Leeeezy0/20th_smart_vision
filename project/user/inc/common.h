@@ -65,6 +65,12 @@
 /* 屏幕类型 */
 #define SCREEN_KIND 1	// 屏幕选择（ 0:tft180 1:ips200 ）
 
+/* 蜂鸣器 */
+#define BUZZER_PIN 		(B11)
+
+/* 终极按键 */
+#define ULTIMATE_KEY	(C10)	
+
 /*********************************************************************/
 
 /****************************** 中断参数 ******************************/
@@ -145,14 +151,15 @@
 
 #define TRACK_WIDTH 					( 50 )	// 赛道在前瞻点高度的宽度
 #define SIDE_EXTRACT_START_Y 			( 90 )	// 边线开始提取高度
-#define SIDE_EXTRACT_END_Y 				( 10 )	// 边线结束提取高度
+#define SIDE_EXTRACT_END_Y 				( 20 )	// 边线结束提取高度
 #define POINT_DISTANCE 					( 10 )	// 拐点/弯点距离
 #define SKIP_POINT_DISTANCE 			( 20 )	// 跳过点的距离（识别到拐点后跳过多少距离）	
 #define INFLECTION_POINT_ANGLE_MIN 		( 80 )	// 拐点最小角度阈值
-#define INFLECTION_POINT_ANGLE_MAX 		( 140 )	// 拐点最大角度阈值
-#define BEND_POINT_ANGLE_MIN 			( 120 )	// 弯点最小角度阈值
-#define BEND_POINT_ANGLE_MAX 			( 170 )	// 弯点最大角度阈值
+#define INFLECTION_POINT_ANGLE_MAX 		( 147 )	// 拐点最大角度阈值
+#define BEND_POINT_ANGLE_MIN 			( 150 )	// 弯点最小角度阈值
+#define BEND_POINT_ANGLE_MAX 			( 174 )	// 弯点最大角度阈值
 #define SIDE_END 						( 130 ) // 边线提取截止横偏差
+#define FRAME_SIDE_POINT_NUM_RATIO		(float)(0.5)	// 框点和边线点数量比值
 
 /**********************************************************************/
 

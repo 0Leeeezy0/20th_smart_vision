@@ -56,6 +56,10 @@ typedef void (*FUNC_FLOAT)(uint16, uint16, const double, uint8, uint8);
 typedef void (*FUNC_IMAGE)(uint16 x, uint16 y, const uint8 *image, uint16 width, uint16 height, uint16 dis_width, uint16 dis_height, uint8 threshold);
 /* 清屏函数指针 */
 typedef void (*FUNC_CLEAR)(void);
+/* 显示直线函数指针 */
+typedef void (*FUNC_DRAW_LINE)(uint16 x_start, uint16 y_start, uint16 x_end, uint16 y_end, const uint16 color);
+/* 显示点函数指针 */
+typedef void (*FUNC_DRAW_POINT)(uint16 x, uint16 y, const uint16 color);
 
 /**********************************************************************/
 
@@ -112,6 +116,9 @@ void menu_root_page(void);
 
 /* 启动 */
 void start(void);
+
+/* 调试 */
+void debug(void);
 
 /* 保存参数 */
 void save(void);
@@ -173,6 +180,9 @@ void menu_rotate_angle_pid_page(void);
 
 /* 菜单启动页面返回服务 */
 void menu_start_page_back_service(void);
+
+/* 菜单调试页面返回服务 */
+void menu_debug_page_back_service(void);
 
 /* 菜单欧拉角页面返回服务 */
 void menu_euler_angle_page_back_service(void);

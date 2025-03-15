@@ -28,6 +28,15 @@ typedef enum
 	BLOCK_MOVE_OUT_MODE = 3		// 方块推离模式
 }_CONTROL_MODE_;
 
+/* 元素类型 */
+typedef enum
+{
+	STRIGHT = 0,	// 直道
+	BEND = 1,		// 弯道
+	ACROSS = 2,		// 十字
+	CIRCLE = 3		// 圆环
+}_ELEMENT_KIND_;
+
 /* AI摄像头1 识别标签 */
 typedef enum
 {
@@ -175,6 +184,8 @@ extern float shift_distance;
 
 /* 图像 */
 extern uint8 image_OTSU[MT9V03X_H][MT9V03X_W];
+extern uint8 image_dilate[MT9V03X_H][MT9V03X_W];
+extern uint8 image_erode[MT9V03X_H][MT9V03X_W];
 
 /* 循迹 */
 extern int16 path_err;
@@ -227,6 +238,8 @@ extern int16 L_side[MT9V03X_H*3][2];	// 左边线坐标
 extern int16 R_side[MT9V03X_H*3][2];	// 右边线坐标
 extern int16 L_side_point_num;		// 左边线点数量
 extern int16 R_side_point_num;		// 右边线点数量
+extern int16 L_frame_point_num;		// 左边框点数量
+extern int16 R_frame_point_num;		// 右边框点数量
 extern int16 L_inflection_point[MT9V03X_H*2][2];	// 左边线拐点坐标
 extern int16 R_inflection_point[MT9V03X_H*2][2];	// 右边线拐点坐标
 extern int16 L_inflection_point_num;		// 左边线拐点数量
@@ -237,6 +250,7 @@ extern int16 L_bend_point_num;		// 左边线弯点数量
 extern int16 R_bend_point_num;		// 右边线弯点数量
 extern int16 control_point;	// 控制点高度（速度 3 30 速度 8 45）
 extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
+extern _ELEMENT_KIND_ element_kind;	// 元素类型
 
 /* AI追踪 */
 extern float track_linear_speed_target;	// 追踪线速度

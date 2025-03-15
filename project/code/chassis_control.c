@@ -52,6 +52,9 @@ void motor_sensor_init(void)
 	gpio_init(MOTOR_2_DIR,GPO,0,GPO_PUSH_PULL);
 	gpio_init(MOTOR_3_DIR,GPO,0,GPO_PUSH_PULL);
 	
+	// 蜂鸣器引脚初始化
+	// gpio_init(BUZZER_PIN,GPO,0,GPO_PUSH_PULL);
+	
 	// 控制中断初始化
 	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
 	

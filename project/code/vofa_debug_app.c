@@ -240,7 +240,9 @@ void game_start(void)
 	printf("press ENTER to exit\n");                      
 	while(1)
 	{
-		threshold();
+		threshold(mt9v03x_image);
+		dilate(mt9v03x_image);
+		// erode(mt9v03x_image);
 		path_extract();
 		path_draw();
 		tft180_show_gray_image(0, 0, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);

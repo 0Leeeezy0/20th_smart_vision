@@ -12,7 +12,13 @@ API：
 #include "common.h"
 
 /* 二值化 */
-void threshold(void);
+void threshold(uint8 input[MT9V03X_H][MT9V03X_W]);
+
+/* 图形学膨胀 */
+void dilate(uint8 input[MT9V03X_H][MT9V03X_W]) ;
+
+//* 腐蚀操作函数 */
+void erode(uint8 input[MT9V03X_H][MT9V03X_W]);
 
 /* 绘制路径线 */
 void path_draw(void);
