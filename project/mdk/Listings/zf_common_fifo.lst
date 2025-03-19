@@ -1,0 +1,3400 @@
+	.text
+	.syntax unified
+	.eabi_attribute	67, "2.09"	@ Tag_conformance
+	.cpu	cortex-m7
+	.eabi_attribute	6, 13	@ Tag_CPU_arch
+	.eabi_attribute	7, 77	@ Tag_CPU_arch_profile
+	.eabi_attribute	8, 0	@ Tag_ARM_ISA_use
+	.eabi_attribute	9, 2	@ Tag_THUMB_ISA_use
+	.fpu	fpv5-d16
+	.eabi_attribute	36, 1	@ Tag_FP_HP_extension
+	.eabi_attribute	34, 1	@ Tag_CPU_unaligned_access
+	.eabi_attribute	17, 1	@ Tag_ABI_PCS_GOT_use
+	.eabi_attribute	20, 2	@ Tag_ABI_FP_denormal
+	.eabi_attribute	21, 0	@ Tag_ABI_FP_exceptions
+	.eabi_attribute	23, 1	@ Tag_ABI_FP_number_model
+	.eabi_attribute	24, 1	@ Tag_ABI_align_needed
+	.eabi_attribute	25, 1	@ Tag_ABI_align_preserved
+	.eabi_attribute	28, 1	@ Tag_ABI_VFP_args
+	.eabi_attribute	38, 1	@ Tag_ABI_FP_16bit_format
+	.eabi_attribute	18, 2	@ Tag_ABI_PCS_wchar_t
+	.eabi_attribute	26, 1	@ Tag_ABI_enum_size
+	.eabi_attribute	14, 0	@ Tag_ABI_PCS_R9_use
+	.file	"zf_common_fifo.c"
+	.file	1 "E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" "../../libraries/zf_common/zf_common_fifo.c"
+	.file	2 "E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" "../../libraries/zf_common/zf_common_fifo.h"
+	.file	3 "E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" "../../libraries/zf_common/zf_common_typedef.h"
+	.section	.text.fifo_clear,"ax",%progbits
+	.hidden	fifo_clear                      @ -- Begin function fifo_clear
+	.globl	fifo_clear
+	.p2align	3
+	.type	fifo_clear,%function
+	.code	16                              @ @fifo_clear
+	.thumb_func
+fifo_clear:
+.Lfunc_begin0:
+	.loc	1 83 0                          @ ../../libraries/zf_common/zf_common_fifo.c:83:0
+	.fnstart
+	.cfi_sections .debug_frame
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#16
+	sub	sp, #16
+	.cfi_def_cfa_offset 24
+	str	r0, [sp, #12]
+.Ltmp0:
+	.loc	1 84 5 prologue_end             @ ../../libraries/zf_common/zf_common_fifo.c:84:5
+	ldr	r0, [sp, #12]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	movw	r1, :lower16:.L.str
+	movt	r1, :upper16:.L.str
+	movs	r2, #84
+	bl	debug_assert_handler
+	movs	r0, #0
+	.loc	1 85 21                         @ ../../libraries/zf_common/zf_common_fifo.c:85:21
+	strb.w	r0, [sp, #11]
+	.loc	1 86 5                          @ ../../libraries/zf_common/zf_common_fifo.c:86:5
+	b	.LBB0_1
+.LBB0_1:
+.Ltmp1:
+	.loc	1 93 9                          @ ../../libraries/zf_common/zf_common_fifo.c:93:9
+	ldr	r1, [sp, #12]
+	.loc	1 93 25 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:93:25
+	ldrb	r0, [r1]
+	orr	r0, r0, #1
+	strb	r0, [r1]
+	.loc	1 94 9 is_stmt 1                @ ../../libraries/zf_common/zf_common_fifo.c:94:9
+	ldr	r1, [sp, #12]
+	movs	r0, #0
+	.loc	1 94 25 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:94:25
+	str.w	r0, [r1, #6]
+	.loc	1 95 9 is_stmt 1                @ ../../libraries/zf_common/zf_common_fifo.c:95:9
+	ldr	r1, [sp, #12]
+	.loc	1 95 25 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:95:25
+	str.w	r0, [r1, #10]
+	.loc	1 96 27 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:96:27
+	ldr	r1, [sp, #12]
+	.loc	1 96 33 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:96:33
+	ldr.w	r0, [r1, #18]
+	.loc	1 96 25                         @ ../../libraries/zf_common/zf_common_fifo.c:96:25
+	str.w	r0, [r1, #14]
+	.loc	1 97 16 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:97:16
+	ldr	r0, [sp, #12]
+	.loc	1 97 22 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:97:22
+	ldrb	r0, [r0, #1]
+	.loc	1 97 9                          @ ../../libraries/zf_common/zf_common_fifo.c:97:9
+	mov	r1, r0
+	str	r1, [sp, #4]                    @ 4-byte Spill
+	cbz	r0, .LBB0_4
+	b	.LBB0_2
+.LBB0_2:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	cmp	r0, #1
+	beq	.LBB0_5
+	b	.LBB0_3
+.LBB0_3:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	cmp	r0, #2
+	beq	.LBB0_6
+	b	.LBB0_7
+.LBB0_4:
+.Ltmp2:
+	.loc	1 99 44 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:99:44
+	ldr	r1, [sp, #12]
+	.loc	1 99 50 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:99:50
+	ldr.w	r0, [r1, #2]
+	.loc	1 99 67                         @ ../../libraries/zf_common/zf_common_fifo.c:99:67
+	ldr.w	r2, [r1, #18]
+	movs	r1, #0
+	.loc	1 99 37                         @ ../../libraries/zf_common/zf_common_fifo.c:99:37
+	bl	memset
+	.loc	1 99 77                         @ ../../libraries/zf_common/zf_common_fifo.c:99:77
+	b	.LBB0_7
+.LBB0_5:
+	.loc	1 100 44 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:100:44
+	ldr	r1, [sp, #12]
+	.loc	1 100 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:100:50
+	ldr.w	r0, [r1, #2]
+	.loc	1 100 67                        @ ../../libraries/zf_common/zf_common_fifo.c:100:67
+	ldr.w	r1, [r1, #18]
+	.loc	1 100 71                        @ ../../libraries/zf_common/zf_common_fifo.c:100:71
+	lsls	r2, r1, #1
+	movs	r1, #0
+	.loc	1 100 37                        @ ../../libraries/zf_common/zf_common_fifo.c:100:37
+	bl	memset
+	.loc	1 100 77                        @ ../../libraries/zf_common/zf_common_fifo.c:100:77
+	b	.LBB0_7
+.LBB0_6:
+	.loc	1 101 44 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:101:44
+	ldr	r1, [sp, #12]
+	.loc	1 101 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:101:50
+	ldr.w	r0, [r1, #2]
+	.loc	1 101 67                        @ ../../libraries/zf_common/zf_common_fifo.c:101:67
+	ldr.w	r1, [r1, #18]
+	.loc	1 101 71                        @ ../../libraries/zf_common/zf_common_fifo.c:101:71
+	lsls	r2, r1, #2
+	movs	r1, #0
+	.loc	1 101 37                        @ ../../libraries/zf_common/zf_common_fifo.c:101:37
+	bl	memset
+	.loc	1 101 77                        @ ../../libraries/zf_common/zf_common_fifo.c:101:77
+	b	.LBB0_7
+.Ltmp3:
+.LBB0_7:
+	.loc	1 103 9 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:103:9
+	ldr	r1, [sp, #12]
+	movs	r0, #0
+	.loc	1 103 25 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:103:25
+	strb	r0, [r1]
+	.loc	1 104 5 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:104:5
+	b	.LBB0_8
+.Ltmp4:
+.LBB0_8:
+	.loc	1 105 12                        @ ../../libraries/zf_common/zf_common_fifo.c:105:12
+	ldrb.w	r0, [sp, #11]
+	.loc	1 105 5 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:105:5
+	add	sp, #16
+	pop	{r7, pc}
+.Ltmp5:
+.Lfunc_end0:
+	.size	fifo_clear, .Lfunc_end0-fifo_clear
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.fifo_used,"ax",%progbits
+	.hidden	fifo_used                       @ -- Begin function fifo_used
+	.globl	fifo_used
+	.p2align	3
+	.type	fifo_used,%function
+	.code	16                              @ @fifo_used
+	.thumb_func
+fifo_used:
+.Lfunc_begin1:
+	.loc	1 116 0 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:116:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#8
+	sub	sp, #8
+	.cfi_def_cfa_offset 16
+	str	r0, [sp, #4]
+.Ltmp6:
+	.loc	1 117 5 prologue_end            @ ../../libraries/zf_common/zf_common_fifo.c:117:5
+	ldr	r0, [sp, #4]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	movw	r1, :lower16:.L.str
+	movt	r1, :upper16:.L.str
+	movs	r2, #117
+	bl	debug_assert_handler
+	.loc	1 118 13                        @ ../../libraries/zf_common/zf_common_fifo.c:118:13
+	ldr	r0, [sp, #4]
+	.loc	1 118 31 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:118:31
+	ldr.w	r1, [r0, #14]
+	.loc	1 118 19                        @ ../../libraries/zf_common/zf_common_fifo.c:118:19
+	ldr.w	r0, [r0, #18]
+	.loc	1 118 23                        @ ../../libraries/zf_common/zf_common_fifo.c:118:23
+	subs	r0, r0, r1
+	.loc	1 118 5                         @ ../../libraries/zf_common/zf_common_fifo.c:118:5
+	add	sp, #8
+	pop	{r7, pc}
+.Ltmp7:
+.Lfunc_end1:
+	.size	fifo_used, .Lfunc_end1-fifo_used
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.fifo_write_element,"ax",%progbits
+	.hidden	fifo_write_element              @ -- Begin function fifo_write_element
+	.globl	fifo_write_element
+	.p2align	3
+	.type	fifo_write_element,%function
+	.code	16                              @ @fifo_write_element
+	.thumb_func
+fifo_write_element:
+.Lfunc_begin2:
+	.loc	1 130 0 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:130:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#16
+	sub	sp, #16
+	.cfi_def_cfa_offset 24
+	str	r0, [sp, #12]
+	str	r1, [sp, #8]
+.Ltmp8:
+	.loc	1 131 5 prologue_end            @ ../../libraries/zf_common/zf_common_fifo.c:131:5
+	ldr	r0, [sp, #12]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	movw	r1, :lower16:.L.str
+	movt	r1, :upper16:.L.str
+	movs	r2, #131
+	bl	debug_assert_handler
+	movs	r0, #0
+	.loc	1 132 21                        @ ../../libraries/zf_common/zf_common_fifo.c:132:21
+	strb.w	r0, [sp, #7]
+	.loc	1 134 5                         @ ../../libraries/zf_common/zf_common_fifo.c:134:5
+	b	.LBB2_1
+.LBB2_1:
+.Ltmp9:
+	.loc	1 136 40                        @ ../../libraries/zf_common/zf_common_fifo.c:136:40
+	ldr	r0, [sp, #12]
+	ldrb	r0, [r0]
+.Ltmp10:
+	.loc	1 136 12 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:136:12
+	tst.w	r0, #5
+	beq	.LBB2_3
+	b	.LBB2_2
+.LBB2_2:
+	.loc	1 0 12                          @ ../../libraries/zf_common/zf_common_fifo.c:0:12
+	movs	r0, #4
+.Ltmp11:
+	.loc	1 138 26 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:138:26
+	strb.w	r0, [sp, #7]
+	.loc	1 139 13                        @ ../../libraries/zf_common/zf_common_fifo.c:139:13
+	b	.LBB2_13
+.Ltmp12:
+.LBB2_3:
+	.loc	1 141 9                         @ ../../libraries/zf_common/zf_common_fifo.c:141:9
+	ldr	r1, [sp, #12]
+	.loc	1 141 25 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:141:25
+	ldrb	r0, [r1]
+	orr	r0, r0, #4
+	strb	r0, [r1]
+.Ltmp13:
+	.loc	1 143 17 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:143:17
+	ldr	r0, [sp, #12]
+	.loc	1 143 23 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:143:23
+	ldr.w	r0, [r0, #14]
+.Ltmp14:
+	.loc	1 143 12                        @ ../../libraries/zf_common/zf_common_fifo.c:143:12
+	cbz	r0, .LBB2_11
+	b	.LBB2_4
+.LBB2_4:
+.Ltmp15:
+	.loc	1 145 20 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:145:20
+	ldr	r0, [sp, #12]
+	.loc	1 145 26 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:145:26
+	ldrb	r0, [r0, #1]
+	.loc	1 145 13                        @ ../../libraries/zf_common/zf_common_fifo.c:145:13
+	mov	r1, r0
+	str	r1, [sp]                        @ 4-byte Spill
+	cbz	r0, .LBB2_7
+	b	.LBB2_5
+.LBB2_5:
+	ldr	r0, [sp]                        @ 4-byte Reload
+	cmp	r0, #1
+	beq	.LBB2_8
+	b	.LBB2_6
+.LBB2_6:
+	ldr	r0, [sp]                        @ 4-byte Reload
+	cmp	r0, #2
+	beq	.LBB2_9
+	b	.LBB2_10
+.LBB2_7:
+.Ltmp16:
+	.loc	1 147 80 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:147:80
+	ldr	r0, [sp, #8]
+	.loc	1 147 51 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:147:51
+	ldr	r2, [sp, #12]
+	.loc	1 147 57                        @ ../../libraries/zf_common/zf_common_fifo.c:147:57
+	ldr.w	r1, [r2, #2]
+	.loc	1 147 71                        @ ../../libraries/zf_common/zf_common_fifo.c:147:71
+	ldr.w	r2, [r2, #6]
+	.loc	1 147 78                        @ ../../libraries/zf_common/zf_common_fifo.c:147:78
+	strb	r0, [r1, r2]
+	.loc	1 147 86                        @ ../../libraries/zf_common/zf_common_fifo.c:147:86
+	b	.LBB2_10
+.LBB2_8:
+	.loc	1 148 80 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:148:80
+	ldr	r0, [sp, #8]
+	.loc	1 148 52 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:148:52
+	ldr	r2, [sp, #12]
+	.loc	1 148 58                        @ ../../libraries/zf_common/zf_common_fifo.c:148:58
+	ldr.w	r1, [r2, #2]
+	.loc	1 148 72                        @ ../../libraries/zf_common/zf_common_fifo.c:148:72
+	ldr.w	r2, [r2, #6]
+	.loc	1 148 78                        @ ../../libraries/zf_common/zf_common_fifo.c:148:78
+	strh.w	r0, [r1, r2, lsl #1]
+	.loc	1 148 85                        @ ../../libraries/zf_common/zf_common_fifo.c:148:85
+	b	.LBB2_10
+.LBB2_9:
+	.loc	1 149 80 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:149:80
+	ldr	r0, [sp, #8]
+	.loc	1 149 52 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:149:52
+	ldr	r2, [sp, #12]
+	.loc	1 149 58                        @ ../../libraries/zf_common/zf_common_fifo.c:149:58
+	ldr.w	r1, [r2, #2]
+	.loc	1 149 72                        @ ../../libraries/zf_common/zf_common_fifo.c:149:72
+	ldr.w	r2, [r2, #6]
+	.loc	1 149 78                        @ ../../libraries/zf_common/zf_common_fifo.c:149:78
+	str.w	r0, [r1, r2, lsl #2]
+	.loc	1 149 85                        @ ../../libraries/zf_common/zf_common_fifo.c:149:85
+	b	.LBB2_10
+.Ltmp17:
+.LBB2_10:
+	.loc	1 151 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:151:30
+	ldr	r0, [sp, #12]
+	movs	r1, #1
+	.loc	1 151 13 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:151:13
+	bl	fifo_head_offset
+	.loc	1 152 13 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:152:13
+	ldr	r1, [sp, #12]
+	.loc	1 152 24 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:152:24
+	ldr.w	r0, [r1, #14]
+	subs	r0, #1
+	str.w	r0, [r1, #14]
+	.loc	1 153 9 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:153:9
+	b	.LBB2_12
+.Ltmp18:
+.LBB2_11:
+	.loc	1 0 9 is_stmt 0                 @ ../../libraries/zf_common/zf_common_fifo.c:0:9
+	movs	r0, #5
+.Ltmp19:
+	.loc	1 156 26 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:156:26
+	strb.w	r0, [sp, #7]
+	b	.LBB2_12
+.Ltmp20:
+.LBB2_12:
+	.loc	1 158 9                         @ ../../libraries/zf_common/zf_common_fifo.c:158:9
+	ldr	r1, [sp, #12]
+	.loc	1 158 25 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:158:25
+	ldrb	r0, [r1]
+	and	r0, r0, #251
+	strb	r0, [r1]
+	.loc	1 159 5 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:159:5
+	b	.LBB2_13
+.Ltmp21:
+.LBB2_13:
+	.loc	1 161 12                        @ ../../libraries/zf_common/zf_common_fifo.c:161:12
+	ldrb.w	r0, [sp, #7]
+	.loc	1 161 5 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:161:5
+	add	sp, #16
+	pop	{r7, pc}
+.Ltmp22:
+.Lfunc_end2:
+	.size	fifo_write_element, .Lfunc_end2-fifo_write_element
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.fifo_head_offset,"ax",%progbits
+	.p2align	3                               @ -- Begin function fifo_head_offset
+	.type	fifo_head_offset,%function
+	.code	16                              @ @fifo_head_offset
+	.thumb_func
+fifo_head_offset:
+.Lfunc_begin3:
+	.loc	1 48 0 is_stmt 1                @ ../../libraries/zf_common/zf_common_fifo.c:48:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.pad	#8
+	sub	sp, #8
+	.cfi_def_cfa_offset 8
+	str	r0, [sp, #4]
+	str	r1, [sp]
+.Ltmp23:
+	.loc	1 49 19 prologue_end            @ ../../libraries/zf_common/zf_common_fifo.c:49:19
+	ldr	r2, [sp]
+	.loc	1 49 5 is_stmt 0                @ ../../libraries/zf_common/zf_common_fifo.c:49:5
+	ldr	r1, [sp, #4]
+	.loc	1 49 16                         @ ../../libraries/zf_common/zf_common_fifo.c:49:16
+	ldr.w	r0, [r1, #6]
+	add	r0, r2
+	str.w	r0, [r1, #6]
+	.loc	1 51 5 is_stmt 1                @ ../../libraries/zf_common/zf_common_fifo.c:51:5
+	b	.LBB3_1
+.LBB3_1:                                @ =>This Inner Loop Header: Depth=1
+	.loc	1 51 11 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:51:11
+	ldr	r0, [sp, #4]
+	.loc	1 51 30                         @ ../../libraries/zf_common/zf_common_fifo.c:51:30
+	ldr.w	r1, [r0, #6]
+	.loc	1 51 17                         @ ../../libraries/zf_common/zf_common_fifo.c:51:17
+	ldr.w	r0, [r0, #18]
+	.loc	1 51 5                          @ ../../libraries/zf_common/zf_common_fifo.c:51:5
+	cmp	r0, r1
+	bhi	.LBB3_3
+	b	.LBB3_2
+.LBB3_2:                                @   in Loop: Header=BB3_1 Depth=1
+.Ltmp24:
+	.loc	1 53 23 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:53:23
+	ldr	r1, [sp, #4]
+	.loc	1 53 20 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:53:20
+	ldr.w	r0, [r1, #6]
+	.loc	1 53 29                         @ ../../libraries/zf_common/zf_common_fifo.c:53:29
+	ldr.w	r2, [r1, #18]
+	.loc	1 53 20                         @ ../../libraries/zf_common/zf_common_fifo.c:53:20
+	subs	r0, r0, r2
+	str.w	r0, [r1, #6]
+.Ltmp25:
+	.loc	1 51 5 is_stmt 1                @ ../../libraries/zf_common/zf_common_fifo.c:51:5
+	b	.LBB3_1
+.LBB3_3:
+	.loc	1 55 1                          @ ../../libraries/zf_common/zf_common_fifo.c:55:1
+	add	sp, #8
+	bx	lr
+.Ltmp26:
+.Lfunc_end3:
+	.size	fifo_head_offset, .Lfunc_end3-fifo_head_offset
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.fifo_write_buffer,"ax",%progbits
+	.hidden	fifo_write_buffer               @ -- Begin function fifo_write_buffer
+	.globl	fifo_write_buffer
+	.p2align	3
+	.type	fifo_write_buffer,%function
+	.code	16                              @ @fifo_write_buffer
+	.thumb_func
+fifo_write_buffer:
+.Lfunc_begin4:
+	.loc	1 174 0                         @ ../../libraries/zf_common/zf_common_fifo.c:174:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#32
+	sub	sp, #32
+	.cfi_def_cfa_offset 40
+	str	r0, [sp, #28]
+	str	r1, [sp, #24]
+	str	r2, [sp, #20]
+.Ltmp27:
+	.loc	1 175 5 prologue_end            @ ../../libraries/zf_common/zf_common_fifo.c:175:5
+	ldr	r0, [sp, #28]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	movw	r1, :lower16:.L.str
+	movt	r1, :upper16:.L.str
+	movs	r2, #175
+	bl	debug_assert_handler
+	movs	r0, #0
+	.loc	1 176 21                        @ ../../libraries/zf_common/zf_common_fifo.c:176:21
+	strb.w	r0, [sp, #19]
+	.loc	1 177 12                        @ ../../libraries/zf_common/zf_common_fifo.c:177:12
+	str	r0, [sp, #12]
+	.loc	1 179 5                         @ ../../libraries/zf_common/zf_common_fifo.c:179:5
+	b	.LBB4_1
+.LBB4_1:
+.Ltmp28:
+	.loc	1 181 20                        @ ../../libraries/zf_common/zf_common_fifo.c:181:20
+	ldr	r0, [sp, #24]
+.Ltmp29:
+	.loc	1 181 12 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:181:12
+	cbnz	r0, .LBB4_3
+	b	.LBB4_2
+.LBB4_2:
+	.loc	1 0 12                          @ ../../libraries/zf_common/zf_common_fifo.c:0:12
+	movs	r0, #3
+.Ltmp30:
+	.loc	1 183 26 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:183:26
+	strb.w	r0, [sp, #19]
+	.loc	1 184 13                        @ ../../libraries/zf_common/zf_common_fifo.c:184:13
+	b	.LBB4_24
+.Ltmp31:
+.LBB4_3:
+	.loc	1 186 40                        @ ../../libraries/zf_common/zf_common_fifo.c:186:40
+	ldr	r0, [sp, #28]
+	ldrb	r0, [r0]
+.Ltmp32:
+	.loc	1 186 12 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:186:12
+	tst.w	r0, #5
+	beq	.LBB4_5
+	b	.LBB4_4
+.LBB4_4:
+	.loc	1 0 12                          @ ../../libraries/zf_common/zf_common_fifo.c:0:12
+	movs	r0, #4
+.Ltmp33:
+	.loc	1 188 26 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:188:26
+	strb.w	r0, [sp, #19]
+	.loc	1 189 13                        @ ../../libraries/zf_common/zf_common_fifo.c:189:13
+	b	.LBB4_24
+.Ltmp34:
+.LBB4_5:
+	.loc	1 191 9                         @ ../../libraries/zf_common/zf_common_fifo.c:191:9
+	ldr	r1, [sp, #28]
+	.loc	1 191 25 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:191:25
+	ldrb	r0, [r1]
+	orr	r0, r0, #4
+	strb	r0, [r1]
+.Ltmp35:
+	.loc	1 193 12 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:193:12
+	ldr	r0, [sp, #20]
+	.loc	1 193 22 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:193:22
+	ldr	r1, [sp, #28]
+	.loc	1 193 28                        @ ../../libraries/zf_common/zf_common_fifo.c:193:28
+	ldr.w	r1, [r1, #14]
+.Ltmp36:
+	.loc	1 193 12                        @ ../../libraries/zf_common/zf_common_fifo.c:193:12
+	cmp	r0, r1
+	bhi.w	.LBB4_22
+	b	.LBB4_6
+.LBB4_6:
+.Ltmp37:
+	.loc	1 195 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:195:27
+	ldr	r0, [sp, #28]
+	.loc	1 195 45 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:195:45
+	ldr.w	r1, [r0, #6]
+	.loc	1 195 33                        @ ../../libraries/zf_common/zf_common_fifo.c:195:33
+	ldr.w	r0, [r0, #18]
+	.loc	1 195 37                        @ ../../libraries/zf_common/zf_common_fifo.c:195:37
+	subs	r0, r0, r1
+	.loc	1 195 25                        @ ../../libraries/zf_common/zf_common_fifo.c:195:25
+	str	r0, [sp, #12]
+.Ltmp38:
+	.loc	1 197 16 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:197:16
+	ldr	r0, [sp, #20]
+	.loc	1 197 25 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:197:25
+	ldr	r1, [sp, #12]
+.Ltmp39:
+	.loc	1 197 16                        @ ../../libraries/zf_common/zf_common_fifo.c:197:16
+	cmp	r0, r1
+	bls.w	.LBB4_14
+	b	.LBB4_7
+.LBB4_7:
+.Ltmp40:
+	.loc	1 199 24 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:199:24
+	ldr	r0, [sp, #28]
+	.loc	1 199 30 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:199:30
+	ldrb	r0, [r0, #1]
+	.loc	1 199 17                        @ ../../libraries/zf_common/zf_common_fifo.c:199:17
+	mov	r1, r0
+	str	r1, [sp, #8]                    @ 4-byte Spill
+	cbz	r0, .LBB4_10
+	b	.LBB4_8
+.LBB4_8:
+	ldr	r0, [sp, #8]                    @ 4-byte Reload
+	cmp	r0, #1
+	beq	.LBB4_11
+	b	.LBB4_9
+.LBB4_9:
+	ldr	r0, [sp, #8]                    @ 4-byte Reload
+	cmp	r0, #2
+	beq	.LBB4_12
+	b	.LBB4_13
+.LBB4_10:
+.Ltmp41:
+	.loc	1 204 41 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:204:41
+	ldr	r1, [sp, #28]
+	.loc	1 204 47 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:204:47
+	ldr.w	r0, [r1, #2]
+	.loc	1 204 61                        @ ../../libraries/zf_common/zf_common_fifo.c:204:61
+	ldr.w	r1, [r1, #6]
+	.loc	1 204 31                        @ ../../libraries/zf_common/zf_common_fifo.c:204:31
+	add	r0, r1
+	.loc	1 205 29 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:205:29
+	ldr	r1, [sp, #24]
+	.loc	1 205 34 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:205:34
+	ldr	r2, [sp, #12]
+	.loc	1 203 25 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:203:25
+	bl	memcpy
+	.loc	1 206 42                        @ ../../libraries/zf_common/zf_common_fifo.c:206:42
+	ldr	r0, [sp, #28]
+	.loc	1 206 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:206:48
+	ldr	r1, [sp, #12]
+	.loc	1 206 25                        @ ../../libraries/zf_common/zf_common_fifo.c:206:25
+	bl	fifo_head_offset
+	.loc	1 208 41 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:208:41
+	ldr	r1, [sp, #28]
+	.loc	1 208 47 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:208:47
+	ldr.w	r0, [r1, #2]
+	.loc	1 208 61                        @ ../../libraries/zf_common/zf_common_fifo.c:208:61
+	ldr.w	r1, [r1, #6]
+	.loc	1 208 31                        @ ../../libraries/zf_common/zf_common_fifo.c:208:31
+	add	r0, r1
+	.loc	1 209 41 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:209:41
+	ldr	r1, [sp, #24]
+	.loc	1 209 46 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:209:46
+	ldr	r3, [sp, #12]
+	.loc	1 209 31                        @ ../../libraries/zf_common/zf_common_fifo.c:209:31
+	add	r1, r3
+	.loc	1 210 29 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:210:29
+	ldr	r2, [sp, #20]
+	.loc	1 210 36 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:210:36
+	subs	r2, r2, r3
+	.loc	1 207 25 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:207:25
+	bl	memcpy
+	.loc	1 211 42                        @ ../../libraries/zf_common/zf_common_fifo.c:211:42
+	ldr	r0, [sp, #28]
+	.loc	1 211 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:211:48
+	ldr	r1, [sp, #20]
+	.loc	1 211 57                        @ ../../libraries/zf_common/zf_common_fifo.c:211:57
+	ldr	r2, [sp, #12]
+	.loc	1 211 55                        @ ../../libraries/zf_common/zf_common_fifo.c:211:55
+	subs	r1, r1, r2
+	.loc	1 211 25                        @ ../../libraries/zf_common/zf_common_fifo.c:211:25
+	bl	fifo_head_offset
+.Ltmp42:
+	.loc	1 212 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:212:22
+	b	.LBB4_13
+.LBB4_11:
+.Ltmp43:
+	.loc	1 216 42                        @ ../../libraries/zf_common/zf_common_fifo.c:216:42
+	ldr	r1, [sp, #28]
+	.loc	1 216 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:216:48
+	ldr.w	r0, [r1, #2]
+	.loc	1 216 62                        @ ../../libraries/zf_common/zf_common_fifo.c:216:62
+	ldr.w	r1, [r1, #6]
+	.loc	1 216 31                        @ ../../libraries/zf_common/zf_common_fifo.c:216:31
+	add.w	r0, r0, r1, lsl #1
+	.loc	1 217 29 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:217:29
+	ldr	r1, [sp, #24]
+	.loc	1 217 34 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:217:34
+	ldr	r2, [sp, #12]
+	.loc	1 217 46                        @ ../../libraries/zf_common/zf_common_fifo.c:217:46
+	lsls	r2, r2, #1
+	.loc	1 215 25 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:215:25
+	bl	memcpy
+	.loc	1 218 42                        @ ../../libraries/zf_common/zf_common_fifo.c:218:42
+	ldr	r0, [sp, #28]
+	.loc	1 218 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:218:48
+	ldr	r1, [sp, #12]
+	.loc	1 218 25                        @ ../../libraries/zf_common/zf_common_fifo.c:218:25
+	bl	fifo_head_offset
+	.loc	1 220 42 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:220:42
+	ldr	r1, [sp, #28]
+	.loc	1 220 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:220:48
+	ldr.w	r0, [r1, #2]
+	.loc	1 220 62                        @ ../../libraries/zf_common/zf_common_fifo.c:220:62
+	ldr.w	r1, [r1, #6]
+	.loc	1 220 31                        @ ../../libraries/zf_common/zf_common_fifo.c:220:31
+	add.w	r0, r0, r1, lsl #1
+	.loc	1 221 42 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:221:42
+	ldr	r1, [sp, #24]
+	.loc	1 221 47 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:221:47
+	ldr	r3, [sp, #12]
+	.loc	1 221 31                        @ ../../libraries/zf_common/zf_common_fifo.c:221:31
+	add.w	r1, r1, r3, lsl #1
+	.loc	1 222 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:222:30
+	ldr	r2, [sp, #20]
+	.loc	1 222 37 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:222:37
+	subs	r2, r2, r3
+	.loc	1 222 52                        @ ../../libraries/zf_common/zf_common_fifo.c:222:52
+	lsls	r2, r2, #1
+	.loc	1 219 25 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:219:25
+	bl	memcpy
+	.loc	1 223 42                        @ ../../libraries/zf_common/zf_common_fifo.c:223:42
+	ldr	r0, [sp, #28]
+	.loc	1 223 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:223:48
+	ldr	r1, [sp, #20]
+	.loc	1 223 57                        @ ../../libraries/zf_common/zf_common_fifo.c:223:57
+	ldr	r2, [sp, #12]
+	.loc	1 223 55                        @ ../../libraries/zf_common/zf_common_fifo.c:223:55
+	subs	r1, r1, r2
+	.loc	1 223 25                        @ ../../libraries/zf_common/zf_common_fifo.c:223:25
+	bl	fifo_head_offset
+.Ltmp44:
+	.loc	1 224 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:224:22
+	b	.LBB4_13
+.LBB4_12:
+.Ltmp45:
+	.loc	1 228 42                        @ ../../libraries/zf_common/zf_common_fifo.c:228:42
+	ldr	r1, [sp, #28]
+	.loc	1 228 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:228:48
+	ldr.w	r0, [r1, #2]
+	.loc	1 228 62                        @ ../../libraries/zf_common/zf_common_fifo.c:228:62
+	ldr.w	r1, [r1, #6]
+	.loc	1 228 31                        @ ../../libraries/zf_common/zf_common_fifo.c:228:31
+	add.w	r0, r0, r1, lsl #2
+	.loc	1 229 29 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:229:29
+	ldr	r1, [sp, #24]
+	.loc	1 229 34 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:229:34
+	ldr	r2, [sp, #12]
+	.loc	1 229 46                        @ ../../libraries/zf_common/zf_common_fifo.c:229:46
+	lsls	r2, r2, #2
+	.loc	1 227 25 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:227:25
+	bl	memcpy
+	.loc	1 230 42                        @ ../../libraries/zf_common/zf_common_fifo.c:230:42
+	ldr	r0, [sp, #28]
+	.loc	1 230 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:230:48
+	ldr	r1, [sp, #12]
+	.loc	1 230 25                        @ ../../libraries/zf_common/zf_common_fifo.c:230:25
+	bl	fifo_head_offset
+	.loc	1 232 42 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:232:42
+	ldr	r1, [sp, #28]
+	.loc	1 232 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:232:48
+	ldr.w	r0, [r1, #2]
+	.loc	1 232 62                        @ ../../libraries/zf_common/zf_common_fifo.c:232:62
+	ldr.w	r1, [r1, #6]
+	.loc	1 232 31                        @ ../../libraries/zf_common/zf_common_fifo.c:232:31
+	add.w	r0, r0, r1, lsl #2
+	.loc	1 233 42 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:233:42
+	ldr	r1, [sp, #24]
+	.loc	1 233 47 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:233:47
+	ldr	r3, [sp, #12]
+	.loc	1 233 31                        @ ../../libraries/zf_common/zf_common_fifo.c:233:31
+	add.w	r1, r1, r3, lsl #2
+	.loc	1 234 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:234:30
+	ldr	r2, [sp, #20]
+	.loc	1 234 37 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:234:37
+	subs	r2, r2, r3
+	.loc	1 234 52                        @ ../../libraries/zf_common/zf_common_fifo.c:234:52
+	lsls	r2, r2, #2
+	.loc	1 231 25 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:231:25
+	bl	memcpy
+	.loc	1 235 42                        @ ../../libraries/zf_common/zf_common_fifo.c:235:42
+	ldr	r0, [sp, #28]
+	.loc	1 235 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:235:48
+	ldr	r1, [sp, #20]
+	.loc	1 235 57                        @ ../../libraries/zf_common/zf_common_fifo.c:235:57
+	ldr	r2, [sp, #12]
+	.loc	1 235 55                        @ ../../libraries/zf_common/zf_common_fifo.c:235:55
+	subs	r1, r1, r2
+	.loc	1 235 25                        @ ../../libraries/zf_common/zf_common_fifo.c:235:25
+	bl	fifo_head_offset
+.Ltmp46:
+	.loc	1 236 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:236:22
+	b	.LBB4_13
+.Ltmp47:
+.LBB4_13:
+	.loc	1 238 13                        @ ../../libraries/zf_common/zf_common_fifo.c:238:13
+	b	.LBB4_21
+.Ltmp48:
+.LBB4_14:
+	.loc	1 241 24                        @ ../../libraries/zf_common/zf_common_fifo.c:241:24
+	ldr	r0, [sp, #28]
+	.loc	1 241 30 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:241:30
+	ldrb	r0, [r0, #1]
+	.loc	1 241 17                        @ ../../libraries/zf_common/zf_common_fifo.c:241:17
+	mov	r1, r0
+	str	r1, [sp, #4]                    @ 4-byte Spill
+	cbz	r0, .LBB4_17
+	b	.LBB4_15
+.LBB4_15:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	cmp	r0, #1
+	beq	.LBB4_18
+	b	.LBB4_16
+.LBB4_16:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	cmp	r0, #2
+	beq	.LBB4_19
+	b	.LBB4_20
+.LBB4_17:
+.Ltmp49:
+	.loc	1 246 41 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:246:41
+	ldr	r1, [sp, #28]
+	.loc	1 246 47 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:246:47
+	ldr.w	r0, [r1, #2]
+	.loc	1 246 61                        @ ../../libraries/zf_common/zf_common_fifo.c:246:61
+	ldr.w	r1, [r1, #6]
+	.loc	1 246 31                        @ ../../libraries/zf_common/zf_common_fifo.c:246:31
+	add	r0, r1
+	.loc	1 247 29 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:247:29
+	ldr	r1, [sp, #24]
+	.loc	1 247 34 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:247:34
+	ldr	r2, [sp, #20]
+	.loc	1 245 25 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:245:25
+	bl	memcpy
+	.loc	1 248 42                        @ ../../libraries/zf_common/zf_common_fifo.c:248:42
+	ldr	r0, [sp, #28]
+	.loc	1 248 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:248:48
+	ldr	r1, [sp, #20]
+	.loc	1 248 25                        @ ../../libraries/zf_common/zf_common_fifo.c:248:25
+	bl	fifo_head_offset
+.Ltmp50:
+	.loc	1 249 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:249:22
+	b	.LBB4_20
+.LBB4_18:
+.Ltmp51:
+	.loc	1 253 42                        @ ../../libraries/zf_common/zf_common_fifo.c:253:42
+	ldr	r1, [sp, #28]
+	.loc	1 253 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:253:48
+	ldr.w	r0, [r1, #2]
+	.loc	1 253 62                        @ ../../libraries/zf_common/zf_common_fifo.c:253:62
+	ldr.w	r1, [r1, #6]
+	.loc	1 253 31                        @ ../../libraries/zf_common/zf_common_fifo.c:253:31
+	add.w	r0, r0, r1, lsl #1
+	.loc	1 254 29 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:254:29
+	ldr	r1, [sp, #24]
+	.loc	1 254 34 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:254:34
+	ldr	r2, [sp, #20]
+	.loc	1 254 41                        @ ../../libraries/zf_common/zf_common_fifo.c:254:41
+	lsls	r2, r2, #1
+	.loc	1 252 25 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:252:25
+	bl	memcpy
+	.loc	1 255 42                        @ ../../libraries/zf_common/zf_common_fifo.c:255:42
+	ldr	r0, [sp, #28]
+	.loc	1 255 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:255:48
+	ldr	r1, [sp, #20]
+	.loc	1 255 25                        @ ../../libraries/zf_common/zf_common_fifo.c:255:25
+	bl	fifo_head_offset
+.Ltmp52:
+	.loc	1 256 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:256:22
+	b	.LBB4_20
+.LBB4_19:
+.Ltmp53:
+	.loc	1 260 42                        @ ../../libraries/zf_common/zf_common_fifo.c:260:42
+	ldr	r1, [sp, #28]
+	.loc	1 260 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:260:48
+	ldr.w	r0, [r1, #2]
+	.loc	1 260 62                        @ ../../libraries/zf_common/zf_common_fifo.c:260:62
+	ldr.w	r1, [r1, #6]
+	.loc	1 260 31                        @ ../../libraries/zf_common/zf_common_fifo.c:260:31
+	add.w	r0, r0, r1, lsl #2
+	.loc	1 261 29 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:261:29
+	ldr	r1, [sp, #24]
+	.loc	1 261 34 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:261:34
+	ldr	r2, [sp, #20]
+	.loc	1 261 41                        @ ../../libraries/zf_common/zf_common_fifo.c:261:41
+	lsls	r2, r2, #2
+	.loc	1 259 25 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:259:25
+	bl	memcpy
+	.loc	1 262 42                        @ ../../libraries/zf_common/zf_common_fifo.c:262:42
+	ldr	r0, [sp, #28]
+	.loc	1 262 48 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:262:48
+	ldr	r1, [sp, #20]
+	.loc	1 262 25                        @ ../../libraries/zf_common/zf_common_fifo.c:262:25
+	bl	fifo_head_offset
+.Ltmp54:
+	.loc	1 263 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:263:22
+	b	.LBB4_20
+.Ltmp55:
+.LBB4_20:
+	.loc	1 0 22 is_stmt 0                @ ../../libraries/zf_common/zf_common_fifo.c:0:22
+	b	.LBB4_21
+.LBB4_21:
+	.loc	1 267 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:267:27
+	ldr	r2, [sp, #20]
+	.loc	1 267 13 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:267:13
+	ldr	r1, [sp, #28]
+	.loc	1 267 24                        @ ../../libraries/zf_common/zf_common_fifo.c:267:24
+	ldr.w	r0, [r1, #14]
+	subs	r0, r0, r2
+	str.w	r0, [r1, #14]
+	.loc	1 268 9 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:268:9
+	b	.LBB4_23
+.Ltmp56:
+.LBB4_22:
+	.loc	1 0 9 is_stmt 0                 @ ../../libraries/zf_common/zf_common_fifo.c:0:9
+	movs	r0, #5
+.Ltmp57:
+	.loc	1 271 26 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:271:26
+	strb.w	r0, [sp, #19]
+	b	.LBB4_23
+.Ltmp58:
+.LBB4_23:
+	.loc	1 273 9                         @ ../../libraries/zf_common/zf_common_fifo.c:273:9
+	ldr	r1, [sp, #28]
+	.loc	1 273 25 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:273:25
+	ldrb	r0, [r1]
+	and	r0, r0, #251
+	strb	r0, [r1]
+	.loc	1 274 5 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:274:5
+	b	.LBB4_24
+.Ltmp59:
+.LBB4_24:
+	.loc	1 276 12                        @ ../../libraries/zf_common/zf_common_fifo.c:276:12
+	ldrb.w	r0, [sp, #19]
+	.loc	1 276 5 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:276:5
+	add	sp, #32
+	pop	{r7, pc}
+.Ltmp60:
+.Lfunc_end4:
+	.size	fifo_write_buffer, .Lfunc_end4-fifo_write_buffer
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.fifo_read_element,"ax",%progbits
+	.hidden	fifo_read_element               @ -- Begin function fifo_read_element
+	.globl	fifo_read_element
+	.p2align	3
+	.type	fifo_read_element,%function
+	.code	16                              @ @fifo_read_element
+	.thumb_func
+fifo_read_element:
+.Lfunc_begin5:
+	.loc	1 289 0 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:289:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#16
+	sub	sp, #16
+	.cfi_def_cfa_offset 24
+                                        @ kill: def $r3 killed $r2
+	str	r0, [sp, #12]
+	str	r1, [sp, #8]
+	strb.w	r2, [sp, #7]
+.Ltmp61:
+	.loc	1 290 5 prologue_end            @ ../../libraries/zf_common/zf_common_fifo.c:290:5
+	ldr	r0, [sp, #12]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	movw	r1, :lower16:.L.str
+	movt	r1, :upper16:.L.str
+	mov.w	r2, #290
+	bl	debug_assert_handler
+	movs	r0, #0
+	.loc	1 291 21                        @ ../../libraries/zf_common/zf_common_fifo.c:291:21
+	strb.w	r0, [sp, #6]
+	.loc	1 293 5                         @ ../../libraries/zf_common/zf_common_fifo.c:293:5
+	b	.LBB5_1
+.LBB5_1:
+.Ltmp62:
+	.loc	1 295 20                        @ ../../libraries/zf_common/zf_common_fifo.c:295:20
+	ldr	r0, [sp, #8]
+.Ltmp63:
+	.loc	1 295 12 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:295:12
+	cbnz	r0, .LBB5_3
+	b	.LBB5_2
+.LBB5_2:
+	.loc	1 0 12                          @ ../../libraries/zf_common/zf_common_fifo.c:0:12
+	movs	r0, #3
+.Ltmp64:
+	.loc	1 297 26 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:297:26
+	strb.w	r0, [sp, #6]
+	.loc	1 298 9                         @ ../../libraries/zf_common/zf_common_fifo.c:298:9
+	b	.LBB5_14
+.Ltmp65:
+.LBB5_3:
+	.loc	1 301 44                        @ ../../libraries/zf_common/zf_common_fifo.c:301:44
+	ldr	r0, [sp, #12]
+	ldrb	r0, [r0]
+.Ltmp66:
+	.loc	1 301 16 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:301:16
+	lsls	r0, r0, #30
+	cbz	r0, .LBB5_5
+	b	.LBB5_4
+.LBB5_4:
+	.loc	1 0 16                          @ ../../libraries/zf_common/zf_common_fifo.c:0:16
+	movs	r0, #6
+.Ltmp67:
+	.loc	1 303 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:303:30
+	strb.w	r0, [sp, #6]
+	.loc	1 304 17                        @ ../../libraries/zf_common/zf_common_fifo.c:304:17
+	b	.LBB5_19
+.Ltmp68:
+.LBB5_5:
+	.loc	1 307 30                        @ ../../libraries/zf_common/zf_common_fifo.c:307:30
+	ldr	r0, [sp, #12]
+	.loc	1 307 20 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:307:20
+	bl	fifo_used
+.Ltmp69:
+	.loc	1 307 16                        @ ../../libraries/zf_common/zf_common_fifo.c:307:16
+	cbnz	r0, .LBB5_7
+	b	.LBB5_6
+.LBB5_6:
+	.loc	1 0 16                          @ ../../libraries/zf_common/zf_common_fifo.c:0:16
+	movs	r0, #7
+.Ltmp70:
+	.loc	1 309 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:309:30
+	strb.w	r0, [sp, #6]
+	.loc	1 310 17                        @ ../../libraries/zf_common/zf_common_fifo.c:310:17
+	b	.LBB5_19
+.Ltmp71:
+.LBB5_7:
+	.loc	1 313 13                        @ ../../libraries/zf_common/zf_common_fifo.c:313:13
+	ldr	r1, [sp, #12]
+	.loc	1 313 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:313:29
+	ldrb	r0, [r1]
+	orr	r0, r0, #8
+	strb	r0, [r1]
+	.loc	1 314 20 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:314:20
+	ldr	r0, [sp, #12]
+	.loc	1 314 26 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:314:26
+	ldrb	r0, [r0, #1]
+	.loc	1 314 13                        @ ../../libraries/zf_common/zf_common_fifo.c:314:13
+	mov	r1, r0
+	str	r1, [sp]                        @ 4-byte Spill
+	cbz	r0, .LBB5_10
+	b	.LBB5_8
+.LBB5_8:
+	ldr	r0, [sp]                        @ 4-byte Reload
+	cmp	r0, #1
+	beq	.LBB5_11
+	b	.LBB5_9
+.LBB5_9:
+	ldr	r0, [sp]                        @ 4-byte Reload
+	cmp	r0, #2
+	beq	.LBB5_12
+	b	.LBB5_13
+.LBB5_10:
+.Ltmp72:
+	.loc	1 316 69 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:316:69
+	ldr	r1, [sp, #12]
+	.loc	1 316 75 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:316:75
+	ldr.w	r0, [r1, #2]
+	.loc	1 316 89                        @ ../../libraries/zf_common/zf_common_fifo.c:316:89
+	ldr.w	r1, [r1, #10]
+	.loc	1 316 59                        @ ../../libraries/zf_common/zf_common_fifo.c:316:59
+	ldrb	r0, [r0, r1]
+	.loc	1 316 52                        @ ../../libraries/zf_common/zf_common_fifo.c:316:52
+	ldr	r1, [sp, #8]
+	.loc	1 316 57                        @ ../../libraries/zf_common/zf_common_fifo.c:316:57
+	strb	r0, [r1]
+	.loc	1 316 97                        @ ../../libraries/zf_common/zf_common_fifo.c:316:97
+	b	.LBB5_13
+.LBB5_11:
+	.loc	1 317 71 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:317:71
+	ldr	r1, [sp, #12]
+	.loc	1 317 77 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:317:77
+	ldr.w	r0, [r1, #2]
+	.loc	1 317 91                        @ ../../libraries/zf_common/zf_common_fifo.c:317:91
+	ldr.w	r1, [r1, #10]
+	.loc	1 317 60                        @ ../../libraries/zf_common/zf_common_fifo.c:317:60
+	ldrh.w	r0, [r0, r1, lsl #1]
+	.loc	1 317 53                        @ ../../libraries/zf_common/zf_common_fifo.c:317:53
+	ldr	r1, [sp, #8]
+	.loc	1 317 58                        @ ../../libraries/zf_common/zf_common_fifo.c:317:58
+	strh	r0, [r1]
+	.loc	1 317 97                        @ ../../libraries/zf_common/zf_common_fifo.c:317:97
+	b	.LBB5_13
+.LBB5_12:
+	.loc	1 318 71 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:318:71
+	ldr	r1, [sp, #12]
+	.loc	1 318 77 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:318:77
+	ldr.w	r0, [r1, #2]
+	.loc	1 318 91                        @ ../../libraries/zf_common/zf_common_fifo.c:318:91
+	ldr.w	r1, [r1, #10]
+	.loc	1 318 60                        @ ../../libraries/zf_common/zf_common_fifo.c:318:60
+	ldr.w	r0, [r0, r1, lsl #2]
+	.loc	1 318 53                        @ ../../libraries/zf_common/zf_common_fifo.c:318:53
+	ldr	r1, [sp, #8]
+	.loc	1 318 58                        @ ../../libraries/zf_common/zf_common_fifo.c:318:58
+	str	r0, [r1]
+	.loc	1 318 97                        @ ../../libraries/zf_common/zf_common_fifo.c:318:97
+	b	.LBB5_13
+.Ltmp73:
+.LBB5_13:
+	.loc	1 320 13 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:320:13
+	ldr	r1, [sp, #12]
+	.loc	1 320 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:320:29
+	ldrb	r0, [r1]
+	and	r0, r0, #247
+	strb	r0, [r1]
+	b	.LBB5_14
+.Ltmp74:
+.LBB5_14:
+	.loc	1 323 35 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:323:35
+	ldrb.w	r0, [sp, #7]
+.Ltmp75:
+	.loc	1 323 12 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:323:12
+	cbnz	r0, .LBB5_18
+	b	.LBB5_15
+.LBB5_15:
+.Ltmp76:
+	.loc	1 325 57 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:325:57
+	ldr	r0, [sp, #12]
+	.loc	1 325 63 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:325:63
+	ldrb	r0, [r0]
+.Ltmp77:
+	.loc	1 325 16                        @ ../../libraries/zf_common/zf_common_fifo.c:325:16
+	cmp	r0, #11
+	bne	.LBB5_17
+	b	.LBB5_16
+.LBB5_16:
+	.loc	1 0 16                          @ ../../libraries/zf_common/zf_common_fifo.c:0:16
+	movs	r0, #2
+.Ltmp78:
+	.loc	1 327 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:327:30
+	strb.w	r0, [sp, #6]
+	.loc	1 328 17                        @ ../../libraries/zf_common/zf_common_fifo.c:328:17
+	b	.LBB5_19
+.Ltmp79:
+.LBB5_17:
+	.loc	1 330 13                        @ ../../libraries/zf_common/zf_common_fifo.c:330:13
+	ldr	r1, [sp, #12]
+	.loc	1 330 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:330:29
+	ldrb	r0, [r1]
+	orr	r0, r0, #2
+	strb	r0, [r1]
+	.loc	1 331 29 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:331:29
+	ldr	r0, [sp, #12]
+	movs	r1, #1
+	.loc	1 331 13 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:331:13
+	bl	fifo_end_offset
+	.loc	1 332 13 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:332:13
+	ldr	r1, [sp, #12]
+	.loc	1 332 24 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:332:24
+	ldr.w	r0, [r1, #14]
+	adds	r0, #1
+	str.w	r0, [r1, #14]
+	.loc	1 333 13 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:333:13
+	ldr	r1, [sp, #12]
+	.loc	1 333 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:333:29
+	ldrb	r0, [r1]
+	and	r0, r0, #253
+	strb	r0, [r1]
+	.loc	1 334 9 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:334:9
+	b	.LBB5_18
+.Ltmp80:
+.LBB5_18:
+	.loc	1 335 5                         @ ../../libraries/zf_common/zf_common_fifo.c:335:5
+	b	.LBB5_19
+.Ltmp81:
+.LBB5_19:
+	.loc	1 337 12                        @ ../../libraries/zf_common/zf_common_fifo.c:337:12
+	ldrb.w	r0, [sp, #6]
+	.loc	1 337 5 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:337:5
+	add	sp, #16
+	pop	{r7, pc}
+.Ltmp82:
+.Lfunc_end5:
+	.size	fifo_read_element, .Lfunc_end5-fifo_read_element
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.fifo_end_offset,"ax",%progbits
+	.p2align	3                               @ -- Begin function fifo_end_offset
+	.type	fifo_end_offset,%function
+	.code	16                              @ @fifo_end_offset
+	.thumb_func
+fifo_end_offset:
+.Lfunc_begin6:
+	.loc	1 66 0 is_stmt 1                @ ../../libraries/zf_common/zf_common_fifo.c:66:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.pad	#8
+	sub	sp, #8
+	.cfi_def_cfa_offset 8
+	str	r0, [sp, #4]
+	str	r1, [sp]
+.Ltmp83:
+	.loc	1 67 18 prologue_end            @ ../../libraries/zf_common/zf_common_fifo.c:67:18
+	ldr	r2, [sp]
+	.loc	1 67 5 is_stmt 0                @ ../../libraries/zf_common/zf_common_fifo.c:67:5
+	ldr	r1, [sp, #4]
+	.loc	1 67 15                         @ ../../libraries/zf_common/zf_common_fifo.c:67:15
+	ldr.w	r0, [r1, #10]
+	add	r0, r2
+	str.w	r0, [r1, #10]
+	.loc	1 69 5 is_stmt 1                @ ../../libraries/zf_common/zf_common_fifo.c:69:5
+	b	.LBB6_1
+.LBB6_1:                                @ =>This Inner Loop Header: Depth=1
+	.loc	1 69 11 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:69:11
+	ldr	r0, [sp, #4]
+	.loc	1 69 30                         @ ../../libraries/zf_common/zf_common_fifo.c:69:30
+	ldr.w	r1, [r0, #10]
+	.loc	1 69 17                         @ ../../libraries/zf_common/zf_common_fifo.c:69:17
+	ldr.w	r0, [r0, #18]
+	.loc	1 69 5                          @ ../../libraries/zf_common/zf_common_fifo.c:69:5
+	cmp	r0, r1
+	bhi	.LBB6_3
+	b	.LBB6_2
+.LBB6_2:                                @   in Loop: Header=BB6_1 Depth=1
+.Ltmp84:
+	.loc	1 71 22 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:71:22
+	ldr	r1, [sp, #4]
+	.loc	1 71 19 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:71:19
+	ldr.w	r0, [r1, #10]
+	.loc	1 71 28                         @ ../../libraries/zf_common/zf_common_fifo.c:71:28
+	ldr.w	r2, [r1, #18]
+	.loc	1 71 19                         @ ../../libraries/zf_common/zf_common_fifo.c:71:19
+	subs	r0, r0, r2
+	str.w	r0, [r1, #10]
+.Ltmp85:
+	.loc	1 69 5 is_stmt 1                @ ../../libraries/zf_common/zf_common_fifo.c:69:5
+	b	.LBB6_1
+.LBB6_3:
+	.loc	1 73 1                          @ ../../libraries/zf_common/zf_common_fifo.c:73:1
+	add	sp, #8
+	bx	lr
+.Ltmp86:
+.Lfunc_end6:
+	.size	fifo_end_offset, .Lfunc_end6-fifo_end_offset
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.fifo_read_buffer,"ax",%progbits
+	.hidden	fifo_read_buffer                @ -- Begin function fifo_read_buffer
+	.globl	fifo_read_buffer
+	.p2align	3
+	.type	fifo_read_buffer,%function
+	.code	16                              @ @fifo_read_buffer
+	.thumb_func
+fifo_read_buffer:
+.Lfunc_begin7:
+	.loc	1 351 0                         @ ../../libraries/zf_common/zf_common_fifo.c:351:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#40
+	sub	sp, #40
+	.cfi_def_cfa_offset 48
+                                        @ kill: def $r12 killed $r3
+	str	r0, [sp, #36]
+	str	r1, [sp, #32]
+	str	r2, [sp, #28]
+	strb.w	r3, [sp, #27]
+.Ltmp87:
+	.loc	1 352 5 prologue_end            @ ../../libraries/zf_common/zf_common_fifo.c:352:5
+	ldr	r0, [sp, #36]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	movw	r1, :lower16:.L.str
+	movt	r1, :upper16:.L.str
+	str	r1, [sp, #12]                   @ 4-byte Spill
+	mov.w	r2, #352
+	bl	debug_assert_handler
+	ldr	r1, [sp, #12]                   @ 4-byte Reload
+	.loc	1 353 5                         @ ../../libraries/zf_common/zf_common_fifo.c:353:5
+	ldr	r0, [sp, #28]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	movw	r2, #353
+	bl	debug_assert_handler
+	movs	r0, #0
+	.loc	1 354 21                        @ ../../libraries/zf_common/zf_common_fifo.c:354:21
+	strb.w	r0, [sp, #26]
+	.loc	1 355 12                        @ ../../libraries/zf_common/zf_common_fifo.c:355:12
+	str	r0, [sp, #20]
+	.loc	1 356 12                        @ ../../libraries/zf_common/zf_common_fifo.c:356:12
+	str	r0, [sp, #16]
+	.loc	1 358 5                         @ ../../libraries/zf_common/zf_common_fifo.c:358:5
+	b	.LBB7_1
+.LBB7_1:
+.Ltmp88:
+	.loc	1 360 20                        @ ../../libraries/zf_common/zf_common_fifo.c:360:20
+	ldr	r0, [sp, #32]
+.Ltmp89:
+	.loc	1 360 12 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:360:12
+	cbnz	r0, .LBB7_3
+	b	.LBB7_2
+.LBB7_2:
+	.loc	1 0 12                          @ ../../libraries/zf_common/zf_common_fifo.c:0:12
+	movs	r0, #3
+.Ltmp90:
+	.loc	1 362 26 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:362:26
+	strb.w	r0, [sp, #26]
+	.loc	1 363 9                         @ ../../libraries/zf_common/zf_common_fifo.c:363:9
+	b	.LBB7_25
+.Ltmp91:
+.LBB7_3:
+	.loc	1 366 44                        @ ../../libraries/zf_common/zf_common_fifo.c:366:44
+	ldr	r0, [sp, #36]
+	ldrb	r0, [r0]
+.Ltmp92:
+	.loc	1 366 16 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:366:16
+	lsls	r0, r0, #30
+	cbz	r0, .LBB7_5
+	b	.LBB7_4
+.LBB7_4:
+.Ltmp93:
+	.loc	1 368 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:368:27
+	ldr	r0, [sp, #16]
+	.loc	1 368 18 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:368:18
+	ldr	r1, [sp, #28]
+	.loc	1 368 25                        @ ../../libraries/zf_common/zf_common_fifo.c:368:25
+	str	r0, [r1]
+	movs	r0, #6
+	.loc	1 369 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:369:30
+	strb.w	r0, [sp, #26]
+	.loc	1 370 17                        @ ../../libraries/zf_common/zf_common_fifo.c:370:17
+	b	.LBB7_30
+.Ltmp94:
+.LBB7_5:
+	.loc	1 373 42                        @ ../../libraries/zf_common/zf_common_fifo.c:373:42
+	ldr	r0, [sp, #36]
+	.loc	1 373 32 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:373:32
+	bl	fifo_used
+	.loc	1 373 30                        @ ../../libraries/zf_common/zf_common_fifo.c:373:30
+	str	r0, [sp, #16]
+.Ltmp95:
+	.loc	1 374 17 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:374:17
+	ldr	r0, [sp, #28]
+	.loc	1 374 16 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:374:16
+	ldr	r0, [r0]
+	.loc	1 374 26                        @ ../../libraries/zf_common/zf_common_fifo.c:374:26
+	ldr	r1, [sp, #16]
+.Ltmp96:
+	.loc	1 374 16                        @ ../../libraries/zf_common/zf_common_fifo.c:374:16
+	cmp	r0, r1
+	bls	.LBB7_9
+	b	.LBB7_6
+.LBB7_6:
+.Ltmp97:
+	.loc	1 376 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:376:27
+	ldr	r0, [sp, #16]
+	.loc	1 376 18 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:376:18
+	ldr	r1, [sp, #28]
+	.loc	1 376 25                        @ ../../libraries/zf_common/zf_common_fifo.c:376:25
+	str	r0, [r1]
+	movs	r0, #7
+	.loc	1 377 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:377:30
+	strb.w	r0, [sp, #26]
+.Ltmp98:
+	.loc	1 378 25                        @ ../../libraries/zf_common/zf_common_fifo.c:378:25
+	ldr	r0, [sp, #16]
+.Ltmp99:
+	.loc	1 378 20 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:378:20
+	cbnz	r0, .LBB7_8
+	b	.LBB7_7
+.LBB7_7:
+.Ltmp100:
+	.loc	1 380 21 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:380:21
+	ldr	r1, [sp, #36]
+	.loc	1 380 37 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:380:37
+	ldrb	r0, [r1]
+	and	r0, r0, #247
+	strb	r0, [r1]
+	.loc	1 381 21 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:381:21
+	b	.LBB7_30
+.Ltmp101:
+.LBB7_8:
+	.loc	1 383 13                        @ ../../libraries/zf_common/zf_common_fifo.c:383:13
+	b	.LBB7_9
+.Ltmp102:
+.LBB7_9:
+	.loc	1 385 13                        @ ../../libraries/zf_common/zf_common_fifo.c:385:13
+	ldr	r1, [sp, #36]
+	.loc	1 385 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:385:29
+	ldrb	r0, [r1]
+	orr	r0, r0, #8
+	strb	r0, [r1]
+	.loc	1 386 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:386:27
+	ldr	r0, [sp, #36]
+	.loc	1 386 45 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:386:45
+	ldr.w	r1, [r0, #10]
+	.loc	1 386 33                        @ ../../libraries/zf_common/zf_common_fifo.c:386:33
+	ldr.w	r0, [r0, #18]
+	.loc	1 386 37                        @ ../../libraries/zf_common/zf_common_fifo.c:386:37
+	subs	r0, r0, r1
+	.loc	1 386 25                        @ ../../libraries/zf_common/zf_common_fifo.c:386:25
+	str	r0, [sp, #20]
+.Ltmp103:
+	.loc	1 387 17 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:387:17
+	ldr	r0, [sp, #28]
+	.loc	1 387 16 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:387:16
+	ldr	r0, [r0]
+	.loc	1 387 27                        @ ../../libraries/zf_common/zf_common_fifo.c:387:27
+	ldr	r1, [sp, #20]
+.Ltmp104:
+	.loc	1 387 16                        @ ../../libraries/zf_common/zf_common_fifo.c:387:16
+	cmp	r0, r1
+	bhi	.LBB7_17
+	b	.LBB7_10
+.LBB7_10:
+.Ltmp105:
+	.loc	1 389 24 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:389:24
+	ldr	r0, [sp, #36]
+	.loc	1 389 30 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:389:30
+	ldrb	r0, [r0, #1]
+	.loc	1 389 17                        @ ../../libraries/zf_common/zf_common_fifo.c:389:17
+	mov	r1, r0
+	str	r1, [sp, #8]                    @ 4-byte Spill
+	cbz	r0, .LBB7_13
+	b	.LBB7_11
+.LBB7_11:
+	ldr	r0, [sp, #8]                    @ 4-byte Reload
+	cmp	r0, #1
+	beq	.LBB7_14
+	b	.LBB7_12
+.LBB7_12:
+	ldr	r0, [sp, #8]                    @ 4-byte Reload
+	cmp	r0, #2
+	beq	.LBB7_15
+	b	.LBB7_16
+.LBB7_13:
+.Ltmp106:
+	.loc	1 391 52 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:391:52
+	ldr	r0, [sp, #32]
+	.loc	1 391 69 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:391:69
+	ldr	r2, [sp, #36]
+	.loc	1 391 75                        @ ../../libraries/zf_common/zf_common_fifo.c:391:75
+	ldr.w	r1, [r2, #2]
+	.loc	1 391 89                        @ ../../libraries/zf_common/zf_common_fifo.c:391:89
+	ldr.w	r2, [r2, #10]
+	.loc	1 391 59                        @ ../../libraries/zf_common/zf_common_fifo.c:391:59
+	add	r1, r2
+	.loc	1 391 97                        @ ../../libraries/zf_common/zf_common_fifo.c:391:97
+	ldr	r2, [sp, #28]
+	.loc	1 391 96                        @ ../../libraries/zf_common/zf_common_fifo.c:391:96
+	ldr	r2, [r2]
+	.loc	1 391 45                        @ ../../libraries/zf_common/zf_common_fifo.c:391:45
+	bl	memcpy
+	.loc	1 391 113                       @ ../../libraries/zf_common/zf_common_fifo.c:391:113
+	b	.LBB7_16
+.LBB7_14:
+	.loc	1 392 52 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:392:52
+	ldr	r0, [sp, #32]
+	.loc	1 392 70 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:392:70
+	ldr	r2, [sp, #36]
+	.loc	1 392 76                        @ ../../libraries/zf_common/zf_common_fifo.c:392:76
+	ldr.w	r1, [r2, #2]
+	.loc	1 392 90                        @ ../../libraries/zf_common/zf_common_fifo.c:392:90
+	ldr.w	r2, [r2, #10]
+	.loc	1 392 59                        @ ../../libraries/zf_common/zf_common_fifo.c:392:59
+	add.w	r1, r1, r2, lsl #1
+	.loc	1 392 98                        @ ../../libraries/zf_common/zf_common_fifo.c:392:98
+	ldr	r2, [sp, #28]
+	.loc	1 392 97                        @ ../../libraries/zf_common/zf_common_fifo.c:392:97
+	ldr	r2, [r2]
+	.loc	1 392 105                       @ ../../libraries/zf_common/zf_common_fifo.c:392:105
+	lsls	r2, r2, #1
+	.loc	1 392 45                        @ ../../libraries/zf_common/zf_common_fifo.c:392:45
+	bl	memcpy
+	.loc	1 392 113                       @ ../../libraries/zf_common/zf_common_fifo.c:392:113
+	b	.LBB7_16
+.LBB7_15:
+	.loc	1 393 52 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:393:52
+	ldr	r0, [sp, #32]
+	.loc	1 393 70 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:393:70
+	ldr	r2, [sp, #36]
+	.loc	1 393 76                        @ ../../libraries/zf_common/zf_common_fifo.c:393:76
+	ldr.w	r1, [r2, #2]
+	.loc	1 393 90                        @ ../../libraries/zf_common/zf_common_fifo.c:393:90
+	ldr.w	r2, [r2, #10]
+	.loc	1 393 59                        @ ../../libraries/zf_common/zf_common_fifo.c:393:59
+	add.w	r1, r1, r2, lsl #2
+	.loc	1 393 98                        @ ../../libraries/zf_common/zf_common_fifo.c:393:98
+	ldr	r2, [sp, #28]
+	.loc	1 393 97                        @ ../../libraries/zf_common/zf_common_fifo.c:393:97
+	ldr	r2, [r2]
+	.loc	1 393 105                       @ ../../libraries/zf_common/zf_common_fifo.c:393:105
+	lsls	r2, r2, #2
+	.loc	1 393 45                        @ ../../libraries/zf_common/zf_common_fifo.c:393:45
+	bl	memcpy
+	.loc	1 393 113                       @ ../../libraries/zf_common/zf_common_fifo.c:393:113
+	b	.LBB7_16
+.Ltmp107:
+.LBB7_16:
+	.loc	1 395 13 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:395:13
+	b	.LBB7_24
+.Ltmp108:
+.LBB7_17:
+	.loc	1 398 24                        @ ../../libraries/zf_common/zf_common_fifo.c:398:24
+	ldr	r0, [sp, #36]
+	.loc	1 398 30 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:398:30
+	ldrb	r0, [r0, #1]
+	.loc	1 398 17                        @ ../../libraries/zf_common/zf_common_fifo.c:398:17
+	mov	r1, r0
+	str	r1, [sp, #4]                    @ 4-byte Spill
+	cbz	r0, .LBB7_20
+	b	.LBB7_18
+.LBB7_18:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	cmp	r0, #1
+	beq	.LBB7_21
+	b	.LBB7_19
+.LBB7_19:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	cmp	r0, #2
+	beq	.LBB7_22
+	b	.LBB7_23
+.LBB7_20:
+.Ltmp109:
+	.loc	1 402 32 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:402:32
+	ldr	r0, [sp, #32]
+	.loc	1 402 49 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:402:49
+	ldr	r2, [sp, #36]
+	.loc	1 402 55                        @ ../../libraries/zf_common/zf_common_fifo.c:402:55
+	ldr.w	r1, [r2, #2]
+	.loc	1 402 69                        @ ../../libraries/zf_common/zf_common_fifo.c:402:69
+	ldr.w	r2, [r2, #10]
+	.loc	1 402 39                        @ ../../libraries/zf_common/zf_common_fifo.c:402:39
+	add	r1, r2
+	.loc	1 402 76                        @ ../../libraries/zf_common/zf_common_fifo.c:402:76
+	ldr	r2, [sp, #20]
+	.loc	1 402 25                        @ ../../libraries/zf_common/zf_common_fifo.c:402:25
+	bl	memcpy
+	.loc	1 403 44 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:403:44
+	ldr	r0, [sp, #32]
+	.loc	1 403 49 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:403:49
+	ldr	r3, [sp, #20]
+	.loc	1 403 34                        @ ../../libraries/zf_common/zf_common_fifo.c:403:34
+	add	r0, r3
+	.loc	1 403 64                        @ ../../libraries/zf_common/zf_common_fifo.c:403:64
+	ldr	r1, [sp, #36]
+	.loc	1 403 70                        @ ../../libraries/zf_common/zf_common_fifo.c:403:70
+	ldr.w	r1, [r1, #2]
+	.loc	1 403 79                        @ ../../libraries/zf_common/zf_common_fifo.c:403:79
+	ldr	r2, [sp, #28]
+	.loc	1 403 78                        @ ../../libraries/zf_common/zf_common_fifo.c:403:78
+	ldr	r2, [r2]
+	.loc	1 403 86                        @ ../../libraries/zf_common/zf_common_fifo.c:403:86
+	subs	r2, r2, r3
+	.loc	1 403 25                        @ ../../libraries/zf_common/zf_common_fifo.c:403:25
+	bl	memcpy
+.Ltmp110:
+	.loc	1 404 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:404:22
+	b	.LBB7_23
+.LBB7_21:
+.Ltmp111:
+	.loc	1 407 32                        @ ../../libraries/zf_common/zf_common_fifo.c:407:32
+	ldr	r0, [sp, #32]
+	.loc	1 407 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:407:50
+	ldr	r2, [sp, #36]
+	.loc	1 407 56                        @ ../../libraries/zf_common/zf_common_fifo.c:407:56
+	ldr.w	r1, [r2, #2]
+	.loc	1 407 70                        @ ../../libraries/zf_common/zf_common_fifo.c:407:70
+	ldr.w	r2, [r2, #10]
+	.loc	1 407 39                        @ ../../libraries/zf_common/zf_common_fifo.c:407:39
+	add.w	r1, r1, r2, lsl #1
+	.loc	1 407 77                        @ ../../libraries/zf_common/zf_common_fifo.c:407:77
+	ldr	r2, [sp, #20]
+	.loc	1 407 89                        @ ../../libraries/zf_common/zf_common_fifo.c:407:89
+	lsls	r2, r2, #1
+	.loc	1 407 25                        @ ../../libraries/zf_common/zf_common_fifo.c:407:25
+	bl	memcpy
+	.loc	1 408 45 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:408:45
+	ldr	r0, [sp, #32]
+	.loc	1 408 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:408:50
+	ldr	r3, [sp, #20]
+	.loc	1 408 34                        @ ../../libraries/zf_common/zf_common_fifo.c:408:34
+	add.w	r0, r0, r3, lsl #1
+	.loc	1 408 65                        @ ../../libraries/zf_common/zf_common_fifo.c:408:65
+	ldr	r1, [sp, #36]
+	.loc	1 408 71                        @ ../../libraries/zf_common/zf_common_fifo.c:408:71
+	ldr.w	r1, [r1, #2]
+	.loc	1 408 81                        @ ../../libraries/zf_common/zf_common_fifo.c:408:81
+	ldr	r2, [sp, #28]
+	.loc	1 408 80                        @ ../../libraries/zf_common/zf_common_fifo.c:408:80
+	ldr	r2, [r2]
+	.loc	1 408 88                        @ ../../libraries/zf_common/zf_common_fifo.c:408:88
+	subs	r2, r2, r3
+	.loc	1 408 103                       @ ../../libraries/zf_common/zf_common_fifo.c:408:103
+	lsls	r2, r2, #1
+	.loc	1 408 25                        @ ../../libraries/zf_common/zf_common_fifo.c:408:25
+	bl	memcpy
+.Ltmp112:
+	.loc	1 409 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:409:22
+	b	.LBB7_23
+.LBB7_22:
+.Ltmp113:
+	.loc	1 412 32                        @ ../../libraries/zf_common/zf_common_fifo.c:412:32
+	ldr	r0, [sp, #32]
+	.loc	1 412 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:412:50
+	ldr	r2, [sp, #36]
+	.loc	1 412 56                        @ ../../libraries/zf_common/zf_common_fifo.c:412:56
+	ldr.w	r1, [r2, #2]
+	.loc	1 412 70                        @ ../../libraries/zf_common/zf_common_fifo.c:412:70
+	ldr.w	r2, [r2, #10]
+	.loc	1 412 39                        @ ../../libraries/zf_common/zf_common_fifo.c:412:39
+	add.w	r1, r1, r2, lsl #2
+	.loc	1 412 77                        @ ../../libraries/zf_common/zf_common_fifo.c:412:77
+	ldr	r2, [sp, #20]
+	.loc	1 412 89                        @ ../../libraries/zf_common/zf_common_fifo.c:412:89
+	lsls	r2, r2, #2
+	.loc	1 412 25                        @ ../../libraries/zf_common/zf_common_fifo.c:412:25
+	bl	memcpy
+	.loc	1 413 45 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:413:45
+	ldr	r0, [sp, #32]
+	.loc	1 413 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:413:50
+	ldr	r3, [sp, #20]
+	.loc	1 413 34                        @ ../../libraries/zf_common/zf_common_fifo.c:413:34
+	add.w	r0, r0, r3, lsl #2
+	.loc	1 413 65                        @ ../../libraries/zf_common/zf_common_fifo.c:413:65
+	ldr	r1, [sp, #36]
+	.loc	1 413 71                        @ ../../libraries/zf_common/zf_common_fifo.c:413:71
+	ldr.w	r1, [r1, #2]
+	.loc	1 413 81                        @ ../../libraries/zf_common/zf_common_fifo.c:413:81
+	ldr	r2, [sp, #28]
+	.loc	1 413 80                        @ ../../libraries/zf_common/zf_common_fifo.c:413:80
+	ldr	r2, [r2]
+	.loc	1 413 88                        @ ../../libraries/zf_common/zf_common_fifo.c:413:88
+	subs	r2, r2, r3
+	.loc	1 413 103                       @ ../../libraries/zf_common/zf_common_fifo.c:413:103
+	lsls	r2, r2, #2
+	.loc	1 413 25                        @ ../../libraries/zf_common/zf_common_fifo.c:413:25
+	bl	memcpy
+.Ltmp114:
+	.loc	1 414 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:414:22
+	b	.LBB7_23
+.Ltmp115:
+.LBB7_23:
+	.loc	1 0 22 is_stmt 0                @ ../../libraries/zf_common/zf_common_fifo.c:0:22
+	b	.LBB7_24
+.LBB7_24:
+	.loc	1 417 13 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:417:13
+	ldr	r1, [sp, #36]
+	.loc	1 417 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:417:29
+	ldrb	r0, [r1]
+	and	r0, r0, #247
+	strb	r0, [r1]
+	b	.LBB7_25
+.Ltmp116:
+.LBB7_25:
+	.loc	1 420 35 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:420:35
+	ldrb.w	r0, [sp, #27]
+.Ltmp117:
+	.loc	1 420 12 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:420:12
+	cbnz	r0, .LBB7_29
+	b	.LBB7_26
+.LBB7_26:
+.Ltmp118:
+	.loc	1 422 57 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:422:57
+	ldr	r0, [sp, #36]
+	.loc	1 422 63 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:422:63
+	ldrb	r0, [r0]
+.Ltmp119:
+	.loc	1 422 16                        @ ../../libraries/zf_common/zf_common_fifo.c:422:16
+	cmp	r0, #11
+	bne	.LBB7_28
+	b	.LBB7_27
+.LBB7_27:
+	.loc	1 0 16                          @ ../../libraries/zf_common/zf_common_fifo.c:0:16
+	movs	r0, #2
+.Ltmp120:
+	.loc	1 424 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:424:30
+	strb.w	r0, [sp, #26]
+	.loc	1 425 17                        @ ../../libraries/zf_common/zf_common_fifo.c:425:17
+	b	.LBB7_30
+.Ltmp121:
+.LBB7_28:
+	.loc	1 427 13                        @ ../../libraries/zf_common/zf_common_fifo.c:427:13
+	ldr	r1, [sp, #36]
+	.loc	1 427 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:427:29
+	ldrb	r0, [r1]
+	orr	r0, r0, #2
+	strb	r0, [r1]
+	.loc	1 428 29 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:428:29
+	ldr	r0, [sp, #36]
+	.loc	1 428 36 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:428:36
+	ldr	r1, [sp, #28]
+	.loc	1 428 35                        @ ../../libraries/zf_common/zf_common_fifo.c:428:35
+	ldr	r1, [r1]
+	.loc	1 428 13                        @ ../../libraries/zf_common/zf_common_fifo.c:428:13
+	bl	fifo_end_offset
+	.loc	1 429 28 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:429:28
+	ldr	r0, [sp, #28]
+	.loc	1 429 27 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:429:27
+	ldr	r2, [r0]
+	.loc	1 429 13                        @ ../../libraries/zf_common/zf_common_fifo.c:429:13
+	ldr	r1, [sp, #36]
+	.loc	1 429 24                        @ ../../libraries/zf_common/zf_common_fifo.c:429:24
+	ldr.w	r0, [r1, #14]
+	add	r0, r2
+	str.w	r0, [r1, #14]
+	.loc	1 430 13 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:430:13
+	ldr	r1, [sp, #36]
+	.loc	1 430 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:430:29
+	ldrb	r0, [r1]
+	and	r0, r0, #253
+	strb	r0, [r1]
+	.loc	1 431 9 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:431:9
+	b	.LBB7_29
+.Ltmp122:
+.LBB7_29:
+	.loc	1 432 5                         @ ../../libraries/zf_common/zf_common_fifo.c:432:5
+	b	.LBB7_30
+.Ltmp123:
+.LBB7_30:
+	.loc	1 434 12                        @ ../../libraries/zf_common/zf_common_fifo.c:434:12
+	ldrb.w	r0, [sp, #26]
+	.loc	1 434 5 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:434:5
+	add	sp, #40
+	pop	{r7, pc}
+.Ltmp124:
+.Lfunc_end7:
+	.size	fifo_read_buffer, .Lfunc_end7-fifo_read_buffer
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.fifo_read_tail_buffer,"ax",%progbits
+	.hidden	fifo_read_tail_buffer           @ -- Begin function fifo_read_tail_buffer
+	.globl	fifo_read_tail_buffer
+	.p2align	3
+	.type	fifo_read_tail_buffer,%function
+	.code	16                              @ @fifo_read_tail_buffer
+	.thumb_func
+fifo_read_tail_buffer:
+.Lfunc_begin8:
+	.loc	1 450 0 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:450:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#40
+	sub	sp, #40
+	.cfi_def_cfa_offset 48
+                                        @ kill: def $r12 killed $r3
+	str	r0, [sp, #36]
+	str	r1, [sp, #32]
+	str	r2, [sp, #28]
+	strb.w	r3, [sp, #27]
+.Ltmp125:
+	.loc	1 451 5 prologue_end            @ ../../libraries/zf_common/zf_common_fifo.c:451:5
+	ldr	r0, [sp, #36]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	movw	r1, :lower16:.L.str
+	movt	r1, :upper16:.L.str
+	str	r1, [sp, #12]                   @ 4-byte Spill
+	movw	r2, #451
+	bl	debug_assert_handler
+	ldr	r1, [sp, #12]                   @ 4-byte Reload
+	.loc	1 452 5                         @ ../../libraries/zf_common/zf_common_fifo.c:452:5
+	ldr	r0, [sp, #28]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	mov.w	r2, #452
+	bl	debug_assert_handler
+	movs	r0, #0
+	.loc	1 453 21                        @ ../../libraries/zf_common/zf_common_fifo.c:453:21
+	strb.w	r0, [sp, #26]
+	.loc	1 454 12                        @ ../../libraries/zf_common/zf_common_fifo.c:454:12
+	str	r0, [sp, #20]
+	.loc	1 455 12                        @ ../../libraries/zf_common/zf_common_fifo.c:455:12
+	str	r0, [sp, #16]
+	.loc	1 457 5                         @ ../../libraries/zf_common/zf_common_fifo.c:457:5
+	b	.LBB8_1
+.LBB8_1:
+.Ltmp126:
+	.loc	1 459 20                        @ ../../libraries/zf_common/zf_common_fifo.c:459:20
+	ldr	r0, [sp, #32]
+.Ltmp127:
+	.loc	1 459 12 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:459:12
+	cbnz	r0, .LBB8_3
+	b	.LBB8_2
+.LBB8_2:
+	.loc	1 0 12                          @ ../../libraries/zf_common/zf_common_fifo.c:0:12
+	movs	r0, #3
+.Ltmp128:
+	.loc	1 461 26 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:461:26
+	strb.w	r0, [sp, #26]
+	.loc	1 462 9                         @ ../../libraries/zf_common/zf_common_fifo.c:462:9
+	b	.LBB8_26
+.Ltmp129:
+.LBB8_3:
+	.loc	1 465 57                        @ ../../libraries/zf_common/zf_common_fifo.c:465:57
+	ldr	r0, [sp, #36]
+	ldrb	r0, [r0]
+.Ltmp130:
+	.loc	1 465 16 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:465:16
+	lsls	r0, r0, #29
+	cbz	r0, .LBB8_5
+	b	.LBB8_4
+.LBB8_4:
+.Ltmp131:
+	.loc	1 467 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:467:27
+	ldr	r0, [sp, #16]
+	.loc	1 467 18 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:467:18
+	ldr	r1, [sp, #28]
+	.loc	1 467 25                        @ ../../libraries/zf_common/zf_common_fifo.c:467:25
+	str	r0, [r1]
+	movs	r0, #6
+	.loc	1 468 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:468:30
+	strb.w	r0, [sp, #26]
+	.loc	1 469 17                        @ ../../libraries/zf_common/zf_common_fifo.c:469:17
+	b	.LBB8_31
+.Ltmp132:
+.LBB8_5:
+	.loc	1 472 42                        @ ../../libraries/zf_common/zf_common_fifo.c:472:42
+	ldr	r0, [sp, #36]
+	.loc	1 472 32 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:472:32
+	bl	fifo_used
+	.loc	1 472 30                        @ ../../libraries/zf_common/zf_common_fifo.c:472:30
+	str	r0, [sp, #16]
+.Ltmp133:
+	.loc	1 473 17 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:473:17
+	ldr	r0, [sp, #28]
+	.loc	1 473 16 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:473:16
+	ldr	r0, [r0]
+	.loc	1 473 26                        @ ../../libraries/zf_common/zf_common_fifo.c:473:26
+	ldr	r1, [sp, #16]
+.Ltmp134:
+	.loc	1 473 16                        @ ../../libraries/zf_common/zf_common_fifo.c:473:16
+	cmp	r0, r1
+	bls	.LBB8_9
+	b	.LBB8_6
+.LBB8_6:
+.Ltmp135:
+	.loc	1 475 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:475:27
+	ldr	r0, [sp, #16]
+	.loc	1 475 18 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:475:18
+	ldr	r1, [sp, #28]
+	.loc	1 475 25                        @ ../../libraries/zf_common/zf_common_fifo.c:475:25
+	str	r0, [r1]
+	movs	r0, #7
+	.loc	1 476 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:476:30
+	strb.w	r0, [sp, #26]
+.Ltmp136:
+	.loc	1 477 25                        @ ../../libraries/zf_common/zf_common_fifo.c:477:25
+	ldr	r0, [sp, #16]
+.Ltmp137:
+	.loc	1 477 20 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:477:20
+	cbnz	r0, .LBB8_8
+	b	.LBB8_7
+.LBB8_7:
+.Ltmp138:
+	.loc	1 479 21 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:479:21
+	ldr	r1, [sp, #36]
+	.loc	1 479 37 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:479:37
+	ldrb	r0, [r1]
+	and	r0, r0, #247
+	strb	r0, [r1]
+	.loc	1 480 21 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:480:21
+	b	.LBB8_31
+.Ltmp139:
+.LBB8_8:
+	.loc	1 482 13                        @ ../../libraries/zf_common/zf_common_fifo.c:482:13
+	b	.LBB8_9
+.Ltmp140:
+.LBB8_9:
+	.loc	1 484 13                        @ ../../libraries/zf_common/zf_common_fifo.c:484:13
+	ldr	r1, [sp, #36]
+	.loc	1 484 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:484:29
+	ldrb	r0, [r1]
+	orr	r0, r0, #8
+	strb	r0, [r1]
+.Ltmp141:
+	.loc	1 485 17 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:485:17
+	ldr	r1, [sp, #36]
+	.loc	1 485 23 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:485:23
+	ldr.w	r0, [r1, #6]
+	.loc	1 485 36                        @ ../../libraries/zf_common/zf_common_fifo.c:485:36
+	ldr.w	r1, [r1, #10]
+	.loc	1 485 41                        @ ../../libraries/zf_common/zf_common_fifo.c:485:41
+	cmp	r0, r1
+	bhi	.LBB8_11
+	b	.LBB8_10
+.LBB8_10:
+	.loc	1 485 45                        @ ../../libraries/zf_common/zf_common_fifo.c:485:45
+	ldr	r0, [sp, #36]
+	.loc	1 485 51                        @ ../../libraries/zf_common/zf_common_fifo.c:485:51
+	ldr.w	r0, [r0, #6]
+	.loc	1 485 60                        @ ../../libraries/zf_common/zf_common_fifo.c:485:60
+	ldr	r1, [sp, #28]
+	.loc	1 485 59                        @ ../../libraries/zf_common/zf_common_fifo.c:485:59
+	ldr	r1, [r1]
+.Ltmp142:
+	.loc	1 485 16                        @ ../../libraries/zf_common/zf_common_fifo.c:485:16
+	cmp	r0, r1
+	blo	.LBB8_18
+	b	.LBB8_11
+.LBB8_11:
+.Ltmp143:
+	.loc	1 487 24 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:487:24
+	ldr	r0, [sp, #36]
+	.loc	1 487 30 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:487:30
+	ldrb	r0, [r0, #1]
+	.loc	1 487 17                        @ ../../libraries/zf_common/zf_common_fifo.c:487:17
+	mov	r1, r0
+	str	r1, [sp, #8]                    @ 4-byte Spill
+	cbz	r0, .LBB8_14
+	b	.LBB8_12
+.LBB8_12:
+	ldr	r0, [sp, #8]                    @ 4-byte Reload
+	cmp	r0, #1
+	beq	.LBB8_15
+	b	.LBB8_13
+.LBB8_13:
+	ldr	r0, [sp, #8]                    @ 4-byte Reload
+	cmp	r0, #2
+	beq	.LBB8_16
+	b	.LBB8_17
+.LBB8_14:
+.Ltmp144:
+	.loc	1 489 52 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:489:52
+	ldr	r0, [sp, #32]
+	.loc	1 489 69 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:489:69
+	ldr	r2, [sp, #36]
+	.loc	1 489 75                        @ ../../libraries/zf_common/zf_common_fifo.c:489:75
+	ldr.w	r1, [r2, #2]
+	.loc	1 489 89                        @ ../../libraries/zf_common/zf_common_fifo.c:489:89
+	ldr.w	r3, [r2, #6]
+	.loc	1 489 97                        @ ../../libraries/zf_common/zf_common_fifo.c:489:97
+	ldr	r2, [sp, #28]
+	.loc	1 489 96                        @ ../../libraries/zf_common/zf_common_fifo.c:489:96
+	ldr	r2, [r2]
+	.loc	1 489 94                        @ ../../libraries/zf_common/zf_common_fifo.c:489:94
+	subs	r3, r3, r2
+	.loc	1 489 59                        @ ../../libraries/zf_common/zf_common_fifo.c:489:59
+	add	r1, r3
+	.loc	1 489 45                        @ ../../libraries/zf_common/zf_common_fifo.c:489:45
+	bl	memcpy
+	.loc	1 489 121                       @ ../../libraries/zf_common/zf_common_fifo.c:489:121
+	b	.LBB8_17
+.LBB8_15:
+	.loc	1 490 52 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:490:52
+	ldr	r0, [sp, #32]
+	.loc	1 490 70 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:490:70
+	ldr	r2, [sp, #36]
+	.loc	1 490 76                        @ ../../libraries/zf_common/zf_common_fifo.c:490:76
+	ldr.w	r1, [r2, #2]
+	.loc	1 490 90                        @ ../../libraries/zf_common/zf_common_fifo.c:490:90
+	ldr.w	r3, [r2, #6]
+	.loc	1 490 98                        @ ../../libraries/zf_common/zf_common_fifo.c:490:98
+	ldr	r2, [sp, #28]
+	.loc	1 490 97                        @ ../../libraries/zf_common/zf_common_fifo.c:490:97
+	ldr	r2, [r2]
+	.loc	1 490 95                        @ ../../libraries/zf_common/zf_common_fifo.c:490:95
+	subs	r3, r3, r2
+	.loc	1 490 59                        @ ../../libraries/zf_common/zf_common_fifo.c:490:59
+	add.w	r1, r1, r3, lsl #1
+	.loc	1 490 116                       @ ../../libraries/zf_common/zf_common_fifo.c:490:116
+	lsls	r2, r2, #1
+	.loc	1 490 45                        @ ../../libraries/zf_common/zf_common_fifo.c:490:45
+	bl	memcpy
+	.loc	1 490 121                       @ ../../libraries/zf_common/zf_common_fifo.c:490:121
+	b	.LBB8_17
+.LBB8_16:
+	.loc	1 491 52 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:491:52
+	ldr	r0, [sp, #32]
+	.loc	1 491 70 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:491:70
+	ldr	r2, [sp, #36]
+	.loc	1 491 76                        @ ../../libraries/zf_common/zf_common_fifo.c:491:76
+	ldr.w	r1, [r2, #2]
+	.loc	1 491 90                        @ ../../libraries/zf_common/zf_common_fifo.c:491:90
+	ldr.w	r3, [r2, #6]
+	.loc	1 491 98                        @ ../../libraries/zf_common/zf_common_fifo.c:491:98
+	ldr	r2, [sp, #28]
+	.loc	1 491 97                        @ ../../libraries/zf_common/zf_common_fifo.c:491:97
+	ldr	r2, [r2]
+	.loc	1 491 95                        @ ../../libraries/zf_common/zf_common_fifo.c:491:95
+	subs	r3, r3, r2
+	.loc	1 491 59                        @ ../../libraries/zf_common/zf_common_fifo.c:491:59
+	add.w	r1, r1, r3, lsl #2
+	.loc	1 491 116                       @ ../../libraries/zf_common/zf_common_fifo.c:491:116
+	lsls	r2, r2, #2
+	.loc	1 491 45                        @ ../../libraries/zf_common/zf_common_fifo.c:491:45
+	bl	memcpy
+	.loc	1 491 121                       @ ../../libraries/zf_common/zf_common_fifo.c:491:121
+	b	.LBB8_17
+.Ltmp145:
+.LBB8_17:
+	.loc	1 493 13 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:493:13
+	b	.LBB8_25
+.Ltmp146:
+.LBB8_18:
+	.loc	1 496 32                        @ ../../libraries/zf_common/zf_common_fifo.c:496:32
+	ldr	r0, [sp, #28]
+	.loc	1 496 31 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:496:31
+	ldr	r0, [r0]
+	.loc	1 496 41                        @ ../../libraries/zf_common/zf_common_fifo.c:496:41
+	ldr	r1, [sp, #36]
+	.loc	1 496 47                        @ ../../libraries/zf_common/zf_common_fifo.c:496:47
+	ldr.w	r1, [r1, #6]
+	.loc	1 496 39                        @ ../../libraries/zf_common/zf_common_fifo.c:496:39
+	subs	r0, r0, r1
+	.loc	1 496 29                        @ ../../libraries/zf_common/zf_common_fifo.c:496:29
+	str	r0, [sp, #20]
+	.loc	1 497 24 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:497:24
+	ldr	r0, [sp, #36]
+	.loc	1 497 30 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:497:30
+	ldrb	r0, [r0, #1]
+	.loc	1 497 17                        @ ../../libraries/zf_common/zf_common_fifo.c:497:17
+	mov	r1, r0
+	str	r1, [sp, #4]                    @ 4-byte Spill
+	cbz	r0, .LBB8_21
+	b	.LBB8_19
+.LBB8_19:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	cmp	r0, #1
+	beq	.LBB8_22
+	b	.LBB8_20
+.LBB8_20:
+	ldr	r0, [sp, #4]                    @ 4-byte Reload
+	cmp	r0, #2
+	beq	.LBB8_23
+	b	.LBB8_24
+.LBB8_21:
+.Ltmp147:
+	.loc	1 501 32 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:501:32
+	ldr	r0, [sp, #32]
+	.loc	1 501 49 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:501:49
+	ldr	r2, [sp, #36]
+	.loc	1 501 55                        @ ../../libraries/zf_common/zf_common_fifo.c:501:55
+	ldr.w	r1, [r2, #2]
+	.loc	1 501 69                        @ ../../libraries/zf_common/zf_common_fifo.c:501:69
+	ldr.w	r3, [r2, #18]
+	.loc	1 501 75                        @ ../../libraries/zf_common/zf_common_fifo.c:501:75
+	ldr	r2, [sp, #20]
+	.loc	1 501 73                        @ ../../libraries/zf_common/zf_common_fifo.c:501:73
+	subs	r3, r3, r2
+	.loc	1 501 39                        @ ../../libraries/zf_common/zf_common_fifo.c:501:39
+	add	r1, r3
+	.loc	1 501 25                        @ ../../libraries/zf_common/zf_common_fifo.c:501:25
+	bl	memcpy
+	.loc	1 502 44 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:502:44
+	ldr	r0, [sp, #32]
+	.loc	1 502 49 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:502:49
+	ldr	r3, [sp, #20]
+	.loc	1 502 34                        @ ../../libraries/zf_common/zf_common_fifo.c:502:34
+	add	r0, r3
+	.loc	1 502 76                        @ ../../libraries/zf_common/zf_common_fifo.c:502:76
+	ldr	r2, [sp, #36]
+	.loc	1 502 82                        @ ../../libraries/zf_common/zf_common_fifo.c:502:82
+	ldr.w	r1, [r2, #2]
+	.loc	1 502 96                        @ ../../libraries/zf_common/zf_common_fifo.c:502:96
+	ldr.w	r12, [r2, #6]
+	.loc	1 502 104                       @ ../../libraries/zf_common/zf_common_fifo.c:502:104
+	ldr	r2, [sp, #28]
+	.loc	1 502 103                       @ ../../libraries/zf_common/zf_common_fifo.c:502:103
+	ldr	r2, [r2]
+	.loc	1 502 101                       @ ../../libraries/zf_common/zf_common_fifo.c:502:101
+	sub.w	r12, r12, r2
+	.loc	1 502 66                        @ ../../libraries/zf_common/zf_common_fifo.c:502:66
+	add	r1, r12
+	.loc	1 502 123                       @ ../../libraries/zf_common/zf_common_fifo.c:502:123
+	subs	r2, r2, r3
+	.loc	1 502 25                        @ ../../libraries/zf_common/zf_common_fifo.c:502:25
+	bl	memcpy
+.Ltmp148:
+	.loc	1 503 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:503:22
+	b	.LBB8_24
+.LBB8_22:
+.Ltmp149:
+	.loc	1 506 32                        @ ../../libraries/zf_common/zf_common_fifo.c:506:32
+	ldr	r0, [sp, #32]
+	.loc	1 506 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:506:50
+	ldr	r2, [sp, #36]
+	.loc	1 506 56                        @ ../../libraries/zf_common/zf_common_fifo.c:506:56
+	ldr.w	r1, [r2, #2]
+	.loc	1 506 70                        @ ../../libraries/zf_common/zf_common_fifo.c:506:70
+	ldr.w	r3, [r2, #18]
+	.loc	1 506 76                        @ ../../libraries/zf_common/zf_common_fifo.c:506:76
+	ldr	r2, [sp, #20]
+	.loc	1 506 74                        @ ../../libraries/zf_common/zf_common_fifo.c:506:74
+	subs	r3, r3, r2
+	.loc	1 506 39                        @ ../../libraries/zf_common/zf_common_fifo.c:506:39
+	add.w	r1, r1, r3, lsl #1
+	.loc	1 506 103                       @ ../../libraries/zf_common/zf_common_fifo.c:506:103
+	lsls	r2, r2, #1
+	.loc	1 506 25                        @ ../../libraries/zf_common/zf_common_fifo.c:506:25
+	bl	memcpy
+	.loc	1 507 45 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:507:45
+	ldr	r0, [sp, #32]
+	.loc	1 507 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:507:50
+	ldr	r3, [sp, #20]
+	.loc	1 507 34                        @ ../../libraries/zf_common/zf_common_fifo.c:507:34
+	add.w	r0, r0, r3, lsl #1
+	.loc	1 507 78                        @ ../../libraries/zf_common/zf_common_fifo.c:507:78
+	ldr	r2, [sp, #36]
+	.loc	1 507 84                        @ ../../libraries/zf_common/zf_common_fifo.c:507:84
+	ldr.w	r1, [r2, #2]
+	.loc	1 507 98                        @ ../../libraries/zf_common/zf_common_fifo.c:507:98
+	ldr.w	r12, [r2, #6]
+	.loc	1 507 106                       @ ../../libraries/zf_common/zf_common_fifo.c:507:106
+	ldr	r2, [sp, #28]
+	.loc	1 507 105                       @ ../../libraries/zf_common/zf_common_fifo.c:507:105
+	ldr	r2, [r2]
+	.loc	1 507 103                       @ ../../libraries/zf_common/zf_common_fifo.c:507:103
+	sub.w	r12, r12, r2
+	.loc	1 507 67                        @ ../../libraries/zf_common/zf_common_fifo.c:507:67
+	add.w	r1, r1, r12, lsl #1
+	.loc	1 507 125                       @ ../../libraries/zf_common/zf_common_fifo.c:507:125
+	subs	r2, r2, r3
+	.loc	1 507 140                       @ ../../libraries/zf_common/zf_common_fifo.c:507:140
+	lsls	r2, r2, #1
+	.loc	1 507 25                        @ ../../libraries/zf_common/zf_common_fifo.c:507:25
+	bl	memcpy
+.Ltmp150:
+	.loc	1 508 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:508:22
+	b	.LBB8_24
+.LBB8_23:
+.Ltmp151:
+	.loc	1 511 32                        @ ../../libraries/zf_common/zf_common_fifo.c:511:32
+	ldr	r0, [sp, #32]
+	.loc	1 511 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:511:50
+	ldr	r2, [sp, #36]
+	.loc	1 511 56                        @ ../../libraries/zf_common/zf_common_fifo.c:511:56
+	ldr.w	r1, [r2, #2]
+	.loc	1 511 70                        @ ../../libraries/zf_common/zf_common_fifo.c:511:70
+	ldr.w	r3, [r2, #18]
+	.loc	1 511 76                        @ ../../libraries/zf_common/zf_common_fifo.c:511:76
+	ldr	r2, [sp, #20]
+	.loc	1 511 74                        @ ../../libraries/zf_common/zf_common_fifo.c:511:74
+	subs	r3, r3, r2
+	.loc	1 511 39                        @ ../../libraries/zf_common/zf_common_fifo.c:511:39
+	add.w	r1, r1, r3, lsl #2
+	.loc	1 511 103                       @ ../../libraries/zf_common/zf_common_fifo.c:511:103
+	lsls	r2, r2, #2
+	.loc	1 511 25                        @ ../../libraries/zf_common/zf_common_fifo.c:511:25
+	bl	memcpy
+	.loc	1 512 45 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:512:45
+	ldr	r0, [sp, #32]
+	.loc	1 512 50 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:512:50
+	ldr	r3, [sp, #20]
+	.loc	1 512 34                        @ ../../libraries/zf_common/zf_common_fifo.c:512:34
+	add.w	r0, r0, r3, lsl #2
+	.loc	1 512 78                        @ ../../libraries/zf_common/zf_common_fifo.c:512:78
+	ldr	r2, [sp, #36]
+	.loc	1 512 84                        @ ../../libraries/zf_common/zf_common_fifo.c:512:84
+	ldr.w	r1, [r2, #2]
+	.loc	1 512 98                        @ ../../libraries/zf_common/zf_common_fifo.c:512:98
+	ldr.w	r12, [r2, #6]
+	.loc	1 512 106                       @ ../../libraries/zf_common/zf_common_fifo.c:512:106
+	ldr	r2, [sp, #28]
+	.loc	1 512 105                       @ ../../libraries/zf_common/zf_common_fifo.c:512:105
+	ldr	r2, [r2]
+	.loc	1 512 103                       @ ../../libraries/zf_common/zf_common_fifo.c:512:103
+	sub.w	r12, r12, r2
+	.loc	1 512 67                        @ ../../libraries/zf_common/zf_common_fifo.c:512:67
+	add.w	r1, r1, r12, lsl #2
+	.loc	1 512 125                       @ ../../libraries/zf_common/zf_common_fifo.c:512:125
+	subs	r2, r2, r3
+	.loc	1 512 140                       @ ../../libraries/zf_common/zf_common_fifo.c:512:140
+	lsls	r2, r2, #2
+	.loc	1 512 25                        @ ../../libraries/zf_common/zf_common_fifo.c:512:25
+	bl	memcpy
+.Ltmp152:
+	.loc	1 513 22 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:513:22
+	b	.LBB8_24
+.Ltmp153:
+.LBB8_24:
+	.loc	1 0 22 is_stmt 0                @ ../../libraries/zf_common/zf_common_fifo.c:0:22
+	b	.LBB8_25
+.LBB8_25:
+	.loc	1 516 13 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:516:13
+	ldr	r1, [sp, #36]
+	.loc	1 516 29 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:516:29
+	ldrb	r0, [r1]
+	and	r0, r0, #247
+	strb	r0, [r1]
+	b	.LBB8_26
+.Ltmp154:
+.LBB8_26:
+	.loc	1 519 35 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:519:35
+	ldrb.w	r0, [sp, #27]
+.Ltmp155:
+	.loc	1 519 12 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:519:12
+	cbnz	r0, .LBB8_30
+	b	.LBB8_27
+.LBB8_27:
+.Ltmp156:
+	.loc	1 521 57 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:521:57
+	ldr	r0, [sp, #36]
+	.loc	1 521 63 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:521:63
+	ldrb	r0, [r0]
+.Ltmp157:
+	.loc	1 521 16                        @ ../../libraries/zf_common/zf_common_fifo.c:521:16
+	cmp	r0, #11
+	bne	.LBB8_29
+	b	.LBB8_28
+.LBB8_28:
+	.loc	1 0 16                          @ ../../libraries/zf_common/zf_common_fifo.c:0:16
+	movs	r0, #2
+.Ltmp158:
+	.loc	1 523 30 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:523:30
+	strb.w	r0, [sp, #26]
+	.loc	1 524 17                        @ ../../libraries/zf_common/zf_common_fifo.c:524:17
+	b	.LBB8_31
+.Ltmp159:
+.LBB8_29:
+	.loc	1 526 24                        @ ../../libraries/zf_common/zf_common_fifo.c:526:24
+	ldr	r0, [sp, #36]
+	.loc	1 526 13 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:526:13
+	bl	fifo_clear
+	.loc	1 527 9 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:527:9
+	b	.LBB8_30
+.Ltmp160:
+.LBB8_30:
+	.loc	1 528 5                         @ ../../libraries/zf_common/zf_common_fifo.c:528:5
+	b	.LBB8_31
+.Ltmp161:
+.LBB8_31:
+	.loc	1 530 12                        @ ../../libraries/zf_common/zf_common_fifo.c:530:12
+	ldrb.w	r0, [sp, #26]
+	.loc	1 530 5 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:530:5
+	add	sp, #40
+	pop	{r7, pc}
+.Ltmp162:
+.Lfunc_end8:
+	.size	fifo_read_tail_buffer, .Lfunc_end8-fifo_read_tail_buffer
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.section	.text.fifo_init,"ax",%progbits
+	.hidden	fifo_init                       @ -- Begin function fifo_init
+	.globl	fifo_init
+	.p2align	3
+	.type	fifo_init,%function
+	.code	16                              @ @fifo_init
+	.thumb_func
+fifo_init:
+.Lfunc_begin9:
+	.loc	1 544 0 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:544:0
+	.fnstart
+	.cfi_startproc
+@ %bb.0:
+	.save	{r7, lr}
+	push	{r7, lr}
+	.cfi_def_cfa_offset 8
+	.cfi_offset lr, -4
+	.cfi_offset r7, -8
+	.pad	#24
+	sub	sp, #24
+	.cfi_def_cfa_offset 32
+                                        @ kill: def $r12 killed $r1
+	str	r0, [sp, #20]
+	strb.w	r1, [sp, #19]
+	str	r2, [sp, #12]
+	str	r3, [sp, #8]
+.Ltmp163:
+	.loc	1 545 5 prologue_end            @ ../../libraries/zf_common/zf_common_fifo.c:545:5
+	ldr	r0, [sp, #20]
+	cmp	r0, #0
+	it	ne
+	movne	r0, #1
+	movw	r1, :lower16:.L.str
+	movt	r1, :upper16:.L.str
+	movw	r2, #545
+	bl	debug_assert_handler
+	movs	r0, #0
+	.loc	1 546 21                        @ ../../libraries/zf_common/zf_common_fifo.c:546:21
+	strb.w	r0, [sp, #7]
+	.loc	1 547 5                         @ ../../libraries/zf_common/zf_common_fifo.c:547:5
+	b	.LBB9_1
+.LBB9_1:
+.Ltmp164:
+	.loc	1 549 27                        @ ../../libraries/zf_common/zf_common_fifo.c:549:27
+	ldr	r0, [sp, #12]
+	.loc	1 549 9 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:549:9
+	ldr	r1, [sp, #20]
+	.loc	1 549 25                        @ ../../libraries/zf_common/zf_common_fifo.c:549:25
+	str.w	r0, [r1, #2]
+	.loc	1 550 9 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:550:9
+	ldr	r1, [sp, #20]
+	movs	r0, #0
+	.loc	1 550 25 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:550:25
+	strb	r0, [r1]
+	.loc	1 551 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:551:27
+	ldrb.w	r1, [sp, #19]
+	.loc	1 551 9 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:551:9
+	ldr	r2, [sp, #20]
+	.loc	1 551 25                        @ ../../libraries/zf_common/zf_common_fifo.c:551:25
+	strb	r1, [r2, #1]
+	.loc	1 552 9 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:552:9
+	ldr	r1, [sp, #20]
+	.loc	1 552 25 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:552:25
+	str.w	r0, [r1, #6]
+	.loc	1 553 9 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:553:9
+	ldr	r1, [sp, #20]
+	.loc	1 553 25 is_stmt 0              @ ../../libraries/zf_common/zf_common_fifo.c:553:25
+	str.w	r0, [r1, #10]
+	.loc	1 554 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:554:27
+	ldr	r0, [sp, #8]
+	.loc	1 554 9 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:554:9
+	ldr	r1, [sp, #20]
+	.loc	1 554 25                        @ ../../libraries/zf_common/zf_common_fifo.c:554:25
+	str.w	r0, [r1, #14]
+	.loc	1 555 27 is_stmt 1              @ ../../libraries/zf_common/zf_common_fifo.c:555:27
+	ldr	r0, [sp, #8]
+	.loc	1 555 9 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:555:9
+	ldr	r1, [sp, #20]
+	.loc	1 555 25                        @ ../../libraries/zf_common/zf_common_fifo.c:555:25
+	str.w	r0, [r1, #18]
+	.loc	1 556 5 is_stmt 1               @ ../../libraries/zf_common/zf_common_fifo.c:556:5
+	b	.LBB9_2
+.Ltmp165:
+.LBB9_2:
+	.loc	1 557 12                        @ ../../libraries/zf_common/zf_common_fifo.c:557:12
+	ldrb.w	r0, [sp, #7]
+	.loc	1 557 5 is_stmt 0               @ ../../libraries/zf_common/zf_common_fifo.c:557:5
+	add	sp, #24
+	pop	{r7, pc}
+.Ltmp166:
+.Lfunc_end9:
+	.size	fifo_init, .Lfunc_end9-fifo_init
+	.cfi_endproc
+	.cantunwind
+	.fnend
+                                        @ -- End function
+	.type	.L.str,%object                  @ @.str
+	.section	.rodata.str1.1,"aMS",%progbits,1
+.L.str:
+	.asciz	"../../libraries/zf_common/zf_common_fifo.c"
+	.size	.L.str, 43
+
+	.section	.debug_abbrev,"",%progbits
+	.byte	1                               @ Abbreviation Code
+	.byte	17                              @ DW_TAG_compile_unit
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	37                              @ DW_AT_producer
+	.byte	14                              @ DW_FORM_strp
+	.byte	19                              @ DW_AT_language
+	.byte	5                               @ DW_FORM_data2
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	16                              @ DW_AT_stmt_list
+	.byte	23                              @ DW_FORM_sec_offset
+	.byte	27                              @ DW_AT_comp_dir
+	.byte	14                              @ DW_FORM_strp
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	85                              @ DW_AT_ranges
+	.byte	23                              @ DW_FORM_sec_offset
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	2                               @ Abbreviation Code
+	.byte	52                              @ DW_TAG_variable
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	3                               @ Abbreviation Code
+	.byte	1                               @ DW_TAG_array_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	4                               @ Abbreviation Code
+	.byte	33                              @ DW_TAG_subrange_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	55                              @ DW_AT_count
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	5                               @ Abbreviation Code
+	.byte	36                              @ DW_TAG_base_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	62                              @ DW_AT_encoding
+	.byte	11                              @ DW_FORM_data1
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	6                               @ Abbreviation Code
+	.byte	36                              @ DW_TAG_base_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	62                              @ DW_AT_encoding
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	7                               @ Abbreviation Code
+	.byte	4                               @ DW_TAG_enumeration_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	8                               @ Abbreviation Code
+	.byte	40                              @ DW_TAG_enumerator
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	28                              @ DW_AT_const_value
+	.byte	15                              @ DW_FORM_udata
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	9                               @ Abbreviation Code
+	.byte	15                              @ DW_TAG_pointer_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	10                              @ Abbreviation Code
+	.byte	22                              @ DW_TAG_typedef
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	11                              @ Abbreviation Code
+	.byte	46                              @ DW_TAG_subprogram
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	18                              @ DW_AT_high_pc
+	.byte	6                               @ DW_FORM_data4
+	.byte	64                              @ DW_AT_frame_base
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	63                              @ DW_AT_external
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	12                              @ Abbreviation Code
+	.byte	5                               @ DW_TAG_formal_parameter
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	13                              @ Abbreviation Code
+	.byte	52                              @ DW_TAG_variable
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	14                              @ Abbreviation Code
+	.byte	46                              @ DW_TAG_subprogram
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	18                              @ DW_AT_high_pc
+	.byte	6                               @ DW_FORM_data4
+	.byte	64                              @ DW_AT_frame_base
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	15                              @ Abbreviation Code
+	.byte	46                              @ DW_TAG_subprogram
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	17                              @ DW_AT_low_pc
+	.byte	1                               @ DW_FORM_addr
+	.byte	18                              @ DW_AT_high_pc
+	.byte	6                               @ DW_FORM_data4
+	.byte	64                              @ DW_AT_frame_base
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	39                              @ DW_AT_prototyped
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	63                              @ DW_AT_external
+	.byte	25                              @ DW_FORM_flag_present
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	16                              @ Abbreviation Code
+	.byte	5                               @ DW_TAG_formal_parameter
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	17                              @ Abbreviation Code
+	.byte	52                              @ DW_TAG_variable
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	2                               @ DW_AT_location
+	.byte	24                              @ DW_FORM_exprloc
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	5                               @ DW_FORM_data2
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	18                              @ Abbreviation Code
+	.byte	19                              @ DW_TAG_structure_type
+	.byte	1                               @ DW_CHILDREN_yes
+	.byte	11                              @ DW_AT_byte_size
+	.byte	11                              @ DW_FORM_data1
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	19                              @ Abbreviation Code
+	.byte	13                              @ DW_TAG_member
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	3                               @ DW_AT_name
+	.byte	14                              @ DW_FORM_strp
+	.byte	73                              @ DW_AT_type
+	.byte	19                              @ DW_FORM_ref4
+	.byte	58                              @ DW_AT_decl_file
+	.byte	11                              @ DW_FORM_data1
+	.byte	59                              @ DW_AT_decl_line
+	.byte	11                              @ DW_FORM_data1
+	.byte	56                              @ DW_AT_data_member_location
+	.byte	11                              @ DW_FORM_data1
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	20                              @ Abbreviation Code
+	.byte	15                              @ DW_TAG_pointer_type
+	.byte	0                               @ DW_CHILDREN_no
+	.byte	0                               @ EOM(1)
+	.byte	0                               @ EOM(2)
+	.byte	0                               @ EOM(3)
+	.section	.debug_info,"",%progbits
+.Lcu_begin0:
+	.long	.Ldebug_info_end0-.Ldebug_info_start0 @ Length of Unit
+.Ldebug_info_start0:
+	.short	4                               @ DWARF version number
+	.long	.debug_abbrev                   @ Offset Into Abbrev. Section
+	.byte	4                               @ Address Size (in bytes)
+	.byte	1                               @ Abbrev [1] 0xb:0x4a6 DW_TAG_compile_unit
+	.long	.Linfo_string0                  @ DW_AT_producer
+	.short	12                              @ DW_AT_language
+	.long	.Linfo_string1                  @ DW_AT_name
+	.long	.Lline_table_start0             @ DW_AT_stmt_list
+	.long	.Linfo_string2                  @ DW_AT_comp_dir
+	.long	0                               @ DW_AT_low_pc
+	.long	.Ldebug_ranges0                 @ DW_AT_ranges
+	.byte	2                               @ Abbrev [2] 0x26:0xd DW_TAG_variable
+	.long	51                              @ DW_AT_type
+	.byte	1                               @ DW_AT_decl_file
+	.byte	84                              @ DW_AT_decl_line
+	.byte	5                               @ DW_AT_location
+	.byte	3
+	.long	.L.str
+	.byte	3                               @ Abbrev [3] 0x33:0xc DW_TAG_array_type
+	.long	63                              @ DW_AT_type
+	.byte	4                               @ Abbrev [4] 0x38:0x6 DW_TAG_subrange_type
+	.long	70                              @ DW_AT_type
+	.byte	43                              @ DW_AT_count
+	.byte	0                               @ End Of Children Mark
+	.byte	5                               @ Abbrev [5] 0x3f:0x7 DW_TAG_base_type
+	.long	.Linfo_string3                  @ DW_AT_name
+	.byte	6                               @ DW_AT_encoding
+	.byte	1                               @ DW_AT_byte_size
+	.byte	6                               @ Abbrev [6] 0x46:0x7 DW_TAG_base_type
+	.long	.Linfo_string4                  @ DW_AT_name
+	.byte	8                               @ DW_AT_byte_size
+	.byte	7                               @ DW_AT_encoding
+	.byte	7                               @ Abbrev [7] 0x4d:0x39 DW_TAG_enumeration_type
+	.long	134                             @ DW_AT_type
+	.byte	1                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	41                              @ DW_AT_decl_line
+	.byte	8                               @ Abbrev [8] 0x55:0x6 DW_TAG_enumerator
+	.long	.Linfo_string6                  @ DW_AT_name
+	.byte	0                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0x5b:0x6 DW_TAG_enumerator
+	.long	.Linfo_string7                  @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0x61:0x6 DW_TAG_enumerator
+	.long	.Linfo_string8                  @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0x67:0x6 DW_TAG_enumerator
+	.long	.Linfo_string9                  @ DW_AT_name
+	.byte	3                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0x6d:0x6 DW_TAG_enumerator
+	.long	.Linfo_string10                 @ DW_AT_name
+	.byte	4                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0x73:0x6 DW_TAG_enumerator
+	.long	.Linfo_string11                 @ DW_AT_name
+	.byte	5                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0x79:0x6 DW_TAG_enumerator
+	.long	.Linfo_string12                 @ DW_AT_name
+	.byte	6                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0x7f:0x6 DW_TAG_enumerator
+	.long	.Linfo_string13                 @ DW_AT_name
+	.byte	7                               @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	5                               @ Abbrev [5] 0x86:0x7 DW_TAG_base_type
+	.long	.Linfo_string5                  @ DW_AT_name
+	.byte	8                               @ DW_AT_encoding
+	.byte	1                               @ DW_AT_byte_size
+	.byte	7                               @ Abbrev [7] 0x8d:0x1b DW_TAG_enumeration_type
+	.long	134                             @ DW_AT_type
+	.byte	1                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	77                              @ DW_AT_decl_line
+	.byte	8                               @ Abbrev [8] 0x95:0x6 DW_TAG_enumerator
+	.long	.Linfo_string14                 @ DW_AT_name
+	.byte	0                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0x9b:0x6 DW_TAG_enumerator
+	.long	.Linfo_string15                 @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0xa1:0x6 DW_TAG_enumerator
+	.long	.Linfo_string16                 @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	7                               @ Abbrev [7] 0xa8:0x27 DW_TAG_enumeration_type
+	.long	134                             @ DW_AT_type
+	.byte	1                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	61                              @ DW_AT_decl_line
+	.byte	8                               @ Abbrev [8] 0xb0:0x6 DW_TAG_enumerator
+	.long	.Linfo_string17                 @ DW_AT_name
+	.byte	0                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0xb6:0x6 DW_TAG_enumerator
+	.long	.Linfo_string18                 @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0xbc:0x6 DW_TAG_enumerator
+	.long	.Linfo_string19                 @ DW_AT_name
+	.byte	2                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0xc2:0x6 DW_TAG_enumerator
+	.long	.Linfo_string20                 @ DW_AT_name
+	.byte	4                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0xc8:0x6 DW_TAG_enumerator
+	.long	.Linfo_string21                 @ DW_AT_name
+	.byte	8                               @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	7                               @ Abbrev [7] 0xcf:0x15 DW_TAG_enumeration_type
+	.long	134                             @ DW_AT_type
+	.byte	1                               @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	71                              @ DW_AT_decl_line
+	.byte	8                               @ Abbrev [8] 0xd7:0x6 DW_TAG_enumerator
+	.long	.Linfo_string22                 @ DW_AT_name
+	.byte	0                               @ DW_AT_const_value
+	.byte	8                               @ Abbrev [8] 0xdd:0x6 DW_TAG_enumerator
+	.long	.Linfo_string23                 @ DW_AT_name
+	.byte	1                               @ DW_AT_const_value
+	.byte	0                               @ End Of Children Mark
+	.byte	9                               @ Abbrev [9] 0xe4:0x5 DW_TAG_pointer_type
+	.long	233                             @ DW_AT_type
+	.byte	10                              @ Abbrev [10] 0xe9:0xb DW_TAG_typedef
+	.long	134                             @ DW_AT_type
+	.long	.Linfo_string24                 @ DW_AT_name
+	.byte	3                               @ DW_AT_decl_file
+	.byte	55                              @ DW_AT_decl_line
+	.byte	9                               @ Abbrev [9] 0xf4:0x5 DW_TAG_pointer_type
+	.long	249                             @ DW_AT_type
+	.byte	10                              @ Abbrev [10] 0xf9:0xb DW_TAG_typedef
+	.long	260                             @ DW_AT_type
+	.long	.Linfo_string26                 @ DW_AT_name
+	.byte	3                               @ DW_AT_decl_file
+	.byte	56                              @ DW_AT_decl_line
+	.byte	5                               @ Abbrev [5] 0x104:0x7 DW_TAG_base_type
+	.long	.Linfo_string25                 @ DW_AT_name
+	.byte	7                               @ DW_AT_encoding
+	.byte	2                               @ DW_AT_byte_size
+	.byte	9                               @ Abbrev [9] 0x10b:0x5 DW_TAG_pointer_type
+	.long	272                             @ DW_AT_type
+	.byte	10                              @ Abbrev [10] 0x110:0xb DW_TAG_typedef
+	.long	283                             @ DW_AT_type
+	.long	.Linfo_string28                 @ DW_AT_name
+	.byte	3                               @ DW_AT_decl_file
+	.byte	57                              @ DW_AT_decl_line
+	.byte	5                               @ Abbrev [5] 0x11b:0x7 DW_TAG_base_type
+	.long	.Linfo_string27                 @ DW_AT_name
+	.byte	7                               @ DW_AT_encoding
+	.byte	4                               @ DW_AT_byte_size
+	.byte	11                              @ Abbrev [11] 0x122:0x32 DW_TAG_subprogram
+	.long	.Lfunc_begin0                   @ DW_AT_low_pc
+	.long	.Lfunc_end0-.Lfunc_begin0       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string29                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	82                              @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	1061                            @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	12                              @ Abbrev [12] 0x137:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	82                              @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	13                              @ Abbrev [13] 0x145:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	11
+	.long	.Linfo_string50                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	85                              @ DW_AT_decl_line
+	.long	1061                            @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	11                              @ Abbrev [11] 0x154:0x24 DW_TAG_subprogram
+	.long	.Lfunc_begin1                   @ DW_AT_low_pc
+	.long	.Lfunc_end1-.Lfunc_begin1       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string31                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	115                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	272                             @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	12                              @ Abbrev [12] 0x169:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	115                             @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	11                              @ Abbrev [11] 0x178:0x40 DW_TAG_subprogram
+	.long	.Lfunc_begin2                   @ DW_AT_low_pc
+	.long	.Lfunc_end2-.Lfunc_begin2       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string32                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	129                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	1061                            @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	12                              @ Abbrev [12] 0x18d:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	129                             @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	12                              @ Abbrev [12] 0x19b:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string51                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	129                             @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	13                              @ Abbrev [13] 0x1a9:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	7
+	.long	.Linfo_string50                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	132                             @ DW_AT_decl_line
+	.long	1061                            @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	14                              @ Abbrev [14] 0x1b8:0x2e DW_TAG_subprogram
+	.long	.Lfunc_begin3                   @ DW_AT_low_pc
+	.long	.Lfunc_end3-.Lfunc_begin3       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string33                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	47                              @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.byte	12                              @ Abbrev [12] 0x1c9:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	47                              @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	12                              @ Abbrev [12] 0x1d7:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	0
+	.long	.Linfo_string52                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	47                              @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	11                              @ Abbrev [11] 0x1e6:0x5c DW_TAG_subprogram
+	.long	.Lfunc_begin4                   @ DW_AT_low_pc
+	.long	.Lfunc_end4-.Lfunc_begin4       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string34                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	173                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	1061                            @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	12                              @ Abbrev [12] 0x1fb:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	28
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	173                             @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	12                              @ Abbrev [12] 0x209:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	24
+	.long	.Linfo_string51                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	173                             @ DW_AT_decl_line
+	.long	1188                            @ DW_AT_type
+	.byte	12                              @ Abbrev [12] 0x217:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	20
+	.long	.Linfo_string53                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	173                             @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	13                              @ Abbrev [13] 0x225:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	19
+	.long	.Linfo_string50                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	176                             @ DW_AT_decl_line
+	.long	1061                            @ DW_AT_type
+	.byte	13                              @ Abbrev [13] 0x233:0xe DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string54                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	177                             @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	15                              @ Abbrev [15] 0x242:0x53 DW_TAG_subprogram
+	.long	.Lfunc_begin5                   @ DW_AT_low_pc
+	.long	.Lfunc_end5-.Lfunc_begin5       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string35                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	288                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	1061                            @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	16                              @ Abbrev [16] 0x258:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	288                             @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x267:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string51                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	288                             @ DW_AT_decl_line
+	.long	1188                            @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x276:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	7
+	.long	.Linfo_string55                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	288                             @ DW_AT_decl_line
+	.long	1189                            @ DW_AT_type
+	.byte	17                              @ Abbrev [17] 0x285:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	6
+	.long	.Linfo_string50                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	291                             @ DW_AT_decl_line
+	.long	1061                            @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	14                              @ Abbrev [14] 0x295:0x2e DW_TAG_subprogram
+	.long	.Lfunc_begin6                   @ DW_AT_low_pc
+	.long	.Lfunc_end6-.Lfunc_begin6       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string36                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	65                              @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.byte	12                              @ Abbrev [12] 0x2a6:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	4
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	65                              @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	12                              @ Abbrev [12] 0x2b4:0xe DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	0
+	.long	.Linfo_string52                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.byte	65                              @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	15                              @ Abbrev [15] 0x2c3:0x80 DW_TAG_subprogram
+	.long	.Lfunc_begin7                   @ DW_AT_low_pc
+	.long	.Lfunc_end7-.Lfunc_begin7       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string37                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	350                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	1061                            @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	16                              @ Abbrev [16] 0x2d9:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	36
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	350                             @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x2e8:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	32
+	.long	.Linfo_string51                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	350                             @ DW_AT_decl_line
+	.long	1188                            @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x2f7:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	28
+	.long	.Linfo_string53                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	350                             @ DW_AT_decl_line
+	.long	267                             @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x306:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	27
+	.long	.Linfo_string55                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	350                             @ DW_AT_decl_line
+	.long	1189                            @ DW_AT_type
+	.byte	17                              @ Abbrev [17] 0x315:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	26
+	.long	.Linfo_string50                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	354                             @ DW_AT_decl_line
+	.long	1061                            @ DW_AT_type
+	.byte	17                              @ Abbrev [17] 0x324:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	20
+	.long	.Linfo_string54                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	355                             @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	17                              @ Abbrev [17] 0x333:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	16
+	.long	.Linfo_string57                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	356                             @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	15                              @ Abbrev [15] 0x343:0x80 DW_TAG_subprogram
+	.long	.Lfunc_begin8                   @ DW_AT_low_pc
+	.long	.Lfunc_end8-.Lfunc_begin8       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string38                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	449                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	1061                            @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	16                              @ Abbrev [16] 0x359:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	36
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	449                             @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x368:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	32
+	.long	.Linfo_string51                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	449                             @ DW_AT_decl_line
+	.long	1188                            @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x377:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	28
+	.long	.Linfo_string53                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	449                             @ DW_AT_decl_line
+	.long	267                             @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x386:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	27
+	.long	.Linfo_string55                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	449                             @ DW_AT_decl_line
+	.long	1189                            @ DW_AT_type
+	.byte	17                              @ Abbrev [17] 0x395:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	26
+	.long	.Linfo_string50                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	453                             @ DW_AT_decl_line
+	.long	1061                            @ DW_AT_type
+	.byte	17                              @ Abbrev [17] 0x3a4:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	20
+	.long	.Linfo_string54                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	454                             @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	17                              @ Abbrev [17] 0x3b3:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	16
+	.long	.Linfo_string57                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	455                             @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	15                              @ Abbrev [15] 0x3c3:0x62 DW_TAG_subprogram
+	.long	.Lfunc_begin9                   @ DW_AT_low_pc
+	.long	.Lfunc_end9-.Lfunc_begin9       @ DW_AT_high_pc
+	.byte	1                               @ DW_AT_frame_base
+	.byte	93
+	.long	.Linfo_string39                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	543                             @ DW_AT_decl_line
+                                        @ DW_AT_prototyped
+	.long	1061                            @ DW_AT_type
+                                        @ DW_AT_external
+	.byte	16                              @ Abbrev [16] 0x3d9:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	20
+	.long	.Linfo_string40                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	543                             @ DW_AT_decl_line
+	.long	1072                            @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x3e8:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	19
+	.long	.Linfo_string42                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	543                             @ DW_AT_decl_line
+	.long	1177                            @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x3f7:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	12
+	.long	.Linfo_string58                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	543                             @ DW_AT_decl_line
+	.long	1188                            @ DW_AT_type
+	.byte	16                              @ Abbrev [16] 0x406:0xf DW_TAG_formal_parameter
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	8
+	.long	.Linfo_string47                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	543                             @ DW_AT_decl_line
+	.long	272                             @ DW_AT_type
+	.byte	17                              @ Abbrev [17] 0x415:0xf DW_TAG_variable
+	.byte	2                               @ DW_AT_location
+	.byte	145
+	.byte	7
+	.long	.Linfo_string50                 @ DW_AT_name
+	.byte	1                               @ DW_AT_decl_file
+	.short	546                             @ DW_AT_decl_line
+	.long	1061                            @ DW_AT_type
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x425:0xb DW_TAG_typedef
+	.long	77                              @ DW_AT_type
+	.long	.Linfo_string30                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	52                              @ DW_AT_decl_line
+	.byte	9                               @ Abbrev [9] 0x430:0x5 DW_TAG_pointer_type
+	.long	1077                            @ DW_AT_type
+	.byte	10                              @ Abbrev [10] 0x435:0xb DW_TAG_typedef
+	.long	1088                            @ DW_AT_type
+	.long	.Linfo_string49                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	94                              @ DW_AT_decl_line
+	.byte	18                              @ Abbrev [18] 0x440:0x59 DW_TAG_structure_type
+	.byte	22                              @ DW_AT_byte_size
+	.byte	2                               @ DW_AT_decl_file
+	.byte	85                              @ DW_AT_decl_line
+	.byte	19                              @ Abbrev [19] 0x444:0xc DW_TAG_member
+	.long	.Linfo_string41                 @ DW_AT_name
+	.long	233                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	87                              @ DW_AT_decl_line
+	.byte	0                               @ DW_AT_data_member_location
+	.byte	19                              @ Abbrev [19] 0x450:0xc DW_TAG_member
+	.long	.Linfo_string42                 @ DW_AT_name
+	.long	1177                            @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	88                              @ DW_AT_decl_line
+	.byte	1                               @ DW_AT_data_member_location
+	.byte	19                              @ Abbrev [19] 0x45c:0xc DW_TAG_member
+	.long	.Linfo_string44                 @ DW_AT_name
+	.long	1188                            @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	89                              @ DW_AT_decl_line
+	.byte	2                               @ DW_AT_data_member_location
+	.byte	19                              @ Abbrev [19] 0x468:0xc DW_TAG_member
+	.long	.Linfo_string45                 @ DW_AT_name
+	.long	272                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	90                              @ DW_AT_decl_line
+	.byte	6                               @ DW_AT_data_member_location
+	.byte	19                              @ Abbrev [19] 0x474:0xc DW_TAG_member
+	.long	.Linfo_string46                 @ DW_AT_name
+	.long	272                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	91                              @ DW_AT_decl_line
+	.byte	10                              @ DW_AT_data_member_location
+	.byte	19                              @ Abbrev [19] 0x480:0xc DW_TAG_member
+	.long	.Linfo_string47                 @ DW_AT_name
+	.long	272                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	92                              @ DW_AT_decl_line
+	.byte	14                              @ DW_AT_data_member_location
+	.byte	19                              @ Abbrev [19] 0x48c:0xc DW_TAG_member
+	.long	.Linfo_string48                 @ DW_AT_name
+	.long	272                             @ DW_AT_type
+	.byte	2                               @ DW_AT_decl_file
+	.byte	93                              @ DW_AT_decl_line
+	.byte	18                              @ DW_AT_data_member_location
+	.byte	0                               @ End Of Children Mark
+	.byte	10                              @ Abbrev [10] 0x499:0xb DW_TAG_typedef
+	.long	141                             @ DW_AT_type
+	.long	.Linfo_string43                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	82                              @ DW_AT_decl_line
+	.byte	20                              @ Abbrev [20] 0x4a4:0x1 DW_TAG_pointer_type
+	.byte	10                              @ Abbrev [10] 0x4a5:0xb DW_TAG_typedef
+	.long	207                             @ DW_AT_type
+	.long	.Linfo_string56                 @ DW_AT_name
+	.byte	2                               @ DW_AT_decl_file
+	.byte	75                              @ DW_AT_decl_line
+	.byte	0                               @ End Of Children Mark
+.Ldebug_info_end0:
+	.section	.debug_ranges,"",%progbits
+.Ldebug_ranges0:
+	.long	.Lfunc_begin0
+	.long	.Lfunc_end0
+	.long	.Lfunc_begin1
+	.long	.Lfunc_end1
+	.long	.Lfunc_begin2
+	.long	.Lfunc_end2
+	.long	.Lfunc_begin3
+	.long	.Lfunc_end3
+	.long	.Lfunc_begin4
+	.long	.Lfunc_end4
+	.long	.Lfunc_begin5
+	.long	.Lfunc_end5
+	.long	.Lfunc_begin6
+	.long	.Lfunc_end6
+	.long	.Lfunc_begin7
+	.long	.Lfunc_end7
+	.long	.Lfunc_begin8
+	.long	.Lfunc_end8
+	.long	.Lfunc_begin9
+	.long	.Lfunc_end9
+	.long	0
+	.long	0
+	.section	.debug_str,"MS",%progbits,1
+.Linfo_string0:
+	.asciz	"Component: Arm Compiler for Embedded 6.19 Tool: armclang [5e73cb00]" @ string offset=0
+.Linfo_string1:
+	.asciz	"../../libraries/zf_common\\zf_common_fifo.c" @ string offset=68
+.Linfo_string2:
+	.asciz	"E:\\FILE_SMART_CAR\\\346\231\272\350\203\275\350\247\206\350\247\211\\RT1064_Library-master\\RT1064_Library-master\\SeekFree_RT1064_Opensource_Library\\project\\mdk" @ string offset=111
+.Linfo_string3:
+	.asciz	"char"                          @ string offset=233
+.Linfo_string4:
+	.asciz	"__ARRAY_SIZE_TYPE__"           @ string offset=238
+.Linfo_string5:
+	.asciz	"unsigned char"                 @ string offset=258
+.Linfo_string6:
+	.asciz	"FIFO_SUCCESS"                  @ string offset=272
+.Linfo_string7:
+	.asciz	"FIFO_RESET_UNDO"               @ string offset=285
+.Linfo_string8:
+	.asciz	"FIFO_CLEAR_UNDO"               @ string offset=301
+.Linfo_string9:
+	.asciz	"FIFO_BUFFER_NULL"              @ string offset=317
+.Linfo_string10:
+	.asciz	"FIFO_WRITE_UNDO"               @ string offset=334
+.Linfo_string11:
+	.asciz	"FIFO_SPACE_NO_ENOUGH"          @ string offset=350
+.Linfo_string12:
+	.asciz	"FIFO_READ_UNDO"                @ string offset=371
+.Linfo_string13:
+	.asciz	"FIFO_DATA_NO_ENOUGH"           @ string offset=386
+.Linfo_string14:
+	.asciz	"FIFO_DATA_8BIT"                @ string offset=406
+.Linfo_string15:
+	.asciz	"FIFO_DATA_16BIT"               @ string offset=421
+.Linfo_string16:
+	.asciz	"FIFO_DATA_32BIT"               @ string offset=437
+.Linfo_string17:
+	.asciz	"FIFO_IDLE"                     @ string offset=453
+.Linfo_string18:
+	.asciz	"FIFO_RESET"                    @ string offset=463
+.Linfo_string19:
+	.asciz	"FIFO_CLEAR"                    @ string offset=474
+.Linfo_string20:
+	.asciz	"FIFO_WRITE"                    @ string offset=485
+.Linfo_string21:
+	.asciz	"FIFO_READ"                     @ string offset=496
+.Linfo_string22:
+	.asciz	"FIFO_READ_AND_CLEAN"           @ string offset=506
+.Linfo_string23:
+	.asciz	"FIFO_READ_ONLY"                @ string offset=526
+.Linfo_string24:
+	.asciz	"uint8"                         @ string offset=541
+.Linfo_string25:
+	.asciz	"unsigned short"                @ string offset=547
+.Linfo_string26:
+	.asciz	"uint16"                        @ string offset=562
+.Linfo_string27:
+	.asciz	"unsigned int"                  @ string offset=569
+.Linfo_string28:
+	.asciz	"uint32"                        @ string offset=582
+.Linfo_string29:
+	.asciz	"fifo_clear"                    @ string offset=589
+.Linfo_string30:
+	.asciz	"fifo_state_enum"               @ string offset=600
+.Linfo_string31:
+	.asciz	"fifo_used"                     @ string offset=616
+.Linfo_string32:
+	.asciz	"fifo_write_element"            @ string offset=626
+.Linfo_string33:
+	.asciz	"fifo_head_offset"              @ string offset=645
+.Linfo_string34:
+	.asciz	"fifo_write_buffer"             @ string offset=662
+.Linfo_string35:
+	.asciz	"fifo_read_element"             @ string offset=680
+.Linfo_string36:
+	.asciz	"fifo_end_offset"               @ string offset=698
+.Linfo_string37:
+	.asciz	"fifo_read_buffer"              @ string offset=714
+.Linfo_string38:
+	.asciz	"fifo_read_tail_buffer"         @ string offset=731
+.Linfo_string39:
+	.asciz	"fifo_init"                     @ string offset=753
+.Linfo_string40:
+	.asciz	"fifo"                          @ string offset=763
+.Linfo_string41:
+	.asciz	"execution"                     @ string offset=768
+.Linfo_string42:
+	.asciz	"type"                          @ string offset=778
+.Linfo_string43:
+	.asciz	"fifo_data_type_enum"           @ string offset=783
+.Linfo_string44:
+	.asciz	"buffer"                        @ string offset=803
+.Linfo_string45:
+	.asciz	"head"                          @ string offset=810
+.Linfo_string46:
+	.asciz	"end"                           @ string offset=815
+.Linfo_string47:
+	.asciz	"size"                          @ string offset=819
+.Linfo_string48:
+	.asciz	"max"                           @ string offset=824
+.Linfo_string49:
+	.asciz	"fifo_struct"                   @ string offset=828
+.Linfo_string50:
+	.asciz	"return_state"                  @ string offset=840
+.Linfo_string51:
+	.asciz	"dat"                           @ string offset=853
+.Linfo_string52:
+	.asciz	"offset"                        @ string offset=857
+.Linfo_string53:
+	.asciz	"length"                        @ string offset=864
+.Linfo_string54:
+	.asciz	"temp_length"                   @ string offset=871
+.Linfo_string55:
+	.asciz	"flag"                          @ string offset=883
+.Linfo_string56:
+	.asciz	"fifo_operation_enum"           @ string offset=888
+.Linfo_string57:
+	.asciz	"fifo_data_length"              @ string offset=908
+.Linfo_string58:
+	.asciz	"buffer_addr"                   @ string offset=925
+	.ident	"Component: Arm Compiler for Embedded 6.19 Tool: armclang [5e73cb00]"
+	.section	".note.GNU-stack","",%progbits
+	.eabi_attribute	30, 6	@ Tag_ABI_optimization_goals
+	.ARM_attribute	16, 1	@ Tag_AV_eba
+	.section	.debug_line,"",%progbits
+.Lline_table_start0:
