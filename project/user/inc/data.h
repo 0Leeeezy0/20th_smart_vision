@@ -28,14 +28,26 @@ typedef enum
 	BLOCK_MOVE_OUT_MODE = 3		// 方块推离模式
 }_CONTROL_MODE_;
 
-/* 元素类型 */
+/* 赛道元素 */
 typedef enum
 {
-	STRIGHT = 0,	// 直道
-	BEND = 1,		// 弯道
-	ACROSS = 2,		// 十字
-	CIRCLE = 3		// 圆环
-}_ELEMENT_KIND_;
+	STRIGHT_PATH = 0,			// 直道元素
+	BEND_PATH = 1,				// 弯道元素
+	L_CIRCLE_PATH = 3,			// 左圆环元素
+	R_CIRCLE_PATH = 2,			// 右圆环元素
+	ZEBRA_CROSSING_PATH = 4		// 斑马线元素
+}_PATH_ELEMENT_;
+
+/* 圆环元素步骤 */
+typedef enum
+{
+	CIRCLE_IN_PREPARE = 0,			// 准备进圆环步骤
+	CIRCLE_IN = 1,					// 进圆环步骤
+	CIRCLE_INNER = 2,				// 圆环内部步骤
+	CIRCLE_OUT = 3,					// 圆环出环步骤
+	CIRCLE_OUT_2_STRIGHT = 4,		// 圆环出环转直道步骤
+	COMMON = 5						// 无圆环时占位
+}_CIRCLE_PATH_ELEMENT_STEPS_;
 
 /* AI摄像头1 识别标签 */
 typedef enum
@@ -133,6 +145,7 @@ typedef struct
 }_AI_CAMERA_1_DETECTION_RESULT_;
 
 /* 标志位 */
+/* 程序内部 */
 extern uint8 gyro_calibration_flag;	// 陀螺仪校准
 extern uint8 acc_calibration_flag;	// 加速度计校准
 extern uint8 euler_angle_flag;			// 欧拉角解算标志位
@@ -142,6 +155,10 @@ extern uint8 chassis_rotate_finsh_flag;			// 底盘旋转结束标志位
 extern uint8 chassis_move_time_count_flag;				// 底盘移动计时标志位
 extern _CONTROL_MODE_ control_mode_flag;	// 控制模式标志位
 extern _CONTROL_MODE_ track_finsh_next_mode_flag;	// 追踪结束模式切换标志位
+extern _PATH_ELEMENT_ path_element_flag;		// 赛道元素标志位
+extern _CIRCLE_PATH_ELEMENT_STEPS_ circle_path_element_steps_flag;	// 圆环元素步骤
+/* 使能 */
+extern uint8 circle_path_enable_flag;	// 圆环赛道使能标志位
 extern uint8 ai_camera_0_enable_flag;	// AI摄像头0 使能标志位
 extern uint8 ai_camera_1_enable_flag;	// AI摄像头1 使能标志位
 
@@ -243,6 +260,11 @@ extern int16 L_frame_point_num;		// 左边框点数量
 extern int16 R_frame_point_num;		// 右边框点数量
 extern int16 L_inflection_point[MT9V03X_H*2][2];	// 左边线拐点坐标
 extern int16 R_inflection_point[MT9V03X_H*2][2];	// 右边线拐点坐标
+extern int8 L_inflection_angle_dir[MT9V03X_H*2];	// 左边线拐点夹角方向（方向垂直：1 方向平行：-1）
+extern int8 R_inflection_angle_dir[MT9V03X_H*2];	// 右边线拐点夹角方向（方向垂直：1 方向平行：-1）
+extern int8 L_inflection_y_dir[MT9V03X_H*2];		// 左边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
+extern int8 R_inflection_y_dir[MT9V03X_H*2];		// 右边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
+extern int16 circle_inflection_point[2];			// 圆环拐点坐标（图像中从下至上出现的第一个拐点）
 extern int16 L_inflection_point_num;		// 左边线拐点数量
 extern int16 R_inflection_point_num;		// 右边线拐点数量
 extern int16 L_bend_point[MT9V03X_H*2][2];		// 左边线弯点坐标
@@ -252,7 +274,6 @@ extern int16 R_bend_point_num;		// 右边线弯点数量
 extern int16 control_point;	// 控制点高度（速度 3 30 速度 8 45）
 extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 extern int16 longest_white_col_x;	// 最长白列坐标
-extern _ELEMENT_KIND_ element_kind;	// 元素类型
 
 /* AI追踪 */
 extern float track_linear_speed_target;	// 追踪线速度
@@ -265,5 +286,7 @@ extern int16 detection_box_center_limit;	// AI摄像头识别框中心阈值
 extern _AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result;
 
 /******************************************************************/
+
+extern float angle;
 
 #endif

@@ -151,18 +151,17 @@
 
 /****************************** 赛道元素提取参数 ******************************/
 
-#define TRACK_WIDTH 					( 50 )	// 赛道在前瞻点高度的宽度
-#define SIDE_EXTRACT_START_Y 			( 95 )	// 边线开始提取高度
-#define SIDE_EXTRACT_END_Y 				( 5 )	// 边线结束提取高度
+#define TRACK_WIDTH 					( 10 )	// 赛道在前瞻点高度的宽度
+#define SIDE_EXTRACT_START_Y 			( 80 )	// 边线开始提取高度
+#define SIDE_EXTRACT_END_Y 				( 25 )	// 边线结束提取高度
 #define LOONGEST_WHITE_COL_START_Y 		( 80 )	// 最长白列开始获取高度
 #define POINT_DISTANCE 					( 10 )	// 拐点/弯点距离
-#define SKIP_POINT_DISTANCE 			( 10 )	// 跳过点的距离（识别到拐点后跳过多少距离）	
-#define INFLECTION_POINT_ANGLE_MIN 		( 80 )	// 拐点最小角度阈值
-#define INFLECTION_POINT_ANGLE_MAX 		( 100 )	// 拐点最大角度阈值
-#define BEND_POINT_ANGLE_MIN 			( 150 )	// 弯点最小角度阈值
-#define BEND_POINT_ANGLE_MAX 			( 174 )	// 弯点最大角度阈值
+#define SKIP_POINT_DISTANCE 			( 25 )	// 跳过点的距离（识别到拐点后跳过多少距离）	
+#define INFLECTION_POINT_ANGLE_MIN 		(double)( 90  )	// 拐点最小角度阈值
+#define INFLECTION_POINT_ANGLE_MAX 		(double)( 147 )	// 拐点最大角度阈值
+#define BEND_POINT_ANGLE_MIN 			(double)( 0 )	// 弯点最小角度阈值
+#define BEND_POINT_ANGLE_MAX 			(double)( 170 )	// 弯点最大角度阈值
 #define SIDE_END 						( 130 ) // 边线提取截止横偏差
-#define FRAME_SIDE_POINT_NUM_RATIO		(float)(0.5)	// 框点和边线点数量比值
 
 /**********************************************************************/
 
@@ -170,7 +169,7 @@
 /****************************** PID ******************************/
 
 #define MOTOR_PID_CHOOSE 			( 1 )		// 电机PID类型（ 增量式：0   位置式：1）
-#define ROTATE_PID_CHOOSE 			( 0 )		// 转动PID类型（ 增量式：0	位置式：1）
+#define ROTATE_PID_CHOOSE 			( 1 )		// 转动PID类型（ 增量式：0	位置式：1）
 #define TRANSLATE_PID_CHOOSE 		( 0 )		// 平动PID类型（ 增量式：0	位置式：1）
 #define PATH_PID_CHOOSE 			( 1 )		// 循迹PID类型（ 增量式：0   位置式：1）
 

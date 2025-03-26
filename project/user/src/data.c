@@ -55,6 +55,7 @@ int16 detection_box_width;	// 识别框宽度
 int16 track_err = 0;	// 追踪误差
 
 /* 标志位 */
+/* 程序内部 */
 uint8 gyro_calibration_flag = FALSE;	// 陀螺仪校准
 uint8 acc_calibration_flag = FALSE;		// 加速度计校准
 uint8 euler_angle_flag = FALSE;			// 欧拉角解算标志位
@@ -64,6 +65,10 @@ uint8 chassis_rotate_finsh_flag = FALSE;				// 底盘旋转结束标志位
 uint8 chassis_move_time_count_flag = FALSE;				// 底盘移动计时标志位
 _CONTROL_MODE_ control_mode_flag = PATH_CONTROL_MODE;	// 摄像头类型标志位
 _CONTROL_MODE_ track_finsh_next_mode_flag = BLOCK_RETRACK_MODE;	// 追踪结束模式切换标志位
+_PATH_ELEMENT_ path_element_flag = STRIGHT_PATH;			// 赛道元素标志位
+_CIRCLE_PATH_ELEMENT_STEPS_ circle_path_element_steps_flag = COMMON;	// 圆环元素步骤
+/* 使能 */
+uint8 circle_path_enable_flag = TRUE;	// 圆环赛道使能标志位
 uint8 ai_camera_0_enable_flag = TRUE;	// AI摄像头0 使能标志位
 uint8 ai_camera_1_enable_flag = TRUE;	// AI摄像头1 使能标志位
 
@@ -89,16 +94,18 @@ int16 L_frame_point_num = 0;	// 左边框点数量
 int16 R_frame_point_num = 0;	// 右边框点数量
 int16 L_inflection_point[MT9V03X_H*2][2] = {0};	// 左边线拐点坐标
 int16 R_inflection_point[MT9V03X_H*2][2] = {0};	// 右边线拐点坐标
+int8 L_inflection_y_dir[MT9V03X_H*2] = {0};		// 左边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
+int8 R_inflection_y_dir[MT9V03X_H*2] = {0};		// 右边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
+int16 circle_inflection_point[2] = {0};			// 圆环拐点坐标（图像中从下至上出现的第一个拐点）
 int16 L_inflection_point_num = 0;		// 左边线拐点数量
 int16 R_inflection_point_num = 0;		// 右边线拐点数量
 int16 L_bend_point[MT9V03X_H*2][2] = {0};	// 左边线弯点坐标
 int16 R_bend_point[MT9V03X_H*2][2] = {0};	// 右边线弯点坐标
 int16 L_bend_point_num = 0;		// 左边线弯点数量
 int16 R_bend_point_num = 0;		// 右边线弯点数量
-int16 control_point = 45;		// 控制点高度（速度：3：30 速度：6：55 速度：8：55）
+int16 control_point = 50;		// 控制点高度（速度：3：30 速度：6：55 速度：8：55）
 int16 prediction_point = 30;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 int16 longest_white_col_x = 0;	// 最长白列X坐标
-_ELEMENT_KIND_ element_kind = STRIGHT;	// 元素类型
 
 /* AI追踪 */
 float track_linear_speed_target = 2.5;	// 追踪线速度
@@ -120,9 +127,9 @@ float PID_MOTOR_2[5] = {50 ,10 ,0 ,7000 ,500};
 float PID_MOTOR_3[5] = {50 ,10 ,0 ,7000 ,500};
 #elif MOTOR_PID_CHOOSE == 1
 // 位置式
-float PID_MOTOR_1[5] = {300 ,0.3 ,450 ,8000 ,500};
-float PID_MOTOR_2[5] = {300 ,0.3 ,450 ,8000 ,500};
-float PID_MOTOR_3[5] = {300 ,0.3 ,450 ,8000 ,500};
+float PID_MOTOR_1[5] = {300 ,0 ,500 ,9000 ,500};
+float PID_MOTOR_2[5] = {300 ,0 ,500 ,9000 ,500};
+float PID_MOTOR_3[5] = {300 ,0 ,500 ,9000 ,500};
 #endif
 
 /* 
@@ -131,10 +138,10 @@ float PID_MOTOR_3[5] = {300 ,0.3 ,450 ,8000 ,500};
 */
 #if ROTATE_PID_CHOOSE == 0
 // 增量式 ( 小角度 中角度 大角度 )
-float ROTATE_PID[8][5] = {{0.0002 ,0.0002 ,0.005 ,1 ,0.1},{0.0004 ,0.0004 ,0.005 ,1 ,0.1},{0.0005  ,0.0006 ,0.005 ,1.6 ,0.1},{0.0007 ,0.0008 ,0.005 ,1.6 ,0.1},{0.0009 ,0.00011 ,0.005 ,1.8 ,0.1},{0.0009 ,0.00015 ,0.005 ,1.8 ,0.1},{0.001 ,0.0020 ,0.005 ,2.2 ,0.1},{0.0012 ,0.0019 ,0.005 ,2.2 ,0.1}};
+float ROTATE_PID[8][5] = {{0 ,0 ,0.005 ,1 ,0.1},{0 ,0 ,0.005 ,1 ,0.1},{0  ,0 ,0.005 ,1.6 ,0.1},{0 ,0 ,0.005 ,1.6 ,0.1},{0 ,0 ,0.005 ,1.8 ,0.1},{0 ,0 ,0.005 ,1.8 ,0.1},{0 ,0 ,0.005 ,2.2 ,0.1},{0 ,0 ,0.005 ,2.2 ,0.1}};
 #elif ROTATE_PID_CHOOSE == 1
 // 位置式 ( 小角度 中角度 大角度 )
-float ROTATE_PID[8][5] = {{0.0002 ,0 ,0 ,1	 ,0.1},{0.0004 ,0 ,0 ,1 ,0.1},{0.0005 ,0 ,0 ,1.6 ,0.1},{0.0007 ,0 ,0 ,1.6 ,0.1},{0.0009 ,0 ,0 ,1.8 ,0.1},{0.0009 ,0 ,0 ,1.8 ,0.1},{0.001 ,0 ,0 ,2.2 ,0.1},{0.0012 ,0 ,0 ,2.2 ,0.1}};
+float ROTATE_PID[8][5] = {{0.005 ,0 ,0.008 ,1 ,0.1},{0.01 ,0 ,0.008 ,1 ,0.1},{0.015  ,0 ,0.008 ,1.6 ,0.1},{0.025 ,0 ,0.008 ,1.6 ,0.1},{0.035 ,0 ,0.008 ,1.8 ,0.1},{0.045 ,0 ,0.008 ,1.8 ,0.1},{0.055 ,0 ,0.008 ,2.2 ,0.1},{0.065 ,0 ,0.008 ,2.2 ,0.1}};
 #endif
 
 /* 
@@ -148,11 +155,13 @@ float ROTATE_PID[8][5] = {{0.0002 ,0 ,0 ,1	 ,0.1},{0.0004 ,0 ,0 ,1 ,0.1},{0.0005
 float PATH_PID[4][6] = {{0.000 ,0.00565 ,0 ,0.004 ,8 ,1},{0.036 ,0.039 ,0.1 ,0.0055 ,1.1 ,1},{0.041 ,0.040 ,0.1 ,0.0055 ,1.2 ,1},{0.043 ,0.0043 ,0.1 ,0.0055 ,1.2 ,1}};	// linear_speed = 6
 #elif PATH_PID_CHOOSE == 1
 // 位置式
-float PATH_PID[4][6] = {{1.3 ,0.01 ,0 ,0.064 ,10 ,1},{0.028 ,0 ,0.001 ,0.008 ,1 ,0.1},{0.031 ,0 ,0.001 ,0.008 ,1 ,0.1},{0.033 ,0 ,0.001 ,0.008 ,1 ,0.1}}; // linear_speed = 6	积分限幅和陀螺仪微分项调整需注意
+float PATH_PID[4][6] = {{1.3 ,0.01 ,0.008 ,0.064 ,10 ,1},{0.028 ,0 ,0.003 ,0.008 ,1 ,0.1},{0.031 ,0 ,0.003 ,0.008 ,1 ,0.1},{0.033 ,0 ,0.003 ,0.008 ,1 ,0.1}}; // linear_speed = 6	积分限幅和陀螺仪微分项调整需注意
 
 #endif
 
 /******************************************************************/
+	
+float angle = 0;
 
 
 

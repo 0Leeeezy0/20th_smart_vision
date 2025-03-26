@@ -66,12 +66,6 @@ void PIT_IRQHandler(void)
 			case CHASSIS_MOVE:{ chassis_control_move(MOTOR_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_angular_speed); break; }
 			case CHASSIS_ANGLE_ROTATE:{ chassis_control_angle_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_rotate_angle); break; }
 		}
-		switch(element_kind)
-		{
-			case ACROSS:{ gpio_toggle_level(BUZZER_PIN); break; }
-			case CIRCLE:{ gpio_toggle_level(BUZZER_PIN); break; }
-			default: { gpio_set_level(BUZZER_PIN, 0); break; }
-		}
         pit_flag_clear(PIT_CH1);
     }
     /* ¼ÆÊ±ÖÐ¶Ï */

@@ -53,7 +53,7 @@ void motor_sensor_init(void)
 	gpio_init(MOTOR_3_DIR,GPO,0,GPO_PUSH_PULL);
 	
 	// 蜂鸣器引脚初始化
-	// gpio_init(BUZZER_PIN,GPO,0,GPO_PUSH_PULL);
+	gpio_init(BUZZER_PIN,GPO,0,GPO_PUSH_PULL);
 	
 	// 控制中断初始化
 	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
@@ -139,6 +139,12 @@ void gyro_get(void)
 			gyro_x_calibration = 0;
 			gyro_y_calibration = 0;
 			gyro_z_calibration = 0;
+			gyro_x_max = 0;
+			gyro_x_min = 0;
+			gyro_y_max = 0;
+			gyro_y_min = 0;
+			gyro_z_max = 0;
+			gyro_z_min = 0;
 		}
 		// 求解去零飘偏移量
 		else if(epoch > 0 && epoch <= GYRO_ACC_CALIBRATION_EPOCH/2)
@@ -183,12 +189,12 @@ void gyro_get(void)
 				gyro_z_min = gyro_z;
 			}
 		}
-		else
+		epoch++;
+		if(epoch > GYRO_ACC_CALIBRATION_EPOCH)
 		{
 			epoch = 0;
 			gyro_calibration_flag = TRUE;
 		}
-		epoch++;
 	}	
 	else
 	{
@@ -234,6 +240,12 @@ void acc_get(void)
 			acc_x_calibration = 0;
 			acc_y_calibration = 0;
 			acc_z_calibration = 0;
+			acc_x_max = 0;
+			acc_x_min = 0;
+			acc_y_max = 0;
+			acc_y_min = 0;
+			acc_z_max = 0;
+			acc_z_min = 0;
 		}
 		// 求解去零飘偏移量
 		else if(epoch > 0 && epoch <= GYRO_ACC_CALIBRATION_EPOCH/2)
@@ -278,12 +290,12 @@ void acc_get(void)
 				acc_z_min = acc_z;
 			}
 		}
-		else
+		epoch++;
+		if(epoch > GYRO_ACC_CALIBRATION_EPOCH)
 		{
 			epoch = 0;
 			acc_calibration_flag = TRUE;
-		}
-		epoch++;
+		}	
 	}
 	else
 	{
@@ -514,7 +526,6 @@ void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,
 void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float rotate_angle)
 {
 	euler_angle_flag = TRUE;
-	
 	// 运动学逆解算
 	if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) > 0.5)
 	{
@@ -564,10 +575,14 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 	}
 	else
 	{
+		// 电机闭环PID解算
+		chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,0).motor_1;
+		chassis_control.motor_2 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_2,0).motor_2;
+		chassis_control.motor_3 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_3,0).motor_3;
 		// 电机停止
-		motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
-		motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
-		motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir); 
+		motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
+		motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
+		motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
 		chassis_rotate_finsh_flag = TRUE;
 	}
 }
