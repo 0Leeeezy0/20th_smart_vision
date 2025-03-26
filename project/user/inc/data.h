@@ -262,8 +262,8 @@ extern int16 L_inflection_point[MT9V03X_H*2][2];	// 左边线拐点坐标
 extern int16 R_inflection_point[MT9V03X_H*2][2];	// 右边线拐点坐标
 extern int8 L_inflection_angle_dir[MT9V03X_H*2];	// 左边线拐点夹角方向（方向垂直：1 方向平行：-1）
 extern int8 R_inflection_angle_dir[MT9V03X_H*2];	// 右边线拐点夹角方向（方向垂直：1 方向平行：-1）
-extern int8 L_inflection_y_dir[MT9V03X_H*2];		// 左边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
-extern int8 R_inflection_y_dir[MT9V03X_H*2];		// 右边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
+extern float L_inflection_y_dir[MT9V03X_H*2];		// 左边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
+extern float R_inflection_y_dir[MT9V03X_H*2];		// 右边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
 extern int16 circle_inflection_point[2];			// 圆环拐点坐标（图像中从下至上出现的第一个拐点）
 extern int16 L_inflection_point_num;		// 左边线拐点数量
 extern int16 R_inflection_point_num;		// 右边线拐点数量

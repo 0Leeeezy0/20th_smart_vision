@@ -28,27 +28,52 @@ static int kernel[3][3] = {
 /* 二值化 */
 void threshold(uint8 input[MT9V03X_H][MT9V03X_W])
 {
-	int32 img_pixel_value_avg = 0;
-	int32 sampling_num = 0;
-	int16 x,y;
-	for(x = 0;x < MT9V03X_W;)
+	int histogram[256] = {0}; // 灰度直方图
+    int total_pixels = MT9V03X_W * MT9V03X_H;
+    float sum = 0, sumB = 0;
+    float wB = 0, wF = 0, max_var = 0;
+    int threshold = 0;
+
+    // 统计灰度直方图
+	for(int x = 0;x < MT9V03X_W;x++)
 	{
-		for(y = 0;y < MT9V03X_H;)
+		for(int y = 0;y < MT9V03X_H;y++)
 		{
-			img_pixel_value_avg += input[y][x];
-			sampling_num++;
-			y+=THRESHOLD_SAMPLING_DISTANCE;
+			histogram[input[y][x]]++;
 		}
-		x+=THRESHOLD_SAMPLING_DISTANCE;
 	}
+
+    // 计算总平均灰度
+    for (int i = 0; i < 256; i++) {
+        sum += i*histogram[i];
+    }
+
+    // 3. 遍历所有可能的阈值T
+    for (int T = 0; T < 256; T++) {
+        wB += histogram[T];       // 背景像素数累加
+        if (wB == 0) continue;
+
+        wF = total_pixels - wB;   // 前景像素数
+        if (wF == 0) break;
+
+        sumB += T * histogram[T]; // 背景灰度总和
+
+        float mB = sumB / wB;            // 背景平均灰度
+        float mF = (sum - sumB) / wF;    // 前景平均灰度
+        float var = wB * wF * (mB - mF) * (mB - mF); // 类间方差
+
+        // 更新最大方差和阈值
+        if (var > max_var) {
+            max_var = var;
+            threshold = T;
+        }
+    }
 		
-	img_pixel_value_avg = img_pixel_value_avg/sampling_num;
-		
-	for(x = 0;x < MT9V03X_W;x++)
+	for(int x = 0;x < MT9V03X_W;x++)
 	{
-		for(y = 0;y < MT9V03X_H;y++)
+		for(int y = 0;y < MT9V03X_H;y++)
 		{
-			if(input[y][x] >= img_pixel_value_avg)
+			if(input[y][x] >= threshold)
 			{
 				image_OTSU[y][x] = 255;
 			}

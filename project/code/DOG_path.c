@@ -396,7 +396,7 @@ void side_point_kind_judge(void)
             //  cout << abs(AngleVector[0]) << endl;
             L_inflection_point[L_inflection_point_num][0] = L_side[i][0];
             L_inflection_point[L_inflection_point_num][1] = L_side[i][1];
-			L_inflection_y_dir[L_inflection_point_num] = vector[0][1]+vector[1][1];
+			L_inflection_y_dir[L_inflection_point_num] = ((float)(vector[0][1]+vector[1][1]))/(float)(2*POINT_DISTANCE);
 			angle = vectorAngle[0];
 			if(L_side[i][0] > SIDE_END)
 				break;
@@ -449,7 +449,7 @@ void side_point_kind_judge(void)
             //  cout << abs(AngleVector[0]) << endl;
             R_inflection_point[R_inflection_point_num][0] = R_side[i][0];
             R_inflection_point[R_inflection_point_num][1] = R_side[i][1];
-			R_inflection_y_dir[R_inflection_point_num] = vector[0][3]+vector[1][3];
+			R_inflection_y_dir[R_inflection_point_num] = ((float)(vector[0][3]+vector[1][3]))/(float)(2*POINT_DISTANCE);
 			
 			if(R_side[i][0] < MT9V03X_W-SIDE_END)
 				break;
@@ -484,14 +484,14 @@ void element_judge(void)
 	if(L_inflection_point_num == 1 && R_inflection_point_num == 0 && R_bend_point_num <= 2 && L_bend_point_num >= 3 && circle_path_enable_flag == TRUE && (circle_path_element_steps_flag == COMMON || circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
 	{
 		path_element_flag = BEND_PATH;
-		if(L_inflection_y_dir[0] > 5)
+		if(L_inflection_y_dir[0] > 0.25)
 		{
 			circle_inflection_point[0] = L_inflection_point[0][0];
 			circle_inflection_point[1] = L_inflection_point[0][1];
 			path_element_flag = L_CIRCLE_PATH;
 			circle_path_element_steps_flag = CIRCLE_IN_PREPARE;
 		}
-		else if(L_inflection_y_dir[0] < -5 && (circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
+		else if(L_inflection_y_dir[0] < -0.25 && (circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
 		{
 			circle_inflection_point[0] = L_inflection_point[0][0];
 			circle_inflection_point[1] = L_inflection_point[0][1];
@@ -504,14 +504,14 @@ void element_judge(void)
 	else if(R_inflection_point_num == 1 && L_inflection_point_num == 0 && L_bend_point_num <= 2 && R_bend_point_num >= 3 && circle_path_enable_flag == TRUE && (circle_path_element_steps_flag == COMMON || circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
 	{
 		path_element_flag = BEND_PATH;
-		if(R_inflection_y_dir[0] > 5)
+		if(R_inflection_y_dir[0] > 0.25)
 		{
 			circle_inflection_point[0] = R_inflection_point[0][0];
 			circle_inflection_point[1] = R_inflection_point[0][1];
 			path_element_flag = R_CIRCLE_PATH;
 			circle_path_element_steps_flag = CIRCLE_IN_PREPARE;
 		}
-		else if(R_inflection_y_dir[0] < -5 && (circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
+		else if(R_inflection_y_dir[0] < -0.25 && (circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
 		{
 			circle_inflection_point[0] = R_inflection_point[0][0];
 			circle_inflection_point[1] = R_inflection_point[0][1];

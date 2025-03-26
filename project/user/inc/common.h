@@ -143,7 +143,7 @@
 
 /****************************** 图像处理 ******************************/
 
-#define THRESHOLD_SAMPLING_DISTANCE 	( 10 )	// 二值化采样间隔
+#define THRESHOLD_SAMPLING_DISTANCE 	( 1 )	// 二值化采样间隔
 #define PER_IMG     image_OTSU				// SimBinImage:用于透视变换的图像
 #define image_unpivot   *PerImg_ip			// *PerImg_ip定义使用的图像，image_unpivot为用于巡线和识别的图像
 
