@@ -190,9 +190,9 @@ void menu_euler_angle_page_back_service(void);
 /* 平动位移解算页面返回服务 */
 void menu_translate_shift_page_back_service(void);
 
-/* 菜单MCXVISION数据页面服务 */
-void menu_mcxvision_data_add_service(void);
-void menu_mcxvision_data_reduce_service(void);
+/* 菜单AI摄像头0数据页面服务 */
+void menu_ai_camera_0_data_add_service(void);
+void menu_ai_camera_0_data_reduce_service(void);
 
 /* 菜单底盘数据页面服务 */
 void menu_chassis_data_add_service(void);

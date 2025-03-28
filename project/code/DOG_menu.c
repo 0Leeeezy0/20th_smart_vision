@@ -57,7 +57,7 @@ static _MENU_PAGE_ menu_page[] =
 	{"AI_CAMERA_0"		,TRUE		,1	,10		,6		,menu_ai_camera_0_page},
 	{"AI_CAMERA_1"		,TRUE		,1	,11		,6		,menu_ai_camera_1_page},
 	{"CHASSIS"			,TRUE 		,1 	,12 	,5 		,menu_chassis_page},
-	{"PATH"				,TRUE		,1	,13		,5		,menu_path_page},
+	{"PATH"				,TRUE		,1	,13		,6		,menu_path_page},
 	{"MOTOR_1 PID"		,TRUE 		,1 	,14 	,5 		,menu_motor_1_pid_page},
 	{"MOTOR_2 PID"		,TRUE 		,1 	,15 	,5 		,menu_motor_2_pid_page},
 	{"MOTOR_3 PID"		,TRUE 		,1 	,16 	,5 		,menu_motor_3_pid_page},
@@ -353,9 +353,7 @@ void debug(void)
 {
 	menu_page_init(debug);
 	system_delay_ms(1000);
-	
-	int point_draw[8][2] = {{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
-	
+		
 	while(1)
 	{
 //		screen_clear();
@@ -367,30 +365,18 @@ void debug(void)
 //		erode(mt9v03x_image);
 		side_extract();
 		side_point_kind_judge();
-		element_judge();
-		path_patch();
-		if(path_element_flag == R_CIRCLE_PATH || path_element_flag == L_CIRCLE_PATH)
-		{
-			gpio_set_level(BUZZER_PIN, 1);
-			for(int j = 0;j < 8;j++)
-			{
-				screen_draw_point(circle_inflection_point[0]+point_draw[j][0], MT9V03X_H+MENU_ROW_PITCH+circle_inflection_point[1]+point_draw[j][1], RGB565_BLUE);
-			}
-		}
+		circle_path_element_judge();
+		
+//		if(path_element_flag == R_CIRCLE_PATH || path_element_flag == L_CIRCLE_PATH)
+//			gpio_set_level(BUZZER_PIN, 1);
+//		else
+//			gpio_set_level(BUZZER_PIN, 0);
+		if(path_element_flag == L_CIRCLE_PATH || path_element_flag == R_CIRCLE_PATH)
+			path_extract();
 		else
-		{
-			gpio_set_level(BUZZER_PIN, 0);
-		}
-		longest_white_col();
+			longest_white_col();
 		
         uint8_t show[MT9V03X_H][MT9V03X_W];
-        for(int i=0;i<MT9V03X_H;i++)
-        {
-            for(int j=0;j<MT9V03X_W;j++)
-            {
-                show[i][j]=image_unpivot[i][j];
-            }
-        }
 		
 		screen_draw_line(longest_white_col_x, MENU_ROW_PITCH, longest_white_col_x, MENU_ROW_PITCH+2*MT9V03X_H,RGB565_RED);
 		screen_image(0, MENU_ROW_PITCH, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
@@ -414,25 +400,11 @@ void debug(void)
 				screen_draw_point(R_side[i][0], MT9V03X_H+MENU_ROW_PITCH+R_side[i][1], RGB565_RED);
 			}
 		}
-		
-		for(int i = 0;i < L_inflection_point_num;i++)
-		{
-			for(int j = 0;j < 8;j++)
-			{
-				screen_draw_point(L_inflection_point[i][0]+point_draw[j][0], MT9V03X_H+MENU_ROW_PITCH+L_inflection_point[i][1]+point_draw[j][1], RGB565_GREEN);
-			}
-		}
-		for(int i = 0;i < R_inflection_point_num;i++)
-		{
-			for(int j = 0;j < 8;j++)
-			{
-				screen_draw_point(R_inflection_point[i][0]+point_draw[j][0], MT9V03X_H+MENU_ROW_PITCH+R_inflection_point[i][1]+point_draw[j][1], RGB565_GREEN);
-			}
-		}
 		screen_int(0,2*MT9V03X_H+2*MENU_ROW_PITCH,L_inflection_point_num,3);
 		screen_int(DATA_MAX_COL/2,2*MT9V03X_H+2*MENU_ROW_PITCH,path_err,3);
 		screen_int(DATA_MAX_COL,2*MT9V03X_H+2*MENU_ROW_PITCH,R_inflection_point_num,3);
 		screen_int(0,2*MT9V03X_H+3*MENU_ROW_PITCH,L_bend_point_num,3);
+		screen_int(DATA_MAX_COL/2,2*MT9V03X_H+3*MENU_ROW_PITCH,R_side[0][0]-L_side[0][0],3);
 		screen_int(DATA_MAX_COL,2*MT9V03X_H+3*MENU_ROW_PITCH,R_bend_point_num,3);
 		screen_float(0,2*MT9V03X_H+4*MENU_ROW_PITCH,angle,3,2);
 		control_mode_dispatch();
@@ -644,7 +616,7 @@ void menu_ai_camera_0_page(void)
 	{
 		menu_back(NULL);
 		menu_point();
-		menu_data_change(menu_mcxvision_data_add_service,menu_mcxvision_data_reduce_service);
+		menu_data_change(menu_ai_camera_0_data_add_service,menu_ai_camera_0_data_reduce_service);
 		menu_title_show();
 		
 		MENU_AI_CAMERA_0.ai_camera_0_enable_flag.data_uint8 = ai_camera_0_enable_flag;
@@ -667,6 +639,12 @@ void menu_ai_camera_0_page(void)
 		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_std.data_int16,3);
 		screen_string(0,6*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.name);
 		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.data_int16,3);
+		screen_string(0,8*MENU_ROW_PITCH,"CENTER_X");
+		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3);
+		screen_string(0,9*MENU_ROW_PITCH,"BOX_WIDTH");
+		screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,detection_box_width,3);
+		screen_string(0,10*MENU_ROW_PITCH,"TRACK_ERR");
+		screen_int(DATA_MAX_COL,10*MENU_ROW_PITCH,track_err,3);
 	}
 }
 
@@ -678,7 +656,7 @@ void menu_ai_camera_1_page(void)
 	{
 		menu_back(NULL);
 		menu_point();
-		menu_data_change(menu_mcxvision_data_add_service,menu_mcxvision_data_reduce_service);
+		menu_data_change(menu_ai_camera_0_data_add_service,menu_ai_camera_0_data_reduce_service);
 		menu_title_show();
 	}
 }
@@ -732,6 +710,7 @@ void menu_path_page(void)
 		MENU_PATH.path_end.data_int16 = path_end;
 		MENU_PATH.control_point.data_int16 = control_point;
 		MENU_PATH.prediction_point.data_int16 = prediction_point;
+		MENU_PATH.circle_path_enable_flag.data_uint8 = circle_path_enable_flag;
 	
 		// 显示底盘数据
 		screen_string(0,MENU_ROW_PITCH,MENU_PATH.linear_speed_target.name);
@@ -744,6 +723,8 @@ void menu_path_page(void)
 		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_PATH.control_point.data_int16,3);
 		screen_string(0,5*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
 		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH.circle_path_enable_flag.name);
+		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_PATH.circle_path_enable_flag.data_uint8,1);
 	}
 }
 
@@ -928,7 +909,6 @@ void menu_start_page_back_service(void)
 	gpio_set_level(BUZZER_PIN, 0);
 	// 初始化循迹标志位
 	path_element_flag = STRIGHT_PATH;
-	circle_path_element_steps_flag = COMMON;
 }
 
 /* 菜单调试页面返回服务 */
@@ -940,7 +920,6 @@ void menu_debug_page_back_service(void)
 	gpio_set_level(BUZZER_PIN, 0);
 	// 初始化循迹标志位
 	path_element_flag = STRIGHT_PATH;
-	circle_path_element_steps_flag = COMMON;
 }
 
 /* 菜单欧拉角页面返回服务 */
@@ -957,8 +936,8 @@ void menu_translate_shift_page_back_service(void)
 	translate_shift_flag = FALSE;
 }
 
-/* 菜单MCXVISION数据页面服务 */
-void menu_mcxvision_data_add_service(void)
+/* 菜单AI摄像头0数据页面服务 */
+void menu_ai_camera_0_data_add_service(void)
 {
 	switch(point_row_num)
 	{
@@ -974,7 +953,7 @@ void menu_mcxvision_data_add_service(void)
 		ai_camera_0_enable_flag = 0;
 	}
 }
-void menu_mcxvision_data_reduce_service(void)
+void menu_ai_camera_0_data_reduce_service(void)
 {
 	switch(point_row_num)
 	{
@@ -990,7 +969,6 @@ void menu_mcxvision_data_reduce_service(void)
 		ai_camera_0_enable_flag = 1;
 	}
 }
-
 
 /* 菜单底盘数据页面服务 */
 void menu_chassis_data_add_service(void)
@@ -1034,6 +1012,11 @@ void menu_path_data_add_service(void)
 		case 2:{ path_end+=1; break; }
 		case 3:{ control_point+=1; break; }
 		case 4:{ prediction_point+=1; break; }
+		case 5:{ circle_path_enable_flag+=1; break; }
+	}
+	if(circle_path_enable_flag > 1)
+	{
+		circle_path_enable_flag = 0;
 	}
 }
 void menu_path_data_reduce_service(void)
@@ -1045,6 +1028,11 @@ void menu_path_data_reduce_service(void)
 		case 2:{ path_end-=1; break; }
 		case 3:{ control_point-=1; break; }
 		case 4:{ prediction_point-=1; break; }
+		case 5:{ circle_path_enable_flag-=1; break; }
+	}
+	if(circle_path_enable_flag > 1)
+	{
+		circle_path_enable_flag = 1;
 	}
 }
 

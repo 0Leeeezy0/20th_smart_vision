@@ -589,7 +589,7 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 
 /* 
 	底盘总控制
-	用于推箱子任务
+	用于推箱子任务/圆环
 */
 void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis_yaw_,float _chassis_linear_speed_,float _chassis_angular_speed_,float _chassis_rotate_angle_,uint32 _delay_ms_)
 {

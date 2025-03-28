@@ -27,6 +27,7 @@ void path_control_init(void)
 /* 最长白列 */
 void longest_white_col(void)
 {
+	path_follow_kind_flag = 0;
 	int L_side[2];
 	int R_side[2];
 	
@@ -135,6 +136,7 @@ void longest_white_col(void)
 /* 路径线提取 */
 void path_extract(void)
 {
+	path_follow_kind_flag = 1;
 	int16 x,y;
 	static int16 num = 0;
 	if(mid_x == MT9V03X_W/2)
@@ -369,207 +371,181 @@ void side_point_kind_judge(void)
 
     // 寻拐点范围
     // 左边线拐点
-    for(i = POINT_DISTANCE+L_frame_point_num;i <= L_side_point_num-1-POINT_DISTANCE;)
+    for(i = POINT_DISTANCE;i <= L_side_point_num-1-POINT_DISTANCE;)
     {
-        // 左边线第一个向量
-        vector[0][0] = (double)(L_side[i-POINT_DISTANCE][0]-L_side[i][0]);
-        vector[0][1] = (double)(L_side[i-POINT_DISTANCE][1]-L_side[i][1]);
-        // 左边线第二个向量
-        vector[1][0] = (double)(L_side[i+POINT_DISTANCE][0]-L_side[i][0]);
-        vector[1][1] = (double)(L_side[i+POINT_DISTANCE][1]-L_side[i][1]);
+		// 不对边框处的边线进行拐点识别
+		if(L_side[i-POINT_DISTANCE][0] != 0 && L_side[i][0] != 0 && L_side[i+POINT_DISTANCE][0] != 0)
+		{
+			// 左边线第一个向量
+			vector[0][0] = (double)(L_side[i-POINT_DISTANCE][0]-L_side[i][0]);
+			vector[0][1] = (double)(L_side[i-POINT_DISTANCE][1]-L_side[i][1]);
+			// 左边线第二个向量
+			vector[1][0] = (double)(L_side[i+POINT_DISTANCE][0]-L_side[i][0]);
+			vector[1][1] = (double)(L_side[i+POINT_DISTANCE][1]-L_side[i][1]);
 
-        // 计算中断点向量点乘
-        vectorScalarProduct[0] = (double)(vector[0][0]*vector[1][0]+vector[0][1]*vector[1][1]);
+			// 计算中断点向量点乘
+			vectorScalarProduct[0] = (double)(vector[0][0]*vector[1][0]+vector[0][1]*vector[1][1]);
 
-        // 计算拐点向量的模
-        vectorModule[0] = sqrt(pow(vector[0][0],2)+pow(vector[0][1],2));
-        vectorModule[1] = sqrt(pow(vector[1][0],2)+pow(vector[1][1],2));
-    
-        if( vectorModule[0]*vectorModule[1] != 0)
-        {
-            vectorAngle[0] = acos(vectorScalarProduct[0]/(vectorModule[0]*vectorModule[1]))*(180.0/PI);    // 左边线断点向量夹角
-        }
+			// 计算拐点向量的模
+			vectorModule[0] = sqrt(pow(vector[0][0],2)+pow(vector[0][1],2));
+			vectorModule[1] = sqrt(pow(vector[1][0],2)+pow(vector[1][1],2));
 
-        // 计算拐点并存储坐标，前提：拐点坐标不再边框上
-        if(abs(vectorAngle[0]) > INFLECTION_POINT_ANGLE_MIN && abs(vectorAngle[0]) < INFLECTION_POINT_ANGLE_MAX && L_side[i][0] > 11 && (vector[0][0]+vector[1][0]) < 0)
-        {
-            //  cout << abs(AngleVector[0]) << endl;
-            L_inflection_point[L_inflection_point_num][0] = L_side[i][0];
-            L_inflection_point[L_inflection_point_num][1] = L_side[i][1];
-			L_inflection_y_dir[L_inflection_point_num] = ((float)(vector[0][1]+vector[1][1]))/(float)(2*POINT_DISTANCE);
-			angle = vectorAngle[0];
-			if(L_side[i][0] > SIDE_END)
-				break;
-            if(L_inflection_point_num < MT9V03X_H*2-1)	/************************注意***************************/
-                L_inflection_point_num++;
-            else
-                break;
-            if(i < L_side_point_num-2-POINT_DISTANCE-SKIP_POINT_DISTANCE)
-                i = i+SKIP_POINT_DISTANCE;
-            else
-                break;
-        }
-        else if(abs(vectorAngle[0]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[0]) < BEND_POINT_ANGLE_MAX)
-        {
-            //  cout << abs(AngleVector[0]) << endl;
-            L_bend_point[L_bend_point_num][0] = L_side[i][0];
-            L_bend_point[L_bend_point_num][1] = L_side[i][1];
-            if(L_bend_point_num < MT9V03X_H*2-1)	/************************注意***************************/
-                L_bend_point_num++;
-            else
-                break;
-        }
-        i++;
+			if( vectorModule[0]*vectorModule[1] != 0)
+			{
+				vectorAngle[0] = acos(vectorScalarProduct[0]/(vectorModule[0]*vectorModule[1]))*(180.0/PI);    // 左边线断点向量夹角
+			}
+
+			// 计算拐点并存储坐标，前提：拐点坐标不再边框上
+			if(((abs(vectorAngle[0]) > inflection_point_angle_min[0] && abs(vectorAngle[0]) < inflection_point_angle_max[0]) ||
+				(abs(vectorAngle[0]) > inflection_point_angle_min[1] && abs(vectorAngle[0]) < inflection_point_angle_max[1]) ||
+				(abs(vectorAngle[0]) > inflection_point_angle_min[2] && abs(vectorAngle[0]) < inflection_point_angle_max[2]))
+				&& L_side[i][0] > 11 && (vector[0][0]+vector[1][0]) < 0)
+			{
+				//  cout << abs(AngleVector[0]) << endl;
+				L_inflection_point[L_inflection_point_num][0] = L_side[i][0];
+				L_inflection_point[L_inflection_point_num][1] = L_side[i][1];
+				L_inflection_y_dir[L_inflection_point_num] = ((float)(vector[0][1]+vector[1][1]))/(float)(2*POINT_DISTANCE);
+				angle = vectorAngle[0];
+				if(L_side[i][0] > SIDE_END)
+					break;
+				if(L_inflection_point_num < MT9V03X_H*2-1)	/************************注意***************************/
+					L_inflection_point_num++;
+				else
+					break;
+				if(i < L_side_point_num-2-POINT_DISTANCE-SKIP_POINT_DISTANCE)
+					i = i+SKIP_POINT_DISTANCE;
+				else
+					break;
+			}
+			else if(abs(vectorAngle[0]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[0]) < BEND_POINT_ANGLE_MAX)
+			{
+				//  cout << abs(AngleVector[0]) << endl;
+				L_bend_point[L_bend_point_num][0] = L_side[i][0];
+				L_bend_point[L_bend_point_num][1] = L_side[i][1];
+				if(L_bend_point_num < MT9V03X_H*2-1)	/************************注意***************************/
+					L_bend_point_num++;
+				else
+					break;
+			}
+		}
+		i++;
     }
     // 右边线拐点
-    for(i = POINT_DISTANCE+R_frame_point_num;i <= R_side_point_num-1-POINT_DISTANCE;)
+    for(i = POINT_DISTANCE;i <= R_side_point_num-1-POINT_DISTANCE;)
     {
-        // 左边线第一个向量
-        vector[0][2] = (double)(R_side[i-POINT_DISTANCE][0]-R_side[i][0]);
-        vector[0][3] = (double)(R_side[i-POINT_DISTANCE][1]-R_side[i][1]);
-        // 左边线第二个向量
-        vector[1][2] = (double)(R_side[i+POINT_DISTANCE][0]-R_side[i][0]);
-        vector[1][3] = (double)(R_side[i+POINT_DISTANCE][1]-R_side[i][1]);
+		// 不对边框处的边线进行拐点识别
+		if(R_side[i-POINT_DISTANCE][0] != MT9V03X_W-1 && R_side[i][0] != MT9V03X_W-1 && R_side[i+POINT_DISTANCE][0] != MT9V03X_W-1)
+		{
+			// 左边线第一个向量
+			vector[0][2] = (double)(R_side[i-POINT_DISTANCE][0]-R_side[i][0]);
+			vector[0][3] = (double)(R_side[i-POINT_DISTANCE][1]-R_side[i][1]);
+			// 左边线第二个向量
+			vector[1][2] = (double)(R_side[i+POINT_DISTANCE][0]-R_side[i][0]);
+			vector[1][3] = (double)(R_side[i+POINT_DISTANCE][1]-R_side[i][1]);
 
-        // 计算中断点向量点乘
-        vectorScalarProduct[1] = (double)(vector[0][2]*vector[1][2]+vector[0][3]*vector[1][3]);
+			// 计算中断点向量点乘
+			vectorScalarProduct[1] = (double)(vector[0][2]*vector[1][2]+vector[0][3]*vector[1][3]);
 
-        // 计算拐点向量的模
-        vectorModule[2] = sqrt(pow(vector[0][2],2)+pow(vector[0][3],2));
-        vectorModule[3] = sqrt(pow(vector[1][2],2)+pow(vector[1][3],2));
-    
-        if( vectorModule[2]*vectorModule[3] != 0)
-        {
-            vectorAngle[1] = acos(vectorScalarProduct[1]/(vectorModule[2]*vectorModule[3]))*(180.0/PI);    // 左边线断点向量夹角
-        }
+			// 计算拐点向量的模
+			vectorModule[2] = sqrt(pow(vector[0][2],2)+pow(vector[0][3],2));
+			vectorModule[3] = sqrt(pow(vector[1][2],2)+pow(vector[1][3],2));
+		
+			if( vectorModule[2]*vectorModule[3] != 0)
+			{
+				vectorAngle[1] = acos(vectorScalarProduct[1]/(vectorModule[2]*vectorModule[3]))*(180.0/PI);    // 左边线断点向量夹角
+			}
 
-        // 计算拐点并存储坐标，前提：拐点坐标不再边框上
-        if(abs(vectorAngle[1]) > INFLECTION_POINT_ANGLE_MIN && abs(vectorAngle[1]) < INFLECTION_POINT_ANGLE_MAX && R_side[i][0] < MT9V03X_W-11 && (vector[0][2]+vector[1][2]) > 0)
-        {
-            //  cout << abs(AngleVector[0]) << endl;
-            R_inflection_point[R_inflection_point_num][0] = R_side[i][0];
-            R_inflection_point[R_inflection_point_num][1] = R_side[i][1];
-			R_inflection_y_dir[R_inflection_point_num] = ((float)(vector[0][3]+vector[1][3]))/(float)(2*POINT_DISTANCE);
-			
-			if(R_side[i][0] < MT9V03X_W-SIDE_END)
-				break;
-            if(R_inflection_point_num < MT9V03X_H*2-1)	/************************注意***************************/
-                R_inflection_point_num++;
-            else
-                break;
-            if(i < R_side_point_num-2-POINT_DISTANCE-SKIP_POINT_DISTANCE)
-                i = i+SKIP_POINT_DISTANCE;
-            else
-                break;
-        }
-        else if(abs(vectorAngle[1]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[1]) < BEND_POINT_ANGLE_MAX)
-        {
-            //  cout << abs(AngleVector[0]) << endl;
-            R_bend_point[R_bend_point_num][0] = R_side[i][0];
-            R_bend_point[R_bend_point_num][1] = R_side[i][1];
-            if(R_bend_point_num < MT9V03X_H*2-1)	/************************注意***************************/
-                R_bend_point_num++;	
-            else
-                break;
-        }
-        i++;
+			// 计算拐点并存储坐标，前提：拐点坐标不再边框上
+			if(((abs(vectorAngle[1]) > inflection_point_angle_min[0] && abs(vectorAngle[1]) < inflection_point_angle_max[0]) || 
+				(abs(vectorAngle[1]) > inflection_point_angle_min[1] && abs(vectorAngle[1]) < inflection_point_angle_max[1]) ||
+				(abs(vectorAngle[1]) > inflection_point_angle_min[2] && abs(vectorAngle[1]) < inflection_point_angle_max[2])) 
+				&& R_side[i][0] < MT9V03X_W-11 && (vector[0][2]+vector[1][2]) > 0)
+			{
+				//  cout << abs(AngleVector[0]) << endl;
+				R_inflection_point[R_inflection_point_num][0] = R_side[i][0];
+				R_inflection_point[R_inflection_point_num][1] = R_side[i][1];
+				R_inflection_y_dir[R_inflection_point_num] = ((float)(vector[0][3]+vector[1][3]))/(float)(2*POINT_DISTANCE);
+				
+				if(R_side[i][0] < MT9V03X_W-SIDE_END)
+					break;
+				if(R_inflection_point_num < MT9V03X_H*2-1)	/************************注意***************************/
+					R_inflection_point_num++;
+				else
+					break;
+				if(i < R_side_point_num-2-POINT_DISTANCE-SKIP_POINT_DISTANCE)
+					i = i+SKIP_POINT_DISTANCE;
+				else
+					break;
+			}
+			else if(abs(vectorAngle[1]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[1]) < BEND_POINT_ANGLE_MAX)
+			{
+				//  cout << abs(AngleVector[0]) << endl;
+				R_bend_point[R_bend_point_num][0] = R_side[i][0];
+				R_bend_point[R_bend_point_num][1] = R_side[i][1];
+				if(R_bend_point_num < MT9V03X_H*2-1)	/************************注意***************************/
+					R_bend_point_num++;	
+				else
+					break;
+			}
+		}
+		i++;
     }
 }
 
-/* 元素判断 */
-void element_judge(void)
+/* 圆环判断 */
+void circle_path_element_judge(void)
 {
-	/* 左圆环准备入环+入环 */
-	/* 左边线有拐点和大量弯点，右边线无拐点和少量弯点即直线*/
-	if(L_inflection_point_num == 1 && R_inflection_point_num == 0 && R_bend_point_num <= 2 && L_bend_point_num >= 3 && circle_path_enable_flag == TRUE && (circle_path_element_steps_flag == COMMON || circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
+	static int16 circle_flag = 0;
+	static int16 track_width_previous = 0;
+	// 左圆环入环
+	// 边线左右起始点距离在圆环阈值内
+	if(L_side[0][0] == 0 && R_bend_point_num <= 3 && ((float)R_frame_point_num/(float)R_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
+	{
+		circle_flag++;
+		if(circle_flag == 5)
+		{
+			path_element_flag = L_CIRCLE_PATH;
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,-75,0);			// 旋转进环
+			circle_flag = 0;
+		}
+			
+	}
+	else if(R_side[0][0] == MT9V03X_W-1 && L_side[0][0] == 0 && path_element_flag == L_CIRCLE_PATH)
+	{
+		circle_flag++;
+		if(circle_flag == 2)
+		{
+			path_element_flag = BEND_PATH;
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,-75,0);			// 旋转出环
+			circle_flag = 0;
+		}
+	}
+	// 右圆环入环
+	// 边线左右起始点距离在圆环阈值内
+	else if(R_side[0][0] == MT9V03X_W-1 && L_bend_point_num <= 3 && ((float)L_frame_point_num/(float)L_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
+	{
+		circle_flag++;
+		if(circle_flag == 5)
+		{
+			path_element_flag = R_CIRCLE_PATH;
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,75,0);			// 旋转进环
+			circle_flag = 0;
+		}
+			
+	}
+	else if(R_side[0][0] == MT9V03X_W-1 && L_side[0][0] == 0 && path_element_flag == R_CIRCLE_PATH)
+	{
+		circle_flag++;
+		if(circle_flag == 2)
+		{
+			path_element_flag = BEND_PATH;
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,75,0);			// 旋转出环
+			circle_flag = 0;
+		}
+	}
+	else if(path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH)
 	{
 		path_element_flag = BEND_PATH;
-		if(L_inflection_y_dir[0] > 0.25)
-		{
-			circle_inflection_point[0] = L_inflection_point[0][0];
-			circle_inflection_point[1] = L_inflection_point[0][1];
-			path_element_flag = L_CIRCLE_PATH;
-			circle_path_element_steps_flag = CIRCLE_IN_PREPARE;
-		}
-		else if(L_inflection_y_dir[0] < -0.25 && (circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
-		{
-			circle_inflection_point[0] = L_inflection_point[0][0];
-			circle_inflection_point[1] = L_inflection_point[0][1];
-			path_element_flag = L_CIRCLE_PATH;
-			circle_path_element_steps_flag = CIRCLE_IN;;
-		}
-	}
-	/* 右圆环准备入环+入环 */
-	/* 右边线有拐点和大量弯点，左边线无拐点和少量弯点即直线*/
-	else if(R_inflection_point_num == 1 && L_inflection_point_num == 0 && L_bend_point_num <= 2 && R_bend_point_num >= 3 && circle_path_enable_flag == TRUE && (circle_path_element_steps_flag == COMMON || circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
-	{
-		path_element_flag = BEND_PATH;
-		if(R_inflection_y_dir[0] > 0.25)
-		{
-			circle_inflection_point[0] = R_inflection_point[0][0];
-			circle_inflection_point[1] = R_inflection_point[0][1];
-			path_element_flag = R_CIRCLE_PATH;
-			circle_path_element_steps_flag = CIRCLE_IN_PREPARE;
-		}
-		else if(R_inflection_y_dir[0] < -0.25 && (circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
-		{
-			circle_inflection_point[0] = R_inflection_point[0][0];
-			circle_inflection_point[1] = R_inflection_point[0][1];
-			path_element_flag = R_CIRCLE_PATH;
-			circle_path_element_steps_flag = CIRCLE_IN;
-		}
-	}
-	else
-	{
-		path_element_flag = STRIGHT_PATH;
-	}
-	/* 左圆环出环 */
-//	else if()
-	/* 右圆环出环 */
-//	else if()
-}
-
-/* 赛道补线 */
-void path_patch(void)
-{
-	switch(path_element_flag)
-	{
-		case L_CIRCLE_PATH:
-		{
-			switch(circle_path_element_steps_flag)
-			{
-				case CIRCLE_IN_PREPARE:
-				{
-					line_draw(circle_inflection_point[0],circle_inflection_point[1],MT9V03X_W/2-TRACK_WIDTH/2,0);
-					break;
-				}
-				case CIRCLE_IN:
-				{
-					line_draw(circle_inflection_point[0],circle_inflection_point[1],MT9V03X_W-1,MT9V03X_H-1);
-					break;
-				}
-			}
-			break;
-		}
-		case R_CIRCLE_PATH:
-		{
-			switch(circle_path_element_steps_flag)
-			{
-				case CIRCLE_IN_PREPARE:
-				{
-					line_draw(circle_inflection_point[0],circle_inflection_point[1],MT9V03X_W/2+TRACK_WIDTH/2,0);
-					break;
-				}
-				case CIRCLE_IN:
-				{
-					line_draw(circle_inflection_point[0],circle_inflection_point[1],0,MT9V03X_H-1);
-					break;
-				}
-			}
-			break;
-		}
-		default:
-			break;
 	}
 }
 
@@ -577,8 +553,11 @@ void path_patch(void)
 void path_control(float path_control_speed)
 {
 	chassis_motion_flag = CHASSIS_MOVE;
-//	path_err = path[control_point-path_start][0] - MT9V03X_W/2;
-	path_err = longest_white_col_x-MT9V03X_W/2;
+	if(path_follow_kind_flag == 0)
+		path_err = longest_white_col_x-MT9V03X_W/2;
+	else if(path_follow_kind_flag == 1)
+		path_err = path[control_point-path_start][0] - MT9V03X_W/2;
+	
 	if(abs(path_err) > 7)
 	{
 		chassis_linear_speed = path_control_speed;

@@ -121,6 +121,7 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ path_end;
 	_MENU_DATA_NAME_TYPE_ control_point;
 	_MENU_DATA_NAME_TYPE_ prediction_point;
+	_MENU_DATA_NAME_TYPE_ circle_path_enable_flag;
 }_MENU_PATH_;
 
 /* ²Ëµ¥PID²ÎÊý */

@@ -78,6 +78,7 @@ void menu_data_leeeezy_init(void)
 	MENU_PATH.path_end.name = "END";
 	MENU_PATH.control_point.name = "CONTROL";
 	MENU_PATH.prediction_point.name = "PREDICT";
+	MENU_PATH.circle_path_enable_flag.name = "CIRCLE_EN";
 	
 	MENU_MOTOR_1_PID.p.name = "1_P";
 	MENU_MOTOR_1_PID.i.name = "1_I";

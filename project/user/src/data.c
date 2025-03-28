@@ -66,7 +66,7 @@ uint8 chassis_move_time_count_flag = FALSE;				// 底盘移动计时标志位
 _CONTROL_MODE_ control_mode_flag = PATH_CONTROL_MODE;	// 摄像头类型标志位
 _CONTROL_MODE_ track_finsh_next_mode_flag = BLOCK_RETRACK_MODE;	// 追踪结束模式切换标志位
 _PATH_ELEMENT_ path_element_flag = STRIGHT_PATH;			// 赛道元素标志位
-_CIRCLE_PATH_ELEMENT_STEPS_ circle_path_element_steps_flag = COMMON;	// 圆环元素步骤
+uint8 path_follow_kind_flag = 0;			// 路径循线方式标志位（0：最长白列 1：中线拟合）
 /* 使能 */
 uint8 circle_path_enable_flag = TRUE;	// 圆环赛道使能标志位
 uint8 ai_camera_0_enable_flag = TRUE;	// AI摄像头0 使能标志位
@@ -83,7 +83,7 @@ _AI_TRACK_PID_ ai_track_pid;		// AI追踪
 
 /* 循线 */
 int16 mid_x = MT9V03X_W/2;	// 循线开始中点
-float path_linear_speed_target = 6;	// 循迹线速度
+float path_linear_speed_target = 4.5;	// 循迹线速度
 int16 path_start = 10;			// 路径线提取开始高度
 int16 path_end = 70;			// 路径线提取结束高度
 int16 L_side[MT9V03X_H*3][2] = {0};	// 左边线坐标
@@ -106,6 +106,10 @@ int16 R_bend_point_num = 0;		// 右边线弯点数量
 int16 control_point = 50;		// 控制点高度（速度：3：30 速度：6：55 速度：8：55）
 int16 prediction_point = 30;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 int16 longest_white_col_x = 0;	// 最长白列X坐标
+
+/* 元素提取参数 */
+double inflection_point_angle_min[3] = {30,90,115};		// 拐点最小角度阈值
+double inflection_point_angle_max[3] = {55,110,147};	// 拐点最大角度阈值
 
 /* AI追踪 */
 float track_linear_speed_target = 2.5;	// 追踪线速度

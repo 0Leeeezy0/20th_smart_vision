@@ -38,17 +38,6 @@ typedef enum
 	ZEBRA_CROSSING_PATH = 4		// 斑马线元素
 }_PATH_ELEMENT_;
 
-/* 圆环元素步骤 */
-typedef enum
-{
-	CIRCLE_IN_PREPARE = 0,			// 准备进圆环步骤
-	CIRCLE_IN = 1,					// 进圆环步骤
-	CIRCLE_INNER = 2,				// 圆环内部步骤
-	CIRCLE_OUT = 3,					// 圆环出环步骤
-	CIRCLE_OUT_2_STRIGHT = 4,		// 圆环出环转直道步骤
-	COMMON = 5						// 无圆环时占位
-}_CIRCLE_PATH_ELEMENT_STEPS_;
-
 /* AI摄像头1 识别标签 */
 typedef enum
 {
@@ -156,7 +145,7 @@ extern uint8 chassis_move_time_count_flag;				// 底盘移动计时标志位
 extern _CONTROL_MODE_ control_mode_flag;	// 控制模式标志位
 extern _CONTROL_MODE_ track_finsh_next_mode_flag;	// 追踪结束模式切换标志位
 extern _PATH_ELEMENT_ path_element_flag;		// 赛道元素标志位
-extern _CIRCLE_PATH_ELEMENT_STEPS_ circle_path_element_steps_flag;	// 圆环元素步骤
+extern uint8 path_follow_kind_flag;				// 路径循线方式标志位（0：最长白列 1：中线拟合）
 /* 使能 */
 extern uint8 circle_path_enable_flag;	// 圆环赛道使能标志位
 extern uint8 ai_camera_0_enable_flag;	// AI摄像头0 使能标志位
@@ -247,7 +236,7 @@ extern _PATH_PID_ path_pid;							// 循迹PID
 /* AI追踪控制参数 */
 extern _AI_TRACK_PID_ ai_track_pid;	// MCXVISION追踪PID
 
-/* 循迹 */
+/* 循迹参数 */
 extern int16 mid_x;	// 循线开始中点
 extern float path_linear_speed_target;	// 循迹线速度
 extern int16 path_start;	// 路径线提取开始高度
@@ -274,6 +263,10 @@ extern int16 R_bend_point_num;		// 右边线弯点数量
 extern int16 control_point;	// 控制点高度（速度 3 30 速度 8 45）
 extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 extern int16 longest_white_col_x;	// 最长白列坐标
+
+/* 元素提取参数 */
+extern double inflection_point_angle_min[3];	// 拐点最小角度阈值
+extern double inflection_point_angle_max[3];	// 拐点最大角度阈值
 
 /* AI追踪 */
 extern float track_linear_speed_target;	// 追踪线速度

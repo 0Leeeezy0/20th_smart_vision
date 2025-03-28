@@ -5,36 +5,36 @@
 
 /* 以下顺序都是摄像头支架后为1开始顺时针记数 */
 /* 电机驱动引脚 */
-#define MOTOR_1_DIR 	( C9 )
-#define MOTOR_1_PWM 	( PWM2_MODULE1_CHA_C8 )
+#define MOTOR_1_DIR 	( C7 )
+#define MOTOR_1_PWM 	( PWM2_MODULE0_CHA_C6 )
 
-#define MOTOR_2_DIR 	( C7 )
-#define MOTOR_2_PWM 	( PWM2_MODULE0_CHA_C6 ) 
+#define MOTOR_2_DIR 	( D2 )
+#define MOTOR_2_PWM 	( PWM2_MODULE3_CHB_D3 ) 
 
-#define MOTOR_3_DIR 	( D2 )
-#define MOTOR_3_PWM 	( PWM2_MODULE3_CHB_D3 ) 
+#define MOTOR_3_DIR 	( C9 )
+#define MOTOR_3_PWM 	( PWM2_MODULE1_CHA_C8 ) 
 
 /* 编码器引脚 */
-#define ENCODER_1_MODULE_NUM 	( QTIMER2_ENCODER1 )
-#define ENCODER_1_CH1 			( QTIMER2_ENCODER1_CH1_C3 )
-#define ENCODER_1_CH2 			( QTIMER2_ENCODER1_CH2_C4 )
+#define ENCODER_1_MODULE_NUM 	( QTIMER1_ENCODER2 )
+#define ENCODER_1_CH1 			( QTIMER1_ENCODER2_CH1_C2 )
+#define ENCODER_1_CH2 			( QTIMER1_ENCODER2_CH2_C24 )
 
-#define ENCODER_2_MODULE_NUM 	( QTIMER1_ENCODER2 )
-#define ENCODER_2_CH1 			( QTIMER1_ENCODER2_CH1_C2 )
-#define ENCODER_2_CH2 			( QTIMER1_ENCODER2_CH2_C24 )
+#define ENCODER_2_MODULE_NUM 	( QTIMER1_ENCODER1 )
+#define ENCODER_2_CH1 			( QTIMER1_ENCODER1_CH1_C0 )
+#define ENCODER_2_CH2 			( QTIMER1_ENCODER1_CH2_C1 )
 
-#define ENCODER_3_MODULE_NUM 	( QTIMER1_ENCODER1 )
-#define ENCODER_3_CH1 			( QTIMER1_ENCODER1_CH1_C0 )
-#define ENCODER_3_CH2 			( QTIMER1_ENCODER1_CH2_C1 )
+#define ENCODER_3_MODULE_NUM 	( QTIMER2_ENCODER1 )
+#define ENCODER_3_CH1 			( QTIMER2_ENCODER1_CH1_C3 )
+#define ENCODER_3_CH2 			( QTIMER2_ENCODER1_CH2_C4 )
 
 /* 
 电机方向标定
 如果给DIR脚为高电平时电机逆时针旋转，则标定值为1
 如果给DIR脚为高电平时电机顺时针旋转，则标定值为-1
 */
-#define MOTOR_1_FRONT_DIR 	( -1 )
+#define MOTOR_1_FRONT_DIR 	( 1 )
 #define MOTOR_2_FRONT_DIR 	( 1 )
-#define MOTOR_3_FRONT_DIR 	( 1 )
+#define MOTOR_3_FRONT_DIR 	( -1 )
 
 /* 按键引脚 */
 #define UP_PIN 		( C13 )
@@ -152,13 +152,11 @@
 /****************************** 赛道元素提取参数 ******************************/
 
 #define TRACK_WIDTH 					( 10 )	// 赛道在前瞻点高度的宽度
-#define SIDE_EXTRACT_START_Y 			( 80 )	// 边线开始提取高度
-#define SIDE_EXTRACT_END_Y 				( 25 )	// 边线结束提取高度
+#define SIDE_EXTRACT_START_Y 			( 70 )	// 边线开始提取高度
+#define SIDE_EXTRACT_END_Y 				( 15 )	// 边线结束提取高度
 #define LOONGEST_WHITE_COL_START_Y 		( 80 )	// 最长白列开始获取高度
 #define POINT_DISTANCE 					( 10 )	// 拐点/弯点距离
 #define SKIP_POINT_DISTANCE 			( 25 )	// 跳过点的距离（识别到拐点后跳过多少距离）	
-#define INFLECTION_POINT_ANGLE_MIN 		(double)( 90  )	// 拐点最小角度阈值
-#define INFLECTION_POINT_ANGLE_MAX 		(double)( 147 )	// 拐点最大角度阈值
 #define BEND_POINT_ANGLE_MIN 			(double)( 0 )	// 弯点最小角度阈值
 #define BEND_POINT_ANGLE_MAX 			(double)( 170 )	// 弯点最大角度阈值
 #define SIDE_END 						( 130 ) // 边线提取截止横偏差
