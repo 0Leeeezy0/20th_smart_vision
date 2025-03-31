@@ -142,6 +142,7 @@ extern uint8 translate_shift_flag;				// 平动位移解算标志位
 extern _CHASSIS_MOTION_ chassis_motion_flag;	// 底盘运动方式标志位
 extern uint8 chassis_rotate_finsh_flag;			// 底盘旋转结束标志位
 extern uint8 chassis_move_time_count_flag;				// 底盘移动计时标志位
+extern uint8 circle_in_time_count_flag;				// 圆环入环计时标志位
 extern _CONTROL_MODE_ control_mode_flag;	// 控制模式标志位
 extern _CONTROL_MODE_ track_finsh_next_mode_flag;	// 追踪结束模式切换标志位
 extern _PATH_ELEMENT_ path_element_flag;		// 赛道元素标志位
@@ -263,6 +264,7 @@ extern int16 R_bend_point_num;		// 右边线弯点数量
 extern int16 control_point;	// 控制点高度（速度 3 30 速度 8 45）
 extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 extern int16 longest_white_col_x;	// 最长白列坐标
+extern uint32 circle_in_time_count;  // 入环计时（计时达到后才可以判断出环）
 
 /* 元素提取参数 */
 extern double inflection_point_angle_min[3];	// 拐点最小角度阈值

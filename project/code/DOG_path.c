@@ -505,19 +505,21 @@ void circle_path_element_judge(void)
 		if(circle_flag == 5)
 		{
 			path_element_flag = L_CIRCLE_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,-75,0);			// 旋转进环
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,4,0,-90,0);			// 旋转进环
 			circle_flag = 0;
+			circle_in_time_count_flag = TRUE;
 		}
 			
 	}
 	else if(R_side[0][0] == MT9V03X_W-1 && L_side[0][0] == 0 && path_element_flag == L_CIRCLE_PATH)
 	{
 		circle_flag++;
-		if(circle_flag == 2)
+		if(circle_flag == 2 && circle_in_time_count >= 1000)
 		{
 			path_element_flag = BEND_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,-75,0);			// 旋转出环
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,4,0,-90,0);			// 旋转出环
 			circle_flag = 0;
+			circle_in_time_count_flag = FALSE;
 		}
 	}
 	// 右圆环入环
@@ -528,19 +530,21 @@ void circle_path_element_judge(void)
 		if(circle_flag == 5)
 		{
 			path_element_flag = R_CIRCLE_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,75,0);			// 旋转进环
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,4,0,90,0);			// 旋转进环
 			circle_flag = 0;
+			circle_in_time_count_flag = TRUE;
 		}
 			
 	}
 	else if(R_side[0][0] == MT9V03X_W-1 && L_side[0][0] == 0 && path_element_flag == R_CIRCLE_PATH)
 	{
 		circle_flag++;
-		if(circle_flag == 2)
+		if(circle_flag == 2 && circle_in_time_count >= 1000)
 		{
 			path_element_flag = BEND_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,75,0);			// 旋转出环
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,4,0,90,0);			// 旋转出环
 			circle_flag = 0;
+			circle_in_time_count_flag = FALSE;
 		}
 	}
 	else if(path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH)

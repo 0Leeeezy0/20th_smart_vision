@@ -166,7 +166,7 @@
 
 /****************************** PID ******************************/
 
-#define MOTOR_PID_CHOOSE 			( 1 )		// 电机PID类型（ 增量式：0   位置式：1）
+#define MOTOR_PID_CHOOSE 			( 0 )		// 电机PID类型（ 增量式：0   位置式：1）
 #define ROTATE_PID_CHOOSE 			( 1 )		// 转动PID类型（ 增量式：0	位置式：1）
 #define TRANSLATE_PID_CHOOSE 		( 0 )		// 平动PID类型（ 增量式：0	位置式：1）
 #define PATH_PID_CHOOSE 			( 1 )		// 循迹PID类型（ 增量式：0   位置式：1）

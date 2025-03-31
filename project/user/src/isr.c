@@ -64,17 +64,23 @@ void PIT_IRQHandler(void)
 		{
 			case CHASSIS_STOP:{ chassis_control_stop();	break; }
 			case CHASSIS_MOVE:{ chassis_control_move(MOTOR_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_angular_speed); break; }
-			case CHASSIS_ANGLE_ROTATE:{ chassis_control_angle_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_rotate_angle); break; }
+			case CHASSIS_ANGLE_ROTATE:{ chassis_control_angle_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_linear_speed,chassis_rotate_angle); break; }
 		}
         pit_flag_clear(PIT_CH1);
     }
     /* 计时中断 */
     if(pit_flag_get(PIT_CH2))
     {
+		// 底盘移动计时
 		if(chassis_move_time_count_flag)
 			chassis_move_time_count++;
 		else
 			chassis_move_time_count = 0;
+		// 圆环入环计时
+		if(circle_in_time_count_flag)
+			circle_in_time_count++;
+		else
+			circle_in_time_count = 0;
         pit_flag_clear(PIT_CH2);
     }
     
