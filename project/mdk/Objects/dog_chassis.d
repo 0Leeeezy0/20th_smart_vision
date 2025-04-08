@@ -109,4 +109,4 @@
   ..\user\inc\data.h ..\code\DOG_chassis.h ..\code\DOG_path.h \
   ..\code\DOG_image.h ..\code\DOG_vofa.h ..\code\DOG_vofa_app.h \
   ..\code\DOG_menu.h ..\code\DOG_menu_data.h ..\code\DOG_ai.h \
-  ..\code\DOG_fsm.h ..\code\DOG_pid.h
+  ..\code\DOG_fsm.h ..\code\DOG_pid.h ..\code\DOG_element.h

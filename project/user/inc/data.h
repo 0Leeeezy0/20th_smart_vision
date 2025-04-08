@@ -128,7 +128,6 @@ typedef struct
 typedef struct
 {
 	uint8 result_kind;					// 识别结果类别（0：标签 1：手写字 2：啥都没有）
-	uint8 is_move_out;					// 方块推出赛道（0：未推出 1：推出）
 	_AI_CAMERA_1_DETECTION_LABLE_ lable;	// 识别标签结果
 	uint8 num;							// 识别手写数字结果
 }_AI_CAMERA_1_DETECTION_RESULT_;
@@ -142,7 +141,8 @@ extern uint8 translate_shift_flag;				// 平动位移解算标志位
 extern _CHASSIS_MOTION_ chassis_motion_flag;	// 底盘运动方式标志位
 extern uint8 chassis_rotate_finsh_flag;			// 底盘旋转结束标志位
 extern uint8 chassis_move_time_count_flag;				// 底盘移动计时标志位
-extern uint8 circle_in_time_count_flag;				// 圆环入环计时标志位
+extern uint8 circle_in_time_count_flag;				// 圆环入环计时标志位（入环后开始计时，防止入环失败后错误出环）
+extern uint8 circle_out_time_count_flag;			// 圆环出环计时标志位（出环后开始计时，防止出环后姿态不好导致错误入环）
 extern _CONTROL_MODE_ control_mode_flag;	// 控制模式标志位
 extern _CONTROL_MODE_ track_finsh_next_mode_flag;	// 追踪结束模式切换标志位
 extern _PATH_ELEMENT_ path_element_flag;		// 赛道元素标志位
@@ -183,6 +183,9 @@ extern float acc_z;
 extern float roll;	// 滚转角
 extern float pitch;	// 俯仰角	
 extern float yaw;	// 偏航角
+
+/* 灰度传感器（V） */
+extern uint16 grayscale;
 
 /* 位移解算 */
 extern float shift_yaw;
@@ -242,33 +245,30 @@ extern int16 mid_x;	// 循线开始中点
 extern float path_linear_speed_target;	// 循迹线速度
 extern int16 path_start;	// 路径线提取开始高度
 extern int16 path_end;	// 路径线提取结束高度
+extern int16 control_point[2];	// 控制点高度（速度 3 30 速度 8 45）
+extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
+extern int16 longest_white_col_x;	// 最长白列坐标
 extern int16 L_side[MT9V03X_H*3][2];	// 左边线坐标
 extern int16 R_side[MT9V03X_H*3][2];	// 右边线坐标
 extern int16 L_side_point_num;		// 左边线点数量
 extern int16 R_side_point_num;		// 右边线点数量
 extern int16 L_frame_point_num;		// 左边框点数量
 extern int16 R_frame_point_num;		// 右边框点数量
-extern int16 L_inflection_point[MT9V03X_H*2][2];	// 左边线拐点坐标
-extern int16 R_inflection_point[MT9V03X_H*2][2];	// 右边线拐点坐标
-extern int8 L_inflection_angle_dir[MT9V03X_H*2];	// 左边线拐点夹角方向（方向垂直：1 方向平行：-1）
-extern int8 R_inflection_angle_dir[MT9V03X_H*2];	// 右边线拐点夹角方向（方向垂直：1 方向平行：-1）
-extern float L_inflection_y_dir[MT9V03X_H*2];		// 左边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
-extern float R_inflection_y_dir[MT9V03X_H*2];		// 右边线拐点和向量纵坐标方向（方向向上：-1 方向向下：1）
-extern int16 circle_inflection_point[2];			// 圆环拐点坐标（图像中从下至上出现的第一个拐点）
-extern int16 L_inflection_point_num;		// 左边线拐点数量
-extern int16 R_inflection_point_num;		// 右边线拐点数量
 extern int16 L_bend_point[MT9V03X_H*2][2];		// 左边线弯点坐标
 extern int16 R_bend_point[MT9V03X_H*2][2];		// 右边线弯点坐标
 extern int16 L_bend_point_num;		// 左边线弯点数量
 extern int16 R_bend_point_num;		// 右边线弯点数量
-extern int16 control_point;	// 控制点高度（速度 3 30 速度 8 45）
-extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
-extern int16 longest_white_col_x;	// 最长白列坐标
 extern uint32 circle_in_time_count;  // 入环计时（计时达到后才可以判断出环）
+extern uint32 circle_out_time_count;  // 出环计时（计时达到后才可以再次判断入环）
 
-/* 元素提取参数 */
-extern double inflection_point_angle_min[3];	// 拐点最小角度阈值
-extern double inflection_point_angle_max[3];	// 拐点最大角度阈值
+/* 赛道元素参数 */
+extern int16 circle_check_y;		// 圆环检测线高度
+extern int16 circle_in_linear_speed_target;	// 入环目标速度
+extern int16 circle_in_angle;	// 入环转动角度
+extern int16 circle_out_linear_speed_target;	// 出环目标速度
+extern int16 circle_out_angle;	// 出环转动角度
+extern int16 side_extract_start_y;	// 边线开始提取高度
+extern int16 side_extract_end_y;		// 边线结束提取高度
 
 /* AI追踪 */
 extern float track_linear_speed_target;	// 追踪线速度
@@ -276,12 +276,18 @@ extern float track_linear_speed_revise;	// 追踪修正线速度
 extern int16 detection_box_width_limit;	// AI摄像头识别框宽度阈值
 extern int16 detection_box_width_std;	// AI摄像头识别框宽度标准阈值
 extern int16 detection_box_center_limit;	// AI摄像头识别框中心阈值 
+extern int16 rectificate_weight[4];	// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
+extern int16 symmetry_rectificate_start_y;	// 对称法矫正图像遍历起始点高度
+extern int16 symmetry_rectificate_end_y;		// 对称法矫正图像遍历结束点高度
+extern uint32 sum_weight;	// 加权和
+extern float sum_weight_normalization;	// 加权和归一化
+extern float sum_weight_normalization_limit;	// 加权和归一化阈值
 
 /* AI识别结果 */
 extern _AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result;
 
 /******************************************************************/
 
-extern float angle;
+extern uint8 ai_camera_1_data_raw;
 
 #endif

@@ -159,6 +159,9 @@ void menu_chassis_page(void);
 /* 菜单循线数据页面 */
 void menu_path_page(void);
 
+/* 菜单圆环循线数据页面 */
+void menu_circle_path_page(void);
+
 /* 菜单电机1 PID页面 */
 void menu_motor_1_pid_page(void);
 
@@ -201,6 +204,10 @@ void menu_chassis_data_reduce_service(void);
 /* 菜单循线数据页面服务 */
 void menu_path_data_add_service(void);
 void menu_path_data_reduce_service(void);
+
+/* 菜单圆环循线数据页面服务 */
+void menu_circle_path_data_add_service(void);
+void menu_circle_path_data_reduce_service(void);
 
 /* 菜单电机1 PID页面服务 */
 void menu_motor_1_pid_add_service(void);

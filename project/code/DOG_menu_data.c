@@ -19,6 +19,7 @@ _MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
 _MENU_AI_CAMERA_1_ MENU_AI_CAMERA_1;
 _MENU_CHASSIS_ MENU_CHASSIS;
 _MENU_PATH_ MENU_PATH;
+_MENU_CIRCLE_PATH_ MENU_CIRCLE_PATH;
 _MENU_PID_ MENU_MOTOR_1_PID;
 _MENU_PID_ MENU_MOTOR_2_PID;
 _MENU_PID_ MENU_MOTOR_3_PID;
@@ -74,11 +75,20 @@ void menu_data_leeeezy_init(void)
 	MENU_CHASSIS.rotate_angle.name = "ANGLE";
 	
 	MENU_PATH.linear_speed_target.name = "LINEAR_SPEED_TAR";
-	MENU_PATH.path_start.name = "START";
-	MENU_PATH.path_end.name = "END";
-	MENU_PATH.control_point.name = "CONTROL";
-	MENU_PATH.prediction_point.name = "PREDICT";
-	MENU_PATH.circle_path_enable_flag.name = "CIRCLE_EN";
+	MENU_PATH.path_start.name = "PATH_START";
+	MENU_PATH.path_end.name = "PATH_END";
+	MENU_PATH.control_point_0.name = "PATH_CONTROL_0";
+	MENU_PATH.control_point_1.name = "PATH_CONTROL_1";
+	MENU_PATH.prediction_point.name = "PATH_PREDICT";
+	
+	MENU_CIRCLE_PATH.circle_check_y.name = "CIRCLE_CHECK_Y";
+	MENU_CIRCLE_PATH.circle_in_linear_speed_target.name = "CIRCLE_IN_SPEED";
+	MENU_CIRCLE_PATH.circle_in_angle.name = "CIRCLE_IN_ANGLE";
+	MENU_CIRCLE_PATH.circle_out_linear_speed_target.name = "CIRCLE_OUT_SPEED";
+	MENU_CIRCLE_PATH.circle_out_angle.name = "CIRCLE_OUT_ANGLE";
+	MENU_CIRCLE_PATH.side_extract_start.name = "SIDE_START";
+	MENU_CIRCLE_PATH.side_extract_end.name = "SIDE_END";
+	MENU_CIRCLE_PATH.circle_path_enable_flag.name = "CIRCLE_EN";
 	
 	MENU_MOTOR_1_PID.p.name = "1_P";
 	MENU_MOTOR_1_PID.i.name = "1_I";

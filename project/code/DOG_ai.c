@@ -54,7 +54,6 @@ void ai_camera_1_init(void)
 /* AI摄像头1 识别结果转换 */
 static void ai_camera_1_data_transform(uint8 ai_camera_1_detection_result_raw)
 {
-	ai_camera_1_detection_result.is_move_out = FALSE;
 	// 普通lable
 	if(ai_camera_1_detection_result_raw >= 0 && ai_camera_1_detection_result_raw <= 14)
 	{
@@ -72,11 +71,6 @@ static void ai_camera_1_data_transform(uint8 ai_camera_1_detection_result_raw)
 	else if(ai_camera_1_detection_result_raw == 115)
 	{
 		ai_camera_1_detection_result.result_kind = 2;
-	}
-	// 推离赛道
-	else if(ai_camera_1_detection_result_raw == 116)
-	{
-		ai_camera_1_detection_result.is_move_out = TRUE;
 	}
 }
 
@@ -195,6 +189,7 @@ void uart_rx_interrupt_handler_ai_camera_1 (void)
         fifo_read_buffer(&uart_data_fifo_ai_camera_1, fifo_get_data_ai_camera_1, &fifo_data_count, FIFO_READ_AND_CLEAN);    // 将 fifo 中数据读出并清空 fifo 挂载的缓冲
         uart_write_buffer(AI_CAMERA_1_UART_INDEX, fifo_get_data_ai_camera_1, fifo_data_count);      // 将读取到的数据发送出去
         ai_camera_1_detection_result_raw = fifo_get_data_ai_camera_1[0];
+		ai_camera_1_data_raw = ai_camera_1_detection_result_raw;
 		ai_camera_1_data_transform(ai_camera_1_detection_result_raw);
 //		printf("%s",ai_camera_1_detection_result_raw);
     }

@@ -29,18 +29,7 @@ void control_mode_dispatch(void)
 	{
 		case PATH_CONTROL_MODE:{ path_control(path_linear_speed_target); track_finsh_next_mode_flag = BLOCK_RETRACK_MODE; break; }	// 循迹控制
 		case AI_TRACK_MODE:{ ai_track_control(track_linear_speed_target,track_finsh_next_mode_flag); break; }	// MCXVISION跟踪控制
-		case BLOCK_RETRACK_MODE:{ chassis_total_control(CHASSIS_MOVE,45,2,0,0,1250); chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,-90,0); control_mode_flag = AI_TRACK_MODE; track_finsh_next_mode_flag = BLOCK_MOVE_OUT_MODE; break; }		// 方块侧面重追踪模式
-		case BLOCK_MOVE_OUT_MODE:{ block_move_out_control(); control_mode_flag = PATH_CONTROL_MODE; track_finsh_next_mode_flag = BLOCK_RETRACK_MODE; break; }	// 方块推离模式
+		case BLOCK_RETRACK_MODE:{ system_delay_ms(500); fxxk_box(0); control_mode_flag = AI_TRACK_MODE; track_finsh_next_mode_flag = BLOCK_MOVE_OUT_MODE; break; }		// 方块侧面重追踪模式
+		case BLOCK_MOVE_OUT_MODE:{ fxxk_box(1); control_mode_flag = PATH_CONTROL_MODE; track_finsh_next_mode_flag = BLOCK_RETRACK_MODE; break; }	// 方块推离模式
 	}
-}
-
-/* 推箱子 */
-void block_move_out_control(void)
-{
-	// 推
-	chassis_total_control(CHASSIS_MOVE,0,2,0,0,1500);
-	// 回
-//	chassis_total_control(CHASSIS_MOVE,0,-2,0,0,300);
-	chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,100,0);
-	mid_x = MT9V03X_W/2;
 }

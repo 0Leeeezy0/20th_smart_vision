@@ -54,6 +54,8 @@ void PIT_IRQHandler(void)
 		gyro_get();
 		euler_angle();
 		translate_shift();
+		
+		grayscale_sensor_get();
 			
         pit_flag_clear(PIT_CH0);
     }
@@ -64,7 +66,7 @@ void PIT_IRQHandler(void)
 		{
 			case CHASSIS_STOP:{ chassis_control_stop();	break; }
 			case CHASSIS_MOVE:{ chassis_control_move(MOTOR_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_angular_speed); break; }
-			case CHASSIS_ANGLE_ROTATE:{ chassis_control_angle_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_linear_speed,chassis_rotate_angle); break; }
+			case CHASSIS_ANGLE_ROTATE:{ chassis_control_angle_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_rotate_angle); break; }
 		}
         pit_flag_clear(PIT_CH1);
     }
@@ -81,6 +83,12 @@ void PIT_IRQHandler(void)
 			circle_in_time_count++;
 		else
 			circle_in_time_count = 0;
+		// 圆环出环计时
+		if(circle_out_time_count_flag)
+			circle_out_time_count++;
+		else
+			circle_out_time_count = 0;
+		
         pit_flag_clear(PIT_CH2);
     }
     
@@ -98,7 +106,7 @@ void LPUART1_IRQHandler(void)
 {
     if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART1))
     {
-        
+        // AI摄像头1串口接收中断
         extern void uart_rx_interrupt_handler_ai_camera_1();
 		uart_rx_interrupt_handler_ai_camera_1();
         // 接收中断
@@ -136,7 +144,7 @@ void LPUART4_IRQHandler(void)
 {
     if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART4))
     {
-		// MCXVision串口接收中断
+		// AI摄像头0串口接收中断
 		extern void uart_rx_interrupt_handler_ai_camera_0();
         uart_rx_interrupt_handler_ai_camera_0();
         // 接收中断 

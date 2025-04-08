@@ -40,20 +40,20 @@ void longest_white_col(void)
 	
 	for(int X = mid_x;X >= 0;X--)
     {
-        if(image_OTSU[LOONGEST_WHITE_COL_START_Y-1][X] == 0)    // 黑色
+        if(image_OTSU[path_start-1][X] == 0)    // 黑色
         {
             // 存储白色点
             L_side[0] = X+1;
-            L_side[1] = LOONGEST_WHITE_COL_START_Y-1;
-			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
+            L_side[1] = path_start-1;
+//			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
         if(X == 0)
         {
             // 存储白色点
             L_side[0] = 0;
-            L_side[1] = LOONGEST_WHITE_COL_START_Y-1;
-			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
+            L_side[1] = path_start-1;
+//			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
 			L_frame_point_num++;
             break;
         }
@@ -61,20 +61,20 @@ void longest_white_col(void)
     // 右边线种子
     for(int X = mid_x;X <= MT9V03X_W-1;X++)
     {
-        if(image_OTSU[LOONGEST_WHITE_COL_START_Y-1][X] == 0)    // 黑色
+        if(image_OTSU[path_start-1][X] == 0)    // 黑色
         {
             // 存储白色点
             R_side[0] = X-1;
-            R_side[1] = LOONGEST_WHITE_COL_START_Y-1;
-			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
+            R_side[1] = path_start-1;
+//			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
         if(X == MT9V03X_W-1)
         {
             // 存储白色点
             R_side[0] = MT9V03X_W-1;
-            R_side[1] = LOONGEST_WHITE_COL_START_Y-1;
-			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
+            R_side[1] = path_start-1;
+//			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
 			R_frame_point_num++;
             break;
         }
@@ -85,23 +85,23 @@ void longest_white_col(void)
 	
 	for(int X = L_side[0];X <= R_side[0];X++)
 	{
-		for(int Y = LOONGEST_WHITE_COL_START_Y;Y >= LOONGEST_WHITE_COL_START_Y-control_point;Y--)
+		for(int Y = path_start;Y >= path_start-control_point[path_follow_kind_flag];Y--)
 		{
-			if(image_OTSU[Y][X] == 0 || Y == LOONGEST_WHITE_COL_START_Y-control_point)
+			if(image_OTSU[Y][X] == 0 || Y == path_start-control_point[path_follow_kind_flag])
 			{
-				if(LOONGEST_WHITE_COL_START_Y-Y > max_white_num)
+				if(path_start-Y > max_white_num)
 				{
 					max_white_col_find_flag = 1;
-					max_white_num = LOONGEST_WHITE_COL_START_Y-Y;
+					max_white_num = path_start-Y;
 					longest_white_X_cache = 0;
 					max_white_col_num_cache = 0;
 					longest_white_X_cache +=  X;
 					max_white_col_num_cache++;
 				}
-				else if(LOONGEST_WHITE_COL_START_Y-Y == max_white_num)
+				else if(path_start-Y == max_white_num)
 				{
 					max_white_col_find_flag = 1;
-					max_white_num = LOONGEST_WHITE_COL_START_Y-Y;
+					max_white_num = path_start-Y;
 					longest_white_X_cache += X;
 					max_white_col_num_cache++;
 				}
@@ -138,47 +138,48 @@ void path_extract(void)
 {
 	path_follow_kind_flag = 1;
 	int16 x,y;
-	static int16 num = 0;
+	static int16 mid_x_flag = 0;
 	if(mid_x == MT9V03X_W/2)
-		num = 0;
-	if(num < 10)
+		mid_x_flag = 0;
+	if(mid_x_flag < 10)
 	{
 		path[0][0] = MT9V03X_W/2;
-		num++;
+		mid_x_flag++;
 	}
 	else
 	{
 		path[0][0] = path[prediction_point][0];
 	}
-	path[0][1] = MT9V03X_H-1-path_start;
-	for(y = MT9V03X_H-1-path_start-1;y >= MT9V03X_H-1-path_end;y--)
+	path[0][1] = path_start;
+	for(y = path_start-1;y >= path_end;y--)
 	{
-		for(x = path[MT9V03X_H-1-path_start-y-1][0];x < MT9V03X_W;x++)
+		for(x = path[path_start-1-y][0];x < MT9V03X_W;x++)
 		{
 			if(image_OTSU[y][x] == 0)
 			{
-				path[MT9V03X_H-1-path_start-y][0] = x;
+				path[path_start-y][0] = x;
 				break;
 			}
 			if(x == MT9V03X_W-1)
 			{
-				path[MT9V03X_H-1-path_start-y][0] = x;
+				path[path_start-y][0] = x;
 			}
 		}
-		for(x = path[MT9V03X_H-1-path_start-y-1][0];x >= 0;x--)
+		for(x = path[path_start-1-y][0];x >= 0;x--)
 		{
 			if(image_OTSU[y][x] == 0)
 			{
-				path[MT9V03X_H-1-path_start-y][0] += x;
+				path[path_start-y][0] += x;
 				break;
 			}
 			if(x == 0)
 			{
-				path[MT9V03X_H-1-path_start-y][0] += x;
+				path[path_start-y][0] += x;
 			}
 		}
-		path[MT9V03X_H-1-path_start-y][0] = path[MT9V03X_H-1-path_start-y][0]/2;
-		path[MT9V03X_H-1-path_start-y][1] = y;
+		path[path_start-y][0] = path[path_start-y][0]/2;
+		path[path_start-y][1] = y;
+//		ips200_draw_point(path[path_start-y][0], MT9V03X_H+MENU_ROW_PITCH+path[path_start-y][1], RGB565_RED);
 	}
 }
 
@@ -201,11 +202,11 @@ void side_extract(void)
     // 左边线种子
     for(int X = mid_x;X >= 0;X--)
     {
-        if(image_OTSU[SIDE_EXTRACT_START_Y-1][X] == 0)    // 黑色
+        if(image_OTSU[side_extract_start_y-1][X] == 0)    // 黑色
         {
             // 存储白色点
             L_side[0][0] = X+1;
-            L_side[0][1] = SIDE_EXTRACT_START_Y-1;
+            L_side[0][1] = side_extract_start_y-1;
 			// ips200_draw_point(L_side[0][0], L_side[0][1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
@@ -213,7 +214,7 @@ void side_extract(void)
         {
             // 存储白色点
             L_side[0][0] = 0;
-            L_side[0][1] = SIDE_EXTRACT_START_Y-1;
+            L_side[0][1] = side_extract_start_y-1;
 			// ips200_draw_point(L_side[0][0], L_side[0][1]+MT9V03X_H*2, RGB565_RED);
 			L_frame_point_num++;
             break;
@@ -222,11 +223,11 @@ void side_extract(void)
     // 右边线种子
     for(int X = mid_x;X <= MT9V03X_W-1;X++)
     {
-        if(image_OTSU[SIDE_EXTRACT_START_Y-1][X] == 0)    // 黑色
+        if(image_OTSU[side_extract_start_y-1][X] == 0)    // 黑色
         {
             // 存储白色点
             R_side[0][0] = X-1;
-            R_side[0][1] = SIDE_EXTRACT_START_Y-1;
+            R_side[0][1] = side_extract_start_y-1;
 			// ips200_draw_point(L_side[0][0], L_side[0][1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
@@ -234,7 +235,7 @@ void side_extract(void)
         {
             // 存储白色点
             R_side[0][0] = MT9V03X_W-1;
-            R_side[0][1] = SIDE_EXTRACT_START_Y-1;
+            R_side[0][1] = side_extract_start_y-1;
 			// ips200_draw_point(R_side[0][0], R_side[0][1]+MT9V03X_H*2, RGB565_RED);
 			R_frame_point_num++;
             break;
@@ -292,7 +293,7 @@ void side_extract(void)
         // 索引是否越界
         if(grow_dir_idx >= 8)
             break;
-        if(L_side[L_side_point_num][1] < SIDE_EXTRACT_END_Y)
+        if(L_side[L_side_point_num][1] < side_extract_end_y)
             break;
     }
     grow_dir_idx = 0;
@@ -343,7 +344,7 @@ void side_extract(void)
         // 索引是否越界
         if(grow_dir_idx >= 8)
             break;
-        if(R_side[R_side_point_num][1] < SIDE_EXTRACT_END_Y)
+        if(R_side[R_side_point_num][1] < side_extract_end_y)
             break;
     }
 }
@@ -358,22 +359,16 @@ void side_point_kind_judge(void)
     double vectorAngle[2] = {0}; // 左右拐点向量夹角(角度制)
 
     // 初始化
-    L_inflection_point_num = 0;
-    R_inflection_point_num = 0;
-    memset(L_inflection_point, 0, sizeof(L_inflection_point));
-    memset(R_inflection_point, 0, sizeof(R_inflection_point));
-	memset(L_inflection_y_dir, 0, sizeof(L_inflection_y_dir));
-    memset(L_inflection_y_dir, 0, sizeof(L_inflection_y_dir));
     L_bend_point_num = 0;
     R_bend_point_num = 0;
     memset(L_bend_point, 0, sizeof(L_bend_point));
     memset(R_bend_point, 0, sizeof(R_bend_point));
 
-    // 寻拐点范围
-    // 左边线拐点
+    // 寻弯点范围
+    // 左边线弯点
     for(i = POINT_DISTANCE;i <= L_side_point_num-1-POINT_DISTANCE;)
     {
-		// 不对边框处的边线进行拐点识别
+		// 不对边框处的边线进行弯点识别
 		if(L_side[i-POINT_DISTANCE][0] != 0 && L_side[i][0] != 0 && L_side[i+POINT_DISTANCE][0] != 0)
 		{
 			// 左边线第一个向量
@@ -395,29 +390,8 @@ void side_point_kind_judge(void)
 				vectorAngle[0] = acos(vectorScalarProduct[0]/(vectorModule[0]*vectorModule[1]))*(180.0/PI);    // 左边线断点向量夹角
 			}
 
-			// 计算拐点并存储坐标，前提：拐点坐标不再边框上
-			if(((abs(vectorAngle[0]) > inflection_point_angle_min[0] && abs(vectorAngle[0]) < inflection_point_angle_max[0]) ||
-				(abs(vectorAngle[0]) > inflection_point_angle_min[1] && abs(vectorAngle[0]) < inflection_point_angle_max[1]) ||
-				(abs(vectorAngle[0]) > inflection_point_angle_min[2] && abs(vectorAngle[0]) < inflection_point_angle_max[2]))
-				&& L_side[i][0] > 11 && (vector[0][0]+vector[1][0]) < 0)
-			{
-				//  cout << abs(AngleVector[0]) << endl;
-				L_inflection_point[L_inflection_point_num][0] = L_side[i][0];
-				L_inflection_point[L_inflection_point_num][1] = L_side[i][1];
-				L_inflection_y_dir[L_inflection_point_num] = ((float)(vector[0][1]+vector[1][1]))/(float)(2*POINT_DISTANCE);
-				angle = vectorAngle[0];
-				if(L_side[i][0] > SIDE_END)
-					break;
-				if(L_inflection_point_num < MT9V03X_H*2-1)	/************************注意***************************/
-					L_inflection_point_num++;
-				else
-					break;
-				if(i < L_side_point_num-2-POINT_DISTANCE-SKIP_POINT_DISTANCE)
-					i = i+SKIP_POINT_DISTANCE;
-				else
-					break;
-			}
-			else if(abs(vectorAngle[0]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[0]) < BEND_POINT_ANGLE_MAX)
+			// 计算弯点并存储坐标，前提：弯点坐标不再边框上
+			if(abs(vectorAngle[0]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[0]) < BEND_POINT_ANGLE_MAX)
 			{
 				//  cout << abs(AngleVector[0]) << endl;
 				L_bend_point[L_bend_point_num][0] = L_side[i][0];
@@ -430,10 +404,10 @@ void side_point_kind_judge(void)
 		}
 		i++;
     }
-    // 右边线拐点
+    // 右边线弯点
     for(i = POINT_DISTANCE;i <= R_side_point_num-1-POINT_DISTANCE;)
     {
-		// 不对边框处的边线进行拐点识别
+		// 不对边框处的边线进行弯点识别
 		if(R_side[i-POINT_DISTANCE][0] != MT9V03X_W-1 && R_side[i][0] != MT9V03X_W-1 && R_side[i+POINT_DISTANCE][0] != MT9V03X_W-1)
 		{
 			// 左边线第一个向量
@@ -455,29 +429,8 @@ void side_point_kind_judge(void)
 				vectorAngle[1] = acos(vectorScalarProduct[1]/(vectorModule[2]*vectorModule[3]))*(180.0/PI);    // 左边线断点向量夹角
 			}
 
-			// 计算拐点并存储坐标，前提：拐点坐标不再边框上
-			if(((abs(vectorAngle[1]) > inflection_point_angle_min[0] && abs(vectorAngle[1]) < inflection_point_angle_max[0]) || 
-				(abs(vectorAngle[1]) > inflection_point_angle_min[1] && abs(vectorAngle[1]) < inflection_point_angle_max[1]) ||
-				(abs(vectorAngle[1]) > inflection_point_angle_min[2] && abs(vectorAngle[1]) < inflection_point_angle_max[2])) 
-				&& R_side[i][0] < MT9V03X_W-11 && (vector[0][2]+vector[1][2]) > 0)
-			{
-				//  cout << abs(AngleVector[0]) << endl;
-				R_inflection_point[R_inflection_point_num][0] = R_side[i][0];
-				R_inflection_point[R_inflection_point_num][1] = R_side[i][1];
-				R_inflection_y_dir[R_inflection_point_num] = ((float)(vector[0][3]+vector[1][3]))/(float)(2*POINT_DISTANCE);
-				
-				if(R_side[i][0] < MT9V03X_W-SIDE_END)
-					break;
-				if(R_inflection_point_num < MT9V03X_H*2-1)	/************************注意***************************/
-					R_inflection_point_num++;
-				else
-					break;
-				if(i < R_side_point_num-2-POINT_DISTANCE-SKIP_POINT_DISTANCE)
-					i = i+SKIP_POINT_DISTANCE;
-				else
-					break;
-			}
-			else if(abs(vectorAngle[1]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[1]) < BEND_POINT_ANGLE_MAX)
+			// 计算弯点并存储坐标，前提：弯点坐标不再边框上
+			if(abs(vectorAngle[1]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[1]) < BEND_POINT_ANGLE_MAX)
 			{
 				//  cout << abs(AngleVector[0]) << endl;
 				R_bend_point[R_bend_point_num][0] = R_side[i][0];
@@ -497,59 +450,106 @@ void circle_path_element_judge(void)
 {
 	static int16 circle_flag = 0;
 	static int16 track_width_previous = 0;
+	int circle_check[2] = {0};	// 圆环
+	// 寻找种子起点
+    // 左边线种子
+    for(int X = mid_x;X >= 0;X--)
+    {
+        if(image_OTSU[circle_check_y-1][X] == 0)    // 黑色
+        {
+            // 存储白色点
+            circle_check[0] = X+1;
+            break;
+        }
+        if(X == 0)
+        {
+            // 存储白色点
+            circle_check[0] = 0;
+            break;
+        }
+    }
+    // 右边线种子
+    for(int X = mid_x;X <= MT9V03X_W-1;X++)
+    {
+        if(image_OTSU[circle_check_y-1][X] == 0)    // 黑色
+        {
+            // 存储白色点
+            circle_check[1] = X-1;
+            break;
+        }
+        if(X == MT9V03X_W-1)
+        {
+            // 存储白色点
+            circle_check[1] = MT9V03X_W-1;
+            break;
+        }
+    }
 	// 左圆环入环
 	// 边线左右起始点距离在圆环阈值内
-	if(L_side[0][0] == 0 && R_bend_point_num <= 3 && ((float)R_frame_point_num/(float)R_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
+	if(circle_check[0] == 0 && R_bend_point_num <= 3 && ((float)R_frame_point_num/(float)R_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
 	{
 		circle_flag++;
-		if(circle_flag == 5)
+		if(circle_flag == 5 && circle_out_time_count >= 1000)
 		{
+			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = L_CIRCLE_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,4,0,-90,0);			// 旋转进环
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_in_linear_speed_target,0,-circle_in_angle,0);			// 旋转进环
 			circle_flag = 0;
 			circle_in_time_count_flag = TRUE;
+			circle_out_time_count_flag = FALSE;
+			gpio_set_level(BUZZER_PIN, 0);
 		}
 			
 	}
-	else if(R_side[0][0] == MT9V03X_W-1 && L_side[0][0] == 0 && path_element_flag == L_CIRCLE_PATH)
+	else if(circle_check[1] == MT9V03X_W-1 && circle_check[0] == 0 && path_element_flag == L_CIRCLE_PATH)
 	{
 		circle_flag++;
-		if(circle_flag == 2 && circle_in_time_count >= 1000)
+		if(circle_flag == 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
 		{
+			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = BEND_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,4,0,-90,0);			// 旋转出环
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_out_linear_speed_target,0,-circle_out_angle,0);			// 旋转出环
 			circle_flag = 0;
 			circle_in_time_count_flag = FALSE;
+			circle_out_time_count_flag = TRUE;
+			gpio_set_level(BUZZER_PIN, 0);
 		}
 	}
 	// 右圆环入环
 	// 边线左右起始点距离在圆环阈值内
-	else if(R_side[0][0] == MT9V03X_W-1 && L_bend_point_num <= 3 && ((float)L_frame_point_num/(float)L_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
+	else if(circle_check[1] == MT9V03X_W-1 && L_bend_point_num <= 3 && ((float)L_frame_point_num/(float)L_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
 	{
 		circle_flag++;
-		if(circle_flag == 5)
+		if(circle_flag == 5 && circle_out_time_count >= 1000)
 		{
+			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = R_CIRCLE_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,4,0,90,0);			// 旋转进环
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_in_linear_speed_target,0,circle_in_angle,0);			// 旋转进环
 			circle_flag = 0;
 			circle_in_time_count_flag = TRUE;
+			circle_out_time_count_flag = FALSE;
+			gpio_set_level(BUZZER_PIN, 0);
 		}
 			
 	}
-	else if(R_side[0][0] == MT9V03X_W-1 && L_side[0][0] == 0 && path_element_flag == R_CIRCLE_PATH)
+	else if(circle_check[1] == MT9V03X_W-1 && circle_check[0] == 0 && path_element_flag == R_CIRCLE_PATH)
 	{
 		circle_flag++;
-		if(circle_flag == 2 && circle_in_time_count >= 1000)
+		if(circle_flag == 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
 		{
+			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = BEND_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,4,0,90,0);			// 旋转出环
+			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_out_linear_speed_target,0,circle_out_angle,0);			// 旋转出环
 			circle_flag = 0;
 			circle_in_time_count_flag = FALSE;
+			circle_out_time_count_flag = TRUE;
+			gpio_set_level(BUZZER_PIN, 0);
 		}
 	}
-	else if(path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH)
+	else if(path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH || circle_in_time_count >= 19000)
 	{
 		path_element_flag = BEND_PATH;
+		circle_flag = 0;
 	}
 }
 
@@ -560,8 +560,8 @@ void path_control(float path_control_speed)
 	if(path_follow_kind_flag == 0)
 		path_err = longest_white_col_x-MT9V03X_W/2;
 	else if(path_follow_kind_flag == 1)
-		path_err = path[control_point-path_start][0] - MT9V03X_W/2;
-	
+		path_err = path[control_point[path_follow_kind_flag]][0] - MT9V03X_W/2;
+		
 	if(abs(path_err) > 7)
 	{
 		chassis_linear_speed = path_control_speed;

@@ -65,6 +65,10 @@ int main(void)
 		if(gyro_calibration_flag && acc_calibration_flag)
 		{
 			menu_service_start();
+//			threshold(mt9v03x_image);
+//			symmetry_rectificate();
+//			ips200_show_float(0, 0, sum_weight_normalization, 2, 3);
+//			ips200_show_int(0, 30, sum_weight, 8); 
 		}
 		
 		// 此处编写需要循环执行的代码

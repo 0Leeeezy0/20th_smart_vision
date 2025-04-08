@@ -57,7 +57,7 @@
 
 
 /* 底盘参数*/
-#define GEAR_RATIO 		(float)(4.4*26/36)				// 齿轮比（ 编码器转速/电机输出侧转速 ）
+#define GEAR_RATIO 		(float)(4.4)				// 齿轮比（ 编码器转速/电机输出侧转速 ）(4.4*26/36)
 #define GYRO_Z_FORWARD 	( 1 )							// 陀螺仪Z轴方向（ 向上：1 向下：-1 ）
 #define ACC_OFFSET 		( 0 )							// 加速度计正方向角度修正
 #define TRANSLATE_SHIFT_REVISE	(float)(0.13333333333333333) 			// 平动位移解算修正
@@ -67,6 +67,9 @@
 
 /* 蜂鸣器 */
 #define BUZZER_PIN 		(B11)
+
+/* 灰度传感器 */
+#define GRAYSCALE_SENSOR_PIN	(ADC1_CH5_B16)
 
 /* 终极按键 */
 #define ULTIMATE_KEY	(C10)	
@@ -152,11 +155,7 @@
 /****************************** 赛道元素提取参数 ******************************/
 
 #define TRACK_WIDTH 					( 10 )	// 赛道在前瞻点高度的宽度
-#define SIDE_EXTRACT_START_Y 			( 70 )	// 边线开始提取高度
-#define SIDE_EXTRACT_END_Y 				( 15 )	// 边线结束提取高度
-#define LOONGEST_WHITE_COL_START_Y 		( 80 )	// 最长白列开始获取高度
 #define POINT_DISTANCE 					( 10 )	// 拐点/弯点距离
-#define SKIP_POINT_DISTANCE 			( 25 )	// 跳过点的距离（识别到拐点后跳过多少距离）	
 #define BEND_POINT_ANGLE_MIN 			(double)( 0 )	// 弯点最小角度阈值
 #define BEND_POINT_ANGLE_MAX 			(double)( 170 )	// 弯点最大角度阈值
 #define SIDE_END 						( 130 ) // 边线提取截止横偏差
@@ -200,6 +199,7 @@
 #include "DOG_ai.h"
 #include "DOG_fsm.h"
 #include "DOG_pid.h"
+#include "DOG_element.h"
 
 /* PID选择 */
 #if MOTOR_PID_CHOOSE == 0

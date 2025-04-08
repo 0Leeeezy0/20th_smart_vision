@@ -32,6 +32,9 @@ float roll;		// 滚转角
 float pitch;	// 俯仰角	
 float yaw;		// 偏航角	正方向：逆时针
 
+/* 灰度传感器（V） */
+uint16 grayscale = 0;
+
 /* 位移解算（° m） */
 float shift_yaw;
 float shift_distance;
@@ -63,7 +66,8 @@ uint8 translate_shift_flag = FALSE;				// 平动位移解算标志位
 _CHASSIS_MOTION_ chassis_motion_flag = CHASSIS_MOVE;	// 底盘运动方式标志位
 uint8 chassis_rotate_finsh_flag = FALSE;				// 底盘旋转结束标志位
 uint8 chassis_move_time_count_flag = FALSE;				// 底盘移动计时标志位
-uint8 circle_in_time_count_flag = FALSE;				// 圆环入环计时标志位
+uint8 circle_in_time_count_flag = FALSE;				// 圆环入环计时标志位（入环后开始计时，防止入环失败后错误出环）
+uint8 circle_out_time_count_flag = TRUE;				// 圆环出环计时标志位（出环后开始计时，防止出环后姿态不好导致错误入环）
 _CONTROL_MODE_ control_mode_flag = PATH_CONTROL_MODE;	// 摄像头类型标志位
 _CONTROL_MODE_ track_finsh_next_mode_flag = BLOCK_RETRACK_MODE;	// 追踪结束模式切换标志位
 _PATH_ELEMENT_ path_element_flag = STRIGHT_PATH;			// 赛道元素标志位
@@ -84,41 +88,47 @@ _AI_TRACK_PID_ ai_track_pid;		// AI追踪
 
 /* 循线 */
 int16 mid_x = MT9V03X_W/2;	// 循线开始中点
-float path_linear_speed_target = 6;	// 循迹线速度
-int16 path_start = 10;			// 路径线提取开始高度
-int16 path_end = 70;			// 路径线提取结束高度
+float path_linear_speed_target = 5;	// 循迹线速度
+int16 path_start = 85;			// 路径线提取开始高度
+int16 path_end = 30;			// 路径线提取结束高度
+int16 control_point[2] = {50 ,35};		// 控制点高度（速度：3：30，30 速度：5：50，35 速度：8：55，40）
+int16 prediction_point = 30;	// 预测点高度：其横坐标将作为下一帧的搜线起点
+int16 longest_white_col_x = 0;	// 最长白列X坐标
 int16 L_side[MT9V03X_H*3][2] = {0};	// 左边线坐标
 int16 R_side[MT9V03X_H*3][2] = {0};	// 右边线坐标
 int16 L_side_point_num = 0;		// 左边线点数量
 int16 R_side_point_num = 0;		// 右边线点数量
 int16 L_frame_point_num = 0;	// 左边框点数量
 int16 R_frame_point_num = 0;	// 右边框点数量
-int16 L_inflection_point[MT9V03X_H*2][2] = {0};	// 左边线拐点坐标
-int16 R_inflection_point[MT9V03X_H*2][2] = {0};	// 右边线拐点坐标
-float L_inflection_y_dir[MT9V03X_H*2] = {0};		// 左边线拐点和向量纵坐标方向（方向越向上，数值越接近：-1 方向越向下，数值越接近：1）
-float R_inflection_y_dir[MT9V03X_H*2] = {0};		// 右边线拐点和向量纵坐标方向（方向越向上，数值越接近：-1 方向越向下，数值越接近：1）
-int16 circle_inflection_point[2] = {0};			// 圆环拐点坐标（图像中从下至上出现的第一个拐点）
-int16 L_inflection_point_num = 0;		// 左边线拐点数量
-int16 R_inflection_point_num = 0;		// 右边线拐点数量
 int16 L_bend_point[MT9V03X_H*2][2] = {0};	// 左边线弯点坐标
 int16 R_bend_point[MT9V03X_H*2][2] = {0};	// 右边线弯点坐标
 int16 L_bend_point_num = 0;		// 左边线弯点数量
 int16 R_bend_point_num = 0;		// 右边线弯点数量
-int16 control_point = 50;		// 控制点高度（速度：3：30 速度：6：55 速度：8：55）
-int16 prediction_point = 30;	// 预测点高度：其横坐标将作为下一帧的搜线起点
-int16 longest_white_col_x = 0;	// 最长白列X坐标
 uint32 circle_in_time_count = 0;  // 入环计时（计时达到后才可以判断出环）
+uint32 circle_out_time_count = 100000;  // 出环计时（计时达到后才可以再次判断入环）
 
-/* 元素提取参数 */
-double inflection_point_angle_min[3] = {30,90,115};		// 拐点最小角度阈值
-double inflection_point_angle_max[3] = {55,110,147};	// 拐点最大角度阈值
+/* 赛道元素参数 */
+int16 circle_check_y = 75;					// 圆环检测线高度
+int16 circle_in_linear_speed_target = 5;	// 入环目标速度
+int16 circle_in_angle = 80;	// 入环转动角度
+int16 circle_out_linear_speed_target = 5;	// 出环目标速度
+int16 circle_out_angle = 70;	// 出环转动角度
+int16 side_extract_start_y = 80;	// 边线开始提取高度
+int16 side_extract_end_y = 20;		// 边线结束提取高度
 
 /* AI追踪 */
 float track_linear_speed_target = 2.5;	// 追踪线速度
 float track_linear_speed_revise = 0.5;	// 追踪修正线速度
-int16 detection_box_width_limit = 40;	// 摄像头识别框宽度阈值
-int16 detection_box_width_std = 100;	// 摄像头识别框宽度标准阈值
+int16 detection_box_width_limit = 25;	// 摄像头识别框宽度阈值
+int16 detection_box_width_std = 90;	// 摄像头识别框宽度标准阈值
 int16 detection_box_center_limit = 80;	// 摄像头识别框中心误差阈值
+int16 rectificate_weight[4] = {5 ,20 ,40 ,60};	// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
+uint32 sum_weight = 0;	// 加权和
+int16 symmetry_rectificate_start_y = 85;	// 对称法矫正图像遍历起始点高度
+int16 symmetry_rectificate_end_y = 55;		// 对称法矫正图像遍历结束点高度
+float sum_weight_normalization = 0;	// 加权和归一化	
+float sum_weight_normalization_limit = 0.90;	// 加权和归一化阈值
+
 /* AI识别 */
 _AI_CAMERA_1_DETECTION_RESULT_	ai_camera_1_detection_result;
 
@@ -147,7 +157,7 @@ float PID_MOTOR_3[5] = {250 ,0.1 ,400 ,9000 ,500};
 float ROTATE_PID[8][5] = {{0 ,0 ,0.005 ,1 ,0.1},{0 ,0 ,0.005 ,1 ,0.1},{0  ,0 ,0.005 ,1.6 ,0.1},{0 ,0 ,0.005 ,1.6 ,0.1},{0 ,0 ,0.005 ,1.8 ,0.1},{0 ,0 ,0.005 ,1.8 ,0.1},{0 ,0 ,0.005 ,2.2 ,0.1},{0 ,0 ,0.005 ,2.2 ,0.1}};
 #elif ROTATE_PID_CHOOSE == 1
 // 位置式 ( 小角度 中角度 大角度 )
-float ROTATE_PID[8][5] = {{0.005 ,0 ,0.008 ,1 ,0.1},{0.01 ,0 ,0.008 ,1 ,0.1},{0.015  ,0 ,0.008 ,1.6 ,0.1},{0.025 ,0 ,0.008 ,1.6 ,0.1},{0.035 ,0 ,0.008 ,1.8 ,0.1},{0.045 ,0 ,0.008 ,1.8 ,0.1},{0.055 ,0 ,0.008 ,2.2 ,0.1},{0.065 ,0 ,0.008 ,2.2 ,0.1}};
+float ROTATE_PID[8][5] = {{0.007 ,0 ,0.008 ,1 ,0.1},{0.012 ,0 ,0.008 ,1.3 ,0.1},{0.017  ,0 ,0.008 ,1.6 ,0.1},{0.027 ,0 ,0.008 ,1.8 ,0.1},{0.036 ,0 ,0.008 ,2.2 ,0.1},{0.047 ,0 ,0.008 ,2.4 ,0.1},{0.056 ,0 ,0.008 ,2.7 ,0.1},{0.067 ,0 ,0.008 ,3.0 ,0.1}};
 #endif
 
 /* 
@@ -156,18 +166,19 @@ float ROTATE_PID[8][5] = {{0.005 ,0 ,0.008 ,1 ,0.1},{0.01 ,0 ,0.008 ,1 ,0.1},{0.
 */
 #if PATH_PID_CHOOSE == 0
 // 增量式 ( 小误差 中误差 大误差 超大误差 )
-//float PATH_PID[6] = {0.040 ,0.0026 ,0.005 ,0.005 ,0.8 ,1};	// linear_speed = 3
-//float PATH_PID[6] = {0.041 ,0.0038 ,0.00949 ,0.0055 ,1 ,1};	// linear_speed = 6
-float PATH_PID[4][6] = {{0.000 ,0.00565 ,0 ,0.004 ,8 ,1},{0.036 ,0.039 ,0.1 ,0.0055 ,1.1 ,1},{0.041 ,0.040 ,0.1 ,0.0055 ,1.2 ,1},{0.043 ,0.0043 ,0.1 ,0.0055 ,1.2 ,1}};	// linear_speed = 6
+// float PATH_PID[6] = {0.040 ,0.0026 ,0.005 ,0.005 ,0.8 ,1};	// linear_speed = 3
+// float PATH_PID[6] = {0.041 ,0.0038 ,0.00949 ,0.0055 ,1 ,1};	// linear_speed = 6
+float PATH_PID[4][6] = {{0.000 ,0.00565 ,0 ,0.004 ,8 ,1},{0.036 ,0.039 ,0.1 ,0.0055 ,1.1 ,1},{0.041 ,0.040 ,0.1 ,0.0055 ,1.2 ,1},{0.043 ,0.0043 ,0.1 ,0.0055 ,1.2 ,1}};	// linear_speed = 6t
 #elif PATH_PID_CHOOSE == 1
 // 位置式
 float PATH_PID[4][6] = {{1.3 ,0.05 ,0.008 ,0.05 ,25 ,5},{0.027 ,0 ,0.0035 ,0.0025 ,1 ,0.1},{0.030 ,0 ,0.004 ,0.0030 ,1 ,0.1},{0.032 ,0 ,0.005 ,0.0035 ,1 ,0.1}}; // linear_speed = 6	积分限幅和陀螺仪微分项调整需注意
+//float PATH_PID[4][6] = {{1.2 ,0.05 ,0.008 ,0.05 ,25 ,5},{0.027 ,0 ,0.0035 ,0.0025 ,1 ,0.1},{0.032 ,0 ,0.008 ,0.0030 ,1.1 ,0.1},{0.033 ,0 ,0.009 ,0.0035 ,1.2 ,0.1}}; // linear_speed = 7	积分限幅和陀螺仪微分项调整需注意
 
 #endif
 
 /******************************************************************/
 	
-float angle = 0;
+uint8 ai_camera_1_data_raw = 0;
 
 
 

@@ -55,6 +55,9 @@ void motor_sensor_init(void)
 	// 蜂鸣器引脚初始化
 	gpio_init(BUZZER_PIN,GPO,0,GPO_PUSH_PULL);
 	
+	// 灰度传感器引脚初始化
+	adc_init(GRAYSCALE_SENSOR_PIN,ADC_12BIT);
+	
 	// 控制中断初始化
 	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
 	
@@ -334,6 +337,12 @@ void euler_angle(void)
 	}
 }
 
+/* 灰度传感器获取 */
+void grayscale_sensor_get(void)
+{
+	grayscale = adc_mean_filter_convert(GRAYSCALE_SENSOR_PIN, 5); 
+}
+
 /* 平动位移解算 */
 void translate_shift(void)
 {
@@ -522,8 +531,8 @@ void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,
 	motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
 }
 
-/* 转动角度 */
-void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float linear_speed,float rotate_angle)
+/* 原地转动角度 */
+void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float rotate_angle)
 {
 	euler_angle_flag = TRUE;
 	// 运动学逆解算
@@ -531,35 +540,35 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 	{
 		if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 5)
 		{
-			chassis_control = inverse_kinematics(0,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[0]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[0]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 5 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 15)
 		{
-			chassis_control = inverse_kinematics(0,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[1]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[1]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 15 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 25)
 		{
-			chassis_control = inverse_kinematics(0,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[2]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[2]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 25 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 35)
 		{
-			chassis_control = inverse_kinematics(0,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[3]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[3]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 35 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 45)
 		{
-			chassis_control = inverse_kinematics(0,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[4]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[4]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 45 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 55)
 		{
-			chassis_control = inverse_kinematics(0,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[5]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[5]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 55 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 65)
 		{
-			chassis_control = inverse_kinematics(0,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[6]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[6]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		else
 		{
-			chassis_control = inverse_kinematics(0,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[7]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[7]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		}
 		// 电机闭环PID解算
 		chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
@@ -583,6 +592,9 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 		motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
 		motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
 		motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
+//		motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
+//		motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
+//		motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir);
 		chassis_rotate_finsh_flag = TRUE;
 	}
 }
@@ -617,17 +629,48 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 	else
 	{
 		chassis_move_time_count_flag = TRUE;
+		
+		uint8 is_in_track = FALSE;	// 在赛道内
+		int16 num = 0;		// 在赛道内的计数
 		// 若方块推出赛道，则退出循环
 		while(1)
 		{
-			if(ai_camera_1_detection_result.is_move_out == TRUE && _delay_ms_ == 0)
+			// 平移直到推箱子出界
+			if(_delay_ms_ == 0 && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
 			{
-				break;
-			}				
-			if(chassis_move_time_count > _delay_ms_ && _delay_ms_ != 0)
+				if(grayscale >= 100 && num < 22)
+					num++;
+				if(num > 20)
+					is_in_track = TRUE;
+				if(is_in_track == TRUE && grayscale < 50)
+				{
+					break;
+				}
+			}		
+			// 绕圆心转动直到箱子矫正完成
+			if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ == 0)
 			{
-				break;
+				threshold(mt9v03x_image);
+				symmetry_rectificate();
+				if(sum_weight_normalization >= sum_weight_normalization_limit)
+				{
+					break;
+				}
 			}	
+			// 绕圆心转动直到达到目标角度
+			if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ != 0)
+			{
+				euler_angle_flag = TRUE;
+				if(chassis_rotate_finsh_flag == TRUE)
+				{
+					break;
+				}
+			}				
+			// 平移直到达到设定时间
+			if(_delay_ms_ != 0 && chassis_move_time_count > _delay_ms_ && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
+			{
+				break;
+			}		
 		}
 		chassis_move_time_count_flag = FALSE;
 	}
