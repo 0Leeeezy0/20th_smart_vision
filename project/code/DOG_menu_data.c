@@ -56,7 +56,7 @@ void menu_data_leeeezy_init(void)
 	MENU_SHIFT.shift_yaw.name = "YAW";
 	MENU_SHIFT.shift_distance.name = "DISTANCE";
 
-	MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name = "STATE";
+	MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name = "CAMERA_0_EN";
 	MENU_AI_CAMERA_0.track_linear_speed_target.name = "TARTGET";
 	MENU_AI_CAMERA_0.track_linear_speed_revise.name = "REVISE";
 	MENU_AI_CAMERA_0.detection_box_width_limit.name = "W_LIMIT";
@@ -81,6 +81,7 @@ void menu_data_leeeezy_init(void)
 	MENU_PATH.control_point_1.name = "PATH_CONTROL_1";
 	MENU_PATH.prediction_point.name = "PATH_PREDICT";
 	
+	MENU_CIRCLE_PATH.circle_path_enable_flag.name = "CIRCLE_EN";
 	MENU_CIRCLE_PATH.circle_check_y.name = "CIRCLE_CHECK_Y";
 	MENU_CIRCLE_PATH.circle_in_linear_speed_target.name = "CIRCLE_IN_SPEED";
 	MENU_CIRCLE_PATH.circle_in_angle.name = "CIRCLE_IN_ANGLE";
@@ -88,7 +89,6 @@ void menu_data_leeeezy_init(void)
 	MENU_CIRCLE_PATH.circle_out_angle.name = "CIRCLE_OUT_ANGLE";
 	MENU_CIRCLE_PATH.side_extract_start.name = "SIDE_START";
 	MENU_CIRCLE_PATH.side_extract_end.name = "SIDE_END";
-	MENU_CIRCLE_PATH.circle_path_enable_flag.name = "CIRCLE_EN";
 	
 	MENU_MOTOR_1_PID.p.name = "1_P";
 	MENU_MOTOR_1_PID.i.name = "1_I";

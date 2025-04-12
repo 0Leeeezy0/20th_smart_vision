@@ -141,14 +141,19 @@ extern uint8 translate_shift_flag;				// 平动位移解算标志位
 extern _CHASSIS_MOTION_ chassis_motion_flag;	// 底盘运动方式标志位
 extern uint8 chassis_rotate_finsh_flag;			// 底盘旋转结束标志位
 extern uint8 chassis_move_time_count_flag;				// 底盘移动计时标志位
+extern uint8 zebra_crossing_path_element_judge_start_time_count_flag;	// 斑马线元素开启判断计时标志位
+extern uint8 zebra_crossing_path_element_stop_delay_time_count_flag;	// 斑马线元素停车延时计时标志位
 extern uint8 circle_in_time_count_flag;				// 圆环入环计时标志位（入环后开始计时，防止入环失败后错误出环）
 extern uint8 circle_out_time_count_flag;			// 圆环出环计时标志位（出环后开始计时，防止出环后姿态不好导致错误入环）
+extern uint8 circle_in_flag;								// 进环标志位
+extern uint8 circle_out_flag;								// 出环标志位
 extern _CONTROL_MODE_ control_mode_flag;	// 控制模式标志位
 extern _CONTROL_MODE_ track_finsh_next_mode_flag;	// 追踪结束模式切换标志位
 extern _PATH_ELEMENT_ path_element_flag;		// 赛道元素标志位
 extern uint8 path_follow_kind_flag;				// 路径循线方式标志位（0：最长白列 1：中线拟合）
 /* 使能 */
 extern uint8 circle_path_enable_flag;	// 圆环赛道使能标志位
+extern uint8 zebra_path_element_start_judge_enable_flag;	// 斑马线判断使能标志位
 extern uint8 ai_camera_0_enable_flag;	// AI摄像头0 使能标志位
 extern uint8 ai_camera_1_enable_flag;	// AI摄像头1 使能标志位
 
@@ -187,6 +192,9 @@ extern float yaw;	// 偏航角
 /* 灰度传感器（V） */
 extern uint16 grayscale;
 
+/* 电池电压（V） */
+extern float bat_voltage;
+
 /* 位移解算 */
 extern float shift_yaw;
 extern float shift_linear_speed;
@@ -209,6 +217,12 @@ extern int16 track_x_center;	// 追踪中心X坐标
 extern int16 detection_box_width;	// 识别框宽度
 extern int16 track_err;	// 追踪误差
 extern int16 track_x;
+
+/* AI识别 */
+extern uint8 ai_camera_1_data_raw;	// 原始识别结果
+extern _AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result;
+extern _AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result_list[100];	// 识别结果列表
+extern int16 ai_camera_1_detection_result_list_num;	// 识别结果列表内容数量
 
 /**********************************************************************/
 
@@ -260,6 +274,8 @@ extern int16 L_bend_point_num;		// 左边线弯点数量
 extern int16 R_bend_point_num;		// 右边线弯点数量
 extern uint32 circle_in_time_count;  // 入环计时（计时达到后才可以判断出环）
 extern uint32 circle_out_time_count;  // 出环计时（计时达到后才可以再次判断入环）
+extern uint32 zebra_crossing_path_element_start_judge_time_count;	// 斑马线元素开启判断计时（计时达到后才可以开始判断斑马线）
+extern uint32 zebra_crossing_path_element_stop_delay_time_count;	// 斑马线元素停车延时计时（计时达到后才可以停车）
 
 /* 赛道元素参数 */
 extern int16 circle_check_y;		// 圆环检测线高度
@@ -282,12 +298,16 @@ extern int16 symmetry_rectificate_end_y;		// 对称法矫正图像遍历结束点高度
 extern uint32 sum_weight;	// 加权和
 extern float sum_weight_normalization;	// 加权和归一化
 extern float sum_weight_normalization_limit;	// 加权和归一化阈值
-
-/* AI识别结果 */
-extern _AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result;
+extern float frame_white_num__normalization[2];	// 对称法矫正图像边框白点数量归一化
+extern float frame_white_num__normalization_limit;	// 对称法矫正图像边框白点数量归一化阈值
+extern int16 frame_offset;	// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的圆环无法使用对称法进行矫正） 
 
 /******************************************************************/
 
-extern uint8 ai_camera_1_data_raw;
+/* 标志位初始化 */	
+void flag_init(void);
+
+/* 变量初始化 */	
+void variable_init(void);
 
 #endif

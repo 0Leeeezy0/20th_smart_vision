@@ -83,6 +83,11 @@ extern _MENU_SHIFT_ MENU_SHIFT;
 
 //-----------------------------------参数-----------------------------------//
 
+/* 对称法矫正 参数 */
+//typedef struct
+//{
+//}_MENU_SYMMETRY_RECTIFICATE_;
+
 /* AI摄像头0 参数 */
 typedef struct
 {
@@ -127,6 +132,7 @@ typedef struct
 /* 菜单圆环循线参数 */
 typedef struct
 {
+	_MENU_DATA_NAME_TYPE_ circle_path_enable_flag;
 	_MENU_DATA_NAME_TYPE_ circle_check_y;
 	_MENU_DATA_NAME_TYPE_ circle_in_linear_speed_target;
 	_MENU_DATA_NAME_TYPE_ circle_in_angle;
@@ -134,7 +140,6 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ circle_out_angle;
 	_MENU_DATA_NAME_TYPE_ side_extract_start;
 	_MENU_DATA_NAME_TYPE_ side_extract_end;
-	_MENU_DATA_NAME_TYPE_ circle_path_enable_flag;
 }_MENU_CIRCLE_PATH_;
 
 /* 菜单PID参数 */

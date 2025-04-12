@@ -31,6 +31,9 @@ void symmetry_rectificate(void)
 {
 	// 对称法矫正权重和
 	uint32 sum_weight_rectificate = 0;
+	// 左右图像边框白色点数量
+	int16 L_white_num = 0;
+	int16 R_white_num = 0;
 	
 	for(int X = MT9V03X_W/2;X >= 0;X--)
 	{
@@ -49,7 +52,16 @@ void symmetry_rectificate(void)
 			}
 		}
 	}
+	for(int Y = symmetry_rectificate_end_y;Y < symmetry_rectificate_start_y;Y++)
+	{
+		if(image_OTSU[Y][frame_offset] == 255)
+			L_white_num++;
+		if(image_OTSU[Y][MT9V03X_W-1-frame_offset] == 255)
+			R_white_num++;
+	}
 	sum_weight_normalization = (float)sum_weight_rectificate/(float)sum_weight;
+	frame_white_num__normalization[0] = (float)L_white_num/(float)(symmetry_rectificate_start_y-symmetry_rectificate_end_y+1);
+	frame_white_num__normalization[1] = (float)R_white_num/(float)(symmetry_rectificate_start_y-symmetry_rectificate_end_y+1);
 }
 
 /* 艹箱子 */
@@ -79,7 +91,14 @@ void fxxk_box(uint8 steps)
 					// 推
 					chassis_total_control(CHASSIS_MOVE,0,2,0,0,0);
 					// 回
-					chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,-120,0);
+					chassis_total_control(CHASSIS_MOVE,0,-2,0,0,700);
+					chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,-90,0);
+					
+					ai_camera_1_detection_result_list[ai_camera_1_detection_result_list_num].result_kind = ai_camera_1_detection_result_swap.result_kind;
+					ai_camera_1_detection_result_list[ai_camera_1_detection_result_list_num].lable = ai_camera_1_detection_result_swap.lable;
+					ai_camera_1_detection_result_list[ai_camera_1_detection_result_list_num].num = ai_camera_1_detection_result_swap.num;
+					
+					ai_camera_1_detection_result_list_num++;
 					break;
 				}
 			}
@@ -101,7 +120,14 @@ void fxxk_box(uint8 steps)
 					// 推
 					chassis_total_control(CHASSIS_MOVE,0,2,0,0,0);
 					// 回
-					chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,120,0);
+					chassis_total_control(CHASSIS_MOVE,0,-2,0,0,700);
+					chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,90,0);
+					
+					ai_camera_1_detection_result_list[ai_camera_1_detection_result_list_num].result_kind = ai_camera_1_detection_result_swap.result_kind;
+					ai_camera_1_detection_result_list[ai_camera_1_detection_result_list_num].lable = ai_camera_1_detection_result_swap.lable;
+					ai_camera_1_detection_result_list[ai_camera_1_detection_result_list_num].num = ai_camera_1_detection_result_swap.num;
+					
+					ai_camera_1_detection_result_list_num++;
 					break;
 				}
 			}

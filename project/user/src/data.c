@@ -35,6 +35,9 @@ float yaw;		// 偏航角	正方向：逆时针
 /* 灰度传感器（V） */
 uint16 grayscale = 0;
 
+/* 电池电压（V） */
+float bat_voltage = 0;
+
 /* 位移解算（° m） */
 float shift_yaw;
 float shift_distance;
@@ -57,6 +60,12 @@ int16 track_x;
 int16 detection_box_width;	// 识别框宽度
 int16 track_err = 0;	// 追踪误差
 
+/* AI识别 */
+uint8 ai_camera_1_data_raw = 0;	// 原始识别结果
+_AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result;	// 识别结果
+_AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result_list[100];	// 识别结果列表
+int16 ai_camera_1_detection_result_list_num = 0;	// 识别结果列表内容数量
+
 /* 标志位 */
 /* 程序内部 */
 uint8 gyro_calibration_flag = FALSE;	// 陀螺仪校准
@@ -66,14 +75,19 @@ uint8 translate_shift_flag = FALSE;				// 平动位移解算标志位
 _CHASSIS_MOTION_ chassis_motion_flag = CHASSIS_MOVE;	// 底盘运动方式标志位
 uint8 chassis_rotate_finsh_flag = FALSE;				// 底盘旋转结束标志位
 uint8 chassis_move_time_count_flag = FALSE;				// 底盘移动计时标志位
+uint8 zebra_crossing_path_element_judge_start_time_count_flag = FALSE;	// 斑马线元素开启判断计时标志位
+uint8 zebra_crossing_path_element_stop_delay_time_count_flag = FALSE;	// 斑马线元素停车延时计时标志位
 uint8 circle_in_time_count_flag = FALSE;				// 圆环入环计时标志位（入环后开始计时，防止入环失败后错误出环）
 uint8 circle_out_time_count_flag = TRUE;				// 圆环出环计时标志位（出环后开始计时，防止出环后姿态不好导致错误入环）
+uint8 circle_in_flag = 0;								// 进环标志位
+uint8 circle_out_flag = 0;								// 出环标志位
 _CONTROL_MODE_ control_mode_flag = PATH_CONTROL_MODE;	// 摄像头类型标志位
 _CONTROL_MODE_ track_finsh_next_mode_flag = BLOCK_RETRACK_MODE;	// 追踪结束模式切换标志位
 _PATH_ELEMENT_ path_element_flag = STRIGHT_PATH;			// 赛道元素标志位
 uint8 path_follow_kind_flag = 0;			// 路径循线方式标志位（0：最长白列 1：中线拟合）
 /* 使能 */
 uint8 circle_path_enable_flag = TRUE;	// 圆环赛道使能标志位
+uint8 zebra_path_element_start_judge_enable_flag = TRUE;	// 斑马线判断使能标志位
 uint8 ai_camera_0_enable_flag = TRUE;	// AI摄像头0 使能标志位
 uint8 ai_camera_1_enable_flag = TRUE;	// AI摄像头1 使能标志位
 
@@ -106,6 +120,8 @@ int16 L_bend_point_num = 0;		// 左边线弯点数量
 int16 R_bend_point_num = 0;		// 右边线弯点数量
 uint32 circle_in_time_count = 0;  // 入环计时（计时达到后才可以判断出环）
 uint32 circle_out_time_count = 100000;  // 出环计时（计时达到后才可以再次判断入环）
+uint32 zebra_crossing_path_element_start_judge_time_count = 0;	// 斑马线元素开启判断计时（计时达到后才可以开始判断斑马线）
+uint32 zebra_crossing_path_element_stop_delay_time_count = 0;	// 斑马线元素停车延时计时（计时达到后才可以停车）
 
 /* 赛道元素参数 */
 int16 circle_check_y = 75;					// 圆环检测线高度
@@ -120,17 +136,17 @@ int16 side_extract_end_y = 20;		// 边线结束提取高度
 float track_linear_speed_target = 2.5;	// 追踪线速度
 float track_linear_speed_revise = 0.5;	// 追踪修正线速度
 int16 detection_box_width_limit = 25;	// 摄像头识别框宽度阈值
-int16 detection_box_width_std = 90;	// 摄像头识别框宽度标准阈值
+int16 detection_box_width_std = 70;	// 摄像头识别框宽度标准阈值
 int16 detection_box_center_limit = 80;	// 摄像头识别框中心误差阈值
-int16 rectificate_weight[4] = {5 ,20 ,40 ,60};	// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
+int16 rectificate_weight[4] = {1 ,5 ,55 ,85};	// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
 uint32 sum_weight = 0;	// 加权和
-int16 symmetry_rectificate_start_y = 85;	// 对称法矫正图像遍历起始点高度
-int16 symmetry_rectificate_end_y = 55;		// 对称法矫正图像遍历结束点高度
+int16 symmetry_rectificate_start_y = 99;	// 对称法矫正图像遍历起始点高度
+int16 symmetry_rectificate_end_y = 40;		// 对称法矫正图像遍历结束点高度
 float sum_weight_normalization = 0;	// 加权和归一化	
-float sum_weight_normalization_limit = 0.90;	// 加权和归一化阈值
-
-/* AI识别 */
-_AI_CAMERA_1_DETECTION_RESULT_	ai_camera_1_detection_result;
+float sum_weight_normalization_limit = 0.85;	// 加权和归一化阈值
+float frame_white_num__normalization[2] = {0};	// 对称法矫正图像左右边框白点数量归一化
+float frame_white_num__normalization_limit = 0.25;	// 对称法矫正图像左右边框白点数量归一化阈值
+int16 frame_offset = 15;	// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的圆环无法使用对称法进行矫正） 
 
 /* 
 	单电机PID参数 
@@ -157,7 +173,7 @@ float PID_MOTOR_3[5] = {250 ,0.1 ,400 ,9000 ,500};
 float ROTATE_PID[8][5] = {{0 ,0 ,0.005 ,1 ,0.1},{0 ,0 ,0.005 ,1 ,0.1},{0  ,0 ,0.005 ,1.6 ,0.1},{0 ,0 ,0.005 ,1.6 ,0.1},{0 ,0 ,0.005 ,1.8 ,0.1},{0 ,0 ,0.005 ,1.8 ,0.1},{0 ,0 ,0.005 ,2.2 ,0.1},{0 ,0 ,0.005 ,2.2 ,0.1}};
 #elif ROTATE_PID_CHOOSE == 1
 // 位置式 ( 小角度 中角度 大角度 )
-float ROTATE_PID[8][5] = {{0.007 ,0 ,0.008 ,1 ,0.1},{0.012 ,0 ,0.008 ,1.3 ,0.1},{0.017  ,0 ,0.008 ,1.6 ,0.1},{0.027 ,0 ,0.008 ,1.8 ,0.1},{0.036 ,0 ,0.008 ,2.2 ,0.1},{0.047 ,0 ,0.008 ,2.4 ,0.1},{0.056 ,0 ,0.008 ,2.7 ,0.1},{0.067 ,0 ,0.008 ,3.0 ,0.1}};
+float ROTATE_PID[8][5] = {{0.007 ,0 ,0.008 ,1 ,0.1},{0.012 ,0 ,0.008 ,1.3 ,0.1},{0.017  ,0 ,0.008 ,2.0 ,0.1},{0.027 ,0 ,0.008 ,2.2 ,0.1},{0.036 ,0 ,0.008 ,2.7 ,0.1},{0.047 ,0 ,0.008 ,3.0 ,0.1},{0.056 ,0 ,0.008 ,3.5 ,0.1},{0.067 ,0 ,0.008 ,4.5 ,0.1}};
 #endif
 
 /* 
@@ -177,8 +193,46 @@ float PATH_PID[4][6] = {{1.3 ,0.05 ,0.008 ,0.05 ,25 ,5},{0.027 ,0 ,0.0035 ,0.002
 #endif
 
 /******************************************************************/
+
+/* 标志位初始化 */	
+void flag_init(void)
+{
+	chassis_motion_flag = CHASSIS_MOVE;		// 底盘运动模式标志位
+	chassis_rotate_finsh_flag = FALSE;	// 底盘旋转完成标志位
+	chassis_move_time_count_flag = FALSE;	// 底盘移动时间标志位
+	zebra_crossing_path_element_judge_start_time_count_flag = FALSE;	// 斑马线元素开始判断计时标志位
+	zebra_crossing_path_element_stop_delay_time_count_flag = FALSE;	// 斑马线元素停车延时计时标志位
+	circle_in_time_count_flag = FALSE;		// 圆环进环后计时标志位
+	circle_out_time_count_flag = TRUE;		// 圆环出环后计时标志位
+	circle_in_flag = 0;
+	circle_out_flag = 0;
+	control_mode_flag = PATH_CONTROL_MODE;	// 控制模式标志位
+	track_finsh_next_mode_flag = BLOCK_RETRACK_MODE;	// 下一次追踪模式标志位
+	path_element_flag = STRIGHT_PATH;	// 赛道类型标志位
+	path_follow_kind_flag = 0;	// 赛道循线模式标志位
+}
 	
-uint8 ai_camera_1_data_raw = 0;
+/* 变量初始化 */	
+void variable_init(void)
+{
+	mid_x = MT9V03X_W/2;	// 循线开始中点
+	longest_white_col_x = 0;	// 最长白列X坐标
+	memset(L_side, 0, sizeof(L_side));	// 左边线坐标
+	memset(R_side, 0, sizeof(R_side));	// 右边线坐标
+	L_side_point_num = 0;		// 左边线点数量
+	R_side_point_num = 0;		// 右边线点数量
+	L_frame_point_num = 0;	// 左边框点数量
+	R_frame_point_num = 0;	// 右边框点数量
+	memset(L_bend_point, 0, sizeof(L_bend_point));	// 左边线弯点坐标
+	memset(R_bend_point, 0, sizeof(R_bend_point));	// 右边线弯点坐标
+	L_bend_point_num = 0;		// 左边线弯点数量
+	R_bend_point_num = 0;		// 右边线弯点数量
+	circle_in_time_count = 0;  // 入环计时（计时达到后才可以判断出环）
+	circle_out_time_count = 100000;  // 出环计时（计时达到后才可以再次判断入环）
+	zebra_crossing_path_element_start_judge_time_count = 0;	// 斑马线元素开启判断计时（计时达到后才可以开始判断斑马线）
+	zebra_crossing_path_element_stop_delay_time_count = 0;	// 斑马线元素停车延时计时（计时达到后才可以停车）
+}
+	
 
 
 

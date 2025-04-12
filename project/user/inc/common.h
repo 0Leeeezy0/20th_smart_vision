@@ -71,8 +71,9 @@
 /* 灰度传感器 */
 #define GRAYSCALE_SENSOR_PIN	(ADC1_CH5_B16)
 
-/* 终极按键 */
-#define ULTIMATE_KEY	(C10)	
+/* 电压监测 */
+#define BAT_VOLTAGE_PIN				(ADC1_CH4_B15)		// 电池电压监测引脚
+#define BAT_VOLTAGE_CALIBRATION		(37.5)					// 电池电压标定参数
 
 /*********************************************************************/
 
@@ -133,7 +134,7 @@
 #define COS60 			(float)(0.5)
 #define DEG2RAD(x) 		(float)(PI*x/180)
 #define RAD2DEG(x) 		(float)(180*x/PI)
-#define ROUND(x,y) 		((x-(x%y))/y)
+#define ROUND(x,y) 		((x-(x%y))/y)	// 整除
 	
 /*********************************************************************/
 

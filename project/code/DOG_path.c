@@ -448,7 +448,6 @@ void side_point_kind_judge(void)
 /* 圆环判断 */
 void circle_path_element_judge(void)
 {
-	static int16 circle_flag = 0;
 	static int16 track_width_previous = 0;
 	int circle_check[2] = {0};	// 圆环
 	// 寻找种子起点
@@ -488,28 +487,28 @@ void circle_path_element_judge(void)
 	// 边线左右起始点距离在圆环阈值内
 	if(circle_check[0] == 0 && R_bend_point_num <= 3 && ((float)R_frame_point_num/(float)R_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
 	{
-		circle_flag++;
-		if(circle_flag == 5 && circle_out_time_count >= 1000)
+		circle_in_flag++;
+		if(circle_in_flag >= 5 && circle_out_time_count >= 1000)
 		{
 			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = L_CIRCLE_PATH;
 			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_in_linear_speed_target,0,-circle_in_angle,0);			// 旋转进环
-			circle_flag = 0;
+			circle_in_flag = 0;
 			circle_in_time_count_flag = TRUE;
 			circle_out_time_count_flag = FALSE;
 			gpio_set_level(BUZZER_PIN, 0);
 		}
-			
 	}
 	else if(circle_check[1] == MT9V03X_W-1 && circle_check[0] == 0 && path_element_flag == L_CIRCLE_PATH)
 	{
-		circle_flag++;
-		if(circle_flag == 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
+		circle_out_flag++;
+		if(circle_out_flag >= 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
 		{
 			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = BEND_PATH;
 			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_out_linear_speed_target,0,-circle_out_angle,0);			// 旋转出环
-			circle_flag = 0;
+			circle_in_flag = 0;
+			circle_out_flag  = 0;
 			circle_in_time_count_flag = FALSE;
 			circle_out_time_count_flag = TRUE;
 			gpio_set_level(BUZZER_PIN, 0);
@@ -519,13 +518,13 @@ void circle_path_element_judge(void)
 	// 边线左右起始点距离在圆环阈值内
 	else if(circle_check[1] == MT9V03X_W-1 && L_bend_point_num <= 3 && ((float)L_frame_point_num/(float)L_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
 	{
-		circle_flag++;
-		if(circle_flag == 5 && circle_out_time_count >= 1000)
+		circle_in_flag++;
+		if(circle_in_flag >= 5 && circle_out_time_count >= 1000)
 		{
 			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = R_CIRCLE_PATH;
 			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_in_linear_speed_target,0,circle_in_angle,0);			// 旋转进环
-			circle_flag = 0;
+			circle_in_flag = 0;
 			circle_in_time_count_flag = TRUE;
 			circle_out_time_count_flag = FALSE;
 			gpio_set_level(BUZZER_PIN, 0);
@@ -534,13 +533,14 @@ void circle_path_element_judge(void)
 	}
 	else if(circle_check[1] == MT9V03X_W-1 && circle_check[0] == 0 && path_element_flag == R_CIRCLE_PATH)
 	{
-		circle_flag++;
-		if(circle_flag == 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
+		circle_out_flag++;
+		if(circle_out_flag >= 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
 		{
 			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = BEND_PATH;
 			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_out_linear_speed_target,0,circle_out_angle,0);			// 旋转出环
-			circle_flag = 0;
+			circle_in_flag = 0;
+			circle_out_flag = 0;
 			circle_in_time_count_flag = FALSE;
 			circle_out_time_count_flag = TRUE;
 			gpio_set_level(BUZZER_PIN, 0);
@@ -549,7 +549,27 @@ void circle_path_element_judge(void)
 	else if(path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH || circle_in_time_count >= 19000)
 	{
 		path_element_flag = BEND_PATH;
-		circle_flag = 0;
+	}
+}
+
+/* 斑马线元素判断 */
+void zebra_crossing_path_element_judge(void)
+{
+	int black_white_jump_point_num = 0;	// 黑白跳变点数量
+	if(zebra_crossing_path_element_start_judge_time_count >= 5000)
+	{
+		zebra_crossing_path_element_start_judge_time_count = 5000;
+		for(int X = 0;X < MT9V03X_W-1;X++)
+		{
+			if((image_OTSU[MT9V03X_H-10][X] == 255 && image_OTSU[MT9V03X_H-10][X+1] == 0) || (image_OTSU[MT9V03X_H-10][X] == 0 && image_OTSU[MT9V03X_H-10][X+1] == 255))
+			{
+				black_white_jump_point_num++;
+			}
+		}
+		if(black_white_jump_point_num >= 14)
+		{
+			path_element_flag = ZEBRA_CROSSING_PATH;
+		}
 	}
 }
 

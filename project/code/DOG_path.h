@@ -40,6 +40,9 @@ void side_point_kind_judge(void);
 /* 圆环判断 */
 void circle_path_element_judge(void);
 
+/* 斑马线元素判断 */
+void zebra_crossing_path_element_judge(void);
+
 /* 循迹PID参数结构体初始化 */
 _PATH_PID_ path_control_pid_init(void);
 

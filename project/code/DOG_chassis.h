@@ -70,6 +70,9 @@ void euler_angle(void);
 /* 灰度传感器获取 */
 void grayscale_sensor_get(void);
 
+/* 电池电压获取 */
+void bat_voltage_get(void);
+
 /* 平动位移解算 */
 void translate_shift(void);
 

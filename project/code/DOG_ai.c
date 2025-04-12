@@ -80,6 +80,7 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 	static int16 num = 0;	// 符合偏移阈值的图像次数
 	track_err = track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2;
 	chassis_motion_flag = CHASSIS_MOVE;
+	// 色块宽度小于标准宽度时平移前进
 	if(detection_box_width < detection_box_width_std-4)
 	{
 		chassis_yaw = track_err;
@@ -92,6 +93,7 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 //		chassis_yaw = 180-track_err;
 //		chassis_linear_speed = track_linear_speed;
 //	}
+	// 色块宽度大于标准宽度时，停止，进入左右平移定位
 	else
 	{
 		if(abs(track_err) > 5)

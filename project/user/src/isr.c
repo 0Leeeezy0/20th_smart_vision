@@ -56,6 +56,7 @@ void PIT_IRQHandler(void)
 		translate_shift();
 		
 		grayscale_sensor_get();
+		bat_voltage_get();
 			
         pit_flag_clear(PIT_CH0);
     }
@@ -88,6 +89,16 @@ void PIT_IRQHandler(void)
 			circle_out_time_count++;
 		else
 			circle_out_time_count = 0;
+		// 斑马线元素开启判断计时
+		if(zebra_crossing_path_element_judge_start_time_count_flag)
+			zebra_crossing_path_element_start_judge_time_count++;
+		else
+			zebra_crossing_path_element_start_judge_time_count = 0;
+		// 斑马线元素停车延时计时
+		if(zebra_crossing_path_element_stop_delay_time_count_flag)
+			zebra_crossing_path_element_stop_delay_time_count++;
+		else
+			zebra_crossing_path_element_stop_delay_time_count = 0;
 		
         pit_flag_clear(PIT_CH2);
     }

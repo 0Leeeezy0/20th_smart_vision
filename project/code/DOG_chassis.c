@@ -58,6 +58,9 @@ void motor_sensor_init(void)
 	// 灰度传感器引脚初始化
 	adc_init(GRAYSCALE_SENSOR_PIN,ADC_12BIT);
 	
+	// 电池电压引脚初始化
+	adc_init(BAT_VOLTAGE_PIN,ADC_12BIT);
+	
 	// 控制中断初始化
 	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
 	
@@ -328,6 +331,10 @@ void euler_angle(void)
 		roll += gyro_x*SENSOR_IT_TIME/1000;
 		pitch += gyro_y*SENSOR_IT_TIME/1000;
 		yaw += gyro_z*SENSOR_IT_TIME/1000;
+		
+		roll = fmod(roll, 360);
+		pitch = fmod(pitch, 360);
+		yaw = fmod(yaw, 360);
 	}
 	else
 	{
@@ -341,6 +348,12 @@ void euler_angle(void)
 void grayscale_sensor_get(void)
 {
 	grayscale = adc_mean_filter_convert(GRAYSCALE_SENSOR_PIN, 5); 
+}
+
+/* 电池电压获取 */
+void bat_voltage_get(void)
+{
+	bat_voltage = (float)adc_mean_filter_convert(BAT_VOLTAGE_PIN, 5)*(float)BAT_VOLTAGE_CALIBRATION/4096.0; 
 }
 
 /* 平动位移解算 */
@@ -605,6 +618,8 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 */
 void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis_yaw_,float _chassis_linear_speed_,float _chassis_angular_speed_,float _chassis_rotate_angle_,uint32 _delay_ms_)
 {
+	screen_clear();
+	
 	chassis_motion_flag = _chassis_motion_flag_;
 	chassis_rotate_finsh_flag = FALSE;
 	chassis_move_time_count_flag = FALSE;
@@ -635,6 +650,11 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 		// 若方块推出赛道，则退出循环
 		while(1)
 		{
+			// 平移直到达到设定时间
+			if(_delay_ms_ != 0 && chassis_move_time_count > _delay_ms_ && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
+			{
+				break;
+			}	
 			// 平移直到推箱子出界
 			if(_delay_ms_ == 0 && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
 			{
@@ -646,31 +666,34 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 				{
 					break;
 				}
-			}		
+			}				
 			// 绕圆心转动直到箱子矫正完成
-			if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ == 0)
+			else if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ == 0)
 			{
+				euler_angle_flag = TRUE;	// 开启欧拉角解算
 				threshold(mt9v03x_image);
 				symmetry_rectificate();
-				if(sum_weight_normalization >= sum_weight_normalization_limit)
+				screen_float(0, 2*MT9V03X_H+2*MENU_ROW_PITCH, yaw, 2, 3);
+				if(sum_weight_normalization >= sum_weight_normalization_limit && frame_white_num__normalization[0] >= frame_white_num__normalization_limit && frame_white_num__normalization[1] >= frame_white_num__normalization_limit)
 				{
+					euler_angle_flag = FALSE;
 					break;
 				}
 			}	
 			// 绕圆心转动直到达到目标角度
-			if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ != 0)
+			else if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ != 0)
 			{
 				euler_angle_flag = TRUE;
-				if(chassis_rotate_finsh_flag == TRUE)
+				if(abs(yaw) >= abs(_chassis_rotate_angle_))
 				{
+					euler_angle_flag = FALSE;
 					break;
 				}
-			}				
-			// 平移直到达到设定时间
-			if(_delay_ms_ != 0 && chassis_move_time_count > _delay_ms_ && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
+			}			
+			else if(_delay_ms_ == 0)
 			{
 				break;
-			}		
+			}
 		}
 		chassis_move_time_count_flag = FALSE;
 	}
