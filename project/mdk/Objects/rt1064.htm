@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sat Apr 12 22:49:30 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Apr 13 18:24:47 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1408 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2790,8 +2790,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[248]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_control_init
 </UL>
 
-<P><STRONG><a name="[24c]"></a>chassis_total_control</STRONG> (Thumb, 766 bytes, Stack size 40 bytes, dog_chassis.o(.text.chassis_total_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1144<LI>Call Chain = chassis_total_control &rArr; threshold
+<P><STRONG><a name="[24c]"></a>chassis_total_control</STRONG> (Thumb, 972 bytes, Stack size 56 bytes, dog_chassis.o(.text.chassis_total_control))
+<BR><BR>[Stack]<UL><LI>Max Depth = 1160<LI>Call Chain = chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symmetry_rectificate
 <LI><a href="#[24d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;threshold
@@ -2802,7 +2802,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[24f]"></a>circle_path_element_judge</STRONG> (Thumb, 1316 bytes, Stack size 72 bytes, dog_path.o(.text.circle_path_element_judge))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1216<LI>Call Chain = circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
+<BR><BR>[Stack]<UL><LI>Max Depth = 1232<LI>Call Chain = circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_total_control
 <LI><a href="#[250]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_set_level
@@ -2941,7 +2941,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> dog_vofa_app.o(.data.cli_app_list)
 </UL>
 <P><STRONG><a name="[267]"></a>control_mode_dispatch</STRONG> (Thumb, 416 bytes, Stack size 16 bytes, dog_fsm.o(.text.control_mode_dispatch))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1232<LI>Call Chain = control_mode_dispatch &rArr; circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
+<BR><BR>[Stack]<UL><LI>Max Depth = 1248<LI>Call Chain = control_mode_dispatch &rArr; circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[26e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_delay_ms
 <LI><a href="#[26d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_extract
@@ -3324,7 +3324,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[26f]"></a>fxxk_box</STRONG> (Thumb, 676 bytes, Stack size 48 bytes, dog_element.o(.text.fxxk_box))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1192<LI>Call Chain = fxxk_box &rArr; chassis_total_control &rArr; threshold
+<BR><BR>[Stack]<UL><LI>Max Depth = 1208<LI>Call Chain = fxxk_box &rArr; chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[24c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_total_control
 <LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memcpy
@@ -4590,7 +4590,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[6]"></a>start</STRONG> (Thumb, 1058 bytes, Stack size 104 bytes, dog_menu.o(.text.start))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1336<LI>Call Chain = start &rArr; control_mode_dispatch &rArr; circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
+<BR><BR>[Stack]<UL><LI>Max Depth = 1352<LI>Call Chain = start &rArr; control_mode_dispatch &rArr; circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[254]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show

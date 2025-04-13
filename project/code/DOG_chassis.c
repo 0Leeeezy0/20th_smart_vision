@@ -647,6 +647,10 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 		
 		uint8 is_in_track = FALSE;	// 在赛道内
 		int16 num = 0;		// 在赛道内的计数
+		
+		float max_sum_weight_normalization_yaw = 0;	// 最大归一化加权和航向角
+		float max_sum_weight_normalization = 0;	// 最大归一化加权和
+		
 		// 若方块推出赛道，则退出循环
 		while(1)
 		{
@@ -674,9 +678,33 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 				threshold(mt9v03x_image);
 				symmetry_rectificate();
 				screen_float(0, 2*MT9V03X_H+2*MENU_ROW_PITCH, yaw, 2, 3);
+				
+				// 找最大归一化加权和与其对应航向角
+				if(sum_weight_normalization >= max_sum_weight_normalization)
+				{
+					max_sum_weight_normalization = sum_weight_normalization;
+					max_sum_weight_normalization_yaw = yaw;
+				}
+				
+				// 达到阈值就停止，去推箱子
 				if(sum_weight_normalization >= sum_weight_normalization_limit && frame_white_num__normalization[0] >= frame_white_num__normalization_limit && frame_white_num__normalization[1] >= frame_white_num__normalization_limit)
 				{
 					euler_angle_flag = FALSE;
+					break;
+				}
+				// 转动超过180°没达到阈值，就反过来转
+				if(abs(yaw) > 180)
+				{
+					chassis_yaw = -_chassis_yaw_;
+					chassis_angular_speed = -_chassis_angular_speed_;
+					while(1)
+					{
+						if(abs(yaw) <= abs(max_sum_weight_normalization_yaw))
+						{
+							euler_angle_flag = FALSE;
+							break;
+						}
+					}
 					break;
 				}
 			}	
