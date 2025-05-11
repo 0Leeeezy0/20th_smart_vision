@@ -17,8 +17,11 @@ void ai_camera_init(void);
 /* AI摄像头0 初始化 */
 void ai_camera_0_init(void);
 
-/* AI摄像头1 初始化 */
+/* AI摄像头1（工具） 初始化 */
 void ai_camera_1_init(void);
+
+/* AI摄像头2（数字） 初始化 */
+void ai_camera_2_init(void);
 
 /* AI摄像头0 推理最大识别框中心坐标获取 */
 void ai_camera_0_max_detection_box_center_get(void);	// YJC是大傻逼  

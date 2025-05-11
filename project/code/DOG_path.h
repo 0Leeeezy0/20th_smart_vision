@@ -37,6 +37,9 @@ void path_control(float path_control_speed);
 /* 边线点类型判断 */
 void side_point_kind_judge(void);
 
+/* 赛道归一化曲率计算 */
+void path_curvature_normalization_judge(void);
+
 /* 圆环判断 */
 void circle_path_element_judge(void);
 

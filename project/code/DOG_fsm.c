@@ -15,7 +15,7 @@ static void control_mode_choose(void)
 		if(detection_box_width == 0 && track_x_center == 0) // && track_finsh_next_mode_flag != BLOCK_MOVE_OUT_MODE
 			control_mode_flag = PATH_CONTROL_MODE;
 	}
-	else if(detection_box_width > detection_box_width_limit && abs(track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2) < detection_box_center_limit && ai_camera_0_enable_flag == TRUE)
+	else if(detection_box_width > detection_box_width_limit && abs(track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2) < detection_box_center_limit && shift_distance >= 0.5 && ai_camera_0_enable_flag == TRUE)
 		control_mode_flag = AI_TRACK_MODE;
 	else
 		control_mode_flag = PATH_CONTROL_MODE;
@@ -25,6 +25,7 @@ static void control_mode_choose(void)
 void control_mode_dispatch(void)
 {
 	control_mode_choose();	// 摄像头控制选择
+	
 	switch(control_mode_flag)
 	{
 		case PATH_CONTROL_MODE:
@@ -34,11 +35,15 @@ void control_mode_dispatch(void)
 	//		erode(mt9v03x_image);
 			side_extract();	// 八邻域边线获取
 			side_point_kind_judge();	// 边线点类型判断，判断是否是弯道
+			path_curvature_normalization_judge();	// 赛道归一化曲率计算
+			path_extract();	// 路径提取
+			longest_white_col();	// 最长白列
 			// 圆环使能
-			if(circle_path_enable_flag == TRUE)	
+			if(circle_path_enable_flag == TRUE && shift_distance >= 0.2)	
 			{
 				circle_path_element_judge();	// 圆环元素识别
 			}
+			// 斑马线
 			if(zebra_path_element_start_judge_enable_flag == TRUE)
 			{
 				zebra_crossing_path_element_judge();
@@ -65,10 +70,6 @@ void control_mode_dispatch(void)
 					}	
 				}
 			}
-			if(path_element_flag == L_CIRCLE_PATH || path_element_flag == R_CIRCLE_PATH)	// 圆环内部使用中点循迹
-				path_extract();
-			else
-				longest_white_col();	// 其他赛道使用最长白列
 			path_control(path_linear_speed_target); 	// 控制
 			track_finsh_next_mode_flag = BLOCK_RETRACK_MODE; 
 			break; 

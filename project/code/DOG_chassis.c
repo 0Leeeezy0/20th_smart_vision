@@ -108,9 +108,9 @@ void encoder_get(void)
 	encoder_2_speed = (float)encoder_get_count(ENCODER_2_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
 	encoder_3_speed = (float)encoder_get_count(ENCODER_3_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
 	
-	motor_1_speed = (float)encoder_1_speed/GEAR_RATIO;
-	motor_2_speed = (float)encoder_2_speed/GEAR_RATIO;
-	motor_3_speed = (float)encoder_3_speed/GEAR_RATIO;
+	motor_1_speed = WHEEL_CIRCUMFERENCE*(float)encoder_1_speed/GEAR_RATIO;
+	motor_2_speed = WHEEL_CIRCUMFERENCE*(float)encoder_2_speed/GEAR_RATIO;
+	motor_3_speed = WHEEL_CIRCUMFERENCE*(float)encoder_3_speed/GEAR_RATIO;
 }
 
 /* 编码器值清空 */
@@ -362,12 +362,13 @@ void translate_shift(void)
 	static float x_distance,y_distance;
 	if(translate_shift_flag)
 	{
-		float converte = 1000/SENSOR_IT_TIME;
-		float x_speed = (motor_2_speed*COS60+motor_3_speed*COS60-motor_1_speed);
-		float y_speed = (motor_2_speed*SIN60-motor_3_speed*SIN60);
-	
-		x_distance += x_speed/converte;
-		y_distance += y_speed/converte;
+		wheel_1_shift += motor_1_speed*SENSOR_IT_TIME/1000;
+		wheel_2_shift += motor_2_speed*SENSOR_IT_TIME/1000;
+		wheel_3_shift += motor_3_speed*SENSOR_IT_TIME/1000;
+		
+		x_distance = (wheel_2_shift*COS60+wheel_3_shift*COS60-wheel_1_shift)*TRANSLATE_SHIFT_REVISE;
+		y_distance = (wheel_2_shift*SIN60-wheel_3_shift*SIN60)*TRANSLATE_SHIFT_REVISE;
+
 		shift_yaw = RAD2DEG(atan(x_distance/y_distance));
 		if(x_distance > 0 && y_distance <0)
 		{
@@ -382,6 +383,9 @@ void translate_shift(void)
 	}
 	else
 	{
+		wheel_1_shift = 0;
+		wheel_2_shift = 0;
+		wheel_3_shift = 0;
 		x_distance = 0;
 		y_distance = 0;
 		shift_yaw = 0;
@@ -527,6 +531,19 @@ void chassis_control_stop(void)
 	motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir);
 }
 
+/* 调试 */
+void chassis_control_debug(void)
+{
+	chassis_yaw = 0;
+	chassis_linear_speed = 0;
+	chassis_angular_speed = 0;
+	chassis_rotate_angle = 0;
+	// 电机驱动
+	motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
+	motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
+	motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
+}
+
 /* 移动 */
 void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float angular_speed)
 {
@@ -548,6 +565,7 @@ void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,
 void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float rotate_angle)
 {
 	euler_angle_flag = TRUE;
+	
 	// 运动学逆解算
 	if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) > 0.5)
 	{
@@ -650,6 +668,8 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 		
 		float max_sum_weight_normalization_yaw = 0;	// 最大归一化加权和航向角
 		float max_sum_weight_normalization = 0;	// 最大归一化加权和
+		float max_sum_weight_normalization_yaw_cache = 0;	// 最大归一化加权和航向角缓存
+		float max_sum_weight_normalization_cache = 0;	// 最大归一化加权和缓存
 		
 		// 若方块推出赛道，则退出循环
 		while(1)
@@ -662,11 +682,11 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 			// 平移直到推箱子出界
 			if(_delay_ms_ == 0 && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
 			{
-				if(grayscale >= 100 && num < 22)
+				if(grayscale < 1000 && num < 22)
 					num++;
 				if(num > 20)
 					is_in_track = TRUE;
-				if(is_in_track == TRUE && grayscale < 50)
+				if(is_in_track == TRUE && grayscale > 3000)
 				{
 					break;
 				}
@@ -677,17 +697,32 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 				euler_angle_flag = TRUE;	// 开启欧拉角解算
 				threshold(mt9v03x_image);
 				symmetry_rectificate();
-				screen_float(0, 2*MT9V03X_H+2*MENU_ROW_PITCH, yaw, 2, 3);
 				
-				// 找最大归一化加权和与其对应航向角
-				if(sum_weight_normalization >= max_sum_weight_normalization)
-				{
-					max_sum_weight_normalization = sum_weight_normalization;
-					max_sum_weight_normalization_yaw = yaw;
+				screen_float(0, 2*MT9V03X_H+2*MENU_ROW_PITCH, yaw, 2, 3);
+				screen_float(0, 2*MT9V03X_H+3*MENU_ROW_PITCH, sum_weight_normalization, 2, 3);
+				screen_float(0, 2*MT9V03X_H+4*MENU_ROW_PITCH, frame_white_num__normalization[0], 2, 3);
+				screen_float(0, 2*MT9V03X_H+5*MENU_ROW_PITCH, frame_white_num__normalization[1], 2, 3);
+				
+				// 找最大归一化加权和与其对应航向角（取加权和对应的角度较大的那个）
+				// 满足不正对赛道
+				if(frame_white_num__normalization[0] >= frame_white_num__normalization_limit && frame_white_num__normalization[1] >= frame_white_num__normalization_limit && sum_weight_normalization >= sum_weight_normalization_limit[1])
+				{					
+					if(sum_weight_normalization >= max_sum_weight_normalization_cache)	// 加权和大于之前的
+					{
+						max_sum_weight_normalization_cache = sum_weight_normalization;
+						max_sum_weight_normalization_yaw_cache = yaw;
+					}
+					else	// 加权和小于之前的
+					{
+						max_sum_weight_normalization = max_sum_weight_normalization_cache;
+						max_sum_weight_normalization_yaw = max_sum_weight_normalization_yaw_cache;
+						max_sum_weight_normalization_cache = 0;
+						max_sum_weight_normalization_yaw_cache = 0;
+					}
 				}
 				
 				// 达到阈值就停止，去推箱子
-				if(sum_weight_normalization >= sum_weight_normalization_limit && frame_white_num__normalization[0] >= frame_white_num__normalization_limit && frame_white_num__normalization[1] >= frame_white_num__normalization_limit)
+				if(sum_weight_normalization >= sum_weight_normalization_limit[0] && frame_white_num__normalization[0] >= frame_white_num__normalization_limit && frame_white_num__normalization[1] >= frame_white_num__normalization_limit)
 				{
 					euler_angle_flag = FALSE;
 					break;

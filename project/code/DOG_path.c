@@ -27,7 +27,6 @@ void path_control_init(void)
 /* 最长白列 */
 void longest_white_col(void)
 {
-	path_follow_kind_flag = 0;
 	int L_side[2];
 	int R_side[2];
 	
@@ -89,6 +88,7 @@ void longest_white_col(void)
 		{
 			if(image_OTSU[Y][X] == 0 || Y == path_start-control_point[path_follow_kind_flag])
 			{
+				// 有更长的白列则刷新
 				if(path_start-Y > max_white_num)
 				{
 					max_white_col_find_flag = 1;
@@ -98,6 +98,7 @@ void longest_white_col(void)
 					longest_white_X_cache +=  X;
 					max_white_col_num_cache++;
 				}
+				// 一样长的白列则自增
 				else if(path_start-Y == max_white_num)
 				{
 					max_white_col_find_flag = 1;
@@ -105,6 +106,7 @@ void longest_white_col(void)
 					longest_white_X_cache += X;
 					max_white_col_num_cache++;
 				}
+				// 更短的白列，忽略
 				else
 				{
 					max_white_col_find_flag = 0;
@@ -136,7 +138,6 @@ void longest_white_col(void)
 /* 路径线提取 */
 void path_extract(void)
 {
-	path_follow_kind_flag = 1;
 	int16 x,y;
 	static int16 mid_x_flag = 0;
 	if(mid_x == MT9V03X_W/2)
@@ -153,6 +154,7 @@ void path_extract(void)
 	path[0][1] = path_start;
 	for(y = path_start-1;y >= path_end;y--)
 	{
+		// 右边线
 		for(x = path[path_start-1-y][0];x < MT9V03X_W;x++)
 		{
 			if(image_OTSU[y][x] == 0)
@@ -165,15 +167,18 @@ void path_extract(void)
 				path[path_start-y][0] = x;
 			}
 		}
+		// 左边线
 		for(x = path[path_start-1-y][0];x >= 0;x--)
 		{
 			if(image_OTSU[y][x] == 0)
 			{
+				path_width[path_start-y] = path[path_start-y][0]-x;
 				path[path_start-y][0] += x;
 				break;
 			}
 			if(x == 0)
 			{
+				path_width[path_start-y] = path[path_start-y][0]-x;
 				path[path_start-y][0] += x;
 			}
 		}
@@ -445,13 +450,33 @@ void side_point_kind_judge(void)
     }
 }
 
+/* 赛道归一化曲率计算 */
+void path_curvature_normalization_judge(void)
+{
+	if(L_side_point_num+R_side_point_num != 0)
+	{
+		path_curvature_normalization = (float)(L_bend_point_num+R_bend_point_num)/(float)(L_side_point_num+R_side_point_num);
+	}
+	if(path_curvature_normalization <= path_curvature_normalization_max)
+	{
+		path_curvature_normalization = path_curvature_normalization/path_curvature_normalization_max;
+	}
+	else
+	{
+		path_curvature_normalization = 1;
+	}
+}
+
 /* 圆环判断 */
 void circle_path_element_judge(void)
 {
-	static int16 track_width_previous = 0;
 	int circle_check[2] = {0};	// 圆环
-	// 寻找种子起点
-    // 左边线种子
+	
+	int16 L_side_X_delta_max = 0;	// 左边线X最大差值
+	int16 R_side_X_delta_max = 0;	// 右边线X最大差值
+	
+	// 圆环检测线
+    // 左边线
     for(int X = mid_x;X >= 0;X--)
     {
         if(image_OTSU[circle_check_y-1][X] == 0)    // 黑色
@@ -467,7 +492,7 @@ void circle_path_element_judge(void)
             break;
         }
     }
-    // 右边线种子
+    // 右边线
     for(int X = mid_x;X <= MT9V03X_W-1;X++)
     {
         if(image_OTSU[circle_check_y-1][X] == 0)    // 黑色
@@ -483,73 +508,97 @@ void circle_path_element_judge(void)
             break;
         }
     }
-	// 左圆环入环
-	// 边线左右起始点距离在圆环阈值内
-	if(circle_check[0] == 0 && R_bend_point_num <= 3 && ((float)R_frame_point_num/(float)R_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
+	
+	// 左右边线最大差值计算
+	for(int num = 1;num < path_start-path_end;num++)
 	{
-		circle_in_flag++;
-		if(circle_in_flag >= 5 && circle_out_time_count >= 1000)
+		// 右
+		if(abs((path[num+1][0]+path_width[num+1]/2)-(path[num][0]+path_width[num]/2)) >= R_side_X_delta_max)
 		{
-			gpio_set_level(BUZZER_PIN, 1);
-			path_element_flag = L_CIRCLE_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_in_linear_speed_target,0,-circle_in_angle,0);			// 旋转进环
-			circle_in_flag = 0;
-			circle_in_time_count_flag = TRUE;
-			circle_out_time_count_flag = FALSE;
-			gpio_set_level(BUZZER_PIN, 0);
+			R_side_X_delta_max = abs((path[num+1][0]+path_width[num+1]/2)-(path[num][0]+path_width[num]/2));
+		}
+		// 左
+		if(abs((path[num+1][0]-path_width[num+1]/2)-(path[num][0]-path_width[num]/2)) >= L_side_X_delta_max)
+		{
+			L_side_X_delta_max = abs((path[num+1][0]-path_width[num+1]/2)-(path[num][0]-path_width[num]/2));
 		}
 	}
-	else if(circle_check[1] == MT9V03X_W-1 && circle_check[0] == 0 && path_element_flag == L_CIRCLE_PATH)
-	{
-		circle_out_flag++;
-		if(circle_out_flag >= 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
-		{
-			gpio_set_level(BUZZER_PIN, 1);
-			path_element_flag = BEND_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_out_linear_speed_target,0,-circle_out_angle,0);			// 旋转出环
-			circle_in_flag = 0;
-			circle_out_flag  = 0;
-			circle_in_time_count_flag = FALSE;
-			circle_out_time_count_flag = TRUE;
-			gpio_set_level(BUZZER_PIN, 0);
-		}
-	}
+	
+	
+	
 	// 右圆环入环
 	// 边线左右起始点距离在圆环阈值内
-	else if(circle_check[1] == MT9V03X_W-1 && L_bend_point_num <= 3 && ((float)L_frame_point_num/(float)L_side_point_num) <= 0.5 && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
+	if(circle_check[1] == MT9V03X_W-1 && L_bend_point_num <= 3 && ((float)L_frame_point_num/(float)L_side_point_num) <= 0.15 &&  L_side_X_delta_max <= side_X_delta_limit[1] && R_side_X_delta_max >= side_X_delta_limit[0] && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
 	{
 		circle_in_flag++;
 		if(circle_in_flag >= 5 && circle_out_time_count >= 1000)
 		{
 			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = R_CIRCLE_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_in_linear_speed_target,0,circle_in_angle,0);			// 旋转进环
+			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,circle_in_angular_speed_target,circle_in_angle,0); 			// 旋转进环
 			circle_in_flag = 0;
 			circle_in_time_count_flag = TRUE;
 			circle_out_time_count_flag = FALSE;
 			gpio_set_level(BUZZER_PIN, 0);
+			path_follow_kind_flag = 1;
 		}
 			
 	}
-	else if(circle_check[1] == MT9V03X_W-1 && circle_check[0] == 0 && path_element_flag == R_CIRCLE_PATH)
+	else if(circle_check[1] == MT9V03X_W-1 && path_element_flag == R_CIRCLE_PATH) // && circle_check[0] == 0
 	{
 		circle_out_flag++;
 		if(circle_out_flag >= 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
 		{
 			gpio_set_level(BUZZER_PIN, 1);
 			path_element_flag = BEND_PATH;
-			chassis_total_control(CHASSIS_ANGLE_ROTATE,0,circle_out_linear_speed_target,0,circle_out_angle,0);			// 旋转出环
+			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,circle_in_angular_speed_target,circle_out_angle,0); 			// 旋转出环
 			circle_in_flag = 0;
 			circle_out_flag = 0;
 			circle_in_time_count_flag = FALSE;
 			circle_out_time_count_flag = TRUE;
 			gpio_set_level(BUZZER_PIN, 0);
+			path_follow_kind_flag = 0;
+		}
+	}
+	// 左圆环入环
+	// 边线左右起始点距离在圆环阈值内
+	else if(circle_check[0] == 0 && R_bend_point_num <= 3 && ((float)R_frame_point_num/(float)R_side_point_num) <= 0.15 && R_side_X_delta_max <= side_X_delta_limit[1] && L_side_X_delta_max >= side_X_delta_limit[0] && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
+	{
+		circle_in_flag++;
+		if(circle_in_flag >= 5 && circle_out_time_count >= 1000)
+		{
+			gpio_set_level(BUZZER_PIN, 1);
+			path_element_flag = L_CIRCLE_PATH;
+			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,-circle_in_angular_speed_target,-circle_in_angle,0); 			// 旋转进环
+			circle_in_flag = 0;
+			circle_in_time_count_flag = TRUE;
+			circle_out_time_count_flag = FALSE;
+			gpio_set_level(BUZZER_PIN, 0);
+			path_follow_kind_flag = 1;
+		}
+	}
+	else if(circle_check[0] == 0 && path_element_flag == L_CIRCLE_PATH)	// circle_check[1] == MT9V03X_W-1 && 
+	{
+		circle_out_flag++;
+		if(circle_out_flag >= 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
+		{
+			gpio_set_level(BUZZER_PIN, 1);
+			path_element_flag = BEND_PATH;
+			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,-circle_in_angular_speed_target,-circle_out_angle,0); 			// 旋转出环
+			circle_in_flag = 0;
+			circle_out_flag  = 0;
+			circle_in_time_count_flag = FALSE;
+			circle_out_time_count_flag = TRUE;
+			gpio_set_level(BUZZER_PIN, 0);
+			path_follow_kind_flag = 0;
 		}
 	}
 	else if(path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH || circle_in_time_count >= 19000)
 	{
 		path_element_flag = BEND_PATH;
 	}
+//	screen_int(0,2*MT9V03X_H+MENU_ROW_PITCH,R_side_X_delta_max,3);
+//	screen_int(0,2*MT9V03X_H+2*MENU_ROW_PITCH,L_side_X_delta_max,3);
 }
 
 /* 斑马线元素判断 */
@@ -558,7 +607,6 @@ void zebra_crossing_path_element_judge(void)
 	int black_white_jump_point_num = 0;	// 黑白跳变点数量
 	if(zebra_crossing_path_element_start_judge_time_count >= 5000)
 	{
-		zebra_crossing_path_element_start_judge_time_count = 5000;
 		for(int X = 0;X < MT9V03X_W-1;X++)
 		{
 			if((image_OTSU[MT9V03X_H-10][X] == 255 && image_OTSU[MT9V03X_H-10][X+1] == 0) || (image_OTSU[MT9V03X_H-10][X] == 0 && image_OTSU[MT9V03X_H-10][X+1] == 255))
@@ -581,21 +629,12 @@ void path_control(float path_control_speed)
 		path_err = longest_white_col_x-MT9V03X_W/2;
 	else if(path_follow_kind_flag == 1)
 		path_err = path[control_point[path_follow_kind_flag]][0] - MT9V03X_W/2;
-		
-	if(abs(path_err) > 7)
-	{
-		chassis_linear_speed = path_control_speed;
-		chassis_yaw = 0;
-		chassis_angular_speed = path_control_pid(PATH_PID_KIND,path_pid,path_err);
-	}
-	else
-	{
-		
-		chassis_yaw = path_control_pid(PATH_PID_KIND,path_pid,path_err);
-		chassis_angular_speed = 0;
-		chassis_linear_speed = path_control_speed;
-	}
 	
+	float path_pid_output = path_control_pid(PATH_PID_KIND,path_pid,path_err);
+		
+	chassis_linear_speed = path_control_speed;
+	chassis_yaw = 0;
+	chassis_angular_speed = path_pid_output;
 }
 
 /* 循迹PID参数结构体初始化 */
@@ -604,7 +643,7 @@ _PATH_PID_ path_control_pid_init(void)
 	static _PATH_PID_ path_pid;
 
 	// 循迹 PID
-	for(uint8 i = 0;i < 4; i++)
+	for(uint8 i = 0;i < 3; i++)
 	{
 		path_pid.path_pid_parameters[i].p = PATH_PID[i][0];
 		path_pid.path_pid_parameters[i].i = PATH_PID[i][1];
@@ -625,21 +664,18 @@ float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,floa
 	float gyro_now_err,value;
 	static float gyro_last_err = 0;
 	gyro_now_err = GYRO_Z_FORWARD*gyro_z;
-	if(abs(path_err) < 7)
+
+	if(abs(path_err) >= 0 && abs(path_err) < 25)
 	{
 		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
 	}
-	else if(abs(path_err) >= 7 && abs(path_err) < 25)
+	else if(abs(path_err) >= 25 && abs(path_err) < 40)
 	{
 		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
 	}
-	else if(abs(path_err) >= 25 && abs(path_err) < 40)
-	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
-	}
 	else
 	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[3]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
 	}
 	gyro_last_err = gyro_now_err;
 	

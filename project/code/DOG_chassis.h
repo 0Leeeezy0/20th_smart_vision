@@ -32,6 +32,9 @@ void chassis_control_init();
 /* Í£Ö¹ */
 void chassis_control_stop(void);
 
+/* µ÷ÊÔ */
+void chassis_control_debug(void);
+
 /* ÒÆ¶¯ */
 void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float angular_speed);
 

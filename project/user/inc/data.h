@@ -17,6 +17,7 @@ typedef enum
 	CHASSIS_STOP =  0,
 	CHASSIS_MOVE =  1,
 	CHASSIS_ANGLE_ROTATE = 2,
+	CHASSIS_DEBUG = 3
 }_CHASSIS_MOTION_;
 
 /* ¿ØÖÆÄ£Ê½ÀàĞÍ */
@@ -38,7 +39,7 @@ typedef enum
 	ZEBRA_CROSSING_PATH = 4		// °ßÂíÏßÔªËØ
 }_PATH_ELEMENT_;
 
-/* AIÉãÏñÍ·1 Ê¶±ğ±êÇ© */
+/* AIÉãÏñÍ·Ê¶±ğ±êÇ© */
 typedef enum
 {
 	wrench = 0,				// °âÊÖ
@@ -46,7 +47,7 @@ typedef enum
 	electrodrill = 2,		// µç×ê
 	tape_measure = 3,		// Ã×³ß
 	screwdriver = 4,		// ÂİË¿µ¶
-	pliers = 5,				// Ç©×Ö
+	pliers = 5,				// Ç¯×Ó
 	oscillograph = 6,		// Ê¾²¨Æ÷
 	multimeter = 7,			// ÍòÓÃ±í
 	printer = 8,			// ´òÓ¡»ú
@@ -56,13 +57,13 @@ typedef enum
 	headphones = 12,		// ¶ú»ú
 	monitor = 13,			// ÏÔÊ¾Æ÷
 	speaker = 14			// ÒôÏì
-}_AI_CAMERA_1_DETECTION_LABLE_;
+}_AI_CAMERA_DETECTION_LABLE_;
 
 /* µç»úÔË¶¯¿ØÖÆ */
 typedef struct
 {
-	int16 duty;
-	int16 dir;
+	uint16 duty;
+	uint16 dir;
 }_MOTOR_CONTROL_;
 
 /* PID±Õ»·²ÎÊı */
@@ -113,7 +114,7 @@ typedef struct
 /* Ñ­¼£PID */
 typedef struct
 {
-	_PID_PARAMETERS_ path_pid_parameters[4];	
+	_PID_PARAMETERS_ path_pid_parameters[3];	
 	_PID_VARIABLE_ path_pid_variable;				
 }_PATH_PID_;
 
@@ -128,9 +129,9 @@ typedef struct
 typedef struct
 {
 	uint8 result_kind;					// Ê¶±ğ½á¹ûÀà±ğ£¨0£º±êÇ© 1£ºÊÖĞ´×Ö 2£ºÉ¶¶¼Ã»ÓĞ£©
-	_AI_CAMERA_1_DETECTION_LABLE_ lable;	// Ê¶±ğ±êÇ©½á¹û
+	_AI_CAMERA_DETECTION_LABLE_ lable;	// Ê¶±ğ±êÇ©½á¹û
 	uint8 num;							// Ê¶±ğÊÖĞ´Êı×Ö½á¹û
-}_AI_CAMERA_1_DETECTION_RESULT_;
+}_AI_CAMERA_DETECTION_RESULT_;
 
 /* ±êÖ¾Î» */
 /* ³ÌĞòÄÚ²¿ */
@@ -145,6 +146,7 @@ extern uint8 zebra_crossing_path_element_judge_start_time_count_flag;	// °ßÂíÏßÔ
 extern uint8 zebra_crossing_path_element_stop_delay_time_count_flag;	// °ßÂíÏßÔªËØÍ£³µÑÓÊ±¼ÆÊ±±êÖ¾Î»
 extern uint8 circle_in_time_count_flag;				// Ô²»·Èë»·¼ÆÊ±±êÖ¾Î»£¨Èë»·ºó¿ªÊ¼¼ÆÊ±£¬·ÀÖ¹Èë»·Ê§°Üºó´íÎó³ö»·£©
 extern uint8 circle_out_time_count_flag;			// Ô²»·³ö»·¼ÆÊ±±êÖ¾Î»£¨³ö»·ºó¿ªÊ¼¼ÆÊ±£¬·ÀÖ¹³ö»·ºó×ËÌ¬²»ºÃµ¼ÖÂ´íÎóÈë»·£©
+extern uint8 program_time_count_flag;					// ³ÌĞò¼ÆÊ±±êÖ¾Î»
 extern uint8 circle_in_flag;								// ½ø»·±êÖ¾Î»
 extern uint8 circle_out_flag;								// ³ö»·±êÖ¾Î»
 extern _CONTROL_MODE_ control_mode_flag;	// ¿ØÖÆÄ£Ê½±êÖ¾Î»
@@ -173,6 +175,11 @@ extern float encoder_3_speed;
 extern float motor_1_speed;
 extern float motor_2_speed;
 extern float motor_3_speed;
+
+/* ÂÖ×ÓÎ»ÒÆ£¨cm£© */
+extern float wheel_1_shift;
+extern float wheel_2_shift;
+extern float wheel_3_shift;
 
 /* ÈıÖá½ÇËÙ¶È£¨¡ã/s£© */
 extern float gyro_x;
@@ -212,6 +219,9 @@ extern int16 path_err;
 /* Â·¾¶Ïß×ø±ê */
 extern int16 path[MT9V03X_H][2];	// Â·¾¶Ïßx¡¢y×ø±ê
 
+/* ÈüµÀÔªËØ */
+extern int16 path_width[MT9V03X_H];	// ÈüµÀ¿í¶È
+
 /* AI×·×Ù */
 extern int16 track_x_center;	// ×·×ÙÖĞĞÄX×ø±ê
 extern int16 detection_box_width;	// Ê¶±ğ¿ò¿í¶È
@@ -220,9 +230,10 @@ extern int16 track_x;
 
 /* AIÊ¶±ğ */
 extern uint8 ai_camera_1_data_raw;	// Ô­Ê¼Ê¶±ğ½á¹û
-extern _AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result;
-extern _AI_CAMERA_1_DETECTION_RESULT_ ai_camera_1_detection_result_list[100];	// Ê¶±ğ½á¹ûÁĞ±í
-extern int16 ai_camera_1_detection_result_list_num;	// Ê¶±ğ½á¹ûÁĞ±íÄÚÈİÊıÁ¿
+extern uint8 ai_camera_2_data_raw;	// Ô­Ê¼Ê¶±ğ½á¹û
+extern _AI_CAMERA_DETECTION_RESULT_ ai_camera_detection_result;
+extern _AI_CAMERA_DETECTION_RESULT_ ai_camera_detection_result_list[100];	// Ê¶±ğ½á¹ûÁĞ±í
+extern int16 ai_camera_detection_result_list_num;	// Ê¶±ğ½á¹ûÁĞ±íÄÚÈİÊıÁ¿
 
 /**********************************************************************/
 
@@ -237,7 +248,7 @@ extern float PID_MOTOR_3[5];
 extern float ROTATE_PID[8][5];
 
 /* Ñ­¼£PID²ÎÊı */
-extern float PATH_PID[4][6];
+extern float PATH_PID[3][6];
 
 /* µ×ÅÌ¿ØÖÆ²ÎÊı */
 extern float chassis_yaw;					// µ×ÅÌº½Ïò½Ç
@@ -272,19 +283,25 @@ extern int16 L_bend_point[MT9V03X_H*2][2];		// ×ó±ßÏßÍäµã×ø±ê
 extern int16 R_bend_point[MT9V03X_H*2][2];		// ÓÒ±ßÏßÍäµã×ø±ê
 extern int16 L_bend_point_num;		// ×ó±ßÏßÍäµãÊıÁ¿
 extern int16 R_bend_point_num;		// ÓÒ±ßÏßÍäµãÊıÁ¿
+extern float path_curvature_normalization;	// ÈüµÀÇúÂÊ¹éÒ»»¯
+extern float path_curvature_normalization_max;	// ÈüµÀÇúÂÊ¹éÒ»»¯×î´óÖµ
 extern uint32 circle_in_time_count;  // Èë»·¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÅĞ¶Ï³ö»·£©
 extern uint32 circle_out_time_count;  // ³ö»·¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÔÙ´ÎÅĞ¶ÏÈë»·£©
 extern uint32 zebra_crossing_path_element_start_judge_time_count;	// °ßÂíÏßÔªËØ¿ªÆôÅĞ¶Ï¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔ¿ªÊ¼ÅĞ¶Ï°ßÂíÏß£©
 extern uint32 zebra_crossing_path_element_stop_delay_time_count;	// °ßÂíÏßÔªËØÍ£³µÑÓÊ±¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÍ£³µ£©
+extern uint32 program_time_count;	// ³ÌĞò¼ÆÊ±
 
 /* ÈüµÀÔªËØ²ÎÊı */
 extern int16 circle_check_y;		// Ô²»·¼ì²âÏß¸ß¶È
-extern int16 circle_in_linear_speed_target;	// Èë»·Ä¿±êËÙ¶È
+extern float circle_in_linear_speed_target;	// Èë»·Ä¿±êÏßËÙ¶È
+extern float circle_in_angular_speed_target;	// Èë»·Ä¿±ê½ÇËÙ¶È
 extern int16 circle_in_angle;	// Èë»·×ª¶¯½Ç¶È
-extern int16 circle_out_linear_speed_target;	// ³ö»·Ä¿±êËÙ¶È
+extern float circle_out_linear_speed_target;	// ³ö»·Ä¿±êÏßËÙ¶È
+extern float circle_out_angular_speed_target;	// Èë»·Ä¿±ê½ÇËÙ¶È
 extern int16 circle_out_angle;	// ³ö»·×ª¶¯½Ç¶È
 extern int16 side_extract_start_y;	// ±ßÏß¿ªÊ¼ÌáÈ¡¸ß¶È
 extern int16 side_extract_end_y;		// ±ßÏß½áÊøÌáÈ¡¸ß¶È
+extern int16 side_X_delta_limit[2];	// ±ßÏßX²îÖµ×î´óÖµ/×îĞ¡ãĞÖµ
 
 /* AI×·×Ù */
 extern float track_linear_speed_target;	// ×·×ÙÏßËÙ¶È
@@ -297,10 +314,12 @@ extern int16 symmetry_rectificate_start_y;	// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ±éÀúÆğÊ¼µã¸ß¶È
 extern int16 symmetry_rectificate_end_y;		// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ±éÀú½áÊøµã¸ß¶È
 extern uint32 sum_weight;	// ¼ÓÈ¨ºÍ
 extern float sum_weight_normalization;	// ¼ÓÈ¨ºÍ¹éÒ»»¯
-extern float sum_weight_normalization_limit;	// ¼ÓÈ¨ºÍ¹éÒ»»¯ãĞÖµ
+extern float sum_weight_normalization_limit[2];	// ¼ÓÈ¨ºÍ¹éÒ»»¯ãĞÖµ
 extern float frame_white_num__normalization[2];	// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ±ß¿ò°×µãÊıÁ¿¹éÒ»»¯
 extern float frame_white_num__normalization_limit;	// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ±ß¿ò°×µãÊıÁ¿¹éÒ»»¯ãĞÖµ
 extern int16 frame_offset;	// Í¼Ïñ±ß¿òÆ«ÒÆÁ¿£¨×ó¿òÓÒÆ«£¬ÓÒ¿ò×óÆ«£¬·ÀÖ¹ÇúÂÊ³¬¼¶´óµÄÔ²»·ÎŞ·¨Ê¹ÓÃ¶Ô³Æ·¨½øĞĞ½ÃÕı£© 
+extern float rotate_linear_speed;	// ÈÆÏä×ÓĞı×ªÏßËÙ¶È
+extern float linear_angular_speed_rate;	// ÏßËÙ¶È/½ÇËÙ¶È ±ÈÀı£¨ÓÃÓÚÈÆÏä×Ó×ª£©
 
 /******************************************************************/
 

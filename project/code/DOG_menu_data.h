@@ -19,6 +19,7 @@ typedef struct
 {
 	char* name;
 	int16 data_int16;
+	uint16 data_uint16;
 	uint8 data_uint8;
 	float data_float;
 }_MENU_DATA_NAME_TYPE_;
@@ -40,6 +41,12 @@ typedef struct
 /* 菜单电机数据 */
 typedef struct
 {
+	_MENU_DATA_NAME_TYPE_ motor_1_dir;
+	_MENU_DATA_NAME_TYPE_ motor_1_duty;
+	_MENU_DATA_NAME_TYPE_ motor_2_dir;
+	_MENU_DATA_NAME_TYPE_ motor_2_duty;
+	_MENU_DATA_NAME_TYPE_ motor_3_dir;
+	_MENU_DATA_NAME_TYPE_ motor_3_duty;
 	_MENU_DATA_NAME_TYPE_ motor_1_speed;
 	_MENU_DATA_NAME_TYPE_ motor_2_speed;
 	_MENU_DATA_NAME_TYPE_ motor_3_speed;
@@ -135,11 +142,15 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ circle_path_enable_flag;
 	_MENU_DATA_NAME_TYPE_ circle_check_y;
 	_MENU_DATA_NAME_TYPE_ circle_in_linear_speed_target;
+	_MENU_DATA_NAME_TYPE_ circle_in_angular_speed_target;
 	_MENU_DATA_NAME_TYPE_ circle_in_angle;
 	_MENU_DATA_NAME_TYPE_ circle_out_linear_speed_target;
+	_MENU_DATA_NAME_TYPE_ circle_out_angular_speed_target;
 	_MENU_DATA_NAME_TYPE_ circle_out_angle;
 	_MENU_DATA_NAME_TYPE_ side_extract_start;
 	_MENU_DATA_NAME_TYPE_ side_extract_end;
+	_MENU_DATA_NAME_TYPE_ side_X_delta_max_limit;
+	_MENU_DATA_NAME_TYPE_ side_X_delta_min_limit;
 }_MENU_CIRCLE_PATH_;
 
 /* 菜单PID参数 */

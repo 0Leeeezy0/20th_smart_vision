@@ -6,6 +6,8 @@ API：
 #ifndef _ELEMENT_H_
 #define _ELEMENT_H_
 
+#include "common.h"
+
 /* 对称法矫正初始化 */
 void symmetry_rectificate_init(void);
 

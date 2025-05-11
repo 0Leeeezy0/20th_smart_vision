@@ -55,12 +55,18 @@
 #define AI_CAMERA_1_UART_TX_PIN             ( UART1_TX_B12 )                       
 #define AI_CAMERA_1_UART_RX_PIN             ( UART1_RX_B13 ) 
 
+/* AI摄像头1 串口引脚 */
+#define AI_CAMERA_2_UART_INDEX			    ( UART_2 )                              
+#define AI_CAMERA_2_UART_BAUDRATE           ( 115200 )                            
+#define AI_CAMERA_2_UART_TX_PIN             ( UART2_TX_B18 )                       
+#define AI_CAMERA_2_UART_RX_PIN             ( UART2_RX_B19 ) 
 
 /* 底盘参数*/
-#define GEAR_RATIO 		(float)(4.4)				// 齿轮比（ 编码器转速/电机输出侧转速 ）(4.4*26/36)
+#define GEAR_RATIO 		(float)(4.22)				// 齿轮比（ 编码器转速/电机输出侧转速 ）(4.22*1/1)
+#define WHEEL_CIRCUMFERENCE 	(float)(17.90708)		// 轮周长
 #define GYRO_Z_FORWARD 	( 1 )							// 陀螺仪Z轴方向（ 向上：1 向下：-1 ）
 #define ACC_OFFSET 		( 0 )							// 加速度计正方向角度修正
-#define TRANSLATE_SHIFT_REVISE	(float)(0.13333333333333333) 			// 平动位移解算修正
+#define TRANSLATE_SHIFT_REVISE	(float)(0.69565217391304347) 			// 平动位移解算修正
 
 /* 屏幕类型 */
 #define SCREEN_KIND 1	// 屏幕选择（ 0:tft180 1:ips200 ）
@@ -80,15 +86,16 @@
 /****************************** 中断参数 ******************************/
 
 #define SENSOR_IT_CH 							( PIT_CH0 ) 			// 传感器值获取中断号
-#define SENSOR_IT_TIME 							( 1 ) 					// 传感器值获取中断周期 ms
+#define SENSOR_IT_TIME 							( 5 ) 					// 传感器值获取中断周期 ms
 #define CONTROL_IT_CH 							( PIT_CH1 )				// 控制中断号
-#define CONTROL_IT_TIME  						( 10 )					// 控制中断周期 ms
+#define CONTROL_IT_TIME  						( 5 )					// 控制中断周期 ms
 #define TIME_COUNT_IT_CH 						( PIT_CH2 )				// 计时中断号
 #define TIME_COUNT_IT_TIME						( 1 )					// 计时中断周期 ms
 #define MENU_KEY_SCAN_IT_CH 					( PIT_CH3 )				// 按键扫描中断号
 #define MENU_KEY_SCAN_IT_TIME					( 20 )  				// 按键扫描中断周期 ms
-#define AI_CAMERA_0_UART_PRIORITY     			( LPUART2_IRQn )  		// AI摄像头0 串口接收中断号
-#define AI_CAMERA_1_UART_PRIORITY     			( LPUART1_IRQn )  		// AI摄像头1串口接收中断号
+#define AI_CAMERA_0_UART_PRIORITY     			( LPUART4_IRQn )  		// AI摄像头0 串口接收中断号
+#define AI_CAMERA_1_UART_PRIORITY     			( LPUART1_IRQn )  		// AI摄像头1 串口接收中断号
+#define AI_CAMERA_2_UART_PRIORITY     			( LPUART2_IRQn )  		// AI摄像头1 串口接收中断号
 
 /*********************************************************************/
 
@@ -166,10 +173,10 @@
 
 /****************************** PID ******************************/
 
-#define MOTOR_PID_CHOOSE 			( 0 )		// 电机PID类型（ 增量式：0   位置式：1）
-#define ROTATE_PID_CHOOSE 			( 1 )		// 转动PID类型（ 增量式：0	位置式：1）
-#define TRANSLATE_PID_CHOOSE 		( 0 )		// 平动PID类型（ 增量式：0	位置式：1）
-#define PATH_PID_CHOOSE 			( 1 )		// 循迹PID类型（ 增量式：0   位置式：1）
+#define MOTOR_PID_CHOOSE 			( 0 )			// 电机PID类型（ 增量式：0   位置式：1）
+#define ROTATE_PID_CHOOSE 			( 1 )			// 转动PID类型（ 增量式：0	位置式：1）
+#define TRANSLATE_PID_CHOOSE 		( 0 )			// 平动PID类型（ 增量式：0	位置式：1）
+#define PATH_PID_CHOOSE 			( 1 )			// 循迹PID类型（ 增量式：0   位置式：1）
 
 /*****************************************************************/
 

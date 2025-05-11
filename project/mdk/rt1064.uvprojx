@@ -455,6 +455,11 @@
               <FilePath>..\code\DOG_element.h</FilePath>
             </File>
             <File>
+              <FileName>DOG_menu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_menu.h</FilePath>
+            </File>
+            <File>
               <FileName>DOG_fsm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\code\DOG_fsm.c</FilePath>
@@ -478,11 +483,6 @@
               <FileName>DOG_menu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\code\DOG_menu.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_menu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_menu.h</FilePath>
             </File>
             <File>
               <FileName>DOG_menu_data.c</FileName>

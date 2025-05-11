@@ -26,7 +26,6 @@ float incremental_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variab
 	{
 		pid_paraments -> value = -pid_paraments -> output_limit;
 	}
-	
 	return pid_paraments -> value;
 }
 

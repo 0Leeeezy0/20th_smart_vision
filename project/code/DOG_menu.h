@@ -95,6 +95,9 @@ typedef struct
 /* 菜单初始化 */
 void menu_init(void);
 
+/* 串口信息发送 */
+void menu_uart_service(void);
+
 /* 菜单页面初始化 */
 void menu_page_init(FUNC_PAGE func_page);
 
@@ -125,6 +128,9 @@ void menu_root_page(void);
 
 /* 启动 */
 void start(void);
+
+/* 调试 */
+void debug(void);
 
 /* 保存参数 */
 void save(void);
@@ -160,7 +166,7 @@ void menu_symmetry_rectificate_page(void);
 void menu_ai_camera_0_page(void);
 
 /* AI摄像头1 数据页面 */
-void menu_ai_camera_1_page(void);
+void menu_ai_camera_1_and_2_page(void);
 
 /* AI识别列表页面 */
 void menu_detection_list(void);
@@ -196,6 +202,9 @@ void menu_rotate_angle_pid_page(void);
 /* 菜单启动页面返回服务 */
 void menu_start_page_back_service(void);
 
+/* 菜单调试页面返回服务 */
+void menu_debug_page_back_service(void);
+
 /* 菜单欧拉角页面返回服务 */
 void menu_euler_angle_page_back_service(void);
 
@@ -205,6 +214,10 @@ void menu_translate_shift_page_back_service(void);
 /* 菜单对称法矫正数据页面服务 */
 //void menu_symmetry_rectificate_data_add_service(void);
 //void menu_asymmetry_rectificate_data_reduce_service(void);
+
+/* 电机数据页面服务 */
+void menu_motor_data_add_service(void);
+void menu_motor_data_reduce_service(void);
 
 /* 菜单AI摄像头0数据页面服务 */
 void menu_ai_camera_0_data_add_service(void);

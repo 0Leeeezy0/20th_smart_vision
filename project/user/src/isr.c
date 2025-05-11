@@ -68,6 +68,7 @@ void PIT_IRQHandler(void)
 			case CHASSIS_STOP:{ chassis_control_stop();	break; }
 			case CHASSIS_MOVE:{ chassis_control_move(MOTOR_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_angular_speed); break; }
 			case CHASSIS_ANGLE_ROTATE:{ chassis_control_angle_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_rotate_angle); break; }
+			case CHASSIS_DEBUG:{ chassis_control_debug(); break; }
 		}
         pit_flag_clear(PIT_CH1);
     }
@@ -99,6 +100,11 @@ void PIT_IRQHandler(void)
 			zebra_crossing_path_element_stop_delay_time_count++;
 		else
 			zebra_crossing_path_element_stop_delay_time_count = 0;
+		// 程序计时
+		if(program_time_count_flag)
+			program_time_count++;
+		else
+			program_time_count = 0;
 		
         pit_flag_clear(PIT_CH2);
     }
@@ -133,6 +139,9 @@ void LPUART2_IRQHandler(void)
 {
     if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART2))
     {
+		// AI摄像头2串口接收中断
+		extern void uart_rx_interrupt_handler_ai_camera_2();
+        uart_rx_interrupt_handler_ai_camera_2();
         // 接收中断
         
     }
