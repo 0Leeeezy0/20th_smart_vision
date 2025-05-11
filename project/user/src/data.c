@@ -38,6 +38,11 @@ uint16 grayscale = 0;
 /* 电池电压（V） */
 float bat_voltage = 0;
 
+/* 电流adc参数 */
+float I_adc_1 = 0;
+float I_adc_2 = 0;
+float I_adc_3 = 0;
+
 /* 位移解算（° cm） */
 float wheel_1_shift = 0;
 float wheel_2_shift = 0;

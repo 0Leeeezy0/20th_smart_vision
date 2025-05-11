@@ -202,6 +202,11 @@ extern uint16 grayscale;
 /* 电池电压（V） */
 extern float bat_voltage;
 
+/* 电流adc参数 */
+extern float I_adc_1;
+extern float I_adc_2;
+extern float I_adc_3;
+
 /* 位移解算 */
 extern float shift_yaw;
 extern float shift_linear_speed;

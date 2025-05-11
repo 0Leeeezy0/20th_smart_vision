@@ -61,7 +61,12 @@ void motor_sensor_init(void)
 	// 电池电压引脚初始化
 	adc_init(BAT_VOLTAGE_PIN,ADC_12BIT);
 	
-	// 控制中断初始化
+    // 电池电压引脚初始化
+    adc_init(I_ADC_1_PIN,ADC_12BIT);
+	adc_init(I_ADC_2_PIN,ADC_12BIT);    
+    adc_init(I_ADC_3_PIN,ADC_12BIT);
+    
+    // 控制中断初始化
 	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
 	
 	// 传感器中断初始化
@@ -350,11 +355,21 @@ void grayscale_sensor_get(void)
 	grayscale = adc_mean_filter_convert(GRAYSCALE_SENSOR_PIN, 5); 
 }
 
-/* 电池电压获取 */
+/* 电池电压获取*/
 void bat_voltage_get(void)
 {
 	bat_voltage = (float)adc_mean_filter_convert(BAT_VOLTAGE_PIN, 5)*(float)BAT_VOLTAGE_CALIBRATION/4096.0; 
 }
+
+/* 电流检测adc */
+void I_adc_get(void)
+{
+	I_adc_1 = (float)adc_mean_filter_convert(I_ADC_1_PIN, 5)-2048.0;
+    I_adc_2 = (float)adc_mean_filter_convert(I_ADC_2_PIN, 5)-2048.0;
+    I_adc_3 = (float)adc_mean_filter_convert(I_ADC_3_PIN, 5)-2048.0;    
+}
+
+
 
 /* 平动位移解算 */
 void translate_shift(void)

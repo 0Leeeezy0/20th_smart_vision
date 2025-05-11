@@ -76,6 +76,9 @@ void grayscale_sensor_get(void);
 /* 电池电压获取 */
 void bat_voltage_get(void);
 
+/* 电流ADC获取 */
+void I_adc_get(void);
+
 /* 平动位移解算 */
 void translate_shift(void);
 

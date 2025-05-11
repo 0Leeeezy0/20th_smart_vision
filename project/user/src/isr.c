@@ -57,7 +57,7 @@ void PIT_IRQHandler(void)
 		
 		grayscale_sensor_get();
 		bat_voltage_get();
-			
+		I_adc_get();
         pit_flag_clear(PIT_CH0);
     }
     /* µ×ÅÌ¿ØÖÆÖÐ¶Ï */
