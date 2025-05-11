@@ -133,7 +133,9 @@ void menu_uart_service(void)
 	theory_motor_speed_update();
 	update_data_add();
 	real_motor_speed_update();
-	update_data_end();
+    update_data_add();
+    motor_duty_update();
+   	update_data_end();
 	/*****************************************/
 }
 
@@ -548,36 +550,36 @@ void menu_motor_page(void)
 		
 		menu_data_change(menu_motor_data_add_service,menu_motor_data_reduce_service);
 		
-		MENU_MOTOR.motor_1_dir.data_uint16 = chassis_control.motor_1.dir;
-		MENU_MOTOR.motor_1_duty.data_uint16 = chassis_control.motor_1.duty;
-		MENU_MOTOR.motor_2_dir.data_uint16 = chassis_control.motor_2.dir;
-		MENU_MOTOR.motor_2_duty.data_uint16 = chassis_control.motor_2.duty;
-		MENU_MOTOR.motor_3_dir.data_uint16 = chassis_control.motor_3.dir;
-		MENU_MOTOR.motor_3_duty.data_uint16 = chassis_control.motor_3.duty;
+		MENU_MOTOR.motor_1_dir.data_int16 = chassis_control.motor_1.dir;
+		MENU_MOTOR.motor_1_duty.data_int16 = chassis_control.motor_1.duty;
+		MENU_MOTOR.motor_2_dir.data_int16 = chassis_control.motor_2.dir;
+		MENU_MOTOR.motor_2_duty.data_int16 = chassis_control.motor_2.duty;
+		MENU_MOTOR.motor_3_dir.data_int16 = chassis_control.motor_3.dir;
+		MENU_MOTOR.motor_3_duty.data_int16 = chassis_control.motor_3.duty;
 		MENU_MOTOR.motor_1_speed.data_float = motor_1_speed;
 		MENU_MOTOR.motor_2_speed.data_float = motor_2_speed;
 		MENU_MOTOR.motor_3_speed.data_float = motor_3_speed;
 	
 		// 调整电机方向及PWM
 		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR.motor_1_dir.name);
-		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR.motor_1_dir.data_uint16,1);
+		screen_int(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR.motor_1_dir.data_int16,1);
 		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR.motor_1_duty.name);
-		screen_uint(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR.motor_1_duty.data_uint16,4);
+		screen_int(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR.motor_1_duty.data_int16,4);
 		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR.motor_2_dir.name);
-		screen_uint(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR.motor_2_dir.data_uint16,1);
+		screen_int(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR.motor_2_dir.data_int16,1);
 		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR.motor_2_duty.name);
-		screen_uint(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR.motor_2_duty.data_uint16,4);
+		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR.motor_2_duty.data_int16,4);
 		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR.motor_3_dir.name);
-		screen_uint(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR.motor_3_dir.data_uint16,1);
+		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR.motor_3_dir.data_int16,1);
 		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR.motor_3_duty.name);
-		screen_uint(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR.motor_3_duty.data_uint16,4);
+		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR.motor_3_duty.data_int16,4);
 		// 显示电机转速
 		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR.motor_1_speed.name);
-		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR.motor_1_speed.data_float,2,3);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR.motor_1_speed.data_float,4,3);
 		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR.motor_2_speed.name);
-		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR.motor_2_speed.data_float,2,3);
+		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR.motor_2_speed.data_float,4,3);
 		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR.motor_3_speed.name);
-		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR.motor_3_speed.data_float,2,3);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR.motor_3_speed.data_float,4,3);
 	}
 }
 
@@ -864,7 +866,7 @@ void menu_chassis_page(void)
 		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_CHASSIS.angular_speed.data_float,2,3);
 		screen_string(0,5*MENU_ROW_PITCH,MENU_CHASSIS.rotate_angle.name);
 		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_CHASSIS.rotate_angle.data_float,3,3);
-		screen_string(0,9*MENU_ROW_PITCH,"EULER_YAW");
+		screen_string(0,6*MENU_ROW_PITCH,"EULER_YAW");
 		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,yaw,3,3);
 		
 	}
@@ -891,7 +893,7 @@ void menu_path_page(void)
 	
 		// 显示循线数据
 		screen_string(0,MENU_ROW_PITCH,MENU_PATH.linear_speed_target.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH.linear_speed_target.data_float,2,4);
+		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH.linear_speed_target.data_float,3,3);
 		screen_string(0,2*MENU_ROW_PITCH,MENU_PATH.path_start.name);
 		screen_int(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_PATH.path_start.data_int16,3);
 		screen_string(0,3*MENU_ROW_PITCH,MENU_PATH.path_end.name);
@@ -936,15 +938,15 @@ void menu_circle_path_page(void)
 		screen_string(0,2*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_check_y.name);
 		screen_int(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_check_y.data_int16,3);
 		screen_string(0,3*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_linear_speed_target.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_linear_speed_target.data_float,2,2);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_linear_speed_target.data_float,3,2);
 		screen_string(0,4*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_angular_speed_target.name);
-		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_angular_speed_target.data_float,2,2);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_angular_speed_target.data_float,3,2);
 		screen_string(0,5*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_angle.name);
 		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_angle.data_int16,3);
 		screen_string(0,6*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_linear_speed_target.name);
-		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_linear_speed_target.data_float,2,2);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_linear_speed_target.data_float,3,2);
 		screen_string(0,7*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_angular_speed_target.name);
-		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_angular_speed_target.data_float,2,2);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_angular_speed_target.data_float,3,2);
 		screen_string(0,8*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_angle.name);
 		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_angle.data_int16,3);
 		screen_string(0,9*MENU_ROW_PITCH,MENU_CIRCLE_PATH.side_extract_start.name);
@@ -1243,17 +1245,17 @@ void menu_motor_data_reduce_service(void)
 		case 4:{ chassis_control.motor_3.dir-=1; break; }
 		case 5:{ chassis_control.motor_3.duty-=10; break; }
 	}
-	if(chassis_control.motor_1.dir > 1)
+	if(chassis_control.motor_1.dir < 0)
 		chassis_control.motor_1.dir = 1;
-	if(chassis_control.motor_1.duty > 7000)
+	if(chassis_control.motor_1.duty < 0)
 		chassis_control.motor_1.duty = 0;
-	if(chassis_control.motor_2.dir > 1)
+	if(chassis_control.motor_2.dir < 0)
 		chassis_control.motor_2.dir = 1;
-	if(chassis_control.motor_2.duty > 7000)
+	if(chassis_control.motor_2.duty < 0)
 		chassis_control.motor_2.duty = 0;
-	if(chassis_control.motor_3.dir > 1)
+	if(chassis_control.motor_3.dir < 0)
 		chassis_control.motor_3.dir = 1;
-	if(chassis_control.motor_3.duty > 7000)
+	if(chassis_control.motor_3.duty < 0)
 		chassis_control.motor_3.duty = 0;
 }
 
@@ -1298,8 +1300,8 @@ void menu_chassis_data_add_service(void)
 	{
 		case 0:{ chassis_motion_flag+=1; break; }
 		case 1:{ chassis_yaw+=1; break; }
-		case 2:{ chassis_linear_speed+=0.1; break; }
-		case 3:{ chassis_angular_speed+=0.1; break; }
+		case 2:{ chassis_linear_speed+=0.5; break; }
+		case 3:{ chassis_angular_speed+=0.5; break; }
 		case 4:{ chassis_rotate_angle+=1; break; }
 	}
 	if(chassis_motion_flag > 2)
@@ -1313,8 +1315,8 @@ void menu_chassis_data_reduce_service(void)
 	{
 		case 0:{ chassis_motion_flag-=1; break; }
 		case 1:{ chassis_yaw-=1; break; }
-		case 2:{ chassis_linear_speed-=0.1; break; }
-		case 3:{ chassis_angular_speed-=0.1; break; }
+		case 2:{ chassis_linear_speed-=0.5; break; }
+		case 3:{ chassis_angular_speed-=0.5; break; }
 		case 4:{ chassis_rotate_angle-=1; break; }
 	}
 	if(chassis_motion_flag > 2)

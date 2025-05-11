@@ -62,8 +62,8 @@ typedef enum
 /* 电机运动控制 */
 typedef struct
 {
-	uint16 duty;
-	uint16 dir;
+	int16 duty;
+	int16 dir;
 }_MOTOR_CONTROL_;
 
 /* PID闭环参数 */
