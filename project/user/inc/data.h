@@ -75,6 +75,7 @@ typedef struct
 	float output_limit;
 	float i_limit;
 	float value;
+    float value_output;
 }_PID_PARAMETERS_;
 
 /* PID±’ª∑±‰¡ø */
