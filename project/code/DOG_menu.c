@@ -130,14 +130,14 @@ void menu_page_init(FUNC_PAGE func_page)
 void menu_uart_service(void)
 {
 	/*****************************************/
-//	theory_motor_speed_update();
-//	update_data_add();
-//	real_motor_speed_update();
-//    update_data_add();
-//    printf("%f,%f,%f",I_adc_1,I_adc_2,I_adc_3);
-//    update_data_add();
-//    motor_duty_update();
-//   	update_data_end();
+	theory_motor_speed_update();
+	update_data_add();
+	real_motor_speed_update();
+    update_data_add();
+    printf("%f,%f,%f,%f",I_adc_1,I_adc_2,I_adc_3,path_err);
+    update_data_add();
+    motor_duty_update();
+   	update_data_end();
 	/*****************************************/
 }
 
