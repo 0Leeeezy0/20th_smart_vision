@@ -130,14 +130,14 @@ void menu_page_init(FUNC_PAGE func_page)
 void menu_uart_service(void)
 {
 	/*****************************************/
-	theory_motor_speed_update();
-	update_data_add();
-	real_motor_speed_update();
-    update_data_add();
-    printf("%f,%f,%f",I_adc_1,I_adc_2,I_adc_3);
-    update_data_add();
-    motor_duty_update();
-   	update_data_end();
+//	theory_motor_speed_update();
+//	update_data_add();
+//	real_motor_speed_update();
+//    update_data_add();
+//    printf("%f,%f,%f",I_adc_1,I_adc_2,I_adc_3);
+//    update_data_add();
+//    motor_duty_update();
+//   	update_data_end();
 	/*****************************************/
 }
 
@@ -1332,7 +1332,7 @@ void menu_path_data_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_linear_speed_target+=0.1; break; }
+		case 0:{ path_linear_speed_target+=1; break; }
 		case 1:{ path_start+=1; break; }
 		case 2:{ path_end+=1; break; }
 		case 3:{ control_point[0]+=1; break; }
@@ -1344,7 +1344,7 @@ void menu_path_data_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_linear_speed_target-=0.1; break; }
+		case 0:{ path_linear_speed_target-=1; break; }
 		case 1:{ path_start-=1; break; }
 		case 2:{ path_end-=1; break; }
 		case 3:{ control_point[0]-=1; break; }
