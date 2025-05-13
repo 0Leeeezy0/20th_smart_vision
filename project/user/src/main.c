@@ -70,32 +70,7 @@ int main(void)
 			menu_service_start();
 			
 			/* 测试 */
-//			path_rectificate(RECTIFICATE_PID_KIND);
-//			while(1)
-//			{
-//				chassis_motion_flag = CHASSIS_STOP;
-//			}
-			/* 测试 */
-//			translate_shift_flag = TRUE;
-//			chassis_motion_flag = CHASSIS_MOVE;
-//			chassis_linear_speed = 2;
-//			if(shift_distance >= 0.5)
-//			{
-//				while(1)
-//				{
-//					chassis_motion_flag = CHASSIS_STOP;
-//				}
-//			}
-			/* 测试 */
-//			threshold(mt9v03x_image);
-//			path_extract();
-//			// 绿色，圆环检测线
-//			screen_draw_line(0, MENU_ROW_PITCH+circle_check_y, MT9V03X_W, MENU_ROW_PITCH+circle_check_y ,RGB565_GREEN);
-//			// 蓝色，循线起始截止线
-//			screen_draw_line(0, MENU_ROW_PITCH+path_start, MT9V03X_W, MENU_ROW_PITCH+path_start ,RGB565_BLUE);
-//			screen_draw_line(0, MENU_ROW_PITCH+path_start-control_point[path_follow_kind_flag], MT9V03X_W, MENU_ROW_PITCH+path_start-control_point[path_follow_kind_flag] ,RGB565_BLUE);
-//			screen_image(0, MENU_ROW_PITCH, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-//			circle_path_element_judge();
+			
 			
 			/* RM小陀螺 */
 //			chassis_motion_flag = CHASSIS_MOVE;

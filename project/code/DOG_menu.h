@@ -90,13 +90,11 @@ typedef struct
 	int16 page_num;	// 页面序号（按同一级的先后顺序由0起排序）
 	int16 page_row_num;	// 页面选项行数
 	FUNC_PAGE func_page;	// 菜单页面索引
+	_DEBUG_MODE_ debug_mode;	// 调试模式
 }_MENU_PAGE_;
 
 /* 菜单初始化 */
 void menu_init(void);
-
-/* 串口信息发送 */
-void menu_uart_service(void);
 
 /* 菜单页面初始化 */
 void menu_page_init(FUNC_PAGE func_page);

@@ -59,6 +59,13 @@ typedef enum
 	speaker = 14			// ÒôÏì
 }_AI_CAMERA_DETECTION_LABLE_;
 
+// µ÷ÊÔÄ£Ê½
+typedef enum 
+{
+	NONE = 0,
+	SIN_TRACK_ERR_MODE = 1
+}_DEBUG_MODE_;
+
 /* µç»úÔË¶¯¿ØÖÆ */
 typedef struct
 {
@@ -148,6 +155,7 @@ extern uint8 zebra_crossing_path_element_stop_delay_time_count_flag;	// °ßÂíÏßÔª
 extern uint8 circle_in_time_count_flag;				// Ô²»·Èë»·¼ÆÊ±±êÖ¾Î»£¨Èë»·ºó¿ªÊ¼¼ÆÊ±£¬·ÀÖ¹Èë»·Ê§°Üºó´íÎó³ö»·£©
 extern uint8 circle_out_time_count_flag;			// Ô²»·³ö»·¼ÆÊ±±êÖ¾Î»£¨³ö»·ºó¿ªÊ¼¼ÆÊ±£¬·ÀÖ¹³ö»·ºó×ËÌ¬²»ºÃµ¼ÖÂ´íÎóÈë»·£©
 extern uint8 program_time_count_flag;					// ³ÌĞò¼ÆÊ±±êÖ¾Î»
+extern uint8 debug_time_count_flag;					// µ÷ÊÔ¼ÆÊ±±êÖ¾Î»
 extern uint8 circle_in_flag;								// ½ø»·±êÖ¾Î»
 extern uint8 circle_out_flag;								// ³ö»·±êÖ¾Î»
 extern _CONTROL_MODE_ control_mode_flag;	// ¿ØÖÆÄ£Ê½±êÖ¾Î»
@@ -204,9 +212,9 @@ extern uint16 grayscale;
 extern float bat_voltage;
 
 /* µçÁ÷adc²ÎÊı */
-extern float I_adc_1;
-extern float I_adc_2;
-extern float I_adc_3;
+extern float motor_1_I;
+extern float motor_2_I;
+extern float motor_3_I;
 
 /* Î»ÒÆ½âËã */
 extern float shift_yaw;
@@ -296,6 +304,7 @@ extern uint32 circle_out_time_count;  // ³ö»·¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÔÙ´ÎÅĞ¶ÏÈë»·£
 extern uint32 zebra_crossing_path_element_start_judge_time_count;	// °ßÂíÏßÔªËØ¿ªÆôÅĞ¶Ï¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔ¿ªÊ¼ÅĞ¶Ï°ßÂíÏß£©
 extern uint32 zebra_crossing_path_element_stop_delay_time_count;	// °ßÂíÏßÔªËØÍ£³µÑÓÊ±¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÍ£³µ£©
 extern uint32 program_time_count;	// ³ÌĞò¼ÆÊ±
+extern uint32 debug_time_count;	// µ÷ÊÔ¼ÆÊ±
 
 /* ÈüµÀÔªËØ²ÎÊı */
 extern int16 circle_check_y;		// Ô²»·¼ì²âÏß¸ß¶È

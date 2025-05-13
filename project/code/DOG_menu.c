@@ -42,31 +42,31 @@ API：
 /* 页面列表 */
 static _MENU_PAGE_ menu_page[] = 
 {
-	/* 页面名称         标题使能     级别 序号    参数行数   页面函数指针 */
-	{"ROOT"         	,FALSE 		,0 	,0 		,23 	,menu_root_page},
-	{"START"        	,TRUE 		,1 	,0 		,0 		,start},
-	{"DEBUG"        	,TRUE 		,1 	,1 		,0 		,debug},
-	{"SAVE"        		,TRUE 		,1 	,2 		,0 		,save},
-	{"LOAD"				,TRUE 		,1 	,3 		,0 		,load},
-	{"CLI"				,TRUE 		,1 	,4 		,0 		,cli},
-	{"CALIBRATE"		,TRUE 		,1 	,5 		,0 		,sensor_calibrate},
-	{"ENCODER"			,TRUE 		,1 	,6 		,0 		,menu_encoder_page},
-	{"MOTOR"			,TRUE 		,1 	,7 		,6 		,menu_motor_page},
-	{"GYRO_ACC"			,TRUE 		,1 	,8 		,0 		,menu_gyro_acc_page},
-	{"EULER_ANGLE"      ,TRUE		,1	,9		,0		,menu_euler_angle_page},
-	{"TRANSLATE_SHIFT"	,TRUE		,1	,10		,0		,menu_translate_shift_page},
-	{"RECTIFICATE"		,TRUE		,1	,11		,0		,menu_symmetry_rectificate_page},
-	{"AI_CAMERA_0"		,TRUE		,1	,12		,6		,menu_ai_camera_0_page},
-	{"AI_CAMERA_1&2"	,TRUE		,1	,13		,1		,menu_ai_camera_1_and_2_page},
-	{"DETECTION_LIST"	,TRUE		,1	,14		,0		,menu_detection_list},
-	{"CHASSIS"			,TRUE 		,1 	,15 	,5 		,menu_chassis_page},
-	{"PATH"				,TRUE		,1	,16		,6		,menu_path_page},
-	{"CIRCLE_PATH"		,TRUE		,1	,17		,12		,menu_circle_path_page},
-	{"MOTOR_1 PID"		,TRUE 		,1 	,18 	,5 		,menu_motor_1_pid_page},
-	{"MOTOR_2 PID"		,TRUE 		,1 	,19 	,5 		,menu_motor_2_pid_page},
-	{"MOTOR_3 PID"		,TRUE 		,1 	,20 	,5 		,menu_motor_3_pid_page},
-	{"PATH PID"			,TRUE 		,1 	,21 	,7 		,menu_path_pid_page},
-	{"ROTATE_PID"		,TRUE		,1	,22		,6		,menu_rotate_angle_pid_page}
+	/* 页面名称         标题使能     级别 序号    参数行数   页面函数指针 						调试模式*/
+	{"ROOT"         	,FALSE 		,0 	,0 		,23 	,menu_root_page						,NONE},
+	{"START"        	,TRUE 		,1 	,0 		,0 		,start								,NONE},
+	{"DEBUG"        	,TRUE 		,1 	,1 		,0 		,debug								,NONE},
+	{"SAVE"        		,TRUE 		,1 	,2 		,0 		,save								,NONE},
+	{"LOAD"				,TRUE 		,1 	,3 		,0 		,load								,NONE},
+	{"CLI"				,TRUE 		,1 	,4 		,0 		,cli								,NONE},
+	{"CALIBRATE"		,TRUE 		,1 	,5 		,0 		,sensor_calibrate					,NONE},
+	{"ENCODER"			,TRUE 		,1 	,6 		,0 		,menu_encoder_page					,NONE},
+	{"MOTOR"			,TRUE 		,1 	,7 		,6 		,menu_motor_page					,NONE},
+	{"GYRO_ACC"			,TRUE 		,1 	,8 		,0 		,menu_gyro_acc_page					,NONE},
+	{"EULER_ANGLE"      ,TRUE		,1	,9		,0		,menu_euler_angle_page				,NONE},
+	{"TRANSLATE_SHIFT"	,TRUE		,1	,10		,0		,menu_translate_shift_page			,NONE},
+	{"RECTIFICATE"		,TRUE		,1	,11		,0		,menu_symmetry_rectificate_page		,NONE},
+	{"AI_CAMERA_0"		,TRUE		,1	,12		,6		,menu_ai_camera_0_page				,NONE},
+	{"AI_CAMERA_1&2"	,TRUE		,1	,13		,1		,menu_ai_camera_1_and_2_page		,NONE},
+	{"DETECTION_LIST"	,TRUE		,1	,14		,0		,menu_detection_list				,NONE},
+	{"CHASSIS"			,TRUE 		,1 	,15 	,5 		,menu_chassis_page					,NONE},
+	{"PATH"				,TRUE		,1	,16		,6		,menu_path_page						,NONE},
+	{"CIRCLE_PATH"		,TRUE		,1	,17		,12		,menu_circle_path_page				,NONE},
+	{"MOTOR_1 PID"		,TRUE 		,1 	,18 	,5 		,menu_motor_1_pid_page				,SIN_TRACK_ERR_MODE},
+	{"MOTOR_2 PID"		,TRUE 		,1 	,19 	,5 		,menu_motor_2_pid_page				,SIN_TRACK_ERR_MODE},
+	{"MOTOR_3 PID"		,TRUE 		,1 	,20 	,5 		,menu_motor_3_pid_page				,SIN_TRACK_ERR_MODE},
+	{"PATH PID"			,TRUE 		,1 	,21 	,7 		,menu_path_pid_page					,NONE},
+	{"ROTATE_PID"		,TRUE		,1	,22		,6		,menu_rotate_angle_pid_page			,NONE}
 };
 
 static int16 num = 0;	// 页面在列表中的序号
@@ -124,21 +124,6 @@ void menu_page_init(FUNC_PAGE func_page)
 			break;
 		}
 	}
-}
-
-/* 串口信息发送 */
-void menu_uart_service(void)
-{
-	/*****************************************/
-	theory_motor_speed_update();
-	update_data_add();
-	real_motor_speed_update();
-    update_data_add();
-    printf("%f,%f,%f,%f",I_adc_1,I_adc_2,I_adc_3,path_err);
-    update_data_add();
-    motor_duty_update();
-   	update_data_end();
-	/*****************************************/
 }
 
 /* 菜单服务启动 */
@@ -357,7 +342,7 @@ void start(void)
 		menu_back(menu_start_page_back_service);
 		menu_point();
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		control_mode_dispatch();
 	}
@@ -390,7 +375,7 @@ void debug(void)
 		menu_back(menu_debug_page_back_service);
 		menu_point();
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		control_mode_dispatch();
 		
@@ -466,7 +451,7 @@ void cli(void)
 		menu_back(NULL);
 		menu_point();
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		debug_cli_init();
 		cli_service_start();
@@ -486,7 +471,7 @@ void sensor_calibrate(void)
 		menu_back(NULL);
 		menu_point();
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		if(gyro_calibration_flag && acc_calibration_flag)
 		{
@@ -510,7 +495,7 @@ void menu_encoder_page(void)
 		menu_back(NULL);
 		menu_point();
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 	
 		MENU_ENCODER.encoder_1_count.data_int16 = encoder_1_count;
 		MENU_ENCODER.encoder_2_count.data_int16 = encoder_2_count;
@@ -548,7 +533,7 @@ void menu_motor_page(void)
 		menu_back(NULL);
 		menu_point();
 		menu_title_show();	
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		menu_data_change(menu_motor_data_add_service,menu_motor_data_reduce_service);
 		
@@ -594,7 +579,7 @@ void menu_gyro_acc_page(void)
 		menu_back(NULL);
 		menu_point();
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		MENU_GYRO_ACC.gyro_x.data_float = gyro_x;
 		MENU_GYRO_ACC.gyro_y.data_float = gyro_y;
@@ -630,7 +615,7 @@ void menu_euler_angle_page(void)
 		menu_back(menu_euler_angle_page_back_service);
 		menu_point();
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 	
 		euler_angle_flag = TRUE;
 		
@@ -657,7 +642,7 @@ void menu_translate_shift_page(void)
 		menu_back(menu_translate_shift_page_back_service);
 		menu_point();
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		translate_shift_flag = TRUE;
 		
@@ -689,7 +674,7 @@ void menu_symmetry_rectificate_page(void)
 		menu_point();
 //		menu_data_change(menu_symmetry_rectificate_data_add_service,menu_symmetry_rectificate_data_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		threshold(mt9v03x_image);
 		screen_image(0, MENU_ROW_PITCH, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
@@ -720,7 +705,7 @@ void menu_ai_camera_0_page(void)
 		menu_point();
 		menu_data_change(menu_ai_camera_0_data_add_service,menu_ai_camera_0_data_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		MENU_AI_CAMERA_0.ai_camera_0_enable_flag.data_uint8 = ai_camera_0_enable_flag;
 		MENU_AI_CAMERA_0.track_linear_speed_target.data_float = track_linear_speed_target;
@@ -761,7 +746,7 @@ void menu_ai_camera_1_and_2_page(void)
 		menu_point();
 		menu_data_change(menu_ai_camera_0_data_add_service,menu_ai_camera_0_data_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		screen_string(0,MENU_ROW_PITCH,"DETECTION_RESULT");
 		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,ai_camera_1_data_raw,3);
@@ -781,7 +766,7 @@ void menu_detection_list(void)
 	{
 		menu_back(NULL);
 		menu_point();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		if(key_get_state(RIGHT) == KEY_SHORT_PRESS)
 		{
@@ -849,7 +834,7 @@ void menu_chassis_page(void)
 		menu_point();
 		menu_data_change(menu_chassis_data_add_service,menu_chassis_data_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		MENU_CHASSIS.motion_kind.data_uint8 = chassis_motion_flag;
 		MENU_CHASSIS.chassis_yaw.data_float = chassis_yaw;
@@ -884,7 +869,7 @@ void menu_path_page(void)
 		menu_point();
 		menu_data_change(menu_path_data_add_service,menu_path_data_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		MENU_PATH.linear_speed_target.data_float = path_linear_speed_target;
 		MENU_PATH.path_start.data_int16 = path_start;
@@ -919,7 +904,7 @@ void menu_circle_path_page(void)
 		menu_point();
 		menu_data_change(menu_circle_path_data_add_service,menu_circle_path_data_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		MENU_CIRCLE_PATH.circle_path_enable_flag.data_uint8 = circle_path_enable_flag;
 		MENU_CIRCLE_PATH.circle_check_y.data_int16 = circle_check_y;
@@ -972,7 +957,7 @@ void menu_motor_1_pid_page(void)
 		menu_point();
 		menu_data_change(menu_motor_1_pid_add_service,menu_motor_1_pid_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		chassis_motion_flag = CHASSIS_MOVE;
 	
@@ -1006,7 +991,7 @@ void menu_motor_2_pid_page(void)
 		menu_point();
 		menu_data_change(menu_motor_2_pid_add_service,menu_motor_2_pid_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		chassis_motion_flag = CHASSIS_MOVE;
 	
@@ -1040,7 +1025,7 @@ void menu_motor_3_pid_page(void)
 		menu_point();
 		menu_data_change(menu_motor_3_pid_add_service,menu_motor_3_pid_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 		
 		chassis_motion_flag = CHASSIS_MOVE;
 	
@@ -1074,7 +1059,7 @@ void menu_path_pid_page(void)
 		menu_point();
 		menu_data_change(menu_path_pid_add_service,menu_path_pid_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 	
 		MENU_PATH_PID.PATH_PID.p.data_float = path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].p;
 		MENU_PATH_PID.PATH_PID.i.data_float = path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i;
@@ -1111,7 +1096,7 @@ void menu_rotate_angle_pid_page(void)
 		menu_point();
 		menu_data_change(menu_rotate_angle_pid_add_service,menu_rotate_angle_pid_reduce_service);
 		menu_title_show();
-		menu_uart_service();
+		debug_service(menu_page[num].debug_mode);
 	
 		MENU_ROTATE_PID.ROTATE_PID.p.data_float = chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].p;
 		MENU_ROTATE_PID.ROTATE_PID.i.data_float = chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i;

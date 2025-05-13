@@ -82,9 +82,9 @@
 #define BAT_VOLTAGE_CALIBRATION		(37.5)					// 电池电压标定参数
 
 /* 电流监测 */
-#define I_ADC_1_PIN				(ADC1_CH3_B14)		// 电流监测引脚
-#define I_ADC_2_PIN				(ADC1_CH12_B23)		// 电流监测引脚
-#define I_ADC_3_PIN				(ADC1_CH10_B21)		// 电流监测引脚
+#define MOTOR_1_I_PIN				(ADC1_CH3_B14)		// 电流监测引脚
+#define MOTOR_2_I_PIN				(ADC1_CH12_B23)		// 电流监测引脚
+#define MOTOR_3_I_PIN				(ADC1_CH10_B21)		// 电流监测引脚
 
 /*********************************************************************/
 
@@ -213,6 +213,7 @@
 #include "DOG_fsm.h"
 #include "DOG_pid.h"
 #include "DOG_element.h"
+#include "DOG_debug.h"
 
 /* PID选择 */
 #if MOTOR_PID_CHOOSE == 0

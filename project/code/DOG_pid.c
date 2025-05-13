@@ -17,7 +17,9 @@ float incremental_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variab
 	pid_variable -> last_last_err = pid_variable -> last_err;
 	pid_variable -> delta = 0;	
     
-    pid_paraments -> value_output= pid_paraments -> value* 1.3 + (pid_paraments -> value / pid_paraments -> value + 1 ) *800;
+//    pid_paraments -> value_output= pid_paraments -> value* 1.3 + (pid_paraments -> value / pid_paraments -> value + 1 ) *800;	// 加这个会导致开启震一下
+	pid_paraments -> value_output = pid_paraments -> value;
+	
 	// 输出限幅
 	if(pid_paraments -> value_output > pid_paraments -> output_limit)
 	{

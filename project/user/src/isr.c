@@ -57,7 +57,7 @@ void PIT_IRQHandler(void)
 		
 		grayscale_sensor_get();
 		bat_voltage_get();
-		I_adc_get();
+		motor_I_get();
         pit_flag_clear(PIT_CH0);
     }
     /* 底盘控制中断 */
@@ -105,6 +105,11 @@ void PIT_IRQHandler(void)
 			program_time_count++;
 		else
 			program_time_count = 0;
+		// 调试计时
+		if(debug_time_count_flag)
+			debug_time_count++;
+		else
+			debug_time_count = 0;
 		
         pit_flag_clear(PIT_CH2);
     }
