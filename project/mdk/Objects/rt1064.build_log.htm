@@ -3,47 +3,106 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.38.0.0
-Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: 1 1, 1, LIC=LSNXV-PHI28-45ST5-GDWSP-ZBPK3-ZKEMY
+IDE-Version: ¦ÌVision V5.40.0.0
+Copyright (C) 2024 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 11 111, 111, LIC=RC93N-YFGKI-DYFV3-AWFSP-V6YJD-APQKA
  
 Tool Versions:
-Toolchain:       MDK-ARM Plus  Version: 5.38.0.0
-Toolchain Path:  D:\KEIL\ARM\ARMCLANG\Bin
-C Compiler:      ArmClang.exe V6.19
-Assembler:       Armasm.exe V6.19
-Linker/Locator:  ArmLink.exe V6.19
-Library Manager: ArmAr.exe V6.19
-Hex Converter:   FromElf.exe V6.19
-CPU DLL:         SARMCM3.DLL V5.38.0.0
+Toolchain:       MDK-ARM Plus  Version: 5.40.0.3
+Toolchain Path:  C:\KEIL_V5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.22
+Assembler:       Armasm.exe V6.22
+Linker/Locator:  ArmLink.exe V6.22
+Library Manager: ArmAr.exe V6.22
+Hex Converter:   FromElf.exe V6.22
+CPU DLL:         SARMCM3.DLL V5.40.0.3
 Dialog DLL:      DCM.DLL V1.17.5.0
-Target DLL:      CMSIS_AGDI.dll V1.33.15.0
+Target DLL:      CMSIS_AGDI.dll V1.33.18.0
 Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
-E:\FILE_SMART_CAR\ÖÇÄÜÊÓ¾õ\RT1064_Library-master\RT1064_Library-master\PROGRAM\project\mdk\rt1064.uvprojx
+C:\Git_Program\20th_smart_vision\project\mdk\rt1064.uvprojx
 Project File Date:  05/13/2025
 
 <h2>Output:</h2>
-*** Using Compiler 'V6.19', folder: 'D:\KEIL\ARM\ARMCLANG\Bin'
+*** Using Compiler 'V6.22', folder: 'C:\KEIL_V5\ARM\ARMCLANG\Bin'
 Build target 'nor_sdram_zf_dtcm'
+compiling data.c...
+compiling DOG_element.c...
+compiling isr.c...
 compiling DOG_debug.c...
+compiling DOG_ai.c...
+../user/src/main.c(23): warning: '/*' within block comment [-Wcomment]
+   23 | //* 
+      |  ^
+../user/src/main.c(24): warning: '/*' within block comment [-Wcomment]
+   24 | //* <CE>Ä¼<FE><C3><FB><B3><C6>          main
+      |  ^
+../user/src/main.c(25): warning: '/*' within block comment [-Wcomment]
+   25 | //* <B9><AB>Ë¾<C3><FB><B3><C6>          <B3>É¶<BC><D6><F0><B7>É¿Æ¼<BC><D3><D0><CF><U+07B9><AB>Ë¾
+      |  ^
+../user/src/main.c(26): warning: '/*' within block comment [-Wcomment]
+   26 | //* <B0>æ±¾<D0><C5>Ï¢          <B2>é¿´ libraries/doc <CE>Ä¼<FE><BC><D0><C4><DA> version <CE>Ä¼<FE> <B0>æ±¾Ëµ<C3><F7>
+      |  ^
+../user/src/main.c(27): warning: '/*' within block comment [-Wcomment]
+   27 | //* <BF><AA><B7><A2><BB><B7><BE><B3>          IAR 8.32.4 or MDK 5.33
+      |  ^
+5 warnings generated.
+compiling main.c...
+../code/DOG_vofa.c(91): warning: incompatible pointer types assigning to 'struct _CLI_DATA_ *' from '_CLI_DATA_ *' [-Wincompatible-pointer-types]
+   91 |         cli_Data -> CLI_Data_Header = cli_Data;
+      |                                     ^ ~~~~~~~~
+../code/DOG_vofa.c(103): warning: incompatible pointer types assigning to 'struct _CLI_DATA_ *' from '_CLI_DATA_ *' [-Wincompatible-pointer-types]
+  103 |         (*cli_data) -> CLI_Data_Next = cli_data_next;
+      |                                      ^ ~~~~~~~~~~~~~
+../code/DOG_vofa.c(112): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+  112 |         _CLI_DATA_* cli_data_get = (cli_data -> CLI_Data_Header);
+      |                     ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(122): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+  122 |                 cli_data_get = (cli_data_get -> CLI_Data_Next);
+      |                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(130): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+  130 |         _CLI_DATA_* cli_data_header = cli_data -> CLI_Data_Header;
+      |                     ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(135): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+  135 |                 cli_data_header = (cli_data_header -> CLI_Data_Next);
+      |                                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(144): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+  144 |         _CLI_DATA_* cli_data_Last = (*cli_data) -> CLI_Data_Header;
+      |                     ^               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(158): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+  158 |                 cli_data_Last = cli_data_Last -> CLI_Data_Next;
+      |                               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8 warnings generated.
+compiling DOG_vofa.c...
+compiling DOG_fsm.c...
+compiling DOG_menu_data.c...
+compiling DOG_pid.c...
+compiling DOG_image.c...
+compiling DOG_path.c...
+../code/DOG_vofa_app.c(111): warning: non-void function does not return a value in all control paths [-Wreturn-type]
+  111 | }
+      | ^
+1 warning generated.
+compiling DOG_vofa_app.c...
+compiling DOG_chassis.c...
+compiling DOG_menu.c...
 linking...
-Program Size: Code=126496 RO-data=18748 RW-data=1472 ZI-data=139412  
-".\Objects\rt1064.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=127040 RO-data=22320 RW-data=1472 ZI-data=139412  
+".\Objects\rt1064.axf" - 0 Error(s), 14 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: NXP
                 https://mcuxpresso.nxp.com/cmsis_pack/repo/NXP.MIMXRT1064_DFP.19.0.0.pack
-                NXP.MIMXRT1064_DFP.19.0.0
+                NXP::MIMXRT1064_DFP@19.0.0
                 Device Family Pack for MIMXRT1064
 
 <h2>Collection of Component include folders:</h2>
-  D:/KEIL/ARM/Pack/NXP/MIMXRT1064_DFP/19.0.0/devices/MIMXRT1064
+  C:/KEIL_V5/ARM/PACK/NXP/MIMXRT1064_DFP/19.0.0/devices/MIMXRT1064
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>
