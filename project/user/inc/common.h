@@ -36,6 +36,15 @@
 #define MOTOR_2_FRONT_DIR 	( 1 )
 #define MOTOR_3_FRONT_DIR 	( -1 )
 
+/* 
+编码器方向标定
+如果电机逆时针旋转时编码器数值为正，则标定值为1
+如果电机逆时针旋转时编码器数值为负，则标定值为-1
+*/
+#define ENCODER_1_FRONT_DIR ( 1 )
+#define ENCODER_2_FRONT_DIR ( 1 )
+#define ENCODER_3_FRONT_DIR ( 1 )
+
 /* 按键引脚 */
 #define UP_PIN 		( C13 )
 #define DOWN_PIN 	( C15 )
@@ -62,6 +71,7 @@
 #define AI_CAMERA_2_UART_RX_PIN             ( UART2_RX_B19 ) 
 
 /* 底盘参数*/
+#define ENCODER_LINE_NUM	(float)(4096)			// 编码器线数
 #define GEAR_RATIO 		(float)(4.22)				// 齿轮比（ 编码器转速/电机输出侧转速 ）(4.22*1/1)
 #define WHEEL_CIRCUMFERENCE 	(float)(17.90708)		// 轮周长
 #define GYRO_Z_FORWARD 	( 1 )							// 陀螺仪Z轴方向（ 向上：1 向下：-1 ）
