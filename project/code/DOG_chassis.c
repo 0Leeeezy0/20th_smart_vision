@@ -105,13 +105,13 @@ void motor_set_duty(_MOTOR_NUM_ motor_num,const uint32 duty,uint8 dir)
 /* 编码器值获取(现实值 rad/s) */
 void encoder_get(void)
 {
-	encoder_1_count = encoder_get_count(ENCODER_1_MODULE_NUM);
-	encoder_2_count = encoder_get_count(ENCODER_2_MODULE_NUM);
-	encoder_3_count = encoder_get_count(ENCODER_3_MODULE_NUM);
+	encoder_1_count = ENCODER_1_FRONT_DIR*encoder_get_count(ENCODER_1_MODULE_NUM);
+	encoder_2_count = ENCODER_2_FRONT_DIR*encoder_get_count(ENCODER_2_MODULE_NUM);
+	encoder_3_count = ENCODER_3_FRONT_DIR*encoder_get_count(ENCODER_3_MODULE_NUM);
 	
-	encoder_1_speed = (float)encoder_get_count(ENCODER_1_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
-	encoder_2_speed = (float)encoder_get_count(ENCODER_2_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
-	encoder_3_speed = (float)encoder_get_count(ENCODER_3_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
+	encoder_1_speed = (float)encoder_get_count(ENCODER_1_MODULE_NUM)/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
+	encoder_2_speed = (float)encoder_get_count(ENCODER_2_MODULE_NUM)/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
+	encoder_3_speed = (float)encoder_get_count(ENCODER_3_MODULE_NUM)/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
 	
 	motor_1_speed = WHEEL_CIRCUMFERENCE*(float)encoder_1_speed/GEAR_RATIO;
 	motor_2_speed = WHEEL_CIRCUMFERENCE*(float)encoder_2_speed/GEAR_RATIO;

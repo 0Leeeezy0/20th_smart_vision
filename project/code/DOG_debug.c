@@ -1,7 +1,7 @@
 #include "common.h"
 
 // 周期
-static uint32 period = 2600;
+static uint32 period = 3600;
 // 幅度
 static uint32 amplitude = 50;
 // 速度
@@ -12,13 +12,14 @@ void menu_uart_service(void)
 {
 	setbuf(stdout,NULL);
 	/*****************************************/
-	theory_motor_speed_update();
-	update_data_add();
-	real_motor_speed_update();
-	update_data_add();
-	printf("%f,%f,%f,%d",motor_1_I,motor_2_I,motor_3_I,path_err);
-	update_data_add();
-	motor_duty_update();
+//	theory_motor_speed_update();
+//	update_data_add();
+//	real_motor_speed_update();
+//	update_data_add();
+//	printf("%f,%f,%f,%f",motor_1_I,motor_2_I,motor_3_I,path_err);
+//	update_data_add();
+//	motor_duty_update();
+	printf("%d",path_err);
 	update_data_end();
 	/*****************************************/
 }
