@@ -73,18 +73,19 @@ static volatile uint8                                   wireless_auto_baud_data[
 //-------------------------------------------------------------------------------------------------------------------
 uint32 wireless_uart_send_byte (const uint8 data)
 {
-    uint16 time_count = WIRELESS_UART_TIMEOUT_COUNT;
-    while(time_count)
-    {
-        if(!gpio_get_level(WIRELESS_UART_RTS_PIN))
-        {
+//    uint16 time_count = WIRELESS_UART_TIMEOUT_COUNT;
+//    while(time_count)
+//    {
+//        if(!gpio_get_level(WIRELESS_UART_RTS_PIN))
+//        {
             uart_write_byte(WIRELESS_UART_INDEX, data);                         // ·¢ËÍÊý¾Ý
-            break;
-        }
-        time_count --;
-        system_delay_ms(1);
-    }
-    return (0 == time_count);
+//            break;
+//        }
+//        time_count --;
+//        system_delay_ms(1);
+//    }
+//    return (0 == time_count);
+    return 0;
 }
 
 //-------------------------------------------------------------------------------------------------------------------

@@ -57,6 +57,7 @@ float chassis_angular_speed = 0;	// 底盘角速度
 float chassis_rotate_angle = 0;		// 底盘转动角度	正方向：顺时针
 uint32 chassis_move_time_count = 0;  // 底盘移动计时
 _CHASSIS_CONTROL_ chassis_control;
+Kalman_Typedef Output_Kalman;
 
 /* 循迹参数 */
 int16 path_err;
@@ -177,13 +178,14 @@ float linear_angular_speed_rate = 0.37;	// 线速度/角速度 比例（用于绕箱子转）（r
 	P I D 输出限幅 积分项限幅
 */
 #if MOTOR_PID_CHOOSE == 0
-// 增量式
-//float PID_MOTOR_1[5] = {880 ,250 ,0 ,9000 ,500};
-//float PID_MOTOR_2[5] = {880 ,250 ,0 ,9000 ,500};
-//float PID_MOTOR_3[5] = {880 ,250 ,0 ,9000 ,500};
-float PID_MOTOR_1[5] = {18.8*2 ,1.4*2 ,0 ,9000 ,500};	// 后
-float PID_MOTOR_2[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 左
-float PID_MOTOR_3[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 右
+// 增量式    //12.9 ,6.1 ,1.25   X0.6  7.74 , 3.66 , 0.75   //0,0,0//8.8,6.1,0.98
+float PID_MOTOR_1[5] = {8.8,6.1,0.98 ,9000 ,500};
+float PID_MOTOR_2[5] = {8.8,6.1,0.98 ,9000 ,500};
+float PID_MOTOR_3[5] = {8.8,6.1,0.98 ,9000 ,500};
+float Karman_value[2] = {0.01,0.1}; //Q R Q越小越平滑   R越小越接近(收敛越快);
+//float PID_MOTOR_1[5] = {18.8*2 ,1.4*2 ,0 ,9000 ,500};	// 后
+//float PID_MOTOR_2[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 左
+//float PID_MOTOR_3[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 右
 #elif MOTOR_PID_CHOOSE == 1
 // 位置式
 float PID_MOTOR_1[5] = {250 ,0.1 ,400 ,9000 ,500};

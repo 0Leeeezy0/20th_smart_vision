@@ -83,17 +83,45 @@ typedef struct
 	float i_limit;
 	float value;
     float value_output;
+    float value_delta;
 }_PID_PARAMETERS_;
 
 /* PID闭环变量 */
 typedef struct
 {
-	float delta;
-	float now_err;
-	float last_err;
+	float delta;    
+	float now_err;    
+	float last_err;    
 	float last_last_err;
 	float sigma_err;
+
+    float sjc_err;
+    float sjc_now_delta;
+    float sjc_value;
+    float sjc_last_delta;
 }_PID_VARIABLE_;
+
+/* 卡尔曼变量 */
+typedef struct
+{
+    /*不用动*/
+    float LastP;//上次估算协方差
+    float Now_P;//当前估算协方差
+    float out;//卡尔曼滤波器输出
+    float Kg;//卡尔曼增益
+	float Q;
+	float R;
+}Kalman_Typedef;
+
+/* 低通滤波变量 */
+typedef struct
+{
+    /*不用动*/
+    float k;//低通滤波系数
+	float neww;//新的值
+	float oldd;//旧的值
+}Lowfloat_Typedef;
+
 
 /* 底盘运动控制 */
 typedef struct
@@ -257,7 +285,7 @@ extern int16 ai_camera_detection_result_list_num;	// 识别结果列表内容数量
 extern float PID_MOTOR_1[5];
 extern float PID_MOTOR_2[5];
 extern float PID_MOTOR_3[5];
-
+extern float Karman_value[2];
 /* 转动PID参数 */
 extern float ROTATE_PID[8][5];
 
@@ -272,7 +300,7 @@ extern float chassis_rotate_angle;			// 底盘转动角度
 extern uint32 chassis_move_time_count;  		// 底盘移动计时
 extern _CHASSIS_CONTROL_ chassis_control;	// 底盘电机解算参数
 extern _CHASSIS_PID_ chassis_pid;			// 底盘PID
-
+extern  Kalman_Typedef  Output_Kalman;
 /* 循迹控制参数 */
 extern _PATH_PID_ path_pid;							// 循迹PID
 

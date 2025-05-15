@@ -29,8 +29,8 @@
 
 /* 
 电机方向标定
-如果给DIR脚为高电平时电机逆时针旋转，则标定值为1
-如果给DIR脚为高电平时电机顺时针旋转，则标定值为-1
+如果给DIR脚为高电平时电机顺时针旋转，则标定值为1
+如果给DIR脚为高电平时电机逆时针旋转，则标定值为-1
 */
 #define MOTOR_1_FRONT_DIR 	( 1 )
 #define MOTOR_2_FRONT_DIR 	( 1 )
@@ -41,9 +41,9 @@
 如果电机逆时针旋转时编码器数值为正，则标定值为1
 如果电机逆时针旋转时编码器数值为负，则标定值为-1
 */
-#define ENCODER_1_FRONT_DIR ( 1 )
-#define ENCODER_2_FRONT_DIR ( 1 )
-#define ENCODER_3_FRONT_DIR ( 1 )
+#define ENCODER_1_FRONT_DIR ( -1 )
+#define ENCODER_2_FRONT_DIR ( -1 )
+#define ENCODER_3_FRONT_DIR ( -1 )
 
 /* 按键引脚 */
 #define UP_PIN 		( C13 )
@@ -76,7 +76,7 @@
 #define WHEEL_CIRCUMFERENCE 	(float)(17.90708)		// 轮周长
 #define GYRO_Z_FORWARD 	( 1 )							// 陀螺仪Z轴方向（ 向上：1 向下：-1 ）
 #define ACC_OFFSET 		( 0 )							// 加速度计正方向角度修正
-#define TRANSLATE_SHIFT_REVISE	(float)(0.69565217391304347) 			// 平动位移解算修正
+#define TRANSLATE_SHIFT_REVISE	(float)(1) 			// 平动位移解算修正
 
 /* 屏幕类型 */
 #define SCREEN_KIND 1	// 屏幕选择（ 0:tft180 1:ips200 ）
@@ -89,7 +89,7 @@
 
 /* 电压监测 */
 #define BAT_VOLTAGE_PIN				(ADC1_CH4_B15)		// 电池电压监测引脚
-#define BAT_VOLTAGE_CALIBRATION		(37.5)					// 电池电压标定参数
+#define BAT_VOLTAGE_CALIBRATION		(36.88)					// 电池电压标定参数
 
 /* 电流监测 */
 #define MOTOR_1_I_PIN				(ADC1_CH3_B14)		// 电流监测引脚
@@ -224,10 +224,11 @@
 #include "DOG_pid.h"
 #include "DOG_element.h"
 #include "DOG_debug.h"
+#include "DOG_karman.h"
 
 /* PID选择 */
 #if MOTOR_PID_CHOOSE == 0
-#define MOTOR_PID_KIND incremental_pid
+#define MOTOR_PID_KIND incremental_speed_pid
 #elif MOTOR_PID_CHOOSE == 1
 #define MOTOR_PID_KIND positional_pid
 #endif

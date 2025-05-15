@@ -82,7 +82,7 @@ typedef enum
 // ------------------------------------ 自动波特率 ------------------------------------
 
 #define WIRELESS_UART_BUFFER_SIZE       (64 )
-#define WIRELESS_UART_TIMEOUT_COUNT     (100)
+#define WIRELESS_UART_TIMEOUT_COUNT     (1)
 
 uint32      wireless_uart_send_byte         (const uint8 data);
 uint32      wireless_uart_send_buffer       (const uint8 *buff, uint32 len);

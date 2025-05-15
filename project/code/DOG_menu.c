@@ -1202,11 +1202,11 @@ void menu_motor_data_add_service(void)
 	switch(point_row_num)
 	{
 		case 0:{ chassis_control.motor_1.dir+=1; break; }
-		case 1:{ chassis_control.motor_1.duty+=10; break; }
+		case 1:{ chassis_control.motor_1.duty+=50; break; }
 		case 2:{ chassis_control.motor_2.dir+=1; break; }
-		case 3:{ chassis_control.motor_2.duty+=10; break; }
+		case 3:{ chassis_control.motor_2.duty+=50; break; }
 		case 4:{ chassis_control.motor_3.dir+=1; break; }
-		case 5:{ chassis_control.motor_3.duty+=10; break; }
+		case 5:{ chassis_control.motor_3.duty+=50; break; }
 	}
 	if(chassis_control.motor_1.dir > 1)
 		chassis_control.motor_1.dir = 0;
@@ -1226,11 +1226,11 @@ void menu_motor_data_reduce_service(void)
 	switch(point_row_num)
 	{
 		case 0:{ chassis_control.motor_1.dir-=1; break; }
-		case 1:{ chassis_control.motor_1.duty-=10; break; }
+		case 1:{ chassis_control.motor_1.duty-=50; break; }
 		case 2:{ chassis_control.motor_2.dir-=1; break; }
-		case 3:{ chassis_control.motor_2.duty-=10; break; }
+		case 3:{ chassis_control.motor_2.duty-=50; break; }
 		case 4:{ chassis_control.motor_3.dir-=1; break; }
-		case 5:{ chassis_control.motor_3.duty-=10; break; }
+		case 5:{ chassis_control.motor_3.duty-=50; break; }
 	}
 	if(chassis_control.motor_1.dir < 0)
 		chassis_control.motor_1.dir = 1;
@@ -1384,7 +1384,80 @@ void menu_circle_path_data_reduce_service(void)
 	}
 }
 
-/* 菜单电机1 PID页面服务 */
+#if MOTOR_PID_CHOOSE == 0
+// 增量式
+void menu_motor_1_pid_add_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ chassis_pid.motor_1_pid_parameters.p+=0.1; break; }
+		case 1:{ chassis_pid.motor_1_pid_parameters.i+=0.01; break; }
+		case 2:{ chassis_pid.motor_1_pid_parameters.d+=0.01; break; }
+		case 3:{ chassis_pid.motor_1_pid_parameters.output_limit+=5; break; }
+		case 4:{ chassis_pid.motor_1_pid_parameters.i_limit+=5; break; }
+	}
+}
+void menu_motor_1_pid_reduce_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ chassis_pid.motor_1_pid_parameters.p-=0.1; break; }
+		case 1:{ chassis_pid.motor_1_pid_parameters.i-=0.01; break; }
+		case 2:{ chassis_pid.motor_1_pid_parameters.d-=0.01; break; }
+		case 3:{ chassis_pid.motor_1_pid_parameters.output_limit-=5; break; }
+		case 4:{ chassis_pid.motor_1_pid_parameters.i_limit-=5; break; }
+	}
+}
+
+/* 菜单电机2 PID页面服务 */
+void menu_motor_2_pid_add_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ chassis_pid.motor_2_pid_parameters.p+=0.1; break; }
+		case 1:{ chassis_pid.motor_2_pid_parameters.i+=0.01; break; }
+		case 2:{ chassis_pid.motor_2_pid_parameters.d+=0.01; break; }
+		case 3:{ chassis_pid.motor_2_pid_parameters.output_limit+=5; break; }
+		case 4:{ chassis_pid.motor_2_pid_parameters.i_limit+=5; break; }
+	}
+}
+void menu_motor_2_pid_reduce_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ chassis_pid.motor_2_pid_parameters.p-=0.1; break; }
+		case 1:{ chassis_pid.motor_2_pid_parameters.i-=0.01; break; }
+		case 2:{ chassis_pid.motor_2_pid_parameters.d-=0.01; break; }
+		case 3:{ chassis_pid.motor_2_pid_parameters.output_limit-=5; break; }
+		case 4:{ chassis_pid.motor_2_pid_parameters.i_limit-=5; break; }
+	}
+}
+
+/* 菜单电机3 PID页面服务 */
+void menu_motor_3_pid_add_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ chassis_pid.motor_3_pid_parameters.p+=0.1; break; }
+		case 1:{ chassis_pid.motor_3_pid_parameters.i+=0.01; break; }
+		case 2:{ chassis_pid.motor_3_pid_parameters.d+=0.01; break; }
+		case 3:{ chassis_pid.motor_3_pid_parameters.output_limit+=5; break; }
+		case 4:{ chassis_pid.motor_3_pid_parameters.i_limit+=5; break; }
+	}
+}
+void menu_motor_3_pid_reduce_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ chassis_pid.motor_3_pid_parameters.p-=0.1; break; }
+		case 1:{ chassis_pid.motor_3_pid_parameters.i-=0.01; break; }
+		case 2:{ chassis_pid.motor_3_pid_parameters.d-=0.01; break; }
+		case 3:{ chassis_pid.motor_3_pid_parameters.output_limit-=5; break; }
+		case 4:{ chassis_pid.motor_3_pid_parameters.i_limit-=5; break; }
+	}
+}
+#elif MOTOR_PID_CHOOSE == 1
+// 位置式
 void menu_motor_1_pid_add_service(void)
 {
 	switch(point_row_num)
@@ -1455,6 +1528,9 @@ void menu_motor_3_pid_reduce_service(void)
 		case 4:{ chassis_pid.motor_3_pid_parameters.i_limit-=5; break; }
 	}
 }
+#endif
+/* 菜单电机1 PID页面服务 */
+
 
 /* 菜单循迹 PID页面服务 */
 void menu_path_pid_add_service(void)

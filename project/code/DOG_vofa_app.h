@@ -64,6 +64,15 @@ void real_motor_speed_update(void);
 /* 电机占空比上传 */
 void motor_duty_update(void);
 
+/* 电机errot上传 */
+void motor_error_update(void);
+    
+/* 电机delta上传 */
+void motor_delta_update(void);
+
+/* 电机value_delta上传 */
+void motor_value_delta_update(void);
+
 /* 陀螺仪上传 */
 void gyro_update(void);
 

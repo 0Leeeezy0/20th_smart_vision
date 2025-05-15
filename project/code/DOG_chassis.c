@@ -109,9 +109,9 @@ void encoder_get(void)
 	encoder_2_count = ENCODER_2_FRONT_DIR*encoder_get_count(ENCODER_2_MODULE_NUM);
 	encoder_3_count = ENCODER_3_FRONT_DIR*encoder_get_count(ENCODER_3_MODULE_NUM);
 	
-	encoder_1_speed = (float)encoder_get_count(ENCODER_1_MODULE_NUM)/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
-	encoder_2_speed = (float)encoder_get_count(ENCODER_2_MODULE_NUM)/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
-	encoder_3_speed = (float)encoder_get_count(ENCODER_3_MODULE_NUM)/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
+	encoder_1_speed = (float)encoder_1_count/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
+	encoder_2_speed = (float)encoder_2_count/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
+	encoder_3_speed = (float)encoder_3_count/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
 	
 	motor_1_speed = WHEEL_CIRCUMFERENCE*(float)encoder_1_speed/GEAR_RATIO;
 	motor_2_speed = WHEEL_CIRCUMFERENCE*(float)encoder_2_speed/GEAR_RATIO;
@@ -337,7 +337,7 @@ void euler_angle(void)
 		pitch += gyro_y*SENSOR_IT_TIME/1000;
 		yaw += gyro_z*SENSOR_IT_TIME/1000;
 		
-		roll = fmod(roll, 360);
+		roll =  (roll, 360);
 		pitch = fmod(pitch, 360);
 		yaw = fmod(yaw, 360);
 	}
@@ -530,6 +530,7 @@ _CHASSIS_CONTROL_ inverse_kinematics(float chassis_yaw,float chassis_linear_spee
 void chassis_control_init()
 {
 	motor_sensor_init();
+    Kalman_Init(&Output_Kalman,Karman_value[0],Karman_value[2]);
 	chassis_pid = chassis_pid_init();
 }
 
