@@ -67,15 +67,15 @@ void symmetry_rectificate(void)
 /* Ü³Ïä×Ó */
 void fxxk_box(uint8 steps)
 {
-	static _AI_CAMERA_DETECTION_RESULT_ ai_camera_1_detection_result_swap;
+	static _AI_CAMERA_DETECTION_RESULT_ ai_camera_detection_result_swap;
 	if(steps == 0)
 	{
-		memcpy(&ai_camera_1_detection_result_swap, &ai_camera_detection_result, sizeof(ai_camera_detection_result));
+		memcpy(&ai_camera_detection_result_swap, &ai_camera_detection_result, sizeof(ai_camera_detection_result));
 	}
-	if(ai_camera_1_detection_result_swap.result_kind == 0 || ai_camera_1_detection_result_swap.result_kind == 1)
+	if(ai_camera_detection_result_swap.result_kind == 0 || ai_camera_detection_result_swap.result_kind == 1)
 	{
 		// ÓÒÍÆ
-		if((ai_camera_1_detection_result_swap.lable >= 0 && ai_camera_1_detection_result_swap.lable <= 8 && ai_camera_1_detection_result_swap.result_kind == 0) || ((ai_camera_1_detection_result_swap.num&1) == 0 && ai_camera_1_detection_result_swap.result_kind == 1))
+		if((ai_camera_detection_result_swap.lable >= 0 && ai_camera_detection_result_swap.lable <= 8 && ai_camera_detection_result_swap.result_kind == 0) || ((ai_camera_detection_result_swap.num&1) == 0 && ai_camera_detection_result_swap.result_kind == 1))
 		{
 			switch(steps)
 			{
@@ -102,9 +102,9 @@ void fxxk_box(uint8 steps)
 					
 					translate_shift_flag = TRUE;
 					
-					ai_camera_detection_result_list[ai_camera_detection_result_list_num].result_kind = ai_camera_1_detection_result_swap.result_kind;
-					ai_camera_detection_result_list[ai_camera_detection_result_list_num].lable = ai_camera_1_detection_result_swap.lable;
-					ai_camera_detection_result_list[ai_camera_detection_result_list_num].num = ai_camera_1_detection_result_swap.num;
+					ai_camera_detection_result_list[ai_camera_detection_result_list_num].result_kind = ai_camera_detection_result_swap.result_kind;
+					ai_camera_detection_result_list[ai_camera_detection_result_list_num].lable = ai_camera_detection_result_swap.lable;
+					ai_camera_detection_result_list[ai_camera_detection_result_list_num].num = ai_camera_detection_result_swap.num;
 					
 					ai_camera_detection_result_list_num++;
 					
@@ -114,7 +114,7 @@ void fxxk_box(uint8 steps)
 			}
 		}
 		// ×óÍÆ
-		else if((ai_camera_1_detection_result_swap.lable >= 9 && ai_camera_1_detection_result_swap.lable <= 15 && ai_camera_1_detection_result_swap.result_kind == 0) || ((ai_camera_1_detection_result_swap.num&1) == 1 && ai_camera_1_detection_result_swap.result_kind == 1))
+		else if((ai_camera_detection_result_swap.lable >= 9 && ai_camera_detection_result_swap.lable <= 15 && ai_camera_detection_result_swap.result_kind == 0) || ((ai_camera_detection_result_swap.num&1) == 1 && ai_camera_detection_result_swap.result_kind == 1))
 		{
 			switch(steps)
 			{
@@ -141,9 +141,9 @@ void fxxk_box(uint8 steps)
 					
 					translate_shift_flag = TRUE;
 					
-					ai_camera_detection_result_list[ai_camera_detection_result_list_num].result_kind = ai_camera_1_detection_result_swap.result_kind;
-					ai_camera_detection_result_list[ai_camera_detection_result_list_num].lable = ai_camera_1_detection_result_swap.lable;
-					ai_camera_detection_result_list[ai_camera_detection_result_list_num].num = ai_camera_1_detection_result_swap.num;
+					ai_camera_detection_result_list[ai_camera_detection_result_list_num].result_kind = ai_camera_detection_result_swap.result_kind;
+					ai_camera_detection_result_list[ai_camera_detection_result_list_num].lable = ai_camera_detection_result_swap.lable;
+					ai_camera_detection_result_list[ai_camera_detection_result_list_num].num = ai_camera_detection_result_swap.num;
 					
 					ai_camera_detection_result_list_num++;
 					

@@ -58,6 +58,7 @@ float incremental_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variab
 	return pid_paraments -> value_output;
 }
 
+/* 增量式PID（速度环版） */
 float incremental_speed_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback)
 {
 //	pid_variable -> now_err = target-feedback;
