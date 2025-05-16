@@ -33,6 +33,7 @@ void ai_camera_init(void)
 	ai_camera_0_init();
     ai_camera_1_init();
 	ai_camera_2_init();
+	ai_track_pid_init();
 }
 
 /* AI摄像头0 初始化 */
@@ -68,13 +69,13 @@ void ai_camera_2_init(void)
 static void ai_camera_1_data_transform(uint8 ai_camera_1_detection_result_raw)
 {
 	// 普通lable
-	if(ai_camera_1_detection_result_raw >= 0 && ai_camera_1_detection_result_raw < 15)
+	if(ai_camera_1_detection_result_raw >= 1 && ai_camera_1_detection_result_raw < 16)
 	{
 		ai_camera_detection_result.result_kind = 0;
-		ai_camera_detection_result.lable = (_AI_CAMERA_DETECTION_LABLE_)ai_camera_1_detection_result_raw;
+		ai_camera_detection_result.lable = (_AI_CAMERA_DETECTION_LABLE_)(ai_camera_1_detection_result_raw-1);
 	}
 	// 手写数字
-	else if(ai_camera_1_detection_result_raw == 15)
+	else if(ai_camera_1_detection_result_raw == 16)
 	{
 		ai_camera_detection_result.result_kind = 1;
 	}
@@ -100,9 +101,25 @@ static void ai_camera_2_data_transform(uint8 ai_camera_2_detection_result_raw)
 	}
 }
 
+/* AI追踪PID参数结构体初始化 */
+void ai_track_pid_init(void)
+{
+	pid_init(&(ai_track_pid.x_ai_track_pid_paraments),&(ai_track_pid.x_ai_track_pid_variable),X_AI_TRACK_PID[0],X_AI_TRACK_PID[1],X_AI_TRACK_PID[2],X_AI_TRACK_PID[3],X_AI_TRACK_PID[4]);
+	pid_init(&(ai_track_pid.y_ai_track_pid_paraments),&(ai_track_pid.y_ai_track_pid_variable),Y_AI_TRACK_PID[0],Y_AI_TRACK_PID[1],Y_AI_TRACK_PID[2],Y_AI_TRACK_PID[3],Y_AI_TRACK_PID[4]);
+}
+
 /* AI追踪控制 */
 void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_mode_flag)
 {
+	// 定义X/Y方向追踪PID指针函数
+	float (*X_FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float);
+	float (*Y_FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float);
+	float x_speed = 0;
+	float y_speed = 0;
+	
+	X_FUNC = X_AI_TRACK_PID_KIND;
+	Y_FUNC = Y_AI_TRACK_PID_KIND;
+	
 	static int16 num = 0;	// 符合偏移阈值的图像次数
 	track_err = track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2;
 	chassis_motion_flag = CHASSIS_MOVE;
@@ -114,34 +131,33 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 		chassis_angular_speed = 0;
 		control_mode_flag = AI_TRACK_MODE;
 	}
-	else if(detection_box_width >= detection_box_width_std-4-20 && detection_box_width < detection_box_width_std-4)
-	{
-		chassis_yaw = track_err;
-		chassis_linear_speed = track_linear_speed_revise;
-		chassis_angular_speed = 0;
-		control_mode_flag = AI_TRACK_MODE;
-	}
-	else if(detection_box_width > detection_box_width_std+4)
-	{
-		chassis_yaw = 180-track_err;
-		chassis_linear_speed = track_linear_speed_revise;
-		chassis_angular_speed = 0;
-		control_mode_flag = AI_TRACK_MODE;
-	}
-	// 色块宽度大于标准宽度时，停止，进入左右平移定位
+	// 色块宽度再标准宽度正负阈值内时前后定位（保证车身和方块的距离大致一致）
 	else
 	{
-		if(abs(track_err) > 5)
+		x_speed = X_FUNC(&(ai_track_pid.x_ai_track_pid_paraments),&(ai_track_pid.x_ai_track_pid_variable),0,-track_err);
+		y_speed = Y_FUNC(&(ai_track_pid.y_ai_track_pid_paraments),&(ai_track_pid.y_ai_track_pid_variable),detection_box_width_std,detection_box_width);
+		
+		if(y_speed != 0)
 		{
-			chassis_yaw = 90*abs(track_err)/track_err;
-			chassis_linear_speed = track_linear_speed_revise;
-			chassis_angular_speed = 0;
-			if(abs(track_err) <= 8)
-			{
-				num++;
-			}
-		}
+			if(y_speed > 0)
+				chassis_yaw = RAD2DEG(atan(x_speed/y_speed));
+			else if(y_speed < 0)
+				chassis_yaw = 180+RAD2DEG(atan(x_speed/y_speed));
+		}	
 		else
+			chassis_yaw = 90*x_speed/abs(x_speed);
+		
+		chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
+		chassis_angular_speed = 0;
+		control_mode_flag = AI_TRACK_MODE;
+		
+		// 追踪到阈值周围
+		if(abs(detection_box_width-detection_box_width_std) <= 4 && abs(track_err) <= 8)
+		{
+			num++;
+		}
+		// 追踪到阈值内
+		if(abs(detection_box_width-detection_box_width_std) <= 4 && abs(track_err) <= 5)
 		{
 			chassis_yaw = 0;
 			chassis_linear_speed = 0;
@@ -149,14 +165,15 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 			control_mode_flag = track_finsh_next_mode_flag;
 			num = 0;
 		}
-	}
-	if(num > 10)
-	{
-		chassis_yaw = 0;
-		chassis_linear_speed = 0;
-		chassis_angular_speed = 0;
-		control_mode_flag = track_finsh_next_mode_flag;
-		num = 0;
+		// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
+		if(num > 10)
+		{
+			chassis_yaw = 0;
+			chassis_linear_speed = 0;
+			chassis_angular_speed = 0;
+			control_mode_flag = track_finsh_next_mode_flag;
+			num = 0;
+		}
 	}
 }
 

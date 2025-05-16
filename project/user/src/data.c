@@ -57,7 +57,6 @@ float chassis_angular_speed = 0;	// 底盘角速度
 float chassis_rotate_angle = 0;		// 底盘转动角度	正方向：顺时针
 uint32 chassis_move_time_count = 0;  // 底盘移动计时
 _CHASSIS_CONTROL_ chassis_control;
-Kalman_Typedef Output_Kalman;
 
 /* 循迹参数 */
 int16 path_err;
@@ -111,16 +110,17 @@ uint8 ai_camera_1_enable_flag = TRUE;	// AI摄像头1 使能标志位
 /****************************** 参数 ******************************/
 
 /* PID */
-_CHASSIS_PID_ chassis_pid;						// 底盘
-_PATH_PID_ path_pid;							// 循迹
-_AI_TRACK_PID_ ai_track_pid;					// AI追踪
+_CHASSIS_PID_ chassis_pid;						// 底盘PID
+_CHASSIS_FILTER_ chassis_filter;				// 底盘滤波器
+_PATH_PID_ path_pid;							// 循迹PID
+_AI_TRACK_PID_ ai_track_pid;							// 追踪PID
 
 /* 循线 */
 int16 mid_x = MT9V03X_W/2;	// 循线开始中点
 float path_linear_speed_target = 100;	// 循迹线速度（cm/s）
 int16 path_start = 95;			// 路径线提取开始高度
 int16 path_end = 30;			// 路径线提取结束高度
-int16 control_point[2] = {72 ,50};		// 控制点高度（速度：80：72，50 速度：5：65，45 速度：6.5：70，47）
+int16 control_point[2] = {72 ,55};		// 控制点高度（速度：100：72，55）
 int16 prediction_point = 30;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 int16 longest_white_col_x = 0;	// 最长白列X坐标
 int16 L_side[MT9V03X_H*3][2] = {0};	// 左边线坐标
@@ -157,7 +157,6 @@ int16 side_X_delta_limit[2] = {15,3};	// 边线X差值最大值/最小阈值
 
 /* AI追踪 */
 float track_linear_speed_target = 44;	// 追踪线速度
-float track_linear_speed_revise = 15;	// 追踪修正线速度
 int16 detection_box_width_limit = 25;	// 摄像头识别框宽度阈值
 int16 detection_box_width_std = 80;	// 摄像头识别框宽度标准阈值
 int16 detection_box_center_limit = 80;	// 摄像头识别框中心误差阈值
@@ -182,7 +181,6 @@ float linear_angular_speed_rate = 0.37;	// 线速度/角速度 比例（用于绕箱子转）（r
 float PID_MOTOR_1[5] = {8.8,6.1,0.98 ,9000 ,500};
 float PID_MOTOR_2[5] = {8.8,6.1,0.98 ,9000 ,500};
 float PID_MOTOR_3[5] = {8.8,6.1,0.98 ,9000 ,500};
-float Karman_value[2] = {0.01,0.1}; //Q R Q越小越平滑   R越小越接近(收敛越快);
 //float PID_MOTOR_1[5] = {18.8*2 ,1.4*2 ,0 ,9000 ,500};	// 后
 //float PID_MOTOR_2[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 左
 //float PID_MOTOR_3[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 右
@@ -194,6 +192,14 @@ float PID_MOTOR_3[5] = {250 ,0.1 ,400 ,9000 ,500};
 #endif
 
 /* 
+	单电机KARMAN参数
+	Q R 
+*/
+float KARMAN_MOTOR_1[2] = {0.01,0.1}; //Q R Q越小越平滑   R越小越接近(收敛越快);
+float KARMAN_MOTOR_2[2] = {0.01,0.1}; //Q R Q越小越平滑   R越小越接近(收敛越快);
+float KARMAN_MOTOR_3[2] = {0.01,0.1}; //Q R Q越小越平滑   R越小越接近(收敛越快);
+
+/* 
 	转动PID参数 
 	P I D 输出限幅 积分项限幅
 */
@@ -202,7 +208,7 @@ float PID_MOTOR_3[5] = {250 ,0.1 ,400 ,9000 ,500};
 float ROTATE_PID[8][5] = {{0 ,0 ,0.005 ,1 ,0.1},{0 ,0 ,0.005 ,1 ,0.1},{0  ,0 ,0.005 ,1.6 ,0.1},{0 ,0 ,0.005 ,1.6 ,0.1},{0 ,0 ,0.005 ,1.8 ,0.1},{0 ,0 ,0.005 ,1.8 ,0.1},{0 ,0 ,0.005 ,2.2 ,0.1},{0 ,0 ,0.005 ,2.2 ,0.1}};
 #elif ROTATE_PID_CHOOSE == 1
 // 位置式 ( 小角度 中角度 大角度 )
-float ROTATE_PID[8][5] = {{0.10 ,0 ,0.08 ,20 ,2},{0.16 ,0 ,0.08 ,26 ,2},{0.22  ,0 ,0.008 ,40 ,2},{0.32 ,0 ,0.008 ,44 ,2},{045 ,0 ,0.008 ,54 ,2},{0.54 ,0 ,0.008 ,60 ,2},{0.60 ,0 ,0.008 ,70 ,2},{0.80 ,0 ,0.008 ,90 ,2}};
+float ROTATE_PID[8][5] = {{0.15 ,0 ,0.04 ,20 ,2},{0.24 ,0 ,0.05 ,30 ,2},{0.34  ,0 ,0.06 ,45 ,2},{0.46 ,0 ,0.08 ,55 ,2},{0.60 ,0 ,0.08 ,70 ,2},{0.80 ,0 ,0.08 ,85 ,2},{1 ,0 ,0.08 ,90 ,2},{1 ,0 ,0.08 ,150 ,2}};
 #endif
 
 /* 
@@ -218,7 +224,30 @@ float PATH_PID[4][6] = {{0.000 ,0.00565 ,0 ,0.004 ,8 ,1},{0.036 ,0.039 ,0.1 ,0.0
 // 位置式
 //float PATH_PID[3][6] = {{0.027 ,0 ,0.0035 ,0.0025 ,1 ,0.1},{0.030 ,0 ,0.004 ,0.0030 ,1 ,0.1},{0.032 ,0 ,0.005 ,0.0035 ,1 ,0.1}}; // linear_speed = 5	积分限幅和陀螺仪微分项调整需注意
 float PATH_PID[3][6] = {{0.355 ,0 ,0.035 ,0.025 ,22 ,2},{0.412 ,0 ,0.06 ,0.050 ,25 ,2},{0.425 ,0 ,0.06 ,0.045 ,30 ,2}}; // linear_speed = 80	积分限幅和陀螺仪微分项调整需注意
+#endif
 	
+/* 
+	X追踪PID参数 
+	P I D 输出限幅 积分项限幅
+*/
+#if X_AI_TRACK_PID_CHOOSE == 0
+// 增量式
+float X_AI_TRACK_PID[5] = {0.000 ,0.00565 ,0 ,8 ,1};
+#elif X_AI_TRACK_PID_CHOOSE == 1
+// 位置式
+float X_AI_TRACK_PID[5] = {0.45 ,0 ,0.07 ,35 ,2};
+#endif
+	
+/* 
+	Y追踪PID参数 
+	P I D 输出限幅 积分项限幅
+*/
+#if Y_AI_TRACK_PID_CHOOSE == 0
+// 增量式
+float Y_AI_TRACK_PID[5] = {0.000 ,0.00565 ,0 ,8 ,1};
+#elif Y_AI_TRACK_PID_CHOOSE == 1
+// 位置式
+float Y_AI_TRACK_PID[5] = {0.45 ,0 ,0.07 ,35 ,2};
 #endif
 
 /******************************************************************/

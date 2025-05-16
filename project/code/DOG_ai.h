@@ -26,6 +26,9 @@ void ai_camera_2_init(void);
 /* AI摄像头0 推理最大识别框中心坐标获取 */
 void ai_camera_0_max_detection_box_center_get(void);	// YJC是大傻逼  
 
+/* AI追踪PID参数结构体初始化 */
+void ai_track_pid_init(void);
+
 /* AI摄像头0 追踪控制 */
 void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_mode_flag);
 

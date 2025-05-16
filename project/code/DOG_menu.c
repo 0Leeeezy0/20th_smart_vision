@@ -56,7 +56,7 @@ static _MENU_PAGE_ menu_page[] =
 	{"EULER_ANGLE"      ,TRUE		,1	,9		,0		,menu_euler_angle_page				,NONE},
 	{"TRANSLATE_SHIFT"	,TRUE		,1	,10		,0		,menu_translate_shift_page			,NONE},
 	{"RECTIFICATE"		,TRUE		,1	,11		,0		,menu_symmetry_rectificate_page		,NONE},
-	{"AI_CAMERA_0"		,TRUE		,1	,12		,6		,menu_ai_camera_0_page				,NONE},
+	{"AI_CAMERA_0"		,TRUE		,1	,12		,5		,menu_ai_camera_0_page				,NONE},
 	{"AI_CAMERA_1&2"	,TRUE		,1	,13		,1		,menu_ai_camera_1_and_2_page		,NONE},
 	{"DETECTION_LIST"	,TRUE		,1	,14		,0		,menu_detection_list				,NONE},
 	{"CHASSIS"			,TRUE 		,1 	,15 	,5 		,menu_chassis_page					,NONE},
@@ -709,7 +709,6 @@ void menu_ai_camera_0_page(void)
 		
 		MENU_AI_CAMERA_0.ai_camera_0_enable_flag.data_uint8 = ai_camera_0_enable_flag;
 		MENU_AI_CAMERA_0.track_linear_speed_target.data_float = track_linear_speed_target;
-		MENU_AI_CAMERA_0.track_linear_speed_revise.data_float = track_linear_speed_revise;
 		MENU_AI_CAMERA_0.detection_box_width_limit.data_int16 = detection_box_width_limit;
 		MENU_AI_CAMERA_0.detection_box_width_std.data_int16 = detection_box_width_std;
 		MENU_AI_CAMERA_0.detection_box_center_limit.data_int16 = detection_box_center_limit;
@@ -719,20 +718,18 @@ void menu_ai_camera_0_page(void)
 		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_AI_CAMERA_0.ai_camera_0_enable_flag.data_uint8,1);
 		screen_string(0,2*MENU_ROW_PITCH,MENU_AI_CAMERA_0.track_linear_speed_target.name);
 		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_AI_CAMERA_0.track_linear_speed_target.data_float,2,4);
-		screen_string(0,3*MENU_ROW_PITCH,MENU_AI_CAMERA_0.track_linear_speed_revise.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_AI_CAMERA_0.track_linear_speed_revise.data_float,2,4);
-		screen_string(0,4*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_limit.name);
-		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_limit.data_int16,3);
-		screen_string(0,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_std.name);
-		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_std.data_int16,3);
-		screen_string(0,6*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.name);
-		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.data_int16,3);
-		screen_string(0,8*MENU_ROW_PITCH,"CENTER_X");
-		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,track_x_center,3);
-		screen_string(0,9*MENU_ROW_PITCH,"BOX_WIDTH");
-		screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,detection_box_width,3);
-		screen_string(0,10*MENU_ROW_PITCH,"TRACK_ERR");
-		screen_int(DATA_MAX_COL,10*MENU_ROW_PITCH,track_x_center-MT9V03X_W/2,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_limit.name);
+		screen_int(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_limit.data_int16,3);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_std.name);
+		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_width_std.data_int16,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.name);
+		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.data_int16,3);
+		screen_string(0,7*MENU_ROW_PITCH,"CENTER_X");
+		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,track_x_center,3);
+		screen_string(0,8*MENU_ROW_PITCH,"BOX_WIDTH");
+		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,detection_box_width,3);
+		screen_string(0,9*MENU_ROW_PITCH,"TRACK_ERR");
+		screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,track_x_center-MT9V03X_W/2,3);
 	}
 }
 
@@ -1253,10 +1250,9 @@ void menu_ai_camera_0_data_add_service(void)
 	{
 		case 0:{ ai_camera_0_enable_flag+=1; break; }
 		case 1:{ track_linear_speed_target+=0.01; break; }
-		case 2:{ track_linear_speed_revise+=0.01; break; }
-		case 3:{ detection_box_width_limit+=1; break; }
-		case 4:{ detection_box_width_std+=1; break; }
-		case 5:{ detection_box_center_limit+=1; break; }
+		case 2:{ detection_box_width_limit+=1; break; }
+		case 3:{ detection_box_width_std+=1; break; }
+		case 4:{ detection_box_center_limit+=1; break; }
 	}
 	if(ai_camera_0_enable_flag > 1)
 	{
@@ -1269,10 +1265,9 @@ void menu_ai_camera_0_data_reduce_service(void)
 	{
 		case 0:{ ai_camera_0_enable_flag-=1; break; }
 		case 1:{ track_linear_speed_target-=0.01; break; }
-		case 2:{ track_linear_speed_revise-=0.01; break; }
-		case 3:{ detection_box_width_limit-=1; break; }
-		case 4:{ detection_box_width_std-=1; break; }
-		case 5:{ detection_box_center_limit-=1; break; }
+		case 2:{ detection_box_width_limit-=1; break; }
+		case 3:{ detection_box_width_std-=1; break; }
+		case 4:{ detection_box_center_limit-=1; break; }
 	}
 	if(ai_camera_0_enable_flag > 1)
 	{

@@ -81,9 +81,6 @@ typedef struct
 	float d;
 	float output_limit;
 	float i_limit;
-	float value;
-    float value_output;
-    float value_delta;
 }_PID_PARAMETERS_;
 
 /* PID闭环变量 */
@@ -94,6 +91,9 @@ typedef struct
 	float last_err;    
 	float last_last_err;
 	float sigma_err;
+	float value;
+    float value_output;
+    float value_delta;
 
     float sjc_err;
     float sjc_now_delta;
@@ -101,27 +101,34 @@ typedef struct
     float sjc_last_delta;
 }_PID_VARIABLE_;
 
+/* 卡尔曼参数 */
+typedef struct
+{
+	float q;
+	float r;
+}_KALMAN_PARAMETERS_;
+
 /* 卡尔曼变量 */
 typedef struct
 {
-    /*不用动*/
-    float LastP;//上次估算协方差
-    float Now_P;//当前估算协方差
-    float out;//卡尔曼滤波器输出
-    float Kg;//卡尔曼增益
-	float Q;
-	float R;
-}Kalman_Typedef;
+    float p_last;	//上次估算协方差
+    float p_now;	//当前估算协方差
+    float value;		//卡尔曼滤波器输出
+    float Kg;		//卡尔曼增益
+}_KALMAN_VARIABLE_;
+
+/* 低通滤波参数 */
+typedef struct
+{
+    float k;			//低通滤波系数
+}_LOWPASS_PARAMETERS_;
 
 /* 低通滤波变量 */
 typedef struct
 {
-    /*不用动*/
-    float k;//低通滤波系数
-	float neww;//新的值
-	float oldd;//旧的值
-}Lowfloat_Typedef;
-
+	float new_value;	//新的值
+	float old_value;	//旧的值
+}_LOWPASS_VARIABLE_;
 
 /* 底盘运动控制 */
 typedef struct
@@ -147,6 +154,17 @@ typedef struct
 	_PID_VARIABLE_ rotate_pid_variable;
 }_CHASSIS_PID_;
 
+/* 底盘滤波器 */
+typedef struct
+{
+	_KALMAN_PARAMETERS_ motor_1_karman_parameters;
+	_KALMAN_VARIABLE_ motor_1_karman_variable;
+	_KALMAN_PARAMETERS_ motor_2_karman_parameters;
+	_KALMAN_VARIABLE_ motor_2_karman_variable;
+	_KALMAN_PARAMETERS_ motor_3_karman_parameters;
+	_KALMAN_VARIABLE_ motor_3_karman_variable;
+}_CHASSIS_FILTER_;
+
 /* 循迹PID */
 typedef struct
 {
@@ -154,11 +172,13 @@ typedef struct
 	_PID_VARIABLE_ path_pid_variable;				
 }_PATH_PID_;
 
-/* AI追踪PID */
+/* 追踪PID */
 typedef struct
 {
-	_PID_PARAMETERS_ ai_track_pid_paraments;	
-	_PID_VARIABLE_ ai_track_pid_variable;	
+	_PID_PARAMETERS_ x_ai_track_pid_paraments;	
+	_PID_VARIABLE_ x_ai_track_pid_variable;	
+	_PID_PARAMETERS_ y_ai_track_pid_paraments;	
+	_PID_VARIABLE_ y_ai_track_pid_variable;	
 }_AI_TRACK_PID_;
 
 /* AI识别结果 */
@@ -285,27 +305,36 @@ extern int16 ai_camera_detection_result_list_num;	// 识别结果列表内容数量
 extern float PID_MOTOR_1[5];
 extern float PID_MOTOR_2[5];
 extern float PID_MOTOR_3[5];
-extern float Karman_value[2];
+
+/* 单电机KARMAN参数 */
+extern float KARMAN_MOTOR_1[2];
+extern float KARMAN_MOTOR_2[2];
+extern float KARMAN_MOTOR_3[2];
+
 /* 转动PID参数 */
 extern float ROTATE_PID[8][5];
 
 /* 循迹PID参数 */
 extern float PATH_PID[3][6];
 
+/* 追踪PID参数 */
+extern float X_AI_TRACK_PID[5];
+extern float Y_AI_TRACK_PID[5];
+
 /* 底盘控制参数 */
 extern float chassis_yaw;					// 底盘航向角
 extern float chassis_linear_speed;			// 底盘线速度
 extern float chassis_angular_speed;			// 底盘角速度
 extern float chassis_rotate_angle;			// 底盘转动角度
-extern uint32 chassis_move_time_count;  		// 底盘移动计时
+extern uint32 chassis_move_time_count;  	// 底盘移动计时
 extern _CHASSIS_CONTROL_ chassis_control;	// 底盘电机解算参数
 extern _CHASSIS_PID_ chassis_pid;			// 底盘PID
-extern  Kalman_Typedef  Output_Kalman;
+extern _CHASSIS_FILTER_ chassis_filter;		// 底盘滤波器
 /* 循迹控制参数 */
 extern _PATH_PID_ path_pid;							// 循迹PID
 
-/* AI追踪控制参数 */
-extern _AI_TRACK_PID_ ai_track_pid;	// MCXVISION追踪PID
+/* 追踪控制参数 */
+extern _AI_TRACK_PID_ ai_track_pid;	// 追踪PID
 
 /* 循迹参数 */
 extern int16 mid_x;	// 循线开始中点
@@ -348,7 +377,6 @@ extern int16 side_X_delta_limit[2];	// 边线X差值最大值/最小阈值
 
 /* AI追踪 */
 extern float track_linear_speed_target;	// 追踪线速度
-extern float track_linear_speed_revise;	// 追踪修正线速度
 extern int16 detection_box_width_limit;	// AI摄像头识别框宽度阈值
 extern int16 detection_box_width_std;	// AI摄像头识别框宽度标准阈值
 extern int16 detection_box_center_limit;	// AI摄像头识别框中心阈值 

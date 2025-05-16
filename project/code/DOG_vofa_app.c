@@ -194,7 +194,7 @@ void motor_delta_update(void)
 /* 电机value_delta上传 */
 void motor_value_delta_update(void)
 {	
-	printf("%f,%f,%f",(float)chassis_pid.motor_1_pid_parameters.value_delta,(float)chassis_pid.motor_2_pid_parameters.value_delta,(float)chassis_pid.motor_3_pid_parameters.value_delta);
+	printf("%f,%f,%f",(float)chassis_pid.motor_1_pid_variable.value_delta,(float)chassis_pid.motor_1_pid_variable.value_delta,(float)chassis_pid.motor_1_pid_variable.value_delta);
 }
 
 /* 陀螺仪上传 */

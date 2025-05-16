@@ -100,7 +100,6 @@ typedef struct
 {
 	_MENU_DATA_NAME_TYPE_ ai_camera_0_enable_flag;	// 使能
 	_MENU_DATA_NAME_TYPE_ track_linear_speed_target;	// 接近阶段线速度
-	_MENU_DATA_NAME_TYPE_ track_linear_speed_revise;	// 定位阶段线速度
 	_MENU_DATA_NAME_TYPE_ detection_box_width_limit;	// 开始接近的检测框宽度阈值
 	_MENU_DATA_NAME_TYPE_ detection_box_width_std;		// 开始定位的检测框宽度阈值
 	_MENU_DATA_NAME_TYPE_ detection_box_center_limit;	// 结束定位的检测框中心与图像中心误差阈值

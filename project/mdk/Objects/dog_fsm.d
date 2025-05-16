@@ -110,4 +110,4 @@
   ..\code\DOG_image.h ..\code\DOG_vofa.h ..\code\DOG_vofa_app.h \
   ..\code\DOG_menu.h ..\code\DOG_menu_data.h ..\code\DOG_ai.h \
   ..\code\DOG_fsm.h ..\code\DOG_pid.h ..\code\DOG_element.h \
-  ..\code\DOG_debug.h ..\code\DOG_karman.h
+  ..\code\DOG_debug.h ..\code\DOG_filter.h

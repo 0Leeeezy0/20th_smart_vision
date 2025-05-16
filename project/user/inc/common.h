@@ -192,6 +192,8 @@
 #define ROTATE_PID_CHOOSE 			( 1 )			// 转动PID类型（ 增量式：0	位置式：1）
 #define TRANSLATE_PID_CHOOSE 		( 0 )			// 平动PID类型（ 增量式：0	位置式：1）
 #define PATH_PID_CHOOSE 			( 1 )			// 循迹PID类型（ 增量式：0   位置式：1）
+#define X_AI_TRACK_PID_CHOOSE 		( 1 )			// X方向追踪PID类型（ 增量式：0   位置式：1）
+#define Y_AI_TRACK_PID_CHOOSE 		( 1 )			// Y方向追踪PID类型（ 增量式：0   位置式：1）
 
 /*****************************************************************/
 
@@ -224,7 +226,7 @@
 #include "DOG_pid.h"
 #include "DOG_element.h"
 #include "DOG_debug.h"
-#include "DOG_karman.h"
+#include "DOG_filter.h"
 
 /* PID选择 */
 #if MOTOR_PID_CHOOSE == 0
@@ -249,6 +251,18 @@
 #define PATH_PID_KIND incremental_pid
 #elif PATH_PID_CHOOSE == 1
 #define PATH_PID_KIND positional_pid
+#endif
+
+#if X_AI_TRACK_PID_CHOOSE == 0
+#define X_AI_TRACK_PID_KIND incremental_pid
+#elif X_AI_TRACK_PID_CHOOSE == 1
+#define X_AI_TRACK_PID_KIND positional_pid
+#endif
+
+#if Y_AI_TRACK_PID_CHOOSE == 0
+#define Y_AI_TRACK_PID_KIND incremental_pid
+#elif Y_AI_TRACK_PID_CHOOSE == 1
+#define Y_AI_TRACK_PID_KIND positional_pid
 #endif
 
 #endif

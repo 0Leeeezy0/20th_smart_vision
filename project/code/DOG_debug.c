@@ -12,20 +12,20 @@ void menu_uart_service(void)
 {
 	setbuf(stdout,NULL);
 	/*****************************************/
-	theory_motor_speed_update();
-	update_data_add();
-	real_motor_speed_update();
+//	theory_motor_speed_update();
+//	update_data_add();
+//	real_motor_speed_update();
 //	update_data_add();
 //	printf("%f,%f,%f,%f",motor_1_I,motor_2_I,motor_3_I,path_err);
-	update_data_add();
-	motor_duty_update();
-	update_data_add();
-    motor_error_update();
-    update_data_add();
-    motor_delta_update();
-    update_data_add();
-    motor_value_delta_update();
-    //    printf("%d",path_err);
+//	update_data_add();
+//	motor_duty_update();
+//	update_data_add();
+//    motor_error_update();
+//    update_data_add();
+//    motor_delta_update();
+//    update_data_add();
+//    motor_value_delta_update();
+	printf("%f,%f",ai_track_pid.x_ai_track_pid_variable.value_output,ai_track_pid.y_ai_track_pid_variable.value_output);
 	update_data_end();
 	/*****************************************/
 }

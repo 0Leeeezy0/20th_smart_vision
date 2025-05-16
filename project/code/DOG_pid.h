@@ -14,6 +14,9 @@ API：
 
 #include "common.h"
 
+/* PID初始化 */
+void pid_init(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float kp,float ki,float kd,float output_limit,float i_limit);
+
 /* 增量式PID */
 float incremental_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback);
 

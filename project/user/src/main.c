@@ -70,7 +70,12 @@ int main(void)
 			menu_service_start();
 			
 			/* ≤‚ ‘ */
-			
+//			chassis_motion_flag = CHASSIS_MOVE;
+//			float x_speed = 30;
+//			float y_speed = 80;
+//			chassis_yaw = RAD2DEG(atan(x_speed/y_speed));
+//			chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
+//			chassis_angular_speed = 0;
 			
 			/* RM–°Õ”¬› */
 //			chassis_motion_flag = CHASSIS_MOVE;

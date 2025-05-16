@@ -64,7 +64,6 @@ void menu_data_leeeezy_init(void)
 
 	MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name = "CAMERA_0_EN";
 	MENU_AI_CAMERA_0.track_linear_speed_target.name = "TARTGET";
-	MENU_AI_CAMERA_0.track_linear_speed_revise.name = "REVISE";
 	MENU_AI_CAMERA_0.detection_box_width_limit.name = "W_LIMIT";
 	MENU_AI_CAMERA_0.detection_box_width_std.name = "STD";
 	MENU_AI_CAMERA_0.detection_box_center_limit.name = "CENTER_ERR_LIMIT";

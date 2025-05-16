@@ -545,14 +545,14 @@
               <FilePath>..\code\DOG_debug.h</FilePath>
             </File>
             <File>
-              <FileName>DOG_karman.c</FileName>
+              <FileName>DOG_filter.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\code\DOG_karman.c</FilePath>
+              <FilePath>..\code\DOG_filter.c</FilePath>
             </File>
             <File>
-              <FileName>DOG_karman.h</FileName>
+              <FileName>DOG_filter.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\code\DOG_karman.h</FilePath>
+              <FilePath>..\code\DOG_filter.h</FilePath>
             </File>
           </Files>
         </Group>

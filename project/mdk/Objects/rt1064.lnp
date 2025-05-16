@@ -14,7 +14,7 @@
 ".\objects\dog_pid.o"
 ".\objects\dog_path.o"
 ".\objects\dog_debug.o"
-".\objects\dog_karman.o"
+".\objects\dog_filter.o"
 ".\objects\zf_common_clock.o"
 ".\objects\zf_common_debug.o"
 ".\objects\zf_common_fifo.o"
