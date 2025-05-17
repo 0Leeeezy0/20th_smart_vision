@@ -15,7 +15,7 @@ static void control_mode_choose(void)
 		if(detection_box_width == 0 && track_x_center == 0) // && track_finsh_next_mode_flag != BLOCK_MOVE_OUT_MODE
 			control_mode_flag = PATH_CONTROL_MODE;
 	}
-	else if(detection_box_width > detection_box_width_limit && abs(track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2) < detection_box_center_limit && shift_distance >= 0.5 && ai_camera_0_enable_flag == TRUE)
+	else if(detection_box_width > detection_box_width_limit && abs(track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2) < detection_box_center_limit && shift_distance >= 80 && ai_camera_0_enable_flag == TRUE)
 		control_mode_flag = AI_TRACK_MODE;
 	else
 		control_mode_flag = PATH_CONTROL_MODE;
@@ -39,7 +39,7 @@ void control_mode_dispatch(void)
 			path_extract();	// 路径提取
 			longest_white_col();	// 最长白列
 			// 圆环使能
-			if(circle_path_enable_flag == TRUE && shift_distance >= 0.2)	
+			if(circle_path_enable_flag == TRUE && shift_distance >= 20)	
 			{
 				circle_path_element_judge();	// 圆环元素识别
 			}
@@ -56,7 +56,7 @@ void control_mode_dispatch(void)
 						if(zebra_crossing_path_element_stop_delay_time_count < 500)
 						{
 							longest_white_col();	// 其他赛道使用最长白列
-							path_control(path_linear_speed_target); 	// 控制
+							path_control(path_linear_speed_target[1]); 	// 控制
 						}
 						else if(zebra_crossing_path_element_stop_delay_time_count >= 500)
 						{
@@ -70,7 +70,12 @@ void control_mode_dispatch(void)
 					}	
 				}
 			}
-			path_control(path_linear_speed_target); 	// 控制
+			// 缓加速
+			if(shift_distance <= 80)
+				path_control(path_linear_speed_target[0]); 	// 控制
+			else
+				path_control(path_linear_speed_target[1]); 	// 控制
+			
 			track_finsh_next_mode_flag = BLOCK_RETRACK_MODE; 
 			break; 
 		}	// 循迹控制

@@ -207,7 +207,7 @@ void uart_rx_interrupt_handler_ai_camera_0 (void)
             // 读取第1个数据，用于获取目标序号，使用完清除此数据
             temp_length = 1;
             fifo_read_buffer(&uart_data_fifo_ai_camera_0, fifo_get_data_ai_camera_0, &temp_length, FIFO_READ_AND_CLEAN);
-            track_x = fifo_get_data_ai_camera_0[0];
+            track_x = fifo_get_data_ai_camera_0[0]-AI_CAMERA_0_OFFSET;
             // 读取8个数据，用于获取目标数据，然后转移到结构体数组中
             temp_length = 1;
             fifo_read_buffer(&uart_data_fifo_ai_camera_0, fifo_get_data_ai_camera_0, &temp_length, FIFO_READ_AND_CLEAN);

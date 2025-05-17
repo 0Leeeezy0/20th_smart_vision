@@ -64,7 +64,7 @@
 #define AI_CAMERA_1_UART_TX_PIN             ( UART1_TX_B12 )                       
 #define AI_CAMERA_1_UART_RX_PIN             ( UART1_RX_B13 ) 
 
-/* AI摄像头1 串口引脚 */
+/* AI摄像头2 串口引脚 */
 #define AI_CAMERA_2_UART_INDEX			    ( UART_2 )                              
 #define AI_CAMERA_2_UART_BAUDRATE           ( 115200 )                            
 #define AI_CAMERA_2_UART_TX_PIN             ( UART2_TX_B18 )                       
@@ -76,7 +76,7 @@
 #define WHEEL_CIRCUMFERENCE 	(float)(17.90708)		// 轮周长
 #define GYRO_Z_FORWARD 	( 1 )							// 陀螺仪Z轴方向（ 向上：1 向下：-1 ）
 #define ACC_OFFSET 		( 0 )							// 加速度计正方向角度修正
-#define TRANSLATE_SHIFT_REVISE	(float)(1) 			// 平动位移解算修正
+#define TRANSLATE_SHIFT_REVISE	(float)(0.845) 			// 平动位移解算修正
 
 /* 屏幕类型 */
 #define SCREEN_KIND 1	// 屏幕选择（ 0:tft180 1:ips200 ）
@@ -119,6 +119,7 @@
 #define AI_CAMERA_0_IMAGE_WIDTH		( 160 )			// AI摄像头0 图像宽度
 #define AI_CAMERA_0_IMAGE_HIGHT		( 120 )			// AI摄像头0 图像高度
 #define AI_CAMERA_0_UPGRADE_TIME	( 300 )			// AI摄像头0 数据更新时间：超出该时间则清空接收区并回到总钻风循线模式
+#define AI_CAMERA_0_OFFSET 			(  11 )			// AI摄像头0 图像偏移量
 
 /**************************************************************************/
 
@@ -191,7 +192,7 @@
 #define MOTOR_PID_CHOOSE 			( 0 )			// 电机PID类型（ 增量式：0   位置式：1）
 #define ROTATE_PID_CHOOSE 			( 1 )			// 转动PID类型（ 增量式：0	位置式：1）
 #define TRANSLATE_PID_CHOOSE 		( 0 )			// 平动PID类型（ 增量式：0	位置式：1）
-#define PATH_PID_CHOOSE 			( 1 )			// 循迹PID类型（ 增量式：0   位置式：1）
+#define PATH_PID_CHOOSE 			( 0 )			// 循迹PID类型（ 增量式：0   位置式：1）
 #define X_AI_TRACK_PID_CHOOSE 		( 1 )			// X方向追踪PID类型（ 增量式：0   位置式：1）
 #define Y_AI_TRACK_PID_CHOOSE 		( 1 )			// Y方向追踪PID类型（ 增量式：0   位置式：1）
 

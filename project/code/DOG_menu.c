@@ -60,7 +60,7 @@ static _MENU_PAGE_ menu_page[] =
 	{"AI_CAMERA_1&2"	,TRUE		,1	,13		,1		,menu_ai_camera_1_and_2_page		,NONE},
 	{"DETECTION_LIST"	,TRUE		,1	,14		,0		,menu_detection_list				,NONE},
 	{"CHASSIS"			,TRUE 		,1 	,15 	,5 		,menu_chassis_page					,NONE},
-	{"PATH"				,TRUE		,1	,16		,6		,menu_path_page						,NONE},
+	{"PATH"				,TRUE		,1	,16		,7		,menu_path_page						,NONE},
 	{"CIRCLE_PATH"		,TRUE		,1	,17		,12		,menu_circle_path_page				,NONE},
 	{"MOTOR_1 PID"		,TRUE 		,1 	,18 	,5 		,menu_motor_1_pid_page				,SIN_TRACK_ERR_MODE},
 	{"MOTOR_2 PID"		,TRUE 		,1 	,19 	,5 		,menu_motor_2_pid_page				,SIN_TRACK_ERR_MODE},
@@ -868,7 +868,8 @@ void menu_path_page(void)
 		menu_title_show();
 		debug_service(menu_page[num].debug_mode);
 		
-		MENU_PATH.linear_speed_target.data_float = path_linear_speed_target;
+		MENU_PATH.linear_speed_target_0.data_float = path_linear_speed_target[0];
+		MENU_PATH.linear_speed_target_1.data_float = path_linear_speed_target[1];
 		MENU_PATH.path_start.data_int16 = path_start;
 		MENU_PATH.path_end.data_int16 = path_end;
 		MENU_PATH.control_point_0.data_int16 = control_point[0];
@@ -876,18 +877,20 @@ void menu_path_page(void)
 		MENU_PATH.prediction_point.data_int16 = prediction_point;
 	
 		// 显示循线数据
-		screen_string(0,MENU_ROW_PITCH,MENU_PATH.linear_speed_target.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH.linear_speed_target.data_float,3,3);
-		screen_string(0,2*MENU_ROW_PITCH,MENU_PATH.path_start.name);
-		screen_int(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_PATH.path_start.data_int16,3);
-		screen_string(0,3*MENU_ROW_PITCH,MENU_PATH.path_end.name);
-		screen_int(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_PATH.path_end.data_int16,3);
-		screen_string(0,4*MENU_ROW_PITCH,MENU_PATH.control_point_0.name);
-		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_PATH.control_point_0.data_int16,3);
-		screen_string(0,5*MENU_ROW_PITCH,MENU_PATH.control_point_1.name);
-		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_PATH.control_point_1.data_int16,3);
-		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
-		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
+		screen_string(0,MENU_ROW_PITCH,MENU_PATH.linear_speed_target_0.name);
+		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH.linear_speed_target_0.data_float,3,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_PATH.linear_speed_target_1.name);
+		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_PATH.linear_speed_target_1.data_float,3,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_PATH.path_start.name);
+		screen_int(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_PATH.path_start.data_int16,3);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_PATH.path_end.name);
+		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_PATH.path_end.data_int16,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_PATH.control_point_0.name);
+		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_PATH.control_point_0.data_int16,3);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH.control_point_1.name);
+		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_PATH.control_point_1.data_int16,3);
+		screen_string(0,7*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
+		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
 	}
 }
 
@@ -1312,24 +1315,26 @@ void menu_path_data_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_linear_speed_target+=1; break; }
-		case 1:{ path_start+=1; break; }
-		case 2:{ path_end+=1; break; }
-		case 3:{ control_point[0]+=1; break; }
-		case 4:{ control_point[1]+=1; break; }
-		case 5:{ prediction_point+=1; break; }
+		case 0:{ path_linear_speed_target[0]+=1; break; }
+		case 1:{ path_linear_speed_target[1]+=1; break; }
+		case 2:{ path_start+=1; break; }
+		case 3:{ path_end+=1; break; }
+		case 4:{ control_point[0]+=1; break; }
+		case 5:{ control_point[1]+=1; break; }
+		case 6:{ prediction_point+=1; break; }
 	}
 }
 void menu_path_data_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_linear_speed_target-=1; break; }
-		case 1:{ path_start-=1; break; }
-		case 2:{ path_end-=1; break; }
-		case 3:{ control_point[0]-=1; break; }
-		case 4:{ control_point[1]-=1; break; }
-		case 5:{ prediction_point-=1; break; }
+		case 0:{ path_linear_speed_target[0]-=1; break; }
+		case 1:{ path_linear_speed_target[1]-=1; break; }
+		case 2:{ path_start-=1; break; }
+		case 3:{ path_end-=1; break; }
+		case 4:{ control_point[0]-=1; break; }
+		case 5:{ control_point[1]-=1; break; }
+		case 6:{ prediction_point-=1; break; }
 	}
 }
 

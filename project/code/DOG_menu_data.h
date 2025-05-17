@@ -127,7 +127,8 @@ typedef struct
 /* 菜单循线参数 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ linear_speed_target;
+	_MENU_DATA_NAME_TYPE_ linear_speed_target_0;
+	_MENU_DATA_NAME_TYPE_ linear_speed_target_1;
 	_MENU_DATA_NAME_TYPE_ path_start;
 	_MENU_DATA_NAME_TYPE_ path_end;
 	_MENU_DATA_NAME_TYPE_ control_point_0;

@@ -79,7 +79,8 @@ void menu_data_leeeezy_init(void)
 	MENU_CHASSIS.angular_speed.name = "ANGULAR_SPEED";
 	MENU_CHASSIS.rotate_angle.name = "ANGLE";
 	
-	MENU_PATH.linear_speed_target.name = "LINEAR_SPEED_TAR";
+	MENU_PATH.linear_speed_target_0.name = "LINEAR_SPEED_TAR_0";
+	MENU_PATH.linear_speed_target_1.name = "LINEAR_SPEED_TAR_1";
 	MENU_PATH.path_start.name = "PATH_START";
 	MENU_PATH.path_end.name = "PATH_END";
 	MENU_PATH.control_point_0.name = "PATH_CONTROL_0";

@@ -633,6 +633,7 @@ void path_control(float path_control_speed)
 	float path_pid_output = path_control_pid(PATH_PID_KIND,path_pid,path_err);
 		
 	chassis_linear_speed = path_control_speed;
+	
 	chassis_yaw = 0;
 	chassis_angular_speed = path_pid_output;
 }

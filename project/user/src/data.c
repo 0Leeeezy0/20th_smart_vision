@@ -117,10 +117,10 @@ _AI_TRACK_PID_ ai_track_pid;							// 追踪PID
 
 /* 循线 */
 int16 mid_x = MT9V03X_W/2;	// 循线开始中点
-float path_linear_speed_target = 100;	// 循迹线速度（cm/s）
+float path_linear_speed_target[2] = {80,100};	// 循迹线速度（缓启动速度 启动速度）（cm/s）
 int16 path_start = 95;			// 路径线提取开始高度
 int16 path_end = 30;			// 路径线提取结束高度
-int16 control_point[2] = {72 ,55};		// 控制点高度（速度：100：72，55）
+int16 control_point[2] = {75 ,60};		// 控制点高度（速度：100：72，55）
 int16 prediction_point = 30;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 int16 longest_white_col_x = 0;	// 最长白列X坐标
 int16 L_side[MT9V03X_H*3][2] = {0};	// 左边线坐标
@@ -159,7 +159,7 @@ int16 side_X_delta_limit[2] = {15,3};	// 边线X差值最大值/最小阈值
 float track_linear_speed_target = 44;	// 追踪线速度
 int16 detection_box_width_limit = 25;	// 摄像头识别框宽度阈值
 int16 detection_box_width_std = 80;	// 摄像头识别框宽度标准阈值
-int16 detection_box_center_limit = 80;	// 摄像头识别框中心误差阈值
+int16 detection_box_center_limit = 65;	// 摄像头识别框中心误差阈值
 int16 rectificate_weight[4] = {1 ,5 ,55 ,85};	// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
 uint32 sum_weight = 0;	// 加权和
 int16 symmetry_rectificate_start_y = 99;	// 对称法矫正图像遍历起始点高度
@@ -170,7 +170,7 @@ float frame_white_num__normalization[2] = {0};	// 对称法矫正图像左右边框白点数量
 float frame_white_num__normalization_limit = 0.25;	// 对称法矫正图像左右边框白点数量归一化阈值
 int16 frame_offset = 15;	// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 float rotate_linear_speed = 52.5;	// 绕箱子旋转线速度
-float linear_angular_speed_rate = 0.37;	// 线速度/角速度 比例（用于绕箱子转）（rotate_linear_speed：2：0.8，rotate_linear_speed：3：0.4 ）
+float linear_angular_speed_rate = 0.4;	// 线速度/角速度 比例（用于绕箱子转）（rotate_linear_speed：2：0.8，rotate_linear_speed：3：0.4 ）
 
 /* 
 	单电机PID参数 
@@ -216,14 +216,12 @@ float ROTATE_PID[8][5] = {{0.15 ,0 ,0.04 ,20 ,2},{0.24 ,0 ,0.05 ,30 ,2},{0.34  ,
 	P I D 陀螺仪微分项 输出限幅 积分项限幅
 */
 #if PATH_PID_CHOOSE == 0
-// 增量式 ( 小误差 中误差 大误差 超大误差 )
-// float PATH_PID[6] = {0.040 ,0.0026 ,0.005 ,0.005 ,0.8 ,1};	// linear_speed = 3
-// float PATH_PID[6] = {0.041 ,0.0038 ,0.00949 ,0.0055 ,1 ,1};	// linear_speed = 6
-float PATH_PID[4][6] = {{0.000 ,0.00565 ,0 ,0.004 ,8 ,1},{0.036 ,0.039 ,0.1 ,0.0055 ,1.1 ,1},{0.041 ,0.040 ,0.1 ,0.0055 ,1.2 ,1},{0.043 ,0.0043 ,0.1 ,0.0055 ,1.2 ,1}};	// linear_speed = 6t
+// 增量式 ( 中误差 大误差 超大误差 )
+float PATH_PID[3][6] = {{0.020 ,0.3 ,0 ,0.004 ,20 ,1},{0.036 ,0.35 ,0. ,0.0055 ,31 ,1},{0.041 ,0.38 ,0. ,0.0055 ,36 ,1}};	// linear_speed = 100
 #elif PATH_PID_CHOOSE == 1
 // 位置式
 //float PATH_PID[3][6] = {{0.027 ,0 ,0.0035 ,0.0025 ,1 ,0.1},{0.030 ,0 ,0.004 ,0.0030 ,1 ,0.1},{0.032 ,0 ,0.005 ,0.0035 ,1 ,0.1}}; // linear_speed = 5	积分限幅和陀螺仪微分项调整需注意
-float PATH_PID[3][6] = {{0.355 ,0 ,0.035 ,0.025 ,22 ,2},{0.412 ,0 ,0.06 ,0.050 ,25 ,2},{0.425 ,0 ,0.06 ,0.045 ,30 ,2}}; // linear_speed = 80	积分限幅和陀螺仪微分项调整需注意
+float PATH_PID[3][6] = {{0.355 ,0 ,0.035 ,0.05 ,22 ,2},{0.412 ,0 ,0.06 ,0.080 ,25 ,2},{0.425 ,0 ,0.06 ,0.1 ,30 ,2}}; // linear_speed = 100	积分限幅和陀螺仪微分项调整需注意
 #endif
 	
 /* 

@@ -338,7 +338,7 @@ extern _AI_TRACK_PID_ ai_track_pid;	// 追踪PID
 
 /* 循迹参数 */
 extern int16 mid_x;	// 循线开始中点
-extern float path_linear_speed_target;	// 循迹线速度
+extern float path_linear_speed_target[2];	// 循迹线速度
 extern int16 path_start;	// 路径线提取开始高度
 extern int16 path_end;	// 路径线提取结束高度
 extern int16 control_point[2];	// 控制点高度（速度 3 30 速度 8 45）

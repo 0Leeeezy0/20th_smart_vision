@@ -262,7 +262,7 @@ void game_start(void)
 		path_extract();
 		path_draw();
 		tft180_show_gray_image(0, 0, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
- 		path_control(path_linear_speed_target);
+ 		path_control(path_linear_speed_target[1]);
 		
 		wireless_uart_read_buffer(&data_rx_char,1);
 		if(data_rx_char == '\n' || data_rx_char == '\r')
