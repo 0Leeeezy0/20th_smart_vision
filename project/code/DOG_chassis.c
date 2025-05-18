@@ -53,7 +53,7 @@ void motor_sensor_init(void)
 	gpio_init(MOTOR_3_DIR,GPO,0,GPO_PUSH_PULL);
 	
 	// 蜂鸣器引脚初始化
-	gpio_init(BUZZER_PIN,GPO,0,GPO_PUSH_PULL);
+	pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 	
 	// 灰度传感器引脚初始化
 	adc_init(GRAYSCALE_SENSOR_PIN,ADC_12BIT);
@@ -709,12 +709,12 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 				
 				screen_float(0, 2*MT9V03X_H+2*MENU_ROW_PITCH, yaw, 2, 3);
 				screen_float(0, 2*MT9V03X_H+3*MENU_ROW_PITCH, sum_weight_normalization, 2, 3);
-				screen_float(0, 2*MT9V03X_H+4*MENU_ROW_PITCH, frame_white_num__normalization[0], 2, 3);
-				screen_float(0, 2*MT9V03X_H+5*MENU_ROW_PITCH, frame_white_num__normalization[1], 2, 3);
+				screen_float(0, 2*MT9V03X_H+4*MENU_ROW_PITCH, frame_white_num_normalization[0], 2, 3);
+				screen_float(0, 2*MT9V03X_H+5*MENU_ROW_PITCH, frame_white_num_normalization[1], 2, 3);
 				
 				// 找最大归一化加权和与其对应航向角（取加权和对应的角度较大的那个）
 				// 满足不正对赛道
-				if(frame_white_num__normalization[0] >= frame_white_num__normalization_limit && frame_white_num__normalization[1] >= frame_white_num__normalization_limit && sum_weight_normalization >= sum_weight_normalization_limit[1])
+				if(frame_white_num_normalization[0] >= frame_white_num_normalization_limit && frame_white_num_normalization[1] >= frame_white_num_normalization_limit && sum_weight_normalization >= sum_weight_normalization_limit[1])
 				{					
 					if(sum_weight_normalization >= max_sum_weight_normalization_cache)	// 加权和大于之前的
 					{
@@ -731,7 +731,7 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 				}
 				
 				// 达到阈值就停止，去推箱子
-				if(sum_weight_normalization >= sum_weight_normalization_limit[0] && frame_white_num__normalization[0] >= frame_white_num__normalization_limit && frame_white_num__normalization[1] >= frame_white_num__normalization_limit)
+				if(sum_weight_normalization >= sum_weight_normalization_limit[0] && frame_white_num_normalization[0] >= frame_white_num_normalization_limit && frame_white_num_normalization[1] >= frame_white_num_normalization_limit)
 				{
 					euler_angle_flag = FALSE;
 					break;

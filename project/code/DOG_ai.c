@@ -152,12 +152,12 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 		control_mode_flag = AI_TRACK_MODE;
 		
 		// 追踪到阈值周围
-		if(abs(detection_box_width-detection_box_width_std) <= 4 && abs(track_err) <= 8)
+		if(abs(detection_box_width-detection_box_width_std) <= 4 && abs(track_err) <= 6)
 		{
 			num++;
 		}
 		// 追踪到阈值内
-		if(abs(detection_box_width-detection_box_width_std) <= 4 && abs(track_err) <= 5)
+		if(abs(detection_box_width-detection_box_width_std) <= 4 && abs(track_err) <= 4)
 		{
 			chassis_yaw = 0;
 			chassis_linear_speed = 0;
@@ -166,7 +166,7 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 			num = 0;
 		}
 		// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
-		if(num > 10)
+		if(num > 20)
 		{
 			chassis_yaw = 0;
 			chassis_linear_speed = 0;

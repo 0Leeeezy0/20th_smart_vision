@@ -310,6 +310,11 @@ void menu_root_page(void)
 				break;
 			}
 		}
+		
+		if(bat_voltage < BAT_VOLTAGE_WARNING && bat_voltage > 5)
+		{
+			pwm_init(BUZZER_PIN, 600, PWM_DUTY_MAX / 2);
+		}
 	}
 }
 
@@ -681,8 +686,8 @@ void menu_symmetry_rectificate_page(void)
 		screen_image(0, MT9V03X_H+MENU_ROW_PITCH, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
 		symmetry_rectificate();
 		screen_float(0, 2*MT9V03X_H+MENU_ROW_PITCH, sum_weight_normalization, 2, 3);
-		screen_float(0, 2*MT9V03X_H+2*MENU_ROW_PITCH, frame_white_num__normalization[0], 2, 3);
-		screen_float(0, 2*MT9V03X_H+3*MENU_ROW_PITCH, frame_white_num__normalization[1], 2, 3);
+		screen_float(0, 2*MT9V03X_H+2*MENU_ROW_PITCH, frame_white_num_normalization[0], 2, 3);
+		screen_float(0, 2*MT9V03X_H+3*MENU_ROW_PITCH, frame_white_num_normalization[1], 2, 3);
 		screen_draw_line(0, MENU_ROW_PITCH+symmetry_rectificate_start_y, MT9V03X_W, MENU_ROW_PITCH+symmetry_rectificate_start_y ,RGB565_RED);
 		screen_draw_line(0, MENU_ROW_PITCH+symmetry_rectificate_end_y, MT9V03X_W, MENU_ROW_PITCH+symmetry_rectificate_end_y ,RGB565_RED);
 		screen_draw_line(MT9V03X_W/8, MENU_ROW_PITCH, MT9V03X_W/8, MENU_ROW_PITCH+MT9V03X_H ,RGB565_RED);

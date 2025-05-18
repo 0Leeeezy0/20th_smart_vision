@@ -60,8 +60,8 @@ void symmetry_rectificate(void)
 			R_white_num++;
 	}
 	sum_weight_normalization = (float)sum_weight_rectificate/(float)sum_weight;
-	frame_white_num__normalization[0] = (float)L_white_num/(float)(symmetry_rectificate_start_y-symmetry_rectificate_end_y+1);
-	frame_white_num__normalization[1] = (float)R_white_num/(float)(symmetry_rectificate_start_y-symmetry_rectificate_end_y+1);
+	frame_white_num_normalization[0] = (float)L_white_num/(float)(symmetry_rectificate_start_y-symmetry_rectificate_end_y+1);
+	frame_white_num_normalization[1] = (float)R_white_num/(float)(symmetry_rectificate_start_y-symmetry_rectificate_end_y+1);
 }
 
 /* Ü³Ïä×Ó */

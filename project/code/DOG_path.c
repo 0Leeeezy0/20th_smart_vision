@@ -533,13 +533,13 @@ void circle_path_element_judge(void)
 		circle_in_flag++;
 		if(circle_in_flag >= 5 && circle_out_time_count >= 1000)
 		{
-			gpio_set_level(BUZZER_PIN, 1);
+			pwm_init(BUZZER_PIN, 1400, PWM_DUTY_MAX / 2);
 			path_element_flag = R_CIRCLE_PATH;
 			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,circle_in_angular_speed_target,circle_in_angle,0); 			// 旋转进环
 			circle_in_flag = 0;
 			circle_in_time_count_flag = TRUE;
 			circle_out_time_count_flag = FALSE;
-			gpio_set_level(BUZZER_PIN, 0);
+			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 			path_follow_kind_flag = 1;
 		}
 			
@@ -549,14 +549,14 @@ void circle_path_element_judge(void)
 		circle_out_flag++;
 		if(circle_out_flag >= 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
 		{
-			gpio_set_level(BUZZER_PIN, 1);
+			pwm_init(BUZZER_PIN, 1400, PWM_DUTY_MAX / 2);
 			path_element_flag = BEND_PATH;
 			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,circle_in_angular_speed_target,circle_out_angle,0); 			// 旋转出环
 			circle_in_flag = 0;
 			circle_out_flag = 0;
 			circle_in_time_count_flag = FALSE;
 			circle_out_time_count_flag = TRUE;
-			gpio_set_level(BUZZER_PIN, 0);
+			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 			path_follow_kind_flag = 0;
 		}
 	}
@@ -567,13 +567,13 @@ void circle_path_element_judge(void)
 		circle_in_flag++;
 		if(circle_in_flag >= 5 && circle_out_time_count >= 1000)
 		{
-			gpio_set_level(BUZZER_PIN, 1);
+			pwm_init(BUZZER_PIN, 1400, PWM_DUTY_MAX / 2);
 			path_element_flag = L_CIRCLE_PATH;
 			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,-circle_in_angular_speed_target,-circle_in_angle,0); 			// 旋转进环
 			circle_in_flag = 0;
 			circle_in_time_count_flag = TRUE;
 			circle_out_time_count_flag = FALSE;
-			gpio_set_level(BUZZER_PIN, 0);
+			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 			path_follow_kind_flag = 1;
 		}
 	}
@@ -582,14 +582,14 @@ void circle_path_element_judge(void)
 		circle_out_flag++;
 		if(circle_out_flag >= 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
 		{
-			gpio_set_level(BUZZER_PIN, 1);
+			pwm_init(BUZZER_PIN, 1400, PWM_DUTY_MAX / 2);
 			path_element_flag = BEND_PATH;
 			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,-circle_in_angular_speed_target,-circle_out_angle,0); 			// 旋转出环
 			circle_in_flag = 0;
 			circle_out_flag  = 0;
 			circle_in_time_count_flag = FALSE;
 			circle_out_time_count_flag = TRUE;
-			gpio_set_level(BUZZER_PIN, 0);
+			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 			path_follow_kind_flag = 0;
 		}
 	}

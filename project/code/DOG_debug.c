@@ -12,11 +12,11 @@ void menu_uart_service(void)
 {
 	setbuf(stdout,NULL);
 	/*****************************************/
-	theory_motor_speed_update();
-	update_data_add();
+//	theory_motor_speed_update();
+//	update_data_add();
 //	real_motor_speed_update();
 //	update_data_add();
-	printf("%f,%f,%f",motor_1_I,motor_2_I,motor_3_I);
+	printf("%f",chassis_linear_speed);
 //	update_data_add();
 //	motor_duty_update();
 //	update_data_add();

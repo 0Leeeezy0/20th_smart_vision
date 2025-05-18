@@ -72,7 +72,7 @@ void control_mode_dispatch(void)
 			}
 			// 缓加速
 			if(shift_distance <= 80)
-				path_control(path_linear_speed_target[0]); 	// 控制
+				path_control(path_linear_speed_target[0]+(path_linear_speed_target[1]-path_linear_speed_target[0])*(shift_distance/80.0)*(shift_distance/80.0)*(shift_distance/80.0)); 	// 控制
 			else
 				path_control(path_linear_speed_target[1]); 	// 控制
 			

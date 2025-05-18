@@ -386,8 +386,8 @@ extern int16 symmetry_rectificate_end_y;		// 对称法矫正图像遍历结束点高度
 extern uint32 sum_weight;	// 加权和
 extern float sum_weight_normalization;	// 加权和归一化
 extern float sum_weight_normalization_limit[2];	// 加权和归一化阈值
-extern float frame_white_num__normalization[2];	// 对称法矫正图像边框白点数量归一化
-extern float frame_white_num__normalization_limit;	// 对称法矫正图像边框白点数量归一化阈值
+extern float frame_white_num_normalization[2];	// 对称法矫正图像边框白点数量归一化
+extern float frame_white_num_normalization_limit;	// 对称法矫正图像边框白点数量归一化阈值
 extern int16 frame_offset;	// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的圆环无法使用对称法进行矫正） 
 extern float rotate_linear_speed;	// 绕箱子旋转线速度
 extern float linear_angular_speed_rate;	// 线速度/角速度 比例（用于绕箱子转）

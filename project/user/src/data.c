@@ -117,7 +117,7 @@ _AI_TRACK_PID_ ai_track_pid;							// 追踪PID
 
 /* 循线 */
 int16 mid_x = MT9V03X_W/2;	// 循线开始中点
-float path_linear_speed_target[2] = {80,100};	// 循迹线速度（缓启动速度 启动速度）（cm/s）
+float path_linear_speed_target[2] = {60,100};	// 循迹线速度（缓启动速度 启动速度）（cm/s）
 int16 path_start = 95;			// 路径线提取开始高度
 int16 path_end = 30;			// 路径线提取结束高度
 int16 control_point[2] = {75 ,60};		// 控制点高度（速度：100：72，55）
@@ -166,8 +166,8 @@ int16 symmetry_rectificate_start_y = 99;	// 对称法矫正图像遍历起始点高度
 int16 symmetry_rectificate_end_y = 40;		// 对称法矫正图像遍历结束点高度
 float sum_weight_normalization = 0;	// 加权和归一化	
 float sum_weight_normalization_limit[2] = {0.90, 0.80};	// 加权和归一化阈值
-float frame_white_num__normalization[2] = {0};	// 对称法矫正图像左右边框白点数量归一化
-float frame_white_num__normalization_limit = 0.25;	// 对称法矫正图像左右边框白点数量归一化阈值
+float frame_white_num_normalization[2] = {0};	// 对称法矫正图像左右边框白点数量归一化
+float frame_white_num_normalization_limit = 0.25;	// 对称法矫正图像左右边框白点数量归一化阈值
 int16 frame_offset = 15;	// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 float rotate_linear_speed = 52.5;	// 绕箱子旋转线速度
 float linear_angular_speed_rate = 0.4;	// 线速度/角速度 比例（用于绕箱子转）（rotate_linear_speed：2：0.8，rotate_linear_speed：3：0.4 ）

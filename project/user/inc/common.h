@@ -82,14 +82,13 @@
 #define SCREEN_KIND 1	// 屏幕选择（ 0:tft180 1:ips200 ）
 
 /* 蜂鸣器 */
-#define BUZZER_PIN 		(B11)
+#define BUZZER_PIN 		(PWM4_MODULE3_CHA_C31)
 
 /* 灰度传感器 */
 #define GRAYSCALE_SENSOR_PIN	(ADC1_CH5_B16)
 
 /* 电压监测 */
 #define BAT_VOLTAGE_PIN				(ADC1_CH4_B15)		// 电池电压监测引脚
-#define BAT_VOLTAGE_CALIBRATION		(36.88)					// 电池电压标定参数
 
 /* 电流监测 */
 #define MOTOR_1_I_PIN				(ADC1_CH3_B14)		// 电流监测引脚
@@ -118,7 +117,6 @@
 
 #define AI_CAMERA_0_IMAGE_WIDTH		( 160 )			// AI摄像头0 图像宽度
 #define AI_CAMERA_0_IMAGE_HIGHT		( 120 )			// AI摄像头0 图像高度
-#define AI_CAMERA_0_UPGRADE_TIME	( 300 )			// AI摄像头0 数据更新时间：超出该时间则清空接收区并回到总钻风循线模式
 #define AI_CAMERA_0_OFFSET 			(  11 )			// AI摄像头0 图像偏移量
 
 /**************************************************************************/
@@ -182,7 +180,6 @@
 #define POINT_DISTANCE 					( 10 )	// 拐点/弯点距离
 #define BEND_POINT_ANGLE_MIN 			(double)( 0 )	// 弯点最小角度阈值
 #define BEND_POINT_ANGLE_MAX 			(double)( 170 )	// 弯点最大角度阈值
-#define SIDE_END 						( 130 ) // 边线提取截止横偏差
 
 /**********************************************************************/
 
@@ -192,7 +189,7 @@
 #define MOTOR_PID_CHOOSE 			( 0 )			// 电机PID类型（ 增量式：0   位置式：1）
 #define ROTATE_PID_CHOOSE 			( 1 )			// 转动PID类型（ 增量式：0	位置式：1）
 #define TRANSLATE_PID_CHOOSE 		( 0 )			// 平动PID类型（ 增量式：0	位置式：1）
-#define PATH_PID_CHOOSE 			( 0 )			// 循迹PID类型（ 增量式：0   位置式：1）
+#define PATH_PID_CHOOSE 			( 1 )			// 循迹PID类型（ 增量式：0   位置式：1）
 #define X_AI_TRACK_PID_CHOOSE 		( 1 )			// X方向追踪PID类型（ 增量式：0   位置式：1）
 #define Y_AI_TRACK_PID_CHOOSE 		( 1 )			// Y方向追踪PID类型（ 增量式：0   位置式：1）
 
@@ -201,7 +198,8 @@
 /****************************** 传感器参数 ******************************/
 
 #define GYRO_ACC_CALIBRATION_EPOCH 	(float)(1000)	// 陀螺仪加速度计校准采样轮次
-#define GYRO_ACC_GATA_LIMIT 		( 0.005 )					// 陀螺仪加速度计门函数限制
+#define BAT_VOLTAGE_CALIBRATION		(36.88)					// 电池电压标定参数
+#define BAT_VOLTAGE_WARNING			(11.8)					// 电池电压警告参数
 
 /***********************************************************************/   
 
