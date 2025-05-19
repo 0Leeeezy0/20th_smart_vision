@@ -97,11 +97,11 @@ float incremental_speed_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_
 float positional_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback)
 {
 	pid_variable -> now_err = target-feedback;
-	// 增量式 p
+	// 位置式 p
 	pid_variable -> value += (pid_paraments -> p)*(pid_variable -> now_err);
-	// 增量式 i
+	// 位置式 i
 	pid_variable -> value += (pid_paraments -> i)*pid_variable -> sigma_err;
-	// 增量式 d
+	// 位置式 d
 	pid_variable -> value += (pid_paraments -> d)*(pid_variable -> now_err-pid_variable -> last_err);
 				
 	// 更新参数

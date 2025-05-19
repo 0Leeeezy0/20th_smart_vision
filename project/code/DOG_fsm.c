@@ -35,7 +35,6 @@ void control_mode_dispatch(void)
 	//		erode(mt9v03x_image);
 			side_extract();	// 八邻域边线获取
 			side_point_kind_judge();	// 边线点类型判断，判断是否是弯道
-			path_curvature_normalization_judge();	// 赛道归一化曲率计算
 			path_extract();	// 路径提取
 			longest_white_col();	// 最长白列
 			// 圆环使能
@@ -60,7 +59,6 @@ void control_mode_dispatch(void)
 						}
 						else if(zebra_crossing_path_element_stop_delay_time_count >= 500)
 						{
-							gpio_set_level(BUZZER_PIN, 0);
 							chassis_motion_flag = CHASSIS_STOP;
 							while(1)
 							{
@@ -70,11 +68,31 @@ void control_mode_dispatch(void)
 					}	
 				}
 			}
-			// 缓加速
-			if(shift_distance <= 80)
-				path_control(path_linear_speed_target[0]+(path_linear_speed_target[1]-path_linear_speed_target[0])*(shift_distance/80.0)*(shift_distance/80.0)*(shift_distance/80.0)); 	// 控制
+			
+			if(path_follow_kind_flag == 0)
+				path_err_normalization = abs(longest_white_col_x-MT9V03X_W/2);
+			else if(path_follow_kind_flag == 1)
+				path_err_normalization = abs(path[control_point[path_follow_kind_flag]][0] - MT9V03X_W/2);
+			if(path_err_normalization < 45)
+				path_err_normalization = path_err_normalization/60.0;
 			else
-				path_control(path_linear_speed_target[1]); 	// 控制
+				path_err_normalization = 1;
+		
+			float path_linear_speed_target_synthetic = path_linear_speed_target[2]-(path_linear_speed_target[2]-path_linear_speed_target[1])*path_err_normalization*path_err_normalization*path_err_normalization;
+			
+			if(path_follow_kind_flag == 0)	// 非圆环速度
+			{
+				// 缓加速
+				if(speed_control_time_count <= 1500)
+					path_control(path_linear_speed_target[0]+(path_linear_speed_target_synthetic-path_linear_speed_target[0])*(speed_control_time_count/1500.0)*(speed_control_time_count/1500.0)*(speed_control_time_count/1500.0)); 	// 控制
+				else
+					path_control(path_linear_speed_target_synthetic); 	// 控制
+			}
+			else	// 圆环速度
+			{
+				path_control(circle_path_linear_speed_target); 	// 控制
+			}
+			
 			
 			track_finsh_next_mode_flag = BLOCK_RETRACK_MODE; 
 			break; 

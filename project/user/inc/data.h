@@ -168,7 +168,7 @@ typedef struct
 /* 循迹PID */
 typedef struct
 {
-	_PID_PARAMETERS_ path_pid_parameters[3];	
+	_PID_PARAMETERS_ path_pid_parameters[6];	
 	_PID_VARIABLE_ path_pid_variable;				
 }_PATH_PID_;
 
@@ -204,6 +204,7 @@ extern uint8 circle_in_time_count_flag;				// 圆环入环计时标志位（入环后开始计时
 extern uint8 circle_out_time_count_flag;			// 圆环出环计时标志位（出环后开始计时，防止出环后姿态不好导致错误入环）
 extern uint8 program_time_count_flag;					// 程序计时标志位
 extern uint8 debug_time_count_flag;					// 调试计时标志位
+extern uint8 speed_control_time_count_flag;					// 速度控制计时标志位
 extern uint8 circle_in_flag;								// 进环标志位
 extern uint8 circle_out_flag;								// 出环标志位
 extern _CONTROL_MODE_ control_mode_flag;	// 控制模式标志位
@@ -315,7 +316,7 @@ extern float KARMAN_MOTOR_3[2];
 extern float ROTATE_PID[8][5];
 
 /* 循迹PID参数 */
-extern float PATH_PID[3][6];
+extern float PATH_PID[6][6];
 
 /* 追踪PID参数 */
 extern float X_AI_TRACK_PID[5];
@@ -338,7 +339,7 @@ extern _AI_TRACK_PID_ ai_track_pid;	// 追踪PID
 
 /* 循迹参数 */
 extern int16 mid_x;	// 循线开始中点
-extern float path_linear_speed_target[2];	// 循迹线速度
+extern float path_linear_speed_target[3];	// 循迹线速度
 extern int16 path_start;	// 路径线提取开始高度
 extern int16 path_end;	// 路径线提取结束高度
 extern int16 control_point[2];	// 控制点高度（速度 3 30 速度 8 45）
@@ -354,16 +355,17 @@ extern int16 L_bend_point[MT9V03X_H*2][2];		// 左边线弯点坐标
 extern int16 R_bend_point[MT9V03X_H*2][2];		// 右边线弯点坐标
 extern int16 L_bend_point_num;		// 左边线弯点数量
 extern int16 R_bend_point_num;		// 右边线弯点数量
-extern float path_curvature_normalization;	// 赛道曲率归一化
-extern float path_curvature_normalization_max;	// 赛道曲率归一化最大值
+extern float path_err_normalization;	// 循线误差归一化
 extern uint32 circle_in_time_count;  // 入环计时（计时达到后才可以判断出环）
 extern uint32 circle_out_time_count;  // 出环计时（计时达到后才可以再次判断入环）
 extern uint32 zebra_crossing_path_element_start_judge_time_count;	// 斑马线元素开启判断计时（计时达到后才可以开始判断斑马线）
 extern uint32 zebra_crossing_path_element_stop_delay_time_count;	// 斑马线元素停车延时计时（计时达到后才可以停车）
 extern uint32 program_time_count;	// 程序计时
 extern uint32 debug_time_count;	// 调试计时
+extern uint32 speed_control_time_count;	// 速度控制计时
 
 /* 赛道元素参数 */
+extern float circle_path_linear_speed_target;			// 圆环循迹线速度（cm/s）
 extern int16 circle_check_y;		// 圆环检测线高度
 extern float circle_in_linear_speed_target;	// 入环目标线速度
 extern float circle_in_angular_speed_target;	// 入环目标角速度

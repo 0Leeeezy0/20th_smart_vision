@@ -93,6 +93,7 @@ uint8 circle_in_time_count_flag = FALSE;				// Ô²»·Èë»·¼ÆÊ±±êÖ¾Î»£¨Èë»·ºó¿ªÊ¼¼ÆÊ
 uint8 circle_out_time_count_flag = TRUE;				// Ô²»·³ö»·¼ÆÊ±±êÖ¾Î»£¨³ö»·ºó¿ªÊ¼¼ÆÊ±£¬·ÀÖ¹³ö»·ºó×ËÌ¬²»ºÃµ¼ÖÂ´íÎóÈë»·£©
 uint8 program_time_count_flag = FALSE;					// ³ÌĞò¼ÆÊ±±êÖ¾Î»
 uint8 debug_time_count_flag = FALSE;					// µ÷ÊÔ¼ÆÊ±±êÖ¾Î»
+uint8 speed_control_time_count_flag = FALSE;					// ËÙ¶È¿ØÖÆ¼ÆÊ±±êÖ¾Î»
 uint8 circle_in_flag = 0;								// ½ø»·±êÖ¾Î»
 uint8 circle_out_flag = 0;								// ³ö»·±êÖ¾Î»
 _CONTROL_MODE_ control_mode_flag = PATH_CONTROL_MODE;	// ÉãÏñÍ·ÀàĞÍ±êÖ¾Î»
@@ -117,10 +118,10 @@ _AI_TRACK_PID_ ai_track_pid;							// ×·×ÙPID
 
 /* Ñ­Ïß */
 int16 mid_x = MT9V03X_W/2;	// Ñ­Ïß¿ªÊ¼ÖĞµã
-float path_linear_speed_target[2] = {60,100};	// Ñ­¼£ÏßËÙ¶È£¨»ºÆô¶¯ËÙ¶È Æô¶¯ËÙ¶È£©£¨cm/s£©
+float path_linear_speed_target[3] = {70,100,120};	// Ñ­¼£ÏßËÙ¶È£¨»ºÆô¶¯ËÙ¶È Æô¶¯×îĞ¡ËÙ¶È Æô¶¯×î´óËÙ¶È£©£¨cm/s£©
 int16 path_start = 95;			// Â·¾¶ÏßÌáÈ¡¿ªÊ¼¸ß¶È
 int16 path_end = 30;			// Â·¾¶ÏßÌáÈ¡½áÊø¸ß¶È
-int16 control_point[2] = {75 ,60};		// ¿ØÖÆµã¸ß¶È£¨ËÙ¶È£º100£º72£¬55£©
+int16 control_point[2] = {70 ,50};		// ¿ØÖÆµã¸ß¶È£¨ËÙ¶È£º100£º72£¬55£©
 int16 prediction_point = 30;	// Ô¤²âµã¸ß¶È£ºÆäºá×ø±ê½«×÷ÎªÏÂÒ»Ö¡µÄËÑÏßÆğµã
 int16 longest_white_col_x = 0;	// ×î³¤°×ÁĞX×ø±ê
 int16 L_side[MT9V03X_H*3][2] = {0};	// ×ó±ßÏß×ø±ê
@@ -133,22 +134,23 @@ int16 L_bend_point[MT9V03X_H*2][2] = {0};	// ×ó±ßÏßÍäµã×ø±ê
 int16 R_bend_point[MT9V03X_H*2][2] = {0};	// ÓÒ±ßÏßÍäµã×ø±ê
 int16 L_bend_point_num = 0;		// ×ó±ßÏßÍäµãÊıÁ¿
 int16 R_bend_point_num = 0;		// ÓÒ±ßÏßÍäµãÊıÁ¿
-float path_curvature_normalization = 0;	// ÈüµÀÇúÂÊ¹éÒ»»¯
-float path_curvature_normalization_max = 0.25;	// ÈüµÀÇúÂÊ¹éÒ»»¯×î´óÖµ
+float path_err_normalization = 0;	// Ñ­ÏßÎó²î¹éÒ»»¯
 uint32 circle_in_time_count = 0;  // Èë»·¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÅĞ¶Ï³ö»·£©
 uint32 circle_out_time_count = 100000;  // ³ö»·¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÔÙ´ÎÅĞ¶ÏÈë»·£©
 uint32 zebra_crossing_path_element_start_judge_time_count = 0;	// °ßÂíÏßÔªËØ¿ªÆôÅĞ¶Ï¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔ¿ªÊ¼ÅĞ¶Ï°ßÂíÏß£©
 uint32 zebra_crossing_path_element_stop_delay_time_count = 0;	// °ßÂíÏßÔªËØÍ£³µÑÓÊ±¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÍ£³µ£©
 uint32 program_time_count = 0;	// ³ÌĞò¼ÆÊ±
 uint32 debug_time_count = 0;	// µ÷ÊÔ¼ÆÊ±
+uint32 speed_control_time_count = 0;	// ËÙ¶È¿ØÖÆ¼ÆÊ±
 
 /* ÈüµÀÔªËØ²ÎÊı */
+float circle_path_linear_speed_target = 80;			// Ô²»·Ñ­¼£ÏßËÙ¶È£¨cm/s£©
 //int16 circle_check_y = 65;					// linear_speed = 5	 Ô²»·¼ì²âÏß¸ß¶È£¨±ØĞëĞ¡ÓÚpath_start£©
 int16 circle_check_y = 60;					// linear_speed = 6.5	 Ô²»·¼ì²âÏß¸ß¶È£¨±ØĞëĞ¡ÓÚpath_start£©
-float circle_in_linear_speed_target = 79;	// Èë»·Ä¿±êÏßËÙ¶È£¨linear_speed£º87.5£º79 linear_speed£º100£º79£©
+float circle_in_linear_speed_target = 110;	// Èë»·Ä¿±êÏßËÙ¶È£¨linear_speed£º87.5£º79 linear_speed£º100£º79£©
 float circle_in_angular_speed_target = 28;	// Èë»·Ä¿±ê½ÇËÙ¶È£¨linear_speed£º87.5£º28 linear_speed£º100£º28£©
 int16 circle_in_angle = 60;	// Èë»·×ª¶¯½Ç¶È
-float circle_out_linear_speed_target = 79;	// ³ö»·Ä¿±êÏßËÙ¶È
+float circle_out_linear_speed_target = 110;	// ³ö»·Ä¿±êÏßËÙ¶È
 float circle_out_angular_speed_target = 28;	// Èë»·Ä¿±ê½ÇËÙ¶È
 int16 circle_out_angle = 60;	// ³ö»·×ª¶¯½Ç¶È
 int16 side_extract_start_y = 80;	// ±ßÏß¿ªÊ¼ÌáÈ¡¸ß¶È
@@ -156,7 +158,7 @@ int16 side_extract_end_y = 20;		// ±ßÏß½áÊøÌáÈ¡¸ß¶È
 int16 side_X_delta_limit[2] = {15,3};	// ±ßÏßX²îÖµ×î´óÖµ/×îĞ¡ãĞÖµ
 
 /* AI×·×Ù */
-float track_linear_speed_target = 44;	// ×·×ÙÏßËÙ¶È
+float track_linear_speed_target = 60;	// ×·×ÙÏßËÙ¶È
 int16 detection_box_width_limit = 25;	// ÉãÏñÍ·Ê¶±ğ¿ò¿í¶ÈãĞÖµ
 int16 detection_box_width_std = 80;	// ÉãÏñÍ·Ê¶±ğ¿ò¿í¶È±ê×¼ãĞÖµ
 int16 detection_box_center_limit = 65;	// ÉãÏñÍ·Ê¶±ğ¿òÖĞĞÄÎó²îãĞÖµ
@@ -221,7 +223,7 @@ float PATH_PID[3][6] = {{0.020 ,0.3 ,0 ,0.004 ,20 ,1},{0.036 ,0.35 ,0. ,0.0055 ,
 #elif PATH_PID_CHOOSE == 1
 // Î»ÖÃÊ½
 //float PATH_PID[3][6] = {{0.027 ,0 ,0.0035 ,0.0025 ,1 ,0.1},{0.030 ,0 ,0.004 ,0.0030 ,1 ,0.1},{0.032 ,0 ,0.005 ,0.0035 ,1 ,0.1}}; // linear_speed = 5	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ
-float PATH_PID[3][6] = {{0.355 ,0 ,0.035 ,0.05 ,22 ,2},{0.412 ,0 ,0.06 ,0.080 ,25 ,2},{0.425 ,0 ,0.06 ,0.1 ,30 ,2}}; // linear_speed = 100	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ
+float PATH_PID[6][6] = {{0.76 ,0 ,0.1 ,0.05 ,18 ,2},{0.78 ,0 ,0.1 ,0.05 ,20 ,2},{0.80 ,0 ,0.1 ,0.035 ,25 ,2},{0.82 ,0 ,0.1 ,0.035 ,32 ,2},{0.85 ,0 ,0.1 ,0.035 ,40 ,2},{0.88 ,0 ,0.1 ,0.035 ,45 ,2}}; // linear_speed = 100	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ
 #endif
 	
 /* 
@@ -263,6 +265,7 @@ void flag_init(void)
 	circle_in_time_count_flag = FALSE;		// Ô²»·½ø»·ºó¼ÆÊ±±êÖ¾Î»
 	circle_out_time_count_flag = TRUE;		// Ô²»·³ö»·ºó¼ÆÊ±±êÖ¾Î»
 	debug_time_count_flag = FALSE;
+	speed_control_time_count_flag = FALSE;
 	circle_in_flag = 0;
 	circle_out_flag = 0;
 	control_mode_flag = PATH_CONTROL_MODE;	// ¿ØÖÆÄ£Ê½±êÖ¾Î»

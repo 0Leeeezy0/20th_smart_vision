@@ -110,6 +110,11 @@ void PIT_IRQHandler(void)
 			debug_time_count++;
 		else
 			debug_time_count = 0;
+		// 速度控制计时
+		if(speed_control_time_count_flag)
+			speed_control_time_count++;
+		else
+			speed_control_time_count = 0;
 		
         pit_flag_clear(PIT_CH2);
     }

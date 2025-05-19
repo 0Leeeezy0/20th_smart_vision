@@ -92,6 +92,7 @@ void fxxk_box(uint8 steps)
 				case 1:
 				{
 					translate_shift_flag = FALSE;
+					speed_control_time_count_flag = FALSE;
 					
 					// 推离赛道
 					chassis_total_control(CHASSIS_MOVE,0,35,0,0,0);
@@ -101,6 +102,7 @@ void fxxk_box(uint8 steps)
 					chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,-90,0);
 					
 					translate_shift_flag = TRUE;
+					speed_control_time_count_flag = TRUE;
 					
 					ai_camera_detection_result_list[ai_camera_detection_result_list_num].result_kind = ai_camera_detection_result_swap.result_kind;
 					ai_camera_detection_result_list[ai_camera_detection_result_list_num].lable = ai_camera_detection_result_swap.lable;
@@ -131,6 +133,7 @@ void fxxk_box(uint8 steps)
 				case 1:
 				{
 					translate_shift_flag = FALSE;
+					speed_control_time_count_flag = FALSE;
 					
 					// 推离赛道
 					chassis_total_control(CHASSIS_MOVE,0,35,0,0,0);
@@ -140,6 +143,7 @@ void fxxk_box(uint8 steps)
 					chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,90,0);
 					
 					translate_shift_flag = TRUE;
+					speed_control_time_count_flag = TRUE;
 					
 					ai_camera_detection_result_list[ai_camera_detection_result_list_num].result_kind = ai_camera_detection_result_swap.result_kind;
 					ai_camera_detection_result_list[ai_camera_detection_result_list_num].lable = ai_camera_detection_result_swap.lable;

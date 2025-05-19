@@ -450,23 +450,6 @@ void side_point_kind_judge(void)
     }
 }
 
-/* 赛道归一化曲率计算 */
-void path_curvature_normalization_judge(void)
-{
-	if(L_side_point_num+R_side_point_num != 0)
-	{
-		path_curvature_normalization = (float)(L_bend_point_num+R_bend_point_num)/(float)(L_side_point_num+R_side_point_num);
-	}
-	if(path_curvature_normalization <= path_curvature_normalization_max)
-	{
-		path_curvature_normalization = path_curvature_normalization/path_curvature_normalization_max;
-	}
-	else
-	{
-		path_curvature_normalization = 1;
-	}
-}
-
 /* 圆环判断 */
 void circle_path_element_judge(void)
 {
@@ -539,6 +522,7 @@ void circle_path_element_judge(void)
 			circle_in_flag = 0;
 			circle_in_time_count_flag = TRUE;
 			circle_out_time_count_flag = FALSE;
+			speed_control_time_count_flag = FALSE;
 			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 			path_follow_kind_flag = 1;
 		}
@@ -556,6 +540,7 @@ void circle_path_element_judge(void)
 			circle_out_flag = 0;
 			circle_in_time_count_flag = FALSE;
 			circle_out_time_count_flag = TRUE;
+			speed_control_time_count_flag = TRUE;
 			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 			path_follow_kind_flag = 0;
 		}
@@ -573,6 +558,7 @@ void circle_path_element_judge(void)
 			circle_in_flag = 0;
 			circle_in_time_count_flag = TRUE;
 			circle_out_time_count_flag = FALSE;
+			speed_control_time_count_flag = FALSE;
 			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 			path_follow_kind_flag = 1;
 		}
@@ -589,6 +575,7 @@ void circle_path_element_judge(void)
 			circle_out_flag  = 0;
 			circle_in_time_count_flag = FALSE;
 			circle_out_time_count_flag = TRUE;
+			speed_control_time_count_flag = TRUE;
 			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 			path_follow_kind_flag = 0;
 		}
@@ -644,7 +631,7 @@ _PATH_PID_ path_control_pid_init(void)
 	static _PATH_PID_ path_pid;
 
 	// 循迹 PID
-	for(uint8 i = 0;i < 3; i++)
+	for(uint8 i = 0;i < 6; i++)
 	{
 		path_pid.path_pid_parameters[i].p = PATH_PID[i][0];
 		path_pid.path_pid_parameters[i].i = PATH_PID[i][1];
@@ -666,17 +653,29 @@ float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,floa
 	static float gyro_last_err = 0;
 	gyro_now_err = GYRO_Z_FORWARD*gyro_z;
 
-	if(abs(path_err) >= 0 && abs(path_err) < 25)
+	if(abs(path_err) >= 0 && abs(path_err) < 10)
 	{
 		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
 	}
-	else if(abs(path_err) >= 25 && abs(path_err) < 40)
+	else if(abs(path_err) >= 10 && abs(path_err) < 20)
 	{
 		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
 	}
-	else
+	else if(abs(path_err) >= 20 && abs(path_err) < 30)
 	{
 		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
+	}
+	else if(abs(path_err) >= 30 && abs(path_err) < 40)
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[3]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
+	}
+	else if(abs(path_err) >= 40 && abs(path_err) < 50)
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[4]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[4][3]*(gyro_now_err-gyro_last_err);
+	}
+	else
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[5]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[5][3]*(gyro_now_err-gyro_last_err);
 	}
 	gyro_last_err = gyro_now_err;
 	

@@ -79,8 +79,9 @@ void menu_data_leeeezy_init(void)
 	MENU_CHASSIS.angular_speed.name = "ANGULAR_SPEED";
 	MENU_CHASSIS.rotate_angle.name = "ANGLE";
 	
-	MENU_PATH.linear_speed_target_0.name = "LINEAR_SPEED_TAR_0";
-	MENU_PATH.linear_speed_target_1.name = "LINEAR_SPEED_TAR_1";
+	MENU_PATH.linear_speed_target_pre.name = "L_SPEED_TAR_PRE";
+	MENU_PATH.linear_speed_target_min.name = "L_SPEED_TAR_MIN";
+	MENU_PATH.linear_speed_target_max.name = "L_SPEED_TAR_MAX";
 	MENU_PATH.path_start.name = "PATH_START";
 	MENU_PATH.path_end.name = "PATH_END";
 	MENU_PATH.control_point_0.name = "PATH_CONTROL_0";
@@ -88,6 +89,7 @@ void menu_data_leeeezy_init(void)
 	MENU_PATH.prediction_point.name = "PATH_PREDICT";
 	
 	MENU_CIRCLE_PATH.circle_path_enable_flag.name = "CIRCLE_EN";
+	MENU_CIRCLE_PATH.circle_path_linear_speed_target.name = "CIRCLE_L_SPEED_TAR";
 	MENU_CIRCLE_PATH.circle_check_y.name = "CIRCLE_CHECK_Y";
 	MENU_CIRCLE_PATH.circle_in_linear_speed_target.name = "CIRCLE_IN_L_SPEED";
 	MENU_CIRCLE_PATH.circle_in_angular_speed_target.name = "CIRCLE_IN_A_SPEED";
