@@ -490,7 +490,8 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,floa
 		case MOTOR_1:
 		{ 
 			motor_control.motor_1.duty = FUNC(&(chassis_pid -> motor_1_pid_parameters),&(chassis_pid -> motor_1_pid_variable),motor_speed,motor_1_speed);
-			if(motor_control.motor_1.duty > 0)
+			
+            if(motor_control.motor_1.duty > 0)
 			{
 				motor_control.motor_1.dir = 0;
 			}
