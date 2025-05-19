@@ -163,8 +163,24 @@ typedef struct
 	_KALMAN_VARIABLE_ motor_2_karman_variable;
 	_KALMAN_PARAMETERS_ motor_3_karman_parameters;
 	_KALMAN_VARIABLE_ motor_3_karman_variable;
+    
 }_CHASSIS_FILTER_;
 
+
+/* 电流环滤波器 */
+typedef struct
+{
+    _KALMAN_PARAMETERS_ motor_current_1_karman_parameters;
+	_KALMAN_VARIABLE_ motor_current_1_karman_variable;
+	_KALMAN_PARAMETERS_ motor_current_2_karman_parameters;
+	_KALMAN_VARIABLE_ motor_current_2_karman_variable;
+	_KALMAN_PARAMETERS_ motor_current_3_karman_parameters;
+	_KALMAN_VARIABLE_ motor_current_3_karman_variable;   
+    
+}_CURRENT_FILTER_;
+
+
+    
 /* 循迹PID */
 typedef struct
 {
@@ -264,7 +280,12 @@ extern float bat_voltage;
 extern float motor_1_I;
 extern float motor_2_I;
 extern float motor_3_I;
-
+extern float I_Original_ADC_data_1;
+extern float I_Original_ADC_data_2;
+extern float I_Original_ADC_data_3;
+extern float I_Karman_ADC_data_1;
+extern float I_Karman_ADC_data_2;
+extern float I_Karman_ADC_data_3;
 /* 位移解算 */
 extern float shift_yaw;
 extern float shift_linear_speed;
@@ -312,6 +333,9 @@ extern float KARMAN_MOTOR_1[2];
 extern float KARMAN_MOTOR_2[2];
 extern float KARMAN_MOTOR_3[2];
 
+/* 电流KARMAN参数 */
+extern float KARMAN_CURRENT[2];    //Q R Q越小越平滑   R越小越接近(收敛越快);
+
 /* 转动PID参数 */
 extern float ROTATE_PID[8][5];
 
@@ -331,6 +355,7 @@ extern uint32 chassis_move_time_count;  	// 底盘移动计时
 extern _CHASSIS_CONTROL_ chassis_control;	// 底盘电机解算参数
 extern _CHASSIS_PID_ chassis_pid;			// 底盘PID
 extern _CHASSIS_FILTER_ chassis_filter;		// 底盘滤波器
+extern _CURRENT_FILTER_ current_filter;		// 电流环滤波器
 /* 循迹控制参数 */
 extern _PATH_PID_ path_pid;							// 循迹PID
 

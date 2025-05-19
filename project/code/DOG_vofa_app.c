@@ -175,6 +175,11 @@ void real_motor_speed_update(void)
 	printf("%f,%f,%f",motor_1_speed,motor_2_speed,motor_3_speed);
 }
 
+/* 电机电流上传 */
+void motor_current_update(void)
+{	
+	printf("%f,%f,%f,%f,%f,%f,%f,%f,%f",I_Original_ADC_data_1,I_Karman_ADC_data_1,motor_1_I,I_Original_ADC_data_2,I_Karman_ADC_data_2,motor_2_I,I_Original_ADC_data_3,I_Karman_ADC_data_3,motor_3_I);
+}
 /* 电机占空比上传 */
 void motor_duty_update(void)
 {	

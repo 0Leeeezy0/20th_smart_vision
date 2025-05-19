@@ -91,9 +91,9 @@
 #define BAT_VOLTAGE_PIN				(ADC1_CH4_B15)		// 电池电压监测引脚
 
 /* 电流监测 */
-#define MOTOR_1_I_PIN				(ADC1_CH3_B14)		// 电流监测引脚
-#define MOTOR_2_I_PIN				(ADC1_CH12_B23)		// 电流监测引脚
-#define MOTOR_3_I_PIN				(ADC1_CH10_B21)		// 电流监测引脚
+#define MOTOR_3_I_PIN				(ADC1_CH12_B23)		// 电流监测引脚
+#define MOTOR_2_I_PIN				(ADC1_CH3_B14)		// 电流监测引脚
+#define MOTOR_1_I_PIN				(ADC1_CH10_B21)		// 电流监测引脚
 
 /*********************************************************************/
 

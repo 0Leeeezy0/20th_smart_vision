@@ -1,5 +1,5 @@
-#ifndef __DOG_KARMAN_H__
-#define __DOG_KARMAN_H__
+#ifndef __DOG_FILTER_H__
+#define __DOG_FILTER_H__
 #include "common.h"
 
 /* ¿¨¶ûÂü³õÊ¼»¯ */

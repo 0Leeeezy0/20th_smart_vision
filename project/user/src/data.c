@@ -42,7 +42,12 @@ float bat_voltage = 0;
 float motor_1_I = 0;
 float motor_2_I = 0;
 float motor_3_I = 0;
-
+float I_Original_ADC_data_1 = 0;
+float I_Original_ADC_data_2 = 0;
+float I_Original_ADC_data_3 = 0;
+float I_Karman_ADC_data_1 = 0;
+float I_Karman_ADC_data_2 = 0;
+float I_Karman_ADC_data_3 = 0;
 /* 位移解算（° cm） */
 float wheel_1_shift = 0;
 float wheel_2_shift = 0;
@@ -112,7 +117,8 @@ uint8 ai_camera_1_enable_flag = TRUE;	// AI摄像头1 使能标志位
 
 /* PID */
 _CHASSIS_PID_ chassis_pid;						// 底盘PID
-_CHASSIS_FILTER_ chassis_filter;				// 底盘滤波器
+_CHASSIS_FILTER_ chassis_filter;				// 底盘滤波器   //凭什么叫底盘滤波器？？
+_CURRENT_FILTER_ current_filter;
 _PATH_PID_ path_pid;							// 循迹PID
 _AI_TRACK_PID_ ai_track_pid;							// 追踪PID
 
@@ -200,6 +206,8 @@ float PID_MOTOR_3[5] = {250 ,0.1 ,400 ,9000 ,500};
 float KARMAN_MOTOR_1[2] = {0.01,0.1}; //Q R Q越小越平滑   R越小越接近(收敛越快);
 float KARMAN_MOTOR_2[2] = {0.01,0.1}; //Q R Q越小越平滑   R越小越接近(收敛越快);
 float KARMAN_MOTOR_3[2] = {0.01,0.1}; //Q R Q越小越平滑   R越小越接近(收敛越快);
+
+float KARMAN_CURRENT[2] = {0.01,0.1}; //Q R Q越小越平滑   R越小越接近(收敛越快);
 
 /* 
 	转动PID参数 

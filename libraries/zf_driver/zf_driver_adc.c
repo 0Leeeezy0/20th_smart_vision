@@ -46,7 +46,58 @@ void adc_iomuxc(adc_channel_enum ch)
 {
     switch(ch)
     {
-        case ADC1_CH0_B27:
+//        case ADC1_CH0_B27:  
+//        case ADC2_CH0_B27:  gpio_iomuxc(B27 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH1_B12:  gpio_iomuxc(B12 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH2_B13:  gpio_iomuxc(B13 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH3_B14:  gpio_iomuxc(B14 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH4_B15:  gpio_iomuxc(B15 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH5_B16:
+//        case ADC2_CH5_B16:  gpio_iomuxc(B16 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH6_B17:
+//        case ADC2_CH6_B17:  gpio_iomuxc(B17 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC2_CH7_B18:
+//        case ADC1_CH7_B18:  gpio_iomuxc(B18 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH8_B19:
+//        case ADC2_CH8_B19:  gpio_iomuxc(B19 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH9_B20:  
+//        case ADC2_CH9_B20:  gpio_iomuxc(B20 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH10_B21:  
+//        case ADC2_CH10_B21: gpio_iomuxc(B21 ,GPI_ANAOG_IN);break;
+//                            
+//        case ADC1_CH11_B22: 
+//        case ADC2_CH11_B22: gpio_iomuxc(B22 ,GPI_ANAOG_IN);break;
+//                            
+//        case ADC1_CH12_B23: 
+//        case ADC2_CH12_B23: gpio_iomuxc(B23 ,GPI_ANAOG_IN);break;
+//                            
+//        case ADC1_CH13_B24: 
+//        case ADC2_CH13_B24: gpio_iomuxc(B24 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH14_B25:  
+//        case ADC2_CH14_B25: gpio_iomuxc(B25 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC1_CH15_B26:  
+//        case ADC2_CH15_B26: gpio_iomuxc(B26 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC2_CH1_B28:  gpio_iomuxc(B28 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC2_CH2_B29:  gpio_iomuxc(B29 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC2_CH3_B30:  gpio_iomuxc(B30 ,GPI_ANAOG_IN);break;
+//        
+//        case ADC2_CH4_B31:  gpio_iomuxc(B31 ,GPI_ANAOG_IN);break;
+         case ADC1_CH0_B27:  gpio_iomuxc(B27 ,GPI_ANAOG_IN);break;
         case ADC2_CH0_B27:  gpio_iomuxc(B27 ,GPI_ANAOG_IN);break;
         
         case ADC1_CH1_B12:  gpio_iomuxc(B12 ,GPI_ANAOG_IN);break;
@@ -57,37 +108,37 @@ void adc_iomuxc(adc_channel_enum ch)
         
         case ADC1_CH4_B15:  gpio_iomuxc(B15 ,GPI_ANAOG_IN);break;
         
-        case ADC1_CH5_B16:
+        case ADC1_CH5_B16:  gpio_iomuxc(B16 ,GPI_ANAOG_IN);break;
         case ADC2_CH5_B16:  gpio_iomuxc(B16 ,GPI_ANAOG_IN);break;
         
-        case ADC1_CH6_B17:
+        case ADC1_CH6_B17:  gpio_iomuxc(B17 ,GPI_ANAOG_IN);break;
         case ADC2_CH6_B17:  gpio_iomuxc(B17 ,GPI_ANAOG_IN);break;
         
-        case ADC2_CH7_B18:
+        case ADC2_CH7_B18:  gpio_iomuxc(B18 ,GPI_ANAOG_IN);break;
         case ADC1_CH7_B18:  gpio_iomuxc(B18 ,GPI_ANAOG_IN);break;
         
-        case ADC1_CH8_B19:
+        case ADC1_CH8_B19:  gpio_iomuxc(B19 ,GPI_ANAOG_IN);break;
         case ADC2_CH8_B19:  gpio_iomuxc(B19 ,GPI_ANAOG_IN);break;
         
-        case ADC1_CH9_B20:  
+        case ADC1_CH9_B20:  gpio_iomuxc(B20 ,GPI_ANAOG_IN);break;
         case ADC2_CH9_B20:  gpio_iomuxc(B20 ,GPI_ANAOG_IN);break;
         
-        case ADC1_CH10_B21:  
+        case ADC1_CH10_B21:  gpio_iomuxc(B21 ,GPI_ANAOG_IN);break;
         case ADC2_CH10_B21: gpio_iomuxc(B21 ,GPI_ANAOG_IN);break;
                             
-        case ADC1_CH11_B22: 
+        case ADC1_CH11_B22: gpio_iomuxc(B22 ,GPI_ANAOG_IN);break;
         case ADC2_CH11_B22: gpio_iomuxc(B22 ,GPI_ANAOG_IN);break;
                             
-        case ADC1_CH12_B23: 
+        case ADC1_CH12_B23: gpio_iomuxc(B23 ,GPI_ANAOG_IN);break;                            
         case ADC2_CH12_B23: gpio_iomuxc(B23 ,GPI_ANAOG_IN);break;
                             
-        case ADC1_CH13_B24: 
+        case ADC1_CH13_B24: gpio_iomuxc(B24 ,GPI_ANAOG_IN);break;
         case ADC2_CH13_B24: gpio_iomuxc(B24 ,GPI_ANAOG_IN);break;
         
-        case ADC1_CH14_B25:  
+        case ADC1_CH14_B25:  gpio_iomuxc(B25 ,GPI_ANAOG_IN);break;
         case ADC2_CH14_B25: gpio_iomuxc(B25 ,GPI_ANAOG_IN);break;
         
-        case ADC1_CH15_B26:  
+        case ADC1_CH15_B26:  gpio_iomuxc(B26 ,GPI_ANAOG_IN);break;
         case ADC2_CH15_B26: gpio_iomuxc(B26 ,GPI_ANAOG_IN);break;
         
         case ADC2_CH1_B28:  gpio_iomuxc(B28 ,GPI_ANAOG_IN);break;
@@ -97,7 +148,7 @@ void adc_iomuxc(adc_channel_enum ch)
         case ADC2_CH3_B30:  gpio_iomuxc(B30 ,GPI_ANAOG_IN);break;
         
         case ADC2_CH4_B31:  gpio_iomuxc(B31 ,GPI_ANAOG_IN);break;
-        
+       
         default:assert(0);break;
     }
 }

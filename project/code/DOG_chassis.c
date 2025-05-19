@@ -364,9 +364,19 @@ void bat_voltage_get(void)
 /* 电流检测adc */
 void motor_I_get(void)
 {
-	motor_1_I = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5)-2048.0;
-    motor_2_I = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5)-2048.0;
-    motor_3_I = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5)-2048.0;    
+    I_Original_ADC_data_1 = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);
+    I_Original_ADC_data_2 = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);
+    I_Original_ADC_data_3 = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);
+    I_Karman_ADC_data_1 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_1_karman_variable ,I_Original_ADC_data_1);
+    I_Karman_ADC_data_2 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_2_karman_variable ,I_Original_ADC_data_2);
+    I_Karman_ADC_data_3 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_3_karman_variable ,I_Original_ADC_data_3);
+    motor_1_I = I_Karman_ADC_data_1 / 4096*3.3/20/0.01;
+    motor_2_I = I_Karman_ADC_data_2 / 4096*3.3/20/0.01;
+    motor_3_I = I_Karman_ADC_data_3 / 4096*3.3/20/0.01;    
+    
+//    motor_1_I = adc_convert(MOTOR_1_I_PIN);
+//    motor_2_I = adc_convert(MOTOR_2_I_PIN);
+//    motor_3_I =    adc_convert(MOTOR_3_I_PIN);
 }
 
 
@@ -448,6 +458,22 @@ _CHASSIS_FILTER_ chassis_filter_init(void)
 	return chassis_filter;
 }
 
+/* 电流滤波器参数结构体初始化 */
+_CURRENT_FILTER_ current_filter_init(void)
+{
+	static _CURRENT_FILTER_ current_filter;
+
+	// 电机1 滤波器
+	karman_init(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_1_karman_variable,KARMAN_CURRENT[0],KARMAN_CURRENT[1]);
+	
+	// 电机2 滤波器
+	karman_init(&current_filter.motor_current_2_karman_parameters,&current_filter.motor_current_2_karman_variable,KARMAN_CURRENT[0],KARMAN_CURRENT[1]);
+	
+	// 电机3 滤波器
+	karman_init(&current_filter.motor_current_3_karman_parameters,&current_filter.motor_current_3_karman_variable,KARMAN_CURRENT[0],KARMAN_CURRENT[1]);
+	
+	return current_filter;
+}
 /* 单电机PID控制 */
 _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
 {
@@ -521,6 +547,8 @@ void chassis_control_init()
 	motor_sensor_init();
 	chassis_pid = chassis_pid_init();
 	chassis_filter = chassis_filter_init();
+   	current_filter = current_filter_init();
+ 
 }
 
 /* 停止 */

@@ -61,6 +61,9 @@ void theory_motor_speed_update(void);
 /* 电机速度（现实）上传 */
 void real_motor_speed_update(void);
 
+/* 电机电流上传 */
+void motor_current_update(void);
+
 /* 电机占空比上传 */
 void motor_duty_update(void);
 

@@ -16,7 +16,7 @@ void menu_uart_service(void)
 //	update_data_add();
 //	real_motor_speed_update();
 //	update_data_add();
-	printf("%f",chassis_linear_speed);
+//	printf("%f",chassis_linear_speed);
 //	update_data_add();
 //	motor_duty_update();
 //	update_data_add();
@@ -25,6 +25,8 @@ void menu_uart_service(void)
 //    motor_delta_update();
 //    update_data_add();
 //    motor_value_delta_update();
+//    update_data_add();    
+    motor_current_update();
 	update_data_end();
 	/*****************************************/
 }
