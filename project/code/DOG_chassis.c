@@ -686,14 +686,19 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 	chassis_rotate_finsh_flag = FALSE;
 	chassis_move_time_count_flag = FALSE;
 	
-	chassis_yaw = _chassis_yaw_;
-	chassis_linear_speed = _chassis_linear_speed_;
-	chassis_angular_speed = _chassis_angular_speed_;
-	chassis_rotate_angle = _chassis_rotate_angle_;
+	// 定义X方向追踪PID指针函数
+	float (*X_FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float);
+	float x_speed = 0;
+	float y_speed = 0;
+	X_FUNC = X_AI_TRACK_PID_KIND;
 	
 	// 阻塞式等待旋转结束
 	if(chassis_motion_flag == CHASSIS_ANGLE_ROTATE)
 	{
+		chassis_yaw = _chassis_yaw_;
+		chassis_linear_speed = _chassis_linear_speed_;
+		chassis_angular_speed = _chassis_angular_speed_;
+		chassis_rotate_angle = _chassis_rotate_angle_;
 		while(1)
 		{
 			if(chassis_rotate_finsh_flag == TRUE)
@@ -718,6 +723,13 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 		// 若方块推出赛道，则退出循环
 		while(1)
 		{
+			if(_delay_ms_ != 0)
+			{
+				chassis_yaw = _chassis_yaw_;
+				chassis_linear_speed = _chassis_linear_speed_;
+				chassis_angular_speed = _chassis_angular_speed_;
+				chassis_rotate_angle = _chassis_rotate_angle_;
+			}
 			// 平移直到达到设定时间
 			if(_delay_ms_ != 0 && chassis_move_time_count > _delay_ms_ && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
 			{
@@ -726,6 +738,22 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 			// 平移直到推箱子出界
 			if(_delay_ms_ == 0 && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
 			{
+				x_speed = X_FUNC(&(ai_track_pid.x_ai_track_pid_paraments),&(ai_track_pid.x_ai_track_pid_variable),0,-track_err);
+				y_speed = _chassis_linear_speed_;
+				if(y_speed != 0)
+				{
+					if(y_speed > 0)
+						chassis_yaw = RAD2DEG(atan(x_speed/y_speed));
+					else if(y_speed < 0)
+						chassis_yaw = 180+RAD2DEG(atan(x_speed/y_speed));
+				}	
+				else
+					chassis_yaw = 90*x_speed/abs(x_speed);
+				
+				chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
+				chassis_angular_speed = _chassis_angular_speed_;
+				chassis_rotate_angle = _chassis_rotate_angle_;
+				
 				if(grayscale < 1000 && num < 22)
 					num++;
 				if(num > 20)
@@ -738,6 +766,11 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 			// 绕圆心转动直到箱子矫正完成
 			else if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ == 0)
 			{
+				chassis_yaw = _chassis_yaw_;
+				chassis_linear_speed = _chassis_linear_speed_;
+				chassis_angular_speed = _chassis_angular_speed_;
+				chassis_rotate_angle = _chassis_rotate_angle_;
+				
 				euler_angle_flag = TRUE;	// 开启欧拉角解算
 				threshold(mt9v03x_image);
 				symmetry_rectificate();
@@ -791,6 +824,11 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 			else if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ != 0)
 			{
 				euler_angle_flag = TRUE;
+				chassis_yaw = _chassis_yaw_;
+				chassis_linear_speed = _chassis_linear_speed_;
+				chassis_angular_speed = _chassis_angular_speed_;
+				chassis_rotate_angle = _chassis_rotate_angle_;
+				
 				if(abs(yaw) >= abs(_chassis_rotate_angle_))
 				{
 					euler_angle_flag = FALSE;

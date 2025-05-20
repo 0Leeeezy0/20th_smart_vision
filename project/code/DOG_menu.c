@@ -201,7 +201,7 @@ void menu_point(void)
 		key_clear_all_state();
 	}
 	// 正常选项
-	else if(key_get_state(PRESS) == KEY_LONG_PRESS && point_row_num < menu_page[num].page_row_num)
+	else if(key_get_state(PRESS) == KEY_SHORT_PRESS && point_row_num < menu_page[num].page_row_num)
 	{
 		int16 i = 0;
 		screen_clear();
@@ -213,6 +213,7 @@ void menu_point(void)
 				// 更新索引
 				last_page_level = page_level;
 				last_page_num = page_num;
+				system_delay_ms(50);
 				menu_page[i].func_page();	
 				break;
 			}
@@ -345,13 +346,11 @@ void start(void)
 		
 	while(1)
 	{
-		program_time_count = 0;
 		menu_back(menu_start_page_back_service);
 		menu_point();
 		menu_title_show();
 		debug_service(menu_page[num].debug_mode);
 		control_mode_dispatch();
-		screen_float(DATA_MAX_COL,2*MT9V03X_H+4*MENU_ROW_PITCH,1000.0/(float)program_time_count,3,3);
 	}
 }
 
@@ -1128,9 +1127,9 @@ void menu_rotate_angle_pid_page(void)
 		screen_string(0,4*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.d.name);
 		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.d.data_float,1,5);
 		screen_string(0,5*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.output_limit.data_float,1,5);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.output_limit.data_float,2,5);
 		screen_string(0,6*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.i_limit.data_float,1,5);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_ROTATE_PID.ROTATE_PID.i_limit.data_float,2,5);
 	}
 }
 
@@ -1616,7 +1615,7 @@ void menu_rotate_angle_pid_reduce_service(void)
 	}
 	if(MENU_ROTATE_PID.pid_kind.data_uint8 > 7)
 	{
-		MENU_ROTATE_PID.pid_kind.data_uint8 = 2;
+		MENU_ROTATE_PID.pid_kind.data_uint8 = 7;
 	}
 }
 

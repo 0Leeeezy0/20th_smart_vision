@@ -121,7 +121,6 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 	Y_FUNC = Y_AI_TRACK_PID_KIND;
 	
 	static int16 num = 0;	// 符合偏移阈值的图像次数
-	track_err = track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2;
 	chassis_motion_flag = CHASSIS_MOVE;
 	// 色块宽度小于标准宽度时平移前进
 	if(detection_box_width < detection_box_width_std-4-20)
@@ -213,7 +212,7 @@ void uart_rx_interrupt_handler_ai_camera_0 (void)
             fifo_read_buffer(&uart_data_fifo_ai_camera_0, fifo_get_data_ai_camera_0, &temp_length, FIFO_READ_AND_CLEAN);
             detection_box_width = fifo_get_data_ai_camera_0[0];
             track_x_center = track_x + detection_box_width/2;
-            
+			track_err = track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2;
         }
         fifo_clear(&uart_data_fifo_ai_camera_0);
     }
