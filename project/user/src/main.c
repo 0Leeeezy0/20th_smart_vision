@@ -58,7 +58,6 @@ int main(void)
 	pit_ms_init (TIME_COUNT_IT_CH, TIME_COUNT_IT_TIME);
 	// 中断使能
 	pit_enable(TIME_COUNT_IT_CH);
-	
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {

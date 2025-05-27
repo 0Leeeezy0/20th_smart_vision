@@ -199,7 +199,7 @@
 
 #define GYRO_ACC_CALIBRATION_EPOCH 	(float)(1000)	// 陀螺仪加速度计校准采样轮次
 #define BAT_VOLTAGE_CALIBRATION		(36.88)					// 电池电压标定参数
-#define BAT_VOLTAGE_WARNING			(11.8)					// 电池电压警告参数
+#define BAT_VOLTAGE_WARNING			(11.)					// 电池电压警告参数
 
 /***********************************************************************/   
 

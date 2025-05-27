@@ -27,36 +27,11 @@ Project File Date:  05/20/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\KEIL\ARM\ARMCLANG\Bin'
 Build target 'nor_sdram_zf_dtcm'
-compiling DOG_debug.c...
-../code/DOG_vofa.c(92): warning: incompatible pointer types assigning to 'struct _CLI_DATA_ *' from '_CLI_DATA_ *' [-Wincompatible-pointer-types]
-        cli_Data -> CLI_Data_Header = cli_Data;
-                                    ^ ~~~~~~~~
-../code/DOG_vofa.c(104): warning: incompatible pointer types assigning to 'struct _CLI_DATA_ *' from '_CLI_DATA_ *' [-Wincompatible-pointer-types]
-        (*cli_data) -> CLI_Data_Next = cli_data_next;
-                                     ^ ~~~~~~~~~~~~~
-../code/DOG_vofa.c(113): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-        _CLI_DATA_* cli_data_get = (cli_data -> CLI_Data_Header);
-                    ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/DOG_vofa.c(123): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-                cli_data_get = (cli_data_get -> CLI_Data_Next);
-                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/DOG_vofa.c(131): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-        _CLI_DATA_* cli_data_header = cli_data -> CLI_Data_Header;
-                    ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/DOG_vofa.c(136): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-                cli_data_header = (cli_data_header -> CLI_Data_Next);
-                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/DOG_vofa.c(145): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-        _CLI_DATA_* cli_data_Last = (*cli_data) -> CLI_Data_Header;
-                    ^               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../code/DOG_vofa.c(159): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
-                cli_data_Last = cli_data_Last -> CLI_Data_Next;
-                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-8 warnings generated.
-compiling DOG_vofa.c...
+compiling DOG_pid.c...
+compiling DOG_path.c...
 linking...
-Program Size: Code=129560 RO-data=18784 RW-data=1572 ZI-data=139968  
-".\Objects\rt1064.axf" - 0 Error(s), 8 Warning(s).
+Program Size: Code=134040 RO-data=18784 RW-data=1636 ZI-data=139968  
+".\Objects\rt1064.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 

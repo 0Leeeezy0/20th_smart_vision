@@ -653,24 +653,34 @@ float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,floa
 	static float gyro_last_err = 0;
 	gyro_now_err = GYRO_Z_FORWARD*gyro_z;
 
-	if(abs(path_err) >= 0 && abs(path_err) < 10)
-	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
-	}
-	else if(abs(path_err) >= 10 && abs(path_err) < 20)
-	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
-	}
-	else if(abs(path_err) >= 20 && abs(path_err) < 40)
-	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
-	}
-	else
-	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[3]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
-	}
+	// ·Ö¶ÎPID
+//	if(abs(path_err) >= 0 && abs(path_err) < 10)
+//	{
+//		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
+//	}
+//	else if(abs(path_err) >= 10 && abs(path_err) < 20)
+//	{
+//		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
+//	}
+//	else if(abs(path_err) >= 20 && abs(path_err) < 40)
+//	{
+//		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
+//	}
+//	else
+//	{
+//		value = FUNC_PATH(&(path_pid.path_pid_parameters[3]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
+//	}
 
-
+	// Ä£ºıPID
+	float small[2] = {10.,3.};
+	float medium[2] = {30.,6.};
+	float big[2] = {60.,11.};
+	_PID_PARAMETERS_ path_fuzzy_pid_parameters = fuzzy_pid_paraments_get(path_pid.path_pid_parameters,path_err,gyro_now_err,small,medium,big,2);
+	value = FUNC_PATH(&path_fuzzy_pid_parameters,&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
+	
+//	just_float(6,(float)path_err,(float)path_fuzzy_pid_parameters.p,(float)path_fuzzy_pid_parameters.i,(float)path_fuzzy_pid_parameters.d,(float)path_fuzzy_pid_parameters.output_limit,(float)path_fuzzy_pid_parameters.i_limit);
+//	update_data_end();
+	
 	gyro_last_err = gyro_now_err;
 	
 	return value;
