@@ -35,6 +35,9 @@ void chassis_control_stop(void);
 /* 调试 */
 void chassis_control_debug(void);
 
+/* 底盘控制转换（X/Y速度->线速度/航向角） */
+void chassis_control_transform(float x_speed,float y_speed,float angular_speed);
+
 /* 移动 */
 void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float angular_speed);
 

@@ -584,6 +584,24 @@ void chassis_control_debug(void)
 	motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
 }
 
+
+/* 底盘控制转换（X/Y速度->线速度/航向角） */
+void chassis_control_transform(float x_speed,float y_speed,float angular_speed)
+{
+	if(y_speed != 0)
+	{
+		if(y_speed > 0)
+			chassis_yaw = RAD2DEG(atan(x_speed/y_speed));
+		else if(y_speed < 0)
+			chassis_yaw = 180+RAD2DEG(atan(x_speed/y_speed));
+	}	
+	else
+		chassis_yaw = 90*x_speed/abs(x_speed);
+	
+	chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
+	chassis_angular_speed = angular_speed;
+}
+
 /* 移动 */
 void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float angular_speed)
 {

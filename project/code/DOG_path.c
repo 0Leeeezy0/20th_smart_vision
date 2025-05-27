@@ -653,30 +653,22 @@ float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,floa
 	static float gyro_last_err = 0;
 	gyro_now_err = GYRO_Z_FORWARD*gyro_z;
 
-//	if(abs(path_err) >= 0 && abs(path_err) < 10)
-//	{
-//		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
-//	}
-//	else if(abs(path_err) >= 10 && abs(path_err) < 20)
-//	{
-//		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
-//	}
-//	else if(abs(path_err) >= 20 && abs(path_err) < 30)
-//	{
-//		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
-//	}
-//	else if(abs(path_err) >= 30 && abs(path_err) < 40)
-//	{
-//		value = FUNC_PATH(&(path_pid.path_pid_parameters[3]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
-//	}
-//	else if(abs(path_err) >= 40 && abs(path_err) < 50)
-//	{
-//		value = FUNC_PATH(&(path_pid.path_pid_parameters[4]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[4][3]*(gyro_now_err-gyro_last_err);
-//	}
-//	else
-//	{
-//		value = FUNC_PATH(&(path_pid.path_pid_parameters[5]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[5][3]*(gyro_now_err-gyro_last_err);
-//	}
+	if(abs(path_err) >= 0 && abs(path_err) < 10)
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
+	}
+	else if(abs(path_err) >= 10 && abs(path_err) < 20)
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
+	}
+	else if(abs(path_err) >= 20 && abs(path_err) < 40)
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
+	}
+	else
+	{
+		value = FUNC_PATH(&(path_pid.path_pid_parameters[3]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
+	}
 
 
 	gyro_last_err = gyro_now_err;

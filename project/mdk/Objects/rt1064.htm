@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Tue May 27 15:44:02 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Tue May 27 16:37:27 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1640 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1043,7 +1043,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[24d]"></a>abs</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, siabs.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remote_control
+<BR><BR>[Called By]<UL><LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_control_pid
+<LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;remote_control
 <LI><a href="#[25e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;circle_path_element_judge
 <LI><a href="#[279]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;side_point_kind_judge
 <LI><a href="#[276]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;control_mode_choose
@@ -4458,7 +4459,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[27d]"></a>path_control</STRONG> (Thumb, 248 bytes, Stack size 152 bytes, dog_path.o(.text.path_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 184<LI>Call Chain = path_control &rArr; path_control_pid
+<BR><BR>[Stack]<UL><LI>Max Depth = 200<LI>Call Chain = path_control &rArr; path_control_pid
 </UL>
 <BR>[Calls]<UL><LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_control_pid
 </UL>
@@ -4479,8 +4480,10 @@ Global Symbols
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[296]"></a>path_control_pid</STRONG> (Thumb, 54 bytes, Stack size 32 bytes, dog_path.o(.text.path_control_pid))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = path_control_pid
+<P><STRONG><a name="[296]"></a>path_control_pid</STRONG> (Thumb, 448 bytes, Stack size 48 bytes, dog_path.o(.text.path_control_pid))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = path_control_pid
+</UL>
+<BR>[Calls]<UL><LI><a href="#[24d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
 </UL>
 <BR>[Called By]<UL><LI><a href="#[27d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_control
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_service
