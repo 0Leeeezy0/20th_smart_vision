@@ -68,6 +68,6 @@ float incremental_speed_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_
 float positional_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback);
 
 /* Ä£ºýPID */
-_PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float err,float err_c,float small,float medium,float big,uint8_t order);
+_PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float err,float err_c,float* small,float* medium,float* big,uint8_t order);
 
 #endif

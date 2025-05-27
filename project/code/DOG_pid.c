@@ -143,7 +143,7 @@ float positional_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variabl
 }
 
 /* 模糊PID */
-_PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float err,float err_c,float small,float medium,float big,uint8_t order)
+_PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float err,float err_c,float* small,float* medium,float* big,uint8_t order)
 {
 	_FUZZY_SUBSET_ fuzzy_subset_err[2] = {PID_NONE};
 	_FUZZY_SUBSET_ fuzzy_subset_err_c[2] = {PID_NONE};
@@ -159,50 +159,50 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 	float delta_output_limit = 0;
 	float delta_i_limit = 0;
 	
-	// err
+	// err隶属子集与隶属度计算
 	for(uint8_t i= 0;i < 8;i++)
 	{
-		if(err <= -big)
+		if(err <= -big[0])
 		{
 			fuzzy_subset_err[0] = NEGATIVE_BIG;
 			affiliation_degree_err[0] = 1;
 			fuzzy_subset_err[1] = PID_NONE;
 			affiliation_degree_err[1] = 0;
 		}
-		else if(err < -medium && err > -big)
+		else if(err < -medium[0] && err > -big[0])
 		{
 			fuzzy_subset_err[0] = NEGATIVE_BIG;
-			affiliation_degree_err[0] = abs(err-big)/abs(medium-big);
+			affiliation_degree_err[0] = abs(err-big[0])/abs(medium[0]-big[0]);
 			fuzzy_subset_err[1] = NEGATIVE_MEDIUM;
-			affiliation_degree_err[1] = abs(err-medium)/abs(medium-big);
+			affiliation_degree_err[1] = abs(err-medium[0])/abs(medium[0]-big[0]);
 		}
-		else if(err == -medium)
+		else if(err == -medium[0])
 		{
 			fuzzy_subset_err[0] = NEGATIVE_MEDIUM;
 			affiliation_degree_err[0] = 1;
 			fuzzy_subset_err[1] = PID_NONE;
 			affiliation_degree_err[1] = 0;
 		}
-		else if(err < -small && err > -medium)
+		else if(err < -small[0] && err > -medium[0])
 		{
 			fuzzy_subset_err[0] = NEGATIVE_MEDIUM;
-			affiliation_degree_err[0] = abs(err-medium)/abs(small-medium);
+			affiliation_degree_err[0] = abs(err-medium[0])/abs(small[0]-medium[0]);
 			fuzzy_subset_err[1] = NEGATIVE_SMALL;
-			affiliation_degree_err[1] = abs(err-small)/abs(small-medium);
+			affiliation_degree_err[1] = abs(err-small[0])/abs(small[0]-medium[0]);
 		}
-		else if(err == -small)
+		else if(err == -small[0])
 		{
 			fuzzy_subset_err[0] = NEGATIVE_SMALL;
 			affiliation_degree_err[0] = 1;
 			fuzzy_subset_err[1] = PID_NONE;
 			affiliation_degree_err[1] = 0;
 		}
-		else if(err < 0 && err > -small)
+		else if(err < 0 && err > -small[0])
 		{
 			fuzzy_subset_err[0] = NEGATIVE_SMALL;
-			affiliation_degree_err[0] = abs(err-small)/abs(small);
+			affiliation_degree_err[0] = abs(err-small[0])/abs(small[0]);
 			fuzzy_subset_err[1] = ZERO;
-			affiliation_degree_err[1] = abs(err)/abs(small);
+			affiliation_degree_err[1] = abs(err)/abs(small[0]);
 		}
 		else if(err == 0)
 		{
@@ -211,42 +211,42 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 			fuzzy_subset_err[1] = PID_NONE;
 			affiliation_degree_err[1] = 0;
 		}
-		else if(err > 0 && err < small)
+		else if(err > 0 && err < small[0])
 		{
 			fuzzy_subset_err[0] = ZERO;
-			affiliation_degree_err[0] = abs(err)/abs(small);
+			affiliation_degree_err[0] = abs(err)/abs(small[0]);
 			fuzzy_subset_err[1] = POSITIVE_SMALL;
-			affiliation_degree_err[1] = abs(err)/abs(small);
+			affiliation_degree_err[1] = abs(err)/abs(small[0]);
 		}
-		else if(err == small)
+		else if(err == small[0])
 		{
 			fuzzy_subset_err[0] = POSITIVE_MEDIUM;
 			affiliation_degree_err[0] = 1;
 			fuzzy_subset_err[1] = PID_NONE;
 			affiliation_degree_err[1] = 0;
 		}
-		else if(err > small && err < medium)
+		else if(err > small[0] && err < medium[0])
 		{
 			fuzzy_subset_err[0] = POSITIVE_MEDIUM;
-			affiliation_degree_err[0] = abs(err-medium)/abs(small-medium);
+			affiliation_degree_err[0] = abs(err-medium[0])/abs(small[0]-medium[0]);
 			fuzzy_subset_err[1] = POSITIVE_SMALL;
-			affiliation_degree_err[1] = abs(err-small)/abs(small-medium);
+			affiliation_degree_err[1] = abs(err-small[0])/abs(small[0]-medium[0]);
 		}
-		else if(err == medium)
+		else if(err == medium[0])
 		{
 			fuzzy_subset_err[0] = POSITIVE_MEDIUM;
 			affiliation_degree_err[0] = 1;
 			fuzzy_subset_err[1] = PID_NONE;
 			affiliation_degree_err[1] = 0;
 		}
-		else if(err > medium && err < big)
+		else if(err > medium[0] && err < big[0])
 		{
 			fuzzy_subset_err[0] = POSITIVE_BIG;
-			affiliation_degree_err[0] = abs(err-big)/abs(big-medium);
+			affiliation_degree_err[0] = abs(err-big[0])/abs(big[0]-medium[0]);
 			fuzzy_subset_err[1] = POSITIVE_MEDIUM;
-			affiliation_degree_err[1] = abs(err-medium)/abs(big-medium);
+			affiliation_degree_err[1] = abs(err-medium[0])/abs(big[0]-medium[0]);
 		}
-		else if(err >= big)
+		else if(err >= big[0])
 		{
 			fuzzy_subset_err[0] = POSITIVE_BIG;
 			affiliation_degree_err[0] = 1;
@@ -257,8 +257,10 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 	
 	switch(order)
 	{
+		// 一阶
 		case 1:
 		{
+			// 模糊规则表查找：模糊化
 			for(uint8_t i = 0; i < 2;i++)
 			{
 				fuzzy_subset[i][0] = fuzzy_rules[fuzzy_subset_err[i]][7];
@@ -266,52 +268,53 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 			}
 			break;
 		}
+		// 二阶
 		case 2:
 		{
-			// err_c
+			// err_c隶属子集与隶属度计算
 			for(uint8_t i= 0;i < 8;i++)
 			{
-				if(err_c <= -big)
+				if(err_c <= -big[1])
 				{
 					fuzzy_subset_err_c[0] = NEGATIVE_BIG;
 					affiliation_degree_err_c[0] = 1;
 					fuzzy_subset_err_c[1] = PID_NONE;
 					affiliation_degree_err_c[1] = 0;
 				}
-				else if(err_c < -medium && err_c > -big)
+				else if(err_c < -medium[1] && err_c > -big[1])
 				{
 					fuzzy_subset_err_c[0] = NEGATIVE_BIG;
-					affiliation_degree_err_c[0] = abs(err-big)/abs(medium-big);
+					affiliation_degree_err_c[0] = abs(err-big[1])/abs(medium[1]-big[1]);
 					fuzzy_subset_err_c[1] = NEGATIVE_MEDIUM;
-					affiliation_degree_err_c[1] = abs(err-medium)/abs(medium-big);
+					affiliation_degree_err_c[1] = abs(err-medium[1])/abs(medium[1]-big[1]);
 				}
-				else if(err_c == -medium)
+				else if(err_c == -medium[1])
 				{
 					fuzzy_subset_err_c[0] = NEGATIVE_MEDIUM;
 					affiliation_degree_err_c[0] = 1;
 					fuzzy_subset_err_c[1] = PID_NONE;
 					affiliation_degree_err_c[1] = 0;
 				}
-				else if(err_c < -small && err_c > -medium)
+				else if(err_c < -small[1] && err_c > -medium[1])
 				{
 					fuzzy_subset_err_c[0] = NEGATIVE_MEDIUM;
-					affiliation_degree_err_c[0] = abs(err-medium)/abs(small-medium);
+					affiliation_degree_err_c[0] = abs(err-medium[1])/abs(small[1]-medium[1]);
 					fuzzy_subset_err_c[1] = NEGATIVE_SMALL;
-					affiliation_degree_err_c[1] = abs(err-small)/abs(small-medium);
+					affiliation_degree_err_c[1] = abs(err-small[1])/abs(small[1]-medium[1]);
 				}
-				else if(err_c == -small)
+				else if(err_c == -small[1])
 				{
 					fuzzy_subset_err_c[0] = NEGATIVE_SMALL;
 					affiliation_degree_err_c[0] = 1;
 					fuzzy_subset_err_c[1] = PID_NONE;
 					affiliation_degree_err_c[1] = 0;
 				}
-				else if(err_c < 0 && err_c > -small)
+				else if(err_c < 0 && err_c > -small[1])
 				{
 					fuzzy_subset_err_c[0] = NEGATIVE_SMALL;
-					affiliation_degree_err_c[0] = abs(err-small)/abs(small);
+					affiliation_degree_err_c[0] = abs(err-small[1])/abs(small[1]);
 					fuzzy_subset_err_c[1] = ZERO;
-					affiliation_degree_err_c[1] = abs(err)/abs(small);
+					affiliation_degree_err_c[1] = abs(err)/abs(small[1]);
 				}
 				else if(err_c == 0)
 				{
@@ -320,49 +323,49 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 					fuzzy_subset_err_c[1] = PID_NONE;
 					affiliation_degree_err_c[1] = 0;
 				}
-				else if(err_c > 0 && err_c < small)
+				else if(err_c > 0 && err_c < small[1])
 				{
 					fuzzy_subset_err_c[0] = ZERO;
-					affiliation_degree_err_c[0] = abs(err)/abs(small);
+					affiliation_degree_err_c[0] = abs(err)/abs(small[1]);
 					fuzzy_subset_err_c[1] = POSITIVE_SMALL;
-					affiliation_degree_err_c[1] = abs(err)/abs(small);
+					affiliation_degree_err_c[1] = abs(err)/abs(small[1]);
 				}
-				else if(err_c == small)
+				else if(err_c == small[1])
 				{
 					fuzzy_subset_err_c[0] = POSITIVE_MEDIUM;
 					affiliation_degree_err_c[0] = 1;
 					fuzzy_subset_err_c[1] = PID_NONE;
 					affiliation_degree_err_c[1] = 0;
 				}
-				else if(err_c > small && err_c < medium)
+				else if(err_c > small[1] && err_c < medium[1])
 				{
 					fuzzy_subset_err_c[0] = POSITIVE_MEDIUM;
-					affiliation_degree_err_c[0] = abs(err-medium)/abs(small-medium);
+					affiliation_degree_err_c[0] = abs(err-medium[1])/abs(small[1]-medium[1]);
 					fuzzy_subset_err_c[1] = POSITIVE_SMALL;
-					affiliation_degree_err_c[1] = abs(err-small)/abs(small-medium);
+					affiliation_degree_err_c[1] = abs(err-small[1])/abs(small[1]-medium[1]);
 				}
-				else if(err == medium)
+				else if(err == medium[1])
 				{
 					fuzzy_subset_err_c[0] = POSITIVE_MEDIUM;
 					affiliation_degree_err_c[0] = 1;
 					fuzzy_subset_err_c[1] = PID_NONE;
 					affiliation_degree_err_c[1] = 0;
 				}
-				else if(err > medium && err < big)
+				else if(err > medium[1] && err < big[1])
 				{
 					fuzzy_subset_err_c[0] = POSITIVE_BIG;
-					affiliation_degree_err_c[0] = abs(err-big)/abs(big-medium);
+					affiliation_degree_err_c[0] = abs(err-big[1])/abs(big[1]-medium[1]);
 					fuzzy_subset_err_c[1] = POSITIVE_MEDIUM;
-					affiliation_degree_err_c[1] = abs(err-medium)/abs(big-medium);
+					affiliation_degree_err_c[1] = abs(err-medium[1])/abs(big[1]-medium[1]);
 				}
-				else if(err >= big)
+				else if(err >= big[1])
 				{
 					fuzzy_subset_err_c[0] = POSITIVE_BIG;
 					affiliation_degree_err_c[0] = 1;
 					fuzzy_subset_err_c[1] = PID_NONE;
 					affiliation_degree_err_c[1] = 0;
 				}
-				
+				// 模糊规则表查找：模糊化
 				for(uint8_t i = 0; i < 2;i++)
 				{
 					for(uint8_t j = 0;i < 2;j++)
@@ -377,6 +380,7 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 		default: break;
 	}
 	
+	// 解模糊
 	for(uint8_t i = 0; i < 2;i++)
 	{
 		for(uint8_t j = 0;i < 2;j++)
@@ -416,6 +420,7 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 		}
 	}
 	
+	// 计算模糊输出
 	pid_paraments_return.p += delta_p;
 	pid_paraments_return.i += delta_i;
 	pid_paraments_return.d += delta_d;
