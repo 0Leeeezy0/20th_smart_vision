@@ -338,9 +338,6 @@ void start(void)
 	// 变量初始化
 	variable_init();
 	
-	path_control_init();
-	chassis_control_init();
-	
 	// 这里加延时，防止计时未完成初始化
 	system_delay_ms(500);
 	
@@ -374,9 +371,6 @@ void debug(void)
 	flag_init();
 	// 变量初始化
 	variable_init();
-	
-	path_control_init();
-	chassis_control_init();
 	
 	// 这里加延时，防止计时未完成初始化
 	system_delay_ms(500);

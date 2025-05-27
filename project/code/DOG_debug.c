@@ -13,22 +13,13 @@ static float speed = 100;
 */
 void menu_uart_service(void)
 {
-	setbuf(stdout,NULL);
 	/*****************************************/
 //	theory_motor_speed_update();
-//	update_data_add();
 //	real_motor_speed_update();
-//	update_data_add();
-//	printf("%f",chassis_linear_speed);
-//	update_data_add();
 //	motor_duty_update();
-//	update_data_add();
 //    motor_error_update();
-//    update_data_add();
 //    motor_delta_update();
-//    update_data_add();
 //    motor_value_delta_update();
-//    update_data_add();    
 //    motor_current_update();
 //	update_data_end();
 	/*****************************************/

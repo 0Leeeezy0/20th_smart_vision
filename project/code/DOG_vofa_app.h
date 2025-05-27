@@ -88,9 +88,6 @@ void euler_angle_update(void);
 /* 循迹路径误差上传 */
 void path_err_update(void);
 
-/* 上传数据添加 */
-void update_data_add(void);
-
 /* 上传数据结束 */
 void update_data_end(void);
 

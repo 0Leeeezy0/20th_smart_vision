@@ -166,76 +166,71 @@ void cli_clear(void)
 /* 逆解算电机速度（理论）上传 */
 void theory_motor_speed_update(void)
 {	
-	printf("%f,%f,%f",chassis_control.motor_1_speed,chassis_control.motor_2_speed,chassis_control.motor_3_speed);
+	just_float(3,(float)chassis_control.motor_1_speed,(float)chassis_control.motor_2_speed,(float)chassis_control.motor_3_speed);
 }
 
 /* 电机速度（现实）上传 */
 void real_motor_speed_update(void)
 {	
-	printf("%f,%f,%f",motor_1_speed,motor_2_speed,motor_3_speed);
+	just_float(3,(float)motor_1_speed,(float)motor_2_speed,(float)motor_3_speed);
 }
 
 /* 电机电流上传 */
 void motor_current_update(void)
 {	
-	printf("%f,%f,%f,%f,%f,%f,%f,%f,%f",I_Original_ADC_data_1,I_Karman_ADC_data_1,motor_1_I,I_Original_ADC_data_2,I_Karman_ADC_data_2,motor_2_I,I_Original_ADC_data_3,I_Karman_ADC_data_3,motor_3_I);
+	just_float(9,(float)I_Original_ADC_data_1,(float)I_Karman_ADC_data_1,(float)motor_1_I,(float)I_Original_ADC_data_2,(float)I_Karman_ADC_data_2,(float)motor_2_I,(float)I_Original_ADC_data_3,(float)I_Karman_ADC_data_3,(float)motor_3_I);
 }
 /* 电机占空比上传 */
 void motor_duty_update(void)
 {	
-	printf("%f,%f,%f",(float)chassis_control.motor_1.duty,(float)chassis_control.motor_2.duty,(float)chassis_control.motor_3.duty);
+	just_float(3,(float)chassis_control.motor_1.duty,(float)chassis_control.motor_2.duty,(float)chassis_control.motor_3.duty);
 }
 /* 电机errot上传 */
 void motor_error_update(void)
 {	
-	printf("%f,%f,%f",(float)chassis_pid.motor_1_pid_variable.now_err,(float)chassis_pid.motor_2_pid_variable.now_err,(float)chassis_pid.motor_3_pid_variable.now_err);
+	just_float(3,(float)chassis_pid.motor_1_pid_variable.now_err,(float)chassis_pid.motor_2_pid_variable.now_err,(float)chassis_pid.motor_3_pid_variable.now_err);
 }
 /* 电机delta上传 */
 void motor_delta_update(void)
 {	
-	printf("%f,%f,%f",(float)chassis_pid.motor_1_pid_variable.delta,(float)chassis_pid.motor_2_pid_variable.delta,(float)chassis_pid.motor_3_pid_variable.delta);
+	just_float(3,(float)chassis_pid.motor_1_pid_variable.delta,(float)chassis_pid.motor_2_pid_variable.delta,(float)chassis_pid.motor_3_pid_variable.delta);
 }
 
 /* 电机value_delta上传 */
 void motor_value_delta_update(void)
 {	
-	printf("%f,%f,%f",(float)chassis_pid.motor_1_pid_variable.value_delta,(float)chassis_pid.motor_1_pid_variable.value_delta,(float)chassis_pid.motor_1_pid_variable.value_delta);
+	just_float(3,(float)chassis_pid.motor_1_pid_variable.value_delta,(float)chassis_pid.motor_1_pid_variable.value_delta,(float)chassis_pid.motor_1_pid_variable.value_delta);
 }
 
 /* 陀螺仪上传 */
 void gyro_update(void)
 {	
-	printf("%f,%f,%f",gyro_x,gyro_y,gyro_z);
+	just_float(3,(float)gyro_x,(float)gyro_y,(float)gyro_z);
 }
 
 /* 加速度计上传 */
 void acc_update(void)
 {	
-	printf("%f,%f,%f",acc_x,acc_y,acc_z);
+	just_float(3,(float)acc_x,(float)acc_y,(float)acc_z);
 }
 
 /* 欧拉角上传 */
 void euler_angle_update(void)
 {	
-	printf("%f,%f,%f",roll,pitch,yaw);
+	just_float(3,(float)roll,(float)pitch,(float)yaw);
 }
 
 /* 循迹路径误差上传 */
 void path_err_update(void)
 {
-	printf("%f",path_err);
-}
-
-/* 上传数据添加 */
-void update_data_add(void)
-{
-	printf(",");
+	just_float(1,(float)path_err);
 }
 
 /* 上传数据结束 */
 void update_data_end(void)
 {
-	printf("\n");
+	uint8_t frame_end[4] = {0x00, 0x00, 0x80, 0x7f};
+	uart_write_buffer(WIRELESS_UART_INDEX,frame_end,4);
 }
 
 /* 上传数据 */

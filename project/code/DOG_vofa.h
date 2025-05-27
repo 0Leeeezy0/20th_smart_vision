@@ -68,4 +68,7 @@ void cli_data_all_free(_CLI_DATA_* cli_data);
 /* 命令行尾数据空间释放 */
 void cli_data_last_free(_CLI_DATA_** cli_data);
 
+/* VOFA justfloat输出 */
+void just_float(const uint32 data_num, ...) ;
+
 #endif

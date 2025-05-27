@@ -755,11 +755,9 @@ static void printf_reverse_order (int8 *d_buff, uint32 len)
 // 使用示例     zf_sprintf(buff, "Data : %d", 100);
 // 备注信息     本函数在文件内部调用 用户不用关注 也不可修改
 //-------------------------------------------------------------------------------------------------------------------
-uint32 zf_sprintf (int8 *buff, const int8 *format, ...)
+uint32 zf_sprintf (int8 *buff, const int8 *format, va_list arg)
 {
     uint32 buff_len = 0;
-	va_list arg;
-	va_start(arg, format);
 
     while (*format)
     {
