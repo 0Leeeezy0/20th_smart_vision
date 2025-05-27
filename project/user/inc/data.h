@@ -73,63 +73,6 @@ typedef struct
 	int16 dir;
 }_MOTOR_CONTROL_;
 
-/* PID闭环参数 */
-typedef struct
-{
-	float p;
-	float i;
-	float d;
-	float output_limit;
-	float i_limit;
-}_PID_PARAMETERS_;
-
-/* PID闭环变量 */
-typedef struct
-{
-	float delta;    
-	float now_err;    
-	float last_err;    
-	float last_last_err;
-	float sigma_err;
-	float value;
-    float value_output;
-    float value_delta;
-
-    float sjc_err;
-    float sjc_now_delta;
-    float sjc_value;
-    float sjc_last_delta;
-}_PID_VARIABLE_;
-
-/* 卡尔曼参数 */
-typedef struct
-{
-	float q;
-	float r;
-}_KALMAN_PARAMETERS_;
-
-/* 卡尔曼变量 */
-typedef struct
-{
-    float p_last;	//上次估算协方差
-    float p_now;	//当前估算协方差
-    float value;		//卡尔曼滤波器输出
-    float Kg;		//卡尔曼增益
-}_KALMAN_VARIABLE_;
-
-/* 低通滤波参数 */
-typedef struct
-{
-    float k;			//低通滤波系数
-}_LOWPASS_PARAMETERS_;
-
-/* 低通滤波变量 */
-typedef struct
-{
-	float new_value;	//新的值
-	float old_value;	//旧的值
-}_LOWPASS_VARIABLE_;
-
 /* 底盘运动控制 */
 typedef struct
 {
@@ -184,7 +127,7 @@ typedef struct
 /* 循迹PID */
 typedef struct
 {
-	_PID_PARAMETERS_ path_pid_parameters[6];	
+	_PID_PARAMETERS_ path_pid_parameters[4];	
 	_PID_VARIABLE_ path_pid_variable;				
 }_PATH_PID_;
 
@@ -340,7 +283,7 @@ extern float KARMAN_CURRENT[2];    //Q R Q越小越平滑   R越小越接近(收敛越快);
 extern float ROTATE_PID[8][5];
 
 /* 循迹PID参数 */
-extern float PATH_PID[6][6];
+extern float PATH_PID[4][6];
 
 /* 追踪PID参数 */
 extern float X_AI_TRACK_PID[5];

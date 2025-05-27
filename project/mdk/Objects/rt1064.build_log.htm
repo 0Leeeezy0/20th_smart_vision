@@ -27,7 +27,74 @@ Project File Date:  05/20/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\KEIL\ARM\ARMCLANG\Bin'
 Build target 'nor_sdram_zf_dtcm'
-".\Objects\rt1064.axf" - 0 Error(s), 0 Warning(s).
+compiling DOG_menu_data.c...
+compiling isr.c...
+compiling DOG_element.c...
+../code/DOG_chassis.c(340): warning: left operand of comma operator has no effect [-Wunused-value]
+                roll =  (roll, 360);
+                         ^~~~
+1 warning generated.
+compiling DOG_chassis.c...
+../code/DOG_vofa.c(91): warning: incompatible pointer types assigning to 'struct _CLI_DATA_ *' from '_CLI_DATA_ *' [-Wincompatible-pointer-types]
+        cli_Data -> CLI_Data_Header = cli_Data;
+                                    ^ ~~~~~~~~
+../code/DOG_vofa.c(103): warning: incompatible pointer types assigning to 'struct _CLI_DATA_ *' from '_CLI_DATA_ *' [-Wincompatible-pointer-types]
+        (*cli_data) -> CLI_Data_Next = cli_data_next;
+                                     ^ ~~~~~~~~~~~~~
+../code/DOG_vofa.c(112): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+        _CLI_DATA_* cli_data_get = (cli_data -> CLI_Data_Header);
+                    ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(122): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+                cli_data_get = (cli_data_get -> CLI_Data_Next);
+                             ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(130): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+        _CLI_DATA_* cli_data_header = cli_data -> CLI_Data_Header;
+                    ^                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(135): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+                cli_data_header = (cli_data_header -> CLI_Data_Next);
+                                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(144): warning: incompatible pointer types initializing '_CLI_DATA_ *' with an expression of type 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+        _CLI_DATA_* cli_data_Last = (*cli_data) -> CLI_Data_Header;
+                    ^               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../code/DOG_vofa.c(158): warning: incompatible pointer types assigning to '_CLI_DATA_ *' from 'struct _CLI_DATA_ *' [-Wincompatible-pointer-types]
+                cli_data_Last = cli_data_Last -> CLI_Data_Next;
+                              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+8 warnings generated.
+compiling DOG_vofa.c...
+../user/src/main.c(23): warning: '/*' within block comment [-Wcomment]
+//* 
+ ^
+../user/src/main.c(24): warning: '/*' within block comment [-Wcomment]
+//* <CE>ļ<FE><C3><FB><B3><C6>          main
+ ^
+../user/src/main.c(25): warning: '/*' within block comment [-Wcomment]
+//* <B9><AB>˾<C3><FB><B3><C6>          <B3>ɶ<BC><D6><F0><B7>ɿƼ<BC><D3><D0><CF><U+07B9><AB>˾
+ ^
+../user/src/main.c(26): warning: '/*' within block comment [-Wcomment]
+//* <B0>汾<D0><C5>Ϣ          <B2>鿴 libraries/doc <CE>ļ<FE><BC><D0><C4><DA> version <CE>ļ<FE> <B0>汾˵<C3><F7>
+ ^
+../user/src/main.c(27): warning: '/*' within block comment [-Wcomment]
+//* <BF><AA><B7><A2><BB><B7><BE><B3>          IAR 8.32.4 or MDK 5.33
+ ^
+5 warnings generated.
+compiling main.c...
+compiling data.c...
+compiling DOG_fsm.c...
+compiling DOG_image.c...
+compiling DOG_menu.c...
+compiling DOG_ai.c...
+compiling DOG_pid.c...
+../code/DOG_vofa_app.c(111): warning: non-void function does not return a value in all control paths [-Wreturn-type]
+}
+^
+1 warning generated.
+compiling DOG_vofa_app.c...
+compiling DOG_debug.c...
+compiling DOG_path.c...
+compiling DOG_filter.c...
+linking...
+Program Size: Code=129048 RO-data=18792 RW-data=1572 ZI-data=139968  
+".\Objects\rt1064.axf" - 0 Error(s), 15 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -40,7 +107,7 @@ Package Vendor: NXP
   D:/KEIL/ARM/Pack/NXP/MIMXRT1064_DFP/19.0.0/devices/MIMXRT1064
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

@@ -212,6 +212,8 @@
 #include "isr.h"
 
 /* 用户头文件 */
+#include "DOG_pid.h"
+#include "DOG_filter.h"
 #include "data.h"
 #include "DOG_chassis.h"
 #include "DOG_path.h"
@@ -222,10 +224,8 @@
 #include "DOG_menu_data.h"
 #include "DOG_ai.h"
 #include "DOG_fsm.h"
-#include "DOG_pid.h"
 #include "DOG_element.h"
 #include "DOG_debug.h"
-#include "DOG_filter.h"
 
 /* PID选择 */
 #if MOTOR_PID_CHOOSE == 0

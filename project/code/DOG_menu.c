@@ -338,6 +338,9 @@ void start(void)
 	// 变量初始化
 	variable_init();
 	
+	path_control_init();
+	chassis_control_init();
+	
 	// 这里加延时，防止计时未完成初始化
 	system_delay_ms(500);
 	
@@ -346,11 +349,13 @@ void start(void)
 		
 	while(1)
 	{
+		program_time_count = 0;
 		menu_back(menu_start_page_back_service);
 		menu_point();
 		menu_title_show();
 		debug_service(menu_page[num].debug_mode);
 		control_mode_dispatch();
+		screen_float(DATA_MAX_COL,2*MT9V03X_H+4*MENU_ROW_PITCH,1000.0/(float)program_time_count,3,3);
 	}
 }
 
@@ -369,6 +374,9 @@ void debug(void)
 	flag_init();
 	// 变量初始化
 	variable_init();
+	
+	path_control_init();
+	chassis_control_init();
 	
 	// 这里加延时，防止计时未完成初始化
 	system_delay_ms(500);
@@ -1562,7 +1570,7 @@ void menu_path_pid_add_service(void)
 		case 5:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit+=0.005; break; }
 		case 6:{ PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3]+=0.0005; break; }
 	}
-	if(MENU_PATH_PID.pid_kind.data_uint8 > 5)
+	if(MENU_PATH_PID.pid_kind.data_uint8 > 3)
 	{
 		MENU_PATH_PID.pid_kind.data_uint8 = 0;
 	}
@@ -1579,9 +1587,9 @@ void menu_path_pid_reduce_service(void)
 		case 5:{ path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit-=0.005; break; }
 		case 6:{ PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3]-=0.0005; break; }
 	}
-	if(MENU_PATH_PID.pid_kind.data_uint8 > 5)
+	if(MENU_PATH_PID.pid_kind.data_uint8 > 3)
 	{
-		MENU_PATH_PID.pid_kind.data_uint8 = 5;
+		MENU_PATH_PID.pid_kind.data_uint8 = 3;
 	}
 }
 

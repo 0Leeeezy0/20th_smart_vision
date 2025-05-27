@@ -7,7 +7,10 @@ static uint32 amplitude = 70;
 // 速度
 static float speed = 100;
 
-/* 串口信息发送 */
+/* 
+	串口信息发送 
+	比赛时务必关闭
+*/
 void menu_uart_service(void)
 {
 	setbuf(stdout,NULL);
@@ -26,8 +29,8 @@ void menu_uart_service(void)
 //    update_data_add();
 //    motor_value_delta_update();
 //    update_data_add();    
-    motor_current_update();
-	update_data_end();
+//    motor_current_update();
+//	update_data_end();
 	/*****************************************/
 }
 
