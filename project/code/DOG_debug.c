@@ -21,7 +21,8 @@ void menu_uart_service(void)
 //    motor_delta_update();
 //    motor_value_delta_update();
 //    motor_current_update();
-//	update_data_end();
+	just_float(1,chassis_linear_speed);
+	update_data_end();
 	/*****************************************/
 }
 

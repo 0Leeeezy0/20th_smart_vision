@@ -60,7 +60,7 @@ static _MENU_PAGE_ menu_page[] =
 	{"AI_CAMERA_1&2"	,TRUE		,1	,13		,1		,menu_ai_camera_1_and_2_page		,NONE},
 	{"DETECTION_LIST"	,TRUE		,1	,14		,0		,menu_detection_list				,NONE},
 	{"CHASSIS"			,TRUE 		,1 	,15 	,5 		,menu_chassis_page					,NONE},
-	{"PATH"				,TRUE		,1	,16		,8		,menu_path_page						,NONE},
+	{"PATH"				,TRUE		,1	,16		,9		,menu_path_page						,NONE},
 	{"CIRCLE_PATH"		,TRUE		,1	,17		,13		,menu_circle_path_page				,NONE},
 	{"MOTOR_1 PID"		,TRUE 		,1 	,18 	,5 		,menu_motor_1_pid_page				,SIN_TRACK_ERR_MODE},
 	{"MOTOR_2 PID"		,TRUE 		,1 	,19 	,5 		,menu_motor_2_pid_page				,SIN_TRACK_ERR_MODE},
@@ -885,6 +885,7 @@ void menu_path_page(void)
 		MENU_PATH.control_point_0.data_int16 = control_point[0];
 		MENU_PATH.control_point_1.data_int16 = control_point[1];
 		MENU_PATH.prediction_point.data_int16 = prediction_point;
+		MENU_PATH.x_speed_rate.data_float = x_speed_rate;
 	
 		// 显示循线数据
 		screen_string(0,MENU_ROW_PITCH,MENU_PATH.linear_speed_target_pre.name);
@@ -903,6 +904,8 @@ void menu_path_page(void)
 		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_PATH.control_point_1.data_int16,3);
 		screen_string(0,8*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
 		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
+		screen_string(0,9*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.name);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.data_float,1,1);
 	}
 }
 
@@ -1338,6 +1341,7 @@ void menu_path_data_add_service(void)
 		case 5:{ control_point[0]+=1; break; }
 		case 6:{ control_point[1]+=1; break; }
 		case 7:{ prediction_point+=1; break; }
+		case 8:{ x_speed_rate+=0.1; break; }
 	}
 }
 void menu_path_data_reduce_service(void)
@@ -1352,6 +1356,7 @@ void menu_path_data_reduce_service(void)
 		case 5:{ control_point[0]-=1; break; }
 		case 6:{ control_point[1]-=1; break; }
 		case 7:{ prediction_point-=1; break; }
+		case 8:{ x_speed_rate-=0.1; break; }
 	}
 }
 

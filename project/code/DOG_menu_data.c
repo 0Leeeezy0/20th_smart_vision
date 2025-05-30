@@ -87,6 +87,7 @@ void menu_data_leeeezy_init(void)
 	MENU_PATH.control_point_0.name = "PATH_CONTROL_0";
 	MENU_PATH.control_point_1.name = "PATH_CONTROL_1";
 	MENU_PATH.prediction_point.name = "PATH_PREDICT";
+	MENU_PATH.x_speed_rate.name = "X_SPEED_RATE";
 	
 	MENU_CIRCLE_PATH.circle_path_enable_flag.name = "CIRCLE_EN";
 	MENU_CIRCLE_PATH.circle_path_linear_speed_target.name = "CIRCLE_L_SPEED_TAR";

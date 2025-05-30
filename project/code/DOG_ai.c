@@ -165,7 +165,7 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 			num = 0;
 		}
 		// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
-		if(num > 20)
+		if(num > 5)
 		{
 			chassis_yaw = 0;
 			chassis_linear_speed = 0;

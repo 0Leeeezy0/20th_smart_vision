@@ -66,6 +66,7 @@ _CHASSIS_CONTROL_ chassis_control;
 /* Ñ­¼£²ÎÊı */
 int16 path_err;
 int16 path[MT9V03X_H][2] = {0};	// Â·¾¶Ïßx¡¢y×ø±ê
+float x_speed_rate_rt = 2.2;	// ÊµÊ±xËÙ¶È±ÈÀı
 
 /* ÈüµÀÔªËØ */
 int16 path_width[MT9V03X_H] = {0};	// ÈüµÀ¿í¶È
@@ -88,7 +89,7 @@ int16 ai_camera_detection_result_list_num = 0;	// Ê¶±ğ½á¹ûÁĞ±íÄÚÈİÊıÁ¿
 uint8 gyro_calibration_flag = FALSE;	// ÍÓÂİÒÇĞ£×¼
 uint8 acc_calibration_flag = FALSE;		// ¼ÓËÙ¶È¼ÆĞ£×¼
 uint8 euler_angle_flag = FALSE;			// Å·À­½Ç½âËã±êÖ¾Î»
-uint8 translate_shift_flag = TRUE;				// Æ½¶¯Î»ÒÆ½âËã±êÖ¾Î»
+uint8 translate_shift_flag = TRUE;		// Æ½¶¯Î»ÒÆ½âËã±êÖ¾Î»
 _CHASSIS_MOTION_ chassis_motion_flag = CHASSIS_STOP;	// µ×ÅÌÔË¶¯·½Ê½±êÖ¾Î»
 uint8 chassis_rotate_finsh_flag = FALSE;				// µ×ÅÌĞı×ª½áÊø±êÖ¾Î»
 uint8 chassis_move_time_count_flag = FALSE;				// µ×ÅÌÒÆ¶¯¼ÆÊ±±êÖ¾Î»
@@ -98,18 +99,18 @@ uint8 circle_in_time_count_flag = FALSE;				// Ô²»·Èë»·¼ÆÊ±±êÖ¾Î»£¨Èë»·ºó¿ªÊ¼¼ÆÊ
 uint8 circle_out_time_count_flag = TRUE;				// Ô²»·³ö»·¼ÆÊ±±êÖ¾Î»£¨³ö»·ºó¿ªÊ¼¼ÆÊ±£¬·ÀÖ¹³ö»·ºó×ËÌ¬²»ºÃµ¼ÖÂ´íÎóÈë»·£©
 uint8 program_time_count_flag = FALSE;					// ³ÌĞò¼ÆÊ±±êÖ¾Î»
 uint8 debug_time_count_flag = FALSE;					// µ÷ÊÔ¼ÆÊ±±êÖ¾Î»
-uint8 speed_control_time_count_flag = FALSE;					// ËÙ¶È¿ØÖÆ¼ÆÊ±±êÖ¾Î»
+uint8 speed_control_time_count_flag = FALSE;			// ËÙ¶È¿ØÖÆ¼ÆÊ±±êÖ¾Î»
 uint8 circle_in_flag = 0;								// ½ø»·±êÖ¾Î»
 uint8 circle_out_flag = 0;								// ³ö»·±êÖ¾Î»
-_CONTROL_MODE_ control_mode_flag = PATH_CONTROL_MODE;	// ÉãÏñÍ·ÀàĞÍ±êÖ¾Î»
-_CONTROL_MODE_ track_finsh_next_mode_flag = BLOCK_RETRACK_MODE;	// ×·×Ù½áÊøÄ£Ê½ÇĞ»»±êÖ¾Î»
-_PATH_ELEMENT_ path_element_flag = STRIGHT_PATH;			// ÈüµÀÔªËØ±êÖ¾Î»
-uint8 path_follow_kind_flag = 0;			// Â·¾¶Ñ­Ïß·½Ê½±êÖ¾Î»£¨0£º×î³¤°×ÁĞ 1£ºÖĞÏßÄâºÏ£©
+_CONTROL_MODE_ control_mode_flag = PATH_CONTROL_MODE;				// ÉãÏñÍ·ÀàĞÍ±êÖ¾Î»
+_CONTROL_MODE_ track_finsh_next_mode_flag = BLOCK_RETRACK_MODE;		// ×·×Ù½áÊøÄ£Ê½ÇĞ»»±êÖ¾Î»
+_PATH_ELEMENT_ path_element_flag = STRIGHT_PATH;					// ÈüµÀÔªËØ±êÖ¾Î»
+uint8 path_follow_kind_flag = 0;									// Â·¾¶Ñ­Ïß·½Ê½±êÖ¾Î»£¨0£º×î³¤°×ÁĞ 1£ºÖĞÏßÄâºÏ£©
 /* Ê¹ÄÜ */
-uint8 circle_path_enable_flag = TRUE;	// Ô²»·ÈüµÀÊ¹ÄÜ±êÖ¾Î»
+uint8 circle_path_enable_flag = TRUE;						// Ô²»·ÈüµÀÊ¹ÄÜ±êÖ¾Î»
 uint8 zebra_path_element_start_judge_enable_flag = TRUE;	// °ßÂíÏßÅĞ¶ÏÊ¹ÄÜ±êÖ¾Î»
-uint8 ai_camera_0_enable_flag = TRUE;	// AIÉãÏñÍ·0 Ê¹ÄÜ±êÖ¾Î»
-uint8 ai_camera_1_enable_flag = TRUE;	// AIÉãÏñÍ·1 Ê¹ÄÜ±êÖ¾Î»
+uint8 ai_camera_0_enable_flag = TRUE;						// AIÉãÏñÍ·0 Ê¹ÄÜ±êÖ¾Î»
+uint8 ai_camera_1_enable_flag = TRUE;						// AIÉãÏñÍ·1 Ê¹ÄÜ±êÖ¾Î»
 
 /**********************************************************************/
 
@@ -117,68 +118,69 @@ uint8 ai_camera_1_enable_flag = TRUE;	// AIÉãÏñÍ·1 Ê¹ÄÜ±êÖ¾Î»
 
 /* PID */
 _CHASSIS_PID_ chassis_pid;						// µ×ÅÌPID
-_CHASSIS_FILTER_ chassis_filter;				// µ×ÅÌÂË²¨Æ÷   //Æ¾Ê²Ã´½Ğµ×ÅÌÂË²¨Æ÷£¿£¿
+_CHASSIS_FILTER_ chassis_filter;				// µ×ÅÌÂË²¨Æ÷   //Æ¾Ê²Ã´½Ğµ×ÅÌÂË²¨Æ÷
 _CURRENT_FILTER_ current_filter;
 _PATH_PID_ path_pid;							// Ñ­¼£PID
-_AI_TRACK_PID_ ai_track_pid;							// ×·×ÙPID
+_AI_TRACK_PID_ ai_track_pid;					// ×·×ÙPID
 
 /* Ñ­Ïß */
-int16 mid_x = MT9V03X_W/2;	// Ñ­Ïß¿ªÊ¼ÖĞµã
-float path_linear_speed_target[3] = {70,100,120};	// Ñ­¼£ÏßËÙ¶È£¨»ºÆô¶¯ËÙ¶È Æô¶¯×îĞ¡ËÙ¶È Æô¶¯×î´óËÙ¶È£©£¨cm/s£©
-int16 path_start = 95;			// Â·¾¶ÏßÌáÈ¡¿ªÊ¼¸ß¶È
-int16 path_end = 30;			// Â·¾¶ÏßÌáÈ¡½áÊø¸ß¶È
-int16 control_point[2] = {65 ,50};		// ¿ØÖÆµã¸ß¶È£¨ËÙ¶È£º100£º72£¬55£©
-int16 prediction_point = 30;	// Ô¤²âµã¸ß¶È£ºÆäºá×ø±ê½«×÷ÎªÏÂÒ»Ö¡µÄËÑÏßÆğµã
-int16 longest_white_col_x = 0;	// ×î³¤°×ÁĞX×ø±ê
-int16 L_side[MT9V03X_H*3][2] = {0};	// ×ó±ßÏß×ø±ê
-int16 R_side[MT9V03X_H*3][2] = {0};	// ÓÒ±ßÏß×ø±ê
-int16 L_side_point_num = 0;		// ×ó±ßÏßµãÊıÁ¿
-int16 R_side_point_num = 0;		// ÓÒ±ßÏßµãÊıÁ¿
-int16 L_frame_point_num = 0;	// ×ó±ß¿òµãÊıÁ¿
-int16 R_frame_point_num = 0;	// ÓÒ±ß¿òµãÊıÁ¿
-int16 L_bend_point[MT9V03X_H*2][2] = {0};	// ×ó±ßÏßÍäµã×ø±ê
-int16 R_bend_point[MT9V03X_H*2][2] = {0};	// ÓÒ±ßÏßÍäµã×ø±ê
-int16 L_bend_point_num = 0;		// ×ó±ßÏßÍäµãÊıÁ¿
-int16 R_bend_point_num = 0;		// ÓÒ±ßÏßÍäµãÊıÁ¿
-float path_err_normalization = 0;	// Ñ­ÏßÎó²î¹éÒ»»¯
-uint32 circle_in_time_count = 0;  // Èë»·¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÅĞ¶Ï³ö»·£©
-uint32 circle_out_time_count = 100000;  // ³ö»·¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÔÙ´ÎÅĞ¶ÏÈë»·£©
-uint32 zebra_crossing_path_element_start_judge_time_count = 0;	// °ßÂíÏßÔªËØ¿ªÆôÅĞ¶Ï¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔ¿ªÊ¼ÅĞ¶Ï°ßÂíÏß£©
-uint32 zebra_crossing_path_element_stop_delay_time_count = 0;	// °ßÂíÏßÔªËØÍ£³µÑÓÊ±¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÍ£³µ£©
-uint32 program_time_count = 0;	// ³ÌĞò¼ÆÊ±
-uint32 debug_time_count = 0;	// µ÷ÊÔ¼ÆÊ±
+int16 mid_x = MT9V03X_W/2;							// Ñ­Ïß¿ªÊ¼ÖĞµã
+float path_linear_speed_target[3] = {120,130,130};	// Ñ­¼£ÏßËÙ¶È£¨»ºÆô¶¯ËÙ¶È Æô¶¯×îĞ¡ËÙ¶È Æô¶¯×î´óËÙ¶È£©£¨cm/s£©	best£º{70,130,130}
+int16 path_start = 95;								// Â·¾¶ÏßÌáÈ¡¿ªÊ¼¸ß¶È
+int16 path_end = 30;								// Â·¾¶ÏßÌáÈ¡½áÊø¸ß¶È
+int16 control_point[2] = {65 ,50};					// ¿ØÖÆµã¸ß¶È£¨ËÙ¶È£º100£º65£¬100£º55£©
+int16 prediction_point = 30;						// Ô¤²âµã¸ß¶È£ºÆäºá×ø±ê½«×÷ÎªÏÂÒ»Ö¡µÄËÑÏßÆğµã
+int16 longest_white_col_x = 0;						// ×î³¤°×ÁĞX×ø±ê
+float x_speed_rate = 2.2;							// xËÙ¶È±ÈÀı
+int16 L_side[MT9V03X_H*3][2] = {0};					// ×ó±ßÏß×ø±ê
+int16 R_side[MT9V03X_H*3][2] = {0};					// ÓÒ±ßÏß×ø±ê
+int16 L_side_point_num = 0;							// ×ó±ßÏßµãÊıÁ¿
+int16 R_side_point_num = 0;							// ÓÒ±ßÏßµãÊıÁ¿
+int16 L_frame_point_num = 0;						// ×ó±ß¿òµãÊıÁ¿
+int16 R_frame_point_num = 0;						// ÓÒ±ß¿òµãÊıÁ¿
+int16 L_bend_point[MT9V03X_H*2][2] = {0};			// ×ó±ßÏßÍäµã×ø±ê
+int16 R_bend_point[MT9V03X_H*2][2] = {0};			// ÓÒ±ßÏßÍäµã×ø±ê
+int16 L_bend_point_num = 0;							// ×ó±ßÏßÍäµãÊıÁ¿
+int16 R_bend_point_num = 0;							// ÓÒ±ßÏßÍäµãÊıÁ¿
+float path_err_normalization = 0;					// Ñ­ÏßÎó²î¹éÒ»»¯
+uint32 circle_in_time_count = 0;  					// Èë»·¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÅĞ¶Ï³ö»·£©
+uint32 circle_out_time_count = 100000;  			// ³ö»·¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÔÙ´ÎÅĞ¶ÏÈë»·£©
+uint32 zebra_crossing_path_element_start_judge_time_count = 0;		// °ßÂíÏßÔªËØ¿ªÆôÅĞ¶Ï¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔ¿ªÊ¼ÅĞ¶Ï°ßÂíÏß£©
+uint32 zebra_crossing_path_element_stop_delay_time_count = 0;		// °ßÂíÏßÔªËØÍ£³µÑÓÊ±¼ÆÊ±£¨¼ÆÊ±´ïµ½ºó²Å¿ÉÒÔÍ£³µ£©
+uint32 program_time_count = 0;			// ³ÌĞò¼ÆÊ±
+uint32 debug_time_count = 0;			// µ÷ÊÔ¼ÆÊ±
 uint32 speed_control_time_count = 0;	// ËÙ¶È¿ØÖÆ¼ÆÊ±
 
 /* ÈüµÀÔªËØ²ÎÊı */
-float circle_path_linear_speed_target = 80;			// Ô²»·Ñ­¼£ÏßËÙ¶È£¨cm/s£©
-//int16 circle_check_y = 65;					// linear_speed = 5	 Ô²»·¼ì²âÏß¸ß¶È£¨±ØĞëĞ¡ÓÚpath_start£©
-int16 circle_check_y = 60;					// linear_speed = 6.5	 Ô²»·¼ì²âÏß¸ß¶È£¨±ØĞëĞ¡ÓÚpath_start£©
-float circle_in_linear_speed_target = 110;	// Èë»·Ä¿±êÏßËÙ¶È£¨linear_speed£º87.5£º79 linear_speed£º100£º79£©
-float circle_in_angular_speed_target = 28;	// Èë»·Ä¿±ê½ÇËÙ¶È£¨linear_speed£º87.5£º28 linear_speed£º100£º28£©
-int16 circle_in_angle = 60;	// Èë»·×ª¶¯½Ç¶È
-float circle_out_linear_speed_target = 110;	// ³ö»·Ä¿±êÏßËÙ¶È
-float circle_out_angular_speed_target = 28;	// Èë»·Ä¿±ê½ÇËÙ¶È
-int16 circle_out_angle = 60;	// ³ö»·×ª¶¯½Ç¶È
-int16 side_extract_start_y = 80;	// ±ßÏß¿ªÊ¼ÌáÈ¡¸ß¶È
-int16 side_extract_end_y = 20;		// ±ßÏß½áÊøÌáÈ¡¸ß¶È
-int16 side_X_delta_limit[2] = {15,3};	// ±ßÏßX²îÖµ×î´óÖµ/×îĞ¡ãĞÖµ
+float circle_path_linear_speed_target = 100;		// Ô²»·Ñ­¼£ÏßËÙ¶È£¨cm/s£©    best£º100
+//int16 circle_check_y = 65;						// linear_speed = 5	 Ô²»·¼ì²âÏß¸ß¶È£¨±ØĞëĞ¡ÓÚpath_start£©
+int16 circle_check_y = 60;							// linear_speed = 6.5	 Ô²»·¼ì²âÏß¸ß¶È£¨±ØĞëĞ¡ÓÚpath_start£©
+float circle_in_linear_speed_target = 110;			// Èë»·Ä¿±êÏßËÙ¶È£¨linear_speed£º87.5£º79 linear_speed£º100£º79£©
+float circle_in_angular_speed_target = 28;			// Èë»·Ä¿±ê½ÇËÙ¶È£¨linear_speed£º87.5£º28 linear_speed£º100£º28£©
+int16 circle_in_angle = 60;							// Èë»·×ª¶¯½Ç¶È
+float circle_out_linear_speed_target = 110;			// ³ö»·Ä¿±êÏßËÙ¶È
+float circle_out_angular_speed_target = 28;			// Èë»·Ä¿±ê½ÇËÙ¶È
+int16 circle_out_angle = 60;						// ³ö»·×ª¶¯½Ç¶È
+int16 side_extract_start_y = 80;					// ±ßÏß¿ªÊ¼ÌáÈ¡¸ß¶È
+int16 side_extract_end_y = 20;						// ±ßÏß½áÊøÌáÈ¡¸ß¶È
+int16 side_X_delta_limit[2] = {15,3};				// ±ßÏßX²îÖµ×î´óÖµ/×îĞ¡ãĞÖµ
 
 /* AI×·×Ù */
-float track_linear_speed_target = 60;	// ×·×ÙÏßËÙ¶È
-int16 detection_box_width_limit = 25;	// ÉãÏñÍ·Ê¶±ğ¿ò¿í¶ÈãĞÖµ
-int16 detection_box_width_std = 80;	// ÉãÏñÍ·Ê¶±ğ¿ò¿í¶È±ê×¼ãĞÖµ
-int16 detection_box_center_limit = 65;	// ÉãÏñÍ·Ê¶±ğ¿òÖĞĞÄÎó²îãĞÖµ
+float track_linear_speed_target = 80;			// ×·×ÙÏßËÙ¶È
+int16 detection_box_width_limit = 20;			// ÉãÏñÍ·Ê¶±ğ¿ò¿í¶ÈãĞÖµ
+int16 detection_box_width_std = 80;				// ÉãÏñÍ·Ê¶±ğ¿ò¿í¶È±ê×¼ãĞÖµ
+int16 detection_box_center_limit = 65;			// ÉãÏñÍ·Ê¶±ğ¿òÖĞĞÄÎó²îãĞÖµ
 int16 rectificate_weight[4] = {1 ,5 ,55 ,85};	// ½ÃÕıÈ¨ÖØ£¨ÖĞÏß¡ÀMT9V03X_W/8 £¬ÖĞÏß¡À2*MT9V03X_W/8 £¬ÖĞÏß¡À3*MT9V03X_W/8 £¬ÖĞÏß¡À4*MT9V03X_W/8£©
-uint32 sum_weight = 0;	// ¼ÓÈ¨ºÍ
-int16 symmetry_rectificate_start_y = 99;	// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ±éÀúÆğÊ¼µã¸ß¶È
-int16 symmetry_rectificate_end_y = 40;		// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ±éÀú½áÊøµã¸ß¶È
-float sum_weight_normalization = 0;	// ¼ÓÈ¨ºÍ¹éÒ»»¯	
+uint32 sum_weight = 0;							// ¼ÓÈ¨ºÍ
+int16 symmetry_rectificate_start_y = 99;		// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ±éÀúÆğÊ¼µã¸ß¶È
+int16 symmetry_rectificate_end_y = 40;			// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ±éÀú½áÊøµã¸ß¶È
+float sum_weight_normalization = 0;				// ¼ÓÈ¨ºÍ¹éÒ»»¯	
 float sum_weight_normalization_limit[2] = {0.94, 0.80};	// ¼ÓÈ¨ºÍ¹éÒ»»¯ãĞÖµ
-float frame_white_num_normalization[2] = {0};	// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ×óÓÒ±ß¿ò°×µãÊıÁ¿¹éÒ»»¯
-float frame_white_num_normalization_limit = 0.25;	// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ×óÓÒ±ß¿ò°×µãÊıÁ¿¹éÒ»»¯ãĞÖµ
-int16 frame_offset = 15;	// Í¼Ïñ±ß¿òÆ«ÒÆÁ¿£¨×ó¿òÓÒÆ«£¬ÓÒ¿ò×óÆ«£¬·ÀÖ¹ÇúÂÊ³¬¼¶´óµÄÍäµÀÎŞ·¨Ê¹ÓÃ¶Ô³Æ·¨½øĞĞ½ÃÕı£© 
-float rotate_linear_speed = 52.5;	// ÈÆÏä×ÓĞı×ªÏßËÙ¶È
-float linear_angular_speed_rate = 0.4;	// ÏßËÙ¶È/½ÇËÙ¶È ±ÈÀı£¨ÓÃÓÚÈÆÏä×Ó×ª£©£¨rotate_linear_speed£º2£º0.8£¬rotate_linear_speed£º3£º0.4 £©
+float frame_white_num_normalization[2] = {0};			// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ×óÓÒ±ß¿ò°×µãÊıÁ¿¹éÒ»»¯
+float frame_white_num_normalization_limit = 0.25;		// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ×óÓÒ±ß¿ò°×µãÊıÁ¿¹éÒ»»¯ãĞÖµ
+int16 frame_offset = 15;					// Í¼Ïñ±ß¿òÆ«ÒÆÁ¿£¨×ó¿òÓÒÆ«£¬ÓÒ¿ò×óÆ«£¬·ÀÖ¹ÇúÂÊ³¬¼¶´óµÄÍäµÀÎŞ·¨Ê¹ÓÃ¶Ô³Æ·¨½øĞĞ½ÃÕı£© 
+float rotate_linear_speed = 52.5;			// ÈÆÏä×ÓĞı×ªÏßËÙ¶È
+float linear_angular_speed_rate = 0.4;		// ÏßËÙ¶È/½ÇËÙ¶È ±ÈÀı£¨ÓÃÓÚÈÆÏä×Ó×ª£©£¨rotate_linear_speed£º2£º0.8£¬rotate_linear_speed£º3£º0.4 £©
 
 /* 
 	µ¥µç»úPID²ÎÊı 
@@ -231,8 +233,16 @@ float PATH_PID[3][6] = {{0.020 ,0.3 ,0 ,0.004 ,20 ,1},{0.036 ,0.35 ,0. ,0.0055 ,
 #elif PATH_PID_CHOOSE == 1
 // Î»ÖÃÊ½
 //float PATH_PID[3][6] = {{0.027 ,0 ,0.0035 ,0.0025 ,1 ,0.1},{0.030 ,0 ,0.004 ,0.0030 ,1 ,0.1},{0.032 ,0 ,0.005 ,0.0035 ,1 ,0.1}}; // linear_speed = 5	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ
-//float PATH_PID[6][6] = {{0.39 ,0 ,0.9 ,1 ,18 ,2},{0.405 ,0 ,0.9 ,1 ,20 ,2},{0.415 ,0 ,0.97 ,1.1 ,25 ,2},{0.425 ,0 ,1.345 ,1.2 ,42 ,2},{0.41 ,0 ,1.3 ,1.3 ,46 ,2},{0.405 ,0 ,1.395 ,1.3 ,55 ,2}}; // linear_speed = 80-120	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ
-float PATH_PID[4][6] = {{0.39 ,0 ,0.9 ,1 ,18 ,2},{0.415 ,0 ,0.97 ,1.1 ,25 ,2},{0.425 ,0 ,1.345 ,1.2 ,42 ,2},{0.405 ,0 ,1.395 ,1.3 ,55 ,2}}; // linear_speed = 80-120	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ
+//float PATH_PID[6][6] = {{0.39 ,0 ,0.9 ,1 ,18 ,2},{0.405 ,0 ,0.9 ,1 ,20 ,2},{0.415 ,0 ,0.97 ,1.1 ,25 ,2},{0.425 ,0 ,1.345 ,1.2 ,42 ,2},{0.41 ,0 ,1.3 ,1.3 ,46 ,2},{0.405 ,0 ,1.395 ,1.3 ,55 ,2}}; // linear_speed = 80-120	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ					// ·Ö¶Î
+//float PATH_PID[4][6] = {{0.405 ,0 ,0.9 ,0.005 ,18 ,2},{0.415 ,0 ,0.97 ,0.005 ,25 ,2},{0.425 ,0 ,1.345 ,0.0035 ,42 ,2},{0.405 ,0 ,1.395 ,0.002 ,55 ,2}}; // linear_speed = 80-120	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ															// Ä£ºı
+//float PATH_PID[4][6] = {{0.405 ,0 ,0.9 ,0.07 ,18 ,2},{0.425 ,0 ,0.97 ,0.06 ,25 ,2},{0.42 ,0 ,1.345 ,0.05 ,42 ,2},{0.41 ,0 ,1.395 ,0.03 ,55 ,2}}; // linear_speed = 80-120	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ															// Ä£ºı
+//float PATH_PID[4][6] = {{0.6 ,0 ,1. ,0.07 ,18 ,2},{0.566 ,0 ,0.97 ,0.06 ,25 ,2},{0.56 ,0 ,1.345 ,0.05 ,42 ,2},{0.55 ,0 ,1.395 ,0.03 ,55 ,2}}; // linear_speed = 80-120	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ															// Ä£ºı
+float PATH_PID[4][6] = 
+{
+{0.390 ,0 ,2.2 ,0.23 ,45 ,2},
+{0.450 ,0 ,2.1 ,0.22 ,45 ,2},
+{0.550 ,0 ,1.9 ,0.21 ,45 ,2},
+{0.600 ,0 ,1.8 ,0.18  ,45 ,2}}; // linear_speed = 80-120	»ı·ÖÏŞ·ùºÍÍÓÂİÒÇÎ¢·ÖÏîµ÷ÕûĞè×¢Òâ															// Ä£ºı
 
 #endif
 	

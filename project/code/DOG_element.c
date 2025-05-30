@@ -95,7 +95,7 @@ void fxxk_box(uint8 steps)
 					speed_control_time_count_flag = FALSE;
 					
 					// 推离赛道
-					chassis_total_control(CHASSIS_MOVE,0,45,0,0,0);
+					chassis_total_control(CHASSIS_MOVE,0,65,0,0,0);
 					// 回赛道
 					chassis_total_control(CHASSIS_MOVE,0,-50,0,0,650);
 					// 转向以大致对正赛道
@@ -136,7 +136,7 @@ void fxxk_box(uint8 steps)
 					speed_control_time_count_flag = FALSE;
 					
 					// 推离赛道
-					chassis_total_control(CHASSIS_MOVE,0,45,0,0,0);
+					chassis_total_control(CHASSIS_MOVE,0,65,0,0,0);
 					// 回赛道
 					chassis_total_control(CHASSIS_MOVE,0,-50,0,0,650);
 					// 转向以大致对正赛道

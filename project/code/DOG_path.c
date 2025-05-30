@@ -618,11 +618,12 @@ void path_control(float path_control_speed)
 		path_err = path[control_point[path_follow_kind_flag]][0] - MT9V03X_W/2;
 	
 	float path_pid_output = path_control_pid(PATH_PID_KIND,path_pid,path_err);
-		
-	chassis_linear_speed = path_control_speed;
 	
-	chassis_yaw = 0;
-	chassis_angular_speed = path_pid_output;
+	chassis_control_transform(path_pid_output*x_speed_rate_rt,path_control_speed,path_pid_output*1.1);
+	
+//	chassis_linear_speed = path_control_speed;
+//	chassis_yaw = path_pid_output*(1-rate);
+//	chassis_angular_speed = path_pid_output;
 }
 
 /* 循迹PID参数结构体初始化 */
@@ -671,13 +672,17 @@ float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,floa
 //	}
 
 	// 模糊PID
-	float small[2] = {10.,3.};
-	float medium[2] = {30.,6.};
-	float big[2] = {60.,11.};
+	float small[2] = {4.,10.};
+	float medium[2] = {25.,50.};
+	float big[2] = {45.,80.};
+	_PID_PARAMETERS_ gyro_z[4] = {{0,0,PATH_PID[0][3],0,0},{0,0,PATH_PID[1][3],0,0},{0,0,PATH_PID[2][3],0,0},{0,0,PATH_PID[3][3],0,0}};
+		
 	_PID_PARAMETERS_ path_fuzzy_pid_parameters = fuzzy_pid_paraments_get(path_pid.path_pid_parameters,path_err,gyro_err,small,medium,big,2);
-	value = FUNC_PATH(&path_fuzzy_pid_parameters,&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[3][3]*gyro_err;
+	_PID_PARAMETERS_ path_fuzzy_gyro_z_pid_parameters = fuzzy_pid_paraments_get(gyro_z,path_err,gyro_err,small,medium,big,1);
+		
+	value = FUNC_PATH(&path_fuzzy_pid_parameters,&(path_pid.path_pid_variable),0,-path_err)+path_fuzzy_gyro_z_pid_parameters.d*gyro_err;
 	
-//	just_float(6,(float)path_err,(float)path_fuzzy_pid_parameters.p,(float)path_fuzzy_pid_parameters.i,(float)path_fuzzy_pid_parameters.d,(float)path_fuzzy_pid_parameters.output_limit,(float)path_fuzzy_pid_parameters.i_limit);
+//	just_float(2,path_fuzzy_gyro_z_pid_parameters.d,gyro_err);
 //	update_data_end();
 	
 	return value;

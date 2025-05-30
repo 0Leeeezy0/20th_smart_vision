@@ -118,6 +118,7 @@
 #define AI_CAMERA_0_IMAGE_WIDTH		( 160 )			// AI摄像头0 图像宽度
 #define AI_CAMERA_0_IMAGE_HIGHT		( 120 )			// AI摄像头0 图像高度
 #define AI_CAMERA_0_OFFSET 			(  11 )			// AI摄像头0 图像偏移量
+#define AI_CAMERA_0_IMAGE_RATE		(float)(  1  ) 	// AI摄像头0 图像与总钻风比例，用于自适应AI追踪
 
 /**************************************************************************/
 
@@ -199,7 +200,7 @@
 
 #define GYRO_ACC_CALIBRATION_EPOCH 	(float)(1000)	// 陀螺仪加速度计校准采样轮次
 #define BAT_VOLTAGE_CALIBRATION		(36.88)					// 电池电压标定参数
-#define BAT_VOLTAGE_WARNING			(11.)					// 电池电压警告参数
+#define BAT_VOLTAGE_WARNING			(11.8)					// 电池电压警告参数
 
 /***********************************************************************/   
 

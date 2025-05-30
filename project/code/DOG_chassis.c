@@ -540,7 +540,6 @@ _CHASSIS_CONTROL_ inverse_kinematics(float chassis_yaw,float chassis_linear_spee
 	_CHASSIS_CONTROL_ chassis_control;
 	float x_speed = chassis_linear_speed*sinf(DEG2RAD(chassis_yaw));
 	float y_speed = (float)chassis_linear_speed*cosf(DEG2RAD(chassis_yaw));
-	
 	chassis_control.motor_1_speed = -x_speed+chassis_angular_speed;
 	chassis_control.motor_2_speed = x_speed*COS60+y_speed*COS30+chassis_angular_speed;
 	chassis_control.motor_3_speed = x_speed*COS60-y_speed*COS30+chassis_angular_speed;
@@ -656,9 +655,9 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 		
 		chassis_rotate_finsh_flag = FALSE;
 		
-		if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 3.5)
+		if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 4.5)
 			chassis_rotate_finsh_num_count++;
-		if(chassis_rotate_finsh_num_count >= 10)
+		if(chassis_rotate_finsh_num_count >= 5)
 		{
 			// 电机闭环PID解算
 			chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,0).motor_1;
@@ -769,7 +768,7 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 					chassis_yaw = 90*x_speed/abs(x_speed);
 				
 				chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
-				chassis_angular_speed = _chassis_angular_speed_;
+				chassis_angular_speed = PATH_PID[0][3]*GYRO_Z_FORWARD*gyro_z;
 				chassis_rotate_angle = _chassis_rotate_angle_;
 				
 				if(grayscale < 1000 && num < 22)

@@ -242,6 +242,7 @@ extern uint8 *PerImg_ip[MT9V03X_H][MT9V03X_W];
 
 /* 循迹 */
 extern int16 path_err;
+extern float x_speed_rate_rt;	// 实时x速度比例
 
 /* 路径线坐标 */
 extern int16 path[MT9V03X_H][2];	// 路径线x、y坐标
@@ -285,6 +286,7 @@ extern float ROTATE_PID[8][5];
 /* 循迹PID参数 */
 extern float PATH_PID[4][6];
 
+
 /* 追踪PID参数 */
 extern float X_AI_TRACK_PID[5];
 extern float Y_AI_TRACK_PID[5];
@@ -313,6 +315,7 @@ extern int16 path_end;	// 路径线提取结束高度
 extern int16 control_point[2];	// 控制点高度（速度 3 30 速度 8 45）
 extern int16 prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
 extern int16 longest_white_col_x;	// 最长白列坐标
+extern float x_speed_rate;			// x速度比例
 extern int16 L_side[MT9V03X_H*3][2];	// 左边线坐标
 extern int16 R_side[MT9V03X_H*3][2];	// 右边线坐标
 extern int16 L_side_point_num;		// 左边线点数量

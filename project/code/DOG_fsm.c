@@ -15,7 +15,7 @@ static void control_mode_choose(void)
 		if(detection_box_width == 0 && track_x_center == 0) // && track_finsh_next_mode_flag != BLOCK_MOVE_OUT_MODE
 			control_mode_flag = PATH_CONTROL_MODE;
 	}
-	else if(detection_box_width > detection_box_width_limit && abs(track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2) < detection_box_center_limit && shift_distance >= 80 && ai_camera_0_enable_flag == TRUE)
+	else if(detection_box_width > detection_box_width_limit && abs(track_x_center-path_err-AI_CAMERA_0_IMAGE_WIDTH/2) < detection_box_center_limit && shift_distance >= 80 && ai_camera_0_enable_flag == TRUE)
 		control_mode_flag = AI_TRACK_MODE;
 	else
 		control_mode_flag = PATH_CONTROL_MODE;
@@ -62,7 +62,7 @@ void control_mode_dispatch(void)
 							chassis_motion_flag = CHASSIS_STOP;
 							while(1)
 							{
-								menu_root_page();
+								menu_detection_list();
 							}
 						}
 					}	
@@ -84,9 +84,15 @@ void control_mode_dispatch(void)
 			{
 				// 缓加速
 				if(speed_control_time_count <= 1500)
+				{
 					path_control(path_linear_speed_target[0]+(path_linear_speed_target_synthetic-path_linear_speed_target[0])*(speed_control_time_count/1500.0)*(speed_control_time_count/1500.0)*(speed_control_time_count/1500.0)); 	// 控制
+					x_speed_rate_rt = 0.5+(x_speed_rate-0.5)*(speed_control_time_count/1500.0)*(speed_control_time_count/1500.0)*(speed_control_time_count/1500.0);
+				}
 				else
+				{
 					path_control(path_linear_speed_target_synthetic); 	// 控制
+					x_speed_rate_rt = x_speed_rate;
+				}	
 			}
 			else	// 圆环速度
 			{
