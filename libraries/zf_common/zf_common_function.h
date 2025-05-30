@@ -89,7 +89,7 @@ void        func_double_to_str                  (char *str, double number, uint8
 uint32      func_str_to_hex                     (char *str);
 void        func_hex_to_str                     (char *str, uint32 number);
 
-uint32      zf_sprintf                          (int8 *buff, const int8 *format, ...);
+uint32      zf_sprintf                          (int8 *buff, const int8 *format, va_list arg);
 //=====================================================常规函数区=====================================================
 
 #endif

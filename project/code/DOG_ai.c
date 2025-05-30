@@ -8,7 +8,8 @@ API£º
                     
 static uint32 fifo_data_count = 0;                         	// fifo Êı¾İ¸öÊı
 static fifo_struct uart_data_fifo_ai_camera_0;				// AIÉãÏñÍ·0 ´®¿Ú½ÓÊÕfifo
-static fifo_struct uart_data_fifo_ai_camera_1;					// AIÉãÏñÍ·1 ´®¿Ú½ÓÊÕfifo
+static fifo_struct uart_data_fifo_ai_camera_1;				// AIÉãÏñÍ·1 ´®¿Ú½ÓÊÕfifo
+static fifo_struct uart_data_fifo_ai_camera_2;				// AIÉãÏñÍ·2 ´®¿Ú½ÓÊÕfifo
 
 static uint8 uart_get_data_ai_camera_0[64];                            // ´®¿Ú½ÓÊÕÊı¾İ»º³åÇø
 static uint8 fifo_get_data_ai_camera_0[64];                            // fifo Êä³ö¶Á³ö»º³åÇø
@@ -16,7 +17,8 @@ static uint8 fifo_get_data_ai_camera_0[64];                            // fifo Ê
 static uint8 uart_get_data_ai_camera_1[64];                            // ´®¿Ú½ÓÊÕÊı¾İ»º³åÇø
 static uint8 fifo_get_data_ai_camera_1[64];                            // fifo Êä³ö¶Á³ö»º³åÇø
 
-static uint8  ai_camera_0_upgrade_flag = 0;	// AIÉãÏñÍ·0 ¸üĞÂ±êÖ¾Î»
+static uint8 uart_get_data_ai_camera_2[64];                            // ´®¿Ú½ÓÊÕÊı¾İ»º³åÇø
+static uint8 fifo_get_data_ai_camera_2[64];                            // fifo Êä³ö¶Á³ö»º³åÇø
 
 typedef struct
 {
@@ -30,6 +32,8 @@ void ai_camera_init(void)
 {
 	ai_camera_0_init();
     ai_camera_1_init();
+	ai_camera_2_init();
+	ai_track_pid_init();
 }
 
 /* AIÉãÏñÍ·0 ³õÊ¼»¯ */
@@ -41,7 +45,7 @@ void ai_camera_0_init(void)
     interrupt_set_priority(AI_CAMERA_0_UART_PRIORITY, 0);                                   // ÉèÖÃ¶ÔÓ¦ UART_INDEX µÄÖĞ¶ÏÓÅÏÈ¼¶Îª 0
 }
 
-/* AIÉãÏñÍ·1 ³õÊ¼»¯ */
+/* AIÉãÏñÍ·1£¨¹¤¾ß£© ³õÊ¼»¯ */	
 void ai_camera_1_init(void)
 {
     fifo_init(&uart_data_fifo_ai_camera_1, FIFO_DATA_8BIT, uart_get_data_ai_camera_1, 64);              // ³õÊ¼»¯ fifo ¹ÒÔØ»º³åÇø
@@ -51,66 +55,108 @@ void ai_camera_1_init(void)
     interrupt_set_priority(AI_CAMERA_1_UART_PRIORITY, 0);                                   // ÉèÖÃ¶ÔÓ¦ UART_INDEX µÄÖĞ¶ÏÓÅÏÈ¼¶Îª 0
 }
 
+/* AIÉãÏñÍ·2£¨Êı×Ö£© ³õÊ¼»¯ */
+void ai_camera_2_init(void)
+{
+    fifo_init(&uart_data_fifo_ai_camera_2, FIFO_DATA_8BIT, uart_get_data_ai_camera_2, 64);              // ³õÊ¼»¯ fifo ¹ÒÔØ»º³åÇø
+    
+    uart_init(AI_CAMERA_2_UART_INDEX, AI_CAMERA_2_UART_BAUDRATE, AI_CAMERA_2_UART_TX_PIN, AI_CAMERA_2_UART_RX_PIN);             // ³õÊ¼»¯´®¿Ú
+    uart_rx_interrupt(AI_CAMERA_2_UART_INDEX, ZF_ENABLE);                                   // ¿ªÆô UART_INDEX µÄ½ÓÊÕÖĞ¶Ï
+    interrupt_set_priority(AI_CAMERA_2_UART_PRIORITY, 0);                                   // ÉèÖÃ¶ÔÓ¦ UART_INDEX µÄÖĞ¶ÏÓÅÏÈ¼¶Îª 0
+}
+
 /* AIÉãÏñÍ·1 Ê¶±ğ½á¹û×ª»» */
 static void ai_camera_1_data_transform(uint8 ai_camera_1_detection_result_raw)
 {
-	ai_camera_1_detection_result.is_move_out = FALSE;
 	// ÆÕÍ¨lable
-	if(ai_camera_1_detection_result_raw >= 0 && ai_camera_1_detection_result_raw <= 14)
+	if(ai_camera_1_detection_result_raw >= 1 && ai_camera_1_detection_result_raw < 16)
 	{
-		ai_camera_1_detection_result.result_kind = 0;
-		
-		ai_camera_1_detection_result.lable = (_AI_CAMERA_1_DETECTION_LABLE_)ai_camera_1_detection_result_raw;
+		ai_camera_detection_result.result_kind = 0;
+		ai_camera_detection_result.lable = (_AI_CAMERA_DETECTION_LABLE_)(ai_camera_1_detection_result_raw-1);
 	}
 	// ÊÖĞ´Êı×Ö
-	else if(ai_camera_1_detection_result_raw > 14 && ai_camera_1_detection_result_raw <= 114)
+	else if(ai_camera_1_detection_result_raw == 16)
 	{
-		ai_camera_1_detection_result.result_kind = 1;
-		ai_camera_1_detection_result.num = ai_camera_1_detection_result_raw-15;
+		ai_camera_detection_result.result_kind = 1;
 	}
 	// É¶¶¼Ã»ÓĞ
-	else if(ai_camera_1_detection_result_raw == 115)
+	else
 	{
-		ai_camera_1_detection_result.result_kind = 2;
+		ai_camera_detection_result.result_kind = 2;
 	}
-	// ÍÆÀëÈüµÀ
-	else if(ai_camera_1_detection_result_raw == 116)
+}
+
+/* AIÉãÏñÍ·2 Ê¶±ğ½á¹û×ª»» */
+static void ai_camera_2_data_transform(uint8 ai_camera_2_detection_result_raw)
+{
+	// ÊÖĞ´Êı×Ö
+	if(ai_camera_2_detection_result_raw >= 0 && ai_camera_2_detection_result_raw < 100)
 	{
-		ai_camera_1_detection_result.is_move_out = TRUE;
+		ai_camera_detection_result.num = ai_camera_2_detection_result_raw;
 	}
+	// É¶¶¼Ã»ÓĞ
+	else
+	{
+		ai_camera_detection_result.result_kind = 2;
+	}
+}
+
+/* AI×·×ÙPID²ÎÊı½á¹¹Ìå³õÊ¼»¯ */
+void ai_track_pid_init(void)
+{
+	pid_init(&(ai_track_pid.x_ai_track_pid_paraments),&(ai_track_pid.x_ai_track_pid_variable),X_AI_TRACK_PID[0],X_AI_TRACK_PID[1],X_AI_TRACK_PID[2],X_AI_TRACK_PID[3],X_AI_TRACK_PID[4]);
+	pid_init(&(ai_track_pid.y_ai_track_pid_paraments),&(ai_track_pid.y_ai_track_pid_variable),Y_AI_TRACK_PID[0],Y_AI_TRACK_PID[1],Y_AI_TRACK_PID[2],Y_AI_TRACK_PID[3],Y_AI_TRACK_PID[4]);
 }
 
 /* AI×·×Ù¿ØÖÆ */
 void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_mode_flag)
 {
+	// ¶¨ÒåX/Y·½Ïò×·×ÙPIDÖ¸Õëº¯Êı
+	float (*X_FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float);
+	float (*Y_FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float);
+	float x_speed = 0;
+	float y_speed = 0;
+	
+	X_FUNC = X_AI_TRACK_PID_KIND;
+	Y_FUNC = Y_AI_TRACK_PID_KIND;
+	
 	static int16 num = 0;	// ·ûºÏÆ«ÒÆãĞÖµµÄÍ¼Ïñ´ÎÊı
-	track_err = track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2;
 	chassis_motion_flag = CHASSIS_MOVE;
-	if(detection_box_width < detection_box_width_std-4)
+	// É«¿é¿í¶ÈĞ¡ÓÚ±ê×¼¿í¶ÈÊ±Æ½ÒÆÇ°½ø
+	if(detection_box_width < detection_box_width_std-4-20)
 	{
 		chassis_yaw = track_err;
 		chassis_linear_speed = track_linear_speed;
 		chassis_angular_speed = 0;
 		control_mode_flag = AI_TRACK_MODE;
 	}
-//	else if(max_detection_box_width > detection_box_width_std+4)
-//	{
-//		chassis_yaw = 180-track_err;
-//		chassis_linear_speed = track_linear_speed;
-//	}
+	// É«¿é¿í¶ÈÔÙ±ê×¼¿í¶ÈÕı¸ºãĞÖµÄÚÊ±Ç°ºó¶¨Î»£¨±£Ö¤³µÉíºÍ·½¿éµÄ¾àÀë´óÖÂÒ»ÖÂ£©
 	else
 	{
-		if(abs(track_err) > 5)
+		x_speed = X_FUNC(&(ai_track_pid.x_ai_track_pid_paraments),&(ai_track_pid.x_ai_track_pid_variable),0,-track_err);
+		y_speed = Y_FUNC(&(ai_track_pid.y_ai_track_pid_paraments),&(ai_track_pid.y_ai_track_pid_variable),detection_box_width_std,detection_box_width);
+		
+		if(y_speed != 0)
 		{
-			chassis_yaw = 90*abs(track_err)/track_err;
-			chassis_linear_speed = track_linear_speed_revise;
-			chassis_angular_speed = 0;
-			if(abs(track_err) <= 8)
-			{
-				num++;
-			}
-		}
+			if(y_speed > 0)
+				chassis_yaw = RAD2DEG(atan(x_speed/y_speed));
+			else if(y_speed < 0)
+				chassis_yaw = 180+RAD2DEG(atan(x_speed/y_speed));
+		}	
 		else
+			chassis_yaw = 90*x_speed/abs(x_speed);
+		
+		chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
+		chassis_angular_speed = 0;
+		control_mode_flag = AI_TRACK_MODE;
+		
+		// ×·×Ùµ½ãĞÖµÖÜÎ§
+		if(abs(detection_box_width-detection_box_width_std) <= 4 && abs(track_err) <= 6)
+		{
+			num++;
+		}
+		// ×·×Ùµ½ãĞÖµÄÚ
+		if(abs(detection_box_width-detection_box_width_std) <= 4 && abs(track_err) <= 4)
 		{
 			chassis_yaw = 0;
 			chassis_linear_speed = 0;
@@ -118,14 +164,15 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 			control_mode_flag = track_finsh_next_mode_flag;
 			num = 0;
 		}
-	}
-	if(num > 10)
-	{
-		chassis_yaw = 0;
-		chassis_linear_speed = 0;
-		chassis_angular_speed = 0;
-		control_mode_flag = track_finsh_next_mode_flag;
-		num = 0;
+		// ×·×Ùµ½ãĞÖµÖÜÎ§£¬ÓÉÓÚÄ¦²ÁÁ¦µÈÊ¹³µÎŞ·¨ÒÆ¶¯£¬³¬¹ıÅĞ¶¨´ÎÊı
+		if(num > 5)
+		{
+			chassis_yaw = 0;
+			chassis_linear_speed = 0;
+			chassis_angular_speed = 0;
+			control_mode_flag = track_finsh_next_mode_flag;
+			num = 0;
+		}
 	}
 }
 
@@ -159,13 +206,13 @@ void uart_rx_interrupt_handler_ai_camera_0 (void)
             // ¶ÁÈ¡µÚ1¸öÊı¾İ£¬ÓÃÓÚ»ñÈ¡Ä¿±êĞòºÅ£¬Ê¹ÓÃÍêÇå³ı´ËÊı¾İ
             temp_length = 1;
             fifo_read_buffer(&uart_data_fifo_ai_camera_0, fifo_get_data_ai_camera_0, &temp_length, FIFO_READ_AND_CLEAN);
-            track_x = fifo_get_data_ai_camera_0[0];
+            track_x = fifo_get_data_ai_camera_0[0]-AI_CAMERA_0_OFFSET;
             // ¶ÁÈ¡8¸öÊı¾İ£¬ÓÃÓÚ»ñÈ¡Ä¿±êÊı¾İ£¬È»ºó×ªÒÆµ½½á¹¹ÌåÊı×éÖĞ
             temp_length = 1;
             fifo_read_buffer(&uart_data_fifo_ai_camera_0, fifo_get_data_ai_camera_0, &temp_length, FIFO_READ_AND_CLEAN);
             detection_box_width = fifo_get_data_ai_camera_0[0];
             track_x_center = track_x + detection_box_width/2;
-            
+			track_err = track_x_center-AI_CAMERA_0_IMAGE_WIDTH/2;
         }
         fifo_clear(&uart_data_fifo_ai_camera_0);
     }
@@ -195,8 +242,37 @@ void uart_rx_interrupt_handler_ai_camera_1 (void)
         fifo_read_buffer(&uart_data_fifo_ai_camera_1, fifo_get_data_ai_camera_1, &fifo_data_count, FIFO_READ_AND_CLEAN);    // ½« fifo ÖĞÊı¾İ¶Á³ö²¢Çå¿Õ fifo ¹ÒÔØµÄ»º³å
         uart_write_buffer(AI_CAMERA_1_UART_INDEX, fifo_get_data_ai_camera_1, fifo_data_count);      // ½«¶ÁÈ¡µ½µÄÊı¾İ·¢ËÍ³öÈ¥
         ai_camera_1_detection_result_raw = fifo_get_data_ai_camera_1[0];
+		ai_camera_1_data_raw = ai_camera_1_detection_result_raw;
 		ai_camera_1_data_transform(ai_camera_1_detection_result_raw);
 //		printf("%s",ai_camera_1_detection_result_raw);
     }
 }
 
+//-------------------------------------------------------------------------------------------------------------------
+// º¯Êı¼ò½é     UART_INDEX µÄ½ÓÊÕÖĞ¶Ï´¦Àíº¯Êı Õâ¸öº¯Êı½«ÔÚ UART_INDEX ¶ÔÓ¦µÄÖĞ¶Ïµ÷ÓÃ Ïê¼û isr.c
+// ²ÎÊıËµÃ÷     void
+// ·µ»Ø²ÎÊı     void
+// Ê¹ÓÃÊ¾Àı     uart_rx_interrupt_handler_A();
+//-------------------------------------------------------------------------------------------------------------------
+void uart_rx_interrupt_handler_ai_camera_2 (void)
+{ 
+	static uint8 ai_camera_2_detection_result_raw;						// AIÉãÏñÍ·1 Ê¶±ğ½á¹û
+	
+//    get_data = uart_read_byte(UART_INDEX);                                      // ½ÓÊÕÊı¾İ while µÈ´ıÊ½ ²»½¨ÒéÔÚÖĞ¶ÏÊ¹ÓÃ
+	uint8 get_data = 0;
+	uint32 fifo_data_count = 0;                         // fifo Êı¾İ¸öÊı
+
+    uart_query_byte(AI_CAMERA_2_UART_INDEX, &get_data);                           // ½ÓÊÕÊı¾İ ²éÑ¯Ê½ ÓĞÊı¾İ»á·µ»Ø TRUE Ã»ÓĞÊı¾İ»á·µ»Ø FALSE
+    fifo_write_buffer(&uart_data_fifo_ai_camera_2, &get_data, 1);                           // ½«Êı¾İĞ´Èë fifo ÖĞ
+    
+    fifo_data_count = fifo_used(&uart_data_fifo_ai_camera_2);                           // ²é¿´ fifo ÊÇ·ñÓĞÊı¾İ
+    if(fifo_data_count != 0)                                                // ¶ÁÈ¡µ½Êı¾İÁË
+    {
+        fifo_read_buffer(&uart_data_fifo_ai_camera_2, fifo_get_data_ai_camera_2, &fifo_data_count, FIFO_READ_AND_CLEAN);    // ½« fifo ÖĞÊı¾İ¶Á³ö²¢Çå¿Õ fifo ¹ÒÔØµÄ»º³å
+        uart_write_buffer(AI_CAMERA_2_UART_INDEX, fifo_get_data_ai_camera_2, fifo_data_count);      // ½«¶ÁÈ¡µ½µÄÊı¾İ·¢ËÍ³öÈ¥
+        ai_camera_2_detection_result_raw = fifo_get_data_ai_camera_2[0];
+		ai_camera_2_data_raw = ai_camera_2_detection_result_raw;
+		ai_camera_2_data_transform(ai_camera_2_detection_result_raw);
+//		printf("%s",ai_camera_1_detection_result_raw);
+    }
+}

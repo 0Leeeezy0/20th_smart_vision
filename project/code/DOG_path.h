@@ -37,11 +37,11 @@ void path_control(float path_control_speed);
 /* 边线点类型判断 */
 void side_point_kind_judge(void);
 
-/* 元素判断 */
-void element_judge(void);
+/* 圆环判断 */
+void circle_path_element_judge(void);
 
-/* 赛道补线 */
-void path_patch(void);
+/* 斑马线元素判断 */
+void zebra_crossing_path_element_judge(void);
 
 /* 循迹PID参数结构体初始化 */
 _PATH_PID_ path_control_pid_init(void);

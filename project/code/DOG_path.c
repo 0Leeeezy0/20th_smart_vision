@@ -1,22 +1,22 @@
 /*
-¸ÃÎÄ¼şÓÃÓÚ³µÄ£ÈüµÀÑ­¼£¿ØÖÆ
+è¯¥æ–‡ä»¶ç”¨äºè½¦æ¨¡èµ›é“å¾ªè¿¹æ§åˆ¶
 
-API£º
-****ÓÃ»§****
-ÈüµÀÑ­¼£¿ØÖÆ³õÊ¼»¯
-Ñ­¼£¿ØÖÆ
-Ñ­¼£PID²ÎÊı½á¹¹Ìå³õÊ¼»¯
+APIï¼š
+****ç”¨æˆ·****
+èµ›é“å¾ªè¿¹æ§åˆ¶åˆå§‹åŒ–
+å¾ªè¿¹æ§åˆ¶
+å¾ªè¿¹PIDå‚æ•°ç»“æ„ä½“åˆå§‹åŒ–
 ************
 
-****µ×²ã****
-Â·¾¶ÏßÉ¨Ãè
-Ñ­¼£PID
+****åº•å±‚****
+è·¯å¾„çº¿æ‰«æ
+å¾ªè¿¹PID
 ************
 */
 
 #include "common.h"
 
-/* ÈüµÀÑ­¼£¿ØÖÆ³õÊ¼»¯ */
+/* èµ›é“å¾ªè¿¹æ§åˆ¶åˆå§‹åŒ– */
 void path_control_init(void)
 {
 	mt9v03x_init();
@@ -24,86 +24,89 @@ void path_control_init(void)
 	path_pid = path_control_pid_init();
 }
 
-/* ×î³¤°×ÁĞ */
+/* æœ€é•¿ç™½åˆ— */
 void longest_white_col(void)
 {
 	int L_side[2];
 	int R_side[2];
 	
-	int max_white_num = 0;				// ×î³¤°×ÁĞ°×É«ÏñËØÊıÁ¿
-	int longest_white_X = 0;			// ×î³¤°×ÁĞºá×ø±ê
-	int longest_white_X_cache = 0;		// ×î³¤°×ÁĞºá×ø±ê»º´æ
-	int max_white_col_num = 0;			// ×î³¤°×ÁĞÊıÁ¿
-	int max_white_col_num_cache = 0;	// ×î³¤°×ÁĞÊıÁ¿»º´æ
-	uint8 max_white_col_find_flag = 0;		// ÕÒµ½×î³¤°×ÁĞ±êÖ¾Î»
+	int max_white_num = 0;				// æœ€é•¿ç™½åˆ—ç™½è‰²åƒç´ æ•°é‡
+	int longest_white_X = 0;			// æœ€é•¿ç™½åˆ—æ¨ªåæ ‡
+	int longest_white_X_cache = 0;		// æœ€é•¿ç™½åˆ—æ¨ªåæ ‡ç¼“å­˜
+	int max_white_col_num = 0;			// æœ€é•¿ç™½åˆ—æ•°é‡
+	int max_white_col_num_cache = 0;	// æœ€é•¿ç™½åˆ—æ•°é‡ç¼“å­˜
+	uint8 max_white_col_find_flag = 0;		// æ‰¾åˆ°æœ€é•¿ç™½åˆ—æ ‡å¿—ä½
 	
 	for(int X = mid_x;X >= 0;X--)
     {
-        if(image_OTSU[LOONGEST_WHITE_COL_START_Y-1][X] == 0)    // ºÚÉ«
+        if(image_OTSU[path_start-1][X] == 0)    // é»‘è‰²
         {
-            // ´æ´¢°×É«µã
+            // å­˜å‚¨ç™½è‰²ç‚¹
             L_side[0] = X+1;
-            L_side[1] = LOONGEST_WHITE_COL_START_Y-1;
-			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
+            L_side[1] = path_start-1;
+//			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
         if(X == 0)
         {
-            // ´æ´¢°×É«µã
+            // å­˜å‚¨ç™½è‰²ç‚¹
             L_side[0] = 0;
-            L_side[1] = LOONGEST_WHITE_COL_START_Y-1;
-			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
+            L_side[1] = path_start-1;
+//			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
 			L_frame_point_num++;
             break;
         }
     }
-    // ÓÒ±ßÏßÖÖ×Ó
+    // å³è¾¹çº¿ç§å­
     for(int X = mid_x;X <= MT9V03X_W-1;X++)
     {
-        if(image_OTSU[LOONGEST_WHITE_COL_START_Y-1][X] == 0)    // ºÚÉ«
+        if(image_OTSU[path_start-1][X] == 0)    // é»‘è‰²
         {
-            // ´æ´¢°×É«µã
+            // å­˜å‚¨ç™½è‰²ç‚¹
             R_side[0] = X-1;
-            R_side[1] = LOONGEST_WHITE_COL_START_Y-1;
-			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
+            R_side[1] = path_start-1;
+//			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
         if(X == MT9V03X_W-1)
         {
-            // ´æ´¢°×É«µã
+            // å­˜å‚¨ç™½è‰²ç‚¹
             R_side[0] = MT9V03X_W-1;
-            R_side[1] = LOONGEST_WHITE_COL_START_Y-1;
-			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
+            R_side[1] = path_start-1;
+//			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
 			R_frame_point_num++;
             break;
         }
     }
 	
-	// ¸üĞÂmid_x
+	// æ›´æ–°mid_x
     mid_x = (L_side[0] + R_side[0])/2;
 	
 	for(int X = L_side[0];X <= R_side[0];X++)
 	{
-		for(int Y = LOONGEST_WHITE_COL_START_Y;Y >= LOONGEST_WHITE_COL_START_Y-control_point;Y--)
+		for(int Y = path_start;Y >= path_start-control_point[path_follow_kind_flag];Y--)
 		{
-			if(image_OTSU[Y][X] == 0 || Y == LOONGEST_WHITE_COL_START_Y-control_point)
+			if(image_OTSU[Y][X] == 0 || Y == path_start-control_point[path_follow_kind_flag])
 			{
-				if(LOONGEST_WHITE_COL_START_Y-Y > max_white_num)
+				// æœ‰æ›´é•¿çš„ç™½åˆ—åˆ™åˆ·æ–°
+				if(path_start-Y > max_white_num)
 				{
 					max_white_col_find_flag = 1;
-					max_white_num = LOONGEST_WHITE_COL_START_Y-Y;
+					max_white_num = path_start-Y;
 					longest_white_X_cache = 0;
 					max_white_col_num_cache = 0;
 					longest_white_X_cache +=  X;
 					max_white_col_num_cache++;
 				}
-				else if(LOONGEST_WHITE_COL_START_Y-Y == max_white_num)
+				// ä¸€æ ·é•¿çš„ç™½åˆ—åˆ™è‡ªå¢
+				else if(path_start-Y == max_white_num)
 				{
 					max_white_col_find_flag = 1;
-					max_white_num = LOONGEST_WHITE_COL_START_Y-Y;
+					max_white_num = path_start-Y;
 					longest_white_X_cache += X;
 					max_white_col_num_cache++;
 				}
+				// æ›´çŸ­çš„ç™½åˆ—ï¼Œå¿½ç•¥
 				else
 				{
 					max_white_col_find_flag = 0;
@@ -132,61 +135,66 @@ void longest_white_col(void)
 		longest_white_col_x = MT9V03X_W-1;
 }
 
-/* Â·¾¶ÏßÌáÈ¡ */
+/* è·¯å¾„çº¿æå– */
 void path_extract(void)
 {
 	int16 x,y;
-	static int16 num = 0;
+	static int16 mid_x_flag = 0;
 	if(mid_x == MT9V03X_W/2)
-		num = 0;
-	if(num < 10)
+		mid_x_flag = 0;
+	if(mid_x_flag < 10)
 	{
 		path[0][0] = MT9V03X_W/2;
-		num++;
+		mid_x_flag++;
 	}
 	else
 	{
 		path[0][0] = path[prediction_point][0];
 	}
-	path[0][1] = MT9V03X_H-1-path_start;
-	for(y = MT9V03X_H-1-path_start-1;y >= MT9V03X_H-1-path_end;y--)
+	path[0][1] = path_start;
+	for(y = path_start-1;y >= path_end;y--)
 	{
-		for(x = path[MT9V03X_H-1-path_start-y-1][0];x < MT9V03X_W;x++)
+		// å³è¾¹çº¿
+		for(x = path[path_start-1-y][0];x < MT9V03X_W;x++)
 		{
 			if(image_OTSU[y][x] == 0)
 			{
-				path[MT9V03X_H-1-path_start-y][0] = x;
+				path[path_start-y][0] = x;
 				break;
 			}
 			if(x == MT9V03X_W-1)
 			{
-				path[MT9V03X_H-1-path_start-y][0] = x;
+				path[path_start-y][0] = x;
 			}
 		}
-		for(x = path[MT9V03X_H-1-path_start-y-1][0];x >= 0;x--)
+		// å·¦è¾¹çº¿
+		for(x = path[path_start-1-y][0];x >= 0;x--)
 		{
 			if(image_OTSU[y][x] == 0)
 			{
-				path[MT9V03X_H-1-path_start-y][0] += x;
+				path_width[path_start-y] = path[path_start-y][0]-x;
+				path[path_start-y][0] += x;
 				break;
 			}
 			if(x == 0)
 			{
-				path[MT9V03X_H-1-path_start-y][0] += x;
+				path_width[path_start-y] = path[path_start-y][0]-x;
+				path[path_start-y][0] += x;
 			}
 		}
-		path[MT9V03X_H-1-path_start-y][0] = path[MT9V03X_H-1-path_start-y][0]/2;
-		path[MT9V03X_H-1-path_start-y][1] = y;
+		path[path_start-y][0] = path[path_start-y][0]/2;
+		path[path_start-y][1] = y;
+//		ips200_draw_point(path[path_start-y][0], MT9V03X_H+MENU_ROW_PITCH+path[path_start-y][1], RGB565_RED);
 	}
 }
 
-/* ±ßÏßÏßÌáÈ¡ */
+/* è¾¹çº¿çº¿æå– */
 void side_extract(void)
 {
-    // °ËÁÙÓòÑ°Ïß±äÁ¿ÉèÖÃ
-    int seed_grow_dir[8][4] = {{0,1,0,1},{1,1,-1,1},{1,0,-1,0},{1,-1,-1,-1},{0,-1,0,-1},{-1,-1,1,-1},{-1,0,1,0},{-1,1,1,1}};    // ÖÖ×ÓX,Y·½ÏòµÄÉú³¤ÏòÁ¿£º´ÓÕıÏÂ·½ÄæÊ±Õë ºÍ ´ÓÕıÏÂ·½Ë³Ê±Õë 
+    // å…«ä¸´åŸŸå¯»çº¿å˜é‡è®¾ç½®
+    int seed_grow_dir[8][4] = {{0,1,0,1},{1,1,-1,1},{1,0,-1,0},{1,-1,-1,-1},{0,-1,0,-1},{-1,-1,1,-1},{-1,0,1,0},{-1,1,1,1}};    // ç§å­X,Yæ–¹å‘çš„ç”Ÿé•¿å‘é‡ï¼šä»æ­£ä¸‹æ–¹é€†æ—¶é’ˆ å’Œ ä»æ­£ä¸‹æ–¹é¡ºæ—¶é’ˆ 
     int grow_dir_idx = 0;
-    // ³õÊ¼»¯
+    // åˆå§‹åŒ–
     L_side_point_num = 0;
     R_side_point_num = 0;
 	L_frame_point_num = 0;
@@ -195,68 +203,68 @@ void side_extract(void)
     memset(L_side, 0, sizeof(L_side));
     memset(R_side, 0, sizeof(R_side));
 
-    // Ñ°ÕÒÖÖ×ÓÆğµã
-    // ×ó±ßÏßÖÖ×Ó
+    // å¯»æ‰¾ç§å­èµ·ç‚¹
+    // å·¦è¾¹çº¿ç§å­
     for(int X = mid_x;X >= 0;X--)
     {
-        if(image_OTSU[SIDE_EXTRACT_START_Y-1][X] == 0)    // ºÚÉ«
+        if(image_OTSU[side_extract_start_y-1][X] == 0)    // é»‘è‰²
         {
-            // ´æ´¢°×É«µã
+            // å­˜å‚¨ç™½è‰²ç‚¹
             L_side[0][0] = X+1;
-            L_side[0][1] = SIDE_EXTRACT_START_Y-1;
+            L_side[0][1] = side_extract_start_y-1;
 			// ips200_draw_point(L_side[0][0], L_side[0][1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
         if(X == 0)
         {
-            // ´æ´¢°×É«µã
+            // å­˜å‚¨ç™½è‰²ç‚¹
             L_side[0][0] = 0;
-            L_side[0][1] = SIDE_EXTRACT_START_Y-1;
+            L_side[0][1] = side_extract_start_y-1;
 			// ips200_draw_point(L_side[0][0], L_side[0][1]+MT9V03X_H*2, RGB565_RED);
 			L_frame_point_num++;
             break;
         }
     }
-    // ÓÒ±ßÏßÖÖ×Ó
+    // å³è¾¹çº¿ç§å­
     for(int X = mid_x;X <= MT9V03X_W-1;X++)
     {
-        if(image_OTSU[SIDE_EXTRACT_START_Y-1][X] == 0)    // ºÚÉ«
+        if(image_OTSU[side_extract_start_y-1][X] == 0)    // é»‘è‰²
         {
-            // ´æ´¢°×É«µã
+            // å­˜å‚¨ç™½è‰²ç‚¹
             R_side[0][0] = X-1;
-            R_side[0][1] = SIDE_EXTRACT_START_Y-1;
+            R_side[0][1] = side_extract_start_y-1;
 			// ips200_draw_point(L_side[0][0], L_side[0][1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
         if(X == MT9V03X_W-1)
         {
-            // ´æ´¢°×É«µã
+            // å­˜å‚¨ç™½è‰²ç‚¹
             R_side[0][0] = MT9V03X_W-1;
-            R_side[0][1] = SIDE_EXTRACT_START_Y-1;
+            R_side[0][1] = side_extract_start_y-1;
 			// ips200_draw_point(R_side[0][0], R_side[0][1]+MT9V03X_H*2, RGB565_RED);
 			R_frame_point_num++;
             break;
         }
     }
 
-    // ¸üĞÂmid_x
+    // æ›´æ–°mid_x
     mid_x = (L_side[0][0] + R_side[0][0])/2;
 
-    // ÅÀÏß
-    // ×ó±ßÏß
+    // çˆ¬çº¿
+    // å·¦è¾¹çº¿
     while(true)
     {
-        // µãÔÚ±ßÏßÄÚ
+        // ç‚¹åœ¨è¾¹çº¿å†…
         if(L_side[L_side_point_num][0] < MT9V03X_W-1 && L_side[L_side_point_num][0] > 0)
         {   
-            // ÊÇ·ñÔ½½ç
-            if(L_side_point_num >= MT9V03X_H*3-2)	/************************×¢Òâ***************************/
+            // æ˜¯å¦è¶Šç•Œ
+            if(L_side_point_num >= MT9V03X_H*3-2)	/************************æ³¨æ„***************************/
                 break;
-            // ÏÂÒ»¸öµãÎªºÚÉ«£¬Õâ¸öµãÎª°×É«
+            // ä¸‹ä¸€ä¸ªç‚¹ä¸ºé»‘è‰²ï¼Œè¿™ä¸ªç‚¹ä¸ºç™½è‰²
             if(image_OTSU[L_side[L_side_point_num][1]+seed_grow_dir[(grow_dir_idx+1)%8][1]][L_side[L_side_point_num][0]+seed_grow_dir[(grow_dir_idx+1)%8][0]] == 0 && 
                 image_OTSU[L_side[L_side_point_num][1]+seed_grow_dir[(grow_dir_idx)%8][1]][L_side[L_side_point_num][0]+seed_grow_dir[(grow_dir_idx)%8][0]] == 255)
             {
-                // ÏÂÒ»¸öµã
+                // ä¸‹ä¸€ä¸ªç‚¹
                 L_side[L_side_point_num+1][0] = L_side[L_side_point_num][0]+seed_grow_dir[grow_dir_idx][0];
                 L_side[L_side_point_num+1][1] = L_side[L_side_point_num][1]+seed_grow_dir[grow_dir_idx][1];
                 L_side_point_num+=1;
@@ -264,18 +272,18 @@ void side_extract(void)
             }
             grow_dir_idx++;
         }
-        // µãÔÚ±ßÏßÉÏ
+        // ç‚¹åœ¨è¾¹çº¿ä¸Š
         else if(grow_dir_idx <= 4)
         {
-            // ÊÇ·ñÔ½½ç
-            if(L_side_point_num >= MT9V03X_H*3-2)	/************************×¢Òâ***************************/
+            // æ˜¯å¦è¶Šç•Œ
+            if(L_side_point_num >= MT9V03X_H*3-2)	/************************æ³¨æ„***************************/
                 break;
-            // ÏÂÒ»¸öµãÎªºÚÉ«£¬Õâ¸öµãÎª°×É«
+            // ä¸‹ä¸€ä¸ªç‚¹ä¸ºé»‘è‰²ï¼Œè¿™ä¸ªç‚¹ä¸ºç™½è‰²
             if( (grow_dir_idx <= 3 && image_OTSU[L_side[L_side_point_num][1]+seed_grow_dir[(grow_dir_idx+1)%8][1]][L_side[L_side_point_num][0]+seed_grow_dir[(grow_dir_idx+1)%8][0]] == 0 && 
                 image_OTSU[L_side[L_side_point_num][1]+seed_grow_dir[(grow_dir_idx)%8][1]][L_side[L_side_point_num][0]+seed_grow_dir[(grow_dir_idx)%8][0]] == 255) || 
                 (grow_dir_idx == 4 && image_OTSU[L_side[L_side_point_num][1]+seed_grow_dir[(grow_dir_idx)%8][1]][L_side[L_side_point_num][0]+seed_grow_dir[(grow_dir_idx)%8][0]] == 255))
             {
-                // ÏÂÒ»¸öµã
+                // ä¸‹ä¸€ä¸ªç‚¹
                 L_side[L_side_point_num+1][0] = L_side[L_side_point_num][0]+seed_grow_dir[grow_dir_idx][0];
                 L_side[L_side_point_num+1][1] = L_side[L_side_point_num][1]+seed_grow_dir[grow_dir_idx][1];
                 L_side_point_num+=1;
@@ -287,27 +295,27 @@ void side_extract(void)
         else
             break;
 		// ips200_draw_point(L_side[L_side_point_num][0], L_side[L_side_point_num][1]+MT9V03X_H*2, RGB565_RED);
-        // Ë÷ÒıÊÇ·ñÔ½½ç
+        // ç´¢å¼•æ˜¯å¦è¶Šç•Œ
         if(grow_dir_idx >= 8)
             break;
-        if(L_side[L_side_point_num][1] < SIDE_EXTRACT_END_Y)
+        if(L_side[L_side_point_num][1] < side_extract_end_y)
             break;
     }
     grow_dir_idx = 0;
-    // ÓÒ±ßÏß
+    // å³è¾¹çº¿
     while(true)
     {
-        // µãÔÚ±ßÏßÄÚ
+        // ç‚¹åœ¨è¾¹çº¿å†…
         if(R_side[R_side_point_num][0] < MT9V03X_W-1 && R_side[R_side_point_num][0] > 0)
         {   
-            // ÊÇ·ñÔ½½ç
-            if(R_side_point_num >= MT9V03X_H*3-2)	/************************×¢Òâ***************************/
+            // æ˜¯å¦è¶Šç•Œ
+            if(R_side_point_num >= MT9V03X_H*3-2)	/************************æ³¨æ„***************************/
                 break;
-            // ÏÂÒ»¸öµãÎªºÚÉ«£¬Õâ¸öµãÎª°×É«
+            // ä¸‹ä¸€ä¸ªç‚¹ä¸ºé»‘è‰²ï¼Œè¿™ä¸ªç‚¹ä¸ºç™½è‰²
             if(image_OTSU[R_side[R_side_point_num][1]+seed_grow_dir[(grow_dir_idx+1)%8][3]][R_side[R_side_point_num][0]+seed_grow_dir[(grow_dir_idx+1)%8][2]] == 0 && 
                 image_OTSU[R_side[R_side_point_num][1]+seed_grow_dir[(grow_dir_idx)%8][3]][R_side[R_side_point_num][0]+seed_grow_dir[(grow_dir_idx)%8][2]] == 255)
             {
-                // ÏÂÒ»¸öµã
+                // ä¸‹ä¸€ä¸ªç‚¹
                 R_side[R_side_point_num+1][0] = R_side[R_side_point_num][0]+seed_grow_dir[grow_dir_idx][2];
                 R_side[R_side_point_num+1][1] = R_side[R_side_point_num][1]+seed_grow_dir[grow_dir_idx][3];
                 R_side_point_num+=1;
@@ -315,18 +323,18 @@ void side_extract(void)
             }
             grow_dir_idx++;
         }
-        // µãÔÚ±ßÏßÉÏ
+        // ç‚¹åœ¨è¾¹çº¿ä¸Š
         else if(grow_dir_idx <= 4)
         {
-            // ÊÇ·ñÔ½½ç
-            if(R_side_point_num >= MT9V03X_H*3-2)	/************************×¢Òâ***************************/
+            // æ˜¯å¦è¶Šç•Œ
+            if(R_side_point_num >= MT9V03X_H*3-2)	/************************æ³¨æ„***************************/
                 break;
-            // ÏÂÒ»¸öµãÎªºÚÉ«£¬Õâ¸öµãÎª°×É«
+            // ä¸‹ä¸€ä¸ªç‚¹ä¸ºé»‘è‰²ï¼Œè¿™ä¸ªç‚¹ä¸ºç™½è‰²
             if( (grow_dir_idx <= 3 && image_OTSU[R_side[R_side_point_num][1]+seed_grow_dir[(grow_dir_idx+1)%8][3]][R_side[R_side_point_num][0]+seed_grow_dir[(grow_dir_idx+1)%8][2]] == 0 && 
                 image_OTSU[R_side[R_side_point_num][1]+seed_grow_dir[(grow_dir_idx)%8][3]][R_side[R_side_point_num][0]+seed_grow_dir[(grow_dir_idx)%8][2]] == 255) || 
                 (grow_dir_idx == 4 && image_OTSU[R_side[R_side_point_num][1]+seed_grow_dir[(grow_dir_idx)%8][3]][R_side[R_side_point_num][0]+seed_grow_dir[(grow_dir_idx)%8][2]] == 255))
             {
-                // ÏÂÒ»¸öµã
+                // ä¸‹ä¸€ä¸ªç‚¹
                 R_side[R_side_point_num+1][0] = R_side[R_side_point_num][0]+seed_grow_dir[grow_dir_idx][2];
                 R_side[R_side_point_num+1][1] = R_side[R_side_point_num][1]+seed_grow_dir[grow_dir_idx][3];
                 R_side_point_num+=1;
@@ -338,269 +346,292 @@ void side_extract(void)
         else
             break;
 		// ips200_draw_point(R_side[R_side_point_num][0], R_side[R_side_point_num][1]+MT9V03X_H*2, RGB565_RED);
-        // Ë÷ÒıÊÇ·ñÔ½½ç
+        // ç´¢å¼•æ˜¯å¦è¶Šç•Œ
         if(grow_dir_idx >= 8)
             break;
-        if(R_side[R_side_point_num][1] < SIDE_EXTRACT_END_Y)
+        if(R_side[R_side_point_num][1] < side_extract_end_y)
             break;
     }
 }
 
-/* ±ßÏßµãÀàĞÍÅĞ¶Ï */
+/* è¾¹çº¿ç‚¹ç±»å‹åˆ¤æ–­ */
 void side_point_kind_judge(void)
 {
     int i;
-    int vector[2][4] = {0}; // ×óÓÒ¹ÕµãÓëÉÏÏÂÁ½µã¹¹³ÉµÄÏòÁ¿×ø±ê
-    double vectorScalarProduct[2] = {0};  // ×óÓÒ¹ÕµãÏòÁ¿µã³Ë
-    double vectorModule[4] = {0};   // ×óÓÒ¹ÕµãÏòÁ¿µÄÄ£
-    double vectorAngle[2] = {0}; // ×óÓÒ¹ÕµãÏòÁ¿¼Ğ½Ç(½Ç¶ÈÖÆ)
+    int vector[2][4] = {0}; // å·¦å³æ‹ç‚¹ä¸ä¸Šä¸‹ä¸¤ç‚¹æ„æˆçš„å‘é‡åæ ‡
+    double vectorScalarProduct[2] = {0};  // å·¦å³æ‹ç‚¹å‘é‡ç‚¹ä¹˜
+    double vectorModule[4] = {0};   // å·¦å³æ‹ç‚¹å‘é‡çš„æ¨¡
+    double vectorAngle[2] = {0}; // å·¦å³æ‹ç‚¹å‘é‡å¤¹è§’(è§’åº¦åˆ¶)
 
-    // ³õÊ¼»¯
-    L_inflection_point_num = 0;
-    R_inflection_point_num = 0;
-    memset(L_inflection_point, 0, sizeof(L_inflection_point));
-    memset(R_inflection_point, 0, sizeof(R_inflection_point));
-	memset(L_inflection_y_dir, 0, sizeof(L_inflection_y_dir));
-    memset(L_inflection_y_dir, 0, sizeof(L_inflection_y_dir));
+    // åˆå§‹åŒ–
     L_bend_point_num = 0;
     R_bend_point_num = 0;
     memset(L_bend_point, 0, sizeof(L_bend_point));
     memset(R_bend_point, 0, sizeof(R_bend_point));
 
-    // Ñ°¹Õµã·¶Î§
-    // ×ó±ßÏß¹Õµã
-    for(i = POINT_DISTANCE+L_frame_point_num;i <= L_side_point_num-1-POINT_DISTANCE;)
+    // å¯»å¼¯ç‚¹èŒƒå›´
+    // å·¦è¾¹çº¿å¼¯ç‚¹
+    for(i = POINT_DISTANCE;i <= L_side_point_num-1-POINT_DISTANCE;)
     {
-        // ×ó±ßÏßµÚÒ»¸öÏòÁ¿
-        vector[0][0] = (double)(L_side[i-POINT_DISTANCE][0]-L_side[i][0]);
-        vector[0][1] = (double)(L_side[i-POINT_DISTANCE][1]-L_side[i][1]);
-        // ×ó±ßÏßµÚ¶ş¸öÏòÁ¿
-        vector[1][0] = (double)(L_side[i+POINT_DISTANCE][0]-L_side[i][0]);
-        vector[1][1] = (double)(L_side[i+POINT_DISTANCE][1]-L_side[i][1]);
+		// ä¸å¯¹è¾¹æ¡†å¤„çš„è¾¹çº¿è¿›è¡Œå¼¯ç‚¹è¯†åˆ«
+		if(L_side[i-POINT_DISTANCE][0] != 0 && L_side[i][0] != 0 && L_side[i+POINT_DISTANCE][0] != 0)
+		{
+			// å·¦è¾¹çº¿ç¬¬ä¸€ä¸ªå‘é‡
+			vector[0][0] = (double)(L_side[i-POINT_DISTANCE][0]-L_side[i][0]);
+			vector[0][1] = (double)(L_side[i-POINT_DISTANCE][1]-L_side[i][1]);
+			// å·¦è¾¹çº¿ç¬¬äºŒä¸ªå‘é‡
+			vector[1][0] = (double)(L_side[i+POINT_DISTANCE][0]-L_side[i][0]);
+			vector[1][1] = (double)(L_side[i+POINT_DISTANCE][1]-L_side[i][1]);
 
-        // ¼ÆËãÖĞ¶ÏµãÏòÁ¿µã³Ë
-        vectorScalarProduct[0] = (double)(vector[0][0]*vector[1][0]+vector[0][1]*vector[1][1]);
+			// è®¡ç®—ä¸­æ–­ç‚¹å‘é‡ç‚¹ä¹˜
+			vectorScalarProduct[0] = (double)(vector[0][0]*vector[1][0]+vector[0][1]*vector[1][1]);
 
-        // ¼ÆËã¹ÕµãÏòÁ¿µÄÄ£
-        vectorModule[0] = sqrt(pow(vector[0][0],2)+pow(vector[0][1],2));
-        vectorModule[1] = sqrt(pow(vector[1][0],2)+pow(vector[1][1],2));
-    
-        if( vectorModule[0]*vectorModule[1] != 0)
-        {
-            vectorAngle[0] = acos(vectorScalarProduct[0]/(vectorModule[0]*vectorModule[1]))*(180.0/PI);    // ×ó±ßÏß¶ÏµãÏòÁ¿¼Ğ½Ç
-        }
+			// è®¡ç®—æ‹ç‚¹å‘é‡çš„æ¨¡
+			vectorModule[0] = sqrt(pow(vector[0][0],2)+pow(vector[0][1],2));
+			vectorModule[1] = sqrt(pow(vector[1][0],2)+pow(vector[1][1],2));
 
-        // ¼ÆËã¹Õµã²¢´æ´¢×ø±ê£¬Ç°Ìá£º¹Õµã×ø±ê²»ÔÙ±ß¿òÉÏ
-        if(abs(vectorAngle[0]) > INFLECTION_POINT_ANGLE_MIN && abs(vectorAngle[0]) < INFLECTION_POINT_ANGLE_MAX && L_side[i][0] > 11 && (vector[0][0]+vector[1][0]) < 0)
-        {
-            //  cout << abs(AngleVector[0]) << endl;
-            L_inflection_point[L_inflection_point_num][0] = L_side[i][0];
-            L_inflection_point[L_inflection_point_num][1] = L_side[i][1];
-			L_inflection_y_dir[L_inflection_point_num] = ((float)(vector[0][1]+vector[1][1]))/(float)(2*POINT_DISTANCE);
-			angle = vectorAngle[0];
-			if(L_side[i][0] > SIDE_END)
-				break;
-            if(L_inflection_point_num < MT9V03X_H*2-1)	/************************×¢Òâ***************************/
-                L_inflection_point_num++;
-            else
-                break;
-            if(i < L_side_point_num-2-POINT_DISTANCE-SKIP_POINT_DISTANCE)
-                i = i+SKIP_POINT_DISTANCE;
-            else
-                break;
-        }
-        else if(abs(vectorAngle[0]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[0]) < BEND_POINT_ANGLE_MAX)
-        {
-            //  cout << abs(AngleVector[0]) << endl;
-            L_bend_point[L_bend_point_num][0] = L_side[i][0];
-            L_bend_point[L_bend_point_num][1] = L_side[i][1];
-            if(L_bend_point_num < MT9V03X_H*2-1)	/************************×¢Òâ***************************/
-                L_bend_point_num++;
-            else
-                break;
-        }
-        i++;
+			if( vectorModule[0]*vectorModule[1] != 0)
+			{
+				vectorAngle[0] = acos(vectorScalarProduct[0]/(vectorModule[0]*vectorModule[1]))*(180.0/PI);    // å·¦è¾¹çº¿æ–­ç‚¹å‘é‡å¤¹è§’
+			}
+
+			// è®¡ç®—å¼¯ç‚¹å¹¶å­˜å‚¨åæ ‡ï¼Œå‰æï¼šå¼¯ç‚¹åæ ‡ä¸å†è¾¹æ¡†ä¸Š
+			if(abs(vectorAngle[0]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[0]) < BEND_POINT_ANGLE_MAX)
+			{
+				//  cout << abs(AngleVector[0]) << endl;
+				L_bend_point[L_bend_point_num][0] = L_side[i][0];
+				L_bend_point[L_bend_point_num][1] = L_side[i][1];
+				if(L_bend_point_num < MT9V03X_H*2-1)	/************************æ³¨æ„***************************/
+					L_bend_point_num++;
+				else
+					break;
+			}
+		}
+		i++;
     }
-    // ÓÒ±ßÏß¹Õµã
-    for(i = POINT_DISTANCE+R_frame_point_num;i <= R_side_point_num-1-POINT_DISTANCE;)
+    // å³è¾¹çº¿å¼¯ç‚¹
+    for(i = POINT_DISTANCE;i <= R_side_point_num-1-POINT_DISTANCE;)
     {
-        // ×ó±ßÏßµÚÒ»¸öÏòÁ¿
-        vector[0][2] = (double)(R_side[i-POINT_DISTANCE][0]-R_side[i][0]);
-        vector[0][3] = (double)(R_side[i-POINT_DISTANCE][1]-R_side[i][1]);
-        // ×ó±ßÏßµÚ¶ş¸öÏòÁ¿
-        vector[1][2] = (double)(R_side[i+POINT_DISTANCE][0]-R_side[i][0]);
-        vector[1][3] = (double)(R_side[i+POINT_DISTANCE][1]-R_side[i][1]);
+		// ä¸å¯¹è¾¹æ¡†å¤„çš„è¾¹çº¿è¿›è¡Œå¼¯ç‚¹è¯†åˆ«
+		if(R_side[i-POINT_DISTANCE][0] != MT9V03X_W-1 && R_side[i][0] != MT9V03X_W-1 && R_side[i+POINT_DISTANCE][0] != MT9V03X_W-1)
+		{
+			// å·¦è¾¹çº¿ç¬¬ä¸€ä¸ªå‘é‡
+			vector[0][2] = (double)(R_side[i-POINT_DISTANCE][0]-R_side[i][0]);
+			vector[0][3] = (double)(R_side[i-POINT_DISTANCE][1]-R_side[i][1]);
+			// å·¦è¾¹çº¿ç¬¬äºŒä¸ªå‘é‡
+			vector[1][2] = (double)(R_side[i+POINT_DISTANCE][0]-R_side[i][0]);
+			vector[1][3] = (double)(R_side[i+POINT_DISTANCE][1]-R_side[i][1]);
 
-        // ¼ÆËãÖĞ¶ÏµãÏòÁ¿µã³Ë
-        vectorScalarProduct[1] = (double)(vector[0][2]*vector[1][2]+vector[0][3]*vector[1][3]);
+			// è®¡ç®—ä¸­æ–­ç‚¹å‘é‡ç‚¹ä¹˜
+			vectorScalarProduct[1] = (double)(vector[0][2]*vector[1][2]+vector[0][3]*vector[1][3]);
 
-        // ¼ÆËã¹ÕµãÏòÁ¿µÄÄ£
-        vectorModule[2] = sqrt(pow(vector[0][2],2)+pow(vector[0][3],2));
-        vectorModule[3] = sqrt(pow(vector[1][2],2)+pow(vector[1][3],2));
-    
-        if( vectorModule[2]*vectorModule[3] != 0)
+			// è®¡ç®—æ‹ç‚¹å‘é‡çš„æ¨¡
+			vectorModule[2] = sqrt(pow(vector[0][2],2)+pow(vector[0][3],2));
+			vectorModule[3] = sqrt(pow(vector[1][2],2)+pow(vector[1][3],2));
+		
+			if( vectorModule[2]*vectorModule[3] != 0)
+			{
+				vectorAngle[1] = acos(vectorScalarProduct[1]/(vectorModule[2]*vectorModule[3]))*(180.0/PI);    // å·¦è¾¹çº¿æ–­ç‚¹å‘é‡å¤¹è§’
+			}
+
+			// è®¡ç®—å¼¯ç‚¹å¹¶å­˜å‚¨åæ ‡ï¼Œå‰æï¼šå¼¯ç‚¹åæ ‡ä¸å†è¾¹æ¡†ä¸Š
+			if(abs(vectorAngle[1]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[1]) < BEND_POINT_ANGLE_MAX)
+			{
+				//  cout << abs(AngleVector[0]) << endl;
+				R_bend_point[R_bend_point_num][0] = R_side[i][0];
+				R_bend_point[R_bend_point_num][1] = R_side[i][1];
+				if(R_bend_point_num < MT9V03X_H*2-1)	/************************æ³¨æ„***************************/
+					R_bend_point_num++;	
+				else
+					break;
+			}
+		}
+		i++;
+    }
+}
+
+/* åœ†ç¯åˆ¤æ–­ */
+void circle_path_element_judge(void)
+{
+	int circle_check[2] = {0};	// åœ†ç¯
+	
+	int16 L_side_X_delta_max = 0;	// å·¦è¾¹çº¿Xæœ€å¤§å·®å€¼
+	int16 R_side_X_delta_max = 0;	// å³è¾¹çº¿Xæœ€å¤§å·®å€¼
+	
+	// åœ†ç¯æ£€æµ‹çº¿
+    // å·¦è¾¹çº¿
+    for(int X = mid_x;X >= 0;X--)
+    {
+        if(image_OTSU[circle_check_y-1][X] == 0)    // é»‘è‰²
         {
-            vectorAngle[1] = acos(vectorScalarProduct[1]/(vectorModule[2]*vectorModule[3]))*(180.0/PI);    // ×ó±ßÏß¶ÏµãÏòÁ¿¼Ğ½Ç
+            // å­˜å‚¨ç™½è‰²ç‚¹
+            circle_check[0] = X+1;
+            break;
         }
-
-        // ¼ÆËã¹Õµã²¢´æ´¢×ø±ê£¬Ç°Ìá£º¹Õµã×ø±ê²»ÔÙ±ß¿òÉÏ
-        if(abs(vectorAngle[1]) > INFLECTION_POINT_ANGLE_MIN && abs(vectorAngle[1]) < INFLECTION_POINT_ANGLE_MAX && R_side[i][0] < MT9V03X_W-11 && (vector[0][2]+vector[1][2]) > 0)
+        if(X == 0)
         {
-            //  cout << abs(AngleVector[0]) << endl;
-            R_inflection_point[R_inflection_point_num][0] = R_side[i][0];
-            R_inflection_point[R_inflection_point_num][1] = R_side[i][1];
-			R_inflection_y_dir[R_inflection_point_num] = ((float)(vector[0][3]+vector[1][3]))/(float)(2*POINT_DISTANCE);
+            // å­˜å‚¨ç™½è‰²ç‚¹
+            circle_check[0] = 0;
+            break;
+        }
+    }
+    // å³è¾¹çº¿
+    for(int X = mid_x;X <= MT9V03X_W-1;X++)
+    {
+        if(image_OTSU[circle_check_y-1][X] == 0)    // é»‘è‰²
+        {
+            // å­˜å‚¨ç™½è‰²ç‚¹
+            circle_check[1] = X-1;
+            break;
+        }
+        if(X == MT9V03X_W-1)
+        {
+            // å­˜å‚¨ç™½è‰²ç‚¹
+            circle_check[1] = MT9V03X_W-1;
+            break;
+        }
+    }
+	
+	// å·¦å³è¾¹çº¿æœ€å¤§å·®å€¼è®¡ç®—
+	for(int num = 1;num < path_start-path_end;num++)
+	{
+		// å³
+		if(abs((path[num+1][0]+path_width[num+1]/2)-(path[num][0]+path_width[num]/2)) >= R_side_X_delta_max)
+		{
+			R_side_X_delta_max = abs((path[num+1][0]+path_width[num+1]/2)-(path[num][0]+path_width[num]/2));
+		}
+		// å·¦
+		if(abs((path[num+1][0]-path_width[num+1]/2)-(path[num][0]-path_width[num]/2)) >= L_side_X_delta_max)
+		{
+			L_side_X_delta_max = abs((path[num+1][0]-path_width[num+1]/2)-(path[num][0]-path_width[num]/2));
+		}
+	}
+	
+	
+	
+	// å³åœ†ç¯å…¥ç¯
+	// è¾¹çº¿å·¦å³èµ·å§‹ç‚¹è·ç¦»åœ¨åœ†ç¯é˜ˆå€¼å†…
+	if(circle_check[1] == MT9V03X_W-1 && L_bend_point_num <= 3 && ((float)L_frame_point_num/(float)L_side_point_num) <= 0.15 &&  L_side_X_delta_max <= side_X_delta_limit[1] && R_side_X_delta_max >= side_X_delta_limit[0] && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
+	{
+		circle_in_flag++;
+		if(circle_in_flag >= 5 && circle_out_time_count >= 1000)
+		{
+			pwm_init(BUZZER_PIN, 1400, PWM_DUTY_MAX / 2);
+			path_element_flag = R_CIRCLE_PATH;
+			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,circle_in_angular_speed_target,circle_in_angle,0); 			// æ—‹è½¬è¿›ç¯
+			circle_in_flag = 0;
+			circle_in_time_count_flag = TRUE;
+			circle_out_time_count_flag = FALSE;
+			speed_control_time_count_flag = FALSE;
+			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
+			path_follow_kind_flag = 1;
+		}
 			
-			if(R_side[i][0] < MT9V03X_W-SIDE_END)
-				break;
-            if(R_inflection_point_num < MT9V03X_H*2-1)	/************************×¢Òâ***************************/
-                R_inflection_point_num++;
-            else
-                break;
-            if(i < R_side_point_num-2-POINT_DISTANCE-SKIP_POINT_DISTANCE)
-                i = i+SKIP_POINT_DISTANCE;
-            else
-                break;
-        }
-        else if(abs(vectorAngle[1]) > BEND_POINT_ANGLE_MIN && abs(vectorAngle[1]) < BEND_POINT_ANGLE_MAX)
-        {
-            //  cout << abs(AngleVector[0]) << endl;
-            R_bend_point[R_bend_point_num][0] = R_side[i][0];
-            R_bend_point[R_bend_point_num][1] = R_side[i][1];
-            if(R_bend_point_num < MT9V03X_H*2-1)	/************************×¢Òâ***************************/
-                R_bend_point_num++;	
-            else
-                break;
-        }
-        i++;
-    }
-}
-
-/* ÔªËØÅĞ¶Ï */
-void element_judge(void)
-{
-	/* ×óÔ²»·×¼±¸Èë»·+Èë»· */
-	/* ×ó±ßÏßÓĞ¹ÕµãºÍ´óÁ¿Íäµã£¬ÓÒ±ßÏßÎŞ¹ÕµãºÍÉÙÁ¿Íäµã¼´Ö±Ïß*/
-	if(L_inflection_point_num == 1 && R_inflection_point_num == 0 && R_bend_point_num <= 2 && L_bend_point_num >= 3 && circle_path_enable_flag == TRUE && (circle_path_element_steps_flag == COMMON || circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
+	}
+	else if(circle_check[1] == MT9V03X_W-1 && path_element_flag == R_CIRCLE_PATH) // && circle_check[0] == 0
+	{
+		circle_out_flag++;
+		if(circle_out_flag >= 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
+		{
+			pwm_init(BUZZER_PIN, 1400, PWM_DUTY_MAX / 2);
+			path_element_flag = BEND_PATH;
+			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,circle_in_angular_speed_target,circle_out_angle,0); 			// æ—‹è½¬å‡ºç¯
+			circle_in_flag = 0;
+			circle_out_flag = 0;
+			circle_in_time_count_flag = FALSE;
+			circle_out_time_count_flag = TRUE;
+			speed_control_time_count_flag = TRUE;
+			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
+			path_follow_kind_flag = 0;
+		}
+	}
+	// å·¦åœ†ç¯å…¥ç¯
+	// è¾¹çº¿å·¦å³èµ·å§‹ç‚¹è·ç¦»åœ¨åœ†ç¯é˜ˆå€¼å†…
+	else if(circle_check[0] == 0 && R_bend_point_num <= 3 && ((float)R_frame_point_num/(float)R_side_point_num) <= 0.15 && R_side_X_delta_max <= side_X_delta_limit[1] && L_side_X_delta_max >= side_X_delta_limit[0] && (path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH))
+	{
+		circle_in_flag++;
+		if(circle_in_flag >= 5 && circle_out_time_count >= 1000)
+		{
+			pwm_init(BUZZER_PIN, 1400, PWM_DUTY_MAX / 2);
+			path_element_flag = L_CIRCLE_PATH;
+			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,-circle_in_angular_speed_target,-circle_in_angle,0); 			// æ—‹è½¬è¿›ç¯
+			circle_in_flag = 0;
+			circle_in_time_count_flag = TRUE;
+			circle_out_time_count_flag = FALSE;
+			speed_control_time_count_flag = FALSE;
+			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
+			path_follow_kind_flag = 1;
+		}
+	}
+	else if(circle_check[0] == 0 && path_element_flag == L_CIRCLE_PATH)	// circle_check[1] == MT9V03X_W-1 && 
+	{
+		circle_out_flag++;
+		if(circle_out_flag >= 1 && circle_in_time_count >= 1000 && circle_in_time_count < 19000)
+		{
+			pwm_init(BUZZER_PIN, 1400, PWM_DUTY_MAX / 2);
+			path_element_flag = BEND_PATH;
+			chassis_total_control(CHASSIS_MOVE,0,circle_in_linear_speed_target,-circle_in_angular_speed_target,-circle_out_angle,0); 			// æ—‹è½¬å‡ºç¯
+			circle_in_flag = 0;
+			circle_out_flag  = 0;
+			circle_in_time_count_flag = FALSE;
+			circle_out_time_count_flag = TRUE;
+			speed_control_time_count_flag = TRUE;
+			pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
+			path_follow_kind_flag = 0;
+		}
+	}
+	else if(path_element_flag == STRIGHT_PATH || path_element_flag == BEND_PATH || circle_in_time_count >= 19000)
 	{
 		path_element_flag = BEND_PATH;
-		if(L_inflection_y_dir[0] > 0.25)
-		{
-			circle_inflection_point[0] = L_inflection_point[0][0];
-			circle_inflection_point[1] = L_inflection_point[0][1];
-			path_element_flag = L_CIRCLE_PATH;
-			circle_path_element_steps_flag = CIRCLE_IN_PREPARE;
-		}
-		else if(L_inflection_y_dir[0] < -0.25 && (circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
-		{
-			circle_inflection_point[0] = L_inflection_point[0][0];
-			circle_inflection_point[1] = L_inflection_point[0][1];
-			path_element_flag = L_CIRCLE_PATH;
-			circle_path_element_steps_flag = CIRCLE_IN;;
-		}
 	}
-	/* ÓÒÔ²»·×¼±¸Èë»·+Èë»· */
-	/* ÓÒ±ßÏßÓĞ¹ÕµãºÍ´óÁ¿Íäµã£¬×ó±ßÏßÎŞ¹ÕµãºÍÉÙÁ¿Íäµã¼´Ö±Ïß*/
-	else if(R_inflection_point_num == 1 && L_inflection_point_num == 0 && L_bend_point_num <= 2 && R_bend_point_num >= 3 && circle_path_enable_flag == TRUE && (circle_path_element_steps_flag == COMMON || circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
-	{
-		path_element_flag = BEND_PATH;
-		if(R_inflection_y_dir[0] > 0.25)
-		{
-			circle_inflection_point[0] = R_inflection_point[0][0];
-			circle_inflection_point[1] = R_inflection_point[0][1];
-			path_element_flag = R_CIRCLE_PATH;
-			circle_path_element_steps_flag = CIRCLE_IN_PREPARE;
-		}
-		else if(R_inflection_y_dir[0] < -0.25 && (circle_path_element_steps_flag == CIRCLE_IN_PREPARE || circle_path_element_steps_flag == CIRCLE_IN))
-		{
-			circle_inflection_point[0] = R_inflection_point[0][0];
-			circle_inflection_point[1] = R_inflection_point[0][1];
-			path_element_flag = R_CIRCLE_PATH;
-			circle_path_element_steps_flag = CIRCLE_IN;
-		}
-	}
-	else
-	{
-		path_element_flag = STRIGHT_PATH;
-	}
-	/* ×óÔ²»·³ö»· */
-//	else if()
-	/* ÓÒÔ²»·³ö»· */
-//	else if()
+//	screen_int(0,2*MT9V03X_H+MENU_ROW_PITCH,R_side_X_delta_max,3);
+//	screen_int(0,2*MT9V03X_H+2*MENU_ROW_PITCH,L_side_X_delta_max,3);
 }
 
-/* ÈüµÀ²¹Ïß */
-void path_patch(void)
+/* æ–‘é©¬çº¿å…ƒç´ åˆ¤æ–­ */
+void zebra_crossing_path_element_judge(void)
 {
-	switch(path_element_flag)
+	int black_white_jump_point_num = 0;	// é»‘ç™½è·³å˜ç‚¹æ•°é‡
+	if(zebra_crossing_path_element_start_judge_time_count >= 5000)
 	{
-		case L_CIRCLE_PATH:
+		for(int X = 0;X < MT9V03X_W-1;X++)
 		{
-			switch(circle_path_element_steps_flag)
+			if((image_OTSU[MT9V03X_H-10][X] == 255 && image_OTSU[MT9V03X_H-10][X+1] == 0) || (image_OTSU[MT9V03X_H-10][X] == 0 && image_OTSU[MT9V03X_H-10][X+1] == 255))
 			{
-				case CIRCLE_IN_PREPARE:
-				{
-					line_draw(circle_inflection_point[0],circle_inflection_point[1],MT9V03X_W/2-TRACK_WIDTH/2,0);
-					break;
-				}
-				case CIRCLE_IN:
-				{
-					line_draw(circle_inflection_point[0],circle_inflection_point[1],MT9V03X_W-1,MT9V03X_H-1);
-					break;
-				}
+				black_white_jump_point_num++;
 			}
-			break;
 		}
-		case R_CIRCLE_PATH:
+		if(black_white_jump_point_num >= 14)
 		{
-			switch(circle_path_element_steps_flag)
-			{
-				case CIRCLE_IN_PREPARE:
-				{
-					line_draw(circle_inflection_point[0],circle_inflection_point[1],MT9V03X_W/2+TRACK_WIDTH/2,0);
-					break;
-				}
-				case CIRCLE_IN:
-				{
-					line_draw(circle_inflection_point[0],circle_inflection_point[1],0,MT9V03X_H-1);
-					break;
-				}
-			}
-			break;
+			path_element_flag = ZEBRA_CROSSING_PATH;
 		}
-		default:
-			break;
 	}
 }
 
-/* Ñ­¼£¿ØÖÆ */
+/* å¾ªè¿¹æ§åˆ¶ */
 void path_control(float path_control_speed)
 {
 	chassis_motion_flag = CHASSIS_MOVE;
-//	path_err = path[control_point-path_start][0] - MT9V03X_W/2;
-	path_err = longest_white_col_x-MT9V03X_W/2;
-	if(abs(path_err) > 7)
-	{
-		chassis_linear_speed = path_control_speed;
-		chassis_yaw = 0;
-		chassis_angular_speed = path_control_pid(PATH_PID_KIND,path_pid,path_err);
-	}
-	else
-	{
-		
-		chassis_yaw = path_control_pid(PATH_PID_KIND,path_pid,path_err);
-		chassis_angular_speed = 0;
-		chassis_linear_speed = path_control_speed;
-	}
+	if(path_follow_kind_flag == 0)
+		path_err = longest_white_col_x-MT9V03X_W/2;
+	else if(path_follow_kind_flag == 1)
+		path_err = path[control_point[path_follow_kind_flag]][0] - MT9V03X_W/2;
 	
+	float path_pid_output = path_control_pid(PATH_PID_KIND,path_pid,path_err);
+	
+	chassis_control_transform(path_pid_output*x_speed_rate_rt,path_control_speed,path_pid_output*1.1);
+	
+//	chassis_linear_speed = path_control_speed;
+//	chassis_yaw = path_pid_output*(1-rate);
+//	chassis_angular_speed = path_pid_output;
 }
 
-/* Ñ­¼£PID²ÎÊı½á¹¹Ìå³õÊ¼»¯ */
+/* å¾ªè¿¹PIDå‚æ•°ç»“æ„ä½“åˆå§‹åŒ– */
 _PATH_PID_ path_control_pid_init(void)
 {
 	static _PATH_PID_ path_pid;
 
-	// Ñ­¼£ PID
+	// å¾ªè¿¹ PID
 	for(uint8 i = 0;i < 4; i++)
 	{
 		path_pid.path_pid_parameters[i].p = PATH_PID[i][0];
@@ -616,29 +647,43 @@ _PATH_PID_ path_control_pid_init(void)
 	return path_pid;
 }
 
-/* Ñ­¼£PID */
+/* å¾ªè¿¹PID */
 float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_PATH_PID_ path_pid,int16 path_err)
 {
-	float gyro_now_err,value;
-	static float gyro_last_err = 0;
-	gyro_now_err = GYRO_Z_FORWARD*gyro_z;
-	if(abs(path_err) < 7)
-	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
-	}
-	else if(abs(path_err) >= 7 && abs(path_err) < 25)
-	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
-	}
-	else if(abs(path_err) >= 25 && abs(path_err) < 40)
-	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
-	}
-	else
-	{
-		value = FUNC_PATH(&(path_pid.path_pid_parameters[3]),&(path_pid.path_pid_variable),0,-path_err)-PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
-	}
-	gyro_last_err = gyro_now_err;
+	float gyro_err,value;
+	gyro_err = GYRO_Z_FORWARD*gyro_z;
+
+	// åˆ†æ®µPID
+//	if(abs(path_err) >= 0 && abs(path_err) < 10)
+//	{
+//		value = FUNC_PATH(&(path_pid.path_pid_parameters[0]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[0][3]*(gyro_now_err-gyro_last_err);
+//	}
+//	else if(abs(path_err) >= 10 && abs(path_err) < 20)
+//	{
+//		value = FUNC_PATH(&(path_pid.path_pid_parameters[1]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[1][3]*(gyro_now_err-gyro_last_err);
+//	}
+//	else if(abs(path_err) >= 20 && abs(path_err) < 40)
+//	{
+//		value = FUNC_PATH(&(path_pid.path_pid_parameters[2]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[2][3]*(gyro_now_err-gyro_last_err);
+//	}
+//	else
+//	{
+//		value = FUNC_PATH(&(path_pid.path_pid_parameters[3]),&(path_pid.path_pid_variable),0,-path_err)+PATH_PID[3][3]*(gyro_now_err-gyro_last_err);
+//	}
+
+	// æ¨¡ç³ŠPID
+	float small[2] = {4.,10.};
+	float medium[2] = {25.,50.};
+	float big[2] = {45.,80.};
+	_PID_PARAMETERS_ gyro_z[4] = {{0,0,PATH_PID[0][3],0,0},{0,0,PATH_PID[1][3],0,0},{0,0,PATH_PID[2][3],0,0},{0,0,PATH_PID[3][3],0,0}};
+		
+	_PID_PARAMETERS_ path_fuzzy_pid_parameters = fuzzy_pid_paraments_get(path_pid.path_pid_parameters,path_err,gyro_err,small,medium,big,2);
+	_PID_PARAMETERS_ path_fuzzy_gyro_z_pid_parameters = fuzzy_pid_paraments_get(gyro_z,path_err,gyro_err,small,medium,big,1);
+		
+	value = FUNC_PATH(&path_fuzzy_pid_parameters,&(path_pid.path_pid_variable),0,-path_err)+path_fuzzy_gyro_z_pid_parameters.d*gyro_err;
+	
+//	just_float(2,path_fuzzy_gyro_z_pid_parameters.d,gyro_err);
+//	update_data_end();
 	
 	return value;
 }	

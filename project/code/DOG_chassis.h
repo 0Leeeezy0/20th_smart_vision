@@ -32,11 +32,17 @@ void chassis_control_init();
 /* 停止 */
 void chassis_control_stop(void);
 
+/* 调试 */
+void chassis_control_debug(void);
+
+/* 底盘控制转换（X/Y速度->线速度/航向角） */
+void chassis_control_transform(float x_speed,float y_speed,float angular_speed);
+
 /* 移动 */
 void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float angular_speed);
 
-/* 转动角度 */
-void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float rotate_angle);
+/* 原地转动角度 */
+void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float rotate_angle);
 
 /* 底盘总控制 */
 void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis_yaw_,float _chassis_linear_speed_,float _chassis_angular_speed_,float _chassis_rotate_angle_,uint32 _delay_ms_);
@@ -66,6 +72,15 @@ void acc_get(void);
 
 /* 欧拉角解算 */
 void euler_angle(void);
+
+/* 灰度传感器获取 */
+void grayscale_sensor_get(void);
+
+/* 电池电压获取 */
+void bat_voltage_get(void);
+
+/* 电机电流获取 */
+void motor_I_get(void);
 
 /* 平动位移解算 */
 void translate_shift(void);

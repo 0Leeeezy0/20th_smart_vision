@@ -53,9 +53,20 @@ void motor_sensor_init(void)
 	gpio_init(MOTOR_3_DIR,GPO,0,GPO_PUSH_PULL);
 	
 	// 蜂鸣器引脚初始化
-	gpio_init(BUZZER_PIN,GPO,0,GPO_PUSH_PULL);
+	pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
 	
-	// 控制中断初始化
+	// 灰度传感器引脚初始化
+	adc_init(GRAYSCALE_SENSOR_PIN,ADC_12BIT);
+	
+	// 电池电压引脚初始化
+	adc_init(BAT_VOLTAGE_PIN,ADC_12BIT);
+	
+    // 电机电压引脚初始化
+    adc_init(MOTOR_1_I_PIN,ADC_12BIT);
+	adc_init(MOTOR_2_I_PIN,ADC_12BIT);    
+    adc_init(MOTOR_3_I_PIN,ADC_12BIT);
+    
+    // 控制中断初始化
 	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
 	
 	// 传感器中断初始化
@@ -94,17 +105,17 @@ void motor_set_duty(_MOTOR_NUM_ motor_num,const uint32 duty,uint8 dir)
 /* 编码器值获取(现实值 rad/s) */
 void encoder_get(void)
 {
-	encoder_1_count = encoder_get_count(ENCODER_1_MODULE_NUM);
-	encoder_2_count = encoder_get_count(ENCODER_2_MODULE_NUM);
-	encoder_3_count = encoder_get_count(ENCODER_3_MODULE_NUM);
+	encoder_1_count = ENCODER_1_FRONT_DIR*encoder_get_count(ENCODER_1_MODULE_NUM);
+	encoder_2_count = ENCODER_2_FRONT_DIR*encoder_get_count(ENCODER_2_MODULE_NUM);
+	encoder_3_count = ENCODER_3_FRONT_DIR*encoder_get_count(ENCODER_3_MODULE_NUM);
 	
-	encoder_1_speed = (float)encoder_get_count(ENCODER_1_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
-	encoder_2_speed = (float)encoder_get_count(ENCODER_2_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
-	encoder_3_speed = (float)encoder_get_count(ENCODER_3_MODULE_NUM)/(1024*(float)SENSOR_IT_TIME/1000);
+	encoder_1_speed = (float)encoder_1_count/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
+	encoder_2_speed = (float)encoder_2_count/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
+	encoder_3_speed = (float)encoder_3_count/(ENCODER_LINE_NUM*(float)SENSOR_IT_TIME/1000);
 	
-	motor_1_speed = (float)encoder_1_speed/GEAR_RATIO;
-	motor_2_speed = (float)encoder_2_speed/GEAR_RATIO;
-	motor_3_speed = (float)encoder_3_speed/GEAR_RATIO;
+	motor_1_speed = WHEEL_CIRCUMFERENCE*(float)encoder_1_speed/GEAR_RATIO;
+	motor_2_speed = WHEEL_CIRCUMFERENCE*(float)encoder_2_speed/GEAR_RATIO;
+	motor_3_speed = WHEEL_CIRCUMFERENCE*(float)encoder_3_speed/GEAR_RATIO;
 }
 
 /* 编码器值清空 */
@@ -325,6 +336,10 @@ void euler_angle(void)
 		roll += gyro_x*SENSOR_IT_TIME/1000;
 		pitch += gyro_y*SENSOR_IT_TIME/1000;
 		yaw += gyro_z*SENSOR_IT_TIME/1000;
+		
+		roll =  (roll, 360);
+		pitch = fmod(pitch, 360);
+		yaw = fmod(yaw, 360);
 	}
 	else
 	{
@@ -334,18 +349,57 @@ void euler_angle(void)
 	}
 }
 
+/* 灰度传感器获取 */
+void grayscale_sensor_get(void)
+{
+	grayscale = adc_mean_filter_convert(GRAYSCALE_SENSOR_PIN, 5); 
+}
+
+/* 电池电压获取*/
+void bat_voltage_get(void)
+{
+	bat_voltage = (float)adc_mean_filter_convert(BAT_VOLTAGE_PIN, 5)*(float)BAT_VOLTAGE_CALIBRATION/4096.0; 
+}
+
+/* 电流检测adc */
+void motor_I_get(void)
+{
+    
+    if(chassis_control.motor_1.dir==1) {I_Original_ADC_data_1 = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);}
+    else if (chassis_control.motor_1.dir==0){I_Original_ADC_data_1 = -1.0*(float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);}
+    if(chassis_control.motor_2.dir==1) {I_Original_ADC_data_2 = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);}
+    else if (chassis_control.motor_2.dir==0){I_Original_ADC_data_2 = -1.0*(float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);}
+    if(chassis_control.motor_3.dir==1) {I_Original_ADC_data_3 = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);}
+    else if (chassis_control.motor_3.dir==0){I_Original_ADC_data_3 = -1.0*(float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);}
+
+    I_Karman_ADC_data_1 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_1_karman_variable ,I_Original_ADC_data_1);
+    I_Karman_ADC_data_2 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_2_karman_variable ,I_Original_ADC_data_2);
+    I_Karman_ADC_data_3 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_3_karman_variable ,I_Original_ADC_data_3);
+
+    motor_1_I = I_Karman_ADC_data_1 / 4096*3.3/20/0.01;
+    motor_2_I = I_Karman_ADC_data_2 / 4096*3.3/20/0.01;
+    motor_3_I = I_Karman_ADC_data_3 / 4096*3.3/20/0.01;    
+    
+//    motor_1_I = adc_convert(MOTOR_1_I_PIN);
+//    motor_2_I = adc_convert(MOTOR_2_I_PIN);
+//    motor_3_I =    adc_convert(MOTOR_3_I_PIN);
+}
+
+
+
 /* 平动位移解算 */
 void translate_shift(void)
 {
 	static float x_distance,y_distance;
 	if(translate_shift_flag)
 	{
-		float converte = 1000/SENSOR_IT_TIME;
-		float x_speed = (motor_2_speed*COS60+motor_3_speed*COS60-motor_1_speed);
-		float y_speed = (motor_2_speed*SIN60-motor_3_speed*SIN60);
-	
-		x_distance += x_speed/converte;
-		y_distance += y_speed/converte;
+		wheel_1_shift += motor_1_speed*SENSOR_IT_TIME/1000;
+		wheel_2_shift += motor_2_speed*SENSOR_IT_TIME/1000;
+		wheel_3_shift += motor_3_speed*SENSOR_IT_TIME/1000;
+		
+		x_distance = (wheel_2_shift*COS60+wheel_3_shift*COS60-wheel_1_shift)*TRANSLATE_SHIFT_REVISE;
+		y_distance = (wheel_2_shift*SIN60-wheel_3_shift*SIN60)*TRANSLATE_SHIFT_REVISE;
+
 		shift_yaw = RAD2DEG(atan(x_distance/y_distance));
 		if(x_distance > 0 && y_distance <0)
 		{
@@ -360,6 +414,9 @@ void translate_shift(void)
 	}
 	else
 	{
+		wheel_1_shift = 0;
+		wheel_2_shift = 0;
+		wheel_3_shift = 0;
 		x_distance = 0;
 		y_distance = 0;
 		shift_yaw = 0;
@@ -373,51 +430,56 @@ _CHASSIS_PID_ chassis_pid_init(void)
 	static _CHASSIS_PID_ chassis_pid;
 
 	// 电机1 PID
-	chassis_pid.motor_1_pid_parameters.p = PID_MOTOR_1[0];
-	chassis_pid.motor_1_pid_parameters.i = PID_MOTOR_1[1];
-	chassis_pid.motor_1_pid_parameters.d = PID_MOTOR_1[2];
-	chassis_pid.motor_1_pid_parameters.output_limit = PID_MOTOR_1[3];
-	chassis_pid.motor_1_pid_parameters.i_limit = PID_MOTOR_1[4];
-	chassis_pid.motor_1_pid_variable.now_err = 0;
-	chassis_pid.motor_1_pid_variable.last_err = 0;
-	chassis_pid.motor_1_pid_variable.last_last_err = 0;
+	pid_init(&chassis_pid.motor_1_pid_parameters,&chassis_pid.motor_1_pid_variable,PID_MOTOR_1[0],PID_MOTOR_1[1],PID_MOTOR_1[2],PID_MOTOR_1[3],PID_MOTOR_1[4]);
 	
 	// 电机2 PID
-	chassis_pid.motor_2_pid_parameters.p = PID_MOTOR_2[0];
-	chassis_pid.motor_2_pid_parameters.i = PID_MOTOR_2[1];
-	chassis_pid.motor_2_pid_parameters.d = PID_MOTOR_2[2];
-	chassis_pid.motor_2_pid_parameters.output_limit = PID_MOTOR_2[3];
-	chassis_pid.motor_2_pid_parameters.i_limit = PID_MOTOR_2[4];
-	chassis_pid.motor_2_pid_variable.now_err = 0;
-	chassis_pid.motor_2_pid_variable.last_err = 0;
-	chassis_pid.motor_2_pid_variable.last_last_err = 0;
+	pid_init(&chassis_pid.motor_2_pid_parameters,&chassis_pid.motor_2_pid_variable,PID_MOTOR_2[0],PID_MOTOR_2[1],PID_MOTOR_2[2],PID_MOTOR_2[3],PID_MOTOR_2[4]);
 	
 	// 电机3 PID
-	chassis_pid.motor_3_pid_parameters.p = PID_MOTOR_3[0];
-	chassis_pid.motor_3_pid_parameters.i = PID_MOTOR_3[1];
-	chassis_pid.motor_3_pid_parameters.d = PID_MOTOR_3[2];
-	chassis_pid.motor_3_pid_parameters.output_limit = PID_MOTOR_3[3];
-	chassis_pid.motor_3_pid_parameters.i_limit = PID_MOTOR_3[4];
-	chassis_pid.motor_3_pid_variable.now_err = 0;
-	chassis_pid.motor_3_pid_variable.last_err = 0;
-	chassis_pid.motor_3_pid_variable.last_last_err = 0;
+	pid_init(&chassis_pid.motor_3_pid_parameters,&chassis_pid.motor_3_pid_variable,PID_MOTOR_3[0],PID_MOTOR_3[1],PID_MOTOR_3[2],PID_MOTOR_3[3],PID_MOTOR_3[4]);
 	
 	// 底盘转动 PID
 	for(int i = 0;i < 8;i++)
 	{
-		chassis_pid.rotate_pid_parameters[i].p = ROTATE_PID[i][0];
-		chassis_pid.rotate_pid_parameters[i].i = ROTATE_PID[i][1];
-		chassis_pid.rotate_pid_parameters[i].d = ROTATE_PID[i][2];
-		chassis_pid.rotate_pid_parameters[i].output_limit = ROTATE_PID[i][3];
-		chassis_pid.rotate_pid_parameters[i].i_limit = ROTATE_PID[i][4];
+		pid_init(&chassis_pid.rotate_pid_parameters[i],&chassis_pid.rotate_pid_variable,ROTATE_PID[i][0],ROTATE_PID[i][1],ROTATE_PID[i][2],ROTATE_PID[i][3],ROTATE_PID[i][4]);
 	}
-	chassis_pid.rotate_pid_variable.now_err = 0;
-	chassis_pid.rotate_pid_variable.last_err = 0;
-	chassis_pid.rotate_pid_variable.last_last_err = 0; 
 	
 	return chassis_pid;
 }
 
+/* 底盘滤波器参数结构体初始化 */
+_CHASSIS_FILTER_ chassis_filter_init(void)
+{
+	static _CHASSIS_FILTER_ chassis_filter;
+
+	// 电机1 滤波器
+	karman_init(&chassis_filter.motor_1_karman_parameters,&chassis_filter.motor_1_karman_variable,KARMAN_MOTOR_1[0],KARMAN_MOTOR_1[1]);
+	
+	// 电机2 滤波器
+	karman_init(&chassis_filter.motor_2_karman_parameters,&chassis_filter.motor_2_karman_variable,KARMAN_MOTOR_2[0],KARMAN_MOTOR_2[1]);
+	
+	// 电机3 滤波器
+	karman_init(&chassis_filter.motor_3_karman_parameters,&chassis_filter.motor_3_karman_variable,KARMAN_MOTOR_3[0],KARMAN_MOTOR_3[1]);
+	
+	return chassis_filter;
+}
+
+/* 电流滤波器参数结构体初始化 */
+_CURRENT_FILTER_ current_filter_init(void)
+{
+	static _CURRENT_FILTER_ current_filter;
+
+	// 电机1 滤波器
+	karman_init(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_1_karman_variable,KARMAN_CURRENT[0],KARMAN_CURRENT[1]);
+	
+	// 电机2 滤波器
+	karman_init(&current_filter.motor_current_2_karman_parameters,&current_filter.motor_current_2_karman_variable,KARMAN_CURRENT[0],KARMAN_CURRENT[1]);
+	
+	// 电机3 滤波器
+	karman_init(&current_filter.motor_current_3_karman_parameters,&current_filter.motor_current_3_karman_variable,KARMAN_CURRENT[0],KARMAN_CURRENT[1]);
+	
+	return current_filter;
+}
 /* 单电机PID控制 */
 _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
 {
@@ -428,7 +490,8 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,floa
 		case MOTOR_1:
 		{ 
 			motor_control.motor_1.duty = FUNC(&(chassis_pid -> motor_1_pid_parameters),&(chassis_pid -> motor_1_pid_variable),motor_speed,motor_1_speed);
-			if(motor_control.motor_1.duty > 0)
+			
+            if(motor_control.motor_1.duty > 0)
 			{
 				motor_control.motor_1.dir = 0;
 			}
@@ -477,7 +540,6 @@ _CHASSIS_CONTROL_ inverse_kinematics(float chassis_yaw,float chassis_linear_spee
 	_CHASSIS_CONTROL_ chassis_control;
 	float x_speed = chassis_linear_speed*sinf(DEG2RAD(chassis_yaw));
 	float y_speed = (float)chassis_linear_speed*cosf(DEG2RAD(chassis_yaw));
-	
 	chassis_control.motor_1_speed = -x_speed+chassis_angular_speed;
 	chassis_control.motor_2_speed = x_speed*COS60+y_speed*COS30+chassis_angular_speed;
 	chassis_control.motor_3_speed = x_speed*COS60-y_speed*COS30+chassis_angular_speed;
@@ -490,6 +552,9 @@ void chassis_control_init()
 {
 	motor_sensor_init();
 	chassis_pid = chassis_pid_init();
+	chassis_filter = chassis_filter_init();
+   	current_filter = current_filter_init();
+ 
 }
 
 /* 停止 */
@@ -503,6 +568,37 @@ void chassis_control_stop(void)
 	motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
 	motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
 	motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir);
+}
+
+/* 调试 */
+void chassis_control_debug(void)
+{
+	chassis_yaw = 0;
+	chassis_linear_speed = 0;
+	chassis_angular_speed = 0;
+	chassis_rotate_angle = 0;
+	// 电机驱动
+	motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
+	motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
+	motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
+}
+
+
+/* 底盘控制转换（X/Y速度->线速度/航向角） */
+void chassis_control_transform(float x_speed,float y_speed,float angular_speed)
+{
+	if(y_speed != 0)
+	{
+		if(y_speed > 0)
+			chassis_yaw = RAD2DEG(atan(x_speed/y_speed));
+		else if(y_speed < 0)
+			chassis_yaw = 180+RAD2DEG(atan(x_speed/y_speed));
+	}	
+	else
+		chassis_yaw = 90*x_speed/abs(x_speed);
+	
+	chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
+	chassis_angular_speed = angular_speed;
 }
 
 /* 移动 */
@@ -522,45 +618,31 @@ void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,
 	motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
 }
 
-/* 转动角度 */
-void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float rotate_angle)
+/* 原地转动角度 */
+void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float rotate_angle)
 {
 	euler_angle_flag = TRUE;
+	static uint8 chassis_rotate_finsh_num_count = 0;
+	
 	// 运动学逆解算
-	if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) > 0.5)
+	if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) > 0.5)
 	{
-		if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 5)
-		{
-			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[0]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
-		}
-		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 5 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 15)
-		{
-			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[1]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
-		}
-		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 15 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 25)
-		{
-			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[2]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
-		}
-		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 25 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 35)
-		{
-			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[3]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
-		}
-		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 35 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 45)
-		{
-			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[4]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
-		}
-		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 45 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 55)
-		{
-			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[5]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
-		}
-		else if(abs(GYRO_Z_FORWARD*yaw+rotate_angle) >= 55 && abs(GYRO_Z_FORWARD*yaw+rotate_angle) < 65)
-		{
-			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[6]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
-		}
+		if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 5)
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[0]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		else if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) >= 5 && abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 15)
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[1]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		else if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) >= 15 && abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 25)
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[2]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		else if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) >= 25 && abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 35)
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[3]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		else if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) >= 35 && abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 45)
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[4]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		else if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) >= 45 && abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 55)
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[5]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
+		else if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) >= 55 && abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 65)
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[6]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		else
-		{
-			chassis_control = inverse_kinematics(0,0,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[7]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
-		}
+			chassis_control = inverse_kinematics(chassis_yaw,linear_speed,-FUNC_ROTATE(&(chassis_pid.rotate_pid_parameters[7]),&(chassis_pid.rotate_pid_variable),-rotate_angle,GYRO_Z_FORWARD*yaw));
 		// 电机闭环PID解算
 		chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
 		chassis_control.motor_2 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
@@ -572,6 +654,25 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 		motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
 		
 		chassis_rotate_finsh_flag = FALSE;
+		
+		if(abs(rotate_angle+GYRO_Z_FORWARD*yaw) < 4.5)
+			chassis_rotate_finsh_num_count++;
+		if(chassis_rotate_finsh_num_count >= 5)
+		{
+			// 电机闭环PID解算
+			chassis_control.motor_1 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_1,0).motor_1;
+			chassis_control.motor_2 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_2,0).motor_2;
+			chassis_control.motor_3 = motor_pid(FUNC_MOTOR,&chassis_pid,MOTOR_3,0).motor_3;
+			// 电机停止
+			motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
+			motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
+			motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
+	//		motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
+	//		motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
+	//		motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir);
+		chassis_rotate_finsh_flag = TRUE;
+			chassis_rotate_finsh_num_count = 0;
+		}
 	}
 	else
 	{
@@ -583,28 +684,38 @@ void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VAR
 		motor_set_duty(MOTOR_1,chassis_control.motor_1.duty,chassis_control.motor_1.dir);
 		motor_set_duty(MOTOR_2,chassis_control.motor_2.duty,chassis_control.motor_2.dir);
 		motor_set_duty(MOTOR_3,chassis_control.motor_3.duty,chassis_control.motor_3.dir);
+//		motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
+//		motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
+//		motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir);
 		chassis_rotate_finsh_flag = TRUE;
 	}
 }
 
 /* 
 	底盘总控制
-	用于推箱子任务
+	用于推箱子任务/圆环
 */
 void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis_yaw_,float _chassis_linear_speed_,float _chassis_angular_speed_,float _chassis_rotate_angle_,uint32 _delay_ms_)
 {
+	screen_clear();
+	
 	chassis_motion_flag = _chassis_motion_flag_;
 	chassis_rotate_finsh_flag = FALSE;
 	chassis_move_time_count_flag = FALSE;
 	
-	chassis_yaw = _chassis_yaw_;
-	chassis_linear_speed = _chassis_linear_speed_;
-	chassis_angular_speed = _chassis_angular_speed_;
-	chassis_rotate_angle = _chassis_rotate_angle_;
+	// 定义X方向追踪PID指针函数
+	float (*X_FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float);
+	float x_speed = 0;
+	float y_speed = 0;
+	X_FUNC = X_AI_TRACK_PID_KIND;
 	
 	// 阻塞式等待旋转结束
 	if(chassis_motion_flag == CHASSIS_ANGLE_ROTATE)
 	{
+		chassis_yaw = _chassis_yaw_;
+		chassis_linear_speed = _chassis_linear_speed_;
+		chassis_angular_speed = _chassis_angular_speed_;
+		chassis_rotate_angle = _chassis_rotate_angle_;
 		while(1)
 		{
 			if(chassis_rotate_finsh_flag == TRUE)
@@ -617,17 +728,134 @@ void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis
 	else
 	{
 		chassis_move_time_count_flag = TRUE;
+		
+		uint8 is_in_track = FALSE;	// 在赛道内
+		int16 num = 0;		// 在赛道内的计数
+		
+		float max_sum_weight_normalization_yaw = 0;	// 最大归一化加权和航向角
+		float max_sum_weight_normalization = 0;	// 最大归一化加权和
+		float max_sum_weight_normalization_yaw_cache = 0;	// 最大归一化加权和航向角缓存
+		float max_sum_weight_normalization_cache = 0;	// 最大归一化加权和缓存
+		
 		// 若方块推出赛道，则退出循环
 		while(1)
 		{
-			if(ai_camera_1_detection_result.is_move_out == TRUE && _delay_ms_ == 0)
+			if(_delay_ms_ != 0)
 			{
-				break;
-			}				
-			if(chassis_move_time_count > _delay_ms_ && _delay_ms_ != 0)
+				chassis_yaw = _chassis_yaw_;
+				chassis_linear_speed = _chassis_linear_speed_;
+				chassis_angular_speed = _chassis_angular_speed_;
+				chassis_rotate_angle = _chassis_rotate_angle_;
+			}
+			// 平移直到达到设定时间
+			if(_delay_ms_ != 0 && chassis_move_time_count > _delay_ms_ && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
 			{
 				break;
 			}	
+			// 平移直到推箱子出界
+			if(_delay_ms_ == 0 && _chassis_angular_speed_ == 0 && _chassis_rotate_angle_ == 0)
+			{
+				x_speed = X_FUNC(&(ai_track_pid.x_ai_track_pid_paraments),&(ai_track_pid.x_ai_track_pid_variable),0,-track_err);
+				y_speed = _chassis_linear_speed_;
+				if(y_speed != 0)
+				{
+					if(y_speed > 0)
+						chassis_yaw = RAD2DEG(atan(x_speed/y_speed));
+					else if(y_speed < 0)
+						chassis_yaw = 180+RAD2DEG(atan(x_speed/y_speed));
+				}	
+				else
+					chassis_yaw = 90*x_speed/abs(x_speed);
+				
+				chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
+				chassis_angular_speed = PATH_PID[0][3]*GYRO_Z_FORWARD*gyro_z;
+				chassis_rotate_angle = _chassis_rotate_angle_;
+				
+				if(grayscale < 1000 && num < 22)
+					num++;
+				if(num > 20)
+					is_in_track = TRUE;
+				if(is_in_track == TRUE && grayscale > 3000)
+				{
+					break;
+				}
+			}				
+			// 绕圆心转动直到箱子矫正完成
+			else if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ == 0)
+			{
+				chassis_yaw = _chassis_yaw_;
+				chassis_linear_speed = _chassis_linear_speed_;
+				chassis_angular_speed = _chassis_angular_speed_;
+				chassis_rotate_angle = _chassis_rotate_angle_;
+				
+				euler_angle_flag = TRUE;	// 开启欧拉角解算
+				threshold(mt9v03x_image);
+				symmetry_rectificate();
+				
+				screen_float(0, 2*MT9V03X_H+2*MENU_ROW_PITCH, yaw, 2, 3);
+				screen_float(0, 2*MT9V03X_H+3*MENU_ROW_PITCH, sum_weight_normalization, 2, 3);
+				screen_float(0, 2*MT9V03X_H+4*MENU_ROW_PITCH, frame_white_num_normalization[0], 2, 3);
+				screen_float(0, 2*MT9V03X_H+5*MENU_ROW_PITCH, frame_white_num_normalization[1], 2, 3);
+				
+				// 找最大归一化加权和与其对应航向角（取加权和对应的角度较大的那个）
+				// 满足不正对赛道
+				if(frame_white_num_normalization[0] >= frame_white_num_normalization_limit && frame_white_num_normalization[1] >= frame_white_num_normalization_limit && sum_weight_normalization >= sum_weight_normalization_limit[1])
+				{					
+					if(sum_weight_normalization >= max_sum_weight_normalization_cache)	// 加权和大于之前的
+					{
+						max_sum_weight_normalization_cache = sum_weight_normalization;
+						max_sum_weight_normalization_yaw_cache = yaw;
+					}
+					else	// 加权和小于之前的
+					{
+						max_sum_weight_normalization = max_sum_weight_normalization_cache;
+						max_sum_weight_normalization_yaw = max_sum_weight_normalization_yaw_cache;
+						max_sum_weight_normalization_cache = 0;
+						max_sum_weight_normalization_yaw_cache = 0;
+					}
+				}
+				
+				// 达到阈值就停止，去推箱子
+				if(sum_weight_normalization >= sum_weight_normalization_limit[0] && frame_white_num_normalization[0] >= frame_white_num_normalization_limit && frame_white_num_normalization[1] >= frame_white_num_normalization_limit)
+				{
+					euler_angle_flag = FALSE;
+					break;
+				}
+				// 转动超过180°没达到阈值，就反过来转
+				if(abs(yaw) > 180)
+				{
+					chassis_yaw = -_chassis_yaw_;
+					chassis_angular_speed = -_chassis_angular_speed_;
+					while(1)
+					{
+						if(abs(yaw) <= abs(max_sum_weight_normalization_yaw))
+						{
+							euler_angle_flag = FALSE;
+							break;
+						}
+					}
+					break;
+				}
+			}	
+			// 绕圆心转动直到达到目标角度
+			else if(_delay_ms_ == 0 && _chassis_angular_speed_ != 0 && _chassis_rotate_angle_ != 0)
+			{
+				euler_angle_flag = TRUE;
+				chassis_yaw = _chassis_yaw_;
+				chassis_linear_speed = _chassis_linear_speed_;
+				chassis_angular_speed = _chassis_angular_speed_;
+				chassis_rotate_angle = _chassis_rotate_angle_;
+				
+				if(abs(yaw) >= abs(_chassis_rotate_angle_))
+				{
+					euler_angle_flag = FALSE;
+					break;
+				}
+			}			
+			else if(_delay_ms_ == 0)
+			{
+				break;
+			}
 		}
 		chassis_move_time_count_flag = FALSE;
 	}

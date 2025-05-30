@@ -61,8 +61,20 @@ void theory_motor_speed_update(void);
 /* 电机速度（现实）上传 */
 void real_motor_speed_update(void);
 
+/* 电机电流上传 */
+void motor_current_update(void);
+
 /* 电机占空比上传 */
 void motor_duty_update(void);
+
+/* 电机errot上传 */
+void motor_error_update(void);
+    
+/* 电机delta上传 */
+void motor_delta_update(void);
+
+/* 电机value_delta上传 */
+void motor_value_delta_update(void);
 
 /* 陀螺仪上传 */
 void gyro_update(void);
@@ -75,9 +87,6 @@ void euler_angle_update(void);
 
 /* 循迹路径误差上传 */
 void path_err_update(void);
-
-/* 上传数据添加 */
-void update_data_add(void);
 
 /* 上传数据结束 */
 void update_data_end(void);

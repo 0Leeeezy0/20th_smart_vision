@@ -19,6 +19,7 @@ typedef struct
 {
 	char* name;
 	int16 data_int16;
+	uint16 data_uint16;
 	uint8 data_uint8;
 	float data_float;
 }_MENU_DATA_NAME_TYPE_;
@@ -40,6 +41,12 @@ typedef struct
 /* 菜单电机数据 */
 typedef struct
 {
+	_MENU_DATA_NAME_TYPE_ motor_1_dir;
+	_MENU_DATA_NAME_TYPE_ motor_1_duty;
+	_MENU_DATA_NAME_TYPE_ motor_2_dir;
+	_MENU_DATA_NAME_TYPE_ motor_2_duty;
+	_MENU_DATA_NAME_TYPE_ motor_3_dir;
+	_MENU_DATA_NAME_TYPE_ motor_3_duty;
 	_MENU_DATA_NAME_TYPE_ motor_1_speed;
 	_MENU_DATA_NAME_TYPE_ motor_2_speed;
 	_MENU_DATA_NAME_TYPE_ motor_3_speed;
@@ -83,12 +90,16 @@ extern _MENU_SHIFT_ MENU_SHIFT;
 
 //-----------------------------------参数-----------------------------------//
 
+/* 对称法矫正 参数 */
+//typedef struct
+//{
+//}_MENU_SYMMETRY_RECTIFICATE_;
+
 /* AI摄像头0 参数 */
 typedef struct
 {
 	_MENU_DATA_NAME_TYPE_ ai_camera_0_enable_flag;	// 使能
 	_MENU_DATA_NAME_TYPE_ track_linear_speed_target;	// 接近阶段线速度
-	_MENU_DATA_NAME_TYPE_ track_linear_speed_revise;	// 定位阶段线速度
 	_MENU_DATA_NAME_TYPE_ detection_box_width_limit;	// 开始接近的检测框宽度阈值
 	_MENU_DATA_NAME_TYPE_ detection_box_width_std;		// 开始定位的检测框宽度阈值
 	_MENU_DATA_NAME_TYPE_ detection_box_center_limit;	// 结束定位的检测框中心与图像中心误差阈值
@@ -116,12 +127,34 @@ typedef struct
 /* 菜单循线参数 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ linear_speed_target;
+	_MENU_DATA_NAME_TYPE_ linear_speed_target_pre;
+	_MENU_DATA_NAME_TYPE_ linear_speed_target_min;
+	_MENU_DATA_NAME_TYPE_ linear_speed_target_max;
 	_MENU_DATA_NAME_TYPE_ path_start;
 	_MENU_DATA_NAME_TYPE_ path_end;
-	_MENU_DATA_NAME_TYPE_ control_point;
+	_MENU_DATA_NAME_TYPE_ control_point_0;
+	_MENU_DATA_NAME_TYPE_ control_point_1;
 	_MENU_DATA_NAME_TYPE_ prediction_point;
+	_MENU_DATA_NAME_TYPE_ x_speed_rate;
 }_MENU_PATH_;
+
+/* 菜单圆环循线参数 */
+typedef struct
+{
+	_MENU_DATA_NAME_TYPE_ circle_path_enable_flag;
+	_MENU_DATA_NAME_TYPE_ circle_path_linear_speed_target;
+	_MENU_DATA_NAME_TYPE_ circle_check_y;
+	_MENU_DATA_NAME_TYPE_ circle_in_linear_speed_target;
+	_MENU_DATA_NAME_TYPE_ circle_in_angular_speed_target;
+	_MENU_DATA_NAME_TYPE_ circle_in_angle;
+	_MENU_DATA_NAME_TYPE_ circle_out_linear_speed_target;
+	_MENU_DATA_NAME_TYPE_ circle_out_angular_speed_target;
+	_MENU_DATA_NAME_TYPE_ circle_out_angle;
+	_MENU_DATA_NAME_TYPE_ side_extract_start;
+	_MENU_DATA_NAME_TYPE_ side_extract_end;
+	_MENU_DATA_NAME_TYPE_ side_X_delta_max_limit;
+	_MENU_DATA_NAME_TYPE_ side_X_delta_min_limit;
+}_MENU_CIRCLE_PATH_;
 
 /* 菜单PID参数 */
 typedef struct
@@ -159,6 +192,7 @@ extern _MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
 extern _MENU_AI_CAMERA_1_ MENU_AI_CAMERA_1;
 extern _MENU_CHASSIS_ MENU_CHASSIS;
 extern _MENU_PATH_ MENU_PATH;
+extern _MENU_CIRCLE_PATH_ MENU_CIRCLE_PATH;
 extern _MENU_PID_ MENU_MOTOR_1_PID;
 extern _MENU_PID_ MENU_MOTOR_2_PID;
 extern _MENU_PID_ MENU_MOTOR_3_PID;

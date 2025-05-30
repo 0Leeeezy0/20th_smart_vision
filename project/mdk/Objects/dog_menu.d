@@ -106,7 +106,8 @@
   ..\..\libraries\components\sdmmc\common\fsl_sdmmc_spec.h \
   ..\..\libraries\components\sdmmc\sdmmc_config.h \
   ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h \
-  ..\user\inc\data.h ..\code\DOG_chassis.h ..\code\DOG_path.h \
-  ..\code\DOG_image.h ..\code\DOG_vofa.h ..\code\DOG_vofa_app.h \
-  ..\code\DOG_menu.h ..\code\DOG_menu_data.h ..\code\DOG_ai.h \
-  ..\code\DOG_fsm.h ..\code\DOG_pid.h
+  ..\code\DOG_pid.h ..\code\DOG_filter.h ..\user\inc\data.h \
+  ..\code\DOG_chassis.h ..\code\DOG_path.h ..\code\DOG_image.h \
+  ..\code\DOG_vofa.h ..\code\DOG_vofa_app.h ..\code\DOG_menu.h \
+  ..\code\DOG_menu_data.h ..\code\DOG_ai.h ..\code\DOG_fsm.h \
+  ..\code\DOG_element.h ..\code\DOG_debug.h

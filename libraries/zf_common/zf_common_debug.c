@@ -356,7 +356,7 @@ int32_t fputc (int32_t ch, FILE* f)
 {
     if(zf_debug_init_flag)
     {
-        wireless_uart_send_byte((ch & 0xFF));
+        uart_write_byte(WIRELESS_UART_INDEX, (ch & 0xFF));
     }
     return ch;
 }

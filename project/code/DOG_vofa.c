@@ -23,6 +23,7 @@ API：
 /* 调试命令行初始化 */
 void debug_cli_init(void)
 {
+	setbuf(stdout,NULL);
 	printf("%s\n",DEBUG_CLI_WELCOME);
 }
 
@@ -159,4 +160,26 @@ void cli_data_last_free(_CLI_DATA_** cli_data)
 	}
 	// 清除倒数第二个命令行数据的下一位索引
 	(*cli_data) -> CLI_Data_Next = NULL;
+}
+
+/* VOFA justfloat输出 */
+void just_float(const uint32 data_num, ...) 
+{
+    va_list args;
+	uint8_t data_send[4] = {0};
+    
+    va_start(args, data_num);  // 初始化可变参数列表
+    for (uint32_t i = 0; i < data_num; i++) 
+	{
+        double data_double = va_arg(args, double);  // 逐个读取 int 类型参数
+		float data_float = (float)data_double;
+		
+		*(float*)data_send = data_float;
+				
+		uart_write_byte(WIRELESS_UART_INDEX,data_send[0]);
+		uart_write_byte(WIRELESS_UART_INDEX,data_send[1]);
+		uart_write_byte(WIRELESS_UART_INDEX,data_send[2]);
+		uart_write_byte(WIRELESS_UART_INDEX,data_send[3]);
+    }
+	va_end(args);
 }

@@ -54,7 +54,7 @@
 // 定义按键引脚 用户可以新增可以修改 默认定义四个按键
 // 定义按键顺序对应下方 key_index_enum 枚举体中定义的顺序
 // 如果用户可以新增按键 那么需要同步在下方 key_index_enum 枚举体中新增按键
-#define KEY_LIST                    {C13,C15 ,C12 ,C14 ,C11 ,C10}
+#define KEY_LIST                    {C13,C15 ,C12 ,C14 ,C11}
 
 #define KEY_RELEASE_LEVEL           (GPIO_HIGH)                                 // 按键的默认状态 也就是按键释放状态的电平
 #define KEY_MAX_SHOCK_PERIOD        (10       )                                 // 按键消抖检测时长 单位毫秒 低于这个时长的信号会被认为是杂波抖动
@@ -67,7 +67,6 @@ typedef enum
     LEFT,
     RIGHT,
 	PRESS,
-	ULTIMATE,
     KEY_NUMBER,
 }key_index_enum;                                                                // 按键索引 对应上方定义的按键引脚个数 默认定义四个按键
 

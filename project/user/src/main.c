@@ -53,18 +53,35 @@ int main(void)
 	chassis_control_init();
 	ai_camera_init();
 	menu_init();
+	symmetry_rectificate_init();
 	// 计时中断初始化
 	pit_ms_init (TIME_COUNT_IT_CH, TIME_COUNT_IT_TIME);
 	// 中断使能
 	pit_enable(TIME_COUNT_IT_CH);
-	
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
         // 此处编写需要循环执行的代码
 		if(gyro_calibration_flag && acc_calibration_flag)
 		{
+			program_time_count_flag = TRUE;
+			/* 菜单服务 */
 			menu_service_start();
+//			chassis_total_control(CHASSIS_MOVE,0,-50,0,0,650);
+			/* 测试 */
+//			chassis_motion_flag = CHASSIS_MOVE;
+//			float x_speed = 30;
+//			float y_speed = 80;
+//			chassis_yaw = RAD2DEG(atan(x_speed/y_speed));
+//			chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
+//			chassis_angular_speed = 0;
+			
+			/* RM小陀螺 */
+//			chassis_motion_flag = CHASSIS_MOVE;
+//			euler_angle_flag = TRUE;
+//			chassis_linear_speed = 3;
+//			chassis_yaw = yaw;
+//			chassis_angular_speed = 4;
 		}
 		
 		// 此处编写需要循环执行的代码

@@ -1,4 +1,4 @@
-./objects/dog_element.o: ..\code\DOG_element.c ..\user\inc\common.h \
+./objects/dog_filter.o: ..\code\DOG_filter.c ..\user\inc\common.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \

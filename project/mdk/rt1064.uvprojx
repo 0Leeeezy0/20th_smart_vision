@@ -455,6 +455,16 @@
               <FilePath>..\code\DOG_element.h</FilePath>
             </File>
             <File>
+              <FileName>DOG_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_menu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_menu.h</FilePath>
+            </File>
+            <File>
               <FileName>DOG_fsm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\code\DOG_fsm.c</FilePath>
@@ -473,16 +483,6 @@
               <FileName>DOG_image.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\code\DOG_image.h</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_menu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\DOG_menu.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_menu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_menu.h</FilePath>
             </File>
             <File>
               <FileName>DOG_menu_data.c</FileName>
@@ -533,6 +533,26 @@
               <FileName>DOG_path.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\code\DOG_path.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_debug.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_debug.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_filter.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_filter.h</FilePath>
             </File>
           </Files>
         </Group>
