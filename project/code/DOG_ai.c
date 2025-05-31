@@ -133,6 +133,8 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 	// 色块宽度再标准宽度正负阈值内时前后定位（保证车身和方块的距离大致一致）
 	else
 	{
+		if(track_finsh_next_mode_flag != BLOCK_MOVE_OUT_MODE)
+			supplement_lamp(1);
 		x_speed = X_FUNC(&(ai_track_pid.x_ai_track_pid_paraments),&(ai_track_pid.x_ai_track_pid_variable),0,-track_err);
 		y_speed = Y_FUNC(&(ai_track_pid.y_ai_track_pid_paraments),&(ai_track_pid.y_ai_track_pid_variable),detection_box_width_std,detection_box_width);
 		
@@ -151,7 +153,7 @@ void ai_track_control(float track_linear_speed,_CONTROL_MODE_ track_finsh_next_m
 		control_mode_flag = AI_TRACK_MODE;
 		
 		// 追踪到阈值周围
-		if(abs(detection_box_width-detection_box_width_std) <= 4 && abs(track_err) <= 6)
+		if(abs(detection_box_width-detection_box_width_std) <= 6 && abs(track_err) <= 6)
 		{
 			num++;
 		}

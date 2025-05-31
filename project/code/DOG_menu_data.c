@@ -16,7 +16,7 @@ _MENU_GYRO_ACC_ MENU_GYRO_ACC;
 _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
 _MENU_SHIFT_ MENU_SHIFT;
 _MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
-_MENU_AI_CAMERA_1_ MENU_AI_CAMERA_1;
+_MENU_AI_CAMERA_1_2_ MENU_AI_CAMERA_1_2;
 _MENU_CHASSIS_ MENU_CHASSIS;
 _MENU_PATH_ MENU_PATH;
 _MENU_CIRCLE_PATH_ MENU_CIRCLE_PATH;
@@ -68,10 +68,9 @@ void menu_data_leeeezy_init(void)
 	MENU_AI_CAMERA_0.detection_box_width_std.name = "STD";
 	MENU_AI_CAMERA_0.detection_box_center_limit.name = "CENTER_ERR_LIMIT";
 	
-	MENU_AI_CAMERA_1.ai_camera_1_enable_flag.name = "STATE";
-	MENU_AI_CAMERA_1.detection_lable_result.name = "DETECTION_LABLE";
-	MENU_AI_CAMERA_1.detection_num_result.name = "DETECTION_NUM";
-	MENU_AI_CAMERA_1.block_position.name = "BLOCK_POSITION";
+	MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.name = "SUP_EN"; 
+	MENU_AI_CAMERA_1_2.supplement_lamp_color.name = "SUP_COLOR";
+	MENU_AI_CAMERA_1_2.detection_result.name = "DETECTION_RESULT";
 	
 	MENU_CHASSIS.motion_kind.name = "KIND";
 	MENU_CHASSIS.chassis_yaw.name = "CHASSIS_YAW";

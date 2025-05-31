@@ -171,10 +171,10 @@ extern _CONTROL_MODE_ track_finsh_next_mode_flag;	// ×·×Ù½áÊøÄ£Ê½ÇĞ»»±êÖ¾Î»
 extern _PATH_ELEMENT_ path_element_flag;		// ÈüµÀÔªËØ±êÖ¾Î»
 extern uint8 path_follow_kind_flag;				// Â·¾¶Ñ­Ïß·½Ê½±êÖ¾Î»£¨0£º×î³¤°×ÁĞ 1£ºÖĞÏßÄâºÏ£©
 /* Ê¹ÄÜ */
-extern uint8 circle_path_enable_flag;	// Ô²»·ÈüµÀÊ¹ÄÜ±êÖ¾Î»
+extern uint8 circle_path_enable_flag;				// Ô²»·ÈüµÀÊ¹ÄÜ±êÖ¾Î»
 extern uint8 zebra_path_element_start_judge_enable_flag;	// °ßÂíÏßÅĞ¶ÏÊ¹ÄÜ±êÖ¾Î»
-extern uint8 ai_camera_0_enable_flag;	// AIÉãÏñÍ·0 Ê¹ÄÜ±êÖ¾Î»
-extern uint8 ai_camera_1_enable_flag;	// AIÉãÏñÍ·1 Ê¹ÄÜ±êÖ¾Î»
+extern uint8 ai_camera_0_enable_flag;				// AIÉãÏñÍ·0 Ê¹ÄÜ±êÖ¾Î»
+extern uint8 supplement_lamp_enable_flag;			// ²¹¹âµÆ Ê¹ÄÜ±êÖ¾Î»
 
 /****************************** ÊµÊ±Êı¾İ ******************************/
 
@@ -364,6 +364,8 @@ extern float frame_white_num_normalization_limit;	// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ±ß¿ò°×µãÊıÁ¿¹
 extern int16 frame_offset;	// Í¼Ïñ±ß¿òÆ«ÒÆÁ¿£¨×ó¿òÓÒÆ«£¬ÓÒ¿ò×óÆ«£¬·ÀÖ¹ÇúÂÊ³¬¼¶´óµÄÔ²»·ÎŞ·¨Ê¹ÓÃ¶Ô³Æ·¨½øĞĞ½ÃÕı£© 
 extern float rotate_linear_speed;	// ÈÆÏä×ÓĞı×ªÏßËÙ¶È
 extern float linear_angular_speed_rate;	// ÏßËÙ¶È/½ÇËÙ¶È ±ÈÀı£¨ÓÃÓÚÈÆÏä×Ó×ª£©
+extern float supplement_lamp_brightness;		// ²¹¹âµÆÁÁ¶È
+extern uint8_t supplement_lamp_color;			// ²¹¹âµÆÑÕÉ«
 
 /******************************************************************/
 

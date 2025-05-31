@@ -82,6 +82,9 @@ void bat_voltage_get(void);
 /* 电机电流获取 */
 void motor_I_get(void);
 
+/* 补光灯控制 */ 
+void supplement_lamp(uint8_t status);
+
 /* 平动位移解算 */
 void translate_shift(void);
 
