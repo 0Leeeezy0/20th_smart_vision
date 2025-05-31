@@ -67,6 +67,7 @@ int main(void)
 			program_time_count_flag = TRUE;
 			/* ²Ëµ¥·þÎñ */
 			menu_service_start();
+			
 //			chassis_total_control(CHASSIS_MOVE,0,-50,0,0,650);
 			/* ²âÊÔ */
 //			chassis_motion_flag = CHASSIS_MOVE;

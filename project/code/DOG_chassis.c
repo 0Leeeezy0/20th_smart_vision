@@ -65,6 +65,10 @@ void motor_sensor_init(void)
     adc_init(MOTOR_1_I_PIN,ADC_12BIT);
 	adc_init(MOTOR_2_I_PIN,ADC_12BIT);    
     adc_init(MOTOR_3_I_PIN,ADC_12BIT);
+	
+	// 补光灯引脚初始化
+	gpio_init(SUPPLEMENT_LAMP_EN_PIN,GPO,0,GPO_PUSH_PULL);	// 开/关灯
+	gpio_init(SUPPLEMENT_LAMP_DIN_PIN,GPO,0,GPO_PUSH_PULL);	// 通信
     
     // 控制中断初始化
 	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);	// 控制中断初始化
@@ -385,7 +389,22 @@ void motor_I_get(void)
 //    motor_3_I =    adc_convert(MOTOR_3_I_PIN);
 }
 
-
+/* 补光灯控制 */ 
+void supplement_lamp(uint8_t status)
+{
+	if(supplement_lamp_enable_flag == TRUE)
+	{
+		/* 开灯 */
+		if(status == 1)
+		{
+			gpio_set_level(SUPPLEMENT_LAMP_EN_PIN,1);
+		}
+		else
+		{
+			gpio_set_level(SUPPLEMENT_LAMP_EN_PIN,0);
+		}
+	}
+}
 
 /* 平动位移解算 */
 void translate_shift(void)

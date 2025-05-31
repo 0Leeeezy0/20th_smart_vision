@@ -104,7 +104,7 @@ void control_mode_dispatch(void)
 			break; 
 		}	// 循迹控制
 		case AI_TRACK_MODE:{ ai_track_control(track_linear_speed_target,track_finsh_next_mode_flag); break; }	// MCXVISION跟踪控制
-		case BLOCK_RETRACK_MODE:{ system_delay_ms(500); fxxk_box(0); control_mode_flag = AI_TRACK_MODE; track_finsh_next_mode_flag = BLOCK_MOVE_OUT_MODE; break; }		// 方块侧面重追踪模式
+		case BLOCK_RETRACK_MODE:{ system_delay_ms(500); supplement_lamp(0); fxxk_box(0); control_mode_flag = AI_TRACK_MODE; track_finsh_next_mode_flag = BLOCK_MOVE_OUT_MODE; break; }		// 方块侧面重追踪模式
 		case BLOCK_MOVE_OUT_MODE:{ fxxk_box(1); control_mode_flag = PATH_CONTROL_MODE; track_finsh_next_mode_flag = BLOCK_RETRACK_MODE; break; }	// 方块推离模式
 	}
 }

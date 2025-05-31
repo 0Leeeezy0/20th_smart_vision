@@ -221,6 +221,10 @@ void menu_motor_data_reduce_service(void);
 void menu_ai_camera_0_data_add_service(void);
 void menu_ai_camera_0_data_reduce_service(void);
 
+/* 菜单AI摄像头1/2数据页面服务 */
+void menu_ai_camera_1_and_2_data_add_service(void);
+void menu_ai_camera_1_and_2_data_reduce_service(void);
+
 /* 菜单底盘数据页面服务 */
 void menu_chassis_data_add_service(void);
 void menu_chassis_data_reduce_service(void);

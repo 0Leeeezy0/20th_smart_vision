@@ -98,21 +98,20 @@ extern _MENU_SHIFT_ MENU_SHIFT;
 /* AI摄像头0 参数 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ ai_camera_0_enable_flag;	// 使能
+	_MENU_DATA_NAME_TYPE_ ai_camera_0_enable_flag;		// 使能
 	_MENU_DATA_NAME_TYPE_ track_linear_speed_target;	// 接近阶段线速度
 	_MENU_DATA_NAME_TYPE_ detection_box_width_limit;	// 开始接近的检测框宽度阈值
 	_MENU_DATA_NAME_TYPE_ detection_box_width_std;		// 开始定位的检测框宽度阈值
 	_MENU_DATA_NAME_TYPE_ detection_box_center_limit;	// 结束定位的检测框中心与图像中心误差阈值
 }_MENU_AI_CAMERA_0_;
 
-/* AI摄像头1 参数 */
+/* AI摄像头1/2 参数 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ ai_camera_1_enable_flag;	// 使能
-	_MENU_DATA_NAME_TYPE_ detection_lable_result;	// 标志识别结果
-	_MENU_DATA_NAME_TYPE_ detection_num_result;		// 数字识别结果
-	_MENU_DATA_NAME_TYPE_ block_position;			// 方块位置
-}_MENU_AI_CAMERA_1_;
+	_MENU_DATA_NAME_TYPE_ supplement_lamp_enable_flag;	// 补光灯使能
+	_MENU_DATA_NAME_TYPE_ supplement_lamp_color;		// 补光灯颜色
+	_MENU_DATA_NAME_TYPE_ detection_result;		// 标志识别结果
+}_MENU_AI_CAMERA_1_2_;
 
 /* 菜单底盘参数 */
 typedef struct
@@ -189,7 +188,7 @@ typedef struct
 
 /* 菜单数据 */
 extern _MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
-extern _MENU_AI_CAMERA_1_ MENU_AI_CAMERA_1;
+extern _MENU_AI_CAMERA_1_2_ MENU_AI_CAMERA_1_2;
 extern _MENU_CHASSIS_ MENU_CHASSIS;
 extern _MENU_PATH_ MENU_PATH;
 extern _MENU_CIRCLE_PATH_ MENU_CIRCLE_PATH;
