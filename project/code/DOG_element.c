@@ -84,7 +84,9 @@ void fxxk_box(uint8 steps)
 					// ¿ª»·
 //					chassis_total_control(CHASSIS_MOVE,-45,2,0,0,1250); 
 //					chassis_total_control(CHASSIS_ANGLE_ROTATE,0,0,0,90,0);
-//					chassis_total_control(CHASSIS_MOVE,-90,2,0.8,-90,0); 
+//					chassis_total_control(CHASSIS_MOVE,-90,2,0.8,-90,0);
+					uart_write_byte(AI_CAMERA_1_UART_INDEX,0xFF);	
+					uart_write_byte(AI_CAMERA_2_UART_INDEX,0xFF);						
 					// ±Õ»·
 					chassis_total_control(CHASSIS_MOVE,-90,rotate_linear_speed,rotate_linear_speed*linear_angular_speed_rate,0,0); 
 					break;

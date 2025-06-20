@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jun  1 06:03:07 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Fri Jun 20 16:27:26 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1536 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3469,10 +3469,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[299]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_control_pid
 </UL>
 
-<P><STRONG><a name="[283]"></a>fxxk_box</STRONG> (Thumb, 824 bytes, Stack size 64 bytes, dog_element.o(.text.fxxk_box))
+<P><STRONG><a name="[283]"></a>fxxk_box</STRONG> (Thumb, 832 bytes, Stack size 64 bytes, dog_element.o(.text.fxxk_box))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1264<LI>Call Chain = fxxk_box &rArr; chassis_total_control &rArr; threshold
 </UL>
-<BR>[Calls]<UL><LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_total_control
+<BR>[Calls]<UL><LI><a href="#[2ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_write_byte
+<LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_total_control
 <LI><a href="#[1b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memcpy
 </UL>
 <BR>[Called By]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;control_mode_dispatch
@@ -5070,6 +5071,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[319]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_WriteByte
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;just_float
+<LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fxxk_box
 <LI><a href="#[29a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_write_string
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fputc
 </UL>
