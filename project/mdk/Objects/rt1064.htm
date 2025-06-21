@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sat Jun 21 17:20:28 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Sat Jun 21 20:50:57 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1736 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -615,9 +615,9 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACMP1_IRQHandler
 </UL>
 <BR>[Address Reference Count : 5]<UL><LI> fsl_csi.o(.data.s_csiIsr)
-<LI> startup_mimxrt1064.o(.isr_vector)
 <LI> fsl_flexcan.o(.data.s_flexcanIsr)
 <LI> fsl_lpuart.o(.data.s_lpuartIsr)
+<LI> startup_mimxrt1064.o(.isr_vector)
 <LI> fsl_usdhc.o(.data.s_usdhcIsr)
 </UL>
 <P><STRONG><a name="[ad]"></a>ENC1_IRQHandler</STRONG> (Thumb, 4 bytes, Stack size unknown bytes, startup_mimxrt1064.o(.text))
@@ -996,7 +996,7 @@ Global Symbols
 <P><STRONG><a name="[c8]"></a>FLEXIO3_IRQHandler</STRONG> (Thumb, 4 bytes, Stack size unknown bytes, startup_mimxrt1064.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1064.o(.isr_vector)
 </UL>
-<P><STRONG><a name="[338]"></a>__scatterload</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, init.o(.text))
+<P><STRONG><a name="[338]"></a>__scatterload</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, init.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[339]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main_after_scatterload
 </UL>
 <BR>[Called By]<UL><LI><a href="#[337]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
@@ -2105,7 +2105,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterInit
 </UL>
 
-<P><STRONG><a name="[1f5]"></a>LPSPI_MasterSetDelayScaler</STRONG> (Thumb, 120 bytes, Stack size 16 bytes, fsl_lpspi.o(.text.LPSPI_MasterSetDelayScaler))
+<P><STRONG><a name="[1f5]"></a>LPSPI_MasterSetDelayScaler</STRONG> (Thumb, 122 bytes, Stack size 16 bytes, fsl_lpspi.o(.text.LPSPI_MasterSetDelayScaler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 608<LI>Call Chain = LPSPI_MasterSetDelayScaler &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
@@ -2419,7 +2419,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[263]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwm_init
 </UL>
 
-<P><STRONG><a name="[226]"></a>PWM_SetupPwm</STRONG> (Thumb, 1530 bytes, Stack size 56 bytes, fsl_pwm.o(.text.PWM_SetupPwm))
+<P><STRONG><a name="[226]"></a>PWM_SetupPwm</STRONG> (Thumb, 1528 bytes, Stack size 56 bytes, fsl_pwm.o(.text.PWM_SetupPwm))
 <BR><BR>[Stack]<UL><LI>Max Depth = 648<LI>Call Chain = PWM_SetupPwm &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
@@ -2643,7 +2643,7 @@ Global Symbols
 <LI><a href="#[151]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetMux
 </UL>
 
-<P><STRONG><a name="[214]"></a>acc_get</STRONG> (Thumb, 1504 bytes, Stack size 16 bytes, dog_chassis.o(.text.acc_get))
+<P><STRONG><a name="[214]"></a>acc_get</STRONG> (Thumb, 1500 bytes, Stack size 16 bytes, dog_chassis.o(.text.acc_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 888<LI>Call Chain = acc_get &rArr; imu660ra_get_acc &rArr; imu660ra_read_registers &rArr; spi_read_8bit_registers &rArr; spi_write &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[23a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu660ra_get_acc
@@ -2661,7 +2661,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_mean_filter_convert
 </UL>
 
-<P><STRONG><a name="[23c]"></a>adc_init</STRONG> (Thumb, 112 bytes, Stack size 40 bytes, zf_driver_adc.o(.text.adc_init))
+<P><STRONG><a name="[23c]"></a>adc_init</STRONG> (Thumb, 114 bytes, Stack size 40 bytes, zf_driver_adc.o(.text.adc_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 744<LI>Call Chain = adc_init &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DoAutoCalibration
@@ -2749,7 +2749,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[24d]"></a>ai_track_control</STRONG> (Thumb, 860 bytes, Stack size 40 bytes, dog_ai.o(.text.ai_track_control))
+<P><STRONG><a name="[24d]"></a>ai_track_control</STRONG> (Thumb, 832 bytes, Stack size 40 bytes, dog_ai.o(.text.ai_track_control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = ai_track_control &rArr; supplement_lamp &rArr; gpio_set_level &rArr; GPIO_ClearPinsOutput &rArr; GPIO_PortClear
 </UL>
 <BR>[Calls]<UL><LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;supplement_lamp
@@ -2768,7 +2768,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[24b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ai_camera_init
 </UL>
 
-<P><STRONG><a name="[219]"></a>bat_voltage_get</STRONG> (Thumb, 68 bytes, Stack size 8 bytes, dog_chassis.o(.text.bat_voltage_get))
+<P><STRONG><a name="[219]"></a>bat_voltage_get</STRONG> (Thumb, 56 bytes, Stack size 8 bytes, dog_chassis.o(.text.bat_voltage_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 656<LI>Call Chain = bat_voltage_get &rArr; adc_mean_filter_convert &rArr; adc_convert &rArr; ADC_SetChannelConfig &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_mean_filter_convert
@@ -2784,7 +2784,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mt9v03x_init
 </UL>
 
-<P><STRONG><a name="[21d]"></a>chassis_control_angle_rotate</STRONG> (Thumb, 2180 bytes, Stack size 576 bytes, dog_chassis.o(.text.chassis_control_angle_rotate))
+<P><STRONG><a name="[21d]"></a>chassis_control_angle_rotate</STRONG> (Thumb, 2176 bytes, Stack size 576 bytes, dog_chassis.o(.text.chassis_control_angle_rotate))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1272<LI>Call Chain = chassis_control_angle_rotate &rArr; motor_set_duty &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[254]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;inverse_kinematics
@@ -2834,7 +2834,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[25d]"></a>chassis_control_transform</STRONG> (Thumb, 328 bytes, Stack size 24 bytes, dog_chassis.o(.text.chassis_control_transform))
+<P><STRONG><a name="[25d]"></a>chassis_control_transform</STRONG> (Thumb, 304 bytes, Stack size 24 bytes, dog_chassis.o(.text.chassis_control_transform))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = chassis_control_transform &rArr; __hardfp_atan &rArr; __ARM_fpclassify
 </UL>
 <BR>[Calls]<UL><LI><a href="#[250]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
@@ -2875,7 +2875,7 @@ Global Symbols
 <LI><a href="#[283]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fxxk_box
 </UL>
 
-<P><STRONG><a name="[262]"></a>circle_path_element_judge</STRONG> (Thumb, 1924 bytes, Stack size 96 bytes, dog_path.o(.text.circle_path_element_judge))
+<P><STRONG><a name="[262]"></a>circle_path_element_judge</STRONG> (Thumb, 1912 bytes, Stack size 96 bytes, dog_path.o(.text.circle_path_element_judge))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1296<LI>Call Chain = circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_total_control
@@ -3016,7 +3016,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_vofa_app.o(.data.cli_app_list)
 </UL>
-<P><STRONG><a name="[27b]"></a>control_mode_dispatch</STRONG> (Thumb, 916 bytes, Stack size 32 bytes, dog_fsm.o(.text.control_mode_dispatch))
+<P><STRONG><a name="[27b]"></a>control_mode_dispatch</STRONG> (Thumb, 896 bytes, Stack size 32 bytes, dog_fsm.o(.text.control_mode_dispatch))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1328<LI>Call Chain = control_mode_dispatch &rArr; circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[281]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_control
@@ -3095,7 +3095,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[257]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_control_init
 </UL>
 
-<P><STRONG><a name="[7]"></a>debug</STRONG> (Thumb, 1248 bytes, Stack size 120 bytes, dog_menu.o(.text.debug))
+<P><STRONG><a name="[7]"></a>debug</STRONG> (Thumb, 1240 bytes, Stack size 120 bytes, dog_menu.o(.text.debug))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1448<LI>Call Chain = debug &rArr; control_mode_dispatch &rArr; circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;control_mode_dispatch
@@ -3219,7 +3219,7 @@ Global Symbols
 <LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_debug_init
 </UL>
 
-<P><STRONG><a name="[268]"></a>debug_service</STRONG> (Thumb, 328 bytes, Stack size 160 bytes, dog_debug.o(.text.debug_service))
+<P><STRONG><a name="[268]"></a>debug_service</STRONG> (Thumb, 312 bytes, Stack size 160 bytes, dog_debug.o(.text.debug_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 824<LI>Call Chain = debug_service &rArr; menu_uart_service &rArr; update_data_end &rArr; uart_write_buffer &rArr; LPUART_WriteBlocking &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_uart_service
@@ -3277,7 +3277,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_sensor_init
 </UL>
 
-<P><STRONG><a name="[211]"></a>encoder_get</STRONG> (Thumb, 252 bytes, Stack size 16 bytes, dog_chassis.o(.text.encoder_get))
+<P><STRONG><a name="[211]"></a>encoder_get</STRONG> (Thumb, 240 bytes, Stack size 16 bytes, dog_chassis.o(.text.encoder_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = encoder_get &rArr; encoder_get_count &rArr; QTMR_GetCurrentTimerCount
 </UL>
 <BR>[Calls]<UL><LI><a href="#[29e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_get_count
@@ -3306,7 +3306,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[29c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_dir_init
 </UL>
 
-<P><STRONG><a name="[216]"></a>euler_angle</STRONG> (Thumb, 300 bytes, Stack size 32 bytes, dog_chassis.o(.text.euler_angle))
+<P><STRONG><a name="[216]"></a>euler_angle</STRONG> (Thumb, 288 bytes, Stack size 32 bytes, dog_chassis.o(.text.euler_angle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = euler_angle &rArr; __hardfp_fmod &rArr; _drem &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fmod
@@ -3470,7 +3470,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[299]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_control_pid
 </UL>
 
-<P><STRONG><a name="[283]"></a>fxxk_box</STRONG> (Thumb, 844 bytes, Stack size 72 bytes, dog_element.o(.text.fxxk_box))
+<P><STRONG><a name="[283]"></a>fxxk_box</STRONG> (Thumb, 824 bytes, Stack size 72 bytes, dog_element.o(.text.fxxk_box))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1272<LI>Call Chain = fxxk_box &rArr; chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_write_byte
@@ -3504,7 +3504,7 @@ Global Symbols
 <LI><a href="#[304]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;soft_iic_wait_ack
 </UL>
 
-<P><STRONG><a name="[2b7]"></a>gpio_init</STRONG> (Thumb, 128 bytes, Stack size 24 bytes, zf_driver_gpio.o(.text.gpio_init))
+<P><STRONG><a name="[2b7]"></a>gpio_init</STRONG> (Thumb, 130 bytes, Stack size 24 bytes, zf_driver_gpio.o(.text.gpio_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = gpio_init &rArr; GPIO_PinInit &rArr; CLOCK_EnableClock &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinInit
@@ -3553,7 +3553,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[215]"></a>gyro_get</STRONG> (Thumb, 1504 bytes, Stack size 16 bytes, dog_chassis.o(.text.gyro_get))
+<P><STRONG><a name="[215]"></a>gyro_get</STRONG> (Thumb, 1500 bytes, Stack size 16 bytes, dog_chassis.o(.text.gyro_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 888<LI>Call Chain = gyro_get &rArr; imu660ra_get_gyro &rArr; imu660ra_read_registers &rArr; spi_read_8bit_registers &rArr; spi_write &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2ba]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu660ra_get_gyro
@@ -3633,7 +3633,7 @@ Global Symbols
 <LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ai_camera_0_init
 </UL>
 
-<P><STRONG><a name="[254]"></a>inverse_kinematics</STRONG> (Thumb, 244 bytes, Stack size 56 bytes, dog_chassis.o(.text.inverse_kinematics))
+<P><STRONG><a name="[254]"></a>inverse_kinematics</STRONG> (Thumb, 224 bytes, Stack size 56 bytes, dog_chassis.o(.text.inverse_kinematics))
 <BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = inverse_kinematics &rArr; __hardfp_sinf &rArr; __mathlib_rredf2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
@@ -3715,7 +3715,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_show_string
 </UL>
 
-<P><STRONG><a name="[113]"></a>ips200_show_float</STRONG> (Thumb, 378 bytes, Stack size 88 bytes, zf_device_ips200.o(.text.ips200_show_float))
+<P><STRONG><a name="[113]"></a>ips200_show_float</STRONG> (Thumb, 376 bytes, Stack size 88 bytes, zf_device_ips200.o(.text.ips200_show_float))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1408<LI>Call Chain = ips200_show_float &rArr; ips200_show_string &rArr; ips200_show_char &rArr; ips200_set_region &rArr; ips200_write_command &rArr; spi_write_8bit &rArr; spi_write_8bit_array &rArr; spi_write &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_show_string
@@ -3865,12 +3865,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_vofa_app.o(.data.user_app_list)
 </UL>
-<P><STRONG><a name="[109]"></a>menu_ai_camera_0_data_add_service</STRONG> (Thumb, 176 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_ai_camera_0_data_add_service))
+<P><STRONG><a name="[109]"></a>menu_ai_camera_0_data_add_service</STRONG> (Thumb, 168 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_ai_camera_0_data_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_ai_camera_0_data_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_ai_camera_0_page)
 </UL>
-<P><STRONG><a name="[10a]"></a>menu_ai_camera_0_data_reduce_service</STRONG> (Thumb, 176 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_ai_camera_0_data_reduce_service))
+<P><STRONG><a name="[10a]"></a>menu_ai_camera_0_data_reduce_service</STRONG> (Thumb, 168 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_ai_camera_0_data_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_ai_camera_0_data_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_ai_camera_0_page)
@@ -4091,7 +4091,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[118]"></a>menu_motor_1_pid_add_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_1_pid_add_service))
+<P><STRONG><a name="[118]"></a>menu_motor_1_pid_add_service</STRONG> (Thumb, 352 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_1_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_1_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_motor_1_pid_page)
@@ -4109,12 +4109,12 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> dog_menu.o(.text.menu_motor_1_pid_page)
 <LI> dog_menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[119]"></a>menu_motor_1_pid_reduce_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_1_pid_reduce_service))
+<P><STRONG><a name="[119]"></a>menu_motor_1_pid_reduce_service</STRONG> (Thumb, 352 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_1_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_1_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_motor_1_pid_page)
 </UL>
-<P><STRONG><a name="[11a]"></a>menu_motor_2_pid_add_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_2_pid_add_service))
+<P><STRONG><a name="[11a]"></a>menu_motor_2_pid_add_service</STRONG> (Thumb, 352 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_2_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_2_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_motor_2_pid_page)
@@ -4132,12 +4132,12 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> dog_menu.o(.text.menu_motor_2_pid_page)
 <LI> dog_menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[11b]"></a>menu_motor_2_pid_reduce_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_2_pid_reduce_service))
+<P><STRONG><a name="[11b]"></a>menu_motor_2_pid_reduce_service</STRONG> (Thumb, 352 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_2_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_2_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_motor_2_pid_page)
 </UL>
-<P><STRONG><a name="[11c]"></a>menu_motor_3_pid_add_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_3_pid_add_service))
+<P><STRONG><a name="[11c]"></a>menu_motor_3_pid_add_service</STRONG> (Thumb, 352 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_3_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_3_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_motor_3_pid_page)
@@ -4155,7 +4155,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> dog_menu.o(.text.menu_motor_3_pid_page)
 <LI> dog_menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[11d]"></a>menu_motor_3_pid_reduce_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_3_pid_reduce_service))
+<P><STRONG><a name="[11d]"></a>menu_motor_3_pid_reduce_service</STRONG> (Thumb, 352 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_motor_3_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_3_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_motor_3_pid_page)
@@ -4210,12 +4210,12 @@ Global Symbols
 <LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_root_page
 </UL>
 
-<P><STRONG><a name="[120]"></a>menu_path_data_add_service</STRONG> (Thumb, 248 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_path_data_add_service))
+<P><STRONG><a name="[120]"></a>menu_path_data_add_service</STRONG> (Thumb, 240 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_path_data_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_data_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_path_page)
 </UL>
-<P><STRONG><a name="[121]"></a>menu_path_data_reduce_service</STRONG> (Thumb, 248 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_path_data_reduce_service))
+<P><STRONG><a name="[121]"></a>menu_path_data_reduce_service</STRONG> (Thumb, 240 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_path_data_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_data_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_path_page)
@@ -4233,7 +4233,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> dog_menu.o(.text.menu_path_page)
 <LI> dog_menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[122]"></a>menu_path_pid_add_service</STRONG> (Thumb, 416 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_path_pid_add_service))
+<P><STRONG><a name="[122]"></a>menu_path_pid_add_service</STRONG> (Thumb, 400 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_path_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_path_pid_page)
@@ -4251,7 +4251,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> dog_menu.o(.text.menu_path_pid_page)
 <LI> dog_menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[123]"></a>menu_path_pid_reduce_service</STRONG> (Thumb, 416 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_path_pid_reduce_service))
+<P><STRONG><a name="[123]"></a>menu_path_pid_reduce_service</STRONG> (Thumb, 400 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_path_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_path_pid_page)
@@ -4287,7 +4287,7 @@ Global Symbols
 <LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_root_page
 </UL>
 
-<P><STRONG><a name="[5]"></a>menu_root_page</STRONG> (Thumb, 432 bytes, Stack size 16 bytes, dog_menu.o(.text.menu_root_page))
+<P><STRONG><a name="[5]"></a>menu_root_page</STRONG> (Thumb, 424 bytes, Stack size 16 bytes, dog_menu.o(.text.menu_root_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 872<LI>Call Chain = menu_root_page &rArr; pwm_init &rArr; CLOCK_GetFreq &rArr; CLOCK_GetPerClkFreq &rArr; CLOCK_GetIpgFreq &rArr; CLOCK_GetAhbFreq &rArr; CLOCK_GetPeriphClkFreq &rArr; CLOCK_GetSysPfdFreq &rArr; CLOCK_GetPllFreq &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_point
@@ -4300,7 +4300,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> dog_menu.o(.text.menu_root_page)
 <LI> dog_menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[124]"></a>menu_rotate_angle_pid_add_service</STRONG> (Thumb, 352 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_rotate_angle_pid_add_service))
+<P><STRONG><a name="[124]"></a>menu_rotate_angle_pid_add_service</STRONG> (Thumb, 344 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_rotate_angle_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_rotate_angle_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_rotate_angle_pid_page)
@@ -4318,7 +4318,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> dog_menu.o(.text.menu_rotate_angle_pid_page)
 <LI> dog_menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[125]"></a>menu_rotate_angle_pid_reduce_service</STRONG> (Thumb, 352 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_rotate_angle_pid_reduce_service))
+<P><STRONG><a name="[125]"></a>menu_rotate_angle_pid_reduce_service</STRONG> (Thumb, 344 bytes, Stack size 4 bytes, dog_menu.o(.text.menu_rotate_angle_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_rotate_angle_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_menu.o(.text.menu_rotate_angle_pid_page)
@@ -4404,7 +4404,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[268]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_service
 </UL>
 
-<P><STRONG><a name="[213]"></a>motor_I_get</STRONG> (Thumb, 628 bytes, Stack size 24 bytes, dog_chassis.o(.text.motor_I_get))
+<P><STRONG><a name="[213]"></a>motor_I_get</STRONG> (Thumb, 600 bytes, Stack size 24 bytes, dog_chassis.o(.text.motor_I_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = motor_I_get &rArr; adc_mean_filter_convert &rArr; adc_convert &rArr; ADC_SetChannelConfig &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;karman
@@ -4501,7 +4501,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mt9v03x_init
 </UL>
 
-<P><STRONG><a name="[281]"></a>path_control</STRONG> (Thumb, 264 bytes, Stack size 152 bytes, dog_path.o(.text.path_control))
+<P><STRONG><a name="[281]"></a>path_control</STRONG> (Thumb, 256 bytes, Stack size 152 bytes, dog_path.o(.text.path_control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 592<LI>Call Chain = path_control &rArr; path_control_pid &rArr; fuzzy_pid_paraments_get &rArr; __hardfp_fabs
 </UL>
 <BR>[Calls]<UL><LI><a href="#[299]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_control_pid
@@ -4522,7 +4522,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[299]"></a>path_control_pid</STRONG> (Thumb, 276 bytes, Stack size 216 bytes, dog_path.o(.text.path_control_pid))
+<P><STRONG><a name="[299]"></a>path_control_pid</STRONG> (Thumb, 272 bytes, Stack size 216 bytes, dog_path.o(.text.path_control_pid))
 <BR><BR>[Stack]<UL><LI>Max Depth = 440<LI>Call Chain = path_control_pid &rArr; fuzzy_pid_paraments_get &rArr; __hardfp_fabs
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fuzzy_pid_paraments_get
@@ -4546,7 +4546,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;game_start
 </UL>
 
-<P><STRONG><a name="[27e]"></a>path_extract</STRONG> (Thumb, 662 bytes, Stack size 4 bytes, dog_path.o(.text.path_extract))
+<P><STRONG><a name="[27e]"></a>path_extract</STRONG> (Thumb, 658 bytes, Stack size 4 bytes, dog_path.o(.text.path_extract))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = path_extract
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;game_start
@@ -4570,7 +4570,7 @@ Global Symbols
 <LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[2df]"></a>pit_init</STRONG> (Thumb, 140 bytes, Stack size 32 bytes, zf_driver_pit.o(.text.pit_init))
+<P><STRONG><a name="[2df]"></a>pit_init</STRONG> (Thumb, 142 bytes, Stack size 32 bytes, zf_driver_pit.o(.text.pit_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 688<LI>Call Chain = pit_init &rArr; PIT_Init &rArr; CLOCK_EnableClock &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[20d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Deinit
@@ -4597,7 +4597,7 @@ Global Symbols
 <LI> dog_path.o(.text.path_control)
 <LI> dog_debug.o(.text.debug_service)
 </UL>
-<P><STRONG><a name="[263]"></a>pwm_init</STRONG> (Thumb, 710 bytes, Stack size 104 bytes, zf_driver_pwm.o(.text.pwm_init))
+<P><STRONG><a name="[263]"></a>pwm_init</STRONG> (Thumb, 722 bytes, Stack size 104 bytes, zf_driver_pwm.o(.text.pwm_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 856<LI>Call Chain = pwm_init &rArr; CLOCK_GetFreq &rArr; CLOCK_GetPerClkFreq &rArr; CLOCK_GetIpgFreq &rArr; CLOCK_GetAhbFreq &rArr; CLOCK_GetPeriphClkFreq &rArr; CLOCK_GetSysPfdFreq &rArr; CLOCK_GetPllFreq &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwm_set_duty
@@ -4627,7 +4627,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[263]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwm_init
 </UL>
 
-<P><STRONG><a name="[296]"></a>pwm_set_duty</STRONG> (Thumb, 256 bytes, Stack size 40 bytes, zf_driver_pwm.o(.text.pwm_set_duty))
+<P><STRONG><a name="[296]"></a>pwm_set_duty</STRONG> (Thumb, 260 bytes, Stack size 40 bytes, zf_driver_pwm.o(.text.pwm_set_duty))
 <BR><BR>[Stack]<UL><LI>Max Depth = 664 + In Cycle
 <LI>Call Chain = pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
@@ -4649,7 +4649,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[29d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_quad_init
 </UL>
 
-<P><STRONG><a name="[20]"></a>remote_control</STRONG> (Thumb, 648 bytes, Stack size 32 bytes, dog_vofa_app.o(.text.remote_control))
+<P><STRONG><a name="[20]"></a>remote_control</STRONG> (Thumb, 632 bytes, Stack size 32 bytes, dog_vofa_app.o(.text.remote_control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 824<LI>Call Chain = remote_control &rArr; wireless_uart_read_buffer &rArr; fifo_read_buffer &rArr; fifo_used &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;cli_clear
@@ -4697,7 +4697,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;control_mode_dispatch
 </UL>
 
-<P><STRONG><a name="[27d]"></a>side_point_kind_judge</STRONG> (Thumb, 1256 bytes, Stack size 168 bytes, dog_path.o(.text.side_point_kind_judge))
+<P><STRONG><a name="[27d]"></a>side_point_kind_judge</STRONG> (Thumb, 1240 bytes, Stack size 168 bytes, dog_path.o(.text.side_point_kind_judge))
 <BR><BR>[Stack]<UL><LI>Max Depth = 384<LI>Call Chain = side_point_kind_judge &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memset
@@ -4741,7 +4741,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mt9v03x_write_word_sccb
 </UL>
 
-<P><STRONG><a name="[2bd]"></a>spi_init</STRONG> (Thumb, 690 bytes, Stack size 96 bytes, zf_driver_spi.o(.text.spi_init))
+<P><STRONG><a name="[2bd]"></a>spi_init</STRONG> (Thumb, 684 bytes, Stack size 96 bytes, zf_driver_spi.o(.text.spi_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 856<LI>Call Chain = spi_init &rArr; LPSPI_MasterInit &rArr; LPSPI_MasterSetDelayTimes &rArr; LPSPI_MasterSetDelayScaler &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[186]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_GetFreq
@@ -4848,7 +4848,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu660ra_write_registers
 </UL>
 
-<P><STRONG><a name="[6]"></a>start</STRONG> (Thumb, 224 bytes, Stack size 16 bytes, dog_menu.o(.text.start))
+<P><STRONG><a name="[6]"></a>start</STRONG> (Thumb, 216 bytes, Stack size 16 bytes, dog_menu.o(.text.start))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1344<LI>Call Chain = start &rArr; control_mode_dispatch &rArr; circle_path_element_judge &rArr; chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[27b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;control_mode_dispatch
@@ -4945,7 +4945,7 @@ Global Symbols
 <LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_total_control
 </UL>
 
-<P><STRONG><a name="[217]"></a>translate_shift</STRONG> (Thumb, 620 bytes, Stack size 16 bytes, dog_chassis.o(.text.translate_shift))
+<P><STRONG><a name="[217]"></a>translate_shift</STRONG> (Thumb, 576 bytes, Stack size 16 bytes, dog_chassis.o(.text.translate_shift))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = translate_shift &rArr; __hardfp_atan &rArr; __ARM_fpclassify
 </UL>
 <BR>[Calls]<UL><LI><a href="#[251]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
@@ -5517,7 +5517,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[205]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_rx_interrupt_handler_ai_camera_2
 </UL>
 
-<P><STRONG><a name="[27a]"></a>control_mode_choose</STRONG> (Thumb, 276 bytes, Stack size 8 bytes, dog_fsm.o(.text.control_mode_choose))
+<P><STRONG><a name="[27a]"></a>control_mode_choose</STRONG> (Thumb, 272 bytes, Stack size 8 bytes, dog_fsm.o(.text.control_mode_choose))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = control_mode_choose
 </UL>
 <BR>[Calls]<UL><LI><a href="#[250]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
