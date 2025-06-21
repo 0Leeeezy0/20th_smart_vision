@@ -87,12 +87,21 @@ typedef struct
 /* 底盘PID */
 typedef struct
 {
-	_PID_PARAMETERS_ motor_1_pid_parameters;
-	_PID_VARIABLE_ motor_1_pid_variable;
-	_PID_PARAMETERS_ motor_2_pid_parameters;
-	_PID_VARIABLE_ motor_2_pid_variable;
-	_PID_PARAMETERS_ motor_3_pid_parameters;
-	_PID_VARIABLE_ motor_3_pid_variable;
+	_PID_PARAMETERS_ motor_1_speed_pid_parameters;
+	_PID_VARIABLE_ motor_1_speed_pid_variable;
+	_PID_PARAMETERS_ motor_1_I_pid_parameters;
+	_PID_VARIABLE_ motor_1_I_pid_variable;
+	
+	_PID_PARAMETERS_ motor_2_speed_pid_parameters;
+	_PID_VARIABLE_ motor_2_speed_pid_variable;
+	_PID_PARAMETERS_ motor_2_I_pid_parameters;
+	_PID_VARIABLE_ motor_2_I_pid_variable;
+	
+	_PID_PARAMETERS_ motor_3_speed_pid_parameters;
+	_PID_VARIABLE_ motor_3_speed_pid_variable;
+	_PID_PARAMETERS_ motor_3_I_pid_parameters;
+	_PID_VARIABLE_ motor_3_I_pid_variable;
+	
 	_PID_PARAMETERS_ rotate_pid_parameters[8];
 	_PID_VARIABLE_ rotate_pid_variable;
 }_CHASSIS_PID_;
@@ -106,7 +115,6 @@ typedef struct
 	_KALMAN_VARIABLE_ motor_2_karman_variable;
 	_KALMAN_PARAMETERS_ motor_3_karman_parameters;
 	_KALMAN_VARIABLE_ motor_3_karman_variable;
-    
 }_CHASSIS_FILTER_;
 
 
@@ -223,12 +231,12 @@ extern float bat_voltage;
 extern float motor_1_I;
 extern float motor_2_I;
 extern float motor_3_I;
-extern float I_Original_ADC_data_1;
-extern float I_Original_ADC_data_2;
-extern float I_Original_ADC_data_3;
-extern float I_Karman_ADC_data_1;
-extern float I_Karman_ADC_data_2;
-extern float I_Karman_ADC_data_3;
+extern float motor_1_V;
+extern float motor_2_V;
+extern float motor_3_V;
+extern float motor_1_V_karman;
+extern float motor_2_V_karman;
+extern float motor_3_V_karman;
 /* 位移解算 */
 extern float shift_yaw;
 extern float shift_linear_speed;
@@ -268,9 +276,14 @@ extern int16 ai_camera_detection_result_list_num;	// 识别结果列表内容数量
 /****************************** 参数 ******************************/
 
 /* 单电机PID参数 */
-extern float PID_MOTOR_1[5];
-extern float PID_MOTOR_2[5];
-extern float PID_MOTOR_3[5];
+/* 速度环 */
+extern float PID_SPEED_MOTOR_1[5];
+extern float PID_SPEED_MOTOR_2[5];
+extern float PID_SPEED_MOTOR_3[5];
+/* 电流环 */
+extern float PID_I_MOTOR_1[5];
+extern float PID_I_MOTOR_2[5];
+extern float PID_I_MOTOR_3[5];
 
 /* 单电机KARMAN参数 */
 extern float KARMAN_MOTOR_1[2];

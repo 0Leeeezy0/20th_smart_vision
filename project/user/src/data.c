@@ -42,12 +42,12 @@ float bat_voltage = 0;
 float motor_1_I = 0;
 float motor_2_I = 0;
 float motor_3_I = 0;
-float I_Original_ADC_data_1 = 0;
-float I_Original_ADC_data_2 = 0;
-float I_Original_ADC_data_3 = 0;
-float I_Karman_ADC_data_1 = 0;
-float I_Karman_ADC_data_2 = 0;
-float I_Karman_ADC_data_3 = 0;
+float motor_1_V = 0;
+float motor_2_V = 0;
+float motor_3_V = 0;
+float motor_1_V_karman = 0;
+float motor_2_V_karman = 0;
+float motor_3_V_karman = 0;
 /* 位移解算（° cm） */
 float wheel_1_shift = 0;
 float wheel_2_shift = 0;
@@ -187,19 +187,35 @@ uint8_t supplement_lamp_color = 0;			// 补光灯颜色
 	单电机PID参数 
 	P I D 输出限幅 积分项限幅
 */
-#if MOTOR_PID_CHOOSE == 0
+/* 速度环 */
+#if MOTOR_SPEED_PID_CHOOSE == 0
 // 增量式    //12.9 ,6.1 ,1.25   X0.6  7.74 , 3.66 , 0.75   //0,0,0//8.8,6.1,0.98
-float PID_MOTOR_1[5] = {8.8,6.1,0.98 ,9000 ,500};
-float PID_MOTOR_2[5] = {8.8,6.1,0.98 ,9000 ,500};
-float PID_MOTOR_3[5] = {8.8,6.1,0.98 ,9000 ,500};
-//float PID_MOTOR_1[5] = {18.8*2 ,1.4*2 ,0 ,9000 ,500};	// 后
-//float PID_MOTOR_2[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 左
-//float PID_MOTOR_3[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 右
-#elif MOTOR_PID_CHOOSE == 1
+float PID_SPEED_MOTOR_1[5] = {8.8,6.1,0.98 ,9000 ,500};
+float PID_SPEED_MOTOR_2[5] = {8.8,6.1,0.98 ,9000 ,500};
+float PID_SPEED_MOTOR_3[5] = {8.8,6.1,0.98 ,9000 ,500};
+//float PID_SPEED_MOTOR_1[5] = {18.8*2 ,1.4*2 ,0 ,9000 ,500};	// 后
+//float PID_SPEED_MOTOR_2[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 左
+//float PID_SPEED_MOTOR_3[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 右
+#elif MOTOR_SPEED_PID_CHOOSE == 1
 // 位置式
-float PID_MOTOR_1[5] = {250 ,0.1 ,400 ,9000 ,500};
-float PID_MOTOR_2[5] = {250 ,0.1 ,400 ,9000 ,500};
-float PID_MOTOR_3[5] = {250 ,0.1 ,400 ,9000 ,500};
+float PID_SPEED_MOTOR_1[5] = {250 ,0.1 ,400 ,9000 ,500};
+float PID_SPEED_MOTOR_2[5] = {250 ,0.1 ,400 ,9000 ,500};
+float PID_SPEED_MOTOR_3[5] = {250 ,0.1 ,400 ,9000 ,500};
+#endif
+/* 电流环 */
+#if MOTOR_I_PID_CHOOSE == 0
+// 增量式    //12.9 ,6.1 ,1.25   X0.6  7.74 , 3.66 , 0.75   //0,0,0//8.8,6.1,0.98
+float PID_I_MOTOR_1[5] = {8.8,6.1,0.98 ,9000 ,500};
+float PID_I_MOTOR_2[5] = {8.8,6.1,0.98 ,9000 ,500};
+float PID_I_MOTOR_3[5] = {8.8,6.1,0.98 ,9000 ,500};
+//float PID_SPEED_MOTOR_1[5] = {18.8*2 ,1.4*2 ,0 ,9000 ,500};	// 后
+//float PID_SPEED_MOTOR_2[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 左
+//float PID_SPEED_MOTOR_3[5] = {14.8*2 ,1.88*2 ,0 ,9000 ,500}; // 右
+#elif MOTOR_I_PID_CHOOSE == 1
+// 位置式
+float PID_I_MOTOR_1[5] = {250 ,0.1 ,400 ,9000 ,500};
+float PID_I_MOTOR_2[5] = {250 ,0.1 ,400 ,9000 ,500};
+float PID_I_MOTOR_3[5] = {250 ,0.1 ,400 ,9000 ,500};
 #endif
 
 /* 

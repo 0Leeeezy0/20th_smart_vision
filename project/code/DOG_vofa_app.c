@@ -178,7 +178,7 @@ void real_motor_speed_update(void)
 /* 电机电流上传 */
 void motor_current_update(void)
 {	
-	just_float(9,(float)I_Original_ADC_data_1,(float)I_Karman_ADC_data_1,(float)motor_1_I,(float)I_Original_ADC_data_2,(float)I_Karman_ADC_data_2,(float)motor_2_I,(float)I_Original_ADC_data_3,(float)I_Karman_ADC_data_3,(float)motor_3_I);
+	just_float(9,(float)motor_1_V,(float)motor_1_V_karman,(float)motor_1_I,(float)motor_2_V,(float)motor_2_V_karman,(float)motor_2_I,(float)motor_3_V,(float)motor_3_V_karman,(float)motor_3_I);
 }
 /* 电机占空比上传 */
 void motor_duty_update(void)
@@ -188,18 +188,18 @@ void motor_duty_update(void)
 /* 电机errot上传 */
 void motor_error_update(void)
 {	
-	just_float(3,(float)chassis_pid.motor_1_pid_variable.now_err,(float)chassis_pid.motor_2_pid_variable.now_err,(float)chassis_pid.motor_3_pid_variable.now_err);
+	just_float(3,(float)chassis_pid.motor_1_speed_pid_variable.now_err,(float)chassis_pid.motor_2_speed_pid_variable.now_err,(float)chassis_pid.motor_3_speed_pid_variable.now_err);
 }
 /* 电机delta上传 */
 void motor_delta_update(void)
 {	
-	just_float(3,(float)chassis_pid.motor_1_pid_variable.delta,(float)chassis_pid.motor_2_pid_variable.delta,(float)chassis_pid.motor_3_pid_variable.delta);
+	just_float(3,(float)chassis_pid.motor_1_speed_pid_variable.delta,(float)chassis_pid.motor_2_speed_pid_variable.delta,(float)chassis_pid.motor_3_speed_pid_variable.delta);
 }
 
 /* 电机value_delta上传 */
 void motor_value_delta_update(void)
 {	
-	just_float(3,(float)chassis_pid.motor_1_pid_variable.value_delta,(float)chassis_pid.motor_1_pid_variable.value_delta,(float)chassis_pid.motor_1_pid_variable.value_delta);
+	just_float(3,(float)chassis_pid.motor_1_speed_pid_variable.value_delta,(float)chassis_pid.motor_1_speed_pid_variable.value_delta,(float)chassis_pid.motor_1_speed_pid_variable.value_delta);
 }
 
 /* 陀螺仪上传 */

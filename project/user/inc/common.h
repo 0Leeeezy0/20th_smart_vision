@@ -233,36 +233,37 @@
 #include "DOG_debug.h"
 
 /* PID选择 */
-#if MOTOR_PID_CHOOSE == 0
-#define MOTOR_PID_KIND incremental_speed_pid
-#elif MOTOR_PID_CHOOSE == 1
-#define MOTOR_PID_KIND positional_pid
+/* 电机速度环 */
+#if MOTOR_SPEED_PID_CHOOSE == 0
+#define MOTOR_SPEED_PID_KIND incremental_speed_pid
+#elif MOTOR_SPEED_PID_CHOOSE == 1
+#define MOTOR_SPEED_PID_KIND positional_pid
 #endif
-
+/* 电机电流环 */
+#if MOTOR_I_PID_CHOOSE == 0
+#define MOTOR_I_PID_KIND incremental_speed_pid
+#elif MOTOR_I_PID_CHOOSE == 1
+#define MOTOR_I_PID_KIND positional_pid
+#endif
+/* 角度环 */
 #if ROTATE_PID_CHOOSE == 0
 #define ROTATE_PID_KIND incremental_pid
 #elif ROTATE_PID_CHOOSE == 1
 #define ROTATE_PID_KIND positional_pid
 #endif
-
-#if TRANSLATE_PID_CHOOSE == 0
-#define TRANSLATE_PID_KIND incremental_pid
-#elif TRANSLATE_PID_CHOOSE == 1
-#define TRANSLATE_PID_KIND positional_pid
-#endif
-
+/* 循迹方向环 */
 #if PATH_PID_CHOOSE == 0
 #define PATH_PID_KIND incremental_pid
 #elif PATH_PID_CHOOSE == 1
 #define PATH_PID_KIND positional_pid
 #endif
-
+/* 定位箱子X方向闭环 */
 #if X_AI_TRACK_PID_CHOOSE == 0
 #define X_AI_TRACK_PID_KIND incremental_pid
 #elif X_AI_TRACK_PID_CHOOSE == 1
 #define X_AI_TRACK_PID_KIND positional_pid
 #endif
-
+/* 定位箱子Y方向闭环 */
 #if Y_AI_TRACK_PID_CHOOSE == 0
 #define Y_AI_TRACK_PID_KIND incremental_pid
 #elif Y_AI_TRACK_PID_CHOOSE == 1

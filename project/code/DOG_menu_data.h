@@ -164,6 +164,7 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ output_limit;
 	_MENU_DATA_NAME_TYPE_ i_limit;
 	_MENU_DATA_NAME_TYPE_ gyro_d;
+	
 //	_MENU_DATA_NAME_TYPE_ value;
 //	_MENU_DATA_NAME_TYPE_ delta;
 //	_MENU_DATA_NAME_TYPE_ now_err;
@@ -171,6 +172,13 @@ typedef struct
 //	_MENU_DATA_NAME_TYPE_ last_last_err;
 //	_MENU_DATA_NAME_TYPE_ sigma_err;
 }_MENU_PID_;
+
+/* 菜单电机PID参数 */
+typedef struct
+{
+	_MENU_PID_ MOTOR_SPEED_PID;
+	_MENU_PID_ MOTOR_I_PID;
+}_MENU_MOTOR_PID_;
 
 /* 菜单循迹PID参数 */
 typedef struct
@@ -192,9 +200,9 @@ extern _MENU_AI_CAMERA_1_2_ MENU_AI_CAMERA_1_2;
 extern _MENU_CHASSIS_ MENU_CHASSIS;
 extern _MENU_PATH_ MENU_PATH;
 extern _MENU_CIRCLE_PATH_ MENU_CIRCLE_PATH;
-extern _MENU_PID_ MENU_MOTOR_1_PID;
-extern _MENU_PID_ MENU_MOTOR_2_PID;
-extern _MENU_PID_ MENU_MOTOR_3_PID;
+extern _MENU_MOTOR_PID_ MENU_MOTOR_1_PID;
+extern _MENU_MOTOR_PID_ MENU_MOTOR_2_PID;
+extern _MENU_MOTOR_PID_ MENU_MOTOR_3_PID;
 extern _MENU_PATH_PID_ MENU_PATH_PID;
 extern _MENU_ROTATE_PID_ MENU_ROTATE_PID;
 

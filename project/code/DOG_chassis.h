@@ -39,10 +39,10 @@ void chassis_control_debug(void);
 void chassis_control_transform(float x_speed,float y_speed,float angular_speed);
 
 /* 移动 */
-void chassis_control_move(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float angular_speed);
+void chassis_control_move(float chassis_yaw,float linear_speed,float angular_speed);
 
 /* 原地转动角度 */
-void chassis_control_angle_rotate(float (*FUNC_MOTOR)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_ROTATE)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float chassis_yaw,float linear_speed,float rotate_angle);
+void chassis_control_angle_rotate(float chassis_yaw,float linear_speed,float rotate_angle);
 
 /* 底盘总控制 */
 void chassis_total_control(_CHASSIS_MOTION_ _chassis_motion_flag_,float _chassis_yaw_,float _chassis_linear_speed_,float _chassis_angular_speed_,float _chassis_rotate_angle_,uint32 _delay_ms_);
@@ -89,7 +89,7 @@ void supplement_lamp(uint8_t status);
 void translate_shift(void);
 
 /* 单电机PID控制 */
-_CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);
+_CHASSIS_CONTROL_ motor_pid(float (*FUNC_SPEED)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_I)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed);
 
 /* 运动学逆解算 */
 _CHASSIS_CONTROL_ inverse_kinematics(float yaw,float linear_speed,float angular_speed);

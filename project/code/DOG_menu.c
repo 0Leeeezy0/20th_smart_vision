@@ -1069,27 +1069,48 @@ void menu_motor_1_pid_page(void)
 		
 		chassis_motion_flag = CHASSIS_MOVE;
 	
-		MENU_MOTOR_1_PID.p.data_float = chassis_pid.motor_1_pid_parameters.p;
-		MENU_MOTOR_1_PID.i.data_float = chassis_pid.motor_1_pid_parameters.i;
-		MENU_MOTOR_1_PID.d.data_float = chassis_pid.motor_1_pid_parameters.d;
-		MENU_MOTOR_1_PID.output_limit.data_float = chassis_pid.motor_1_pid_parameters.output_limit;
-		MENU_MOTOR_1_PID.i_limit.data_float = chassis_pid.motor_1_pid_parameters.i_limit;
+		MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.data_float = chassis_pid.motor_1_speed_pid_parameters.p;
+		MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.data_float = chassis_pid.motor_1_speed_pid_parameters.i;
+		MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.data_float = chassis_pid.motor_1_speed_pid_parameters.d;
+		MENU_MOTOR_1_PID.MOTOR_SPEED_PID.output_limit.data_float = chassis_pid.motor_1_speed_pid_parameters.output_limit;
+		MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i_limit.data_float = chassis_pid.motor_1_speed_pid_parameters.i_limit;
+		
+		MENU_MOTOR_1_PID.MOTOR_I_PID.p.data_float = chassis_pid.motor_1_I_pid_parameters.p;
+		MENU_MOTOR_1_PID.MOTOR_I_PID.i.data_float = chassis_pid.motor_1_I_pid_parameters.i;
+		MENU_MOTOR_1_PID.MOTOR_I_PID.d.data_float = chassis_pid.motor_1_I_pid_parameters.d;
+		MENU_MOTOR_1_PID.MOTOR_I_PID.output_limit.data_float = chassis_pid.motor_1_I_pid_parameters.output_limit;
+		MENU_MOTOR_1_PID.MOTOR_I_PID.i_limit.data_float = chassis_pid.motor_1_I_pid_parameters.i_limit;
 	
 		// 显示电机1 PID数据
-		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_1_PID.p.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_1_PID.p.data_float,3,3);
+		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.name);
+		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.data_float,3,3);
 		
-		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_1_PID.i.name);
-		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_1_PID.i.data_float,3,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.name);
+		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.data_float,3,3);
 		
-		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_1_PID.d.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_1_PID.d.data_float,3,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.name);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.data_float,3,3);
 		
-		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_1_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_1_PID.output_limit.data_float,5,1);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
 		
-		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_1_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_1_PID.i_limit.data_float,3,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i_limit.data_float,3,3);
+		
+		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.name);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.p.data_float,3,3);
+		
+		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.name);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.i.data_float,3,3);
+		
+		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.name);
+		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.d.data_float,3,3);
+		
+		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.output_limit.data_float,5,1);
+		
+		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.i_limit.data_float,3,3);
 	}
 }
 
@@ -1107,27 +1128,48 @@ void menu_motor_2_pid_page(void)
 		
 		chassis_motion_flag = CHASSIS_MOVE;
 	
-		MENU_MOTOR_2_PID.p.data_float = chassis_pid.motor_2_pid_parameters.p;
-		MENU_MOTOR_2_PID.i.data_float = chassis_pid.motor_2_pid_parameters.i;
-		MENU_MOTOR_2_PID.d.data_float = chassis_pid.motor_2_pid_parameters.d;
-		MENU_MOTOR_2_PID.output_limit.data_float = chassis_pid.motor_2_pid_parameters.output_limit;
-		MENU_MOTOR_2_PID.i_limit.data_float = chassis_pid.motor_2_pid_parameters.i_limit;
+		MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.data_float = chassis_pid.motor_2_speed_pid_parameters.p;
+		MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.data_float = chassis_pid.motor_2_speed_pid_parameters.i;
+		MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.data_float = chassis_pid.motor_2_speed_pid_parameters.d;
+		MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.data_float = chassis_pid.motor_2_speed_pid_parameters.output_limit;
+		MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i_limit.data_float = chassis_pid.motor_2_speed_pid_parameters.i_limit;
+		
+		MENU_MOTOR_2_PID.MOTOR_I_PID.p.data_float = chassis_pid.motor_2_I_pid_parameters.p;
+		MENU_MOTOR_2_PID.MOTOR_I_PID.i.data_float = chassis_pid.motor_2_I_pid_parameters.i;
+		MENU_MOTOR_2_PID.MOTOR_I_PID.d.data_float = chassis_pid.motor_2_I_pid_parameters.d;
+		MENU_MOTOR_2_PID.MOTOR_I_PID.output_limit.data_float = chassis_pid.motor_2_I_pid_parameters.output_limit;
+		MENU_MOTOR_2_PID.MOTOR_I_PID.i_limit.data_float = chassis_pid.motor_2_I_pid_parameters.i_limit;
 	
 		// 显示电机2 PID数据
-		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_2_PID.p.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_2_PID.p.data_float,3,3);
+		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.name);
+		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.data_float,3,3);
 		
-		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_2_PID.i.name);
-		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_2_PID.i.data_float,3,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.name);
+		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.data_float,3,3);
 		
-		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.d.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.d.data_float,3,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.name);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.data_float,3,3);
 		
-		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.output_limit.data_float,5,1);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
 		
-		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.i_limit.data_float,3,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i_limit.data_float,3,3);
+		
+		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.name);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.p.data_float,3,3);
+		
+		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.name);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.i.data_float,3,3);
+		
+		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.name);
+		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.d.data_float,3,3);
+		
+		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.output_limit.data_float,5,1);
+		
+		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.i_limit.data_float,3,3);
 	}
 }
 
@@ -1145,27 +1187,48 @@ void menu_motor_3_pid_page(void)
 		
 		chassis_motion_flag = CHASSIS_MOVE;
 	
-		MENU_MOTOR_3_PID.p.data_float = chassis_pid.motor_3_pid_parameters.p;
-		MENU_MOTOR_3_PID.i.data_float = chassis_pid.motor_3_pid_parameters.i;
-		MENU_MOTOR_3_PID.d.data_float = chassis_pid.motor_3_pid_parameters.d;
-		MENU_MOTOR_3_PID.output_limit.data_float = chassis_pid.motor_3_pid_parameters.output_limit;
-		MENU_MOTOR_3_PID.i_limit.data_float = chassis_pid.motor_3_pid_parameters.i_limit;
+		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.data_float = chassis_pid.motor_3_speed_pid_parameters.p;
+		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.data_float = chassis_pid.motor_3_speed_pid_parameters.i;
+		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.data_float = chassis_pid.motor_3_speed_pid_parameters.d;
+		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.output_limit.data_float = chassis_pid.motor_3_speed_pid_parameters.output_limit;
+		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i_limit.data_float = chassis_pid.motor_3_speed_pid_parameters.i_limit;
+		
+		MENU_MOTOR_3_PID.MOTOR_I_PID.p.data_float = chassis_pid.motor_3_I_pid_parameters.p;
+		MENU_MOTOR_3_PID.MOTOR_I_PID.i.data_float = chassis_pid.motor_3_I_pid_parameters.i;
+		MENU_MOTOR_3_PID.MOTOR_I_PID.d.data_float = chassis_pid.motor_3_I_pid_parameters.d;
+		MENU_MOTOR_3_PID.MOTOR_I_PID.output_limit.data_float = chassis_pid.motor_3_I_pid_parameters.output_limit;
+		MENU_MOTOR_3_PID.MOTOR_I_PID.i_limit.data_float = chassis_pid.motor_3_I_pid_parameters.i_limit;
 	
 		// 显示电机3 PID数据
-		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_3_PID.p.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_3_PID.p.data_float,3,3);
+		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.name);
+		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.data_float,3,3);
 		
-		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_3_PID.i.name);
-		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_3_PID.i.data_float,3,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.name);
+		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.data_float,3,3);
 		
-		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_3_PID.d.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_3_PID.d.data_float,3,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.name);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.data_float,3,3);
 		
-		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_3_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_3_PID.output_limit.data_float,5,1);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
 		
-		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_3_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_3_PID.i_limit.data_float,3,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i_limit.data_float,3,3);
+		
+		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.name);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.p.data_float,3,3);
+		
+		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.name);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.i.data_float,3,3);
+		
+		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.name);
+		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.d.data_float,3,3);
+		
+		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.output_limit.data_float,5,1);
+		
+		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.i_limit.data_float,3,3);
 	}
 }
 
@@ -1472,9 +1535,9 @@ void menu_path_data_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_linear_speed_target[0]+=1; break; }
-		case 1:{ path_linear_speed_target[1]+=1; break; }
-		case 2:{ path_linear_speed_target[2]+=1; break; }
+		case 0:{ path_linear_speed_target[0]+=5; break; }
+		case 1:{ path_linear_speed_target[1]+=5; break; }
+		case 2:{ path_linear_speed_target[2]+=5; break; }
 		case 3:{ path_start+=1; break; }
 		case 4:{ path_end+=1; break; }
 		case 5:{ control_point[0]+=1; break; }
@@ -1487,9 +1550,9 @@ void menu_path_data_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_linear_speed_target[0]-=1; break; }
-		case 1:{ path_linear_speed_target[1]-=1; break; }
-		case 2:{ path_linear_speed_target[2]-=1; break; }
+		case 0:{ path_linear_speed_target[0]-=5; break; }
+		case 1:{ path_linear_speed_target[1]-=5; break; }
+		case 2:{ path_linear_speed_target[2]-=5; break; }
 		case 3:{ path_start-=1; break; }
 		case 4:{ path_end-=1; break; }
 		case 5:{ control_point[0]-=1; break; }
@@ -1547,28 +1610,36 @@ void menu_circle_path_data_reduce_service(void)
 	}
 }
 
-#if MOTOR_PID_CHOOSE == 0
-// 增量式
 void menu_motor_1_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_1_pid_parameters.p+=0.1; break; }
-		case 1:{ chassis_pid.motor_1_pid_parameters.i+=0.01; break; }
-		case 2:{ chassis_pid.motor_1_pid_parameters.d+=0.01; break; }
-		case 3:{ chassis_pid.motor_1_pid_parameters.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_1_pid_parameters.i_limit+=5; break; }
+		case 0:{ chassis_pid.motor_1_speed_pid_parameters.p+=0.1; break; }
+		case 1:{ chassis_pid.motor_1_speed_pid_parameters.i+=0.01; break; }
+		case 2:{ chassis_pid.motor_1_speed_pid_parameters.d+=0.01; break; }
+		case 3:{ chassis_pid.motor_1_speed_pid_parameters.output_limit+=5; break; }
+		case 4:{ chassis_pid.motor_1_speed_pid_parameters.i_limit+=5; break; }
+		case 5:{ chassis_pid.motor_1_I_pid_parameters.p+=0.1; break; }
+		case 6:{ chassis_pid.motor_1_I_pid_parameters.i+=0.01; break; }
+		case 7:{ chassis_pid.motor_1_I_pid_parameters.d+=0.01; break; }
+		case 8:{ chassis_pid.motor_1_I_pid_parameters.output_limit+=5; break; }
+		case 9:{ chassis_pid.motor_1_I_pid_parameters.i_limit+=5; break; }
 	}
 }
 void menu_motor_1_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_1_pid_parameters.p-=0.1; break; }
-		case 1:{ chassis_pid.motor_1_pid_parameters.i-=0.01; break; }
-		case 2:{ chassis_pid.motor_1_pid_parameters.d-=0.01; break; }
-		case 3:{ chassis_pid.motor_1_pid_parameters.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_1_pid_parameters.i_limit-=5; break; }
+		case 0:{ chassis_pid.motor_1_speed_pid_parameters.p-=0.1; break; }
+		case 1:{ chassis_pid.motor_1_speed_pid_parameters.i-=0.01; break; }
+		case 2:{ chassis_pid.motor_1_speed_pid_parameters.d-=0.01; break; }
+		case 3:{ chassis_pid.motor_1_speed_pid_parameters.output_limit-=5; break; }
+		case 4:{ chassis_pid.motor_1_speed_pid_parameters.i_limit-=5; break; }
+		case 5:{ chassis_pid.motor_1_I_pid_parameters.p-=0.1; break; }
+		case 6:{ chassis_pid.motor_1_I_pid_parameters.i-=0.01; break; }
+		case 7:{ chassis_pid.motor_1_I_pid_parameters.d-=0.01; break; }
+		case 8:{ chassis_pid.motor_1_I_pid_parameters.output_limit-=5; break; }
+		case 9:{ chassis_pid.motor_1_I_pid_parameters.i_limit-=5; break; }
 	}
 }
 
@@ -1577,22 +1648,32 @@ void menu_motor_2_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_2_pid_parameters.p+=0.1; break; }
-		case 1:{ chassis_pid.motor_2_pid_parameters.i+=0.01; break; }
-		case 2:{ chassis_pid.motor_2_pid_parameters.d+=0.01; break; }
-		case 3:{ chassis_pid.motor_2_pid_parameters.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_2_pid_parameters.i_limit+=5; break; }
+		case 0:{ chassis_pid.motor_2_speed_pid_parameters.p+=0.1; break; }
+		case 1:{ chassis_pid.motor_2_speed_pid_parameters.i+=0.01; break; }
+		case 2:{ chassis_pid.motor_2_speed_pid_parameters.d+=0.01; break; }
+		case 3:{ chassis_pid.motor_2_speed_pid_parameters.output_limit+=5; break; }
+		case 4:{ chassis_pid.motor_2_speed_pid_parameters.i_limit+=5; break; }
+		case 5:{ chassis_pid.motor_2_I_pid_parameters.p+=0.1; break; }
+		case 6:{ chassis_pid.motor_2_I_pid_parameters.i+=0.01; break; }
+		case 7:{ chassis_pid.motor_2_I_pid_parameters.d+=0.01; break; }
+		case 8:{ chassis_pid.motor_2_I_pid_parameters.output_limit+=5; break; }
+		case 9:{ chassis_pid.motor_2_I_pid_parameters.i_limit+=5; break; }
 	}
 }
 void menu_motor_2_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_2_pid_parameters.p-=0.1; break; }
-		case 1:{ chassis_pid.motor_2_pid_parameters.i-=0.01; break; }
-		case 2:{ chassis_pid.motor_2_pid_parameters.d-=0.01; break; }
-		case 3:{ chassis_pid.motor_2_pid_parameters.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_2_pid_parameters.i_limit-=5; break; }
+		case 0:{ chassis_pid.motor_2_speed_pid_parameters.p-=0.1; break; }
+		case 1:{ chassis_pid.motor_2_speed_pid_parameters.i-=0.01; break; }
+		case 2:{ chassis_pid.motor_2_speed_pid_parameters.d-=0.01; break; }
+		case 3:{ chassis_pid.motor_2_speed_pid_parameters.output_limit-=5; break; }
+		case 4:{ chassis_pid.motor_2_speed_pid_parameters.i_limit-=5; break; }
+		case 5:{ chassis_pid.motor_2_I_pid_parameters.p-=0.1; break; }
+		case 6:{ chassis_pid.motor_2_I_pid_parameters.i-=0.01; break; }
+		case 7:{ chassis_pid.motor_2_I_pid_parameters.d-=0.01; break; }
+		case 8:{ chassis_pid.motor_2_I_pid_parameters.output_limit-=5; break; }
+		case 9:{ chassis_pid.motor_2_I_pid_parameters.i_limit-=5; break; }
 	}
 }
 
@@ -1601,99 +1682,34 @@ void menu_motor_3_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_3_pid_parameters.p+=0.1; break; }
-		case 1:{ chassis_pid.motor_3_pid_parameters.i+=0.01; break; }
-		case 2:{ chassis_pid.motor_3_pid_parameters.d+=0.01; break; }
-		case 3:{ chassis_pid.motor_3_pid_parameters.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_3_pid_parameters.i_limit+=5; break; }
+		case 0:{ chassis_pid.motor_3_speed_pid_parameters.p+=0.1; break; }
+		case 1:{ chassis_pid.motor_3_speed_pid_parameters.i+=0.01; break; }
+		case 2:{ chassis_pid.motor_3_speed_pid_parameters.d+=0.01; break; }
+		case 3:{ chassis_pid.motor_3_speed_pid_parameters.output_limit+=5; break; }
+		case 4:{ chassis_pid.motor_3_speed_pid_parameters.i_limit+=5; break; }
+		case 5:{ chassis_pid.motor_3_I_pid_parameters.p+=0.1; break; }
+		case 6:{ chassis_pid.motor_3_I_pid_parameters.i+=0.01; break; }
+		case 7:{ chassis_pid.motor_3_I_pid_parameters.d+=0.01; break; }
+		case 8:{ chassis_pid.motor_3_I_pid_parameters.output_limit+=5; break; }
+		case 9:{ chassis_pid.motor_3_I_pid_parameters.i_limit+=5; break; }
 	}
 }
 void menu_motor_3_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_3_pid_parameters.p-=0.1; break; }
-		case 1:{ chassis_pid.motor_3_pid_parameters.i-=0.01; break; }
-		case 2:{ chassis_pid.motor_3_pid_parameters.d-=0.01; break; }
-		case 3:{ chassis_pid.motor_3_pid_parameters.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_3_pid_parameters.i_limit-=5; break; }
+		case 0:{ chassis_pid.motor_3_speed_pid_parameters.p-=0.1; break; }
+		case 1:{ chassis_pid.motor_3_speed_pid_parameters.i-=0.01; break; }
+		case 2:{ chassis_pid.motor_3_speed_pid_parameters.d-=0.01; break; }
+		case 3:{ chassis_pid.motor_3_speed_pid_parameters.output_limit-=5; break; }
+		case 4:{ chassis_pid.motor_3_speed_pid_parameters.i_limit-=5; break; }
+		case 5:{ chassis_pid.motor_3_I_pid_parameters.p-=0.1; break; }
+		case 6:{ chassis_pid.motor_3_I_pid_parameters.i-=0.01; break; }
+		case 7:{ chassis_pid.motor_3_I_pid_parameters.d-=0.01; break; }
+		case 8:{ chassis_pid.motor_3_I_pid_parameters.output_limit-=5; break; }
+		case 9:{ chassis_pid.motor_3_I_pid_parameters.i_limit-=5; break; }
 	}
 }
-#elif MOTOR_PID_CHOOSE == 1
-// 位置式
-void menu_motor_1_pid_add_service(void)
-{
-	switch(point_row_num)
-	{
-		case 0:{ chassis_pid.motor_1_pid_parameters.p+=1; break; }
-		case 1:{ chassis_pid.motor_1_pid_parameters.i+=0.1; break; }
-		case 2:{ chassis_pid.motor_1_pid_parameters.d+=1; break; }
-		case 3:{ chassis_pid.motor_1_pid_parameters.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_1_pid_parameters.i_limit+=5; break; }
-	}
-}
-void menu_motor_1_pid_reduce_service(void)
-{
-	switch(point_row_num)
-	{
-		case 0:{ chassis_pid.motor_1_pid_parameters.p-=1; break; }
-		case 1:{ chassis_pid.motor_1_pid_parameters.i-=0.1; break; }
-		case 2:{ chassis_pid.motor_1_pid_parameters.d-=1; break; }
-		case 3:{ chassis_pid.motor_1_pid_parameters.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_1_pid_parameters.i_limit-=5; break; }
-	}
-}
-
-/* 菜单电机2 PID页面服务 */
-void menu_motor_2_pid_add_service(void)
-{
-	switch(point_row_num)
-	{
-		case 0:{ chassis_pid.motor_2_pid_parameters.p+=1; break; }
-		case 1:{ chassis_pid.motor_2_pid_parameters.i+=0.1; break; }
-		case 2:{ chassis_pid.motor_2_pid_parameters.d+=1; break; }
-		case 3:{ chassis_pid.motor_2_pid_parameters.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_2_pid_parameters.i_limit+=5; break; }
-	}
-}
-void menu_motor_2_pid_reduce_service(void)
-{
-	switch(point_row_num)
-	{
-		case 0:{ chassis_pid.motor_2_pid_parameters.p-=1; break; }
-		case 1:{ chassis_pid.motor_2_pid_parameters.i-=0.1; break; }
-		case 2:{ chassis_pid.motor_2_pid_parameters.d-=1; break; }
-		case 3:{ chassis_pid.motor_2_pid_parameters.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_2_pid_parameters.i_limit-=5; break; }
-	}
-}
-
-/* 菜单电机3 PID页面服务 */
-void menu_motor_3_pid_add_service(void)
-{
-	switch(point_row_num)
-	{
-		case 0:{ chassis_pid.motor_3_pid_parameters.p+=1; break; }
-		case 1:{ chassis_pid.motor_3_pid_parameters.i+=0.1; break; }
-		case 2:{ chassis_pid.motor_3_pid_parameters.d+=1; break; }
-		case 3:{ chassis_pid.motor_3_pid_parameters.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_3_pid_parameters.i_limit+=5; break; }
-	}
-}
-void menu_motor_3_pid_reduce_service(void)
-{
-	switch(point_row_num)
-	{
-		case 0:{ chassis_pid.motor_3_pid_parameters.p-=1; break; }
-		case 1:{ chassis_pid.motor_3_pid_parameters.i-=0.1; break; }
-		case 2:{ chassis_pid.motor_3_pid_parameters.d-=1; break; }
-		case 3:{ chassis_pid.motor_3_pid_parameters.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_3_pid_parameters.i_limit-=5; break; }
-	}
-}
-#endif
-/* 菜单电机1 PID页面服务 */
-
 
 /* 菜单循迹 PID页面服务 */
 void menu_path_pid_add_service(void)
