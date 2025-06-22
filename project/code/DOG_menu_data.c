@@ -46,6 +46,9 @@ void menu_data_leeeezy_init(void)
 	MENU_MOTOR.motor_1_speed.name = "1_SPEED";
 	MENU_MOTOR.motor_2_speed.name = "2_SPEED";
 	MENU_MOTOR.motor_3_speed.name = "3_SPEED";
+	MENU_MOTOR.motor_1_I.name = "1_I";
+	MENU_MOTOR.motor_2_I.name = "2_I";
+	MENU_MOTOR.motor_3_I.name = "3_I";
 	
 	MENU_GYRO_ACC.gyro_x.name = "GYRO_X";
 	MENU_GYRO_ACC.gyro_y.name = "GYRO_Y";
@@ -102,6 +105,9 @@ void menu_data_leeeezy_init(void)
 	MENU_CIRCLE_PATH.side_X_delta_max_limit.name = "SIDE_X_DELTA_MAX";
 	MENU_CIRCLE_PATH.side_X_delta_min_limit.name = "SIDE_X_DELTA_MIN";
 	
+	MENU_MOTOR_1_PID.control_mode.name = "MODE";
+	MENU_MOTOR_1_PID.control_mode.data_uint8 = 0;
+	MENU_MOTOR_1_PID.motor_target.name = "TARGET";
 	MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.name = "S_1_P";
 	MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.name = "S_1_I";
 	MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.name = "S_1_D";
@@ -113,6 +119,9 @@ void menu_data_leeeezy_init(void)
 	MENU_MOTOR_1_PID.MOTOR_I_PID.output_limit.name = "I_OUT_LIMIT";
 	MENU_MOTOR_1_PID.MOTOR_I_PID.i_limit.name = "I_I_LIMIT";
 	
+	MENU_MOTOR_2_PID.control_mode.name = "MODE";
+	MENU_MOTOR_2_PID.control_mode.data_uint8 = 0;
+	MENU_MOTOR_2_PID.motor_target.name = "TARGET";
 	MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.name = "S_2_P";
 	MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.name = "S_2_I";
 	MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.name = "S_2_D";
@@ -124,6 +133,9 @@ void menu_data_leeeezy_init(void)
 	MENU_MOTOR_2_PID.MOTOR_I_PID.output_limit.name = "I_OUT_LIMIT";
 	MENU_MOTOR_2_PID.MOTOR_I_PID.i_limit.name = "I_I_LIMIT";
 	
+	MENU_MOTOR_3_PID.control_mode.name = "MODE";
+	MENU_MOTOR_3_PID.control_mode.data_uint8 = 0;
+	MENU_MOTOR_3_PID.motor_target.name = "TARGET";
 	MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.name = "S_3_P";
 	MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.name = "S_3_I";
 	MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.name = "S_3_D";

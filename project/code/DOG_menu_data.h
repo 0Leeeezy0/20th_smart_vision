@@ -50,6 +50,9 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ motor_1_speed;
 	_MENU_DATA_NAME_TYPE_ motor_2_speed;
 	_MENU_DATA_NAME_TYPE_ motor_3_speed;
+	_MENU_DATA_NAME_TYPE_ motor_1_I;
+	_MENU_DATA_NAME_TYPE_ motor_2_I;
+	_MENU_DATA_NAME_TYPE_ motor_3_I;
 }_MENU_MOTOR_;
 
 /* 陀螺仪、加速度计数据 */
@@ -176,6 +179,8 @@ typedef struct
 /* 菜单电机PID参数 */
 typedef struct
 {
+	_MENU_DATA_NAME_TYPE_ control_mode;
+	_MENU_DATA_NAME_TYPE_ motor_target;
 	_MENU_PID_ MOTOR_SPEED_PID;
 	_MENU_PID_ MOTOR_I_PID;
 }_MENU_MOTOR_PID_;

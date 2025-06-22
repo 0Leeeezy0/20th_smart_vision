@@ -1,48 +1,48 @@
 /*
-ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ú²Ëµï¿½Êµï¿½ï¿½
+¸ÃÎÄ¼þÓÃÓÚ²Ëµ¥ÊµÏÖ
 
-APIï¿½ï¿½
-****ï¿½Ëµï¿½ï¿½ï¿½ï¿½****
-ï¿½Ëµï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
-ï¿½Ëµï¿½Ò³ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡
-ï¿½ï¿½ï¿½Ø°ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
-Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½Ëµï¿½Ñ¡ï¿½ï¿½Ö¸ï¿½ï¿½
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½ï¿½
-ï¿½ï¿½Ò³ï¿½ï¿½
+API£º
+****²Ëµ¥×é¼þ****
+²Ëµ¥³õÊ¼»¯
+²Ëµ¥Ò³Ãæ³õÊ¼»¯
+°´¼ü¶¯×÷»ñÈ¡
+·µ»Ø°´¼üÏÔÊ¾
+Ò³Ãæ±êÌâÏÔÊ¾
+²Ëµ¥·µ»Ø
+²Ëµ¥Ñ¡ÏîÖ¸Õë
+²Ëµ¥Êý¾Ý¸ü¸Ä
+¸ùÒ³Ãæ
 ***************
 
-****ï¿½Ëµï¿½Ò³ï¿½ï¿½****
-ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½Ç¡ï¿½ï¿½ï¿½ï¿½Ù¶È¼ï¿½Ò³ï¿½ï¿½
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½1 PIDÒ³ï¿½ï¿½
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½2 PIDÒ³ï¿½ï¿½
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½3 PIDÒ³ï¿½ï¿½
-ï¿½Ëµï¿½Ñ­ï¿½ï¿½ PIDÒ³ï¿½ï¿½
+****²Ëµ¥Ò³Ãæ****
+Æô¶¯
+±£´æ²ÎÊý
+¼ÓÔØ²ÎÊý
+ÃüÁîÐÐ
+²Ëµ¥±àÂëÆ÷Ò³Ãæ
+²Ëµ¥µç»úÒ³Ãæ
+ÍÓÂÝÒÇ¡¢¼ÓËÙ¶È¼ÆÒ³Ãæ
+²Ëµ¥µ×ÅÌÊý¾ÝÒ³Ãæ
+²Ëµ¥µç»ú1 PIDÒ³Ãæ
+²Ëµ¥µç»ú2 PIDÒ³Ãæ
+²Ëµ¥µç»ú3 PIDÒ³Ãæ
+²Ëµ¥Ñ­¼£ PIDÒ³Ãæ
 ****************
 
-****ï¿½Ëµï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½****
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½1 PIDÒ³ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½2 PIDÒ³ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½Ëµï¿½ï¿½ï¿½ï¿½3 PIDÒ³ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½Ëµï¿½Ñ­ï¿½ï¿½ PIDÒ³ï¿½ï¿½ï¿½ï¿½ï¿½
+****²Ëµ¥Ò³Ãæ·þÎñ****
+²Ëµ¥µç»ú1 PIDÒ³Ãæ·þÎñ
+²Ëµ¥µç»ú2 PIDÒ³Ãæ·þÎñ
+²Ëµ¥µç»ú3 PIDÒ³Ãæ·þÎñ
+²Ëµ¥Ñ­¼£ PIDÒ³Ãæ·þÎñ
 ********************
 */
 
 #include "common.h"
 
-/* Ò³ï¿½ï¿½ï¿½Ð±ï¿½ */
+/* Ò³ÃæÁÐ±í */
 static _MENU_PAGE_ menu_page[] = 
 {
-	/* Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½         ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½     ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   Ò³ï¿½æº¯ï¿½ï¿½Ö¸ï¿½ï¿½ 						ï¿½ï¿½ï¿½ï¿½Ä£Ê½*/
+	/* Ò³ÃæÃû³Æ         ±êÌâÊ¹ÄÜ     ¼¶±ð ÐòºÅ    ²ÎÊýÐÐÊý   Ò³Ãæº¯ÊýÖ¸Õë 						µ÷ÊÔÄ£Ê½*/
 	{"ROOT"         	,FALSE 		,0 	,0 		,23 	,menu_root_page						,NONE},
 	{"START"        	,TRUE 		,1 	,0 		,0 		,start								,NONE},
 	{"DEBUG"        	,TRUE 		,1 	,1 		,0 		,debug								,NONE},
@@ -51,7 +51,7 @@ static _MENU_PAGE_ menu_page[] =
 	{"CLI"				,TRUE 		,1 	,4 		,0 		,cli								,NONE},
 	{"CALIBRATE"		,TRUE 		,1 	,5 		,0 		,sensor_calibrate					,NONE},
 	{"ENCODER"			,TRUE 		,1 	,6 		,0 		,menu_encoder_page					,NONE},
-	{"MOTOR"			,TRUE 		,1 	,7 		,6 		,menu_motor_page					,NONE},
+	{"MOTOR"			,TRUE 		,1 	,7 		,9		,menu_motor_page					,NONE},
 	{"GYRO_ACC"			,TRUE 		,1 	,8 		,0 		,menu_gyro_acc_page					,NONE},
 	{"EULER_ANGLE"      ,TRUE		,1	,9		,0		,menu_euler_angle_page				,NONE},
 	{"TRANSLATE_SHIFT"	,TRUE		,1	,10		,0		,menu_translate_shift_page			,NONE},
@@ -62,20 +62,20 @@ static _MENU_PAGE_ menu_page[] =
 	{"CHASSIS"			,TRUE 		,1 	,15 	,5 		,menu_chassis_page					,NONE},
 	{"PATH"				,TRUE		,1	,16		,9		,menu_path_page						,NONE},
 	{"CIRCLE_PATH"		,TRUE		,1	,17		,13		,menu_circle_path_page				,NONE},
-	{"MOTOR_1 PID"		,TRUE 		,1 	,18 	,10 		,menu_motor_1_pid_page				,SIN_TRACK_ERR_MODE},
-	{"MOTOR_2 PID"		,TRUE 		,1 	,19 	,10 		,menu_motor_2_pid_page				,SIN_TRACK_ERR_MODE},
-	{"MOTOR_3 PID"		,TRUE 		,1 	,20 	,10 		,menu_motor_3_pid_page				,SIN_TRACK_ERR_MODE},
+	{"MOTOR_1 PID"		,TRUE 		,1 	,18 	,12 	,menu_motor_1_pid_page				,NONE},
+	{"MOTOR_2 PID"		,TRUE 		,1 	,19 	,12 	,menu_motor_2_pid_page				,NONE},
+	{"MOTOR_3 PID"		,TRUE 		,1 	,20 	,12 	,menu_motor_3_pid_page				,NONE},
 	{"PATH PID"			,TRUE 		,1 	,21 	,7 		,menu_path_pid_page					,NONE},
 	{"ROTATE_PID"		,TRUE		,1	,22		,6		,menu_rotate_angle_pid_page			,NONE}
 };
 
-static int16 num = 0;	// Ò³ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½Ðµï¿½ï¿½ï¿½ï¿½
-static int16 page_level = 0;	// Ò³ï¿½æ¼¶ï¿½ï¿½
-static int16 page_num = 0;	// Ò³ï¿½ï¿½ï¿½ï¿½ï¿½
-static int16 page_row_num = 0;	// Ò³ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-static int16 last_page_level = 0;	// ï¿½ï¿½Ò»ï¿½ï¿½Ò³ï¿½æ¼¶ï¿½ï¿½
-static int16 last_page_num = 0;	// ï¿½ï¿½Ò»ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½
-static int16 point_row_num = 0;	// Ò³ï¿½ï¿½Ö¸ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+static int16 num = 0;	// Ò³ÃæÔÚÁÐ±íÖÐµÄÐòºÅ
+static int16 page_level = 0;	// Ò³Ãæ¼¶±ð
+static int16 page_num = 0;	// Ò³ÃæÐòºÅ
+static int16 page_row_num = 0;	// Ò³ÃæÑ¡ÏîÐÐÊý
+static int16 last_page_level = 0;	// ÉÏÒ»¸öÒ³Ãæ¼¶±ð
+static int16 last_page_num = 0;	// ÉÏÒ»¸öÒ³ÃæÐòºÅ
+static int16 point_row_num = 0;	// Ò³ÃæÖ¸ÕëÖ¸ÏòÐÐÊý
 
 FUNC_STRING screen_string;
 FUNC_INT screen_int;
@@ -86,9 +86,9 @@ FUNC_CLEAR screen_clear;
 FUNC_DRAW_LINE screen_draw_line;
 FUNC_DRAW_POINT screen_draw_point;
 
-/****************************** ï¿½Ëµï¿½ï¿½ï¿½ï¿½ ******************************/
+/****************************** ²Ëµ¥×é¼þ ******************************/
 
-/* ï¿½Ëµï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ */
+/* ²Ëµ¥³õÊ¼»¯ */
 void menu_init(void)
 {
 	menu_data_leeeezy_init();
@@ -106,7 +106,7 @@ void menu_init(void)
 	pit_enable(MENU_KEY_SCAN_IT_CH);
 }
 
-/* ï¿½Ëµï¿½Ò³ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ */
+/* ²Ëµ¥Ò³Ãæ³õÊ¼»¯ */
 void menu_page_init(FUNC_PAGE func_page)
 {
 	int16 i = 0;
@@ -126,7 +126,7 @@ void menu_page_init(FUNC_PAGE func_page)
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥·þÎñÆô¶¯ */
 void menu_service_start(void)
 {
 	screen_clear();
@@ -138,13 +138,13 @@ void menu_service_start(void)
 	menu_root_page();
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ */
+/* °´¼ü¶¯×÷»ñÈ¡ */
 void key_action_get(void)
 {
 	key_scanner();
 }
 
-/* Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ */
+/* Ò³Ãæ±êÌâÏÔÊ¾ */
 void menu_title_show(void)
 {
 	screen_string(0,0,menu_page[num].name);
@@ -155,7 +155,7 @@ void menu_title_show(void)
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥·µ»Ø */
 void menu_back(FUNC_PAGE_BACK_SERVICE func_page_back_service)
 {
 	int16 i = 0;
@@ -164,7 +164,7 @@ void menu_back(FUNC_PAGE_BACK_SERVICE func_page_back_service)
 		case 0:{ screen_string(0,140,"BACK"); break; }
 		case 1:{ screen_string(0,300,"BACK"); break; }
 	}
-	// ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+	// ·µ»ØÅÐ¶Ï
 	if(key_get_state(PRESS) == KEY_SHORT_PRESS && page_level > 0 && point_row_num == menu_page[num].page_row_num)
 	{
 		key_clear_all_state();
@@ -184,23 +184,23 @@ void menu_back(FUNC_PAGE_BACK_SERVICE func_page_back_service)
 	}
 }
 
-/* 	ï¿½Ëµï¿½Ñ¡ï¿½ï¿½Ö¸ï¿½ï¿½ */
+/* 	²Ëµ¥Ñ¡ÏîÖ¸Õë */
 void menu_point(void)
 {
-	// ï¿½ï¿½È¡×´Ì¬
-	if(key_get_state(UP) == KEY_SHORT_PRESS)	// ï¿½Ï¼ï¿½ï¿½Ì°ï¿½ï¿½ï¿½ï¿½ï¿½
+	// »ñÈ¡×´Ì¬
+	if(key_get_state(UP) == KEY_SHORT_PRESS)	// ÉÏ¼ü¶Ì°´ÉÏÒÆ
 	{
 		point_row_num--;
 		screen_clear();
 		key_clear_all_state();
 	}
-	else if(key_get_state(DOWN) == KEY_SHORT_PRESS)	// ï¿½Â¼ï¿½ï¿½Ì°ï¿½ï¿½ï¿½ï¿½ï¿½
+	else if(key_get_state(DOWN) == KEY_SHORT_PRESS)	// ÏÂ¼ü¶Ì°´ÏÂÒÆ
 	{
 		point_row_num++;
 		screen_clear();
 		key_clear_all_state();
 	}
-	// ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½
+	// Õý³£Ñ¡Ïî
 	else if(key_get_state(PRESS) == KEY_SHORT_PRESS && point_row_num < menu_page[num].page_row_num)
 	{
 		int16 i = 0;
@@ -210,7 +210,7 @@ void menu_point(void)
 		{
 			if(menu_page[i].page_level == page_level+1 && menu_page[i].page_num == point_row_num)
 			{
-				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				// ¸üÐÂË÷Òý
 				last_page_level = page_level;
 				last_page_num = page_num;
 				system_delay_ms(50);
@@ -220,7 +220,7 @@ void menu_point(void)
 		}	
 	}
 		
-	// ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òª point_row_num+1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½Ê¾Ö¸ï¿½ï¿½
+	// Èç¹ûÏÔÊ¾±êÌâÔòÐèÒª point_row_num+1²ÅÄÜÕýÈ·ÏÔÊ¾Ö¸Õë
 	if(menu_page[num].title_show)
 	{
 		if(point_row_num < 0)
@@ -255,29 +255,29 @@ void menu_point(void)
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ý¸ï¿½ï¿½Ä·ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥Êý¾Ý¸ü¸Ä·þÎñ */
 void menu_data_change(FUNC_PAGE_SERVICE func_service_add,FUNC_PAGE_SERVICE func_service_reduce)
 {
-	// ï¿½ï¿½È¡×´Ì¬
-	if(key_get_state(LEFT) == KEY_SHORT_PRESS)	// ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ï¿½ï¿½ï¿½ï¿½
+	// »ñÈ¡×´Ì¬
+	if(key_get_state(LEFT) == KEY_SHORT_PRESS)	// ×ó¼ü¶Ì°´×óÒÆ
 	{
 		func_service_reduce();
 		screen_clear();
 		key_clear_all_state();
 	}
-	else if(key_get_state(RIGHT) == KEY_SHORT_PRESS)	// ï¿½Ò¼ï¿½ï¿½Ì°ï¿½ï¿½ï¿½ï¿½ï¿½
+	else if(key_get_state(RIGHT) == KEY_SHORT_PRESS)	// ÓÒ¼ü¶Ì°´ÓÒÒÆ
 	{
 		func_service_add();
 		screen_clear();
 		key_clear_all_state();
 	}
-	if(key_get_state(LEFT) == KEY_LONG_PRESS)	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if(key_get_state(LEFT) == KEY_LONG_PRESS)	// ×ó¼ü³¤°´×óÒÆ
 	{
 		func_service_reduce();
 		screen_clear();
 		key_clear_all_state();
 	}
-	else if(key_get_state(RIGHT) == KEY_LONG_PRESS)	// ï¿½Ò¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	else if(key_get_state(RIGHT) == KEY_LONG_PRESS)	// ÓÒ¼ü³¤°´ÓÒÒÆ
 	{
 		func_service_add();
 		screen_clear();
@@ -285,7 +285,7 @@ void menu_data_change(FUNC_PAGE_SERVICE func_service_add,FUNC_PAGE_SERVICE func_
 	}
 }
 
-/* ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* ¸ùÒ³Ãæ */
 void menu_root_page(void)
 {
 	menu_page_init(menu_root_page);
@@ -293,13 +293,18 @@ void menu_root_page(void)
 	{
 		menu_point();
 		int16 i = 0;
-		// Í£ï¿½ï¿½
+		// Í£³µ
 		chassis_motion_flag = CHASSIS_STOP;
-		// Í£Ö¹ï¿½ï¿½ï¿½ï¿½
+		// Í£Ö¹½âËã
 		euler_angle_flag = FALSE;
 		translate_shift_flag = FALSE;
 		
-		// Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
+		// ±êÖ¾Î»³õÊ¼»¯
+		flag_init();
+		// ±äÁ¿³õÊ¼»¯
+		variable_init();
+		
+		// Ö§³ÖÎÞÏÞÒ³Êý
 		for(i = 0;i < sizeof(menu_page)/sizeof(menu_page[0]);i++)
 		{
 			if(menu_page[i].page_level == page_level+1 && menu_page[i].page_num >= MAX_ROW*ROUND(point_row_num,MAX_ROW) && menu_page[i].page_num < MAX_ROW*(ROUND(point_row_num,MAX_ROW)+1))
@@ -321,24 +326,24 @@ void menu_root_page(void)
 
 /**********************************************************************/
 
-/****************************** ï¿½Ëµï¿½Ò³ï¿½ï¿½ ******************************/
-/* ï¿½ï¿½ï¿½ï¿½ */
+/****************************** ²Ëµ¥Ò³Ãæ ******************************/
+/* Æô¶¯ */
 void start(void)
 {
 	menu_page_init(start);
 	
 	system_delay_ms(500);
 	
-	// Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+	// Ê¶±ð½á¹ûÁÐ±í³õÊ¼»¯
 	ai_camera_detection_result_list_num = 0;
 	memset(ai_camera_detection_result_list, 0, sizeof(ai_camera_detection_result_list));
 	
-	// ï¿½ï¿½Ö¾Î»ï¿½ï¿½Ê¼ï¿½ï¿½
+	// ±êÖ¾Î»³õÊ¼»¯
 	flag_init();
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+	// ±äÁ¿³õÊ¼»¯
 	variable_init();
 	
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½Ê±Î´ï¿½ï¿½É³ï¿½Ê¼ï¿½ï¿½
+	// ÕâÀï¼ÓÑÓÊ±£¬·ÀÖ¹¼ÆÊ±Î´Íê³É³õÊ¼»¯
 	system_delay_ms(500);
 	
 	zebra_crossing_path_element_judge_start_time_count_flag = TRUE;
@@ -356,23 +361,23 @@ void start(void)
 	}
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ */
+/* µ÷ÊÔ */
 void debug(void)
 {
 	menu_page_init(debug);
 	
 	system_delay_ms(500);
 	
-	// Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+	// Ê¶±ð½á¹ûÁÐ±í³õÊ¼»¯
 	ai_camera_detection_result_list_num = 0;
 	memset(ai_camera_detection_result_list, 0, sizeof(ai_camera_detection_result_list));
 	
-	// ï¿½ï¿½Ö¾Î»ï¿½ï¿½Ê¼ï¿½ï¿½
+	// ±êÖ¾Î»³õÊ¼»¯
 	flag_init();
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+	// ±äÁ¿³õÊ¼»¯
 	variable_init();
 	
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½Ê±Î´ï¿½ï¿½É³ï¿½Ê¼ï¿½ï¿½
+	// ÕâÀï¼ÓÑÓÊ±£¬·ÀÖ¹¼ÆÊ±Î´Íê³É³õÊ¼»¯
 	system_delay_ms(500);
 	
 	zebra_crossing_path_element_judge_start_time_count_flag = TRUE;
@@ -388,20 +393,20 @@ void debug(void)
 		
 		control_mode_dispatch();
 		
-		/* ÊµÊ±ï¿½ï¿½ï¿½ï¿½ */
+		/* ÊµÊ±Êý¾Ý */
 		screen_draw_line(MT9V03X_W/2+path_err, MENU_ROW_PITCH, MT9V03X_W/2+path_err, MENU_ROW_PITCH+2*MT9V03X_H,RGB565_RED);
 		screen_image(0, MENU_ROW_PITCH, image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
 		screen_image(0, MT9V03X_H+MENU_ROW_PITCH, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-		// ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ê¼ï¿½ï¿½Ö¹ï¿½ï¿½
+		// ºìÏß£¬±ßÏßÌáÈ¡ÆðÊ¼½ØÖ¹Ïß
 		screen_draw_line(0, MENU_ROW_PITCH+side_extract_start_y, MT9V03X_W, MENU_ROW_PITCH+side_extract_start_y ,RGB565_RED);
 		screen_draw_line(0, MENU_ROW_PITCH+side_extract_end_y, MT9V03X_W, MENU_ROW_PITCH+side_extract_end_y ,RGB565_RED);
-		// ï¿½ï¿½É«ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ÂÌÉ«£¬Ô²»·¼ì²âÏß
 		screen_draw_line(0, MENU_ROW_PITCH+circle_check_y, MT9V03X_W, MENU_ROW_PITCH+circle_check_y ,RGB565_GREEN);
-		// ï¿½ï¿½É«ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½Ö¹ï¿½ï¿½
+		// À¶É«£¬Ñ­ÏßÆðÊ¼½ØÖ¹Ïß
 		screen_draw_line(0, MENU_ROW_PITCH+path_start, MT9V03X_W, MENU_ROW_PITCH+path_start ,RGB565_BLUE);
 		screen_draw_line(0, MENU_ROW_PITCH+path_start-control_point[path_follow_kind_flag], MT9V03X_W, MENU_ROW_PITCH+path_start-control_point[path_follow_kind_flag] ,RGB565_BLUE);
 		
-		// ï¿½ï¿½ï¿½ßµï¿½
+		// ±ßÏßµã
 		for(int i = 0;i < L_side_point_num;i++)
 		{
 			if(L_side[i][0] <= MT9V03X_W && L_side[i][0] >= 0 && L_side[i][1] <= MT9V03X_H && L_side[i][1] >= 0)
@@ -417,41 +422,41 @@ void debug(void)
 			}
 		}
 		
-		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ×óÍäµãÊý Ñ­ÏßÎó²î ÓÒÍäµãÊý
 		screen_int(0,2*MT9V03X_H+MENU_ROW_PITCH,L_bend_point_num,3);
 		screen_int(DATA_MAX_COL/2,2*MT9V03X_H+MENU_ROW_PITCH,path_err,3);
 		screen_int(DATA_MAX_COL,2*MT9V03X_H+MENU_ROW_PITCH,R_bend_point_num,3);
 		
-		// ï¿½ï¿½ß¿ï¿½ï¿½ï¿½ï¿½ Ñ­ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ ï¿½Ò±ß¿ï¿½ï¿½ï¿½ï¿½
+		// ×ó±ß¿òµãÊý Ñ­ÏßËã·¨ÀàÐÍ ÓÒ±ß¿òµãÊý
 		screen_int(0,2*MT9V03X_H+2*MENU_ROW_PITCH,L_frame_point_num,3);
 		screen_int(DATA_MAX_COL/2,2*MT9V03X_H+2*MENU_ROW_PITCH,path_follow_kind_flag,3);
 		screen_int(DATA_MAX_COL,2*MT9V03X_H+2*MENU_ROW_PITCH,R_frame_point_num,3);
 		
-		// ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½ ï¿½Ò¶ï¿½Öµ ï¿½Ò±ï¿½ï¿½ßµï¿½ï¿½ï¿½
+		// ×ó±ßÏßµãÊý »Ò¶ÈÖµ ÓÒ±ßÏßµãÊý
 		screen_int(0,2*MT9V03X_H+3*MENU_ROW_PITCH,L_side_point_num,3);
 		screen_uint(DATA_MAX_COL/2,2*MT9V03X_H+3*MENU_ROW_PITCH,grayscale,4);
 		screen_int(DATA_MAX_COL,2*MT9V03X_H+3*MENU_ROW_PITCH,R_side_point_num,3);
 		
-		// Î»ï¿½Æ¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ö¡ï¿½ï¿½
+		// Î»ÒÆ¾àÀë ÈüµÀ¹éÒ»»¯ÇúÂÊ Ö¡ÂÊ
 		screen_float(0,2*MT9V03X_H+4*MENU_ROW_PITCH,shift_distance,3,3);
 		screen_float(DATA_MAX_COL/2,2*MT9V03X_H+4*MENU_ROW_PITCH,path_err_normalization,1,4);
 		screen_float(DATA_MAX_COL,2*MT9V03X_H+4*MENU_ROW_PITCH,1000.0/(float)program_time_count,3,3);
 	}
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ±£´æ²ÎÊý */
 void save(void)
 {
 
 }
 
-/* ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ */
+/* ¼ÓÔØ²ÎÊý */
 void load(void)
 {
 
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ÃüÁîÐÐ */
 void cli(void)
 {
 	menu_page_init(cli);
@@ -467,12 +472,12 @@ void cli(void)
 	}
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð£×¼ */
+/* ´«¸ÐÆ÷Ð£×¼ */
 void sensor_calibrate(void)
 {
 	menu_page_init(sensor_calibrate);
 	system_delay_ms(1000);
-	// ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½Ç¡ï¿½ï¿½ï¿½ï¿½Ù¶È¼ï¿½Ð£×¼
+	// ¿ªÊ¼ÍÓÂÝÒÇ¡¢¼ÓËÙ¶È¼ÆÐ£×¼
 	gyro_calibration_flag = FALSE;
 	acc_calibration_flag = FALSE;
 	while(1)
@@ -493,7 +498,7 @@ void sensor_calibrate(void)
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* ²Ëµ¥±àÂëÆ÷Ò³Ãæ */
 void menu_encoder_page(void)
 {	
 	menu_page_init(menu_encoder_page);
@@ -511,7 +516,7 @@ void menu_encoder_page(void)
 		MENU_ENCODER.encoder_2_speed.data_float = encoder_2_speed;
 		MENU_ENCODER.encoder_3_speed.data_float = encoder_3_speed;
 	
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+		// ÏÔÊ¾±àÂëÆ÷¼ÆÊýÖµ
 		screen_string(0,MENU_ROW_PITCH,MENU_ENCODER.encoder_1_count.name);
 		screen_int(DATA_MAX_COL,MENU_ROW_PITCH,MENU_ENCODER.encoder_1_count.data_int16,4);
 		
@@ -521,7 +526,7 @@ void menu_encoder_page(void)
 		screen_string(0,3*MENU_ROW_PITCH,MENU_ENCODER.encoder_3_count.name);
 		screen_int(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_ENCODER.encoder_3_count.data_int16,4);
 	
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½
+		// ÏÔÊ¾±àÂëÆ÷×ªËÙ
 		screen_string(0,4*MENU_ROW_PITCH,MENU_ENCODER.encoder_1_speed.name);
 		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_ENCODER.encoder_1_speed.data_float,4,3);
 		
@@ -533,7 +538,7 @@ void menu_encoder_page(void)
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* ²Ëµ¥µç»úÒ³Ãæ */
 void menu_motor_page(void)
 {	
 	menu_page_init(menu_motor_page);
@@ -557,8 +562,11 @@ void menu_motor_page(void)
 		MENU_MOTOR.motor_1_speed.data_float = motor_1_speed;
 		MENU_MOTOR.motor_2_speed.data_float = motor_2_speed;
 		MENU_MOTOR.motor_3_speed.data_float = motor_3_speed;
+		MENU_MOTOR.motor_1_I.data_float = motor_1_I;
+		MENU_MOTOR.motor_2_I.data_float = motor_2_I;
+		MENU_MOTOR.motor_3_I.data_float = motor_3_I;
 	
-		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PWM
+		// µ÷Õûµç»ú·½Ïò¼°PWM
 		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR.motor_1_dir.name);
 		screen_int(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR.motor_1_dir.data_int16,1);
 		
@@ -577,7 +585,7 @@ void menu_motor_page(void)
 		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR.motor_3_duty.name);
 		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR.motor_3_duty.data_int16,4);
 		
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½×ªï¿½ï¿½
+		// ÏÔÊ¾µç»ú×ªËÙ
 		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR.motor_1_speed.name);
 		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR.motor_1_speed.data_float,4,3);
 		
@@ -587,10 +595,20 @@ void menu_motor_page(void)
 		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR.motor_3_speed.name);
 		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR.motor_3_speed.data_float,4,3);
 		
+		// ÏÔÊ¾µç»ú×ªµçÁ÷
+		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR.motor_1_I.name);
+		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR.motor_1_I.data_float,4,3);
+		
+		screen_string(0,11*MENU_ROW_PITCH,MENU_MOTOR.motor_2_I.name);
+		screen_float(DATA_MAX_COL,11*MENU_ROW_PITCH,MENU_MOTOR.motor_2_I.data_float,4,3);
+		
+		screen_string(0,12*MENU_ROW_PITCH,MENU_MOTOR.motor_3_I.name);
+		screen_float(DATA_MAX_COL,12*MENU_ROW_PITCH,MENU_MOTOR.motor_3_I.data_float,4,3);
+		
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¡ï¿½ï¿½ï¿½ï¿½Ù¶È¼ï¿½Ò³ï¿½ï¿½ */
+/* ²Ëµ¥ÍÓÂÝÒÇ¡¢¼ÓËÙ¶È¼ÆÒ³Ãæ */
 void menu_gyro_acc_page(void)
 {	
 	menu_page_init(menu_gyro_acc_page);
@@ -608,7 +626,7 @@ void menu_gyro_acc_page(void)
 		MENU_GYRO_ACC.acc_y.data_float = acc_y;
 		MENU_GYRO_ACC.acc_z.data_float = acc_z;
 	
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ÏÔÊ¾ÍÓÂÝÒÇ
 		screen_string(0,MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_x.name);
 		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_x.data_float,2,4);
 		
@@ -618,7 +636,7 @@ void menu_gyro_acc_page(void)
 		screen_string(0,3*MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_z.name);
 		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_GYRO_ACC.gyro_z.data_float,2,4);
 		
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ù¶È¼ï¿½
+		// ÏÔÊ¾¼ÓËÙ¶È¼Æ
 		screen_string(0,4*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_x.name);
 		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_GYRO_ACC.acc_x.data_float,2,4);
 		
@@ -631,7 +649,7 @@ void menu_gyro_acc_page(void)
 	}
 }
 
-/* ï¿½Ëµï¿½Å·ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* ²Ëµ¥Å·À­½ÇÒ³Ãæ */
 void menu_euler_angle_page(void)
 {
 	menu_page_init(menu_euler_angle_page);
@@ -649,7 +667,7 @@ void menu_euler_angle_page(void)
 		MENU_EULER_ANGLE.pitch.data_float = pitch;
 		MENU_EULER_ANGLE.yaw.data_float = yaw;
 	
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ÏÔÊ¾ÍÓÂÝÒÇ
 		screen_string(0,MENU_ROW_PITCH,MENU_EULER_ANGLE.roll.name);
 		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_EULER_ANGLE.roll.data_float,3,3);
 		
@@ -661,7 +679,7 @@ void menu_euler_angle_page(void)
 	}
 }
 
-/* ï¿½Ëµï¿½Æ½ï¿½ï¿½Î»ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* ²Ëµ¥Æ½¶¯Î»ÒÆÒ³Ãæ */
 void menu_translate_shift_page(void)
 {
 	menu_page_init(menu_translate_shift_page);
@@ -677,7 +695,7 @@ void menu_translate_shift_page(void)
 		MENU_SHIFT.shift_yaw.data_float = shift_yaw;
 		MENU_SHIFT.shift_distance.data_float = shift_distance;
 		
-		// ï¿½ï¿½Ê¾Î»ï¿½Æ½ï¿½ï¿½ï¿½
+		// ÏÔÊ¾Î»ÒÆ½âËã
 		screen_string(0,MENU_ROW_PITCH,MENU_SHIFT.shift_yaw.name);
 		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_SHIFT.shift_yaw.data_float,3,3);
 		screen_string(0,2*MENU_ROW_PITCH,MENU_SHIFT.shift_distance.name);
@@ -695,7 +713,7 @@ void menu_translate_shift_page(void)
 	}
 }
 
-/* ï¿½Ô³Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* ¶Ô³Æ·¨½ÃÕýÊý¾ÝÒ³Ãæ */
 void menu_symmetry_rectificate_page(void)
 {
 	menu_page_init(menu_symmetry_rectificate_page);
@@ -726,7 +744,7 @@ void menu_symmetry_rectificate_page(void)
 	}
 }
 
-/* AIï¿½ï¿½ï¿½ï¿½Í·0 ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* AIÉãÏñÍ·0 Êý¾ÝÒ³Ãæ */
 void menu_ai_camera_0_page(void)
 {
 	menu_page_init(menu_ai_camera_0_page);
@@ -744,7 +762,7 @@ void menu_ai_camera_0_page(void)
 		MENU_AI_CAMERA_0.detection_box_width_std.data_int16 = detection_box_width_std;
 		MENU_AI_CAMERA_0.detection_box_center_limit.data_int16 = detection_box_center_limit;
 		
-		// ï¿½ï¿½Ê¾MCXVISIONï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½
+		// ÏÔÊ¾MCXVISIONÉãÏñÍ·Êý¾Ý
 		screen_string(0,MENU_ROW_PITCH,MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name);
 		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_AI_CAMERA_0.ai_camera_0_enable_flag.data_uint8,1);
 		
@@ -771,7 +789,7 @@ void menu_ai_camera_0_page(void)
 	}
 }
 
-/* AIï¿½ï¿½ï¿½ï¿½Í·1ï¿½ï¿½2 ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* AIÉãÏñÍ·1ºÍ2 Êý¾ÝÒ³Ãæ */
 void menu_ai_camera_1_and_2_page(void)
 {
 	menu_page_init(menu_ai_camera_1_and_2_page);
@@ -825,7 +843,7 @@ void menu_ai_camera_1_and_2_page(void)
 	}
 }
 
-/* AIÊ¶ï¿½ï¿½ï¿½Ð±ï¿½Ò³ï¿½ï¿½ */
+/* AIÊ¶±ðÁÐ±íÒ³Ãæ */
 void menu_detection_list(void)
 {
 	menu_page_init(menu_detection_list);
@@ -859,7 +877,7 @@ void menu_detection_list(void)
 		else if(detection_list_page_num < 0)
 			detection_list_page_num = ROUND(ai_camera_detection_result_list_num,row_num);
 		
-		// Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
+		// Ö§³ÖÎÞÏÞÒ³Êý
 		for(int i = 0;i < ai_camera_detection_result_list_num;i++)
 		{
 			if(i >= detection_list_page_num*(MAX_ROW-2) && i < (detection_list_page_num+1)*(MAX_ROW-2))
@@ -895,7 +913,7 @@ void menu_detection_list(void)
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* ²Ëµ¥µ×ÅÌÊý¾ÝÒ³Ãæ */
 void menu_chassis_page(void)
 {
 	menu_page_init(menu_chassis_page);
@@ -913,7 +931,7 @@ void menu_chassis_page(void)
 		MENU_CHASSIS.angular_speed.data_float = chassis_angular_speed;
 		MENU_CHASSIS.rotate_angle.data_float = chassis_rotate_angle;
 
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ÏÔÊ¾µ×ÅÌÊý¾Ý
 		screen_string(0,MENU_ROW_PITCH,MENU_CHASSIS.motion_kind.name);
 		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_CHASSIS.motion_kind.data_uint8,1);
 		
@@ -935,7 +953,7 @@ void menu_chassis_page(void)
 	}
 }
 
-/* ï¿½Ëµï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* ²Ëµ¥Ñ­ÏßÊý¾ÝÒ³Ãæ */
 void menu_path_page(void)
 {
 	menu_page_init(menu_path_page);
@@ -957,7 +975,7 @@ void menu_path_page(void)
 		MENU_PATH.prediction_point.data_int16 = prediction_point;
 		MENU_PATH.x_speed_rate.data_float = x_speed_rate;
 	
-		// ï¿½ï¿½Ê¾Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ÏÔÊ¾Ñ­ÏßÊý¾Ý
 		screen_string(0,MENU_ROW_PITCH,MENU_PATH.linear_speed_target_pre.name);
 		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH.linear_speed_target_pre.data_float,3,3);
 		
@@ -987,7 +1005,7 @@ void menu_path_page(void)
 	}
 }
 
-/* ï¿½Ëµï¿½Ô²ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ */
+/* ²Ëµ¥Ô²»·Ñ­ÏßÊý¾ÝÒ³Ãæ */
 void menu_circle_path_page(void)
 {
 	menu_page_init(menu_circle_path_page);
@@ -1013,7 +1031,7 @@ void menu_circle_path_page(void)
 		MENU_CIRCLE_PATH.side_X_delta_max_limit.data_int16 = side_X_delta_limit[0];
 		MENU_CIRCLE_PATH.side_X_delta_max_limit.data_int16 = side_X_delta_limit[1];
 	
-		// ï¿½ï¿½Ê¾Ô²ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		// ÏÔÊ¾Ô²»·Ñ­ÏßÊý¾Ý
 		screen_string(0,MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_path_enable_flag.name);
 		screen_int(DATA_MAX_COL,MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_path_enable_flag.data_uint8,1);
 		
@@ -1055,7 +1073,7 @@ void menu_circle_path_page(void)
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½1 PIDÒ³ï¿½ï¿½ */
+/* ²Ëµ¥µç»ú1 PIDÒ³Ãæ */
 void menu_motor_1_pid_page(void)
 {
 	menu_page_init(menu_motor_1_pid_page);
@@ -1067,8 +1085,8 @@ void menu_motor_1_pid_page(void)
 		menu_title_show();
 		debug_service(menu_page[num].debug_mode);
 		
-		chassis_motion_flag = CHASSIS_MOVE;
-	
+		chassis_motion_flag = CHASSIS_DEBUG;
+		MENU_MOTOR_1_PID.motor_target.data_uint16 = chassis_control.motor_1_speed;
 		MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.data_float = chassis_pid.motor_1_speed_pid_parameters.p;
 		MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.data_float = chassis_pid.motor_1_speed_pid_parameters.i;
 		MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.data_float = chassis_pid.motor_1_speed_pid_parameters.d;
@@ -1081,40 +1099,51 @@ void menu_motor_1_pid_page(void)
 		MENU_MOTOR_1_PID.MOTOR_I_PID.output_limit.data_float = chassis_pid.motor_1_I_pid_parameters.output_limit;
 		MENU_MOTOR_1_PID.MOTOR_I_PID.i_limit.data_float = chassis_pid.motor_1_I_pid_parameters.i_limit;
 	
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½1 PIDï¿½ï¿½ï¿½ï¿½
-		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.data_float,3,3);
+		// ÏÔÊ¾µç»ú1 PIDÊý¾Ý
+		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_1_PID.control_mode.name);
+		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_1_PID.control_mode.data_uint8,1);
 		
-		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.name);
-		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.data_float,3,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_1_PID.motor_target.name);
+		screen_uint(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_1_PID.motor_target.data_uint16,3);
 		
-		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.data_float,3,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.name);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.data_float,3,3);
 		
-		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.name);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.data_float,3,3);
 		
-		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i_limit.data_float,3,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.name);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.data_float,3,3);
 		
-		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.name);
-		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.p.data_float,3,3);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
 		
-		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i.name);
-		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.i.data_float,3,3);
+		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i_limit.data_float,3,3);
 		
-		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.d.name);
-		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.d.data_float,3,3);
+		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.p.name);
+		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.p.data_float,3,3);
 		
-		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.output_limit.data_float,5,1);
+		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.i.name);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.i.data_float,3,3);
 		
-		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_SPEED_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.i_limit.data_float,3,3);
+		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.d.name);
+		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.d.data_float,3,3);
+		
+		screen_string(0,11*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,11*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.output_limit.data_float,5,1);
+		
+		screen_string(0,12*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,12*MENU_ROW_PITCH,MENU_MOTOR_1_PID.MOTOR_I_PID.i_limit.data_float,3,3);
+		
+		if(MENU_MOTOR_1_PID.control_mode.data_uint8 != 0)
+			chassis_control.motor_1 = motor_pid(MOTOR_SPEED_PID_KIND,MOTOR_I_PID_KIND,&chassis_pid,MOTOR_1,chassis_control.motor_1_speed).motor_1;
+		else
+			chassis_control.motor_1.duty = 0;
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½2 PIDÒ³ï¿½ï¿½ */
+/* ²Ëµ¥µç»ú2 PIDÒ³Ãæ */
 void menu_motor_2_pid_page(void)
 {
 	menu_page_init(menu_motor_2_pid_page);
@@ -1126,8 +1155,8 @@ void menu_motor_2_pid_page(void)
 		menu_title_show();
 		debug_service(menu_page[num].debug_mode);
 		
-		chassis_motion_flag = CHASSIS_MOVE;
-	
+		chassis_motion_flag = CHASSIS_DEBUG;
+		MENU_MOTOR_2_PID.motor_target.data_uint16 = chassis_control.motor_2_speed;
 		MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.data_float = chassis_pid.motor_2_speed_pid_parameters.p;
 		MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.data_float = chassis_pid.motor_2_speed_pid_parameters.i;
 		MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.data_float = chassis_pid.motor_2_speed_pid_parameters.d;
@@ -1140,40 +1169,51 @@ void menu_motor_2_pid_page(void)
 		MENU_MOTOR_2_PID.MOTOR_I_PID.output_limit.data_float = chassis_pid.motor_2_I_pid_parameters.output_limit;
 		MENU_MOTOR_2_PID.MOTOR_I_PID.i_limit.data_float = chassis_pid.motor_2_I_pid_parameters.i_limit;
 	
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½2 PIDï¿½ï¿½ï¿½ï¿½
-		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.data_float,3,3);
+		// ÏÔÊ¾µç»ú2 PIDÊý¾Ý
+		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_2_PID.control_mode.name);
+		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_2_PID.control_mode.data_uint8,1);
 		
-		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.name);
-		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.data_float,3,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_2_PID.motor_target.name);
+		screen_uint(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_2_PID.motor_target.data_uint16,3);
 		
-		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.data_float,3,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.name);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.data_float,3,3);
 		
-		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.name);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.data_float,3,3);
 		
-		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i_limit.data_float,3,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.name);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.data_float,3,3);
 		
-		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.name);
-		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.p.data_float,3,3);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
 		
-		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.name);
-		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.i.data_float,3,3);
+		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i_limit.data_float,3,3);
 		
-		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.name);
-		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.d.data_float,3,3);
+		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.p.name);
+		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.p.data_float,3,3);
 		
-		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.output_limit.data_float,5,1);
+		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.i.name);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.i.data_float,3,3);
 		
-		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.i_limit.data_float,3,3);
+		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.d.name);
+		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.d.data_float,3,3);
+		
+		screen_string(0,11*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,11*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.output_limit.data_float,5,1);
+		
+		screen_string(0,12*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,12*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_I_PID.i_limit.data_float,3,3);
+		
+		if(MENU_MOTOR_2_PID.control_mode.data_uint8 != 0)
+			chassis_control.motor_2 = motor_pid(MOTOR_SPEED_PID_KIND,MOTOR_I_PID_KIND,&chassis_pid,MOTOR_2,chassis_control.motor_2_speed).motor_2;
+		else
+			chassis_control.motor_2.duty = 0;
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½3 PIDÒ³ï¿½ï¿½ */
+/* ²Ëµ¥µç»ú3 PIDÒ³Ãæ */
 void menu_motor_3_pid_page(void)
 {
 	menu_page_init(menu_motor_3_pid_page);
@@ -1185,8 +1225,8 @@ void menu_motor_3_pid_page(void)
 		menu_title_show();
 		debug_service(menu_page[num].debug_mode);
 		
-		chassis_motion_flag = CHASSIS_MOVE;
-	
+		chassis_motion_flag = CHASSIS_DEBUG;
+		MENU_MOTOR_3_PID.motor_target.data_uint16 = chassis_control.motor_3_speed;
 		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.data_float = chassis_pid.motor_3_speed_pid_parameters.p;
 		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.data_float = chassis_pid.motor_3_speed_pid_parameters.i;
 		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.data_float = chassis_pid.motor_3_speed_pid_parameters.d;
@@ -1199,40 +1239,51 @@ void menu_motor_3_pid_page(void)
 		MENU_MOTOR_3_PID.MOTOR_I_PID.output_limit.data_float = chassis_pid.motor_3_I_pid_parameters.output_limit;
 		MENU_MOTOR_3_PID.MOTOR_I_PID.i_limit.data_float = chassis_pid.motor_3_I_pid_parameters.i_limit;
 	
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½3 PIDï¿½ï¿½ï¿½ï¿½
-		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.data_float,3,3);
+		// ÏÔÊ¾µç»ú3 PIDÊý¾Ý
+		screen_string(0,MENU_ROW_PITCH,MENU_MOTOR_3_PID.control_mode.name);
+		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_MOTOR_3_PID.control_mode.data_uint8,1);
 		
-		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.name);
-		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.data_float,3,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_MOTOR_3_PID.motor_target.name);
+		screen_uint(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_3_PID.motor_target.data_uint16,3);
 		
-		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.data_float,3,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.name);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.data_float,3,3);
 		
-		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.name);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.data_float,3,3);
 		
-		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i_limit.data_float,3,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.name);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.data_float,3,3);
 		
-		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.name);
-		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.p.data_float,3,3);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
 		
-		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.name);
-		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.i.data_float,3,3);
+		screen_string(0,7*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i_limit.data_float,3,3);
 		
-		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.name);
-		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.d.data_float,3,3);
+		screen_string(0,8*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.p.name);
+		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.p.data_float,3,3);
 		
-		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.output_limit.name);
-		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.output_limit.data_float,5,1);
+		screen_string(0,9*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.i.name);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.i.data_float,3,3);
 		
-		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i_limit.name);
-		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.i_limit.data_float,3,3);
+		screen_string(0,10*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.d.name);
+		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.d.data_float,3,3);
+		
+		screen_string(0,11*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.output_limit.name);
+		screen_float(DATA_MAX_COL,11*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.output_limit.data_float,5,1);
+		
+		screen_string(0,12*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.i_limit.name);
+		screen_float(DATA_MAX_COL,12*MENU_ROW_PITCH,MENU_MOTOR_3_PID.MOTOR_I_PID.i_limit.data_float,3,3);
+		
+		if(MENU_MOTOR_3_PID.control_mode.data_uint8 != 0)
+			chassis_control.motor_3 = motor_pid(MOTOR_SPEED_PID_KIND,MOTOR_I_PID_KIND,&chassis_pid,MOTOR_3,chassis_control.motor_3_speed).motor_3;
+		else
+			chassis_control.motor_3.duty = 0;
 	}
 }
 
-/* ï¿½Ëµï¿½Ñ­ï¿½ï¿½ PIDÒ³ï¿½ï¿½ */
+/* ²Ëµ¥Ñ­¼£ PIDÒ³Ãæ */
 void menu_path_pid_page(void)
 {
 	menu_page_init(menu_path_pid_page);
@@ -1251,7 +1302,7 @@ void menu_path_pid_page(void)
 		MENU_PATH_PID.PATH_PID.i_limit.data_float = path_pid.path_pid_parameters[MENU_PATH_PID.pid_kind.data_uint8].i_limit;
 		MENU_PATH_PID.PATH_PID.gyro_d.data_float = PATH_PID[MENU_PATH_PID.pid_kind.data_uint8][3];
 	
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½3 PIDï¿½ï¿½ï¿½ï¿½
+		// ÏÔÊ¾µç»ú3 PIDÊý¾Ý
 		screen_string(0,MENU_ROW_PITCH,MENU_PATH_PID.pid_kind.name);
 		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH_PID.pid_kind.data_uint8,1);
 		
@@ -1275,7 +1326,7 @@ void menu_path_pid_page(void)
 	}
 }
 
-/* ï¿½Ëµï¿½×ªï¿½ï¿½ï¿½Ç¶ï¿½ PIDï¿½Ç¶ï¿½ */
+/* ²Ëµ¥×ª¶¯½Ç¶È PID½Ç¶È */
 void menu_rotate_angle_pid_page(void)
 {
 	menu_page_init(menu_rotate_angle_pid_page);
@@ -1293,7 +1344,7 @@ void menu_rotate_angle_pid_page(void)
 		MENU_ROTATE_PID.ROTATE_PID.output_limit.data_float = chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].output_limit;
 		MENU_ROTATE_PID.ROTATE_PID.i_limit.data_float = chassis_pid.rotate_pid_parameters[MENU_ROTATE_PID.pid_kind.data_uint8].i_limit;
 	
-		// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½3 PIDï¿½ï¿½ï¿½ï¿½
+		// ÏÔÊ¾µç»ú3 PIDÊý¾Ý
 		screen_string(0,MENU_ROW_PITCH,MENU_ROTATE_PID.pid_kind.name);
 		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_ROTATE_PID.pid_kind.data_uint8,1);
 		
@@ -1316,47 +1367,47 @@ void menu_rotate_angle_pid_page(void)
 
 /**********************************************************************/
 
-/****************************** ï¿½Ëµï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ ******************************/
+/****************************** ²Ëµ¥Ò³Ãæ·þÎñ ******************************/
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½æ·µï¿½Ø·ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥Æô¶¯Ò³Ãæ·µ»Ø·þÎñ */
 void menu_start_page_back_service(void)
 {
-	// Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+	// Ñ­ÏßÆðµã³õÊ¼»¯
 	mid_x = MT9V03X_W/2;
-	// ï¿½Ø±Õ·ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ¹Ø±Õ·äÃùÆ÷
 	pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
-	// ï¿½ï¿½Ê¼ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½Ö¾Î»
+	// ³õÊ¼»¯Ñ­¼£±êÖ¾Î»
 	path_element_flag = STRIGHT_PATH;
 	circle_in_time_count_flag = FALSE;
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½æ·µï¿½Ø·ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥µ÷ÊÔÒ³Ãæ·µ»Ø·þÎñ */
 void menu_debug_page_back_service(void)
 {
-	// Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+	// Ñ­ÏßÆðµã³õÊ¼»¯
 	mid_x = MT9V03X_W/2;
-	// ï¿½Ø±Õ·ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ¹Ø±Õ·äÃùÆ÷
 	pwm_init(BUZZER_PIN, 20000, PWM_DUTY_MAX / 2);
-	// ï¿½ï¿½Ê¼ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½Ö¾Î»
+	// ³õÊ¼»¯Ñ­¼£±êÖ¾Î»
 	path_element_flag = STRIGHT_PATH;
 	circle_in_time_count_flag = FALSE;
 }
 
-/* ï¿½Ëµï¿½Å·ï¿½ï¿½ï¿½ï¿½Ò³ï¿½æ·µï¿½Ø·ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥Å·À­½ÇÒ³Ãæ·µ»Ø·þÎñ */
 void menu_euler_angle_page_back_service(void)
 {
-	// Í£Ö¹ï¿½ï¿½ï¿½ï¿½
+	// Í£Ö¹½âËã
 	euler_angle_flag = FALSE;
 }
 
-/* Æ½ï¿½ï¿½Î»ï¿½Æ½ï¿½ï¿½ï¿½Ò³ï¿½æ·µï¿½Ø·ï¿½ï¿½ï¿½ */
+/* Æ½¶¯Î»ÒÆ½âËãÒ³Ãæ·µ»Ø·þÎñ */
 void menu_translate_shift_page_back_service(void)
 {
-	// Í£Ö¹ï¿½ï¿½ï¿½ï¿½
+	// Í£Ö¹½âËã
 	translate_shift_flag = FALSE;
 }
 
-/* ï¿½Ëµï¿½ï¿½Ô³Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥¶Ô³Æ·¨½ÃÕýÊý¾ÝÒ³Ãæ·þÎñ */
 //void menu_symmetry_rectificate_data_add_service(void)
 //{
 //	switch(point_row_num)
@@ -1390,7 +1441,7 @@ void menu_translate_shift_page_back_service(void)
 //	}
 //}
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* µç»úÊý¾ÝÒ³Ãæ·þÎñ */
 void menu_motor_data_add_service(void)
 {
 	switch(point_row_num)
@@ -1440,7 +1491,7 @@ void menu_motor_data_reduce_service(void)
 		chassis_control.motor_3.duty = 0;
 }
 
-/* ï¿½Ëµï¿½AIï¿½ï¿½ï¿½ï¿½Í·0ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥AIÉãÏñÍ·0Êý¾ÝÒ³Ãæ·þÎñ */
 void menu_ai_camera_0_data_add_service(void)
 {
 	switch(point_row_num)
@@ -1472,7 +1523,7 @@ void menu_ai_camera_0_data_reduce_service(void)
 	}
 }
 
-/* ï¿½Ëµï¿½AIï¿½ï¿½ï¿½ï¿½Í·1/2ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥AIÉãÏñÍ·1/2Êý¾ÝÒ³Ãæ·þÎñ */
 void menu_ai_camera_1_and_2_data_add_service(void)
 {
 	switch(point_row_num)
@@ -1498,7 +1549,7 @@ void menu_ai_camera_1_and_2_data_reduce_service(void)
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥µ×ÅÌÊý¾ÝÒ³Ãæ·þÎñ */
 void menu_chassis_data_add_service(void)
 {
 	switch(point_row_num)
@@ -1530,7 +1581,7 @@ void menu_chassis_data_reduce_service(void)
 	}
 }
 
-/* ï¿½Ëµï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥Ñ­ÏßÊý¾ÝÒ³Ãæ·þÎñ */
 void menu_path_data_add_service(void)
 {
 	switch(point_row_num)
@@ -1562,7 +1613,7 @@ void menu_path_data_reduce_service(void)
 	}
 }
 
-/* ï¿½Ëµï¿½Ô²ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥Ô²»·Ñ­ÏßÊý¾ÝÒ³Ãæ·þÎñ */
 void menu_circle_path_data_add_service(void)
 {
 	switch(point_row_num)
@@ -1610,108 +1661,145 @@ void menu_circle_path_data_reduce_service(void)
 	}
 }
 
+/* ²Ëµ¥µç»ú1 PIDÒ³Ãæ·þÎñ */
 void menu_motor_1_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_1_speed_pid_parameters.p+=0.1; break; }
-		case 1:{ chassis_pid.motor_1_speed_pid_parameters.i+=0.01; break; }
-		case 2:{ chassis_pid.motor_1_speed_pid_parameters.d+=0.01; break; }
-		case 3:{ chassis_pid.motor_1_speed_pid_parameters.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_1_speed_pid_parameters.i_limit+=5; break; }
-		case 5:{ chassis_pid.motor_1_I_pid_parameters.p+=0.1; break; }
-		case 6:{ chassis_pid.motor_1_I_pid_parameters.i+=0.01; break; }
-		case 7:{ chassis_pid.motor_1_I_pid_parameters.d+=0.01; break; }
-		case 8:{ chassis_pid.motor_1_I_pid_parameters.output_limit+=5; break; }
-		case 9:{ chassis_pid.motor_1_I_pid_parameters.i_limit+=5; break; }
+		case 0:{ MENU_MOTOR_1_PID.control_mode.data_uint8+=1; break; }
+		case 1:{ chassis_control.motor_1_speed+=5; break; }
+		case 2:{ chassis_pid.motor_1_speed_pid_parameters.p+=0.1; break; }
+		case 3:{ chassis_pid.motor_1_speed_pid_parameters.i+=0.01; break; }
+		case 4:{ chassis_pid.motor_1_speed_pid_parameters.d+=0.01; break; }
+		case 5:{ chassis_pid.motor_1_speed_pid_parameters.output_limit+=5; break; }
+		case 6:{ chassis_pid.motor_1_speed_pid_parameters.i_limit+=5; break; }
+		case 7:{ chassis_pid.motor_1_I_pid_parameters.p+=0.1; break; }
+		case 8:{ chassis_pid.motor_1_I_pid_parameters.i+=0.01; break; }
+		case 9:{ chassis_pid.motor_1_I_pid_parameters.d+=0.01; break; }
+		case 10:{ chassis_pid.motor_1_I_pid_parameters.output_limit+=5; break; }
+		case 11:{ chassis_pid.motor_1_I_pid_parameters.i_limit+=5; break; }
+	}
+	if(MENU_MOTOR_1_PID.control_mode.data_uint8 > 1)
+	{
+		MENU_MOTOR_1_PID.control_mode.data_uint8 = 0;
 	}
 }
 void menu_motor_1_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_1_speed_pid_parameters.p-=0.1; break; }
-		case 1:{ chassis_pid.motor_1_speed_pid_parameters.i-=0.01; break; }
-		case 2:{ chassis_pid.motor_1_speed_pid_parameters.d-=0.01; break; }
-		case 3:{ chassis_pid.motor_1_speed_pid_parameters.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_1_speed_pid_parameters.i_limit-=5; break; }
-		case 5:{ chassis_pid.motor_1_I_pid_parameters.p-=0.1; break; }
-		case 6:{ chassis_pid.motor_1_I_pid_parameters.i-=0.01; break; }
-		case 7:{ chassis_pid.motor_1_I_pid_parameters.d-=0.01; break; }
-		case 8:{ chassis_pid.motor_1_I_pid_parameters.output_limit-=5; break; }
-		case 9:{ chassis_pid.motor_1_I_pid_parameters.i_limit-=5; break; }
+		case 0:{ MENU_MOTOR_1_PID.control_mode.data_uint8-=1; break; }
+		case 1:{ chassis_control.motor_1_speed-=5; break; }
+		case 2:{ chassis_pid.motor_1_speed_pid_parameters.p-=0.1; break; }
+		case 3:{ chassis_pid.motor_1_speed_pid_parameters.i-=0.01; break; }
+		case 4:{ chassis_pid.motor_1_speed_pid_parameters.d-=0.01; break; }
+		case 5:{ chassis_pid.motor_1_speed_pid_parameters.output_limit-=5; break; }
+		case 6:{ chassis_pid.motor_1_speed_pid_parameters.i_limit-=5; break; }
+		case 7:{ chassis_pid.motor_1_I_pid_parameters.p-=0.1; break; }
+		case 8:{ chassis_pid.motor_1_I_pid_parameters.i-=0.01; break; }
+		case 9:{ chassis_pid.motor_1_I_pid_parameters.d-=0.01; break; }
+		case 10:{ chassis_pid.motor_1_I_pid_parameters.output_limit-=5; break; }
+		case 11:{ chassis_pid.motor_1_I_pid_parameters.i_limit-=5; break; }
+	}
+	if(MENU_MOTOR_1_PID.control_mode.data_uint8 > 1)
+	{
+		MENU_MOTOR_1_PID.control_mode.data_uint8 = 1;
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½2 PIDÒ³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥µç»ú2 PIDÒ³Ãæ·þÎñ */
 void menu_motor_2_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_2_speed_pid_parameters.p+=0.1; break; }
-		case 1:{ chassis_pid.motor_2_speed_pid_parameters.i+=0.01; break; }
-		case 2:{ chassis_pid.motor_2_speed_pid_parameters.d+=0.01; break; }
-		case 3:{ chassis_pid.motor_2_speed_pid_parameters.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_2_speed_pid_parameters.i_limit+=5; break; }
-		case 5:{ chassis_pid.motor_2_I_pid_parameters.p+=0.1; break; }
-		case 6:{ chassis_pid.motor_2_I_pid_parameters.i+=0.01; break; }
-		case 7:{ chassis_pid.motor_2_I_pid_parameters.d+=0.01; break; }
-		case 8:{ chassis_pid.motor_2_I_pid_parameters.output_limit+=5; break; }
-		case 9:{ chassis_pid.motor_2_I_pid_parameters.i_limit+=5; break; }
+		case 0:{ MENU_MOTOR_2_PID.control_mode.data_uint8+=1; break; }
+		case 1:{ chassis_control.motor_2_speed+=5; break; }
+		case 2:{ chassis_pid.motor_2_speed_pid_parameters.p+=0.1; break; }
+		case 3:{ chassis_pid.motor_2_speed_pid_parameters.i+=0.01; break; }
+		case 4:{ chassis_pid.motor_2_speed_pid_parameters.d+=0.01; break; }
+		case 5:{ chassis_pid.motor_2_speed_pid_parameters.output_limit+=5; break; }
+		case 6:{ chassis_pid.motor_2_speed_pid_parameters.i_limit+=5; break; }
+		case 7:{ chassis_pid.motor_2_I_pid_parameters.p+=0.1; break; }
+		case 8:{ chassis_pid.motor_2_I_pid_parameters.i+=0.01; break; }
+		case 9:{ chassis_pid.motor_2_I_pid_parameters.d+=0.01; break; }
+		case 10:{ chassis_pid.motor_2_I_pid_parameters.output_limit+=5; break; }
+		case 11:{ chassis_pid.motor_2_I_pid_parameters.i_limit+=5; break; }
+	}
+	if(MENU_MOTOR_2_PID.control_mode.data_uint8 > 1)
+	{
+		MENU_MOTOR_2_PID.control_mode.data_uint8 = 0;
 	}
 }
 void menu_motor_2_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_2_speed_pid_parameters.p-=0.1; break; }
-		case 1:{ chassis_pid.motor_2_speed_pid_parameters.i-=0.01; break; }
-		case 2:{ chassis_pid.motor_2_speed_pid_parameters.d-=0.01; break; }
-		case 3:{ chassis_pid.motor_2_speed_pid_parameters.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_2_speed_pid_parameters.i_limit-=5; break; }
-		case 5:{ chassis_pid.motor_2_I_pid_parameters.p-=0.1; break; }
-		case 6:{ chassis_pid.motor_2_I_pid_parameters.i-=0.01; break; }
-		case 7:{ chassis_pid.motor_2_I_pid_parameters.d-=0.01; break; }
-		case 8:{ chassis_pid.motor_2_I_pid_parameters.output_limit-=5; break; }
-		case 9:{ chassis_pid.motor_2_I_pid_parameters.i_limit-=5; break; }
+		case 0:{ MENU_MOTOR_2_PID.control_mode.data_uint8-=1; break; }
+		case 1:{ chassis_control.motor_2_speed-=5; break; }
+		case 2:{ chassis_pid.motor_2_speed_pid_parameters.p-=0.1; break; }
+		case 3:{ chassis_pid.motor_2_speed_pid_parameters.i-=0.01; break; }
+		case 4:{ chassis_pid.motor_2_speed_pid_parameters.d-=0.01; break; }
+		case 5:{ chassis_pid.motor_2_speed_pid_parameters.output_limit-=5; break; }
+		case 6:{ chassis_pid.motor_2_speed_pid_parameters.i_limit-=5; break; }
+		case 7:{ chassis_pid.motor_2_I_pid_parameters.p-=0.1; break; }
+		case 8:{ chassis_pid.motor_2_I_pid_parameters.i-=0.01; break; }
+		case 9:{ chassis_pid.motor_2_I_pid_parameters.d-=0.01; break; }
+		case 10:{ chassis_pid.motor_2_I_pid_parameters.output_limit-=5; break; }
+		case 11:{ chassis_pid.motor_2_I_pid_parameters.i_limit-=5; break; }
+	}
+	if(MENU_MOTOR_2_PID.control_mode.data_uint8 > 1)
+	{
+		MENU_MOTOR_2_PID.control_mode.data_uint8 = 1;
 	}
 }
 
-/* ï¿½Ëµï¿½ï¿½ï¿½ï¿½3 PIDÒ³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥µç»ú3 PIDÒ³Ãæ·þÎñ */
 void menu_motor_3_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_3_speed_pid_parameters.p+=0.1; break; }
-		case 1:{ chassis_pid.motor_3_speed_pid_parameters.i+=0.01; break; }
-		case 2:{ chassis_pid.motor_3_speed_pid_parameters.d+=0.01; break; }
-		case 3:{ chassis_pid.motor_3_speed_pid_parameters.output_limit+=5; break; }
-		case 4:{ chassis_pid.motor_3_speed_pid_parameters.i_limit+=5; break; }
-		case 5:{ chassis_pid.motor_3_I_pid_parameters.p+=0.1; break; }
-		case 6:{ chassis_pid.motor_3_I_pid_parameters.i+=0.01; break; }
-		case 7:{ chassis_pid.motor_3_I_pid_parameters.d+=0.01; break; }
-		case 8:{ chassis_pid.motor_3_I_pid_parameters.output_limit+=5; break; }
-		case 9:{ chassis_pid.motor_3_I_pid_parameters.i_limit+=5; break; }
+		case 0:{ MENU_MOTOR_3_PID.control_mode.data_uint8+=1; break; }
+		case 1:{ chassis_control.motor_3_speed+=5; break; }
+		case 2:{ chassis_pid.motor_3_speed_pid_parameters.p+=0.1; break; }
+		case 3:{ chassis_pid.motor_3_speed_pid_parameters.i+=0.01; break; }
+		case 4:{ chassis_pid.motor_3_speed_pid_parameters.d+=0.01; break; }
+		case 5:{ chassis_pid.motor_3_speed_pid_parameters.output_limit+=5; break; }
+		case 6:{ chassis_pid.motor_3_speed_pid_parameters.i_limit+=5; break; }
+		case 7:{ chassis_pid.motor_3_I_pid_parameters.p+=0.1; break; }
+		case 8:{ chassis_pid.motor_3_I_pid_parameters.i+=0.01; break; }
+		case 9:{ chassis_pid.motor_3_I_pid_parameters.d+=0.01; break; }
+		case 10:{ chassis_pid.motor_3_I_pid_parameters.output_limit+=5; break; }
+		case 11:{ chassis_pid.motor_3_I_pid_parameters.i_limit+=5; break; }
+	}
+	if(MENU_MOTOR_3_PID.control_mode.data_uint8 > 1)
+	{
+		MENU_MOTOR_3_PID.control_mode.data_uint8 = 0;
 	}
 }
 void menu_motor_3_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ chassis_pid.motor_3_speed_pid_parameters.p-=0.1; break; }
-		case 1:{ chassis_pid.motor_3_speed_pid_parameters.i-=0.01; break; }
-		case 2:{ chassis_pid.motor_3_speed_pid_parameters.d-=0.01; break; }
-		case 3:{ chassis_pid.motor_3_speed_pid_parameters.output_limit-=5; break; }
-		case 4:{ chassis_pid.motor_3_speed_pid_parameters.i_limit-=5; break; }
-		case 5:{ chassis_pid.motor_3_I_pid_parameters.p-=0.1; break; }
-		case 6:{ chassis_pid.motor_3_I_pid_parameters.i-=0.01; break; }
-		case 7:{ chassis_pid.motor_3_I_pid_parameters.d-=0.01; break; }
-		case 8:{ chassis_pid.motor_3_I_pid_parameters.output_limit-=5; break; }
-		case 9:{ chassis_pid.motor_3_I_pid_parameters.i_limit-=5; break; }
+		case 0:{ MENU_MOTOR_3_PID.control_mode.data_uint8-=1; break; }
+		case 1:{ chassis_control.motor_3_speed-=5; break; }
+		case 2:{ chassis_pid.motor_3_speed_pid_parameters.p-=0.1; break; }
+		case 3:{ chassis_pid.motor_3_speed_pid_parameters.i-=0.01; break; }
+		case 4:{ chassis_pid.motor_3_speed_pid_parameters.d-=0.01; break; }
+		case 5:{ chassis_pid.motor_3_speed_pid_parameters.output_limit-=5; break; }
+		case 6:{ chassis_pid.motor_3_speed_pid_parameters.i_limit-=5; break; }
+		case 7:{ chassis_pid.motor_3_I_pid_parameters.p-=0.1; break; }
+		case 8:{ chassis_pid.motor_3_I_pid_parameters.i-=0.01; break; }
+		case 9:{ chassis_pid.motor_3_I_pid_parameters.d-=0.01; break; }
+		case 10:{ chassis_pid.motor_3_I_pid_parameters.output_limit-=5; break; }
+		case 11:{ chassis_pid.motor_3_I_pid_parameters.i_limit-=5; break; }
+	}
+	if(MENU_MOTOR_3_PID.control_mode.data_uint8 > 1)
+	{
+		MENU_MOTOR_3_PID.control_mode.data_uint8 = 1;
 	}
 }
 
-/* ï¿½Ëµï¿½Ñ­ï¿½ï¿½ PIDÒ³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥Ñ­¼£ PIDÒ³Ãæ·þÎñ */
 void menu_path_pid_add_service(void)
 {
 	switch(point_row_num)
@@ -1747,7 +1835,7 @@ void menu_path_pid_reduce_service(void)
 	}
 }
 
-/* ï¿½Ëµï¿½×ªï¿½ï¿½ï¿½Ç¶ï¿½ PIDÒ³ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ²Ëµ¥×ª¶¯½Ç¶È PIDÒ³Ãæ·þÎñ */
 void menu_rotate_angle_pid_add_service(void)
 {
 	switch(point_row_num)
