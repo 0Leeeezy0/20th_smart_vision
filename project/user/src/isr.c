@@ -47,17 +47,17 @@ void PIT_IRQHandler(void)
 	/* 传感器值获取中断 */
     if(pit_flag_get(PIT_CH0))
     {
-		encoder_get();
-		encoder_clear();
+//		encoder_get();
+//		encoder_clear();
 		
         motor_I_get();
 		
         acc_get();
 		gyro_get();
-		euler_angle();
-		translate_shift();		
-		grayscale_sensor_get();
-		bat_voltage_get();
+//		euler_angle();
+//		translate_shift();		
+//		grayscale_sensor_get();
+//		bat_voltage_get();
 		
         pit_flag_clear(PIT_CH0);
     }
