@@ -41,6 +41,9 @@
 
 // 本例程是开源库移植用空工程
 #include "common.h"
+#include "DOG_motor.h"
+#include "DOG_data.h"
+#include "DOG_vofa.h"
 
 int main(void)
 {
@@ -48,43 +51,20 @@ int main(void)
     debug_init();                   // 调试端口初始化
 
     // 此处编写用户代码 例如外设初始化代码等
-	wireless_uart_init();
-	path_control_init();
-	chassis_control_init();
-	ai_camera_init();
-	menu_init();
-	symmetry_rectificate_init();
-	// 计时中断初始化
-	pit_ms_init (TIME_COUNT_IT_CH, TIME_COUNT_IT_TIME);
-	// 中断使能
-	pit_enable(TIME_COUNT_IT_CH);
+//	struct DOG_MOTOR motor_1;
+//	dog_motor(&motor_1, C7, PWM2_MODULE0_CHA_C6, 10000, True);
+	
+	struct DOG_VOFA wireless_vofa;
+	dog_vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
         // 此处编写需要循环执行的代码
-		if(gyro_calibration_flag && acc_calibration_flag)
-		{
-			program_time_count_flag = TRUE;
-			/* 菜单服务 */
-			menu_service_start();
-			
-//			chassis_total_control(CHASSIS_MOVE,0,-50,0,0,650);
-			/* 测试 */
-//			chassis_motion_flag = CHASSIS_MOVE;
-//			float x_speed = 30;
-//			float y_speed = 80;
-//			chassis_yaw = RAD2DEG(atan(x_speed/y_speed));
-//			chassis_linear_speed = sqrt(x_speed*x_speed+y_speed*y_speed);
-//			chassis_angular_speed = 0;
-			
-			/* RM小陀螺 */
-//			chassis_motion_flag = CHASSIS_MOVE;
-//			euler_angle_flag = TRUE;
-//			chassis_linear_speed = 3;
-//			chassis_yaw = yaw;
-//			chassis_angular_speed = 4;
-		}
+//		run(&motor_1, positive, 2000);
 		
+		justfloat_add(&wireless_vofa, 5, 0.1, 0.2, 0.3, 0.4, 0.5);
+		justfloat_add(&wireless_vofa, 5, 0.15, 0.25, 0.35, 0.45, 0.55);
+		justfloat_send(&wireless_vofa);
 		// 此处编写需要循环执行的代码
     }
 }

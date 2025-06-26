@@ -1,48 +1,54 @@
 #ifndef _DOG_FILTER_H_
 #define _DOG_FILTER_H_
 
-#include "common.h"
+#include "zf_common_headfile.h"
+#include "zf_common_debug.h"
 
-/* 卡尔曼参数 */
-typedef struct
-{
-	float q;
-	float r;
-}_KALMAN_PARAMETERS_;
+// 卡尔曼滤波
+struct DOG_KARMAN_FILTER{
+	/* 卡尔曼滤波参数 */
+	float Kq;
+	float Kr;
+	
+	/* 卡尔曼滤波变量 */
+	float last_p;
+	float now_p;
+	float value;
+	float Kg;
+	
+	/* 成员函数 */
+	float (*KARMAN_FILTER)(struct DOG_KARMAN_FILTER* this, float input);	// 卡尔曼滤波
+};
 
-/* 卡尔曼变量 */
-typedef struct
-{
-    float p_last;	//上次估算协方差
-    float p_now;	//当前估算协方差
-    float value;		//卡尔曼滤波器输出
-    float Kg;		//卡尔曼增益
-}_KALMAN_VARIABLE_;
+// 卡尔曼滤波
+float karman_filter(struct DOG_KARMAN_FILTER* this, float input);
 
-/* 低通滤波参数 */
-typedef struct
-{
-    float k;			//低通滤波系数
-}_LOWPASS_PARAMETERS_;
+// 构造函数
+void dog_karman(struct DOG_KARMAN_FILTER* this, float Kq, float Kr);
+// 析构函数
+void _dog_karman(struct DOG_KARMAN_FILTER* this);
 
-/* 低通滤波变量 */
-typedef struct
-{
-	float new_value;	//新的值
-	float old_value;	//旧的值
-}_LOWPASS_VARIABLE_;
+// 低通滤波
+struct DOG_LOWPASS_FILTER{
+	/* 低通滤波参数 */
+	float K;
+	
+	/* 低通滤波变量 */
+	float last_p;
+	float new_value;
+	float old_value;
+	
+	/* 成员函数 */
+	float (*LOWPASS_FILTER)(struct DOG_LOWPASS_FILTER* this, float input);	// 卡尔曼滤波
+};
 
-/* 卡尔曼初始化 */
-void karman_init(_KALMAN_PARAMETERS_ *karman_parameters ,_KALMAN_VARIABLE_* karman_variable, float q, float r);
+// 低通滤波
+float lowpass_filter(struct DOG_LOWPASS_FILTER* this, float input);
 
-/* 卡尔曼滤波 */
-float karman(_KALMAN_PARAMETERS_ *karman_parameters ,_KALMAN_VARIABLE_* karman_variable, float input);
-
-/* 低通滤波初始化 */
-void lowpass_init(_LOWPASS_PARAMETERS_ *lowpass_parameters, _LOWPASS_VARIABLE_ *lowpass_variable, float k);
-
-/* 低通滤波 */
-float lowpass(_LOWPASS_PARAMETERS_ *lowpass_parameters, _LOWPASS_VARIABLE_ *lowpass_variable, float input);
+// 构造函数
+void dog_lowpass(struct DOG_LOWPASS_FILTER* this, float K);
+// 析构函数
+void _dog_lowpass(struct DOG_LOWPASS_FILTER* this);
 
 #endif
 

@@ -1,74 +1,29 @@
-/*
-该文件用于连接VOFA进行调试
-
-API：
-****用户****
-调试命令行初始化
-命令行服务运行
-************
-
-****底层****
-命令行数据获取
-命令行数据链表初始化
-命令行数据链表空间申请
-命令行数据链表读取
-命令行全部数据空间释放
-命令行尾数据空间释放
-************
-*/
-
 #ifndef _DOG_VOFA_H_
 #define _DOG_VOFA_H_
 
-#include "common.h"
+#include "zf_common_headfile.h"
+#include "zf_common_debug.h"
 
-/*
-更换 zf_common_debug.c 355-362行使用无线串口进行调试
-使用 printf 函数进行调试
-int32_t fputc (int32_t ch, FILE* f)
-{
-    if(zf_debug_init_flag)
-    {
-        wireless_uart_send_byte((ch & 0xFF));
-    }
-    return ch;
-}
-*/
+#define MAX_DATA_BUFFER_SIZE ( 20 )		// 最大数据存储量
 
-/* 命令行数据 */
-typedef struct
-{
-	char Data;
-	uint32 Num;
-	struct _CLI_DATA_* CLI_Data_Header;
-	struct _CLI_DATA_* CLI_Data_Next;
-}_CLI_DATA_;
+struct DOG_VOFA{
+	uart_index_enum uart_idx;	// 串口号
+	float justfloat[MAX_DATA_BUFFER_SIZE][4];	// JUSTFLOAT数据
+	uint8 justfloat_data_num;				// JUSTFLOAT数据量
+	
+	/* 成员函数 */
+	void (*JUSTFLOAT_ADD)(struct DOG_VOFA* this, const uint32 data_num, ...);	// JUSTFLOAT数据添加
+	void (*JUSTFLOAT_SEND)(struct DOG_VOFA* this);		// JUSTFLOAT数据发送
+};
 
-/* 调试命令行初始化 */
-void debug_cli_init(void);
+// JUSTFLOAT数据添加
+void justfloat_add(struct DOG_VOFA* this, const uint32 data_num, ...);
+// JUSTFLOAT数据发送
+void justfloat_send(struct DOG_VOFA* this);
 
-/* 命令行服务运行 */
-void cli_service_start(void);
-
-/* 命令行数据获取 */
-uint32 cli_data_get(_CLI_DATA_** data_rx);
-
-/* 命令行数据链表初始化 */
-_CLI_DATA_* cli_data_init(void);
-
-/* 命令行数据链表空间申请 */
-uint32 cli_data_malloc(_CLI_DATA_** cli_data,char data);
-
-/* 命令行数据链表读取 */
-char cli_data_read(_CLI_DATA_* cli_data,uint32_t num_get);
-
-/* 命令行全部数据空间释放 */
-void cli_data_all_free(_CLI_DATA_* cli_data);
-
-/* 命令行尾数据空间释放 */
-void cli_data_last_free(_CLI_DATA_** cli_data);
-
-/* VOFA justfloat输出 */
-void just_float(const uint32 data_num, ...) ;
+// 构造函数
+void dog_vofa(struct DOG_VOFA* this, uart_index_enum uart_idx, uint32 baud, uart_tx_pin_enum tx_pin, uart_rx_pin_enum rx_pin);
+// 析构函数
+void _dog_vofa(struct DOG_VOFA* this);
 
 #endif

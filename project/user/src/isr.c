@@ -47,83 +47,20 @@ void PIT_IRQHandler(void)
 	/* 传感器值获取中断 */
     if(pit_flag_get(PIT_CH0))
     {
-		encoder_get();
-		encoder_clear();
-		
-        motor_I_get();
-		
-        acc_get();
-		gyro_get();
-		euler_angle();
-		translate_shift();		
-		grayscale_sensor_get();
-		bat_voltage_get();
-		
         pit_flag_clear(PIT_CH0);
     }
     /* 底盘控制中断 */
     if(pit_flag_get(PIT_CH1))
     {
-		switch(chassis_motion_flag)
-		{
-			case CHASSIS_STOP:{ chassis_control_stop();	break; }
-			case CHASSIS_MOVE:{ chassis_control_move(chassis_yaw,chassis_linear_speed,chassis_angular_speed); break; }
-			case CHASSIS_ANGLE_ROTATE:{ chassis_control_angle_rotate(chassis_yaw,chassis_linear_speed,chassis_rotate_angle); break; }
-			case CHASSIS_DEBUG:{ chassis_control_debug(); break; }
-		}
         pit_flag_clear(PIT_CH1);
     }
-    /* 计时中断 */
     if(pit_flag_get(PIT_CH2))
     {
-		// 底盘移动计时
-		if(chassis_move_time_count_flag)
-			chassis_move_time_count++;
-		else
-			chassis_move_time_count = 0;
-		// 圆环入环计时
-		if(circle_in_time_count_flag)
-			circle_in_time_count++;
-		else
-			circle_in_time_count = 0;
-		// 圆环出环计时
-		if(circle_out_time_count_flag)
-			circle_out_time_count++;
-		else
-			circle_out_time_count = 0;
-		// 斑马线元素开启判断计时
-		if(zebra_crossing_path_element_judge_start_time_count_flag)
-			zebra_crossing_path_element_start_judge_time_count++;
-		else
-			zebra_crossing_path_element_start_judge_time_count = 0;
-		// 斑马线元素停车延时计时
-		if(zebra_crossing_path_element_stop_delay_time_count_flag)
-			zebra_crossing_path_element_stop_delay_time_count++;
-		else
-			zebra_crossing_path_element_stop_delay_time_count = 0;
-		// 程序计时
-		if(program_time_count_flag)
-			program_time_count++;
-		else
-			program_time_count = 0;
-		// 调试计时
-		if(debug_time_count_flag)
-			debug_time_count++;
-		else
-			debug_time_count = 0;
-		// 速度控制计时
-		if(speed_control_time_count_flag)
-			speed_control_time_count++;
-		else
-			speed_control_time_count = 0;
 		
         pit_flag_clear(PIT_CH2);
     }
-    
-	/* 按键扫描中断 */
     if(pit_flag_get(PIT_CH3))
     {
-		key_action_get();
         pit_flag_clear(PIT_CH3);
     }
 
@@ -134,9 +71,6 @@ void LPUART1_IRQHandler(void)
 {
     if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART1))
     {
-        // AI摄像头1串口接收中断
-        extern void uart_rx_interrupt_handler_ai_camera_1();
-		uart_rx_interrupt_handler_ai_camera_1();
         // 接收中断
     #if DEBUG_UART_USE_INTERRUPT                        // 如果开启 debug 串口中断
         debug_interrupr_handler();                      // 调用 debug 串口接收处理函数 数据会被 debug 环形缓冲区读取
@@ -150,9 +84,6 @@ void LPUART2_IRQHandler(void)
 {
     if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART2))
     {
-		// AI摄像头2串口接收中断
-		extern void uart_rx_interrupt_handler_ai_camera_2();
-        uart_rx_interrupt_handler_ai_camera_2();
         // 接收中断
         
     }
@@ -175,13 +106,7 @@ void LPUART4_IRQHandler(void)
 {
     if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART4))
     {
-		// AI摄像头0串口接收中断
-		extern void uart_rx_interrupt_handler_ai_camera_0();
-        uart_rx_interrupt_handler_ai_camera_0();
         // 接收中断 
-//        flexio_camera_uart_handler();
-//        
-//        gnss_uart_callback();
     }
         
     LPUART_ClearStatusFlags(LPUART4, kLPUART_RxOverrunFlag);    // 不允许删除
