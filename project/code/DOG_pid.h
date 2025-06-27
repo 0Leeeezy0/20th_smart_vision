@@ -27,10 +27,10 @@ struct DOG_PID{
 	 float range[2][3];					// 模糊规则
 	
 	/* 成员函数 */
-	float (*INCREMENTAL_PID)(struct DOG_PID* this ,float target, float feedback);		// 增量式 PID
-	float (*POSITIONAL_PID)(struct DOG_PID* this ,float target, float feedback);		// 位置式 PID
-	void (*FUZZY_PID_INIT)(struct DOG_PID* this, _fuzzy_subset_ fuzzy_rules[][8],  float range[][3]);		// 模糊 PID 初始化
-	void (*FUZZY_PID)(struct DOG_PID* this, float* err, float* p, float* i, float* d, float* output_limit, float* i_limit, uint8 order);	// 模糊 PID
+	float (*incremental_pid)(struct DOG_PID* this ,float target, float feedback);		// 增量式 PID
+	float (*positional_pid)(struct DOG_PID* this ,float target, float feedback);		// 位置式 PID
+	void (*fuzzy_pid_init)(struct DOG_PID* this, _fuzzy_subset_ fuzzy_rules[][8],  float range[][3]);		// 模糊 PID 初始化
+	void (*fuzzy_pid)(struct DOG_PID* this, float* err, float* p, float* i, float* d, float* output_limit, float* i_limit, uint8 order);	// 模糊 PID
 };
 
 // 增量式 PID

@@ -47,7 +47,7 @@ void justfloat_send(struct DOG_VOFA* this){
 }
 
 // 构造函数
-void dog_vofa(struct DOG_VOFA* this, uart_index_enum uart_idx, uint32 baud, uart_tx_pin_enum tx_pin, uart_rx_pin_enum rx_pin){
+void vofa(struct DOG_VOFA* this, uart_index_enum uart_idx, uint32 baud, uart_tx_pin_enum tx_pin, uart_rx_pin_enum rx_pin){
 	/* 串口号 */
 	this -> uart_idx = uart_idx;
 	
@@ -56,15 +56,17 @@ void dog_vofa(struct DOG_VOFA* this, uart_index_enum uart_idx, uint32 baud, uart
 	this -> justfloat_data_num = 0;
 	
 	/* 成员函数 */
-	this -> JUSTFLOAT_ADD = justfloat_add;
-	this -> JUSTFLOAT_SEND = justfloat_send;
+	this -> justfloat_add = justfloat_add;
+	this -> justfloat_send = justfloat_send;
 	
 	/* 初始化 */
 	uart_init(uart_idx, baud, tx_pin, rx_pin);
+	
+	return;
 }
 
 // 析构函数
-void _dog_vofa(struct DOG_VOFA* this){
+void _vofa(struct DOG_VOFA* this){
 	memset(this -> justfloat, 0., sizeof(this -> justfloat));
 	this -> justfloat_data_num = 0;
 }

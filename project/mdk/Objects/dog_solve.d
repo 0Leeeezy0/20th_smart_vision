@@ -1,4 +1,4 @@
-./objects/dog_cv.o: ..\code\DOG_cv.c \
+./objects/dog_solve.o: ..\code\DOG_solve.c \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdint.h \
@@ -104,5 +104,6 @@
   ..\..\libraries\sdk\drives\fsl_usdhc.h \
   ..\..\libraries\components\sdmmc\common\fsl_sdmmc_spec.h \
   ..\..\libraries\components\sdmmc\sdmmc_config.h \
-  ..\..\libraries\sdk\board\clock_config.h ..\code\DOG_cv.h \
-  ..\code\DOG_data.h
+  ..\..\libraries\sdk\board\clock_config.h ..\code\DOG_solve.h \
+  ..\code\DOG_data.h ..\code\DOG_sensor.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h

@@ -17,16 +17,16 @@ struct DOG_KARMAN_FILTER{
 	float Kg;
 	
 	/* 成员函数 */
-	float (*KARMAN_FILTER)(struct DOG_KARMAN_FILTER* this, float input);	// 卡尔曼滤波
+	float (*karman_filter)(struct DOG_KARMAN_FILTER* this, float input);	// 卡尔曼滤波
 };
 
 // 卡尔曼滤波
 float karman_filter(struct DOG_KARMAN_FILTER* this, float input);
 
 // 构造函数
-void dog_karman(struct DOG_KARMAN_FILTER* this, float Kq, float Kr);
+void karman(struct DOG_KARMAN_FILTER* this, float Kq, float Kr);
 // 析构函数
-void _dog_karman(struct DOG_KARMAN_FILTER* this);
+void _karman(struct DOG_KARMAN_FILTER* this);
 
 // 低通滤波
 struct DOG_LOWPASS_FILTER{
@@ -39,16 +39,16 @@ struct DOG_LOWPASS_FILTER{
 	float old_value;
 	
 	/* 成员函数 */
-	float (*LOWPASS_FILTER)(struct DOG_LOWPASS_FILTER* this, float input);	// 卡尔曼滤波
+	float (*lowpass_filter)(struct DOG_LOWPASS_FILTER* this, float input);	// 卡尔曼滤波
 };
 
 // 低通滤波
 float lowpass_filter(struct DOG_LOWPASS_FILTER* this, float input);
 
 // 构造函数
-void dog_lowpass(struct DOG_LOWPASS_FILTER* this, float K);
+void lowpass(struct DOG_LOWPASS_FILTER* this, float K);
 // 析构函数
-void _dog_lowpass(struct DOG_LOWPASS_FILTER* this);
+void _lowpass(struct DOG_LOWPASS_FILTER* this);
 
 #endif
 

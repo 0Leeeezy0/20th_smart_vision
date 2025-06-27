@@ -107,4 +107,5 @@
   ..\..\libraries\components\sdmmc\sdmmc_config.h \
   ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h \
   ..\code\ai.h ..\code\control.h ..\code\fsm.h ..\code\menu.h \
-  ..\code\DOG_motor.h ..\code\DOG_data.h ..\code\DOG_vofa.h
+  ..\code\DOG_motor.h ..\code\DOG_data.h ..\code\DOG_vofa.h \
+  ..\code\DOG_sensor.h ..\code\DOG_solve.h ..\code\DOG_cv.h

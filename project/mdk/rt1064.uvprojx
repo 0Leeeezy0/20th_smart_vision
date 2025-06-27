@@ -539,6 +539,26 @@
               <FileType>5</FileType>
               <FilePath>..\code\DOG_data.h</FilePath>
             </File>
+            <File>
+              <FileName>DOG_solve.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_solve.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_solve.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_solve.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_timer.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

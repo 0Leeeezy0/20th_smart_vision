@@ -18,7 +18,7 @@ float karman_filter(struct DOG_KARMAN_FILTER* this, float input){
 }
 
 // 构造函数
-void dog_karman(struct DOG_KARMAN_FILTER* this, float Kq, float Kr){
+void karman(struct DOG_KARMAN_FILTER* this, float Kq, float Kr){
 	/* 成员变量 */
 	this -> Kq = Kq;
 	this -> Kr = Kr;
@@ -28,11 +28,13 @@ void dog_karman(struct DOG_KARMAN_FILTER* this, float Kq, float Kr){
 	this -> value = 0;
 	this -> Kg = 0;
 	
+	return;
+	
 	/* 成员函数 */
-	this -> KARMAN_FILTER = karman_filter;
+	this -> karman_filter = karman_filter;
 }
 // 析构函数
-void _dog_karman(struct DOG_KARMAN_FILTER* this){
+void _karman(struct DOG_KARMAN_FILTER* this){
 	this -> Kq = 0;
 	this -> Kr = 0;
 	
@@ -51,7 +53,7 @@ float lowpass_filter(struct DOG_LOWPASS_FILTER* this, float input){
 }
 
 // 构造函数
-void dog_lowpass(struct DOG_LOWPASS_FILTER* this, float K){
+void lowpass(struct DOG_LOWPASS_FILTER* this, float K){
 	/* 成员变量 */
 	this -> K = K;
 	
@@ -59,11 +61,13 @@ void dog_lowpass(struct DOG_LOWPASS_FILTER* this, float K){
 	this -> new_value = 0;
 
 	/* 成员函数 */
-	this -> LOWPASS_FILTER = lowpass_filter;
+	this -> lowpass_filter = lowpass_filter;
+	
+	return;
 }
 
 // 析构函数
-void _dog_lowpass(struct DOG_LOWPASS_FILTER* this){
+void _lowpass(struct DOG_LOWPASS_FILTER* this){
 	this -> K = 0;
 	this -> old_value = 0;
 	this -> new_value = 0;

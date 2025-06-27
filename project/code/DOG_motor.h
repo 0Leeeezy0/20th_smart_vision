@@ -13,18 +13,18 @@ struct DOG_MOTOR{
 	_bool_ rotate_reverse_flag;	// 反转参考方向标志位
 	
 	/* 成员函数 */
-	void (*MOTOR_RUN)(struct DOG_MOTOR *this, _rotate_dir_ dir, uint32 duty);	// 电机启动
-	void (*MOTOR_STOP)(struct DOG_MOTOR *this);							// 电机停止
+	void (*motor_run)(struct DOG_MOTOR *this, _rotate_dir_ dir, uint32 duty);	// 电机启动
+	void (*motor_stop)(struct DOG_MOTOR *this);							// 电机停止
 };
 
 // 电机启动
-void run(struct DOG_MOTOR *this, _rotate_dir_ dir, uint32 duty);
+void motor_run(struct DOG_MOTOR *this, _rotate_dir_ dir, uint32 duty);
 // 电机停止
-void stop(struct DOG_MOTOR *this);
+void motor_stop(struct DOG_MOTOR *this);
 
 // 构造函数
-void dog_motor(struct DOG_MOTOR *this, gpio_pin_enum dir_pin, pwm_channel_enum pwm_pin, uint32 freq, _bool_ rotate_reverse_flag);
+void motor(struct DOG_MOTOR *this, gpio_pin_enum dir_pin, pwm_channel_enum pwm_pin, uint32 freq, _bool_ rotate_reverse_flag);
 // 析构函数
-void _dog_motor(struct DOG_MOTOR *this);
+void _motor(struct DOG_MOTOR *this);
 
 #endif

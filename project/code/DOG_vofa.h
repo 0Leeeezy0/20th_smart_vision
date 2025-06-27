@@ -12,8 +12,8 @@ struct DOG_VOFA{
 	uint8 justfloat_data_num;				// JUSTFLOAT数据量
 	
 	/* 成员函数 */
-	void (*JUSTFLOAT_ADD)(struct DOG_VOFA* this, const uint32 data_num, ...);	// JUSTFLOAT数据添加
-	void (*JUSTFLOAT_SEND)(struct DOG_VOFA* this);		// JUSTFLOAT数据发送
+	void (*justfloat_add)(struct DOG_VOFA* this, const uint32 data_num, ...);	// JUSTFLOAT数据添加
+	void (*justfloat_send)(struct DOG_VOFA* this);		// JUSTFLOAT数据发送
 };
 
 // JUSTFLOAT数据添加
@@ -22,8 +22,8 @@ void justfloat_add(struct DOG_VOFA* this, const uint32 data_num, ...);
 void justfloat_send(struct DOG_VOFA* this);
 
 // 构造函数
-void dog_vofa(struct DOG_VOFA* this, uart_index_enum uart_idx, uint32 baud, uart_tx_pin_enum tx_pin, uart_rx_pin_enum rx_pin);
+void vofa(struct DOG_VOFA* this, uart_index_enum uart_idx, uint32 baud, uart_tx_pin_enum tx_pin, uart_rx_pin_enum rx_pin);
 // 析构函数
-void _dog_vofa(struct DOG_VOFA* this);
+void _vofa(struct DOG_VOFA* this);
 
 #endif

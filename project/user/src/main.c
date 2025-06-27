@@ -44,6 +44,9 @@
 #include "DOG_motor.h"
 #include "DOG_data.h"
 #include "DOG_vofa.h"
+#include "DOG_sensor.h"
+#include "DOG_solve.h"
+#include "DOG_cv.h"
 
 int main(void)
 {
@@ -55,18 +58,43 @@ int main(void)
 //	dog_motor(&motor_1, C7, PWM2_MODULE0_CHA_C6, 10000, True);
 	
 	struct DOG_VOFA wireless_vofa;
-	dog_vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
+	vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
+	
+	struct DOG_ENCODER encoder_1;
+	encoder(&encoder_1, QTIMER1_ENCODER2, QTIMER1_ENCODER2_CH1_C2, QTIMER1_ENCODER2_CH2_C24, False, 4096, 5, 4.22, 17.90708);
+	
+	struct DOG_IMU imu660ra;
+	imu(&imu660ra, False, False, False);
+	
+	struct DOG_SOLVE angle_solve;
+	solve(&angle_solve, 10);
+	
+	struct DOG_CV dog_cv;
+	cv(&dog_cv);
+	
+	ips200_init(IPS200_TYPE_SPI);
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
         // 此处编写需要循环执行的代码
 //		run(&motor_1, positive, 2000);
 		
-		justfloat_add(&wireless_vofa, 5, 0.1, 0.2, 0.3, 0.4, 0.5);
-		justfloat_add(&wireless_vofa, 5, 0.15, 0.25, 0.35, 0.45, 0.55);
-		justfloat_send(&wireless_vofa);
+		encoder_1.encoder_get(&encoder_1);
+		imu660ra.gyro_get(&imu660ra);
+		angle_solve.solve_flag = True;
+		angle_solve.euler_angle(&angle_solve, &imu660ra);
+		wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)encoder_1.encoder_raw, encoder_1.encoder_rpm, encoder_1.motor_rpm, encoder_1.wheel_speed);
+		justfloat_add(&wireless_vofa, 3, imu660ra.gyro_x, imu660ra.gyro_y, imu660ra.gyro_z);
+		justfloat_add(&wireless_vofa, 3, angle_solve.roll, angle_solve.pitch, angle_solve.yaw);
+		wireless_vofa.justfloat_send(&wireless_vofa);
+		
+		dog_cv.threshold(&dog_cv, mt9v03x_image);
+		ips200_show_gray_image(0, 0, dog_cv.image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
+		
 		// 此处编写需要循环执行的代码
     }
+	
+	return 0;
 }
 
 

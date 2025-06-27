@@ -13,6 +13,8 @@
 ".\objects\dog_vofa.o"
 ".\objects\fsm.o"
 ".\objects\menu.o"
+".\objects\dog_solve.o"
+".\objects\dog_timer.o"
 ".\objects\zf_common_clock.o"
 ".\objects\zf_common_debug.o"
 ".\objects\zf_common_fifo.o"

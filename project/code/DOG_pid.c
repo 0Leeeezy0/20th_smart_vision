@@ -383,10 +383,12 @@ void dog_pid(struct DOG_PID* this){
 	this -> value_delta = 0;
 	
 	/* 成员函数 */
-	this -> INCREMENTAL_PID = incremental_pid;
-	this -> POSITIONAL_PID = positional_pid;
-	this -> FUZZY_PID_INIT = fuzzy_pid_init;
-	this -> FUZZY_PID = fuzzy_pid;
+	this -> incremental_pid = incremental_pid;
+	this -> positional_pid = positional_pid;
+	this -> fuzzy_pid_init = fuzzy_pid_init;
+	this -> fuzzy_pid = fuzzy_pid;
+	
+	return;
 }
 
 // 析构函数
