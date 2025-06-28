@@ -76,7 +76,6 @@
 #define WHEEL_CIRCUMFERENCE 	(float)(17.90708)		// 轮周长
 #define GYRO_Z_FORWARD 	( 1 )							// 陀螺仪Z轴方向（ 向上：1 向下：-1 ）
 #define ACC_OFFSET 		( 0 )							// 加速度计正方向角度修正
-#define TRANSLATE_SHIFT_REVISE	(float)(0.845) 			// 平动位移解算修正
 
 /* 屏幕类型 */
 #define SCREEN_KIND 1	// 屏幕选择（ 0:tft180 1:ips200 ）
@@ -152,14 +151,14 @@
 
 /****************************** 数学参数 ******************************/
 
-#define SIN30 			(float)(0.5)
-#define SIN45 			(float)(0.7071067811865)
-#define SIN60 			(float)(0.8660254037844)
-#define COS30 			(float)(0.8660254037844)
-#define COS45 			(float)(0.7071067811865)
-#define COS60 			(float)(0.5)
-#define DEG2RAD(x) 		(float)(PI*x/180)
-#define RAD2DEG(x) 		(float)(180*x/PI)
+#define SIN30 			(double)(0.5)
+#define SIN45 			(double)(0.70710678118654752440084436210485)
+#define SIN60 			(double)(0.86602540378443864676372317075294)
+#define COS30 			(double)(0.86602540378443864676372317075294)
+#define COS45 			(double)(0.70710678118654752440084436210485)
+#define COS60 			(double)(0.5)
+#define DEG2RAD(x) 		(double)(PI*x/180)
+#define RAD2DEG(x) 		(double)(180*x/PI)
 #define ROUND(x,y) 		((x-(x%y))/y)	// 整除
 	
 /*********************************************************************/

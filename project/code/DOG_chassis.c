@@ -341,7 +341,7 @@ void euler_angle(void)
 		pitch += gyro_y*SENSOR_IT_TIME/1000;
 		yaw += gyro_z*SENSOR_IT_TIME/1000;
 		
-		roll =  (roll, 360);
+		roll =  fmod(roll, 360);
 		pitch = fmod(pitch, 360);
 		yaw = fmod(yaw, 360);
 	}
@@ -417,8 +417,8 @@ void translate_shift(void)
 		wheel_2_shift += motor_2_speed*SENSOR_IT_TIME/1000;
 		wheel_3_shift += motor_3_speed*SENSOR_IT_TIME/1000;
 		
-		x_distance = (wheel_2_shift*COS60+wheel_3_shift*COS60-wheel_1_shift)*TRANSLATE_SHIFT_REVISE;
-		y_distance = (wheel_2_shift*SIN60-wheel_3_shift*SIN60)*TRANSLATE_SHIFT_REVISE;
+		x_distance = (-2.*wheel_1_shift+wheel_2_shift+wheel_3_shift)/3.;
+		y_distance = (wheel_2_shift-wheel_3_shift)/1.7320508075688772935274463415059;
 
 		shift_yaw = RAD2DEG(atan(x_distance/y_distance));
 		if(x_distance > 0 && y_distance <0)
@@ -430,7 +430,7 @@ void translate_shift(void)
 			shift_yaw = shift_yaw-180;
 		}
 		
-		shift_distance = sqrt(x_distance*x_distance+y_distance*y_distance)*TRANSLATE_SHIFT_REVISE;
+		shift_distance = sqrt(x_distance*x_distance+y_distance*y_distance);
 	}
 	else
 	{

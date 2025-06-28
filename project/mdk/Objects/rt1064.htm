@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jun 22 17:23:52 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sat Jun 28 20:50:50 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1736 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -618,8 +618,8 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACMP1_IRQHandler
 </UL>
 <BR>[Address Reference Count : 5]<UL><LI> fsl_csi.o(.data.s_csiIsr)
-<LI> fsl_flexcan.o(.data.s_flexcanIsr)
 <LI> startup_mimxrt1064.o(.isr_vector)
+<LI> fsl_flexcan.o(.data.s_flexcanIsr)
 <LI> fsl_lpuart.o(.data.s_lpuartIsr)
 <LI> fsl_usdhc.o(.data.s_usdhcIsr)
 </UL>
@@ -2752,7 +2752,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[24d]"></a>ai_track_control</STRONG> (Thumb, 860 bytes, Stack size 40 bytes, dog_ai.o(.text.ai_track_control))
+<P><STRONG><a name="[24d]"></a>ai_track_control</STRONG> (Thumb, 848 bytes, Stack size 40 bytes, dog_ai.o(.text.ai_track_control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = ai_track_control &rArr; supplement_lamp &rArr; gpio_set_level &rArr; GPIO_ClearPinsOutput &rArr; GPIO_PortClear
 </UL>
 <BR>[Calls]<UL><LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;supplement_lamp
@@ -2837,7 +2837,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[25d]"></a>chassis_control_transform</STRONG> (Thumb, 328 bytes, Stack size 24 bytes, dog_chassis.o(.text.chassis_control_transform))
+<P><STRONG><a name="[25d]"></a>chassis_control_transform</STRONG> (Thumb, 316 bytes, Stack size 24 bytes, dog_chassis.o(.text.chassis_control_transform))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = chassis_control_transform &rArr; __hardfp_atan &rArr; __ARM_fpclassify
 </UL>
 <BR>[Calls]<UL><LI><a href="#[250]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
@@ -2865,7 +2865,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[257]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_control_init
 </UL>
 
-<P><STRONG><a name="[25f]"></a>chassis_total_control</STRONG> (Thumb, 1782 bytes, Stack size 96 bytes, dog_chassis.o(.text.chassis_total_control))
+<P><STRONG><a name="[25f]"></a>chassis_total_control</STRONG> (Thumb, 1778 bytes, Stack size 96 bytes, dog_chassis.o(.text.chassis_total_control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1200<LI>Call Chain = chassis_total_control &rArr; threshold
 </UL>
 <BR>[Calls]<UL><LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symmetry_rectificate
@@ -3222,7 +3222,7 @@ Global Symbols
 <LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_debug_init
 </UL>
 
-<P><STRONG><a name="[268]"></a>debug_service</STRONG> (Thumb, 328 bytes, Stack size 160 bytes, dog_debug.o(.text.debug_service))
+<P><STRONG><a name="[268]"></a>debug_service</STRONG> (Thumb, 320 bytes, Stack size 160 bytes, dog_debug.o(.text.debug_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 824<LI>Call Chain = debug_service &rArr; menu_uart_service &rArr; update_data_end &rArr; uart_write_buffer &rArr; LPUART_WriteBlocking &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[297]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_uart_service
@@ -3309,7 +3309,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[29c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_dir_init
 </UL>
 
-<P><STRONG><a name="[216]"></a>euler_angle</STRONG> (Thumb, 300 bytes, Stack size 32 bytes, dog_chassis.o(.text.euler_angle))
+<P><STRONG><a name="[216]"></a>euler_angle</STRONG> (Thumb, 324 bytes, Stack size 32 bytes, dog_chassis.o(.text.euler_angle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = euler_angle &rArr; __hardfp_fmod &rArr; _drem &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fmod
@@ -3640,7 +3640,7 @@ Global Symbols
 <LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ai_camera_0_init
 </UL>
 
-<P><STRONG><a name="[254]"></a>inverse_kinematics</STRONG> (Thumb, 244 bytes, Stack size 56 bytes, dog_chassis.o(.text.inverse_kinematics))
+<P><STRONG><a name="[254]"></a>inverse_kinematics</STRONG> (Thumb, 280 bytes, Stack size 56 bytes, dog_chassis.o(.text.inverse_kinematics))
 <BR><BR>[Stack]<UL><LI>Max Depth = 92<LI>Call Chain = inverse_kinematics &rArr; __hardfp_sinf &rArr; __mathlib_rredf2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
