@@ -62,9 +62,9 @@ void motor_sensor_init(void)
 	adc_init(BAT_VOLTAGE_PIN,ADC_12BIT);
 	
     // 电机电压引脚初始化
-    adc_init(MOTOR_1_I_PIN,ADC_12BIT);
-	adc_init(MOTOR_2_I_PIN,ADC_12BIT);    
-    adc_init(MOTOR_3_I_PIN,ADC_12BIT);
+    adc_init(MOTOR_1_I_PIN,ADC_8BIT);
+	adc_init(MOTOR_2_I_PIN,ADC_8BIT);    
+    adc_init(MOTOR_3_I_PIN,ADC_8BIT);
 	
 	// 补光灯引脚初始化
 	gpio_init(SUPPLEMENT_LAMP_EN_PIN,GPO,0,GPO_PUSH_PULL);	// 开/关灯
@@ -369,25 +369,31 @@ void bat_voltage_get(void)
 void motor_I_get(void)
 {
     if(chassis_control.motor_1.dir==1) 
-		motor_1_V = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);
+		//motor_1_V = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);
+        motor_1_V = adc_convert(MOTOR_1_I_PIN);
     else if (chassis_control.motor_1.dir==0)
-		motor_1_V = -1.0*(float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);
+		//motor_1_V = -1.0*(float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);
+        motor_1_V = -1.0*adc_convert(MOTOR_1_I_PIN);
     if(chassis_control.motor_2.dir==1) 
-		motor_2_V = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);
+		//motor_2_V = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);
+        motor_2_V = adc_convert(MOTOR_2_I_PIN); 
     else if (chassis_control.motor_2.dir==0)
-		motor_2_V = -1.0*(float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);
+		//motor_2_V = -1.0*(float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);
+        motor_2_V = -1.0*adc_convert(MOTOR_2_I_PIN);
     if(chassis_control.motor_3.dir==1) 
-		motor_3_V = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);
+		//motor_3_V = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);
+        motor_3_V = adc_convert(MOTOR_3_I_PIN);
     else if (chassis_control.motor_3.dir==0)
-		motor_3_V = -1.0*(float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);
+		//motor_3_V = -1.0*(float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);
+        motor_3_V = -1.0*adc_convert(MOTOR_3_I_PIN);
 
     motor_1_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_1_karman_variable ,motor_1_V);
     motor_2_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_2_karman_variable ,motor_2_V);
     motor_3_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_3_karman_variable ,motor_3_V);
 
-    motor_1_I = motor_1_V_karman / 4096*3.3/20/0.01;
-    motor_2_I = motor_2_V_karman / 4096*3.3/20/0.01;
-    motor_3_I = motor_3_V_karman / 4096*3.3/20/0.01;    
+    motor_1_I = motor_1_V_karman / 256*3.3/20/0.01;
+    motor_2_I = motor_2_V_karman / 256*3.3/20/0.01;
+    motor_3_I = motor_3_V_karman / 256*3.3/20/0.01;    
 }
 
 /* 补光灯控制 */ 
@@ -514,7 +520,16 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC_SPEED)(_PID_PARAMETERS_*,_PID_VARIABLE_
 	{
 		case MOTOR_1:
 		{ 
-			motor_control.motor_1.duty = FUNC_I(&(chassis_pid -> motor_1_I_pid_parameters),&(chassis_pid -> motor_1_I_pid_variable),FUNC_SPEED(&(chassis_pid -> motor_1_speed_pid_parameters),&(chassis_pid -> motor_1_speed_pid_variable),motor_speed,motor_1_speed),motor_1_I);
+			motor_control.motor_1.duty = 
+            FUNC_I(
+            &(chassis_pid -> motor_1_I_pid_parameters),
+            &(chassis_pid -> motor_1_I_pid_variable),
+//            FUNC_SPEED(
+//            &(chassis_pid -> motor_1_speed_pid_parameters),
+//            &(chassis_pid -> motor_1_speed_pid_variable),
+//            motor_speed,motor_1_speed)
+            0.5,
+            motor_1_I);
 			
             if(motor_control.motor_1.duty > 0)
 			{
@@ -529,7 +544,16 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC_SPEED)(_PID_PARAMETERS_*,_PID_VARIABLE_
 		}
 		case MOTOR_2:
 		{
-			motor_control.motor_2.duty = FUNC_I(&(chassis_pid -> motor_2_I_pid_parameters),&(chassis_pid -> motor_2_I_pid_variable),FUNC_SPEED(&(chassis_pid -> motor_2_speed_pid_parameters),&(chassis_pid -> motor_2_speed_pid_variable),motor_speed,motor_2_speed),motor_2_I);			
+			motor_control.motor_2.duty = 
+            FUNC_I(
+            &(chassis_pid -> motor_2_I_pid_parameters),
+            &(chassis_pid -> motor_2_I_pid_variable),
+//            FUNC_SPEED(
+//            &(chassis_pid -> motor_2_speed_pid_parameters),
+//            &(chassis_pid -> motor_2_speed_pid_variable),
+//            motor_speed,motor_2_speed)
+            0.5
+            ,motor_2_I);			
 			if(motor_control.motor_2.duty > 0)
 			{
 				motor_control.motor_2.dir = 0;
@@ -543,7 +567,16 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC_SPEED)(_PID_PARAMETERS_*,_PID_VARIABLE_
 		}
 		case MOTOR_3:
 		{
-			motor_control.motor_3.duty = FUNC_I(&(chassis_pid -> motor_3_I_pid_parameters),&(chassis_pid -> motor_3_I_pid_variable),FUNC_SPEED(&(chassis_pid -> motor_3_speed_pid_parameters),&(chassis_pid -> motor_3_speed_pid_variable),motor_speed,motor_3_speed),motor_3_I);
+			motor_control.motor_3.duty = 
+            FUNC_I(
+            &(chassis_pid -> motor_3_I_pid_parameters),
+            &(chassis_pid -> motor_3_I_pid_variable),
+//            FUNC_SPEED(
+//            &(chassis_pid -> motor_3_speed_pid_parameters),
+//            &(chassis_pid -> motor_3_speed_pid_variable),
+//            motor_speed,motor_3_speed)
+            0.5
+            ,motor_3_I);
 			if(motor_control.motor_3.duty > 0)
 			{
 				motor_control.motor_3.dir = 0;
