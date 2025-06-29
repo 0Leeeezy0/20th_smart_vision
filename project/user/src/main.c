@@ -41,12 +41,7 @@
 
 // 本例程是开源库移植用空工程
 #include "common.h"
-#include "DOG_motor.h"
-#include "DOG_data.h"
-#include "DOG_vofa.h"
-#include "DOG_sensor.h"
-#include "DOG_solve.h"
-#include "DOG_cv.h"
+#include "data.h"
 
 int main(void)
 {
@@ -54,38 +49,63 @@ int main(void)
     debug_init();                   // 调试端口初始化
 
     // 此处编写用户代码 例如外设初始化代码等
-//	struct DOG_MOTOR motor_1;
-//	dog_motor(&motor_1, C7, PWM2_MODULE0_CHA_C6, 10000, True);
 	
-	struct DOG_VOFA wireless_vofa;
+	/* IMU */
+	imu(&imu660ra, IMU_X_FRONT_DIR, IMU_Y_FRONT_DIR, IMU_Z_FRONT_DIR);
+	
+	/* 电机 */
+	
+	motor(&motor_1, MOTOR_1_DIR, MOTOR_1_PWM, 10000, True);
+	motor(&motor_2, MOTOR_2_DIR, MOTOR_2_PWM, 10000, True);
+	motor(&motor_3, MOTOR_3_DIR, MOTOR_3_PWM, 10000, True);
+	
+	/* 编码器 */
+	encoder(&encoder_1, ENCODER_1_MODULE_NUM, ENCODER_1_CH1, ENCODER_1_CH2, ENCODER_1_FRONT_DIR, 4096, SENSOR_SOLVE_IT_TIME, GEAR_RATIO, WHEEL_CIRCUMFERENCE);
+	encoder(&encoder_2, ENCODER_2_MODULE_NUM, ENCODER_2_CH1, ENCODER_2_CH2, ENCODER_2_FRONT_DIR, 4096, SENSOR_SOLVE_IT_TIME, GEAR_RATIO, WHEEL_CIRCUMFERENCE);
+	encoder(&encoder_3, ENCODER_3_MODULE_NUM, ENCODER_3_CH1, ENCODER_3_CH2, ENCODER_3_FRONT_DIR, 4096, SENSOR_SOLVE_IT_TIME, GEAR_RATIO, WHEEL_CIRCUMFERENCE);
+	
+	/* VOFA */
 	vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
 	
-	struct DOG_ENCODER encoder_1;
-	encoder(&encoder_1, QTIMER1_ENCODER2, QTIMER1_ENCODER2_CH1_C2, QTIMER1_ENCODER2_CH2_C24, False, 4096, 5, 4.22, 17.90708);
+	/* 欧拉角解算 */
+	solve(&euler_angle_solve, SENSOR_SOLVE_IT_TIME);
 	
-	struct DOG_IMU imu660ra;
-	imu(&imu660ra, False, False, False);
+	/* 底盘解算 */
+	solve(&chassis_solve, SENSOR_SOLVE_IT_TIME);
+	chassis_solve.solve_flag = True;
 	
-	struct DOG_SOLVE angle_solve;
-	solve(&angle_solve, 10);
+	/* 位移解算 */
+	solve(&displacement_solve, SENSOR_SOLVE_IT_TIME);
 	
-	struct DOG_CV dog_cv;
+	/* 视觉 */
 	cv(&dog_cv);
 	
+	/* 路径 */
+//	path(&dog_path, )
+	
 	ips200_init(IPS200_TYPE_SPI);
+	
+	system_delay_ms(1000);
+	
+	// 传感器/解算中断初始化
+	pit_ms_init (SENSOR_SOLVE_IT_CH, SENSOR_SOLVE_IT_TIME);
+	// 控制中断初始化
+	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);
+	// 中断使能
+	pit_enable(SENSOR_SOLVE_IT_CH);
+	pit_enable(CONTROL_IT_CH);
+	
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
         // 此处编写需要循环执行的代码
 //		run(&motor_1, positive, 2000);
+		euler_angle_solve.solve_flag = True;
+		displacement_solve.solve_flag = True;
 		
-		encoder_1.encoder_get(&encoder_1);
-		imu660ra.gyro_get(&imu660ra);
-		angle_solve.solve_flag = True;
-		angle_solve.euler_angle(&angle_solve, &imu660ra);
-		wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)encoder_1.encoder_raw, encoder_1.encoder_rpm, encoder_1.motor_rpm, encoder_1.wheel_speed);
-		justfloat_add(&wireless_vofa, 3, imu660ra.gyro_x, imu660ra.gyro_y, imu660ra.gyro_z);
-		justfloat_add(&wireless_vofa, 3, angle_solve.roll, angle_solve.pitch, angle_solve.yaw);
+//		justfloat_add(&wireless_vofa, 2, imu660ra.gyro_z, euler_angle_solve.yaw);
+//		justfloat_add(&wireless_vofa, 3, displacement_solve.wheel_1_displacement, displacement_solve.wheel_2_displacement, displacement_solve.wheel_3_displacement);
+		justfloat_add(&wireless_vofa, 3, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, euler_angle_solve.yaw);
 		wireless_vofa.justfloat_send(&wireless_vofa);
 		
 		dog_cv.threshold(&dog_cv, mt9v03x_image);

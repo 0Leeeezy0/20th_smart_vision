@@ -1,6 +1,7 @@
 --cpu Cortex-M7.fp.dp
 ".\objects\isr.o"
 ".\objects\main.o"
+".\objects\data.o"
 ".\objects\ai.o"
 ".\objects\control.o"
 ".\objects\dog_cv.o"

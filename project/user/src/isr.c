@@ -34,7 +34,7 @@
 ********************************************************************************************************************/
 
 #include "common.h"
-
+#include "data.h"
 
 void CSI_IRQHandler(void)
 {
@@ -44,12 +44,19 @@ void CSI_IRQHandler(void)
 
 void PIT_IRQHandler(void)
 {
-	/* 传感器值获取中断 */
+	/* 传感器值/解算 */
     if(pit_flag_get(PIT_CH0))
     {
+		encoder_1.encoder_get(&encoder_1);
+		encoder_2.encoder_get(&encoder_2);
+		encoder_3.encoder_get(&encoder_3);
+		imu660ra.gyro_get(&imu660ra);
+		imu660ra.acc_get(&imu660ra);
+		euler_angle_solve.euler_angle(&euler_angle_solve, imu660ra);
+		displacement_solve.move_solve(&displacement_solve, encoder_1.wheel_speed, encoder_2.wheel_speed, encoder_3.wheel_speed, euler_angle_solve.yaw);
+		
         pit_flag_clear(PIT_CH0);
     }
-    /* 底盘控制中断 */
     if(pit_flag_get(PIT_CH1))
     {
         pit_flag_clear(PIT_CH1);

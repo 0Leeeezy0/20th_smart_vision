@@ -15,7 +15,7 @@ struct DOG_ENCODER{
 	encoder_channel2_enum ch2_pin;	// 通道2引脚
 	_bool_ rotate_reverse_flag;	// 反转参考方向标志位
 	uint16 encoder_line_num;	// 编码器线数
-	uint16 encoder_IT_time;		// 编码器中断时长（ms）
+	float encoder_IT_time;		// 编码器中断时长（ms）
 	float gear_ratio;			// 齿比（编码器转速/电机输出侧转速）
 	float wheel_circumference;	// 轮周长（cm）
 	/* 读取值 */
@@ -41,7 +41,7 @@ struct DOG_IMU{
 	/* 陀螺仪参数 */	
 	_bool_ X_reverse_flag;			// X轴 反转参考方向标志位
 	_bool_ Y_reverse_flag;			// Y轴 反转参考方向标志位
-	_bool_ Z_reverse_flag;			// Z轴 反转参考方向标志位
+	_bool_ Z_reverse_flag;			// Z轴 反转参考方向标志位（要保证右正左负）
 	_bool_ gyro_calibration_flag;	// 陀螺仪去零飘标志位
 	_bool_ acc_calibration_flag;	// 加速度计去零飘标志位
 	/* 读取值 */

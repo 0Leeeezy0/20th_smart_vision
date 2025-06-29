@@ -394,6 +394,11 @@
               <FileType>1</FileType>
               <FilePath>..\user\src\main.c</FilePath>
             </File>
+            <File>
+              <FileName>data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\user\src\data.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -408,6 +413,11 @@
               <FileName>common.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\user\inc\common.h</FilePath>
+            </File>
+            <File>
+              <FileName>data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\user\inc\data.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -890,6 +900,11 @@
               <FilePath>..\..\libraries\zf_device\zf_device_camera.c</FilePath>
             </File>
             <File>
+              <FileName>zf_device_imu660ra.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\libraries\zf_device\zf_device_imu660ra.h</FilePath>
+            </File>
+            <File>
               <FileName>zf_device_camera.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\libraries\zf_device\zf_device_camera.h</FilePath>
@@ -918,11 +933,6 @@
               <FileName>zf_device_imu660ra.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\zf_device\zf_device_imu660ra.c</FilePath>
-            </File>
-            <File>
-              <FileName>zf_device_imu660ra.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\libraries\zf_device\zf_device_imu660ra.h</FilePath>
             </File>
             <File>
               <FileName>zf_device_ips114.c</FileName>

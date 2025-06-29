@@ -5,18 +5,25 @@
 #include "math.h"
 
 // 欧拉角解算
-void euler_angle(struct DOG_SOLVE* this, struct DOG_IMU* imu_data){
-	if((imu_data -> gyro_calibration_flag || imu_data -> acc_calibration_flag) && this -> solve_flag)
+void euler_angle(struct DOG_SOLVE* this, struct DOG_IMU imu_data){
+	if((imu_data.gyro_calibration_flag == True || imu_data.acc_calibration_flag == True) && this -> solve_flag == True)
 	{
-		this -> roll += imu_data -> gyro_x*this -> solve_IT_time/1000;
-		this -> pitch += imu_data -> gyro_y*this -> solve_IT_time/1000;
-		this -> yaw += imu_data -> gyro_z*this -> solve_IT_time/1000;
+		this -> roll += imu_data.gyro_x*this -> solve_IT_time/1000.;
+		this -> pitch += imu_data.gyro_y*this -> solve_IT_time/1000.;
+		this -> yaw += imu_data.gyro_z*this -> solve_IT_time/1000;
 		
 		this -> roll =  fmod(this -> roll, 360);
 		this -> pitch = fmod(this -> pitch, 360);
 		this -> yaw = fmod(this -> yaw, 360);
+		
+		if(this -> roll > 180)this -> roll = this -> roll-360;
+		else if(this -> roll < -180)this -> roll = this -> roll+360;
+		if(this -> pitch > 180)this -> pitch = this -> pitch-360;
+		else if(this -> pitch < -180)this -> pitch = this -> pitch+360;
+		if(this -> yaw > 180)this -> yaw = this -> yaw-360;
+		else if(this -> yaw < -180)this -> yaw = this -> yaw+360;
 	}
-	else
+	else if(this -> solve_flag == False)
 	{
 		this -> roll = 0;
 		this -> pitch = 0;
@@ -24,24 +31,152 @@ void euler_angle(struct DOG_SOLVE* this, struct DOG_IMU* imu_data){
 	}
 }
 
+/*
+	运动逆解算
+	参数说明
+	kind 运动解算类型
+	data_1 线速度/X速度
+	data_2 航向角/Y速度
+	angular_speed 旋转速度
+*/ 
+void move_inv_solve(struct DOG_SOLVE* this, _move_solve_kind_ kind, float data_1, float data_2, float angular_speed){
+	float x_speed = 0;
+	float y_speed = 0;
+	
+	if(kind == SPEED_YAW_SOLVE){
+		x_speed = data_1*sinf(DEG2RAD(data_2));
+		y_speed = (float)data_1*cosf(DEG2RAD(data_2));
+	}
+	else{
+		x_speed = data_1;
+		y_speed = data_2;
+	}
+	this -> wheel_1_speed = -x_speed+angular_speed;
+	this -> wheel_2_speed = x_speed*COS_60+y_speed*COS_30+angular_speed;
+	this -> wheel_3_speed = x_speed*COS_60-y_speed*COS_30+angular_speed;
+}
+
+/*
+	运动解算
+	参数说明
+	wheel_1_speed_real 轮子1 实际轮速
+	wheel_2_speed_real 轮子2 实际轮速
+	wheel_3_speed_real 轮子2 实际轮速
+	yaw 实际航向角
+	说明
+	由于
+*/ 
+void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_speed_real, float wheel_3_speed_real, float yaw){
+	static float diff_world_x_displacement = 0.,diff_world_y_displacement = 0.;	// 世界坐标
+	static float diff_x_displacement = 0.,diff_y_displacement = 0.,diff_displacement = 0.;	// 车身坐标
+	static float diff_wheel_1_displacement = 0.,diff_wheel_2_displacement = 0.,diff_wheel_3_displacement = 0.,diff_displacement_yaw = 0.;
+	if(this -> solve_flag == True)
+	{
+		// 三个轮子的位移微分
+		diff_wheel_1_displacement = -wheel_1_speed_real*this -> solve_IT_time/1000.;
+		diff_wheel_2_displacement = -wheel_2_speed_real*this -> solve_IT_time/1000.;
+		diff_wheel_3_displacement = -wheel_3_speed_real*this -> solve_IT_time/1000.;
+		
+		// 分解到车身X、Y方向上的位移微分
+		diff_x_displacement = (-2.*diff_wheel_1_displacement+diff_wheel_2_displacement+diff_wheel_3_displacement)/3.;
+		diff_y_displacement = (diff_wheel_2_displacement-diff_wheel_3_displacement)/SQRT_3;
+		
+		// 和位移微分
+		diff_displacement = sqrt(diff_x_displacement*diff_x_displacement+diff_y_displacement*diff_y_displacement);
+		
+		// 平动航向角微分（右正左负）
+		if(diff_y_displacement != 0)
+			diff_displacement_yaw = RAD2DEG(atan(diff_x_displacement/diff_y_displacement));
+		else if(diff_x_displacement >= 0 && diff_y_displacement == 0)
+			diff_displacement_yaw = 0;
+		else if(diff_x_displacement < 0 && diff_y_displacement == 0)
+			diff_displacement_yaw = -180;
+		
+		// 修正平动航向角
+		if(diff_x_displacement > 0 && diff_y_displacement <0)
+			diff_displacement_yaw = diff_displacement_yaw+180;
+		else if(diff_x_displacement < 0 && diff_y_displacement <0)
+			diff_displacement_yaw = diff_displacement_yaw-180;
+		
+		// 世界X,Y方向上的位移微分和位移
+		diff_world_x_displacement = diff_displacement*sinf(DEG2RAD(diff_displacement_yaw+yaw*1.15));
+		diff_world_y_displacement = diff_displacement*cosf(DEG2RAD(diff_displacement_yaw+yaw*1.15));
+		this -> world_x_displacement += diff_world_x_displacement;
+		this -> world_y_displacement += diff_world_y_displacement;
+	
+		// 和位移
+		this -> displacement = sqrt(this -> world_x_displacement*this -> world_x_displacement+this -> world_y_displacement*this -> world_y_displacement);
+		// 和位移方向
+		if(this -> world_y_displacement != 0)
+			this -> displacement_yaw = RAD2DEG(atan(this -> world_x_displacement/this -> world_y_displacement));
+		else if(this -> world_x_displacement >= 0 && this -> world_y_displacement == 0)
+			this -> displacement_yaw = 0;
+		else if(this -> world_x_displacement < 0 && this -> world_y_displacement == 0)
+			this -> displacement_yaw = -180;
+		// 修正和位移方向
+		if(this -> world_x_displacement > 0 && this -> world_y_displacement <0)
+			this -> displacement_yaw = this -> displacement_yaw+180;
+		else if(this -> world_x_displacement < 0 && this -> world_y_displacement <0)
+			this -> displacement_yaw = this -> displacement_yaw-180;
+		
+		// 三个轮子位移
+		this -> wheel_1_displacement += diff_wheel_1_displacement;
+		this -> wheel_2_displacement += diff_wheel_2_displacement;
+		this -> wheel_3_displacement += diff_wheel_3_displacement;
+		
+		// 路程（和位移微分积分）
+		this -> distance += diff_displacement;
+	}
+	else if(this -> solve_flag == False)
+	{
+		this -> wheel_1_displacement = 0;	// 轮子位移
+		this -> wheel_2_displacement = 0;	
+		this -> wheel_3_displacement = 0;	
+		this -> world_x_displacement = 0;
+		this -> world_y_displacement = 0;
+		this -> distance = 0;				// 路程
+		this -> displacement = 0;			// 位移
+		this -> displacement_yaw = 0;		// 位移航向角
+	}
+}
+
 // 构造函数
 void solve(struct DOG_SOLVE* this, uint16 solve_IT_time){
 	/* 成员变量 */
-	this -> roll = 0;
-	this -> pitch = 0;
-	this -> yaw = 0;	this -> solve_IT_time = solve_IT_time;
+	this -> roll = 0.;
+	this -> pitch = 0.;
+	this -> yaw = 0.;	
+	this -> wheel_1_displacement = 0;	// 轮子位移
+	this -> wheel_2_displacement = 0;	
+	this -> wheel_3_displacement = 0;	
+	this -> world_x_displacement = 0;
+	this -> world_y_displacement = 0;
+	this -> distance = 0;				// 路程
+	this -> displacement = 0;			// 位移
+	this -> displacement_yaw = 0;		// 位移航向角
+	this -> solve_IT_time = solve_IT_time;
 	this -> solve_flag = False;
 	
 	/* 成员函数 */
 	this -> euler_angle = euler_angle;
+	this -> move_inv_solve = move_inv_solve;
+	this -> move_solve = move_solve;
 	
 	return;
 }
 
 // 析构函数
 void _solve(struct DOG_SOLVE* this){
-	this -> roll = 0;
-	this -> pitch = 0;
-	this -> yaw = 0;
+	this -> roll = 0.;
+	this -> pitch = 0.;
+	this -> yaw = 0.;	
+	this -> wheel_1_displacement = 0;	// 轮子位移
+	this -> wheel_2_displacement = 0;	
+	this -> wheel_3_displacement = 0;	
+	this -> world_x_displacement = 0;
+	this -> world_y_displacement = 0;
+	this -> distance = 0;				// 路程
+	this -> displacement = 0;			// 位移
+	this -> displacement_yaw = 0;		// 位移航向角
 	this -> solve_flag = False;
 }
