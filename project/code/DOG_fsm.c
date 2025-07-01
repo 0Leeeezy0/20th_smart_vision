@@ -42,7 +42,7 @@ void control_mode_dispatch(void)
 			{
 				circle_path_element_judge();	// 圆环元素识别
 			}
-			// 斑马线
+            // 斑马线
 			if(zebra_path_element_start_judge_enable_flag == TRUE)
 			{
 				zebra_crossing_path_element_judge();

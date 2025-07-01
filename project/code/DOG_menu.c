@@ -1177,13 +1177,13 @@ void menu_motor_2_pid_page(void)
 		screen_uint(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_MOTOR_2_PID.motor_target.data_uint16,3);
 		
 		screen_string(0,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.name);
-		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.data_float,3,3);
+		screen_float(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.data_float,3,5);
 		
 		screen_string(0,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.name);
-		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.data_float,3,3);
+		screen_float(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.i.data_float,3,5);
 		
 		screen_string(0,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.data_float,3,3);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.d.data_float,3,5);
 		
 		screen_string(0,6*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.name);
 		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_MOTOR_2_PID.MOTOR_SPEED_PID.output_limit.data_float,5,1);
@@ -1713,11 +1713,11 @@ void menu_motor_2_pid_add_service(void)
 	switch(point_row_num)
 	{
 		case 0:{ MENU_MOTOR_2_PID.control_mode.data_uint8+=1; break; }
-		case 1:{ chassis_control.motor_2_speed+=1; break; }
-		case 2:{ chassis_pid.motor_2_speed_pid_parameters.p+=0.001; break; }
-		case 3:{ chassis_pid.motor_2_speed_pid_parameters.i+=0.001; break; }
-		case 4:{ chassis_pid.motor_2_speed_pid_parameters.d+=0.01; break; }
-		case 5:{ chassis_pid.motor_2_speed_pid_parameters.output_limit+=5; break; }
+		case 1:{ chassis_control.motor_2_speed+=10; break; }
+		case 2:{ chassis_pid.motor_2_speed_pid_parameters.p+=0.0001; break; }
+		case 3:{ chassis_pid.motor_2_speed_pid_parameters.i+=0.0001; break; }
+		case 4:{ chassis_pid.motor_2_speed_pid_parameters.d+=0.0001; break; }
+		case 5:{ chassis_pid.motor_2_speed_pid_parameters.output_limit+=1; break; }
 		case 6:{ chassis_pid.motor_2_speed_pid_parameters.i_limit+=5; break; }
 		case 7:{ chassis_pid.motor_2_I_pid_parameters.p+=1; break; }
 		case 8:{ chassis_pid.motor_2_I_pid_parameters.i+=1; break; }
@@ -1735,11 +1735,11 @@ void menu_motor_2_pid_reduce_service(void)
 	switch(point_row_num)
 	{
 		case 0:{ MENU_MOTOR_2_PID.control_mode.data_uint8-=1; break; }
-		case 1:{ chassis_control.motor_2_speed-=1; break; }
-		case 2:{ chassis_pid.motor_2_speed_pid_parameters.p-=0.001; break; }
-		case 3:{ chassis_pid.motor_2_speed_pid_parameters.i-=0.001; break; }
-		case 4:{ chassis_pid.motor_2_speed_pid_parameters.d-=0.01; break; }
-		case 5:{ chassis_pid.motor_2_speed_pid_parameters.output_limit-=5; break; }
+		case 1:{ chassis_control.motor_2_speed-=10; break; }
+		case 2:{ chassis_pid.motor_2_speed_pid_parameters.p-=0.0001; break; }
+		case 3:{ chassis_pid.motor_2_speed_pid_parameters.i-=0.0001; break; }
+		case 4:{ chassis_pid.motor_2_speed_pid_parameters.d-=0.0001; break; }
+		case 5:{ chassis_pid.motor_2_speed_pid_parameters.output_limit-=1; break; }
 		case 6:{ chassis_pid.motor_2_speed_pid_parameters.i_limit-=5; break; }
 		case 7:{ chassis_pid.motor_2_I_pid_parameters.p-=1; break; }
 		case 8:{ chassis_pid.motor_2_I_pid_parameters.i-=1; break; }
