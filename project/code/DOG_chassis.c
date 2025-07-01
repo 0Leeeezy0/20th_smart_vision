@@ -389,9 +389,9 @@ void motor_I_get(void)
     motor_2_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_2_karman_variable ,motor_2_V);
     motor_3_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_3_karman_variable ,motor_3_V);
 
-    motor_1_I = motor_1_V_karman / 4096*3.3/20/0.01;
-    motor_2_I = motor_2_V_karman / 4096*3.3/20/0.01;
-    motor_3_I = motor_3_V_karman / 4096*3.3/20/0.01;    
+    motor_1_I = (motor_1_V_karman-2035) / 4096 * 3.3/20/0.01;
+    motor_2_I = (motor_2_V_karman-2035) / 4096 * 3.3/20/0.01;
+    motor_3_I = (motor_3_V_karman-2035) / 4096 * 3.3/20/0.01;    
 }
 
 /* 补光灯控制 */ 
@@ -509,7 +509,7 @@ _CURRENT_FILTER_ current_filter_init(void)
 	
 	return current_filter;
 }
-/* 单电机PID控制 */
+///* 单电机PID控制 */
 _CHASSIS_CONTROL_ motor_pid(float (*FUNC_SPEED)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_I)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
 {
 	_CHASSIS_CONTROL_ motor_control;
@@ -562,7 +562,64 @@ _CHASSIS_CONTROL_ motor_pid(float (*FUNC_SPEED)(_PID_PARAMETERS_*,_PID_VARIABLE_
 	}
 	return motor_control;
 }
+/* 单电机PID控制 */
+//_CHASSIS_CONTROL_ motor_pid(
+//                float (*FUNC_SPEED)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),
+//                    float (*FUNC_I)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),
+//                        _CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
+//{
+//	_CHASSIS_CONTROL_ motor_control;
 
+//	switch(motor_num)
+//	{
+//		case MOTOR_1:
+//		{ 
+//			motor_control.motor_1.duty = FUNC_I(&(chassis_pid -> motor_1_I_pid_parameters),
+//            &(chassis_pid -> motor_1_I_pid_variable),    
+//            motor_speed/10,
+//            motor_1_I);            
+//            if(motor_control.motor_1.duty > 0)
+//			{
+//				motor_control.motor_1.dir = 0;
+//			}
+//			else
+//			{
+//				motor_control.motor_1.dir = 1;
+//			}
+//			motor_control.motor_1.duty = (int16)abs(motor_control.motor_1.duty);
+//			break;
+//		}
+//		case MOTOR_2:
+//		{
+//			motor_control.motor_2.duty = FUNC_I(&(chassis_pid -> motor_2_I_pid_parameters),&(chassis_pid -> motor_2_I_pid_variable),motor_speed/10,motor_2_I);			
+//			if(motor_control.motor_2.duty > 0)
+//			{
+//				motor_control.motor_2.dir = 0;
+//			}
+//			else
+//			{
+//				motor_control.motor_2.dir = 1;
+//			}
+//			motor_control.motor_2.duty = (int16)abs(motor_control.motor_2.duty);
+//			break;
+//		}
+//		case MOTOR_3:
+//		{
+//			motor_control.motor_3.duty = FUNC_I(&(chassis_pid -> motor_3_I_pid_parameters),&(chassis_pid -> motor_3_I_pid_variable),motor_speed/10,motor_3_I);
+//			if(motor_control.motor_3.duty > 0)
+//			{
+//				motor_control.motor_3.dir = 0;
+//			}
+//			else
+//			{
+//				motor_control.motor_3.dir = 1;
+//			}
+//			motor_control.motor_3.duty = (int16)abs(motor_control.motor_3.duty);
+//			break;
+//		}
+//	}
+//	return motor_control;
+//}
 /* 运动学逆解算 */
 _CHASSIS_CONTROL_ inverse_kinematics(float chassis_yaw,float chassis_linear_speed,float chassis_angular_speed)
 {
