@@ -125,7 +125,7 @@ _AI_TRACK_PID_ ai_track_pid;					// 追踪PID
 
 /* 循线 */
 int16 mid_x = MT9V03X_W/2;							// 循线开始中点
-float path_linear_speed_target[3] = {120,130,130};	// 循迹线速度（缓启动速度 启动最小速度 启动最大速度）（cm/s）	best：{70,130,130}
+float path_linear_speed_target[3] = {150,150,150};	// 循迹线速度（缓启动速度 启动最小速度 启动最大速度）（cm/s）	best：{70,130,130}
 int16 path_start = 95;								// 路径线提取开始高度
 int16 path_end = 30;								// 路径线提取结束高度
 int16 control_point[2] = {70 ,50};					// 控制点高度（速度：100：65，100：50 速度：130：70，130：50）

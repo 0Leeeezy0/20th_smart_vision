@@ -19,9 +19,13 @@ void menu_uart_service(void)
 //	motor_duty_update();
 //    motor_error_update();
 //    motor_delta_update();
-//    motor_value_delta_update();
-//    motor_current_update();
-	just_float(1,chassis_linear_speed);
+//    motor_value_delta_update()
+//    motor_current_update(motor_1_I);
+	just_float(3,motor_1_I,motor_2_I,motor_3_I);
+//	just_float(3,I_Original_ADC_data_1,I_Original_ADC_data_2,I_Original_ADC_data_3);
+//	just_float(3,I_Karman_ADC_data_1,I_Karman_ADC_data_2,I_Karman_ADC_data_3);   
+    just_float(3,(float)chassis_control.motor_1_speed,(float)chassis_control.motor_2_speed,(float)chassis_control.motor_3_speed);
+    just_float(3,(float)motor_1_speed,(float)motor_2_speed,(float)motor_3_speed);
 	update_data_end();
 	/*****************************************/
 }
