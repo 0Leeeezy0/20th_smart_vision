@@ -10,8 +10,8 @@
 struct DOG_PATH{
 	/* 成员变量 */
 	uint16 mid_x;						// 动态中线
-	uint16 path_start;					// 路径线提取开始高度
-	uint16 path_end;					// 路径线提取结束高度
+	uint16 path_start_y;				// 路径线提取开始高度
+	uint16 path_end_y;					// 路径线提取结束高度
 	uint16 side_extract_start_y;		// 边线开始提取高度
 	uint16 side_extract_end_y;			// 边线结束提取高度
 	uint16 path[MT9V03X_H][2];			// 路径线x、y坐标

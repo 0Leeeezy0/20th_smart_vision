@@ -41,7 +41,7 @@ float positional_pid(struct DOG_PID* this ,float target, float feedback);
 	模糊 PID 初始化
 	参数说明：
 	fuzzy_rule 模糊规则表：fuzzy_rule[8][8]
-	range 范围值：range[2][4] = {{小， 中， 大}, {小， 中， 大}}
+	range 范围值：range[2][3] = {{小， 中， 大}, {小， 中， 大}}
 */
 void fuzzy_pid_init(struct DOG_PID* this, _fuzzy_subset_ fuzzy_rules[][8], float range[][3]);
 /* 
@@ -51,15 +51,15 @@ void fuzzy_pid_init(struct DOG_PID* this, _fuzzy_subset_ fuzzy_rules[][8], float
 	Kp 比例：p[4]
 	Ki 积分：i[4]
 	Kd 微分：d[4]
-	output_limit 输出限幅：output_limit[4]
 	i_limit 积分项限幅：i_limit[4]
+	output_limit 输出限幅：output_limit[4]
 	order 模糊化阶数
 */
-void fuzzy_pid(struct DOG_PID* this, float* err, float* p, float* i, float* d, float* output_limit, float* i_limit, uint8 order);
+void fuzzy_pid(struct DOG_PID* this, float* err, float* p, float* i, float* d, float* i_limit, float* output_limit, uint8 order);
 
 // 构造函数
-void dog_pid(struct DOG_PID* this);
+void pid(struct DOG_PID* this);
 // 析构函数
-void _dog_pid(struct DOG_PID* this);
+void _pid(struct DOG_PID* this);
 
 #endif

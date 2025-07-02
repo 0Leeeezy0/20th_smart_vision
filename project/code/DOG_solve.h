@@ -27,6 +27,8 @@ struct DOG_SOLVE{
 	float distance;		// 路程
 	float displacement;	// 位移
 	float displacement_yaw;	// 位移航向角
+	/* 底盘参数 */
+	float radius;	// 底盘中心到车轮半径
 	/* 解算中断时间 */
 	uint16 solve_IT_time;
 	/* 解算标志位 */
@@ -60,7 +62,7 @@ void move_inv_solve(struct DOG_SOLVE* this, _move_solve_kind_ kind, float data_1
 void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_speed_real, float wheel_3_speed_real, float yaw);		
 
 // 构造函数
-void solve(struct DOG_SOLVE* this, uint16 solve_IT_time);
+void solve(struct DOG_SOLVE* this, float radius, uint16 solve_IT_time);
 // 析构函数
 void _solve(struct DOG_SOLVE* this);
 

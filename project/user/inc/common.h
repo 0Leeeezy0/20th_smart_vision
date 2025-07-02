@@ -64,12 +64,12 @@
 
 /* 
 编码器方向标定
-如果电机逆时针旋转时编码器数值为正，则标定值为 False
-如果电机逆时针旋转时编码器数值为负，则标定值为 True
+如果电机逆时针旋转时编码器数值为正，则标定值为 True
+如果电机逆时针旋转时编码器数值为负，则标定值为 False
 */
-#define ENCODER_1_FRONT_DIR ( True )
-#define ENCODER_2_FRONT_DIR ( True )
-#define ENCODER_3_FRONT_DIR ( True )
+#define ENCODER_1_FRONT_DIR ( False )
+#define ENCODER_2_FRONT_DIR ( False )
+#define ENCODER_3_FRONT_DIR ( False )
 
 /* 
 陀螺仪方向标定
@@ -106,9 +106,10 @@
 #define AI_CAMERA_2_UART_RX_PIN             ( UART2_RX_B19 ) 
 
 /* 底盘参数*/
-#define ENCODER_LINE_NUM	(float)(4096)			// 编码器线数
-#define GEAR_RATIO 		(float)(4.22)				// 齿轮比（ 编码器转速/电机输出侧转速 ）(4.22*1/1)
-#define WHEEL_CIRCUMFERENCE 	(float)(18.6047584)	// 轮周长
+#define ENCODER_LINE_NUM		(float)(4096)			// 编码器线数
+#define GEAR_RATIO 				(float)(4.22)			// 齿轮比（ 编码器转速/电机输出侧转速 ）(4.22*1/1)
+#define WHEEL_CIRCUMFERENCE 	(float)(18.6047584)		// 轮周长（cm）
+#define RADIUS					(float)(10.0)			// 底盘中心到车轮距离（cm）
 	
 /* 屏幕类型 */
 #define SCREEN_KIND 1	// 屏幕选择（ 0:tft180 1:ips200 ）
@@ -132,6 +133,15 @@
 #define SUPPLEMENT_LAMP_DIN_PIN				(B9)		// 补光灯通信引脚
 
 /*********************************************************************/
+
+/****************************** AI摄像头参数 ******************************/
+
+#define AI_CAMERA_0_IMAGE_WIDTH		( 160 )			// AI摄像头0 图像宽度
+#define AI_CAMERA_0_IMAGE_HIGHT		( 120 )			// AI摄像头0 图像高度
+#define AI_CAMERA_0_OFFSET 			(  11 )			// AI摄像头0 图像偏移量
+#define AI_CAMERA_0_IMAGE_RATE		(float)(  1  ) 	// AI摄像头0 图像与总钻风比例，用于自适应AI追踪
+
+/**************************************************************************/
 
 /****************************** 中断参数 ******************************/
 

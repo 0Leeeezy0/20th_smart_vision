@@ -57,8 +57,39 @@ void PIT_IRQHandler(void)
 		
         pit_flag_clear(PIT_CH0);
     }
+	/* ÔË¶¯¿ØÖÆ */
     if(pit_flag_get(PIT_CH1))
     {
+		switch(control_kind){
+			case Angle2Inv2Speed:{ 
+				rotate_pid_calc(); 
+				switch(move_solve_kind){ case SPEED_YAW_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, SPEED_YAW_SOLVE, linear_speed_target, translation_yaw_target, angular_speed_target); break; } 
+										 case XY_SPEED_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target); break; }}   
+				wheel_speed_target[0] = chassis_solve.wheel_1_speed; wheel_speed_target[1] = chassis_solve.wheel_2_speed; wheel_speed_target[2] = chassis_solve.wheel_3_speed;
+				motor_pid_calc(); 
+				motor_control(); 
+				break; 
+			}
+			case XY2Inv2Speed:{
+				box_xy_pid_calu(); 
+				chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target);  
+				wheel_speed_target[0] = chassis_solve.wheel_1_speed; wheel_speed_target[1] = chassis_solve.wheel_2_speed; wheel_speed_target[2] = chassis_solve.wheel_3_speed;
+				motor_pid_calc(); 
+				motor_control(); 
+				break; 
+			}
+			case Inv2Speed:{ 	
+				switch(move_solve_kind){ 	case SPEED_YAW_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, SPEED_YAW_SOLVE, linear_speed_target, translation_yaw_target, angular_speed_target); break; } 
+											case XY_SPEED_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target); break; } }   
+				wheel_speed_target[0] = chassis_solve.wheel_1_speed; wheel_speed_target[1] = chassis_solve.wheel_2_speed; wheel_speed_target[2] = chassis_solve.wheel_3_speed;
+				motor_pid_calc();
+				motor_control();
+				break; 
+			}
+			case Speed:{ motor_pid_calc(); motor_control(); break; }
+			case PWM:{ motor_control(); break; }
+			case Stop:{ motor_1.motor_stop(&motor_1); motor_2.motor_stop(&motor_2); motor_3.motor_stop(&motor_3); break; }
+		}
         pit_flag_clear(PIT_CH1);
     }
     if(pit_flag_get(PIT_CH2))

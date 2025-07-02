@@ -18,11 +18,11 @@ void longest_white_col(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W],
 	
 	for(int X = this -> mid_x;X >= 0;X--)
     {
-        if(input[this -> path_start-1][X] == 0)    // 黑色
+        if(input[this -> path_start_y-1][X] == 0)    // 黑色
         {
             // 存储白色点
             L_side[0] = X+1;
-            L_side[1] = this -> path_start-1;
+            L_side[1] = this -> path_start_y-1;
 //			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
@@ -30,7 +30,7 @@ void longest_white_col(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W],
         {
             // 存储白色点
             L_side[0] = 0;
-            L_side[1] = this -> path_start-1;
+            L_side[1] = this -> path_start_y-1;
 //			ips200_draw_point(L_side[0], L_side[1]+MT9V03X_H*2, RGB565_RED);
 			this -> L_frame_point_num++;
             break;
@@ -39,11 +39,11 @@ void longest_white_col(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W],
     // 右边线种子
     for(int X = this -> mid_x;X <= MT9V03X_W-1;X++)
     {
-        if(input[this -> path_start-1][X] == 0)    // 黑色
+        if(input[this -> path_start_y-1][X] == 0)    // 黑色
         {
             // 存储白色点
             R_side[0] = X-1;
-            R_side[1] = this -> path_start-1;
+            R_side[1] = this -> path_start_y-1;
 //			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
             break;
         }
@@ -51,7 +51,7 @@ void longest_white_col(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W],
         {
             // 存储白色点
             R_side[0] = MT9V03X_W-1;
-            R_side[1] = this -> path_start-1;
+            R_side[1] = this -> path_start_y-1;
 //			ips200_draw_point(R_side[0], R_side[1]+MT9V03X_H*2, RGB565_RED);
 			this -> R_frame_point_num++;
             break;
@@ -63,25 +63,25 @@ void longest_white_col(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W],
 	
 	for(int X = L_side[0];X <= R_side[0];X++)
 	{
-		for(int Y = this -> path_start;Y >= this -> path_start-control_point;Y--)
+		for(int Y = this -> path_start_y;Y >= this -> path_start_y-control_point;Y--)
 		{
-			if(input[Y][X] == 0 || Y == this -> path_start-control_point)
+			if(input[Y][X] == 0 || Y == this -> path_start_y-control_point)
 			{
 				// 有更长的白列则刷新
-				if(this -> path_start-Y > max_white_num)
+				if(this -> path_start_y-Y > max_white_num)
 				{
 					max_white_col_find_flag = 1;
-					max_white_num = this -> path_start-Y;
+					max_white_num = this -> path_start_y-Y;
 					longest_white_X_cache = 0;
 					max_white_col_num_cache = 0;
 					longest_white_X_cache +=  X;
 					max_white_col_num_cache++;
 				}
 				// 一样长的白列则自增
-				else if(this -> path_start-Y == max_white_num)
+				else if(this -> path_start_y-Y == max_white_num)
 				{
 					max_white_col_find_flag = 1;
-					max_white_num = this -> path_start-Y;
+					max_white_num = this -> path_start_y-Y;
 					longest_white_X_cache += X;
 					max_white_col_num_cache++;
 				}
@@ -129,39 +129,39 @@ void path_extract(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W]){
 	{
 		this -> path[0][0] = this -> path[this -> prediction_point][0];
 	}
-	this -> path[0][1] = this -> path_start;
-	for(y = this -> path_start-1;y >= this -> path_end;y--)
+	this -> path[0][1] = this -> path_start_y;
+	for(y = this -> path_start_y-1;y >= this -> path_end_y;y--)
 	{
 		// 右边线
-		for(x = this -> path[this -> path_start-1-y][0];x < MT9V03X_W;x++)
+		for(x = this -> path[this -> path_start_y-1-y][0];x < MT9V03X_W;x++)
 		{
 			if(input[y][x] == 0)
 			{
-				this -> path[this -> path_start-y][0] = x;
+				this -> path[this -> path_start_y-y][0] = x;
 				break;
 			}
 			if(x == MT9V03X_W-1)
 			{
-				this -> path[this -> path_start-y][0] = x;
+				this -> path[this -> path_start_y-y][0] = x;
 			}
 		}
 		// 左边线
-		for(x = this -> path[this -> path_start-1-y][0];x >= 0;x--)
+		for(x = this -> path[this -> path_start_y-1-y][0];x >= 0;x--)
 		{
 			if(input[y][x] == 0)
 			{
-				this -> path_width[this -> path_start-y] = this -> path[this -> path_start-y][0]-x;
-				this -> path[this -> path_start-y][0] += x;
+				this -> path_width[this -> path_start_y-y] = this -> path[this -> path_start_y-y][0]-x;
+				this -> path[this -> path_start_y-y][0] += x;
 				break;
 			}
 			if(x == 0)
 			{
-				this -> path_width[this -> path_start-y] = this -> path[this -> path_start-y][0]-x;
-				this -> path[this -> path_start-y][0] += x;
+				this -> path_width[this -> path_start_y-y] = this -> path[this -> path_start_y-y][0]-x;
+				this -> path[this -> path_start_y-y][0] += x;
 			}
 		}
-		this -> path[this -> path_start-y][0] = this -> path[this -> path_start-y][0]/2;
-		this -> path[this -> path_start-y][1] = y;
+		this -> path[this -> path_start_y-y][0] = this -> path[this -> path_start_y-y][0]/2;
+		this -> path[this -> path_start_y-y][1] = y;
 	}
 }
 
@@ -420,10 +420,10 @@ void side_point_kind_judge(struct DOG_PATH* this){
 }		
 
 // 构造函数
-void path(struct DOG_PATH* this, uint16 path_start, uint16 path_end, uint16 side_extract_start_y, uint16 side_extract_end_y, uint16 prediction_point){
+void path(struct DOG_PATH* this, uint16 path_start_y, uint16 path_end_y, uint16 side_extract_start_y, uint16 side_extract_end_y, uint16 prediction_point){
 	this -> mid_x = 0;					// 动态中线
-	this -> path_start = path_start;			// 路径线提取开始高度
-	this -> path_end = path_end;				// 路径线提取结束高度
+	this -> path_start_y = path_start_y;			// 路径线提取开始高度
+	this -> path_end_y = path_end_y;				// 路径线提取结束高度
 	this -> side_extract_start_y = side_extract_start_y;		// 边线开始提取高度
 	this -> side_extract_end_y = side_extract_end_y;		// 边线结束提取高度
 	memset(this -> path,0,sizeof(this -> path));	// 路径线x、y坐标
@@ -454,9 +454,9 @@ void path(struct DOG_PATH* this, uint16 path_start, uint16 path_end, uint16 side
 
 // 析构函数
 void _path(struct DOG_PATH* this){
-	this -> mid_x = 0;					// 动态中线
-	this -> path_start = 0;			// 路径线提取开始高度
-	this -> path_end = 0;				// 路径线提取结束高度
+	this -> mid_x = MT9V03X_W/2;		// 动态中线
+	this -> path_start_y = 0;			// 路径线提取开始高度
+	this -> path_end_y = 0;				// 路径线提取结束高度
 	this -> side_extract_start_y = 0;		// 边线开始提取高度
 	this -> side_extract_end_y = 0;		// 边线结束提取高度
 	memset(this -> path,0,sizeof(this -> path));	// 路径线x、y坐标

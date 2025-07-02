@@ -35,24 +35,24 @@ float positional_pid(struct DOG_PID* this ,float target, float feedback){
 	float value_buffer = 0;
 	this -> now_err = target-feedback;
 	// 位置式 Kp
-	this -> value += (this -> Kp)*(this -> now_err);
+	value_buffer += (this -> Kp)*(this -> now_err);
 	// 位置式 Ki
-	this -> value += (this -> Ki)*this -> sigma_err;
+	value_buffer += (this -> Ki)*this -> sigma_err;
 	// 位置式 Kd
-	this -> value += (this -> Kd)*(this -> now_err-this -> last_err);
+	value_buffer += (this -> Kd)*(this -> now_err-this -> last_err);
 				
 	// 更新参数
 	this -> sigma_err += this -> now_err;
 	this -> last_err = this -> now_err;
 	
 	// 输出限幅
-	if(this -> value > this -> output_limit)
+	if(value_buffer > this -> output_limit)
 	{
-		this -> value = this -> output_limit;
+		value_buffer = this -> output_limit;
 	}
-	if(this -> value < -this -> output_limit)
+	if(value_buffer < -this -> output_limit)
 	{
-		this -> value = -this -> output_limit;
+		value_buffer = -this -> output_limit;
 	}
 	// 积分限幅
 	if(this -> sigma_err > this -> i_limit)
@@ -64,17 +64,17 @@ float positional_pid(struct DOG_PID* this ,float target, float feedback){
 		this -> sigma_err = -this -> i_limit;
 	}
 	
-	value_buffer = this -> value; 
-	this -> value = 0;
+	this -> value = value_buffer; 
+	value_buffer = 0;
 	
-	return value_buffer;
+	return this -> value;
 }
 
 /*
 	模糊 PID 初始化
 	参数说明：
 	fuzzy_rule 模糊规则表：fuzzy_rule[8][8]
-	range 范围值：range[2][4] = {{小， 中， 大}, {小， 中， 大}}
+	range 范围值：range[2][3] = {{小， 中， 大}, {小， 中， 大}}
 */
 void fuzzy_pid_init(struct DOG_PID* this, _fuzzy_subset_ fuzzy_rules[][8], float range[][3]){
 	for(uint8 i = 0; i < 8;i++){
@@ -97,11 +97,13 @@ void fuzzy_pid_init(struct DOG_PID* this, _fuzzy_subset_ fuzzy_rules[][8], float
 	Kp 比例：p[4]
 	Ki 积分：i[4]
 	Kd 微分：d[4]
-	output_limit 输出限幅：output_limit[4]
 	i_limit 积分项限幅：i_limit[4]
+	output_limit 输出限幅：output_limit[4]
 	order 模糊化阶数
 */
-void fuzzy_pid(struct DOG_PID* this, float* err, float* Kp, float* Ki, float* Kd, float* output_limit, float* i_limit, uint8 order){
+void fuzzy_pid(struct DOG_PID* this, float* err, float* Kp, float* Ki, float* Kd, float* i_limit, float* output_limit, uint8 order){
+	/* 初始化PID */
+	float Kp_fuzzy = 0, Ki_fuzzy = 0, Kd_fuzzy = 0, i_limit_fuzzy = 0, output_limit_fuzzy = 0;
 	/* 隶属子集 */
 	_fuzzy_subset_ fuzzy_subset_err[2] = {PID_NONE};
 	_fuzzy_subset_ fuzzy_subset_err_c[2] = {PID_NONE};
@@ -333,42 +335,47 @@ void fuzzy_pid(struct DOG_PID* this, float* err, float* Kp, float* Ki, float* Kd
 		{
 			if(fuzzy_subset[i][j] == NB || fuzzy_subset[i][j] == PB)
 			{
-				this -> Kp += affiliation_degree[i][j]*Kp[3];
-				this -> Ki += affiliation_degree[i][j]*Ki[3];
-				this -> Kd += affiliation_degree[i][j]*Kd[3];
-				this -> output_limit += affiliation_degree[i][j]*output_limit[3];
-				this -> i_limit += affiliation_degree[i][j]*i_limit[3];
+				Kp_fuzzy += affiliation_degree[i][j]*Kp[3];
+				Ki_fuzzy += affiliation_degree[i][j]*Ki[3];
+				Kd_fuzzy += affiliation_degree[i][j]*Kd[3];
+				i_limit_fuzzy += affiliation_degree[i][j]*i_limit[3];
+				output_limit_fuzzy += affiliation_degree[i][j]*output_limit[3];
 			}
 			else if(fuzzy_subset[i][j] == NM || fuzzy_subset[i][j] == PM)
 			{
-				this -> Kp += affiliation_degree[i][j]*Kp[2];
-				this -> Ki += affiliation_degree[i][j]*Ki[2];
-				this -> Kd += affiliation_degree[i][j]*Kd[2];
-				this -> output_limit += affiliation_degree[i][j]*output_limit[2];
-				this -> i_limit += affiliation_degree[i][j]*i_limit[2];
+				Kp_fuzzy += affiliation_degree[i][j]*Kp[2];
+				Ki_fuzzy += affiliation_degree[i][j]*Ki[2];
+				Kd_fuzzy += affiliation_degree[i][j]*Kd[2];
+				i_limit_fuzzy += affiliation_degree[i][j]*i_limit[2];
+				output_limit_fuzzy += affiliation_degree[i][j]*output_limit[2];
 			}
 			else if(fuzzy_subset[i][j] == NS || fuzzy_subset[i][j] == PS)
 			{
-				this -> Kp += affiliation_degree[i][j]*Kp[1];
-				this -> Ki += affiliation_degree[i][j]*Ki[1];
-				this -> Kd += affiliation_degree[i][j]*Kd[1];
-				this -> output_limit += affiliation_degree[i][j]*output_limit[1];
-				this -> i_limit += affiliation_degree[i][j]*i_limit[1];
+				Kp_fuzzy += affiliation_degree[i][j]*Kp[1];
+				Ki_fuzzy += affiliation_degree[i][j]*Ki[1];
+				Kd_fuzzy += affiliation_degree[i][j]*Kd[1];
+				i_limit_fuzzy += affiliation_degree[i][j]*i_limit[1];
+				output_limit_fuzzy += affiliation_degree[i][j]*output_limit[1];
 			}
 			else if(fuzzy_subset[i][j] == ZERO)
 			{
-				this -> Kp += affiliation_degree[i][j]*Kp[0];
-				this -> Ki += affiliation_degree[i][j]*Ki[0];
-				this -> Kd += affiliation_degree[i][j]*Kd[0];
-				this -> output_limit += affiliation_degree[i][j]*output_limit[0];
-				this -> i_limit += affiliation_degree[i][j]*i_limit[0];
+				Kp_fuzzy += affiliation_degree[i][j]*Kp[0];
+				Ki_fuzzy += affiliation_degree[i][j]*Ki[0];
+				Kd_fuzzy += affiliation_degree[i][j]*Kd[0];
+				i_limit_fuzzy += affiliation_degree[i][j]*i_limit[0];
+				output_limit_fuzzy += affiliation_degree[i][j]*output_limit[0];
 			}
 		}
 	}
+	this -> Kp = Kp_fuzzy;
+	this -> Ki = Ki_fuzzy;
+	this -> Kd = Kd_fuzzy;
+	this -> i_limit = i_limit_fuzzy;
+	this -> output_limit = output_limit_fuzzy;
 }
 
 // 构造函数
-void dog_pid(struct DOG_PID* this){
+void pid(struct DOG_PID* this){
 	/* 成员变量 */ 
 	this -> Kp = 0;
 	this -> Ki = 0;
@@ -392,7 +399,7 @@ void dog_pid(struct DOG_PID* this){
 }
 
 // 析构函数
-void _dog_pid(struct DOG_PID* this){
+void _pid(struct DOG_PID* this){
 	/* 成员变量 */ 
 	this -> Kp = 0;
 	this -> Ki = 0;

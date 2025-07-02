@@ -68,7 +68,7 @@ void move_inv_solve(struct DOG_SOLVE* this, _move_solve_kind_ kind, float data_1
 */ 
 void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_speed_real, float wheel_3_speed_real, float yaw){
 	static float diff_world_x_displacement = 0.,diff_world_y_displacement = 0.;	// 世界坐标
-	static float diff_x_displacement = 0.,diff_y_displacement = 0.,diff_displacement = 0.;	// 车身坐标
+	static float diff_x_displacement = 0.,diff_y_displacement = 0.,diff_displacement = 0.,diff_yaw = 0.;	// 车身坐标
 	static float diff_wheel_1_displacement = 0.,diff_wheel_2_displacement = 0.,diff_wheel_3_displacement = 0.,diff_displacement_yaw = 0.;
 	if(this -> solve_flag == True)
 	{
@@ -80,6 +80,7 @@ void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_
 		// 分解到车身X、Y方向上的位移微分
 		diff_x_displacement = (-2.*diff_wheel_1_displacement+diff_wheel_2_displacement+diff_wheel_3_displacement)/3.;
 		diff_y_displacement = (diff_wheel_2_displacement-diff_wheel_3_displacement)/SQRT_3;
+		diff_yaw = RAD2DEG((diff_wheel_1_displacement+diff_wheel_2_displacement+diff_wheel_3_displacement)/(3.0*this -> radius));
 		
 		// 和位移微分
 		diff_displacement = sqrt(diff_x_displacement*diff_x_displacement+diff_y_displacement*diff_y_displacement);
@@ -141,7 +142,7 @@ void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_
 }
 
 // 构造函数
-void solve(struct DOG_SOLVE* this, uint16 solve_IT_time){
+void solve(struct DOG_SOLVE* this, float radius, uint16 solve_IT_time){
 	/* 成员变量 */
 	this -> roll = 0.;
 	this -> pitch = 0.;
@@ -154,6 +155,7 @@ void solve(struct DOG_SOLVE* this, uint16 solve_IT_time){
 	this -> distance = 0;				// 路程
 	this -> displacement = 0;			// 位移
 	this -> displacement_yaw = 0;		// 位移航向角
+	this -> radius = radius;	
 	this -> solve_IT_time = solve_IT_time;
 	this -> solve_flag = False;
 	

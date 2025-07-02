@@ -54,10 +54,9 @@ int main(void)
 	imu(&imu660ra, IMU_X_FRONT_DIR, IMU_Y_FRONT_DIR, IMU_Z_FRONT_DIR);
 	
 	/* 电机 */
-	
-	motor(&motor_1, MOTOR_1_DIR, MOTOR_1_PWM, 10000, True);
-	motor(&motor_2, MOTOR_2_DIR, MOTOR_2_PWM, 10000, True);
-	motor(&motor_3, MOTOR_3_DIR, MOTOR_3_PWM, 10000, True);
+	motor(&motor_1, MOTOR_1_DIR, MOTOR_1_PWM, 10000, MOTOR_1_FRONT_DIR);
+	motor(&motor_2, MOTOR_2_DIR, MOTOR_2_PWM, 10000, MOTOR_2_FRONT_DIR);
+	motor(&motor_3, MOTOR_3_DIR, MOTOR_3_PWM, 10000, MOTOR_3_FRONT_DIR);
 	
 	/* 编码器 */
 	encoder(&encoder_1, ENCODER_1_MODULE_NUM, ENCODER_1_CH1, ENCODER_1_CH2, ENCODER_1_FRONT_DIR, 4096, SENSOR_SOLVE_IT_TIME, GEAR_RATIO, WHEEL_CIRCUMFERENCE);
@@ -68,22 +67,33 @@ int main(void)
 	vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
 	
 	/* 欧拉角解算 */
-	solve(&euler_angle_solve, SENSOR_SOLVE_IT_TIME);
+	solve(&euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
 	
 	/* 底盘解算 */
-	solve(&chassis_solve, SENSOR_SOLVE_IT_TIME);
+	solve(&chassis_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
 	chassis_solve.solve_flag = True;
 	
 	/* 位移解算 */
-	solve(&displacement_solve, SENSOR_SOLVE_IT_TIME);
+	solve(&displacement_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
 	
 	/* 视觉 */
 	cv(&dog_cv);
 	
 	/* 路径 */
-//	path(&dog_path, )
+	path(&dog_path, path_start, path_end, side_extract_start_y, side_extract_end_y, prediction_point);
 	
-	ips200_init(IPS200_TYPE_SPI);
+	/* PID */
+	pid(&motor_1_pid);
+	pid(&motor_2_pid);
+	pid(&motor_3_pid);
+	pid(&path_pid);
+	path_pid.fuzzy_pid_init(&path_pid, fuzzy_rules, PATH_RANGE);
+	pid(&path_gyroz_pid);
+	path_gyroz_pid.fuzzy_pid_init(&path_gyroz_pid, fuzzy_rules, PATH_RANGE);
+	pid(&rotate_pid);
+	rotate_pid.fuzzy_pid_init(&rotate_pid, fuzzy_rules, ROTATE_RANGE);
+	pid(&box_x_pid);
+	pid(&box_y_pid);
 	
 	system_delay_ms(1000);
 	
@@ -99,17 +109,40 @@ int main(void)
     while(1)
     {
         // 此处编写需要循环执行的代码
-//		run(&motor_1, positive, 2000);
-		euler_angle_solve.solve_flag = True;
-		displacement_solve.solve_flag = True;
-		
-//		justfloat_add(&wireless_vofa, 2, imu660ra.gyro_z, euler_angle_solve.yaw);
-//		justfloat_add(&wireless_vofa, 3, displacement_solve.wheel_1_displacement, displacement_solve.wheel_2_displacement, displacement_solve.wheel_3_displacement);
-		justfloat_add(&wireless_vofa, 3, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, euler_angle_solve.yaw);
-		wireless_vofa.justfloat_send(&wireless_vofa);
-		
+		// 二值化
 		dog_cv.threshold(&dog_cv, mt9v03x_image);
-		ips200_show_gray_image(0, 0, dog_cv.image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
+		// 边线提取
+		dog_path.side_extract(&dog_path, dog_cv.image_OTSU);
+		// 边线点类型判断
+		dog_path.side_point_kind_judge(&dog_path);
+		// 最长白列
+		dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[0]);
+		// 路径线提取
+		dog_path.path_extract(&dog_path, dog_cv.image_OTSU);
+		
+		path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
+		
+		path_pid_calc();
+		
+		y_speed_target = 100;
+//		move_solve_kind = XY_SPEED_SOLVE;
+//		x_speed_target = 0;
+//		y_speed_target = 20;
+//		angular_speed_target = 5;
+//		linear_speed_target = 20;
+//		translation_yaw_target = 0;
+//		wheel_speed_target[0] = 10;
+//		wheel_speed_target[1] = 10;
+//		wheel_speed_target[2] = 10;
+//		
+//		motor_pwm_duty[0] = 1500;
+//		motor_pwm_duty[1] = 1500;
+//		motor_pwm_duty[2] = 1500;
+
+		wireless_vofa.justfloat_add(&wireless_vofa, 6, (float)path_err, path_pid.Kp, path_pid.Ki, path_pid.Kd, path_pid.value, angular_speed_target);
+		wireless_vofa.justfloat_send(&wireless_vofa);
+
+		move_solve_kind = XY_SPEED_SOLVE;
 		
 		// 此处编写需要循环执行的代码
     }
