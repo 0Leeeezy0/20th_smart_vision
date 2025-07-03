@@ -1,8 +1,50 @@
 #include "common.h"
 #include "data.h"
 
-/* 电机控制 */
-void motor_control(void){
+/* 角度环->运动学逆解算->速度环 控制 */
+void Angle2Inv2Speed_control(void){
+	rotate_pid_calc(); 
+	switch(move_solve_kind){ 
+		case SPEED_YAW_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, SPEED_YAW_SOLVE, linear_speed_target, translation_yaw_target, angular_speed_target); break; } 
+		case XY_SPEED_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target); break; }
+	}   
+	wheel_speed_target[0] = chassis_solve.wheel_1_speed; 
+	wheel_speed_target[1] = chassis_solve.wheel_2_speed;
+	wheel_speed_target[2] = chassis_solve.wheel_3_speed;
+	motor_pid_calc(); 
+	PWM_control(); 
+}
+
+/* 箱子XY->运动学逆解算->速度环 控制 */
+void XY2Inv2Speed_control(void){
+	box_xy_pid_calu(); 
+	chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target);  
+	wheel_speed_target[0] = chassis_solve.wheel_1_speed; 
+	wheel_speed_target[1] = chassis_solve.wheel_2_speed; 
+	wheel_speed_target[2] = chassis_solve.wheel_3_speed;
+	motor_pid_calc(); 
+	PWM_control(); 
+}
+
+/* 运动学逆解算->速度环 控制 */
+void Inv2Speed_control(void){
+	switch(move_solve_kind){ 	
+		case SPEED_YAW_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, SPEED_YAW_SOLVE, linear_speed_target, translation_yaw_target, angular_speed_target); break; } 
+		case XY_SPEED_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target); break; }
+	}   
+	wheel_speed_target[0] = chassis_solve.wheel_1_speed; wheel_speed_target[1] = chassis_solve.wheel_2_speed; wheel_speed_target[2] = chassis_solve.wheel_3_speed;
+	motor_pid_calc();
+	PWM_control();
+}
+
+/* 纯速度环 控制 */
+void Speed_control(void){
+	motor_pid_calc();
+	PWM_control();
+}
+
+/* 纯PWM 控制 */
+void PWM_control(void){
 	/* 电机1 */
 	if(motor_pwm_duty[0] >= 0)
 		motor_1.motor_run(&motor_1, positive, fabsf(motor_pwm_duty[0]));
@@ -18,31 +60,6 @@ void motor_control(void){
 		motor_3.motor_run(&motor_3, positive, fabsf(motor_pwm_duty[2]));
 	else 
 		motor_3.motor_run(&motor_3, negative, fabsf(motor_pwm_duty[2]));
-}
-
-/* 电机PID计算 */
-void motor_pid_calc(void){
-	/* 电机1 */
-	motor_1_pid.Kp = MOTOR_1_PID[0];
-	motor_1_pid.Ki = MOTOR_1_PID[1];
-	motor_1_pid.Kd = MOTOR_1_PID[2];
-	motor_1_pid.i_limit = MOTOR_1_PID[3];
-	motor_1_pid.output_limit = MOTOR_1_PID[4];
-	motor_pwm_duty[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
-	/* 电机2 */
-	motor_2_pid.Kp = MOTOR_2_PID[0];
-	motor_2_pid.Ki = MOTOR_2_PID[1];
-	motor_2_pid.Kd = MOTOR_2_PID[2];
-	motor_2_pid.i_limit = MOTOR_2_PID[3];
-	motor_2_pid.output_limit = MOTOR_2_PID[4];
-	motor_pwm_duty[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
-	/* 电机3 */
-	motor_3_pid.Kp = MOTOR_3_PID[0];
-	motor_3_pid.Ki = MOTOR_3_PID[1];
-	motor_3_pid.Kd = MOTOR_3_PID[2];
-	motor_3_pid.i_limit = MOTOR_3_PID[3];
-	motor_3_pid.output_limit = MOTOR_3_PID[4];
-	motor_pwm_duty[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
 }
 
 /* 方向环PID计算 */
@@ -70,9 +87,36 @@ void path_pid_calc(void){
 	x_speed_target = angular_speed_target*x_speed_rate;
 }
 
+/* 电机PID计算 */
+static void motor_pid_calc(void){
+	/* 电机1 */
+	motor_1_pid.Kp = MOTOR_1_PID[0];
+	motor_1_pid.Ki = MOTOR_1_PID[1];
+	motor_1_pid.Kd = MOTOR_1_PID[2];
+	motor_1_pid.i_limit = MOTOR_1_PID[3];
+	motor_1_pid.output_limit = MOTOR_1_PID[4];
+	motor_pwm_duty[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
+	/* 电机2 */
+	motor_2_pid.Kp = MOTOR_2_PID[0];
+	motor_2_pid.Ki = MOTOR_2_PID[1];
+	motor_2_pid.Kd = MOTOR_2_PID[2];
+	motor_2_pid.i_limit = MOTOR_2_PID[3];
+	motor_2_pid.output_limit = MOTOR_2_PID[4];
+	motor_pwm_duty[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
+	/* 电机3 */
+	motor_3_pid.Kp = MOTOR_3_PID[0];
+	motor_3_pid.Ki = MOTOR_3_PID[1];
+	motor_3_pid.Kd = MOTOR_3_PID[2];
+	motor_3_pid.i_limit = MOTOR_3_PID[3];
+	motor_3_pid.output_limit = MOTOR_3_PID[4];
+	motor_pwm_duty[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
+}
+
 /* 角度环PID计算 */
-void rotate_pid_calc(void){
-	float err = rotation_yaw_target-euler_angle_solve.yaw;
+static void rotate_pid_calc(void){
+	static uint8 chassis_rotate_finsh_num_count = 0;
+	
+	float err = rotation_yaw_target-rotate_euler_angle_solve.yaw;
 	float Kp[4] = { ROTATE_PID[0][0], ROTATE_PID[1][0], ROTATE_PID[2][0], ROTATE_PID[3][0] };
 	float Ki[4] = { ROTATE_PID[0][1], ROTATE_PID[1][1], ROTATE_PID[2][1], ROTATE_PID[3][1] };
 	float Kd[4] = { ROTATE_PID[0][2], ROTATE_PID[1][2], ROTATE_PID[2][2], ROTATE_PID[3][2] };
@@ -82,10 +126,15 @@ void rotate_pid_calc(void){
 	rotate_pid.fuzzy_pid(&rotate_pid, &euler_angle_solve.yaw, Kp, Ki, Kd, i_limit, output_limit, 1);
 	
 	angular_speed_target = rotate_pid.positional_pid(&rotate_pid, rotation_yaw_target, euler_angle_solve.yaw);
+	
+	if(abs(err) < 4.5)
+		chassis_rotate_finsh_num_count++;
+	if(chassis_rotate_finsh_num_count >= 5)		
+		rotate_finsh_flag = True;	
 }
 
 /* BOX X/Y PID计算 */
-void box_xy_pid_calu(void){
+static void box_xy_pid_calu(void){
 	static uint16 num = 0;	// 符合偏移阈值的图像次数
 	
 	int16 detection_box_center_err = detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2; 

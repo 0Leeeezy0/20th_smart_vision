@@ -19,6 +19,8 @@ void fsm(void){
 
 /* 赛道状态判断 */
 _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
+	_path_state_ path_state_return = common_path;
+	
 	// 圆环判断
 	if(circle_enable_flag == True){
 		uint16 circle_check[2] = {0};	// 圆环
@@ -74,6 +76,27 @@ _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 			}
 		}
 		
+		// 右圆环入环
+		// 边线左右起始点距离在圆环阈值内
+		if(circle_check[1] == MT9V03X_W-1 && dog_path.L_bend_point_num <= 3 && ((float)dog_path.L_frame_point_num/(float)dog_path.L_side_point_num) <= 0.15 &&  L_side_X_delta_max <= side_x_delta_range[1] && R_side_X_delta_max >= side_x_delta_range[0] && path_state == common_path)
+		{
+			path_state_return = R_circle_in;
+		}
+		else if(circle_check[1] == MT9V03X_W-1 && path_state == R_circle)
+		{
+			path_state_return = R_circle_out;
+		}
+		// 左圆环入环
+		// 边线左右起始点距离在圆环阈值内
+		else if(circle_check[0] == 0 && dog_path.R_bend_point_num <= 3 && ((float)dog_path.R_frame_point_num/(float)dog_path.R_side_point_num) <= 0.15 && R_side_X_delta_max <= side_x_delta_range[1] && L_side_X_delta_max >= side_x_delta_range[0] && path_state == common_path)
+		{
+			path_state_return = L_circle_in;
+		}
+		else if(circle_check[1] == MT9V03X_W-1 && path_state == L_circle)
+		{
+			path_state_return = L_circle_out;
+		}
+		return path_state_return;
 	}
 	// 斑马线判断
 	if(zebra_enable_flag == True){

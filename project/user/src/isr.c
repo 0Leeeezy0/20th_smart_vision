@@ -53,6 +53,7 @@ void PIT_IRQHandler(void)
 		imu660ra.gyro_get(&imu660ra);
 		imu660ra.acc_get(&imu660ra);
 		euler_angle_solve.euler_angle(&euler_angle_solve, imu660ra);
+		rotate_euler_angle_solve.euler_angle(&rotate_euler_angle_solve, imu660ra);
 		displacement_solve.move_solve(&displacement_solve, encoder_1.wheel_speed, encoder_2.wheel_speed, encoder_3.wheel_speed, euler_angle_solve.yaw);
 		
         pit_flag_clear(PIT_CH0);
@@ -61,33 +62,11 @@ void PIT_IRQHandler(void)
     if(pit_flag_get(PIT_CH1))
     {
 		switch(control_kind){
-			case Angle2Inv2Speed:{ 
-				rotate_pid_calc(); 
-				switch(move_solve_kind){ case SPEED_YAW_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, SPEED_YAW_SOLVE, linear_speed_target, translation_yaw_target, angular_speed_target); break; } 
-										 case XY_SPEED_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target); break; }}   
-				wheel_speed_target[0] = chassis_solve.wheel_1_speed; wheel_speed_target[1] = chassis_solve.wheel_2_speed; wheel_speed_target[2] = chassis_solve.wheel_3_speed;
-				motor_pid_calc(); 
-				motor_control(); 
-				break; 
-			}
-			case XY2Inv2Speed:{
-				box_xy_pid_calu(); 
-				chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target);  
-				wheel_speed_target[0] = chassis_solve.wheel_1_speed; wheel_speed_target[1] = chassis_solve.wheel_2_speed; wheel_speed_target[2] = chassis_solve.wheel_3_speed;
-				motor_pid_calc(); 
-				motor_control(); 
-				break; 
-			}
-			case Inv2Speed:{ 	
-				switch(move_solve_kind){ 	case SPEED_YAW_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, SPEED_YAW_SOLVE, linear_speed_target, translation_yaw_target, angular_speed_target); break; } 
-											case XY_SPEED_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target); break; } }   
-				wheel_speed_target[0] = chassis_solve.wheel_1_speed; wheel_speed_target[1] = chassis_solve.wheel_2_speed; wheel_speed_target[2] = chassis_solve.wheel_3_speed;
-				motor_pid_calc();
-				motor_control();
-				break; 
-			}
-			case Speed:{ motor_pid_calc(); motor_control(); break; }
-			case PWM:{ motor_control(); break; }
+			case Angle2Inv2Speed:{ Angle2Inv2Speed_control(); break; }
+			case XY2Inv2Speed:{ XY2Inv2Speed_control(); break; }
+			case Inv2Speed:{ Inv2Speed_control(); break; }
+			case Speed:{ Speed_control(); break; }
+			case PWM:{ PWM_control(); break; }
 			case Stop:{ motor_1.motor_stop(&motor_1); motor_2.motor_stop(&motor_2); motor_3.motor_stop(&motor_3); break; }
 		}
         pit_flag_clear(PIT_CH1);

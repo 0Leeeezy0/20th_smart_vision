@@ -1,27 +1,28 @@
 #include "data.h"
 
-/* 类定义 */
-struct DOG_MOTOR motor_1;
-struct DOG_MOTOR motor_2;
-struct DOG_MOTOR motor_3;
-struct DOG_ENCODER encoder_1;
-struct DOG_ENCODER encoder_2;
-struct DOG_ENCODER encoder_3;
-struct DOG_PID motor_1_pid;
-struct DOG_PID motor_2_pid;
-struct DOG_PID motor_3_pid;
-struct DOG_PID path_pid;
-struct DOG_PID path_gyroz_pid;
-struct DOG_PID rotate_pid;
-struct DOG_PID box_x_pid;
-struct DOG_PID box_y_pid;
-struct DOG_VOFA wireless_vofa;
-struct DOG_IMU imu660ra;
-struct DOG_SOLVE euler_angle_solve;
-struct DOG_SOLVE chassis_solve;
-struct DOG_SOLVE displacement_solve;
-struct DOG_CV dog_cv;
-struct DOG_PATH dog_path;
+/* 类定义 */	
+struct DOG_MOTOR motor_1;					// 电机1
+struct DOG_MOTOR motor_2;					// 电机2
+struct DOG_MOTOR motor_3;					// 电机3
+struct DOG_ENCODER encoder_1;				// 编码器1
+struct DOG_ENCODER encoder_2;				// 编码器2
+struct DOG_ENCODER encoder_3;				// 编码器3
+struct DOG_PID motor_1_pid;					// 电机PID1
+struct DOG_PID motor_2_pid;					// 电机PID2
+struct DOG_PID motor_3_pid;					// 电机PID3
+struct DOG_PID path_pid;					// 路径PID
+struct DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
+struct DOG_PID rotate_pid;					// 旋转PID
+struct DOG_PID box_x_pid;					// 箱子X PID
+struct DOG_PID box_y_pid;					// 箱子Y PID
+struct DOG_VOFA wireless_vofa;				// 无线串口VOFA
+struct DOG_IMU imu660ra;					// IMU660RA陀螺仪
+struct DOG_SOLVE euler_angle_solve;			// 欧拉角解算
+struct DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
+struct DOG_SOLVE chassis_solve;				// 底盘解算
+struct DOG_SOLVE displacement_solve;		// 位移解算
+struct DOG_CV dog_cv;						// 计算机视觉
+struct DOG_PATH dog_path;					// 循迹
 
 /* 使能标志位 */
 _bool_ circle_enable_flag = True;		// 圆环 使能标志位
@@ -29,6 +30,9 @@ _bool_ zebra_enable_flag = True;		// 斑马线 使能标志位
 _bool_ ai_camera_1_enable_flag = True;	// AI相机1 使能标志位
 _bool_ ai_camera_2_enable_flag = True;	// AI相机2 使能标志位
 _bool_ ai_camera_3_enable_flag = True;	// AI相机3 使能标志位
+
+/* 完成标志位 */
+_bool_ rotate_finsh_flag = False;		// 旋转完成标志位
 
 /* 全局变量 */
 /* 赛道提取 */
@@ -41,11 +45,11 @@ uint16 prediction_point = 30;			// 预测点高度：其横坐标将作为下一帧的搜线起点
 uint16 control_point[2] = {70 ,50};		// 控制点高度（0：最长白列；1：路径线提取）
 /* 圆环 */
 uint16 circle_check_y = 60;				// 圆环检测线高度
-uint16 side_x_delta_range[2] = {3, 15};	// 边线X差值阈值范围
+uint16 side_x_delta_range[2] = {3, 15};	// 边线X差值阈值范围（小，大）
 /* 斑马线 */
 uint16 zebra_check_y = 1;				// 斑马线检测线高度
 /* 赛道其他 */
-//_path_state_ path_state = common_path;	// 赛道状态
+_path_state_ path_state = common_path;	// 赛道状态
 /* 控制 */
 _control_kind_ control_kind;				// 控制类型
 float wheel_speed_target[3] = {0, 0, 0};	// 轮子目标速度
@@ -58,8 +62,8 @@ float y_speed_target;						// 目标y速度
 float angular_speed_target;					// 目标旋转速度
 float x_speed_rate = 2.2;					// x速度比例（目标x速度/目标旋转速度）
 float rotation_yaw_target;					// 目标旋转角度（角度环）
-float data_1;								// 运动学逆解算参数1
-float data_2;								// 运动学逆解算参数2
+float data_1;								// 运动学逆解算参数1（线速度/X速度）
+float data_2;								// 运动学逆解算参数2（航向角/Y速度）
 /* 箱子 */
 uint16 detection_box_width;					// 识别框宽度
 uint16 detection_box_width_limit = 20;		// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）

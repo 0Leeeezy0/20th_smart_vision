@@ -68,6 +68,9 @@ int main(void)
 	
 	/* 欧拉角解算 */
 	solve(&euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
+	euler_angle_solve.solve_flag = True;
+	solve(&rotate_euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
+	rotate_euler_angle_solve.solve_flag = True;
 	
 	/* 底盘解算 */
 	solve(&chassis_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
@@ -75,6 +78,7 @@ int main(void)
 	
 	/* 位移解算 */
 	solve(&displacement_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
+	displacement_solve.solve_flag = True;
 	
 	/* 视觉 */
 	cv(&dog_cv);
@@ -122,13 +126,16 @@ int main(void)
 		
 		path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
 		
-		path_pid_calc();
+//		path_pid_calc();
+//		y_speed_target = 100;
 		
-		y_speed_target = 100;
+		control_kind = Stop;
 //		move_solve_kind = XY_SPEED_SOLVE;
 //		x_speed_target = 0;
-//		y_speed_target = 20;
+//		y_speed_target = 0;
+//		rotation_yaw_target = 0;
 //		angular_speed_target = 5;
+		
 //		linear_speed_target = 20;
 //		translation_yaw_target = 0;
 //		wheel_speed_target[0] = 10;
@@ -139,10 +146,9 @@ int main(void)
 //		motor_pwm_duty[1] = 1500;
 //		motor_pwm_duty[2] = 1500;
 
-		wireless_vofa.justfloat_add(&wireless_vofa, 6, (float)path_err, path_pid.Kp, path_pid.Ki, path_pid.Kd, path_pid.value, angular_speed_target);
+		wireless_vofa.justfloat_add(&wireless_vofa, 7, (float)path_err, path_pid.Kp, path_pid.Ki, path_pid.Kd, path_pid.value, angular_speed_target, rotate_euler_angle_solve.yaw);
+//		wireless_vofa.justfloat_add(&wireless_vofa, 3, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, euler_angle_solve.yaw);
 		wireless_vofa.justfloat_send(&wireless_vofa);
-
-		move_solve_kind = XY_SPEED_SOLVE;
 		
 		// 此处编写需要循环执行的代码
     }

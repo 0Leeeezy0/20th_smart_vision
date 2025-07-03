@@ -15,27 +15,28 @@ typedef enum _control_kind_{
 }_control_kind_;
 
 /* 类定义 */
-extern struct DOG_MOTOR motor_1;
-extern struct DOG_MOTOR motor_2;
-extern struct DOG_MOTOR motor_3;
-extern struct DOG_ENCODER encoder_1;
-extern struct DOG_ENCODER encoder_2;
-extern struct DOG_ENCODER encoder_3;
-extern struct DOG_PID motor_1_pid;
-extern struct DOG_PID motor_2_pid;
-extern struct DOG_PID motor_3_pid;
-extern struct DOG_PID path_pid;
-extern struct DOG_PID path_gyroz_pid;
-extern struct DOG_PID rotate_pid;
-extern struct DOG_PID box_x_pid;
-extern struct DOG_PID box_y_pid;
-extern struct DOG_VOFA wireless_vofa;
-extern struct DOG_IMU imu660ra;
-extern struct DOG_SOLVE euler_angle_solve;
-extern struct DOG_SOLVE chassis_solve;
-extern struct DOG_SOLVE displacement_solve;
-extern struct DOG_CV dog_cv;
-extern struct DOG_PATH dog_path;
+extern struct DOG_MOTOR motor_1;					// 电机1
+extern struct DOG_MOTOR motor_2;					// 电机2
+extern struct DOG_MOTOR motor_3;					// 电机3
+extern struct DOG_ENCODER encoder_1;				// 编码器1
+extern struct DOG_ENCODER encoder_2;				// 编码器2
+extern struct DOG_ENCODER encoder_3;				// 编码器3
+extern struct DOG_PID motor_1_pid;					// 电机PID1
+extern struct DOG_PID motor_2_pid;					// 电机PID2
+extern struct DOG_PID motor_3_pid;					// 电机PID3
+extern struct DOG_PID path_pid;						// 路径PID
+extern struct DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
+extern struct DOG_PID rotate_pid;					// 旋转PID
+extern struct DOG_PID box_x_pid;					// 箱子X PID
+extern struct DOG_PID box_y_pid;					// 箱子Y PID
+extern struct DOG_VOFA wireless_vofa;				// 无线串口VOFA
+extern struct DOG_IMU imu660ra;						// IMU660RA陀螺仪
+extern struct DOG_SOLVE euler_angle_solve;			// 欧拉角解算
+extern struct DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
+extern struct DOG_SOLVE chassis_solve;				// 底盘解算
+extern struct DOG_SOLVE displacement_solve;			// 位移解算
+extern struct DOG_CV dog_cv;						// 计算机视觉
+extern struct DOG_PATH dog_path;					// 循迹
 
 /* 使能标志位 */
 extern _bool_ circle_enable_flag;		// 圆环 使能标志位
@@ -43,6 +44,9 @@ extern _bool_ zebra_enable_flag;		// 斑马线 使能标志位
 extern _bool_ ai_camera_1_enable_flag;	// AI相机1 使能标志位
 extern _bool_ ai_camera_2_enable_flag;	// AI相机2 使能标志位
 extern _bool_ ai_camera_3_enable_flag;	// AI相机3 使能标志位
+
+/* 完成标志位 */
+extern _bool_ rotate_finsh_flag;		// 旋转完成标志位
 
 /* 全局变量 */
 /* 赛道提取 */
@@ -59,7 +63,7 @@ extern uint16 side_x_delta_range[2];	// 边线X差值阈值范围
 /* 斑马线 */
 extern uint16 zebra_check_y;			// 斑马线检测线高度
 /* 赛道其他 */
-//_path_state_ path_state;	// 赛道状态
+extern _path_state_ path_state;			// 赛道状态
 /* 控制 */
 extern _control_kind_ control_kind;			// 控制类型
 extern float wheel_speed_target[3];			// 轮子目标速度
@@ -72,8 +76,8 @@ extern float y_speed_target;				// 目标y速度
 extern float angular_speed_target;			// 目标旋转速度
 extern float x_speed_rate;					// x速度比例（目标x速度/目标旋转速度）
 extern float rotation_yaw_target;			// 目标旋转角度	
-extern float data_1;						// 运动学逆解算参数1
-extern float data_2;						// 运动学逆解算参数2
+extern float data_1;						// 运动学逆解算参数1（线速度/X速度）
+extern float data_2;						// 运动学逆解算参数2（航向角/Y速度）
 /* 箱子 */
 extern int16 detection_center_err;			// 识别框中心误差
 extern uint16 detection_box_width;			// 识别框宽度
