@@ -23,7 +23,12 @@ void menu_uart_service(void)
 //    motor_current_update();
 //	just_float(3,(float)motor_1_I,(float)motor_2_I,(float)motor_3_I);
 //	just_float(3,(float)motor_1_I,(float)motor_2_I,(float)motor_3_I);
-just_float(4,(float)motor_2_I,(float)chassis_control.motor_2.duty,chassis_control.motor_2_speed,motor_2_speed);
+//    just_float(3,(float)motor_1_V,(float)motor_1_V_karman,(float)motor_1_I);
+
+    just_float(3,(float)motor_1_I,(float)motor_3_I,0.001);
+
+//    just_float(3,(float)motor_3_V,(float)motor_3_V_karman,(float)motor_3_I);
+    just_float(4,(float)motor_2_I,(float)chassis_control.motor_2.duty,chassis_control.motor_2_speed,motor_2_speed);
 //	just_float(3,(float)motor_1_V,(float)motor_2_V,(float)motor_3_V);
 	
     update_data_end();

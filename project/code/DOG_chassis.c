@@ -381,17 +381,19 @@ void motor_I_get(void)
 //    else if (chassis_control.motor_3.dir==0)
 //		motor_3_V = -1.0*(float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);
     
-    motor_1_V = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);
-    motor_2_V = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);
-    motor_3_V = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);
+    motor_1_V = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 1);
+    motor_2_V = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 1);
+    motor_3_V = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 1);
     
     motor_1_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_1_karman_variable ,motor_1_V);
     motor_2_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_2_karman_variable ,motor_2_V);
     motor_3_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_3_karman_variable ,motor_3_V);
 
-    motor_1_I = (motor_1_V_karman-2035) / 4096 * 3.3/20/0.01;
-    motor_2_I = (motor_2_V_karman-2035) / 4096 * 3.3/20/0.01;
-    motor_3_I = (motor_3_V_karman-2035) / 4096 * 3.3/20/0.01;    
+    motor_1_I = ((motor_1_V_karman-2035) / 4096 * 3.3/20         /0.002);
+    motor_2_I = ((motor_2_V_karman-2035) / 4096 * 3.3/20         /0.002);
+    motor_3_I = ((motor_3_V_karman-2035) / 4096 * 3.3/20         /0.002);
+                                                          //采样增益  采样电阻阻值  
+                                                     //采样增益  采样电阻阻值  
 }
 
 /* 补光灯控制 */ 
@@ -637,10 +639,10 @@ _CHASSIS_CONTROL_ inverse_kinematics(float chassis_yaw,float chassis_linear_spee
 void chassis_control_init()
 {
 	motor_sensor_init();
+    chassis_motion_flag = CHASSIS_STOP;
 	chassis_pid = chassis_pid_init();
 	chassis_filter = chassis_filter_init();
    	current_filter = current_filter_init();
- 
 }
 
 /* 停止 */
@@ -650,7 +652,15 @@ void chassis_control_stop(void)
 	chassis_linear_speed = 0;
 	chassis_angular_speed = 0;
 	chassis_rotate_angle = 0;
-	// 电机驱动
+	//PID参数清零
+    
+    chassis_pid.motor_1_I_pid_variable.value =0;
+    chassis_pid.motor_1_I_pid_variable.value_output =0;
+    chassis_pid.motor_2_I_pid_variable.value =0;
+    chassis_pid.motor_2_I_pid_variable.value_output =0;
+    chassis_pid.motor_3_I_pid_variable.value =0;
+    chassis_pid.motor_3_I_pid_variable.value_output =0;
+    // 电机驱动
 	motor_set_duty(MOTOR_1,0,chassis_control.motor_1.dir);
 	motor_set_duty(MOTOR_2,0,chassis_control.motor_2.dir);
 	motor_set_duty(MOTOR_3,0,chassis_control.motor_3.dir);

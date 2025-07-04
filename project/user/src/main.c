@@ -48,7 +48,7 @@ int main(void)
     debug_init();                   // 调试端口初始化
 
     // 此处编写用户代码 例如外设初始化代码等
-	wireless_uart_init();
+    wireless_uart_init();
 	path_control_init();
 	chassis_control_init();
 	ai_camera_init();
@@ -56,8 +56,11 @@ int main(void)
 	symmetry_rectificate_init();
 	// 计时中断初始化
 	pit_ms_init (TIME_COUNT_IT_CH, TIME_COUNT_IT_TIME);
-	// 中断使能
+	chassis_motion_flag = CHASSIS_STOP;
+    chassis_control_stop();
+    // 中断使能
 	pit_enable(TIME_COUNT_IT_CH);
+    chassis_control_stop();
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {

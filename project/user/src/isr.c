@@ -60,7 +60,7 @@ void PIT_IRQHandler(void)
 		bat_voltage_get();
 		
         pit_flag_clear(PIT_CH0);
-        if(motor_1_I>=3||motor_2_I>=3||motor_3_I>=3){chassis_motion_flag = CHASSIS_STOP;}
+        if(motor_1_I>=2||motor_2_I>=2||motor_3_I>=2){chassis_motion_flag = CHASSIS_STOP;}
       
     }
     /* µ×ÅÌ¿ØÖÆÖÐ¶Ï */
