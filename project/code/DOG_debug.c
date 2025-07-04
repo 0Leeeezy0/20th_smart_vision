@@ -21,6 +21,7 @@ void menu_uart_service(void)
 //    motor_delta_update();
 //    motor_value_delta_update();
 //    motor_current_update();
+<<<<<<< Updated upstream
 //	just_float(3,(float)motor_1_I,(float)motor_2_I,(float)motor_3_I);
 //	just_float(3,(float)motor_1_I,(float)motor_2_I,(float)motor_3_I);
 //    just_float(3,(float)motor_1_V,(float)motor_1_V_karman,(float)motor_1_I);
@@ -32,6 +33,13 @@ void menu_uart_service(void)
 //	just_float(3,(float)motor_1_V,(float)motor_2_V,(float)motor_3_V);
 	
     update_data_end();
+=======
+	theory_motor_speed_update();
+    real_motor_speed_update();
+    just_float(3,(float)motor_1_I,(float)motor_2_I,(float)motor_3_I);
+    just_float(1,chassis_linear_speed);
+	update_data_end();
+>>>>>>> Stashed changes
 	/*****************************************/
 }
 
