@@ -67,43 +67,40 @@ void move_inv_solve(struct DOG_SOLVE* this, _move_solve_kind_ kind, float data_1
 	由于
 */ 
 void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_speed_real, float wheel_3_speed_real, float yaw){
-	static float diff_world_x_displacement = 0.,diff_world_y_displacement = 0.;	// 世界坐标
-	static float diff_x_displacement = 0.,diff_y_displacement = 0.,diff_displacement = 0.,diff_yaw = 0.;	// 车身坐标
-	static float diff_wheel_1_displacement = 0.,diff_wheel_2_displacement = 0.,diff_wheel_3_displacement = 0.,diff_displacement_yaw = 0.;
 	if(this -> solve_flag == True)
 	{
 		// 三个轮子的位移微分
-		diff_wheel_1_displacement = -wheel_1_speed_real*this -> solve_IT_time/1000.;
-		diff_wheel_2_displacement = -wheel_2_speed_real*this -> solve_IT_time/1000.;
-		diff_wheel_3_displacement = -wheel_3_speed_real*this -> solve_IT_time/1000.;
+		this -> diff_wheel_1_displacement = -wheel_1_speed_real*this -> solve_IT_time/1000.;
+		this -> diff_wheel_2_displacement = -wheel_2_speed_real*this -> solve_IT_time/1000.;
+		this -> diff_wheel_3_displacement = -wheel_3_speed_real*this -> solve_IT_time/1000.;
 		
 		// 分解到车身X、Y方向上的位移微分
-		diff_x_displacement = (-2.*diff_wheel_1_displacement+diff_wheel_2_displacement+diff_wheel_3_displacement)/3.;
-		diff_y_displacement = (diff_wheel_2_displacement-diff_wheel_3_displacement)/SQRT_3;
-		diff_yaw = RAD2DEG((diff_wheel_1_displacement+diff_wheel_2_displacement+diff_wheel_3_displacement)/(3.0*this -> radius));
+		this -> diff_x_displacement = (-2.*this -> diff_wheel_1_displacement+this -> diff_wheel_2_displacement+this -> diff_wheel_3_displacement)/3.;
+		this -> diff_y_displacement = (this -> diff_wheel_2_displacement-this -> diff_wheel_3_displacement)/SQRT_3;
+		this -> diff_yaw = RAD2DEG((this -> diff_wheel_1_displacement+this -> diff_wheel_2_displacement+this -> diff_wheel_3_displacement)/(3.0*this -> radius));
 		
 		// 和位移微分
-		diff_displacement = sqrt(diff_x_displacement*diff_x_displacement+diff_y_displacement*diff_y_displacement);
+		this -> diff_displacement = sqrt(this -> diff_x_displacement*this -> diff_x_displacement+this -> diff_y_displacement*this -> diff_y_displacement);
 		
 		// 平动航向角微分（右正左负）
-		if(diff_y_displacement != 0)
-			diff_displacement_yaw = RAD2DEG(atan(diff_x_displacement/diff_y_displacement));
-		else if(diff_x_displacement >= 0 && diff_y_displacement == 0)
-			diff_displacement_yaw = 0;
-		else if(diff_x_displacement < 0 && diff_y_displacement == 0)
-			diff_displacement_yaw = -180;
+		if(this -> diff_y_displacement != 0)
+			this -> diff_displacement_yaw = RAD2DEG(atan(this -> diff_x_displacement/this -> diff_y_displacement));
+		else if(this -> diff_x_displacement >= 0 && this -> diff_y_displacement == 0)
+			this -> diff_displacement_yaw = 0;
+		else if(this -> diff_x_displacement < 0 && this -> diff_y_displacement == 0)
+			this -> diff_displacement_yaw = -180;
 		
 		// 修正平动航向角
-		if(diff_x_displacement > 0 && diff_y_displacement <0)
-			diff_displacement_yaw = diff_displacement_yaw+180;
-		else if(diff_x_displacement < 0 && diff_y_displacement <0)
-			diff_displacement_yaw = diff_displacement_yaw-180;
+		if(this -> diff_x_displacement > 0 && this -> diff_y_displacement <0)
+			this -> diff_displacement_yaw = this -> diff_displacement_yaw+180;
+		else if(this -> diff_x_displacement < 0 && this -> diff_y_displacement <0)
+			this -> diff_displacement_yaw = this -> diff_displacement_yaw-180;
 		
 		// 世界X,Y方向上的位移微分和位移
-		diff_world_x_displacement = diff_displacement*sinf(DEG2RAD(diff_displacement_yaw+yaw*1.15));
-		diff_world_y_displacement = diff_displacement*cosf(DEG2RAD(diff_displacement_yaw+yaw*1.15));
-		this -> world_x_displacement += diff_world_x_displacement;
-		this -> world_y_displacement += diff_world_y_displacement;
+		this -> diff_world_x_displacement = this -> diff_displacement*sinf(DEG2RAD(this -> diff_displacement_yaw+yaw*1.15));
+		this -> diff_world_y_displacement = this -> diff_displacement*cosf(DEG2RAD(this -> diff_displacement_yaw+yaw*1.15));
+		this -> world_x_displacement += this -> diff_world_x_displacement;
+		this -> world_y_displacement += this -> diff_world_y_displacement;
 	
 		// 和位移
 		this -> displacement = sqrt(this -> world_x_displacement*this -> world_x_displacement+this -> world_y_displacement*this -> world_y_displacement);
@@ -121,12 +118,12 @@ void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_
 			this -> displacement_yaw = this -> displacement_yaw-180;
 		
 		// 三个轮子位移
-		this -> wheel_1_displacement += diff_wheel_1_displacement;
-		this -> wheel_2_displacement += diff_wheel_2_displacement;
-		this -> wheel_3_displacement += diff_wheel_3_displacement;
+		this -> wheel_1_displacement += this -> diff_wheel_1_displacement;
+		this -> wheel_2_displacement += this -> diff_wheel_2_displacement;
+		this -> wheel_3_displacement += this -> diff_wheel_3_displacement;
 		
 		// 路程（和位移微分积分）
-		this -> distance += diff_displacement;
+		this -> distance += this -> diff_displacement;
 	}
 	else if(this -> solve_flag == False)
 	{
@@ -158,6 +155,16 @@ void solve(struct DOG_SOLVE* this, float radius, uint16 solve_IT_time){
 	this -> radius = radius;	
 	this -> solve_IT_time = solve_IT_time;
 	this -> solve_flag = False;
+	this -> diff_world_x_displacement = 0.;	// 世界X位移微分
+	this -> diff_world_y_displacement = 0.;	// 世界Y位移微分
+	this -> diff_x_displacement = 0.;		// 车身X位移微分
+	this -> diff_y_displacement = 0.;		// 车身Y位移微分
+	this -> diff_displacement = 0.;			// 车身位移微分
+	this -> diff_yaw = 0.;					// 车身航向角微分
+	this -> diff_wheel_1_displacement = 0.;	// 车身轮子1位移
+	this -> diff_wheel_2_displacement = 0.; // 车身轮子2位移
+	this -> diff_wheel_3_displacement = 0.; // 车身轮子3位移
+	this -> diff_displacement_yaw = 0.;		// 车身位移航向角微分
 	
 	/* 成员函数 */
 	this -> euler_angle = euler_angle;
@@ -181,4 +188,14 @@ void _solve(struct DOG_SOLVE* this){
 	this -> displacement = 0;			// 位移
 	this -> displacement_yaw = 0;		// 位移航向角
 	this -> solve_flag = False;
+	this -> diff_world_x_displacement = 0.;	// 世界X位移微分
+	this -> diff_world_y_displacement = 0.;	// 世界Y位移微分
+	this -> diff_x_displacement = 0.;		// 车身X位移微分
+	this -> diff_y_displacement = 0.;		// 车身Y位移微分
+	this -> diff_displacement = 0.;			// 车身位移微分
+	this -> diff_yaw = 0.;					// 车身航向角微分
+	this -> diff_wheel_1_displacement = 0.;	// 车身轮子1位移
+	this -> diff_wheel_2_displacement = 0.; // 车身轮子2位移
+	this -> diff_wheel_3_displacement = 0.; // 车身轮子3位移
+	this -> diff_displacement_yaw = 0.;		// 车身位移航向角微分
 }

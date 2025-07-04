@@ -21,9 +21,18 @@ extern struct DOG_MOTOR motor_3;					// 电机3
 extern struct DOG_ENCODER encoder_1;				// 编码器1
 extern struct DOG_ENCODER encoder_2;				// 编码器2
 extern struct DOG_ENCODER encoder_3;				// 编码器3
+extern struct DOG_CURRENT current_1;				// 电流采样1
+extern struct DOG_CURRENT current_2;				// 电流采样2
+extern struct DOG_CURRENT current_3;				// 电流采样3
+extern struct DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
+extern struct DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
+extern struct DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
 extern struct DOG_PID motor_1_pid;					// 电机PID1
 extern struct DOG_PID motor_2_pid;					// 电机PID2
 extern struct DOG_PID motor_3_pid;					// 电机PID3
+extern struct DOG_PID current_1_pid;				// 电机电流PID1
+extern struct DOG_PID current_2_pid;				// 电机电流PID2
+extern struct DOG_PID current_3_pid;				// 电机电流PID3
 extern struct DOG_PID path_pid;						// 路径PID
 extern struct DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
 extern struct DOG_PID rotate_pid;					// 旋转PID
@@ -67,6 +76,7 @@ extern _path_state_ path_state;			// 赛道状态
 /* 控制 */
 extern _control_kind_ control_kind;			// 控制类型
 extern float wheel_speed_target[3];			// 轮子目标速度
+extern float motor_current_target[3];		// 电机电流目标值
 extern float motor_pwm_duty[3];		        // 电机PWM占空比
 extern _move_solve_kind_ move_solve_kind;	// 运动解算类型
 extern float linear_speed_target;			// 目标线速度

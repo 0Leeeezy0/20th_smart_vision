@@ -7,9 +7,18 @@ struct DOG_MOTOR motor_3;					// 电机3
 struct DOG_ENCODER encoder_1;				// 编码器1
 struct DOG_ENCODER encoder_2;				// 编码器2
 struct DOG_ENCODER encoder_3;				// 编码器3
+struct DOG_CURRENT current_1;				// 电流采样1
+struct DOG_CURRENT current_2;				// 电流采样2
+struct DOG_CURRENT current_3;				// 电流采样3
+struct DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
+struct DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
+struct DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
 struct DOG_PID motor_1_pid;					// 电机PID1
 struct DOG_PID motor_2_pid;					// 电机PID2
 struct DOG_PID motor_3_pid;					// 电机PID3
+struct DOG_PID current_1_pid;				// 电机电流PID1
+struct DOG_PID current_2_pid;				// 电机电流PID2
+struct DOG_PID current_3_pid;				// 电机电流PID3
 struct DOG_PID path_pid;					// 路径PID
 struct DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
 struct DOG_PID rotate_pid;					// 旋转PID
@@ -53,6 +62,7 @@ _path_state_ path_state = common_path;	// 赛道状态
 /* 控制 */
 _control_kind_ control_kind;				// 控制类型
 float wheel_speed_target[3] = {0, 0, 0};	// 轮子目标速度
+float motor_current_target[3] = {0, 0, 0};	// 电机电流目标值
 float motor_pwm_duty[3] = {0, 0, 0};		// 电机PWM占空比
 _move_solve_kind_ move_solve_kind;			// 运动解算类型
 float linear_speed_target;					// 目标线速度
@@ -103,9 +113,6 @@ float BOX_X_PID[5] = 	  { 0.45,  0,     0.07,  2,           35};
 float BOX_Y_PID[5] = 	  { 0.45,  0,     0.07,  2,           35};
  
 /* KARMAN滤波器参数		   	Q     R     Q越小越平滑   R越小越接近(收敛越快)*/
-float MOTOR_1_KARMAN[2] = { 0.01, 0.1};
-float MOTOR_2_KARMAN[2] = { 0.01, 0.1};
-float MOTOR_3_KARMAN[2] = { 0.01, 0.1};
 float I_KARMAN[2] = 	  { 0.01, 0.1};
 
 /* 模糊PID 规则表 */

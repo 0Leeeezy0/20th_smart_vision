@@ -27,61 +27,10 @@ Project File Date:  06/29/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\KEIL\ARM\ARMCLANG\Bin'
 Build target 'nor_sdram_zf_dtcm'
-compiling DOG_sensor.c...
-../code/fsm.c(105): warning: non-void function does not return a value in all control paths [-Wreturn-type]
-}
-^
-1 warning generated.
-compiling fsm.c...
-compiling DOG_timer.c...
-compiling DOG_solve.c...
-../code/DOG_cv.c(70): warning: non-void function does not return a value [-Wreturn-type]
-}
-^
-1 warning generated.
-compiling DOG_cv.c...
-../user/src/main.c(23): warning: '/*' within block comment [-Wcomment]
-//* 
- ^
-../user/src/main.c(24): warning: '/*' within block comment [-Wcomment]
-//* <CE>ļ<FE><C3><FB><B3><C6>          main
- ^
-../user/src/main.c(25): warning: '/*' within block comment [-Wcomment]
-//* <B9><AB>˾<C3><FB><B3><C6>          <B3>ɶ<BC><D6><F0><B7>ɿƼ<BC><D3><D0><CF><U+07B9><AB>˾
- ^
-../user/src/main.c(26): warning: '/*' within block comment [-Wcomment]
-//* <B0>汾<D0><C5>Ϣ          <B2>鿴 libraries/doc <CE>ļ<FE><BC><D0><C4><DA> version <CE>ļ<FE> <B0>汾˵<C3><F7>
- ^
-../user/src/main.c(27): warning: '/*' within block comment [-Wcomment]
-//* <BF><AA><B7><A2><BB><B7><BE><B3>          IAR 8.32.4 or MDK 5.33
- ^
-../user/src/main.c(67): warning: implicit conversion from enumeration type 'uart_tx_pin_enum' to different enumeration type 'uart_rx_pin_enum' [-Wenum-conversion]
-        vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
-        ~~~~                                                                    ^~~~~~~~~~~~~~~~~~~~
-../../libraries/zf_device\zf_device_wireless_uart.h(56): note: expanded from macro 'WIRELESS_UART_RX_PIN'
-#define WIRELESS_UART_RX_PIN        (UART8_TX_D16)                              // <CE><DE><CF>ߴ<AE><BF>ڶ<D4>Ӧģ<BF><E9><B5><C4> RX Ҫ<BD>ӵ<BD><B5><A5>Ƭ<BB><FA><B5><C4> TX
-                                     ^~~~~~~~~~~~
-../user/src/main.c(67): warning: implicit conversion from enumeration type 'uart_rx_pin_enum' to different enumeration type 'uart_tx_pin_enum' [-Wenum-conversion]
-        vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
-        ~~~~                                              ^~~~~~~~~~~~~~~~~~~~
-../../libraries/zf_device\zf_device_wireless_uart.h(55): note: expanded from macro 'WIRELESS_UART_TX_PIN'
-#define WIRELESS_UART_TX_PIN        (UART8_RX_D17)                              // <CE><DE><CF>ߴ<AE><BF>ڶ<D4>Ӧģ<BF><E9><B5><C4> TX Ҫ<BD>ӵ<BD><B5><A5>Ƭ<BB><FA><B5><C4> RX
-                                     ^~~~~~~~~~~~
-../user/src/main.c(98): warning: incompatible pointer types passing 'float[3]' to parameter of type 'float (*)[3]'; take the address with & [-Wincompatible-pointer-types]
-        rotate_pid.fuzzy_pid_init(&rotate_pid, fuzzy_rules, ROTATE_RANGE);
-                                                            ^~~~~~~~~~~~
-                                                            &
-8 warnings generated.
-compiling main.c...
-compiling data.c...
 compiling isr.c...
-compiling control.c...
-compiling DOG_motor.c...
-compiling DOG_pid.c...
-compiling DOG_path.c...
 linking...
-Program Size: Code=88968 RO-data=14224 RW-data=588 ZI-data=92968  
-".\Objects\rt1064.axf" - 0 Error(s), 10 Warning(s).
+Program Size: Code=91592 RO-data=14496 RW-data=668 ZI-data=93708  
+".\Objects\rt1064.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -94,7 +43,7 @@ Package Vendor: NXP
   D:/KEIL/ARM/Pack/NXP/MIMXRT1064_DFP/19.0.0/devices/MIMXRT1064
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

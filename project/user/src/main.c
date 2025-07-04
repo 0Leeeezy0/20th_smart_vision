@@ -51,7 +51,7 @@ int main(void)
     // 此处编写用户代码 例如外设初始化代码等
 	
 	/* IMU */
-	imu(&imu660ra, IMU_X_FRONT_DIR, IMU_Y_FRONT_DIR, IMU_Z_FRONT_DIR);
+	imu(&imu660ra, IMU_X_FRONT_DIR, IMU_Y_FRONT_DIR, IMU_Z_FRONT_DIR, 1000);
 	
 	/* 电机 */
 	motor(&motor_1, MOTOR_1_DIR, MOTOR_1_PWM, 10000, MOTOR_1_FRONT_DIR);
@@ -62,6 +62,16 @@ int main(void)
 	encoder(&encoder_1, ENCODER_1_MODULE_NUM, ENCODER_1_CH1, ENCODER_1_CH2, ENCODER_1_FRONT_DIR, 4096, SENSOR_SOLVE_IT_TIME, GEAR_RATIO, WHEEL_CIRCUMFERENCE);
 	encoder(&encoder_2, ENCODER_2_MODULE_NUM, ENCODER_2_CH1, ENCODER_2_CH2, ENCODER_2_FRONT_DIR, 4096, SENSOR_SOLVE_IT_TIME, GEAR_RATIO, WHEEL_CIRCUMFERENCE);
 	encoder(&encoder_3, ENCODER_3_MODULE_NUM, ENCODER_3_CH1, ENCODER_3_CH2, ENCODER_3_FRONT_DIR, 4096, SENSOR_SOLVE_IT_TIME, GEAR_RATIO, WHEEL_CIRCUMFERENCE);
+	
+	/* 电流采样 */
+	current(&current_1, CURRENT_1_PIN, ADC_12BIT, CURRENT_RATIO, 1000);
+	current(&current_2, CURRENT_2_PIN, ADC_12BIT, CURRENT_RATIO, 1000);
+	current(&current_3, CURRENT_3_PIN, ADC_12BIT, CURRENT_RATIO, 1000);
+	
+	/* 电流卡滤波 */
+	karman(&current_1_karman, I_KARMAN[0], I_KARMAN[1]);
+	karman(&current_2_karman, I_KARMAN[0], I_KARMAN[1]);
+	karman(&current_3_karman, I_KARMAN[0], I_KARMAN[1]);
 	
 	/* VOFA */
 	vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
@@ -90,6 +100,9 @@ int main(void)
 	pid(&motor_1_pid);
 	pid(&motor_2_pid);
 	pid(&motor_3_pid);
+	pid(&current_1_pid);
+	pid(&current_2_pid);
+	pid(&current_3_pid);
 	pid(&path_pid);
 	path_pid.fuzzy_pid_init(&path_pid, fuzzy_rules, PATH_RANGE);
 	pid(&path_gyroz_pid);
@@ -112,45 +125,49 @@ int main(void)
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
-        // 此处编写需要循环执行的代码
-		// 二值化
-		dog_cv.threshold(&dog_cv, mt9v03x_image);
-		// 边线提取
-		dog_path.side_extract(&dog_path, dog_cv.image_OTSU);
-		// 边线点类型判断
-		dog_path.side_point_kind_judge(&dog_path);
-		// 最长白列
-		dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[0]);
-		// 路径线提取
-		dog_path.path_extract(&dog_path, dog_cv.image_OTSU);
-		
-		path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
-		
-//		path_pid_calc();
-//		y_speed_target = 100;
-		
-		control_kind = Stop;
-//		move_solve_kind = XY_SPEED_SOLVE;
-//		x_speed_target = 0;
-//		y_speed_target = 0;
-//		rotation_yaw_target = 0;
-//		angular_speed_target = 5;
-		
-//		linear_speed_target = 20;
-//		translation_yaw_target = 0;
-//		wheel_speed_target[0] = 10;
-//		wheel_speed_target[1] = 10;
-//		wheel_speed_target[2] = 10;
-//		
-//		motor_pwm_duty[0] = 1500;
-//		motor_pwm_duty[1] = 1500;
-//		motor_pwm_duty[2] = 1500;
-
-		wireless_vofa.justfloat_add(&wireless_vofa, 7, (float)path_err, path_pid.Kp, path_pid.Ki, path_pid.Kd, path_pid.value, angular_speed_target, rotate_euler_angle_solve.yaw);
-//		wireless_vofa.justfloat_add(&wireless_vofa, 3, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, euler_angle_solve.yaw);
-		wireless_vofa.justfloat_send(&wireless_vofa);
-		
 		// 此处编写需要循环执行的代码
+		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && current_1.current_calibration_flag == True && current_2.current_calibration_flag == True && current_3.current_calibration_flag == True)
+		{
+			// 此处编写需要循环执行的代码
+			// 二值化
+			dog_cv.threshold(&dog_cv, mt9v03x_image);
+			// 边线提取
+			dog_path.side_extract(&dog_path, dog_cv.image_OTSU);
+			// 边线点类型判断
+			dog_path.side_point_kind_judge(&dog_path);
+			// 最长白列
+			dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[0]);
+			// 路径线提取
+			dog_path.path_extract(&dog_path, dog_cv.image_OTSU);
+			
+			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
+			
+//			path_pid_calc();
+//			y_speed_target = 100;
+			
+			control_kind = PWM;
+//			move_solve_kind = XY_SPEED_SOLVE;
+//			x_speed_target = 0;
+//			y_speed_target = 0;
+//			rotation_yaw_target = 0;
+//			angular_speed_target = 5;
+			
+//			linear_speed_target = 20;
+//			translation_yaw_target = 0;
+//			wheel_speed_target[0] = 10;
+//			wheel_speed_target[1] = 10;
+//			wheel_speed_target[2] = 10;
+			
+			motor_pwm_duty[0] = 3000;
+			motor_pwm_duty[1] = 3000;
+			motor_pwm_duty[2] = 3000;
+
+//			wireless_vofa.justfloat_add(&wireless_vofa, 7, (float)path_err, path_pid.Kp, path_pid.Ki, path_pid.Kd, path_pid.value, angular_speed_target, rotate_euler_angle_solve.yaw);  
+//			wireless_vofa.justfloat_add(&wireless_vofa, 3, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, euler_angle_solve.yaw);
+		}
+		wireless_vofa.justfloat_add(&wireless_vofa, 3, current_1.current, current_2.current, current_3.current);
+		wireless_vofa.justfloat_add(&wireless_vofa, 3, euler_angle_solve.pitch, euler_angle_solve.roll, euler_angle_solve.yaw);
+		wireless_vofa.justfloat_send(&wireless_vofa);
     }
 	
 	return 0;

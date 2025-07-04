@@ -9,6 +9,17 @@
 
 /* 解算 */
 struct DOG_SOLVE{
+	/* 变量 */
+	float diff_world_x_displacement;	// 世界X位移微分
+	float diff_world_y_displacement;	// 世界Y位移微分
+	float diff_x_displacement;			// 车身X位移微分
+	float diff_y_displacement;			// 车身Y位移微分
+	float diff_displacement;			// 车身位移微分
+	float diff_yaw;						// 车身航向角微分
+	float diff_wheel_1_displacement;	// 车身轮子1位移
+	float diff_wheel_2_displacement; 	// 车身轮子2位移
+	float diff_wheel_3_displacement; 	// 车身轮子3位移
+	float diff_displacement_yaw;		// 车身位移航向角微分
 	/* 解算值 */
 	// 欧拉角解算结果
 	float roll;	

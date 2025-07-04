@@ -42,8 +42,30 @@ struct DOG_IMU{
 	_bool_ X_reverse_flag;			// X轴 反转参考方向标志位
 	_bool_ Y_reverse_flag;			// Y轴 反转参考方向标志位
 	_bool_ Z_reverse_flag;			// Z轴 反转参考方向标志位（要保证右正左负）
+	/* 去零飘 */
 	_bool_ gyro_calibration_flag;	// 陀螺仪去零飘标志位
 	_bool_ acc_calibration_flag;	// 加速度计去零飘标志位
+	uint32 calibration_epoch;		// 去零飘轮次
+	uint32 epoch;					// 轮次
+	float gyro_x_calibration;		
+	float gyro_y_calibration;
+	float gyro_z_calibration;
+	float gyro_x_max;
+	float gyro_x_min;
+	float gyro_y_max;
+	float gyro_y_min;
+	float gyro_z_max;
+	float gyro_z_min;
+	float acc_x_calibration;
+	float acc_y_calibration;
+	float acc_z_calibration;
+	float acc_x_max;
+	float acc_x_min;
+	float acc_y_max;
+	float acc_y_min;
+	float acc_z_max;
+	float acc_z_min;
+	
 	/* 读取值 */
 	float gyro_x;
 	float gyro_y;
@@ -63,7 +85,7 @@ void gyro_get(struct DOG_IMU* this);
 void acc_get(struct DOG_IMU* this);	
 
 // 构造函数
-void imu(struct DOG_IMU* this, _bool_ X_reverse_flag, _bool_ Y_reverse_flag, _bool_ Z_reverse_flag);
+void imu(struct DOG_IMU* this, _bool_ X_reverse_flag, _bool_ Y_reverse_flag, _bool_ Z_reverse_flag, uint32 calibration_epoch);
 // 析构函数
 void _imu(struct DOG_IMU* this);
 /****************************************************************************************************************************/
@@ -72,7 +94,14 @@ struct DOG_CURRENT{
 	/* ADC参数 */
 	adc_channel_enum adc_ch;			// ADC引脚
 	adc_resolution_enum resolution;		// ADC分辨率
-	float current_ratio;				// 电压-电流换算系数（电流/电压）
+	float current_ratio;				// 电压-电流换算系数（电压/电流）、
+	/* 去零飘 */
+	_bool_ current_calibration_flag;	// 电流去零飘标志位
+	uint32 calibration_epoch;			// 去零飘轮次
+	uint32 epoch;						// 轮次
+	float current_calibration;		// 去零飘值
+	/* 读取值 */
+	float current;						// 电流
 	
 	float (*current_get)(struct DOG_CURRENT* this);	// 电流获取
 };
@@ -81,7 +110,7 @@ struct DOG_CURRENT{
 float current_get(struct DOG_CURRENT* this);
 
 // 构造函数
-void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_enum resolution, float current_ratio);
+void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_enum resolution, float current_ratio, uint32 calibration_epoch);
 // 析构函数
 void _current(struct DOG_CURRENT* this);
 /****************************************************************************************************************************/

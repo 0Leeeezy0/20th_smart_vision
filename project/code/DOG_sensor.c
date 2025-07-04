@@ -52,81 +52,69 @@ void _encoder(struct DOG_ENCODER* this){
 /****************************************************************************************************************************/
 // 陀螺仪值获取
 void gyro_get(struct DOG_IMU* this){
-	/* 陀螺仪校准值 */
-	static float gyro_x_calibration = 0;
-	static float gyro_y_calibration = 0;
-	static float gyro_z_calibration = 0;
-	static float gyro_x_max = 0;
-	static float gyro_x_min = 0;
-	static float gyro_y_max = 0;
-	static float gyro_y_min = 0;
-	static float gyro_z_max = 0;
-	static float gyro_z_min = 0;
-
-	static int epoch = 0;
 	imu660ra_get_gyro();
 	
 	if(this -> gyro_calibration_flag == False)
 	{
-		if(epoch == 0)
+		if(this -> epoch == 0)
 		{
-			gyro_x_calibration = 0;
-			gyro_y_calibration = 0;
-			gyro_z_calibration = 0;
-			gyro_x_max = 0;
-			gyro_x_min = 0;
-			gyro_y_max = 0;
-			gyro_y_min = 0;
-			gyro_z_max = 0;
-			gyro_z_min = 0;
+			this -> gyro_x_calibration = 0;
+			this -> gyro_y_calibration = 0;
+			this -> gyro_z_calibration = 0;
+			this -> gyro_x_max = 0;
+			this -> gyro_x_min = 0;
+			this -> gyro_y_max = 0;
+			this -> gyro_y_min = 0;
+			this -> gyro_z_max = 0;
+			this -> gyro_z_min = 0;
 		}
 		// 求解去零飘偏移量
-		else if(epoch > 0 && epoch <= 500)
+		else if(this -> epoch > 0 && this -> epoch <= this -> calibration_epoch/2.0)
 		{
 			this -> gyro_x = CHECK(this -> X_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_x);
 			this -> gyro_y = CHECK(this -> Y_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_y);
 			this -> gyro_z = CHECK(this -> Z_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_z);
 		
-			gyro_x_calibration += this -> gyro_x/500;
-			gyro_y_calibration += this -> gyro_y/500;
-			gyro_z_calibration += this -> gyro_z/500;
+			this -> gyro_x_calibration += 2.0*this -> gyro_x/this -> calibration_epoch;
+			this -> gyro_y_calibration += 2.0*this -> gyro_y/this -> calibration_epoch;
+			this -> gyro_z_calibration += 2.0*this -> gyro_z/this -> calibration_epoch;
 		}
 		// 求解上下门限
-		else if(epoch > 500 && epoch <= 1000)
+		else if(this -> epoch > this -> calibration_epoch/2.0 && this -> epoch <= this -> calibration_epoch)
 		{
-			this -> gyro_x = CHECK(this -> X_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_x)-gyro_x_calibration;
-			this -> gyro_y = CHECK(this -> Y_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_y)-gyro_y_calibration;
-			this -> gyro_z = CHECK(this -> Z_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_z)-gyro_z_calibration;
+			this -> gyro_x = CHECK(this -> X_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_x)-this -> gyro_x_calibration;
+			this -> gyro_y = CHECK(this -> Y_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_y)-this -> gyro_y_calibration;
+			this -> gyro_z = CHECK(this -> Z_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_z)-this -> gyro_z_calibration;
 			
-			if(this -> gyro_x > gyro_x_max)
+			if(this -> gyro_x > this -> gyro_x_max)
 			{
-				gyro_x_max = this -> gyro_x;
+				this -> gyro_x_max = this -> gyro_x;
 			}
-			if(this -> gyro_x < gyro_x_min)
+			if(this -> gyro_x < this -> gyro_x_min)
 			{
-				gyro_x_min = this -> gyro_x;
+				this -> gyro_x_min = this -> gyro_x;
 			}
-			if(this -> gyro_y > gyro_y_max)
+			if(this -> gyro_y > this -> gyro_y_max)
 			{
-				gyro_y_max = this -> gyro_y;
+				this -> gyro_y_max = this -> gyro_y;
 			}
-			if(this -> gyro_y < gyro_y_min)
+			if(this -> gyro_y < this -> gyro_y_min)
 			{
-				gyro_y_min = this -> gyro_y;
+				this -> gyro_y_min = this -> gyro_y;
 			}
-			if(this -> gyro_z > gyro_z_max)
+			if(this -> gyro_z > this -> gyro_z_max)
 			{
-				gyro_z_max = this -> gyro_z;
+				this -> gyro_z_max = this -> gyro_z;
 			}
-			if(this -> gyro_z < gyro_z_min)
+			if(this -> gyro_z < this -> gyro_z_min)
 			{
-				gyro_z_min = this -> gyro_z;
+				this -> gyro_z_min = this -> gyro_z;
 			}
 		}
-		epoch++;
-		if(epoch > 1000)
+		this -> epoch++;
+		if(this -> epoch > this -> calibration_epoch)
 		{
-			epoch = 0;
+			this -> epoch = 0;
 			this -> gyro_x = 0;
 			this -> gyro_y = 0;
 			this -> gyro_z = 0;
@@ -135,18 +123,18 @@ void gyro_get(struct DOG_IMU* this){
 	}	
 	else
 	{
-		this -> gyro_x = CHECK(this -> X_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_x)-gyro_x_calibration;
-		this -> gyro_y = CHECK(this -> Y_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_y)-gyro_y_calibration;
-		this -> gyro_z = CHECK(this -> Z_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_z)-gyro_z_calibration;
-		if(this -> gyro_x >= gyro_x_min && this -> gyro_x <= gyro_x_max)
+		this -> gyro_x = CHECK(this -> X_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_x)-this -> gyro_x_calibration;
+		this -> gyro_y = CHECK(this -> Y_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_y)-this -> gyro_y_calibration;
+		this -> gyro_z = CHECK(this -> Z_reverse_flag)*imu660ra_gyro_transition(imu660ra_gyro_z)-this -> gyro_z_calibration;
+		if(this -> gyro_x >= this -> gyro_x_min && this -> gyro_x <= this -> gyro_x_max)
 		{
 			this -> gyro_x = 0;
 		}
-		if(this -> gyro_y >= gyro_y_min && this -> gyro_y <= gyro_y_max)
+		if(this -> gyro_y >= this -> gyro_y_min && this -> gyro_y <= this -> gyro_y_max)
 		{
 			this -> gyro_y = 0;
 		}
-		if(this -> gyro_z >= gyro_z_min && this -> gyro_z <= gyro_z_max)
+		if(this -> gyro_z >= this -> gyro_z_min && this -> gyro_z <= this -> gyro_z_max)
 		{
 			this -> gyro_z = 0;
 		}
@@ -155,81 +143,69 @@ void gyro_get(struct DOG_IMU* this){
 
 // 加速度计值获取
 void acc_get(struct DOG_IMU* this){
-	/* 加速度计校准值 */
-	static float acc_x_calibration = 0;
-	static float acc_y_calibration = 0;
-	static float acc_z_calibration = 0;
-	static float acc_x_max = 0;
-	static float acc_x_min = 0;
-	static float acc_y_max = 0;
-	static float acc_y_min = 0;
-	static float acc_z_max = 0;
-	static float acc_z_min = 0;
-	
-	static int epoch = 0;
 	imu660ra_get_acc();
 	
 	if(this -> acc_calibration_flag == False)
 	{
-		if(epoch == 0)
+		if(this -> epoch == 0)
 		{
-			acc_x_calibration = 0;
-			acc_y_calibration = 0;
-			acc_z_calibration = 0;
-			acc_x_max = 0;
-			acc_x_min = 0;
-			acc_y_max = 0;
-			acc_y_min = 0;
-			acc_z_max = 0;
-			acc_z_min = 0;
+			this -> acc_x_calibration = 0;
+			this -> acc_y_calibration = 0;
+			this -> acc_z_calibration = 0;
+			this -> acc_x_max = 0;
+			this -> acc_x_min = 0;
+			this -> acc_y_max = 0;
+			this -> acc_y_min = 0;
+			this -> acc_z_max = 0;
+			this -> acc_z_min = 0;
 		}
 		// 求解去零飘偏移量
-		else if(epoch > 0 && epoch <= 500)
+		else if(this -> epoch > 0 && this -> epoch <= this -> calibration_epoch/2.0)
 		{
 			this -> acc_x = CHECK(this -> X_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_x);
 			this -> acc_y = CHECK(this -> Y_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_y);
 			this -> acc_z = CHECK(this -> Z_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_z);
 		
-			acc_x_calibration += this -> acc_x/500;
-			acc_y_calibration += this -> acc_y/500;
-			acc_z_calibration += this -> acc_z/500;
+			this -> acc_x_calibration += 2.0*this -> acc_x/this -> calibration_epoch;
+			this -> acc_y_calibration += 2.0*this -> acc_y/this -> calibration_epoch;
+			this -> acc_z_calibration += 2.0*this -> acc_z/this -> calibration_epoch;
 		}
 		// 求解上下门限
-		else if(epoch > 500 && epoch <= 1000)
+		else if(this -> epoch > this -> calibration_epoch/2.0 && this -> epoch <= this -> calibration_epoch)
 		{
-			this -> acc_x = CHECK(this -> X_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_x)-acc_x_calibration;
-			this -> acc_y = CHECK(this -> Y_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_y)-acc_y_calibration;
-			this -> acc_z = CHECK(this -> Z_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_z)-acc_z_calibration;
+			this -> acc_x = CHECK(this -> X_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_x)-this -> acc_x_calibration;
+			this -> acc_y = CHECK(this -> Y_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_y)-this -> acc_y_calibration;
+			this -> acc_z = CHECK(this -> Z_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_z)-this -> acc_z_calibration;
 			
-			if(this -> acc_x > acc_x_max)
+			if(this -> acc_x > this -> acc_x_max)
 			{
-				acc_x_max = this -> acc_x;
+				this -> acc_x_max = this -> acc_x;
 			}
-			if(this -> acc_x < acc_x_min)
+			if(this -> acc_x < this -> acc_x_min)
 			{
-				acc_x_min = this -> acc_x;
+				this -> acc_x_min = this -> acc_x;
 			}
-			if(this -> acc_y > acc_y_max)
+			if(this -> acc_y > this -> acc_y_max)
 			{
-				acc_y_max = this -> acc_y;
+				this -> acc_y_max = this -> acc_y;
 			}
-			if(this -> acc_y < acc_y_min)
+			if(this -> acc_y < this -> acc_y_min)
 			{
-				acc_y_min = this -> acc_y;
+				this -> acc_y_min = this -> acc_y;
 			}
-			if(this -> acc_z > acc_z_max)
+			if(this -> acc_z > this -> acc_z_max)
 			{
-				acc_z_max = this -> acc_z;
+				this -> acc_z_max = this -> acc_z;
 			}
-			if(this -> acc_z < acc_z_min)
+			if(this -> acc_z < this -> acc_z_min)
 			{
-				acc_z_min = this -> acc_z;
+				this -> acc_z_min = this -> acc_z;
 			}
 		}
-		epoch++;
-		if(epoch > 1000)
+		this -> epoch++;
+		if(this -> epoch > this -> calibration_epoch)
 		{
-			epoch = 0;
+			this -> epoch = 0;
 			this -> acc_x = 0;
 			this -> acc_y = 0;
 			this -> acc_z = 0;
@@ -238,18 +214,18 @@ void acc_get(struct DOG_IMU* this){
 	}
 	else
 	{
-		this -> acc_x = CHECK(this -> X_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_x)-acc_x_calibration;
-		this -> acc_y = CHECK(this -> Y_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_y)-acc_y_calibration;
-		this -> acc_z = CHECK(this -> Z_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_z)-acc_z_calibration;
-		if(this -> acc_x >= acc_x_min && this -> acc_x <= acc_x_max)
+		this -> acc_x = CHECK(this -> X_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_x)-this -> acc_x_calibration;
+		this -> acc_y = CHECK(this -> Y_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_y)-this -> acc_y_calibration;
+		this -> acc_z = CHECK(this -> Z_reverse_flag)*imu660ra_acc_transition(imu660ra_acc_z)-this -> acc_z_calibration;
+		if(this -> acc_x >= this -> acc_x_min && this -> acc_x <= this -> acc_x_max)
 		{
 			this -> acc_x = 0;
 		}
-		if(this -> acc_y >= acc_y_min && this -> acc_y <= acc_y_max)
+		if(this -> acc_y >= this -> acc_y_min && this -> acc_y <= this -> acc_y_max)
 		{
 			this -> acc_y = 0;
 		}
-		if(this -> acc_z >= acc_z_min && this -> acc_z <= acc_z_max)
+		if(this -> acc_z >= this -> acc_z_min && this -> acc_z <= this -> acc_z_max)
 		{
 			this -> acc_z = 0;
 		}
@@ -257,13 +233,33 @@ void acc_get(struct DOG_IMU* this){
 }
 
 // 构造函数
-void imu(struct DOG_IMU* this, _bool_ X_reverse_flag, _bool_ Y_reverse_flag, _bool_ Z_reverse_flag){
+void imu(struct DOG_IMU* this, _bool_ X_reverse_flag, _bool_ Y_reverse_flag, _bool_ Z_reverse_flag, uint32 calibration_epoch){
 	/* 成员变量 */
 	this -> X_reverse_flag = X_reverse_flag;			
 	this -> Y_reverse_flag = Y_reverse_flag;			
 	this -> Z_reverse_flag = Z_reverse_flag;			
 	this -> gyro_calibration_flag = False;	
 	this -> acc_calibration_flag = False;	
+	this -> calibration_epoch = calibration_epoch;
+	this -> epoch = 0;
+	this -> gyro_x_calibration = 0;
+	this -> gyro_y_calibration = 0;
+	this -> gyro_z_calibration = 0;
+	this -> gyro_x_max = 0;
+	this -> gyro_x_min = 0;
+	this -> gyro_y_max = 0;
+	this -> gyro_y_min = 0;
+	this -> gyro_z_max = 0;
+	this -> gyro_z_min = 0;
+	this -> acc_x_calibration = 0;
+	this -> acc_y_calibration = 0;
+	this -> acc_z_calibration = 0;
+	this -> acc_x_max = 0;
+	this -> acc_x_min = 0;
+	this -> acc_y_max = 0;
+	this -> acc_y_min = 0;
+	this -> acc_z_max = 0;
+	this -> acc_z_min = 0;
 
 	this -> gyro_x = 0;
 	this -> gyro_y = 0;
@@ -286,7 +282,26 @@ void imu(struct DOG_IMU* this, _bool_ X_reverse_flag, _bool_ Y_reverse_flag, _bo
 void _imu(struct DOG_IMU* this){
 	/* 成员变量 */		
 	this -> gyro_calibration_flag = False;	
-	this -> acc_calibration_flag = False;	
+	this -> acc_calibration_flag = False;
+	this -> epoch = 0;
+	this -> gyro_x_calibration = 0;
+	this -> gyro_y_calibration = 0;
+	this -> gyro_z_calibration = 0;
+	this -> gyro_x_max = 0;
+	this -> gyro_x_min = 0;
+	this -> gyro_y_max = 0;
+	this -> gyro_y_min = 0;
+	this -> gyro_z_max = 0;
+	this -> gyro_z_min = 0;
+	this -> acc_x_calibration = 0;
+	this -> acc_y_calibration = 0;
+	this -> acc_z_calibration = 0;
+	this -> acc_x_max = 0;
+	this -> acc_x_min = 0;
+	this -> acc_y_max = 0;
+	this -> acc_y_min = 0;
+	this -> acc_z_max = 0;
+	this -> acc_z_min = 0;	
 
 	this -> gyro_x = 0;
 	this -> gyro_y = 0;
@@ -298,14 +313,37 @@ void _imu(struct DOG_IMU* this){
 /****************************************************************************************************************************/
 // 电流获取
 float current_get(struct DOG_CURRENT* this){
-	return ((float)adc_mean_filter_convert(this -> adc_ch, 5)*(this -> current_ratio));
+	if(this -> current_calibration_flag == False)
+	{
+		if(this -> epoch == 0)
+			this -> current_calibration = 0;
+		// 求解去零飘偏移量
+		else if(this -> epoch > 0 && this -> epoch <= this -> calibration_epoch)
+		{
+			this -> current = (float)adc_mean_filter_convert(this -> adc_ch, 5)/(this -> current_ratio);
+			this -> current_calibration += this -> current/this -> calibration_epoch;
+		}
+		this -> epoch++;
+		if(this -> epoch > this -> calibration_epoch)
+		{
+			this -> epoch = 0;
+			this -> current = 0;
+			this -> current_calibration_flag = True;
+		}	
+	}
+	else
+		this -> current = (float)adc_mean_filter_convert(this -> adc_ch, 5)/(this -> current_ratio)-this -> current_calibration;
+	return (this -> current);
 }
 
 // 构造函数
-void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_enum resolution, float current_ratio){
+void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_enum resolution, float current_ratio, uint32 calibration_epoch){
 	this -> adc_ch = adc_ch;		
 	this -> resolution = resolution;		
 	this -> current_ratio = current_ratio;	
+	this -> calibration_epoch = calibration_epoch;
+	this -> epoch = 0;
+	this -> current_calibration = 0;
 
 	/* 成员函数 */
 	this -> current_get = current_get;
@@ -316,6 +354,8 @@ void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_e
 // 析构函数
 void _current(struct DOG_CURRENT* this){
 	this -> current_ratio = 0;
+	this -> epoch = 0;
+	this -> current_calibration = 0;
 }
 /****************************************************************************************************************************/
 // 电压获取
