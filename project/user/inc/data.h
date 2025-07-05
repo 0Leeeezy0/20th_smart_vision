@@ -42,8 +42,12 @@ extern struct DOG_VOFA wireless_vofa;				// 无线串口VOFA
 extern struct DOG_IMU imu660ra;						// IMU660RA陀螺仪
 extern struct DOG_SOLVE euler_angle_solve;			// 欧拉角解算
 extern struct DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
+extern struct DOG_SOLVE circle_euler_angle_solve;	// 圆环欧拉角解算
 extern struct DOG_SOLVE chassis_solve;				// 底盘解算
 extern struct DOG_SOLVE displacement_solve;			// 位移解算
+extern struct DOG_TIMER zebra_path_timer;			// 斑马线计时器
+extern struct DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
+extern struct DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
 extern struct DOG_CV dog_cv;						// 计算机视觉
 extern struct DOG_PATH dog_path;					// 循迹
 
@@ -95,6 +99,11 @@ extern uint16 detection_box_width_limit;	// 识别框宽度阈值（大于此阈值才可以进入
 extern uint16 detection_box_width_target;	// 目标识别框宽度
 extern int16 detection_box_center_x;				// 识别框中心横坐标
 extern uint16 detection_box_center_x_limit;	// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
+/* 速度/角度 */
+extern float path_y_speed_target;			// 目标循迹Y速度
+extern float circle_y_speed_target;			// 出入环目标Y速度
+extern float circle_angular_speed_target;	// 出入环目标角速度
+extern float circle_angle_target;			// 出入环目标转动角度
 
 /* PID参数 */
 // 电机

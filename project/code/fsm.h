@@ -7,6 +7,6 @@
 void fsm(void);
 
 /* ÈüµÀ×´Ì¬ÅĞ¶Ï */
-_path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]);
+static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]);
 
 #endif

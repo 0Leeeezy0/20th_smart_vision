@@ -76,19 +76,21 @@ int main(void)
 	/* VOFA */
 	vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
 	
+	/* 计时器 */
+	timer(&zebra_path_timer, 1);
+	timer(&circle_in_timer, 1);
+	timer(&circle_out_timer, 1);
+	
 	/* 欧拉角解算 */
 	solve(&euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
-	euler_angle_solve.solve_flag = True;
 	solve(&rotate_euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
-	rotate_euler_angle_solve.solve_flag = True;
+	solve(&circle_euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
 	
 	/* 底盘解算 */
 	solve(&chassis_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
-	chassis_solve.solve_flag = True;
 	
 	/* 位移解算 */
 	solve(&displacement_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
-	displacement_solve.solve_flag = True;
 	
 	/* 视觉 */
 	cv(&dog_cv);
@@ -112,40 +114,79 @@ int main(void)
 	pid(&box_x_pid);
 	pid(&box_y_pid);
 	
-	system_delay_ms(1000);
+	/* 屏幕 */
+	ips200_init(IPS200_TYPE_SPI);
 	
 	// 传感器/解算中断初始化
 	pit_ms_init (SENSOR_SOLVE_IT_CH, SENSOR_SOLVE_IT_TIME);
 	// 控制中断初始化
 	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);
+	/* 计时器中断初始化 */
+	pit_ms_init (TIMER_IT_CH, TIMER_IT_TIME);
 	// 中断使能
 	pit_enable(SENSOR_SOLVE_IT_CH);
 	pit_enable(CONTROL_IT_CH);
+	pit_enable(TIMER_IT_CH);
+	
+	/* 标志位 */
+	euler_angle_solve.solve_flag = True;
+	euler_angle_solve.solve_flag = False;
+	chassis_solve.solve_flag = True;
+	displacement_solve.solve_flag = True;
+	circle_enable_flag = True;
+	circle_in_timer.ticking_flag = False;
+	circle_out_timer.ticking_flag = True;
 	
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
 		// 此处编写需要循环执行的代码
+		#ifdef SPEED_AND_CURRENT
 		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && current_1.current_calibration_flag == True && current_2.current_calibration_flag == True && current_3.current_calibration_flag == True)
 		{
+		#endif
+		#ifdef SPEED
+		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True)
+		{
+		#endif
 			// 此处编写需要循环执行的代码
-			// 二值化
-			dog_cv.threshold(&dog_cv, mt9v03x_image);
-			// 边线提取
-			dog_path.side_extract(&dog_path, dog_cv.image_OTSU);
-			// 边线点类型判断
-			dog_path.side_point_kind_judge(&dog_path);
-			// 最长白列
-			dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[0]);
-			// 路径线提取
-			dog_path.path_extract(&dog_path, dog_cv.image_OTSU);
+//			// 二值化
+//			dog_cv.threshold(&dog_cv, mt9v03x_image);
+//			// 边线提取
+//			dog_path.side_extract(&dog_path, dog_cv.image_OTSU);
+//			// 边线点类型判断
+//			dog_path.side_point_kind_judge(&dog_path);
+//			// 最长白列
+//			dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[0]);
+//			// 路径线提取
+//			dog_path.path_extract(&dog_path, dog_cv.image_OTSU);
+//			
+//			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
+//			
+////			path_pid_calc();
+////			y_speed_target = 100;
+//			
+//			circle_euler_angle_solve.solve_flag = True;
+//			control_kind = Inv2Speed; 
+//			move_solve_kind = XY_SPEED_SOLVE;
+//			x_speed_target = 0;
+//			y_speed_target = circle_y_speed_target;
+//			angular_speed_target = -circle_angular_speed_target;
+//			// 判断是否转到指定角度
+//			if(fabsf(circle_euler_angle_solve.yaw) >= circle_angle_target)
+//			{
+//				circle_euler_angle_solve.solve_flag = False;
+//				path_state = L_circle;
+//				while(1){
+//					x_speed_target = 0;
+//					y_speed_target = 0;
+//					angular_speed_target = 0;
+//				}
+//			}
+
+			fsm();
 			
-			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
-			
-//			path_pid_calc();
-//			y_speed_target = 100;
-			
-			control_kind = PWM;
+//			control_kind = PWM;
 //			move_solve_kind = XY_SPEED_SOLVE;
 //			x_speed_target = 0;
 //			y_speed_target = 0;
@@ -158,16 +199,19 @@ int main(void)
 //			wheel_speed_target[1] = 10;
 //			wheel_speed_target[2] = 10;
 			
-			motor_pwm_duty[0] = 3000;
-			motor_pwm_duty[1] = 3000;
-			motor_pwm_duty[2] = 3000;
+//			motor_pwm_duty[0] = 3000;
+//			motor_pwm_duty[1] = 3000;
+//			motor_pwm_duty[2] = 3000;
 
 //			wireless_vofa.justfloat_add(&wireless_vofa, 7, (float)path_err, path_pid.Kp, path_pid.Ki, path_pid.Kd, path_pid.value, angular_speed_target, rotate_euler_angle_solve.yaw);  
 //			wireless_vofa.justfloat_add(&wireless_vofa, 3, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, euler_angle_solve.yaw);
+			ips200_show_gray_image(0, 0, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
+			wireless_vofa.justfloat_add(&wireless_vofa, 2, (float)path_state, circle_euler_angle_solve.yaw);
+			wireless_vofa.justfloat_send(&wireless_vofa);
 		}
-		wireless_vofa.justfloat_add(&wireless_vofa, 3, current_1.current, current_2.current, current_3.current);
-		wireless_vofa.justfloat_add(&wireless_vofa, 3, euler_angle_solve.pitch, euler_angle_solve.roll, euler_angle_solve.yaw);
-		wireless_vofa.justfloat_send(&wireless_vofa);
+//		wireless_vofa.justfloat_add(&wireless_vofa, 3, current_1.current, current_2.current, current_3.current);
+//		wireless_vofa.justfloat_add(&wireless_vofa, 3, euler_angle_solve.pitch, euler_angle_solve.roll, euler_angle_solve.yaw);
+//		wireless_vofa.justfloat_send(&wireless_vofa);
     }
 	
 	return 0;

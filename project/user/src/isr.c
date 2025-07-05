@@ -50,16 +50,19 @@ void PIT_IRQHandler(void)
 		encoder_1.encoder_get(&encoder_1);
 		encoder_2.encoder_get(&encoder_2);
 		encoder_3.encoder_get(&encoder_3);
+		#ifdef SPEED_AND_CURRENT
 		current_1.current_get(&current_1);
 		current_2.current_get(&current_2);
 		current_3.current_get(&current_3);
 		current_1.current = current_1_karman.karman_filter(&current_1_karman, current_1.current);
 		current_2.current = current_2_karman.karman_filter(&current_2_karman, current_2.current);
 		current_3.current = current_3_karman.karman_filter(&current_3_karman, current_3.current);
+		#endif
 		imu660ra.gyro_get(&imu660ra);
 		imu660ra.acc_get(&imu660ra);
 		euler_angle_solve.euler_angle(&euler_angle_solve, imu660ra);
 		rotate_euler_angle_solve.euler_angle(&rotate_euler_angle_solve, imu660ra);
+		circle_euler_angle_solve.euler_angle(&circle_euler_angle_solve, imu660ra);
 		displacement_solve.move_solve(&displacement_solve, encoder_1.wheel_speed, encoder_2.wheel_speed, encoder_3.wheel_speed, euler_angle_solve.yaw);
 		
         pit_flag_clear(PIT_CH0);
@@ -79,7 +82,8 @@ void PIT_IRQHandler(void)
     }
     if(pit_flag_get(PIT_CH2))
     {
-		
+		circle_in_timer.ticking(&circle_in_timer);
+		circle_out_timer.ticking(&circle_out_timer);
         pit_flag_clear(PIT_CH2);
     }
     if(pit_flag_get(PIT_CH3))

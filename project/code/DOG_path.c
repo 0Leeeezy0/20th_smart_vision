@@ -440,7 +440,7 @@ void path(struct DOG_PATH* this, uint16 path_start_y, uint16 path_end_y, uint16 
 	this -> L_bend_point_num = 0;			// 左边线弯点数量
 	this -> R_bend_point_num = 0;			// 右边线弯点数量
 	memset(this -> path_width,0,sizeof(this -> path_width));	// 赛道宽度
-	this -> point_distance = 0;				// 拐点/弯点距离
+	this -> point_distance = 10;				// 拐点/弯点距离
 	this -> bend_point_angle_min = 0;		// 弯点最小角度阈值
 	this -> bend_point_angle_max = 170;		// 弯点最大角度阈值
 	

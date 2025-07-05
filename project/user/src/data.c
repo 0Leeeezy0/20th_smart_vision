@@ -28,8 +28,12 @@ struct DOG_VOFA wireless_vofa;				// ÎŞÏß´®¿ÚVOFA
 struct DOG_IMU imu660ra;					// IMU660RAÍÓÂİÒÇ
 struct DOG_SOLVE euler_angle_solve;			// Å·À­½Ç½âËã
 struct DOG_SOLVE rotate_euler_angle_solve;	// Ğı×ªÅ·À­½Ç½âËã
+struct DOG_SOLVE circle_euler_angle_solve;	// Ô²»·Å·À­½Ç½âËã
 struct DOG_SOLVE chassis_solve;				// µ×ÅÌ½âËã
 struct DOG_SOLVE displacement_solve;		// Î»ÒÆ½âËã
+struct DOG_TIMER zebra_path_timer;			// °ßÂíÏß¼ÆÊ±Æ÷
+struct DOG_TIMER circle_in_timer;			// Ô²»·Èë»·¼ÆÊ±Æ÷£¨Èë»·ºó¿ªÊ¼¼ÆÊ±£¬¼ÆÊ±³¬¹ıãĞÖµÊ±¼ä²ÅÔÊĞí½øÈë³ö»·×´Ì¬£©
+struct DOG_TIMER circle_out_timer;			// Ô²»·³ö»·¼ÆÊ±Æ÷£¨³ö»·ºó¿ªÊ¼¼ÆÊ±£¬¼ÆÊ±³¬¹ıãĞÖµÊ±¼ä²ÅÔÊĞí½øÈë½ø»·×´Ì¬£©
 struct DOG_CV dog_cv;						// ¼ÆËã»úÊÓ¾õ
 struct DOG_PATH dog_path;					// Ñ­¼£
 
@@ -80,6 +84,11 @@ uint16 detection_box_width_limit = 20;		// Ê¶±ğ¿ò¿í¶ÈãĞÖµ£¨´óÓÚ´ËãĞÖµ²Å¿ÉÒÔ½øÈëÏ
 uint16 detection_box_width_target = 80;		// Ä¿±êÊ¶±ğ¿ò¿í¶È
 int16 detection_box_center_x;				// Ê¶±ğ¿òÖĞĞÄºá×ø±ê
 uint16 detection_box_center_x_limit = 65;	// Ê¶±ğ¿òÖĞĞÄºá×ø±êãĞÖµ£¨ÔÚãĞÖµ·¶Î§ÄÚ²Å¿ÉÒÔ½øÈëÏä×Ó×·×ÙÄ£Ê½£©
+/* ËÙ¶È/½Ç¶È */
+float path_y_speed_target = 100;			// Ä¿±êÑ­¼£YËÙ¶È
+float circle_y_speed_target = 110;			// ³öÈë»·Ä¿±êYËÙ¶È
+float circle_angular_speed_target = 28;		// ³öÈë»·Ä¿±ê½ÇËÙ¶È
+float circle_angle_target = 60;				// ³öÈë»·Ä¿±ê×ª¶¯½Ç¶È
 
 /*    PID²ÎÊı     			Kp     Ki     Kd     »ı·ÖÏŞ·ù     Êä³öÏŞ·ù     ÍÓÂİÒÇKd*/
 // µç»ú
