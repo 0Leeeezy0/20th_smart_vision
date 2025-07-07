@@ -10,6 +10,8 @@ struct DOG_ENCODER encoder_3;				// 编码器3
 struct DOG_CURRENT current_1;				// 电流采样1
 struct DOG_CURRENT current_2;				// 电流采样2
 struct DOG_CURRENT current_3;				// 电流采样3
+struct DOG_VOLTAGE gray_sensor;				// 灰度传感器
+struct DOG_VOLTAGE bat_voltage;				// 电池电压检测
 struct DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
 struct DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
 struct DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
@@ -29,6 +31,7 @@ struct DOG_IMU imu660ra;					// IMU660RA陀螺仪
 struct DOG_SOLVE euler_angle_solve;			// 欧拉角解算
 struct DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
 struct DOG_SOLVE circle_euler_angle_solve;	// 圆环欧拉角解算
+struct DOG_SOLVE box_euler_angle_solve;		// 箱子欧拉角解算
 struct DOG_SOLVE chassis_solve;				// 底盘解算
 struct DOG_SOLVE displacement_solve;		// 位移解算
 struct DOG_TIMER zebra_path_timer;			// 斑马线计时器
@@ -40,12 +43,14 @@ struct DOG_PATH dog_path;					// 循迹
 /* 使能标志位 */
 _bool_ circle_enable_flag = True;		// 圆环 使能标志位
 _bool_ zebra_enable_flag = True;		// 斑马线 使能标志位
+_bool_ ai_camera_0_enable_flag = True;	// AI相机0 使能标志位
 _bool_ ai_camera_1_enable_flag = True;	// AI相机1 使能标志位
-_bool_ ai_camera_2_enable_flag = True;	// AI相机2 使能标志位
-_bool_ ai_camera_3_enable_flag = True;	// AI相机3 使能标志位
+_bool_ ai_camera_2_enable_flag = False;	// AI相机2 使能标志位
 
 /* 完成标志位 */
 _bool_ rotate_finsh_flag = False;		// 旋转完成标志位
+_bool_ box_X_finsh_flag = False;		// 箱子X定位完成标志位
+_bool_ box_XY_finsh_flag = False;		// 箱子XY定位完成标志位
 
 /* 全局变量 */
 /* 赛道提取 */
@@ -61,10 +66,12 @@ uint16 circle_check_y = 60;				// 圆环检测线高度
 uint16 side_x_delta_range[2] = {3, 15};	// 边线X差值阈值范围（小，大）
 /* 斑马线 */
 uint16 zebra_check_y = 1;				// 斑马线检测线高度
+uint16 zebra_stop_distance = 0;			// 斑马线停车距离
 /* 赛道其他 */
-_path_state_ path_state = common_path;	// 赛道状态
+_path_state_ path_state = common_path;		// 赛道状态
+_path_state_ last_path_state = common_path;	// 上一次赛道状态
 /* 控制 */
-_control_kind_ control_kind;				// 控制类型
+_control_kind_ control_kind = Stop;			// 控制类型
 float wheel_speed_target[3] = {0, 0, 0};	// 轮子目标速度
 float motor_current_target[3] = {0, 0, 0};	// 电机电流目标值
 float motor_pwm_duty[3] = {0, 0, 0};		// 电机PWM占空比
@@ -79,18 +86,32 @@ float rotation_yaw_target;					// 目标旋转角度（角度环）
 float data_1;								// 运动学逆解算参数1（线速度/X速度）
 float data_2;								// 运动学逆解算参数2（航向角/Y速度）
 /* 箱子 */
-uint16 detection_box_width;					// 识别框宽度
-uint16 detection_box_width_limit = 20;		// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
-uint16 detection_box_width_target = 80;		// 目标识别框宽度
-int16 detection_box_center_x;				// 识别框中心横坐标
-uint16 detection_box_center_x_limit = 65;	// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
+uint16 detection_box_width;						// 识别框宽度
+uint16 detection_box_width_limit = 30;			// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
+uint16 detection_box_width_target = 80;			// 识别框目标宽度
+int16 detection_box_center_x;					// 识别框中心横坐标
+uint16 detection_box_center_x_limit = 65;		// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
+_ai_camera_detection_result_ detection_result;	// 识别结果
+uint16 rectificate_weight[4] = {1 ,5 ,55 ,85};	// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
+uint32 sum_weight = 0;							// 加权和
+uint16 symmetry_rectificate_start_y = 99;		// 对称法矫正图像遍历起始点高度
+uint16 symmetry_rectificate_end_y = 40;			// 对称法矫正图像遍历结束点高度
+float sum_weight_normalization = 0;				// 加权和归一化	
+float sum_weight_normalization_limit[2] = {0.94, 0.80};	// 加权和归一化阈值
+float frame_white_num_normalization[2] = {0};			// 对称法矫正图像左右边框白点数量归一化
+float frame_white_num_normalization_limit = 0.25;		// 对称法矫正图像左右边框白点数量归一化阈值
+uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
+float last_box_distance = 0;					// 上一个箱子的路程
 /* 速度/角度 */
-float path_y_speed_target = 100;			// 目标循迹Y速度
+float path_y_speed_target = 150;			// 目标循迹Y速度
 float circle_y_speed_target = 110;			// 出入环目标Y速度
 float circle_angular_speed_target = 28;		// 出入环目标角速度
 float circle_angle_target = 60;				// 出入环目标转动角度
+float box_x_speed_target = 60;				// 箱子目标X速度
+float box_x_angular_speed_rate = 0.4;		// 箱子 转动速度/X速度 比例
+float box_fxxk_y_speed_target = 70;			// 推箱子Y速度目标值
 
-/*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd*/
+/*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd */
 // 电机
 float MOTOR_1_PID[5] = 	  { 8.8,   6.1,   0.98,  500,         9000 };
 float MOTOR_2_PID[5] =    { 8.8,   6.1,   0.98,  500,         9000 };
@@ -107,19 +128,23 @@ float PATH_PID[4][6] =   {{ 0.390, 0,     2.2,   2,           45,          0.23}
 						  { 0.550, 0,     1.9,   2,           45,          0.21},
 						  { 0.600, 0,     1.8,   2,           45,          0.18}};
 // 旋转
-float ROTATE_RANGE[3] =   { 15.0,  60.0,  120.0 };		// 角度环误差区间						  
-float ROTATE_PID[4][5] = {{ 0.33,  0,     0.04,  2,           35 },
-//						  { 0.39,  0,     0.05,  2,           45 },
-						  { 0.42,  0,     0.06,  2,           55 },
-//						  { 0.46,  0,     0.08,  2,           65 },
-						  { 0.60,  0,     0.08,  2,           75 },
-//						  { 0.80,  0,     0.08,  2,		      85 },
-						  { 1.1,   0,     0.08,  2,		      90 }};
-//						  { 1.5,   0,     0.08,  2,		      150 }};								  
+float ROTATE_RANGE[3] =   { 15.0,  50.0,  120.0 };		// 角度环误差区间						  
+float ROTATE_PID[4][5] = {{ 0.6,   0,     0.04,  2,           45 },
+						  { 1.0,   0,     0.06,  2,           75 },
+						  { 1.15,  0,     0.08,  2,           105 },
+						  { 1.6,   0,     0.08,  2,		      130 }};							  
 // BOX X
-float BOX_X_PID[5] = 	  { 0.45,  0,     0.07,  2,           35};						  
+float BOX_X_RANGE[3] =    { 10.0,  20.0,  30.0 };		// BOX Y误差区间	
+float BOX_X_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           25 },
+						  { 0.6,   0,     0.12,  2,           45 },
+					      { 0.9,   0,     0.17,  2,           60 },
+						  { 1.4,   0,     0.17,  2,           80 }};					  
 // BOX Y
-float BOX_Y_PID[5] = 	  { 0.45,  0,     0.07,  2,           35};
+float BOX_Y_RANGE[3] =    { 10.0,  20.0,  45.0 };		// BOX Y误差区间	
+float BOX_Y_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           35 },
+						  { 0.50,  0,     0.17,  2,           60 },
+					      { 1.2,   0,     0.27,  2,           80 },
+						  { 1.8,   0,     0.27,  2,           100 }};
  
 /* KARMAN滤波器参数		   	Q     R     Q越小越平滑   R越小越接近(收敛越快)*/
 float I_KARMAN[2] = 	  { 0.01, 0.1};

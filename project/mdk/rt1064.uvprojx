@@ -840,6 +840,11 @@
               <FilePath>..\..\libraries\zf_driver\zf_driver_spi.h</FilePath>
             </File>
             <File>
+              <FileName>zf_driver_usb_cdc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\zf_driver\zf_driver_usb_cdc.c</FilePath>
+            </File>
+            <File>
               <FileName>zf_driver_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\zf_driver\zf_driver_timer.c</FilePath>
@@ -858,11 +863,6 @@
               <FileName>zf_driver_uart.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\libraries\zf_driver\zf_driver_uart.h</FilePath>
-            </File>
-            <File>
-              <FileName>zf_driver_usb_cdc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\libraries\zf_driver\zf_driver_usb_cdc.c</FilePath>
             </File>
             <File>
               <FileName>zf_driver_usb_cdc.h</FileName>

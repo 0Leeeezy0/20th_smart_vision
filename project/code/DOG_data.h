@@ -42,18 +42,6 @@ typedef enum _fuzzy_subset_{
 	PID_NONE = 7	// 默认
 }_fuzzy_subset_;
 
-/* 赛道状态 */
-typedef enum _path_state_{
-	common_path = 0,	// 普通赛道
-	L_circle_in = 1,	// 左圆环进环
-	R_circle_in = 2,	// 右圆环进环
-	L_circle = 3,		// 左圆环内
-	R_circle = 4,		// 右圆环内
-	L_circle_out = 5,	// 左圆环出环
-	R_circle_out = 6,	// 右圆环出环
-	zebra_path = 7,		// 斑马线赛道
-}_path_state_;
-
 /* 数据类型 */
 typedef enum _data_kind_{
 	INT8 = 0,

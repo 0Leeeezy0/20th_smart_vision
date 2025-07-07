@@ -9,12 +9,6 @@
 #include "zf_common_debug.h"
 #include "isr.h"
 
-/* 用户头文件 */
-#include "ai.h"
-#include "control.h"
-#include "fsm.h"
-#include "menu.h"
-
 /* DOG库头文件 */
 #include "DOG_motor.h"
 #include "DOG_data.h"
@@ -27,6 +21,12 @@
 #include "DOG_pid.h"
 #include "DOG_menu.h"
 #include "DOG_timer.h"
+
+/* 用户头文件 */
+#include "ai.h"
+#include "control.h"
+#include "fsm.h"
+#include "menu.h"
 
 /****************************** 硬件参数 ******************************/
 /* 以下顺序都是摄像头支架后为1开始顺时针记数 */
@@ -158,7 +158,7 @@
 #define CONTROL_IT_CH 							( PIT_CH1 )				// 控制中断号
 #define CONTROL_IT_TIME  						( 4 )					// 控制中断周期 ms
 #define TIMER_IT_CH 							( PIT_CH2 )				// 计时器中断号
-#define TIMER_IT_TIME							( 1 )					// 计时器中断周期 ms
+#define TIMER_IT_TIME							( 5 )					// 计时器中断周期 ms
 #define MENU_KEY_SCAN_IT_CH 					( PIT_CH3 )				// 按键扫描中断号
 #define MENU_KEY_SCAN_IT_TIME					( 20 )  				// 按键扫描中断周期 ms
 #define AI_CAMERA_0_UART_PRIORITY     			( LPUART4_IRQn )  		// AI摄像头0 串口接收中断号

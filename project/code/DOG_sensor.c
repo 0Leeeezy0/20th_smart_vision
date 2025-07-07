@@ -360,14 +360,13 @@ void _current(struct DOG_CURRENT* this){
 /****************************************************************************************************************************/
 // 电压获取
 float voltage_get(struct DOG_VOLTAGE* this){
-	float voltage;
 	switch(this -> resolution)
 	{
-		case ADC_8BIT:{ voltage = (float)adc_mean_filter_convert(this -> adc_ch, 5)/256.; break; }
-		case ADC_10BIT:{ voltage = (float)adc_mean_filter_convert(this -> adc_ch, 5)/1024.; break; }
-		case ADC_12BIT:{ voltage = (float)adc_mean_filter_convert(this -> adc_ch, 5)/096.; break; }
+		case ADC_8BIT:{ this -> voltage = (float)adc_mean_filter_convert(this -> adc_ch, 5)/256.; break; }
+		case ADC_10BIT:{ this -> voltage = (float)adc_mean_filter_convert(this -> adc_ch, 5)/1024.; break; }
+		case ADC_12BIT:{ this -> voltage = (float)adc_mean_filter_convert(this -> adc_ch, 5)/4096.; break; }
 	}
-	return voltage;
+	return (this -> voltage);
 }
 
 // 构造函数

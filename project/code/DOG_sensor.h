@@ -119,6 +119,8 @@ struct DOG_VOLTAGE{
 	/* ADC参数 */
 	adc_channel_enum adc_ch;			// ADC引脚
 	adc_resolution_enum resolution;		// ADC分辨率
+	/* 读取值 */
+	float voltage;
 	
 	float (*voltage_get)(struct DOG_VOLTAGE* this);	// 电流获取
 };

@@ -15,13 +15,6 @@ void euler_angle(struct DOG_SOLVE* this, struct DOG_IMU imu_data){
 		this -> roll =  fmod(this -> roll, 360);
 		this -> pitch = fmod(this -> pitch, 360);
 		this -> yaw = fmod(this -> yaw, 360);
-		
-		if(this -> roll > 180)this -> roll = this -> roll-360;
-		else if(this -> roll < -180)this -> roll = this -> roll+360;
-		if(this -> pitch > 180)this -> pitch = this -> pitch-360;
-		else if(this -> pitch < -180)this -> pitch = this -> pitch+360;
-		if(this -> yaw > 180)this -> yaw = this -> yaw-360;
-		else if(this -> yaw < -180)this -> yaw = this -> yaw+360;
 	}
 	else if(this -> solve_flag == False)
 	{
@@ -70,9 +63,9 @@ void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_
 	if(this -> solve_flag == True)
 	{
 		// 三个轮子的位移微分
-		this -> diff_wheel_1_displacement = -wheel_1_speed_real*this -> solve_IT_time/1000.;
-		this -> diff_wheel_2_displacement = -wheel_2_speed_real*this -> solve_IT_time/1000.;
-		this -> diff_wheel_3_displacement = -wheel_3_speed_real*this -> solve_IT_time/1000.;
+		this -> diff_wheel_1_displacement = wheel_1_speed_real*this -> solve_IT_time/1000.;
+		this -> diff_wheel_2_displacement = wheel_2_speed_real*this -> solve_IT_time/1000.;
+		this -> diff_wheel_3_displacement = wheel_3_speed_real*this -> solve_IT_time/1000.;
 		
 		// 分解到车身X、Y方向上的位移微分
 		this -> diff_x_displacement = (-2.*this -> diff_wheel_1_displacement+this -> diff_wheel_2_displacement+this -> diff_wheel_3_displacement)/3.;
@@ -95,6 +88,10 @@ void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_
 			this -> diff_displacement_yaw = this -> diff_displacement_yaw+180;
 		else if(this -> diff_x_displacement < 0 && this -> diff_y_displacement <0)
 			this -> diff_displacement_yaw = this -> diff_displacement_yaw-180;
+		
+		/* 修正航向角 */
+		if(yaw > 180)yaw = yaw-360;
+		else if(yaw < -180)yaw = yaw+360;
 		
 		// 世界X,Y方向上的位移微分和位移
 		this -> diff_world_x_displacement = this -> diff_displacement*sinf(DEG2RAD(this -> diff_displacement_yaw+yaw*1.15));

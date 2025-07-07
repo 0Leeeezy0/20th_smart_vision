@@ -63,6 +63,9 @@ void PIT_IRQHandler(void)
 		euler_angle_solve.euler_angle(&euler_angle_solve, imu660ra);
 		rotate_euler_angle_solve.euler_angle(&rotate_euler_angle_solve, imu660ra);
 		circle_euler_angle_solve.euler_angle(&circle_euler_angle_solve, imu660ra);
+		box_euler_angle_solve.euler_angle(&box_euler_angle_solve, imu660ra);
+		gray_sensor.voltage_get(&gray_sensor);
+		bat_voltage.voltage_get(&bat_voltage);
 		displacement_solve.move_solve(&displacement_solve, encoder_1.wheel_speed, encoder_2.wheel_speed, encoder_3.wheel_speed, euler_angle_solve.yaw);
 		
         pit_flag_clear(PIT_CH0);
@@ -72,6 +75,7 @@ void PIT_IRQHandler(void)
     {
 		switch(control_kind){
 			case Angle2Inv2Speed:{ Angle2Inv2Speed_control(); break; }
+			case X2Inv2Speed:{ X2Inv2Speed_control(); break; }
 			case XY2Inv2Speed:{ XY2Inv2Speed_control(); break; }
 			case Inv2Speed:{ Inv2Speed_control(); break; }
 			case Speed:{ Speed_control(); break; }
@@ -82,6 +86,7 @@ void PIT_IRQHandler(void)
     }
     if(pit_flag_get(PIT_CH2))
     {
+		zebra_path_timer.ticking(&zebra_path_timer);
 		circle_in_timer.ticking(&circle_in_timer);
 		circle_out_timer.ticking(&circle_out_timer);
         pit_flag_clear(PIT_CH2);
@@ -96,9 +101,16 @@ void PIT_IRQHandler(void)
 
 void LPUART1_IRQHandler(void)
 {
-    if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART1))
+    if(kLPUART_RxDataRegFullFlag && LPUART_GetStatusFlags(LPUART1))
     {
         // 接收中断
+		// AI摄像头1串口接收中断
+        extern void uart_rx_interrupt_handler_ai_camera_1();
+		uart_rx_interrupt_handler_ai_camera_1();
+		
+//		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)11);
+//		wireless_vofa.justfloat_send(&wireless_vofa);
+		
     #if DEBUG_UART_USE_INTERRUPT                        // 如果开启 debug 串口中断
         debug_interrupr_handler();                      // 调用 debug 串口接收处理函数 数据会被 debug 环形缓冲区读取
     #endif                                              // 如果修改了 DEBUG_UART_INDEX 那这段代码需要放到对应的串口中断去
@@ -109,10 +121,15 @@ void LPUART1_IRQHandler(void)
 
 void LPUART2_IRQHandler(void)
 {
-    if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART2))
+    if(kLPUART_RxDataRegFullFlag && LPUART_GetStatusFlags(LPUART2))
     {
         // 接收中断
-        
+        // AI摄像头2串口接收中断
+		extern void uart_rx_interrupt_handler_ai_camera_2();
+        uart_rx_interrupt_handler_ai_camera_2();
+	
+//		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)22);
+//		wireless_vofa.justfloat_send(&wireless_vofa);
     }
         
     LPUART_ClearStatusFlags(LPUART2, kLPUART_RxOverrunFlag);    // 不允许删除
@@ -120,7 +137,7 @@ void LPUART2_IRQHandler(void)
 
 void LPUART3_IRQHandler(void)
 {
-    if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART3))
+    if(kLPUART_RxDataRegFullFlag && LPUART_GetStatusFlags(LPUART3))
     {
         // 接收中断
         
@@ -131,9 +148,15 @@ void LPUART3_IRQHandler(void)
 
 void LPUART4_IRQHandler(void)
 {
-    if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART4))
+    if(kLPUART_RxDataRegFullFlag && LPUART_GetStatusFlags(LPUART4))
     {
         // 接收中断 
+		// AI摄像头0串口接收中断
+		extern void uart_rx_interrupt_handler_ai_camera_0();
+        uart_rx_interrupt_handler_ai_camera_0();
+		
+//		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)0);
+//		wireless_vofa.justfloat_send(&wireless_vofa);
     }
         
     LPUART_ClearStatusFlags(LPUART4, kLPUART_RxOverrunFlag);    // 不允许删除
