@@ -381,42 +381,21 @@ void motor_I_get(void)
 //    else if (chassis_control.motor_3.dir==0)
 //		motor_3_V = -1.0*(float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);
     
-<<<<<<< Updated upstream
-    motor_1_V = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 1);
-    motor_2_V = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 1);
-    motor_3_V = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 1);
+
+    motor_1_V = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 10);
+    motor_2_V = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 10);
+    motor_3_V = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 10);
     
     motor_1_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_1_karman_variable ,motor_1_V);
     motor_2_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_2_karman_variable ,motor_2_V);
     motor_3_V_karman = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_3_karman_variable ,motor_3_V);
 
-    motor_1_I = ((motor_1_V_karman-2035) / 4096 * 3.3/20         /0.002);
-    motor_2_I = ((motor_2_V_karman-2035) / 4096 * 3.3/20         /0.002);
-    motor_3_I = ((motor_3_V_karman-2035) / 4096 * 3.3/20         /0.002);
+    motor_1_I = ((motor_1_V_karman-2026.5) / 4096 * 3.3/20         /0.002);
+    motor_2_I = ((motor_2_V_karman-2032.5) / 4096 * 3.3/20         /0.002);
+    motor_3_I = ((motor_3_V_karman-2026.5) / 4096 * 3.3/20         /0.002);
                                                           //采样增益  采样电阻阻值  
                                                      //采样增益  采样电阻阻值  
-=======
-//    if(chassis_control.motor_1.dir==1) {I_Original_ADC_data_1 = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);}
-//    else if (chassis_control.motor_1.dir==0){I_Original_ADC_data_1 = -1.0*(float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);}
-//    if(chassis_control.motor_2.dir==1) {I_Original_ADC_data_2 = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);}
-//    else if (chassis_control.motor_2.dir==0){I_Original_ADC_data_2 = -1.0*(float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);}
-//    if(chassis_control.motor_3.dir==1) {I_Original_ADC_data_3 = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);}
-//    else if (chassis_control.motor_3.dir==0){I_Original_ADC_data_3 = -1.0*(float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);}
-    I_Original_ADC_data_1 = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);
-    I_Original_ADC_data_2 = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);
-    I_Original_ADC_data_3 = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);
-    I_Karman_ADC_data_1 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_1_karman_variable ,I_Original_ADC_data_1);
-    I_Karman_ADC_data_2 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_2_karman_variable ,I_Original_ADC_data_2);
-    I_Karman_ADC_data_3 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_3_karman_variable ,I_Original_ADC_data_3);
 
-    motor_1_I = (I_Karman_ADC_data_1 -2048)/ 4096*3.3/20/0.01;
-    motor_2_I = (I_Karman_ADC_data_2 -2048)/ 4096*3.3/20/0.01;
-    motor_3_I = (I_Karman_ADC_data_3 -2048)/ 4096*3.3/20/0.01;    
-    
-//    motor_1_I = adc_convert(MOTOR_1_I_PIN);
-//    motor_2_I = adc_convert(MOTOR_2_I_PIN);
-//    motor_3_I = adc_convert(MOTOR_3_I_PIN);
->>>>>>> Stashed changes
 }
 
 /* 补光灯控制 */ 
@@ -534,14 +513,12 @@ _CURRENT_FILTER_ current_filter_init(void)
 	
 	return current_filter;
 }
-<<<<<<< Updated upstream
+
 ///* 单电机PID控制 */
 _CHASSIS_CONTROL_ motor_pid(float (*FUNC_SPEED)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),float (*FUNC_I)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
-=======
 
-/* 单电机PID控制 */
-_CHASSIS_CONTROL_ motor_pid(float (*FUNC)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_CHASSIS_PID_* chassis_pid,_MOTOR_NUM_ motor_num,float motor_speed)
->>>>>>> Stashed changes
+
+
 {
 	_CHASSIS_CONTROL_ motor_control;
 
