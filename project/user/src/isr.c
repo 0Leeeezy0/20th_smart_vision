@@ -108,7 +108,7 @@ void LPUART1_IRQHandler(void)
         extern void uart_rx_interrupt_handler_ai_camera_1();
 		uart_rx_interrupt_handler_ai_camera_1();
 		
-//		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)11);
+//		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)detection_result.tool_raw);
 //		wireless_vofa.justfloat_send(&wireless_vofa);
 		
     #if DEBUG_UART_USE_INTERRUPT                        // 如果开启 debug 串口中断

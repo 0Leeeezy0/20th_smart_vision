@@ -27,10 +27,20 @@ Project File Date:  07/07/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\KEIL\ARM\ARMCLANG\Bin'
 Build target 'nor_sdram_zf_dtcm'
-compiling fsm.c...
+../code/ai.c(64): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+                        va_start(args, 2);  // <B3><F5>ʼ<BB><AF><BF>ɱ<E4><B2><CE><CA><FD><C1>б<ED>
+                                       ^
+../code/ai.c(71): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+                        va_start(args, 1);  // <B3><F5>ʼ<BB><AF><BF>ɱ<E4><B2><CE><CA><FD><C1>б<ED>
+                                       ^
+../code/ai.c(84): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+                        va_start(args, 1);  // <B3><F5>ʼ<BB><AF><BF>ɱ<E4><B2><CE><CA><FD><C1>б<ED>
+                                       ^
+3 warnings generated.
+compiling ai.c...
 linking...
-Program Size: Code=104320 RO-data=16616 RW-data=936 ZI-data=94484  
-".\Objects\rt1064.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=104384 RO-data=16616 RW-data=936 ZI-data=94484  
+".\Objects\rt1064.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -43,7 +53,7 @@ Package Vendor: NXP
   D:/KEIL/ARM/Pack/NXP/MIMXRT1064_DFP/19.0.0/devices/MIMXRT1064
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

@@ -147,8 +147,8 @@ void fsm(void){
 				// 设置控制模式
 				control_kind = Speed;
 				wheel_speed_target[0] = 0;
-				wheel_speed_target[1] = 1;
-				wheel_speed_target[2] = 2;
+				wheel_speed_target[1] = 0;
+				wheel_speed_target[2] = 0;
 				// 初始化识别结果
 				detection_result.tool_detection_finsh_flag = False;
 				detection_result.num_detection_finsh_flag = False;
@@ -179,11 +179,12 @@ void fsm(void){
 				// 开启箱子欧拉角解算
 				box_euler_angle_solve.solve_flag = True;
 				// 设置目标速度（dir：1：左推；dir：-1：右推）
-				if((detection_result.tool >= 0X01 && detection_result.tool <= 0X08) || ((detection_result.num&1) == 0 && detection_result.tool == 0X10))
+				if((detection_result.tool >= 0X01 && detection_result.tool <= 0X08) || ((detection_result.num&0X01) == 0 && detection_result.tool == 0X10))
 					box_dir = -1;
-				else if((detection_result.tool >= 0X09 && detection_result.tool <= 0X0F) || ((detection_result.num&1) == 1 && detection_result.tool == 0X10))
+				else if((detection_result.tool >= 0X09 && detection_result.tool <= 0X0F) || ((detection_result.num&0X01) == 1 && detection_result.tool == 0X10))
 					box_dir = 1;
-				box_dir = 1;
+				else
+					box_dir = 1;
 				x_speed_target = box_dir*box_x_speed_target;
 				y_speed_target = 0;
 				angular_speed_target = -box_dir*box_x_speed_target*box_x_angular_speed_rate;
@@ -353,7 +354,8 @@ void fsm(void){
 		y_speed_target = path_y_speed_target;
 	}
 	// VOFA
-	wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)path_state, (float)last_path_state, (float)(detection_box_width-detection_box_width_limit), (float)detection_box_center_x);
+//	wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)path_state, (float)last_path_state, (float)(detection_box_width-detection_box_width_limit), (float)detection_box_center_x);
+	wireless_vofa.justfloat_add(&wireless_vofa, 2, (float)detection_result.tool_detection_finsh_flag, (float)detection_result.num_detection_finsh_flag);
 	wireless_vofa.justfloat_send(&wireless_vofa);
 }
 

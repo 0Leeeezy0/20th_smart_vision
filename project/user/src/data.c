@@ -45,7 +45,7 @@ _bool_ circle_enable_flag = True;		// 圆环 使能标志位
 _bool_ zebra_enable_flag = True;		// 斑马线 使能标志位
 _bool_ ai_camera_0_enable_flag = True;	// AI相机0 使能标志位
 _bool_ ai_camera_1_enable_flag = True;	// AI相机1 使能标志位
-_bool_ ai_camera_2_enable_flag = False;	// AI相机2 使能标志位
+_bool_ ai_camera_2_enable_flag = True;	// AI相机2 使能标志位
 
 /* 完成标志位 */
 _bool_ rotate_finsh_flag = False;		// 旋转完成标志位

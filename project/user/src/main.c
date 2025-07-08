@@ -50,9 +50,6 @@ int main(void)
 
     // 此处编写用户代码 例如外设初始化代码等
 	
-	/* IMU */
-	imu(&imu660ra, IMU_X_FRONT_DIR, IMU_Y_FRONT_DIR, IMU_Z_FRONT_DIR, 500);
-	
 	/* 电机 */
 	motor(&motor_1, MOTOR_1_DIR, MOTOR_1_PWM, 10000, MOTOR_1_FRONT_DIR);
 	motor(&motor_2, MOTOR_2_DIR, MOTOR_2_PWM, 10000, MOTOR_2_FRONT_DIR);
@@ -81,6 +78,9 @@ int main(void)
 	
 	/* VOFA */
 	vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
+	
+	/* IMU */
+	imu(&imu660ra, IMU_X_FRONT_DIR, IMU_Y_FRONT_DIR, IMU_Z_FRONT_DIR, 500);
 	
 	/* 计时器 */
 	timer(&zebra_path_timer, 5);
@@ -123,9 +123,6 @@ int main(void)
 	pid(&box_y_pid);
 	box_y_pid.fuzzy_pid_init(&box_y_pid, fuzzy_rules, BOX_Y_RANGE);
 	
-	/* 屏幕 */
-	ips200_init(IPS200_TYPE_SPI);
-	
 	/* 箱子矫正 */
 	symmetry_rectificate_init();
 	
@@ -143,6 +140,9 @@ int main(void)
 	/* AI摄像头（必须放到中断使能后） */
 	ai_camera_init();
 	
+	/* 屏幕 */
+	ips200_init(IPS200_TYPE_SPI);
+	
 	system_delay_ms(5000);
 	
 	/* 标志位 */
@@ -157,20 +157,25 @@ int main(void)
 	zebra_path_timer.ticking_flag = False;
 	circle_in_timer.ticking_flag = False;
 	circle_out_timer.ticking_flag = True;
-	ai_camera_0_enable_flag = True;
 	box_XY_finsh_flag = False;
 	rotate_finsh_flag = False;
+	detection_result.ai_camera_init_flag[0] = False;
+	detection_result.ai_camera_init_flag[1] = False;
+	if(ai_camera_1_enable_flag == False)
+		detection_result.ai_camera_init_flag[0] = True;
+	if(ai_camera_2_enable_flag == False)
+		detection_result.ai_camera_init_flag[1] = True;
 	
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
 		// 此处编写需要循环执行的代码
 		#ifdef SPEED_AND_CURRENT
-		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && current_1.current_calibration_flag == True && current_2.current_calibration_flag == True && current_3.current_calibration_flag == True)
+		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && current_1.current_calibration_flag == True && current_2.current_calibration_flag == True && current_3.current_calibration_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)
 		{
 		#endif
 		#ifdef SPEED
-		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True)
+		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)
 		{
 		#endif
 			// 此处编写需要循环执行的代码
@@ -178,16 +183,11 @@ int main(void)
 			
 //			rotate_euler_angle_solve.solve_flag = True;
 //			control_kind = Angle2Inv2Speed;
-
-//			wireless_vofa.justfloat_add(&wireless_vofa, 7, (float)path_err, path_pid.Kp, path_pid.Ki, path_pid.Kd, path_pid.value, angular_speed_target, rotate_euler_angle_solve.yaw);  
-//			wireless_vofa.justfloat_add(&wireless_vofa, 3, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, euler_angle_solve.yaw);
-//			wireless_vofa.justfloat_add(&wireless_vofa, 2, (float)detection_result.tool, (float)detection_result.num);wireless_vofa.justfloat_send(&wireless_vofa);
-//			wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)0X10);
-//			wireless_vofa.justfloat_add(&wireless_vofa, 2, (float)detection_result.tool, (float)detection_result.num);wireless_vofa.justfloat_send(&wireless_vofa);
-//			ips200_show_gray_image(0, 0, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-//			ips200_show_gray_image(0, MT9V03X_H, dog_cv.image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-//			wireless_vofa.justfloat_add(&wireless_vofa, 2, (float)path_state, (float)last_path_state);
-//			wireless_vofa.justfloat_send(&wireless_vofa);
+			
+//			if(detection_result.tool_detection_finsh_flag == True)
+//				detection_result.tool_detection_finsh_flag = False;
+//			if(detection_result.num_detection_finsh_flag == True)
+//				detection_result.num_detection_finsh_flag = False;
 //			ips200_show_gray_image(0, 0, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
 		}
     }

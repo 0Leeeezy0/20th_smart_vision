@@ -70,17 +70,27 @@ static void detection_result_trans(_ai_camera_idx_ ai_camera_idx, ...){
 		case AI_CAMERA_1:{
 			va_start(args, 1);  // 初始化可变参数列表
 			uint8 tool_detection_result_raw = (uint8)va_arg(args, int);	// 读取 工具识别结果原始值
-			detection_result.tool_detection_finsh_flag = True;
-			detection_result.tool_raw = tool_detection_result_raw;
-			detection_result.tool = (_ai_lable_)tool_detection_result_raw;
+			if(tool_detection_result_raw != 0XFF){
+				detection_result.tool_detection_finsh_flag = True;
+				detection_result.tool_raw = tool_detection_result_raw;
+				detection_result.tool = (_ai_lable_)tool_detection_result_raw;
+			}
+			else
+				detection_result.ai_camera_init_flag[0] = True;
+			
 			break;
 		}
 		case AI_CAMERA_2:{
 			va_start(args, 1);  // 初始化可变参数列表
 			uint8 num_detection_result_raw = (uint8)va_arg(args, int);	// 读取 工具识别结果原始值
-			detection_result.num_detection_finsh_flag = True;
-			detection_result.num_raw = num_detection_result_raw;
-			detection_result.num = num_detection_result_raw;
+			if(num_detection_result_raw != 0XFF){
+				detection_result.num_detection_finsh_flag = True;
+				detection_result.num_raw = num_detection_result_raw;
+				detection_result.num = num_detection_result_raw;
+			}
+			else
+				detection_result.ai_camera_init_flag[1] = True;
+			
 			break;
 		}
 	}

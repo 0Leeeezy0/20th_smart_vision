@@ -80,6 +80,7 @@ typedef enum _ai_lable_{
 
 /* 结构体定义 */
 typedef struct _ai_camera_detection_result_{
+	_bool_ ai_camera_init_flag[2];		// AI摄像头初始化完成标志位
 	_bool_ tool_detection_finsh_flag;	// 工具识别完成标志位
 	_bool_ num_detection_finsh_flag;	// 数字识别完成标志位
 	uint8 tool_raw;		// 工具识别结果原始值
