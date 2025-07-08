@@ -353,14 +353,11 @@ void fsm(void){
 		path_pid_calc();
 		y_speed_target = path_y_speed_target;
 	}
-	// VOFA
-//	wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)path_state, (float)last_path_state, (float)(detection_box_width-detection_box_width_limit), (float)detection_box_center_x);
-	wireless_vofa.justfloat_add(&wireless_vofa, 2, (float)detection_result.tool_detection_finsh_flag, (float)detection_result.num_detection_finsh_flag);
-	wireless_vofa.justfloat_send(&wireless_vofa);
 }
 
 /* 赛道状态判断 */
 static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
+	static uint8 box_track_num;	// 箱子定位不满足条件的次数
 	_path_state_ path_state_return = common_path;
 	
 	// 保证从箱子一次定位状态退出后能够切换回原状态
@@ -463,7 +460,7 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 		
 	}
 	// 斑马线判断
-	if(zebra_enable_flag == True){
+	if(zebra_enable_flag == True && path_state == common_path){
 		zebra_path_timer.ticking_flag = True;
 		uint16 black_white_point_num = 0;	// 黑白跳变点数量
 		if(zebra_path_timer.time >= 5000)
@@ -484,11 +481,20 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 	}
 	// 箱子状态判断
 	// 箱子一次定位
-	if(ai_camera_0_enable_flag == True && detection_box_width >= detection_box_width_limit && detection_box_center_x >= AI_CAMERA_0_IMAGE_WIDTH/2-detection_box_center_x_limit && detection_box_center_x <= AI_CAMERA_0_IMAGE_WIDTH/2+detection_box_center_x_limit && (displacement_solve.distance-last_box_distance) >= 50){
+	if(ai_camera_0_enable_flag == True && detection_box_width >= detection_box_width_limit && abs(detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2) <= detection_box_center_x_limit && (displacement_solve.distance-last_box_distance) >= 50){
 		// 识别框宽度超过阈值，进入箱子定位状态
-			path_state_return = box_first_track;
+		path_state_return = box_first_track;
+		box_track_num = 0;
 		// 只需要进入箱子一次定位状态就行，后续状态只需要保持，状态切换由上个状态结束完成
 	}
+	// 上一次状态是箱子一次定位，且此次不是箱子一次定位时，不满足条件次数增加
+	if(path_state == box_first_track && path_state_return != box_first_track){
+		box_track_num++;
+	}
+	if(path_state != box_first_track){
+		box_track_num = 0;
+	}
+		
 
 	// 赛道状态保持
 	switch(path_state){
@@ -500,7 +506,7 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 		case L_circle_out:{ path_state_return = L_circle_out; break; }
 		case zebra_path:{ path_state_return = zebra_path; break; }						// 保持 zebra_path 状态，直到路程超过阈值即停车，切换至 zebra_path_stop 状态
 		case zebra_path_stop:{ path_state_return = zebra_path_stop; break; }			// 保持 zebra_path_stop 状态
-		case box_first_track:{ if(path_state_return != common_path && path_state_return != R_circle && path_state_return != L_circle)path_state_return = box_first_track; break; }			// 保持 box_first_track 状态（前提：判断不是common_path/R_circle/L_circle，以此保证可以在中途拿走箱子后还能继续循线）
+		case box_first_track:{ if(path_state_return == box_first_track || box_track_num <= 1)path_state_return = box_first_track; break; }			// 保持 box_first_track 状态（前提：判断不是common_path/R_circle/L_circle，以此保证可以在中途拿走箱子后还能继续循线或不满足条件的次数在阈值内，则保持箱子一次定位状态）
 		case box_calibration:{ path_state_return = box_calibration; break; }			// 保持 box_calibration 状态
 		case box_inv_calibration:{ path_state_return = box_inv_calibration; break; }	// 保持 box_inv_calibration 状态
 		case box_second_track:{ path_state_return = box_second_track; break; }			// 保持 box_second_track 状态
@@ -512,6 +518,9 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 	if(path_state == common_path || path_state == R_circle || path_state == L_circle){
 		last_path_state = path_state;
 	}
+	wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)path_state, (float)last_path_state, (float)box_track_num);
+	wireless_vofa.justfloat_send(&wireless_vofa);
+	
 	return path_state_return;
 }
 

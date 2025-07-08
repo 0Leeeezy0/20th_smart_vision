@@ -62,9 +62,16 @@ static void detection_result_trans(_ai_camera_idx_ ai_camera_idx, ...){
 	switch(ai_camera_idx){
 		case AI_CAMERA_0:{
 			va_start(args, 2);  // 初始化可变参数列表
-			int16 detection_box_left_x = (uint16)va_arg(args, int)-AI_CAMERA_0_OFFSET; // 读取 识别框左上角X坐标
-			detection_box_width = (uint16)va_arg(args, int);  		// 读取 识别框宽度
-			detection_box_center_x = detection_box_left_x + detection_box_width/2;	// 计算 识别框中心X坐标
+			uint8 data_1 = (uint8)va_arg(args, int); // 读取 识别框左上角X坐标
+			uint8 data_2 = (uint8)va_arg(args, int); 					// 读取 识别框左上角X坐标
+			if(data_1 != 0XFF && data_2 != 0XFF){
+				int16 detection_box_left_x = data_1-AI_CAMERA_0_OFFSET; // 读取 识别框左上角X坐标
+				detection_box_width = data_2;  		// 读取 识别框宽度
+				detection_box_center_x = detection_box_left_x + detection_box_width/2;	// 计算 识别框中心X坐标
+			}
+			else
+				ai_camera_0_init_flag = True;
+			
 			break;
 		}
 		case AI_CAMERA_1:{

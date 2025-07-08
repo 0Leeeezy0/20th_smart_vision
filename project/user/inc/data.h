@@ -145,6 +145,9 @@ extern _bool_ rotate_finsh_flag;		// 旋转完成标志位
 extern _bool_ box_X_finsh_flag;			// 箱子X定位完成标志位
 extern _bool_ box_XY_finsh_flag;		// 箱子XY定位完成标志位
 
+/* 初始化标志位 */
+extern _bool_ ai_camera_0_init_flag;					// AI摄像头0 初始化标志位
+
 /* 全局变量 */
 /* 赛道提取 */
 extern int16 path_err;					// 路径误差
@@ -180,11 +183,11 @@ extern float data_1;						// 运动学逆解算参数1（线速度/X速度）
 extern float data_2;						// 运动学逆解算参数2（航向角/Y速度）
 /* 箱子 */
 extern int16 detection_center_err;						// 识别框中心误差
-extern uint16 detection_box_width;						// 识别框宽度
-extern uint16 detection_box_width_limit;				// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
-extern uint16 detection_box_width_target;				// 识别框目标宽度
+extern uint8 detection_box_width;						// 识别框宽度
+extern uint8 detection_box_width_limit;					// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
+extern uint8 detection_box_width_target;				// 识别框目标宽度
 extern int16 detection_box_center_x;					// 识别框中心横坐标
-extern uint16 detection_box_center_x_limit;			// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
+extern uint16 detection_box_center_x_limit;				// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
 extern _ai_camera_detection_result_ detection_result;	// 识别结果
 extern uint16 rectificate_weight[4];					// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
 extern uint32 sum_weight;								// 加权和
@@ -195,7 +198,7 @@ extern float sum_weight_normalization_limit[2];			// 加权和归一化阈值
 extern float frame_white_num_normalization[2];			// 对称法矫正图像左右边框白点数量归一化
 extern float frame_white_num_normalization_limit;		// 对称法矫正图像左右边框白点数量归一化阈值
 extern uint16 frame_offset;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
-extern float last_box_distance;						// 上一个箱子的路程
+extern float last_box_distance;							// 上一个箱子的路程
 /* 速度/角度 */
 extern float path_y_speed_target;				// 目标循迹Y速度
 extern float circle_y_speed_target;				// 出入环目标Y速度

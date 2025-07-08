@@ -52,6 +52,9 @@ _bool_ rotate_finsh_flag = False;		// 旋转完成标志位
 _bool_ box_X_finsh_flag = False;		// 箱子X定位完成标志位
 _bool_ box_XY_finsh_flag = False;		// 箱子XY定位完成标志位
 
+/* 初始化标志位 */
+_bool_ ai_camera_0_init_flag = False;	// AI摄像头0 初始化标志位
+
 /* 全局变量 */
 /* 赛道提取 */
 int16 path_err;							// 路径误差
@@ -60,7 +63,7 @@ uint16 path_end = 30;					// 路径线结束高度
 uint16 side_extract_start_y = 80;		// 边线提取起始高度
 uint16 side_extract_end_y = 20;			// 边线提取结束高度
 uint16 prediction_point = 30;			// 预测点高度：其横坐标将作为下一帧的搜线起点
-uint16 control_point[2] = {70 ,50};		// 控制点高度（0：最长白列；1：路径线提取）
+uint16 control_point[2] = {75 ,55};		// 控制点高度（0：最长白列；1：路径线提取）
 /* 圆环 */
 uint16 circle_check_y = 60;				// 圆环检测线高度
 uint16 side_x_delta_range[2] = {3, 15};	// 边线X差值阈值范围（小，大）
@@ -86,9 +89,9 @@ float rotation_yaw_target;					// 目标旋转角度（角度环）
 float data_1;								// 运动学逆解算参数1（线速度/X速度）
 float data_2;								// 运动学逆解算参数2（航向角/Y速度）
 /* 箱子 */
-uint16 detection_box_width;						// 识别框宽度
-uint16 detection_box_width_limit = 30;			// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
-uint16 detection_box_width_target = 80;			// 识别框目标宽度
+uint8 detection_box_width;						// 识别框宽度
+uint8 detection_box_width_limit = 30;			// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
+uint8 detection_box_width_target = 80;			// 识别框目标宽度
 int16 detection_box_center_x;					// 识别框中心横坐标
 uint16 detection_box_center_x_limit = 65;		// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
 _ai_camera_detection_result_ detection_result;	// 识别结果
@@ -103,7 +106,7 @@ float frame_white_num_normalization_limit = 0.25;		// 对称法矫正图像左右边框白点
 uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 float last_box_distance = 0;					// 上一个箱子的路程
 /* 速度/角度 */
-float path_y_speed_target = 150;			// 目标循迹Y速度
+float path_y_speed_target = 140;			// 目标循迹Y速度
 float circle_y_speed_target = 110;			// 出入环目标Y速度
 float circle_angular_speed_target = 28;		// 出入环目标角速度
 float circle_angle_target = 60;				// 出入环目标转动角度
@@ -134,11 +137,11 @@ float ROTATE_PID[4][5] = {{ 0.6,   0,     0.04,  2,           45 },
 						  { 1.15,  0,     0.08,  2,           105 },
 						  { 1.6,   0,     0.08,  2,		      130 }};							  
 // BOX X
-float BOX_X_RANGE[3] =    { 10.0,  20.0,  30.0 };		// BOX Y误差区间	
-float BOX_X_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           25 },
-						  { 0.6,   0,     0.12,  2,           45 },
-					      { 0.9,   0,     0.17,  2,           60 },
-						  { 1.4,   0,     0.17,  2,           80 }};					  
+float BOX_X_RANGE[3] =    { 10.0,  20.0,  30.0 };		// BOX X误差区间	
+float BOX_X_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           35 },
+						  { 0.6,   0,     0.12,  2,           60 },
+					      { 1.2,   0,     0.17,  2,           80 },
+						  { 1.7,   0,     0.17,  2,           100 }};					  
 // BOX Y
 float BOX_Y_RANGE[3] =    { 10.0,  20.0,  45.0 };		// BOX Y误差区间	
 float BOX_Y_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           35 },

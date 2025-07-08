@@ -256,7 +256,7 @@ static void box_xy_pid_calu(void){
 	x_speed_target = box_x_pid.positional_pid(&box_x_pid, 0, -detection_box_center_err);
 	box_y_pid.fuzzy_pid(&box_y_pid, &detection_box_width_err, Y_Kp, Y_Ki, Y_Kd, Y_i_limit, Y_output_limit, 1);
 	y_speed_target = box_y_pid.positional_pid(&box_y_pid, detection_box_width_target, detection_box_width);
-	angular_speed_target = 0;
+	angular_speed_target = x_speed_target/x_speed_rate;
 	
 	// ×·×Ùµ½ãÐÖµÖÜÎ§
 	if(abs(detection_box_width_err) <= 6 && abs(detection_box_center_err) <= 6)
