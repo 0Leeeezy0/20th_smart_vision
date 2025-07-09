@@ -621,12 +621,9 @@ void path_control(float path_control_speed)
 	
 	float path_pid_output = path_control_pid(PATH_PID_KIND,path_pid,path_err);
 	
-	chassis_control_transform(path_pid_output*x_speed_rate_rt,path_control_speed,path_pid_output*1.4);
+	chassis_control_transform(path_pid_output*x_speed_rate_rt,path_control_speed,path_pid_output*1.0);
 	
-    just_float(2,path_err,path_pid_output);
-    just_float(1,bat_voltage);
-//    just_float(1,chassis_linear_speed);
-	update_data_end();
+
 
 //	chassis_linear_speed = path_control_speed;
 //	chassis_yaw = path_pid_output*(1-rate);
@@ -655,9 +652,16 @@ _PATH_PID_ path_control_pid_init(void)
 }
 
 /* 循迹PID */
+extern float small[2];
+extern float medium[2];
+extern float big[2];
+float gyro_err,value;
+_PID_PARAMETERS_ path_fuzzy_pid_parameters;
+_PID_PARAMETERS_ path_fuzzy_gyro_z_pid_parameters;
+
 float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_PATH_PID_ path_pid,int16 path_err)
 {
-	float gyro_err,value;
+	
 	gyro_err = GYRO_Z_FORWARD*gyro_z;
 
 	// 分段PID
@@ -679,13 +683,10 @@ float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,floa
 //	}
 
 	// 模糊PID
-	float small[2] = {4.,10.};
-	float medium[2] = {25.,50.};
-	float big[2] = {45.,80.};
 	_PID_PARAMETERS_ gyro_z[4] = {{0,0,PATH_PID[0][3],0,0},{0,0,PATH_PID[1][3],0,0},{0,0,PATH_PID[2][3],0,0},{0,0,PATH_PID[3][3],0,0}};
 		
-	_PID_PARAMETERS_ path_fuzzy_pid_parameters = fuzzy_pid_paraments_get(path_pid.path_pid_parameters,path_err,gyro_err,small,medium,big,2);
-	_PID_PARAMETERS_ path_fuzzy_gyro_z_pid_parameters = fuzzy_pid_paraments_get(gyro_z,path_err,gyro_err,small,medium,big,1);
+	 path_fuzzy_pid_parameters = fuzzy_pid_paraments_get(path_pid.path_pid_parameters,path_err,gyro_err,small,medium,big,2);
+	 path_fuzzy_gyro_z_pid_parameters = fuzzy_pid_paraments_get(gyro_z,gyro_err,path_err,small,medium,big,1);
 		
 	value = FUNC_PATH(&path_fuzzy_pid_parameters,&(path_pid.path_pid_variable),0,-path_err)+path_fuzzy_gyro_z_pid_parameters.d*gyro_err;
 	

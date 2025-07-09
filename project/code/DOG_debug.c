@@ -11,6 +11,9 @@ static float speed = 100;
 	串口信息发送 
 	比赛时务必关闭
 */
+extern float gyro_err;
+extern _PID_PARAMETERS_  path_fuzzy_pid_parameters;
+extern _PID_PARAMETERS_  path_fuzzy_gyro_z_pid_parameters;
 void menu_uart_service(void)
 {
 	/*****************************************/
@@ -18,6 +21,7 @@ void menu_uart_service(void)
     //float path_pid_output = path_control_pid(PATH_PID_KIND,path_pid,path_err);
 
 //	real_motor_speed_update();
+    
 //	motor_duty_update();
 ////    motor_error_update();
 ////    motor_delta_update();
@@ -25,7 +29,11 @@ void menu_uart_service(void)
 //    motor_current_update();  
 //    just_float(2,path_err,path_pid_output);
 //    just_float(1,bat_voltage);
-////    just_float(1,chassis_linear_speed);
+////    just_float(1,chassis_linear_speed);    
+    just_float(3,bat_voltage,(float)path_err,(float)gyro_err);   
+    just_float(3,path_fuzzy_pid_parameters.p,path_fuzzy_pid_parameters.d,path_fuzzy_gyro_z_pid_parameters.d);
+//    just_float(1,chassis_linear_speed);
+	update_data_end();
 //	update_data_end();
 	/*****************************************/
 }
