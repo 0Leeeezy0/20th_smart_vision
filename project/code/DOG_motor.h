@@ -6,7 +6,9 @@
 
 #include "DOG_data.h"
 
-struct DOG_MOTOR{
+struct DOG_MOTOR;
+
+typedef struct DOG_MOTOR{
 	/* 电机参数 */
 	gpio_pin_enum dir_pin;		// 方向引脚
 	pwm_channel_enum pwm_pin;	// PWM引脚
@@ -15,7 +17,7 @@ struct DOG_MOTOR{
 	/* 成员函数 */
 	void (*motor_run)(struct DOG_MOTOR *this, _rotate_dir_ dir, uint32 duty);	// 电机启动
 	void (*motor_stop)(struct DOG_MOTOR *this);							// 电机停止
-};
+}DOG_MOTOR;
 
 // 电机启动
 void motor_run(struct DOG_MOTOR *this, _rotate_dir_ dir, uint32 duty);

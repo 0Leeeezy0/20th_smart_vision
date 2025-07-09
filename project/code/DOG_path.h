@@ -7,7 +7,9 @@
 #include "DOG_data.h"
 #include "DOG_cv.h"
 
-struct DOG_PATH{
+struct DOG_PATH;
+
+typedef struct DOG_PATH{
 	/* 成员变量 */
 	uint16 mid_x;						// 动态中线
 	uint16 path_start_y;				// 路径线提取开始高度
@@ -37,7 +39,7 @@ struct DOG_PATH{
 	void (*path_extract)(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W]);			// 路径线提取
 	void (*side_extract)(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W]);			// 边线提取
 	void (*side_point_kind_judge)(struct DOG_PATH* this);				// 边线点类型判断
-};
+}DOG_PATH;
 
 // 最长白列
 void longest_white_col(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W], uint16 control_point);	

@@ -132,6 +132,7 @@ void fsm(void){
 				wheel_speed_target[1] = 0;
 				wheel_speed_target[2] = 0;
 				path_state = zebra_path_stop;
+				menu_detection_list();
 				break;
 			}
 			break;
@@ -140,6 +141,7 @@ void fsm(void){
 		case box_first_track:{
 			// 设置控制模式
 			control_kind = XY2Inv2Speed;
+			angular_speed_target = 0;
 			if(box_XY_finsh_flag == True){
 				// 初始化
 				box_XY_finsh_flag = False;
@@ -167,11 +169,11 @@ void fsm(void){
 		// 箱子矫正
 		case box_calibration:{
 			static float max_sum_weight_normalization = 0;				// 最大归一化加权和
-		
 			// 查询式等待两个摄像头识别完成
 			if(	(ai_camera_1_enable_flag == True && ai_camera_2_enable_flag == True && detection_result.tool_detection_finsh_flag == True && detection_result.num_detection_finsh_flag == True) ||
 				(ai_camera_1_enable_flag == True && ai_camera_2_enable_flag == False && detection_result.tool_detection_finsh_flag == True && detection_result.num_detection_finsh_flag == False) ||
-				(ai_camera_1_enable_flag == False && ai_camera_2_enable_flag == True && detection_result.tool_detection_finsh_flag == False && detection_result.num_detection_finsh_flag == True)){
+				(ai_camera_1_enable_flag == False && ai_camera_2_enable_flag == True && detection_result.tool_detection_finsh_flag == False && detection_result.num_detection_finsh_flag == True) ||
+				(ai_camera_1_enable_flag == False && ai_camera_2_enable_flag == False)){
 				// 设置控制类型
 				control_kind = Inv2Speed; 
 				// 设置解算类型
@@ -184,6 +186,8 @@ void fsm(void){
 				else if((detection_result.tool >= 0X09 && detection_result.tool <= 0X0F) || ((detection_result.num&0X01) == 1 && detection_result.tool == 0X10))
 					box_dir = 1;
 				else
+					box_dir = 1;
+				if(ai_camera_1_enable_flag == False && ai_camera_2_enable_flag == False)
 					box_dir = 1;
 				x_speed_target = box_dir*box_x_speed_target;
 				y_speed_target = 0;
@@ -209,9 +213,12 @@ void fsm(void){
 					// 设置控制模式
 					control_kind = Speed;
 					wheel_speed_target[0] = 0;
-					wheel_speed_target[1] = 1;
-					wheel_speed_target[2] = 2;
+					wheel_speed_target[1] = 0;
+					wheel_speed_target[2] = 0;
 					path_state = box_second_track;				// 进入箱子二次定位状态
+					// 存储识别结果
+					detection_result_list[detection_result_num] = detection_result;
+					detection_result_num++;
 					break;
 				}
 				// 转动超过180°没达到阈值，就进入逆矫正状态
@@ -224,6 +231,9 @@ void fsm(void){
 					y_speed_target = 0;
 					angular_speed_target = box_dir*box_x_speed_target*box_x_angular_speed_rate;
 					path_state = box_inv_calibration;			// 进入箱子逆矫正状态
+					// 存储识别结果
+					detection_result_list[detection_result_num] = detection_result;
+					detection_result_num++;
 					break;
 				}
 			}
@@ -346,12 +356,18 @@ void fsm(void){
 	// 循线控制
 	if(path_state == common_path || path_state == L_circle || path_state == R_circle || path_state == zebra_path){
 		// 循线误差计算
-		if(path_state == L_circle || path_state == R_circle)
-			path_err = dog_path.path[control_point[1]][0]-MT9V03X_W/2;
-		else
+		if(path_state == L_circle || path_state == R_circle){
+			path_err = dog_path.path[control_point[1]][0]-MT9V03X_W/2;	
+			path_pid_calc();
+			x_speed_target = 0;
+			y_speed_target = circle_y_speed_target;
+		}
+		else{
 			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
-		path_pid_calc();
-		y_speed_target = path_y_speed_target;
+			path_pid_calc();
+			x_speed_target = angular_speed_target*x_speed_rate;
+			y_speed_target = path_y_speed_target;
+		}
 	}
 }
 
@@ -480,9 +496,9 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 		}
 	}
 	// 箱子状态判断
-	// 箱子一次定位
-	if(ai_camera_0_enable_flag == True && detection_box_width >= detection_box_width_limit && abs(detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2) <= detection_box_center_x_limit && (displacement_solve.distance-last_box_distance) >= 50){
-		// 识别框宽度超过阈值，进入箱子定位状态
+	// 箱子一次定位（宽度超过阈值且中心坐标在范围内时进入定位状态 或 高度超过阈值时进入状态 防止箱子在图像边缘导致无法进入定位状态从而掠过箱子）
+	if(ai_camera_0_enable_flag == True && ((detection_box_width >= detection_box_width_limit && abs(detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2) <= detection_box_center_x_limit) || detection_box_height >= detection_box_height_limit) && (displacement_solve.distance-last_box_distance) >= 50){
+		// 识别框宽度或高度超过阈值，进入箱子定位状态
 		path_state_return = box_first_track;
 		box_track_num = 0;
 		// 只需要进入箱子一次定位状态就行，后续状态只需要保持，状态切换由上个状态结束完成
@@ -518,8 +534,6 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 	if(path_state == common_path || path_state == R_circle || path_state == L_circle){
 		last_path_state = path_state;
 	}
-	wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)path_state, (float)last_path_state, (float)box_track_num);
-	wireless_vofa.justfloat_send(&wireless_vofa);
 	
 	return path_state_return;
 }

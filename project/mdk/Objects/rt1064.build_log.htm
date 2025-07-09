@@ -22,12 +22,22 @@ Dialog DLL:      TCM.DLL V1.56.4.0
  
 <h2>Project:</h2>
 E:\FILE_SMART_CAR\ÖÇÄÜÊÓ¾õ\RT1064_Library-master\RT1064_Library-master\RE\project\mdk\rt1064.uvprojx
-Project File Date:  07/07/2025
+Project File Date:  07/10/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\KEIL\ARM\ARMCLANG\Bin'
 Build target 'nor_sdram_zf_dtcm'
-compiling data.c...
+../code/ai.c(64): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+                        va_start(args, 3);  // <B3><F5>Ê¼<BB><AF><BF>É±<E4><B2><CE><CA><FD><C1>Ð±<ED>
+                                       ^
+../code/ai.c(80): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+                        va_start(args, 1);  // <B3><F5>Ê¼<BB><AF><BF>É±<E4><B2><CE><CA><FD><C1>Ð±<ED>
+                                       ^
+../code/ai.c(93): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+                        va_start(args, 1);  // <B3><F5>Ê¼<BB><AF><BF>É±<E4><B2><CE><CA><FD><C1>Ð±<ED>
+                                       ^
+3 warnings generated.
+compiling ai.c...
 ../user/src/main.c(23): warning: '/*' within block comment [-Wcomment]
 //* 
  ^
@@ -69,9 +79,15 @@ compiling data.c...
                                                           &
 10 warnings generated.
 compiling main.c...
+compiling fsm.c...
+compiling debug.c...
+compiling isr.c...
+compiling menu_data.c...
+compiling control.c...
+compiling menu.c...
 linking...
-Program Size: Code=104632 RO-data=16616 RW-data=936 ZI-data=94484  
-".\Objects\rt1064.axf" - 0 Error(s), 10 Warning(s).
+Program Size: Code=128528 RO-data=18032 RW-data=1340 ZI-data=96964  
+".\Objects\rt1064.axf" - 0 Error(s), 13 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -84,7 +100,7 @@ Package Vendor: NXP
   D:/KEIL/ARM/Pack/NXP/MIMXRT1064_DFP/19.0.0/devices/MIMXRT1064
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

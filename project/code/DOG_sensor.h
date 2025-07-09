@@ -6,9 +6,14 @@
 
 #include "DOG_data.h"
 
+struct DOG_ENCODER;
+struct DOG_IMU;
+struct DOG_CURRENT;
+struct DOG_VOLTAGE;
+
 /****************************************************************************************************************************/
 /* 编码器 */
-struct DOG_ENCODER{
+typedef struct DOG_ENCODER{
 	/* 编码器参数 */
 	encoder_index_enum encoder_idx;
 	encoder_channel1_enum ch1_pin;	// 通道1引脚
@@ -26,7 +31,7 @@ struct DOG_ENCODER{
 	
 	/* 成员函数 */
 	void (*encoder_get)(struct DOG_ENCODER* this);	// 传感器值获取
-};
+}DOG_ENCODER;
 
 // 传感器值获取
 void encoder_get(struct DOG_ENCODER* this);
@@ -37,7 +42,7 @@ void encoder(struct DOG_ENCODER* this, encoder_index_enum encoder_idx, encoder_c
 void _encoder(struct DOG_ENCODER* this);
 /****************************************************************************************************************************/
 /* 惯性传感器 */
-struct DOG_IMU{
+typedef struct DOG_IMU{
 	/* 陀螺仪参数 */	
 	_bool_ X_reverse_flag;			// X轴 反转参考方向标志位
 	_bool_ Y_reverse_flag;			// Y轴 反转参考方向标志位
@@ -77,7 +82,7 @@ struct DOG_IMU{
 	/* 成员函数 */
 	void (*gyro_get)(struct DOG_IMU* this);	// 陀螺仪值获取
 	void (*acc_get)(struct DOG_IMU* this);	// 加速度计值获取
-};
+}DOG_IMU;
 
 // 陀螺仪值获取
 void gyro_get(struct DOG_IMU* this);
@@ -90,7 +95,7 @@ void imu(struct DOG_IMU* this, _bool_ X_reverse_flag, _bool_ Y_reverse_flag, _bo
 void _imu(struct DOG_IMU* this);
 /****************************************************************************************************************************/
 /* 电流采样 */
-struct DOG_CURRENT{
+typedef struct DOG_CURRENT{
 	/* ADC参数 */
 	adc_channel_enum adc_ch;			// ADC引脚
 	adc_resolution_enum resolution;		// ADC分辨率
@@ -104,7 +109,7 @@ struct DOG_CURRENT{
 	float current;						// 电流
 	
 	float (*current_get)(struct DOG_CURRENT* this);	// 电流获取
-};
+}DOG_CURRENT;
 
 // 电流获取
 float current_get(struct DOG_CURRENT* this);
@@ -115,7 +120,7 @@ void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_e
 void _current(struct DOG_CURRENT* this);
 /****************************************************************************************************************************/
 /* 电压采样 */
-struct DOG_VOLTAGE{
+typedef struct DOG_VOLTAGE{
 	/* ADC参数 */
 	adc_channel_enum adc_ch;			// ADC引脚
 	adc_resolution_enum resolution;		// ADC分辨率
@@ -123,7 +128,7 @@ struct DOG_VOLTAGE{
 	float voltage;
 	
 	float (*voltage_get)(struct DOG_VOLTAGE* this);	// 电流获取
-};
+}DOG_VOLTAGE;
 
 // 电压获取
 float voltage_get(struct DOG_VOLTAGE* this);

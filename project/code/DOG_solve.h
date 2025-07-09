@@ -7,8 +7,10 @@
 #include "DOG_data.h"
 #include "DOG_sensor.h"
 
+struct DOG_SOLVE;
+
 /* 解算 */
-struct DOG_SOLVE{
+typedef struct DOG_SOLVE{
 	/* 变量 */
 	float diff_world_x_displacement;	// 世界X位移微分
 	float diff_world_y_displacement;	// 世界Y位移微分
@@ -49,7 +51,7 @@ struct DOG_SOLVE{
 	void (*euler_angle)(struct DOG_SOLVE* this, struct DOG_IMU imu_data);	// 欧拉角解算
 	void (*move_inv_solve)(struct DOG_SOLVE* this, _move_solve_kind_ kind, float data_1, float data_2, float angular_speed);	// 运动学逆解算
 	void (*move_solve)(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_speed_real, float wheel_3_speed_real, float yaw);		// 运动学解算
-};
+}DOG_SOLVE;
 
 // 欧拉角解算
 void euler_angle(struct DOG_SOLVE* this, struct DOG_IMU imu_data);

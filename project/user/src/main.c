@@ -66,10 +66,10 @@ int main(void)
 	current(&current_3, CURRENT_3_PIN, ADC_12BIT, CURRENT_RATIO, 500);
 	
 	/* 灰度传感器 */
-	voltage(&gray_sensor, ADC1_CH5_B16, ADC_12BIT);
+	voltage(&gray_sensor, GRAYSCALE_SENSOR_PIN, ADC_12BIT);
 	
 	/* 电池电压检测 */
-	voltage(&bat_voltage, ADC1_CH5_B16, ADC_12BIT);
+	voltage(&bat_voltage, BAT_VOLTAGE_PIN, ADC_12BIT);
 	
 	/* 电流卡滤波 */
 	karman(&current_1_karman, I_KARMAN[0], I_KARMAN[1]);
@@ -126,43 +126,49 @@ int main(void)
 	/* 箱子矫正 */
 	symmetry_rectificate_init();
 	
+	/* 按键 */
+	key_init(10);
+	
 	// 传感器/解算中断初始化
 	pit_ms_init (SENSOR_SOLVE_IT_CH, SENSOR_SOLVE_IT_TIME);
 	// 控制中断初始化
 	pit_ms_init (CONTROL_IT_CH, CONTROL_IT_TIME);
 	/* 计时器中断初始化 */
 	pit_ms_init (TIMER_IT_CH, TIMER_IT_TIME);
+	/* 按键中断初始化 */
+	pit_ms_init (MENU_KEY_SCAN_IT_CH, MENU_KEY_SCAN_IT_TIME);
 	// 中断使能
 	pit_enable(SENSOR_SOLVE_IT_CH);
 	pit_enable(CONTROL_IT_CH);
 	pit_enable(TIMER_IT_CH);
+	pit_enable(MENU_KEY_SCAN_IT_CH);
 	
 	/* AI摄像头（必须放到中断使能后） */
 	ai_camera_init();
 	
-	/* 屏幕 */
-	ips200_init(IPS200_TYPE_SPI);
+	/* 菜单 */
+	menu_init();
 	
 	/* 标志位 */
-	euler_angle_solve.solve_flag = True;
-	rotate_euler_angle_solve.solve_flag = False;
-	circle_euler_angle_solve.solve_flag = False;
-	box_euler_angle_solve.solve_flag = False;
-	chassis_solve.solve_flag = True;
-	displacement_solve.solve_flag = True;
-	circle_enable_flag = True;
-	zebra_enable_flag = True;
-	zebra_path_timer.ticking_flag = False;
-	circle_in_timer.ticking_flag = False;
-	circle_out_timer.ticking_flag = True;
-	box_XY_finsh_flag = False;
-	rotate_finsh_flag = False;
+//	euler_angle_solve.solve_flag = True;
+//	rotate_euler_angle_solve.solve_flag = False;
+//	circle_euler_angle_solve.solve_flag = False;
+//	box_euler_angle_solve.solve_flag = False;
+//	chassis_solve.solve_flag = True;
+//	displacement_solve.solve_flag = True;
+//	circle_enable_flag = True;
+//	zebra_enable_flag = True;
+//	zebra_path_timer.ticking_flag = False;
+//	circle_in_timer.ticking_flag = False;
+//	circle_out_timer.ticking_flag = True;
+//	box_XY_finsh_flag = False;
+//	rotate_finsh_flag = False;
 	
 	circle_enable_flag = True;		// 圆环 使能标志位
 	zebra_enable_flag = True;		// 斑马线 使能标志位
 	ai_camera_0_enable_flag = True;	// AI相机0 使能标志位
-	ai_camera_1_enable_flag = True;	// AI相机1 使能标志位
-	ai_camera_2_enable_flag = True;	// AI相机2 使能标志位
+	ai_camera_1_enable_flag = False;	// AI相机1 使能标志位
+	ai_camera_2_enable_flag = False;	// AI相机2 使能标志位
 	
 	ai_camera_0_init_flag = False;
 	detection_result.ai_camera_init_flag[0] = False;
@@ -187,15 +193,8 @@ int main(void)
 		{
 		#endif
 			// 此处编写需要循环执行的代码
-			fsm();
-			
-			// VOFA
-//			wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)path_state, (float)last_path_state, (float)(detection_box_width-detection_box_width_limit), (float)detection_box_center_x);
-//			wireless_vofa.justfloat_add(&wireless_vofa, 3, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.distance);
-//			wireless_vofa.justfloat_send(&wireless_vofa);
+			menu_service_start();
 		}
-//		wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)ai_camera_0_init_flag, (float)detection_result.ai_camera_init_flag[0], (float)detection_result.ai_camera_init_flag[1]);
-//		wireless_vofa.justfloat_send(&wireless_vofa);
     }
 	
 	return 0;

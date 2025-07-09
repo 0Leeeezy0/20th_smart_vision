@@ -19,14 +19,16 @@
 #include "DOG_path.h"
 #include "DOG_filter.h"
 #include "DOG_pid.h"
-#include "DOG_menu.h"
 #include "DOG_timer.h"
+//#include "DOG_menu.h"
 
 /* 用户头文件 */
+#include "debug.h"
+#include "menu.h"
+#include "menu_data.h"
 #include "ai.h"
 #include "control.h"
 #include "fsm.h"
-#include "menu.h"
 
 /****************************** 硬件参数 ******************************/
 /* 以下顺序都是摄像头支架后为1开始顺时针记数 */
@@ -110,9 +112,6 @@
 #define GEAR_RATIO 				(float)(4.22)			// 齿轮比（ 编码器转速/电机输出侧转速 ）(4.22*1/1)
 #define WHEEL_CIRCUMFERENCE 	(float)(18.6047584)		// 轮周长（cm）
 #define RADIUS					(float)(10.0)			// 底盘中心到车轮距离（cm）
-	
-/* 屏幕类型 */
-#define SCREEN_KIND 1	// 屏幕选择（ 0:tft180 1:ips200 ）
 
 /* 蜂鸣器 */
 #define BUZZER_PIN 		(PWM4_MODULE3_CHA_C31)
@@ -150,6 +149,15 @@
 #define AI_CAMERA_0_IMAGE_RATE		(float)(  1  ) 	// AI摄像头0 图像与总钻风比例，用于自适应AI追踪
 
 /**************************************************************************/
+
+/****************************** 菜单参数 ******************************/
+
+#define SCREEN_KIND 			(1)		// 屏幕选择（ 0:tft180 1:ips200 ）
+#define MENU_ROW_PITCH 20	// 菜单行间距
+#define MAX_ROW 16			// 最大行数
+#define DATA_MAX_COL 150	// 数据最大列
+
+/***********************************************************************/
 
 /****************************** 中断参数 ******************************/
 

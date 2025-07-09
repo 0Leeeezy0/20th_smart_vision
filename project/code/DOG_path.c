@@ -421,7 +421,7 @@ void side_point_kind_judge(struct DOG_PATH* this){
 
 // 构造函数
 void path(struct DOG_PATH* this, uint16 path_start_y, uint16 path_end_y, uint16 side_extract_start_y, uint16 side_extract_end_y, uint16 prediction_point){
-	this -> mid_x = 0;					// 动态中线
+	this -> mid_x = MT9V03X_W/2;					// 动态中线
 	this -> path_start_y = path_start_y;			// 路径线提取开始高度
 	this -> path_end_y = path_end_y;				// 路径线提取结束高度
 	this -> side_extract_start_y = side_extract_start_y;		// 边线开始提取高度

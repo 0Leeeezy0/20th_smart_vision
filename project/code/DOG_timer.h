@@ -6,8 +6,10 @@
 
 #include "DOG_data.h"
 
+struct DOG_TIMER;
+
 /* 计时 */
-struct DOG_TIMER{
+typedef struct DOG_TIMER{
 	/* 计时 */
 	uint32 time;
 	/* 计时中断时间 */
@@ -17,7 +19,7 @@ struct DOG_TIMER{
 	
 	/* 成员函数 */
 	void (*ticking)(struct DOG_TIMER* this);	// 计时
-};
+}DOG_TIMER;
 
 // 计时
 void ticking(struct DOG_TIMER* this);

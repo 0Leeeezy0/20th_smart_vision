@@ -6,7 +6,9 @@
 
 #include "DOG_data.h"
 
-struct DOG_PID{
+struct DOG_PID;
+
+typedef struct DOG_PID{
 	/* PID 参数 */
 	float Kp;
 	float Ki;
@@ -31,7 +33,7 @@ struct DOG_PID{
 	float (*positional_pid)(struct DOG_PID* this ,float target, float feedback);		// 位置式 PID
 	void (*fuzzy_pid_init)(struct DOG_PID* this, _fuzzy_subset_ fuzzy_rules[][8],  float range[][3]);		// 模糊 PID 初始化
 	void (*fuzzy_pid)(struct DOG_PID* this, float* err, float* p, float* i, float* d, float* output_limit, float* i_limit, uint8 order);	// 模糊 PID
-};
+}DOG_PID;
 
 // 增量式 PID
 float incremental_pid(struct DOG_PID* this ,float target, float feedback);

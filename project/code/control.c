@@ -26,6 +26,17 @@ void X2Inv2Speed_control(void){
 	PWM_control(); 
 }
 
+/* 箱子Y->运动学逆解算->速度环 控制 */
+void Y2Inv2Speed_control(void){
+	box_y_pid_calu(); 
+	chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target);  
+	wheel_speed_target[0] = chassis_solve.wheel_1_speed; 
+	wheel_speed_target[1] = chassis_solve.wheel_2_speed; 
+	wheel_speed_target[2] = chassis_solve.wheel_3_speed;
+	motor_pid_calc(); 
+	PWM_control(); 
+}
+
 /* 箱子XY->运动学逆解算->速度环 控制 */
 void XY2Inv2Speed_control(void){
 	box_xy_pid_calu(); 
@@ -95,7 +106,6 @@ void path_pid_calc(void){
 	move_solve_kind = XY_SPEED_SOLVE;
 	control_kind = Inv2Speed;
 	angular_speed_target = path_pid.positional_pid(&path_pid, 0, -path_err)-path_gyroz_pid.Kd*imu660ra.gyro_z;	// 此处需注意gyro_z极性
-	x_speed_target = angular_speed_target*x_speed_rate;
 }
 
 /* 电机PID计算 */
@@ -231,6 +241,44 @@ static void box_x_pid_calu(void){
 	}
 }
 
+/* BOX Y PID计算 */
+static void box_y_pid_calu(void){
+	static uint16 num = 0;	// 符合偏移阈值的图像次数
+	
+	float detection_box_width_err = detection_box_width-detection_box_width_target;	
+	move_solve_kind = XY_SPEED_SOLVE;
+	
+	/* BOX Y */
+	float Y_Kp[4] = { BOX_Y_PID[0][0], BOX_Y_PID[1][0], BOX_Y_PID[2][0], BOX_Y_PID[3][0] };
+	float Y_Ki[4] = { BOX_Y_PID[0][1], BOX_Y_PID[1][1], BOX_Y_PID[2][1], BOX_Y_PID[3][1] };
+	float Y_Kd[4] = { BOX_Y_PID[0][2], BOX_Y_PID[1][2], BOX_Y_PID[2][2], BOX_Y_PID[3][2] };
+	float Y_i_limit[4] = { BOX_Y_PID[0][3], BOX_Y_PID[1][3], BOX_Y_PID[2][3], BOX_Y_PID[3][3] };
+	float Y_output_limit[4] = { BOX_Y_PID[0][4], BOX_Y_PID[1][4], BOX_Y_PID[2][4], BOX_Y_PID[3][4] };
+
+	box_y_pid.fuzzy_pid(&box_y_pid, &detection_box_width_err, Y_Kp, Y_Ki, Y_Kd, Y_i_limit, Y_output_limit, 1);
+	y_speed_target = box_y_pid.positional_pid(&box_y_pid, detection_box_width_target, detection_box_width);
+	
+	// 追踪到阈值周围
+	if(abs(detection_box_width_err) <= 6)
+	{
+		num++;
+	}
+	// 追踪到阈值内
+	if(abs(detection_box_width_err) <= 4)
+	{
+		x_speed_target = 0;
+		num = 0;
+		box_Y_finsh_flag = True;
+	}
+	// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
+	if(num > 5)
+	{
+		x_speed_target = 0;
+		num = 0;
+		box_X_finsh_flag = True;
+	}
+}
+
 /* BOX X/Y PID计算 */
 static void box_xy_pid_calu(void){
 	static uint16 num = 0;	// 符合偏移阈值的图像次数
@@ -256,7 +304,10 @@ static void box_xy_pid_calu(void){
 	x_speed_target = box_x_pid.positional_pid(&box_x_pid, 0, -detection_box_center_err);
 	box_y_pid.fuzzy_pid(&box_y_pid, &detection_box_width_err, Y_Kp, Y_Ki, Y_Kd, Y_i_limit, Y_output_limit, 1);
 	y_speed_target = box_y_pid.positional_pid(&box_y_pid, detection_box_width_target, detection_box_width);
-	angular_speed_target = x_speed_target/x_speed_rate;
+//	if(x_speed_target/x_speed_rate >= 6)
+//		angular_speed_target = 6;
+//	else
+//		angular_speed_target = x_speed_target/x_speed_rate;
 	
 	// 追踪到阈值周围
 	if(abs(detection_box_width_err) <= 6 && abs(detection_box_center_err) <= 6)
@@ -269,7 +320,6 @@ static void box_xy_pid_calu(void){
 	{
 		x_speed_target = 0;
 		y_speed_target = 0;
-		angular_speed_target = 0;
 		num = 0;
 		box_XY_finsh_flag = True;
 	}
@@ -278,7 +328,6 @@ static void box_xy_pid_calu(void){
 	{
 		x_speed_target = 0;
 		y_speed_target = 0;
-		angular_speed_target = 0;
 		num = 0;
 		box_XY_finsh_flag = True;
 	}

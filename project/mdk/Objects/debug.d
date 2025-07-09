@@ -1,4 +1,4 @@
-./objects/isr.o: ..\user\src\isr.c ..\user\inc\common.h \
+./objects/debug.o: ..\code\debug.c ..\user\inc\common.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \

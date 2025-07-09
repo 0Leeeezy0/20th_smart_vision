@@ -1,55 +1,57 @@
 #include "data.h"
 
 /* 类定义 */	
-struct DOG_MOTOR motor_1;					// 电机1
-struct DOG_MOTOR motor_2;					// 电机2
-struct DOG_MOTOR motor_3;					// 电机3
-struct DOG_ENCODER encoder_1;				// 编码器1
-struct DOG_ENCODER encoder_2;				// 编码器2
-struct DOG_ENCODER encoder_3;				// 编码器3
-struct DOG_CURRENT current_1;				// 电流采样1
-struct DOG_CURRENT current_2;				// 电流采样2
-struct DOG_CURRENT current_3;				// 电流采样3
-struct DOG_VOLTAGE gray_sensor;				// 灰度传感器
-struct DOG_VOLTAGE bat_voltage;				// 电池电压检测
-struct DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
-struct DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
-struct DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
-struct DOG_PID motor_1_pid;					// 电机PID1
-struct DOG_PID motor_2_pid;					// 电机PID2
-struct DOG_PID motor_3_pid;					// 电机PID3
-struct DOG_PID current_1_pid;				// 电机电流PID1
-struct DOG_PID current_2_pid;				// 电机电流PID2
-struct DOG_PID current_3_pid;				// 电机电流PID3
-struct DOG_PID path_pid;					// 路径PID
-struct DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
-struct DOG_PID rotate_pid;					// 旋转PID
-struct DOG_PID box_x_pid;					// 箱子X PID
-struct DOG_PID box_y_pid;					// 箱子Y PID
-struct DOG_VOFA wireless_vofa;				// 无线串口VOFA
-struct DOG_IMU imu660ra;					// IMU660RA陀螺仪
-struct DOG_SOLVE euler_angle_solve;			// 欧拉角解算
-struct DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
-struct DOG_SOLVE circle_euler_angle_solve;	// 圆环欧拉角解算
-struct DOG_SOLVE box_euler_angle_solve;		// 箱子欧拉角解算
-struct DOG_SOLVE chassis_solve;				// 底盘解算
-struct DOG_SOLVE displacement_solve;		// 位移解算
-struct DOG_TIMER zebra_path_timer;			// 斑马线计时器
-struct DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
-struct DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
-struct DOG_CV dog_cv;						// 计算机视觉
-struct DOG_PATH dog_path;					// 循迹
+DOG_MOTOR motor_1;					// 电机1
+DOG_MOTOR motor_2;					// 电机2
+DOG_MOTOR motor_3;					// 电机3
+DOG_ENCODER encoder_1;				// 编码器1
+DOG_ENCODER encoder_2;				// 编码器2
+DOG_ENCODER encoder_3;				// 编码器3
+DOG_CURRENT current_1;				// 电流采样1
+DOG_CURRENT current_2;				// 电流采样2
+DOG_CURRENT current_3;				// 电流采样3
+DOG_VOLTAGE gray_sensor;			// 灰度传感器
+DOG_VOLTAGE bat_voltage;			// 电池电压检测
+DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
+DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
+DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
+DOG_PID motor_1_pid;				// 电机PID1
+DOG_PID motor_2_pid;				// 电机PID2
+DOG_PID motor_3_pid;				// 电机PID3
+DOG_PID current_1_pid;				// 电机电流PID1
+DOG_PID current_2_pid;				// 电机电流PID2
+DOG_PID current_3_pid;				// 电机电流PID3
+DOG_PID path_pid;					// 路径PID
+DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
+DOG_PID rotate_pid;					// 旋转PID
+DOG_PID box_x_pid;					// 箱子X PID
+DOG_PID box_y_pid;					// 箱子Y PID
+DOG_VOFA wireless_vofa;				// 无线串口VOFA
+DOG_IMU imu660ra;					// IMU660RA陀螺仪
+DOG_SOLVE euler_angle_solve;		// 欧拉角解算
+DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
+DOG_SOLVE circle_euler_angle_solve;	// 圆环欧拉角解算
+DOG_SOLVE box_euler_angle_solve;	// 箱子欧拉角解算
+DOG_SOLVE chassis_solve;			// 底盘解算
+DOG_SOLVE displacement_solve;		// 位移解算
+DOG_TIMER zebra_path_timer;			// 斑马线计时器
+DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
+DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
+DOG_CV dog_cv;						// 计算机视觉
+DOG_PATH dog_path;					// 循迹
 
 /* 使能标志位 */
-_bool_ circle_enable_flag = True;		// 圆环 使能标志位
-_bool_ zebra_enable_flag = True;		// 斑马线 使能标志位
-_bool_ ai_camera_0_enable_flag = True;	// AI相机0 使能标志位
-_bool_ ai_camera_1_enable_flag = True;	// AI相机1 使能标志位
-_bool_ ai_camera_2_enable_flag = True;	// AI相机2 使能标志位
+_bool_ circle_enable_flag = True;			// 圆环 使能标志位
+_bool_ zebra_enable_flag = True;			// 斑马线 使能标志位
+_bool_ ai_camera_0_enable_flag = True;		// AI相机0 使能标志位
+_bool_ ai_camera_1_enable_flag = True;		// AI相机1 使能标志位
+_bool_ ai_camera_2_enable_flag = True;		// AI相机2 使能标志位
+_bool_ supplement_lamp_enable_flag = True;	// 补光灯 使能标志位
 
 /* 完成标志位 */
 _bool_ rotate_finsh_flag = False;		// 旋转完成标志位
 _bool_ box_X_finsh_flag = False;		// 箱子X定位完成标志位
+_bool_ box_Y_finsh_flag = False;		// 箱子Y定位完成标志位
 _bool_ box_XY_finsh_flag = False;		// 箱子XY定位完成标志位
 
 /* 初始化标志位 */
@@ -63,7 +65,7 @@ uint16 path_end = 30;					// 路径线结束高度
 uint16 side_extract_start_y = 80;		// 边线提取起始高度
 uint16 side_extract_end_y = 20;			// 边线提取结束高度
 uint16 prediction_point = 30;			// 预测点高度：其横坐标将作为下一帧的搜线起点
-uint16 control_point[2] = {75 ,55};		// 控制点高度（0：最长白列；1：路径线提取）
+uint16 control_point[2] = {75 ,60};		// 控制点高度（0：最长白列；1：路径线提取）
 /* 圆环 */
 uint16 circle_check_y = 60;				// 圆环检测线高度
 uint16 side_x_delta_range[2] = {3, 15};	// 边线X差值阈值范围（小，大）
@@ -92,9 +94,13 @@ float data_2;								// 运动学逆解算参数2（航向角/Y速度）
 uint8 detection_box_width;						// 识别框宽度
 uint8 detection_box_width_limit = 30;			// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
 uint8 detection_box_width_target = 80;			// 识别框目标宽度
+uint8 detection_box_height;						// 识别框高度度
+uint8 detection_box_height_limit = 30;			// 识别框高度阈值（大于此阈值才可以进入箱子追踪模式）
 int16 detection_box_center_x;					// 识别框中心横坐标
 uint16 detection_box_center_x_limit = 65;		// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
 _ai_camera_detection_result_ detection_result;	// 识别结果
+_ai_camera_detection_result_ detection_result_list[100] = {0};	// 识别结果列表
+uint8 detection_result_num = 0;					// 识别结果列表数量
 uint16 rectificate_weight[4] = {1 ,5 ,55 ,85};	// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
 uint32 sum_weight = 0;							// 加权和
 uint16 symmetry_rectificate_start_y = 99;		// 对称法矫正图像遍历起始点高度
@@ -161,3 +167,57 @@ _fuzzy_subset_ fuzzy_rules[8][8] = {{PM,		PM,		   PM,	      PB,		 PM,	    PM,	  
 									{PS,		PM,		   PB,		  PS,		 PB,		PM,	       PS,		  PID_NONE},
 									{PM,		PM,		   PM,		  PB,		 PM,	    PM,	       PM,	      PID_NONE},
 									{PID_NONE,  PID_NONE,  PID_NONE,  PID_NONE,	 PID_NONE,  PID_NONE,  PID_NONE,  PID_NONE}};
+
+/* 标志位初始化 */	
+void flag_init(void){
+	// 解算使能标志位
+	euler_angle_solve.solve_flag = False;
+	rotate_euler_angle_solve.solve_flag = False;
+	circle_euler_angle_solve.solve_flag = False;
+	box_euler_angle_solve.solve_flag = False;
+	chassis_solve.solve_flag = False;
+	displacement_solve.solve_flag = False;
+	// 计时器使能标志位
+	zebra_path_timer.ticking_flag = False;
+	circle_in_timer.ticking_flag = False;
+	circle_out_timer.ticking_flag = False;
+	// 完成标志位
+	rotate_finsh_flag = False;		// 旋转完成标志位
+	box_X_finsh_flag = False;		// 箱子X定位完成标志位
+	box_Y_finsh_flag = False;		// 箱子Y定位完成标志位
+	box_XY_finsh_flag = False;		// 箱子XY定位完成标志位
+}
+	
+/* 变量初始化 */	
+void variable_init(void){
+	zebra_stop_distance = 0;
+	path_state = common_path;			// 赛道状态
+	last_path_state = common_path;		// 上一次赛道状态
+	control_kind = Stop;	// 控制类型
+	memset(wheel_speed_target, 0, sizeof(wheel_speed_target));			// 轮子目标速度
+	memset(motor_current_target, 0, sizeof(motor_current_target));		// 电机电流目标值
+	memset(motor_pwm_duty, 0, sizeof(motor_pwm_duty));					// 电机PWM占空比
+	memset(detection_result_list, 0, sizeof(detection_result_list));	// 识别结果列表
+	detection_result_num = 0;
+	sum_weight_normalization = 0;		// 加权和归一化	
+	last_box_distance = 0;				// 上一个箱子的路程
+	
+	dog_path.mid_x = MT9V03X_W/2;					// 动态中线
+	memset(dog_path.path,0,sizeof(dog_path.path));	// 路径线x、y坐标
+	dog_path.prediction_point = prediction_point;	// 预测点高度：其横坐标将作为下一帧的搜线起点
+	dog_path.longest_white_col_x = MT9V03X_W/2;		// 最长白列X坐标
+	memset(dog_path.L_side,0,sizeof(dog_path.L_side));// 左边线坐标
+	memset(dog_path.R_side,0,sizeof(dog_path.R_side));// 右边线坐标
+	dog_path.L_side_point_num = 0;			// 左边线点数量
+	dog_path.R_side_point_num = 0;			// 右边线点数量
+	dog_path.L_frame_point_num = 0;			// 左边框点数量
+	dog_path.R_frame_point_num = 0;			// 右边框点数量
+	memset(dog_path.L_bend_point,0,sizeof(dog_path.L_bend_point));// 左边线弯点坐标
+	memset(dog_path.R_bend_point,0,sizeof(dog_path.R_bend_point));// 右边线弯点坐标
+	dog_path.L_bend_point_num = 0;			// 左边线弯点数量
+	dog_path.R_bend_point_num = 0;			// 右边线弯点数量
+	memset(dog_path.path_width,0,sizeof(dog_path.path_width));	// 赛道宽度
+	dog_path.point_distance = 10;			// 拐点/弯点距离
+	dog_path.bend_point_angle_min = 0;		// 弯点最小角度阈值
+	dog_path.bend_point_angle_max = 170;	// 弯点最大角度阈值
+}

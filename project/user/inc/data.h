@@ -44,11 +44,12 @@ typedef enum _path_state_{
 typedef enum _control_kind_{
 	Angle2Inv2Speed = 0,	// 角度环->运动学逆解算->速度环
 	X2Inv2Speed = 1,		// 箱子X->运动学逆解算->速度环
-	XY2Inv2Speed = 2,		// 箱子XY->运动学逆解算->速度环
-	Inv2Speed = 3,			// 运动学逆解算->速度环
-	Speed = 4,				// 纯速度环
-	PWM = 5,				// 纯PWM控制
-	Stop = 6,				// 电机停车
+	Y2Inv2Speed = 2,		// 箱子Y->运动学逆解算->速度环
+	XY2Inv2Speed = 3,		// 箱子XY->运动学逆解算->速度环
+	Inv2Speed = 4,			// 运动学逆解算->速度环
+	Speed = 5,				// 纯速度环
+	PWM = 6,				// 纯PWM控制
+	Stop = 7,				// 电机停车
 }_control_kind_;
 
 /* AI摄像头序号 */
@@ -94,55 +95,57 @@ typedef struct _ai_camera_detection_result_{
 }_ai_camera_detection_result_;
 
 /* 类定义 */
-extern struct DOG_MOTOR motor_1;					// 电机1
-extern struct DOG_MOTOR motor_2;					// 电机2
-extern struct DOG_MOTOR motor_3;					// 电机3
-extern struct DOG_ENCODER encoder_1;				// 编码器1
-extern struct DOG_ENCODER encoder_2;				// 编码器2
-extern struct DOG_ENCODER encoder_3;				// 编码器3
-extern struct DOG_CURRENT current_1;				// 电流采样1
-extern struct DOG_CURRENT current_2;				// 电流采样2
-extern struct DOG_CURRENT current_3;				// 电流采样3
-extern struct DOG_VOLTAGE gray_sensor;				// 灰度传感器
-extern struct DOG_VOLTAGE bat_voltage;				// 电池电压检测
-extern struct DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
-extern struct DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
-extern struct DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
-extern struct DOG_PID motor_1_pid;					// 电机PID1
-extern struct DOG_PID motor_2_pid;					// 电机PID2
-extern struct DOG_PID motor_3_pid;					// 电机PID3
-extern struct DOG_PID current_1_pid;				// 电机电流PID1
-extern struct DOG_PID current_2_pid;				// 电机电流PID2
-extern struct DOG_PID current_3_pid;				// 电机电流PID3
-extern struct DOG_PID path_pid;						// 路径PID
-extern struct DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
-extern struct DOG_PID rotate_pid;					// 旋转PID
-extern struct DOG_PID box_x_pid;					// 箱子X PID
-extern struct DOG_PID box_y_pid;					// 箱子Y PID
-extern struct DOG_VOFA wireless_vofa;				// 无线串口VOFA
-extern struct DOG_IMU imu660ra;						// IMU660RA陀螺仪
-extern struct DOG_SOLVE euler_angle_solve;			// 欧拉角解算
-extern struct DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
-extern struct DOG_SOLVE circle_euler_angle_solve;	// 圆环欧拉角解算
-extern struct DOG_SOLVE box_euler_angle_solve;		// 箱子欧拉角解算
-extern struct DOG_SOLVE chassis_solve;				// 底盘解算
-extern struct DOG_SOLVE displacement_solve;			// 位移解算
-extern struct DOG_TIMER zebra_path_timer;			// 斑马线计时器
-extern struct DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
-extern struct DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
-extern struct DOG_CV dog_cv;						// 计算机视觉
-extern struct DOG_PATH dog_path;					// 循迹
+extern DOG_MOTOR motor_1;					// 电机1
+extern DOG_MOTOR motor_2;					// 电机2
+extern DOG_MOTOR motor_3;					// 电机3
+extern DOG_ENCODER encoder_1;				// 编码器1
+extern DOG_ENCODER encoder_2;				// 编码器2
+extern DOG_ENCODER encoder_3;				// 编码器3
+extern DOG_CURRENT current_1;				// 电流采样1
+extern DOG_CURRENT current_2;				// 电流采样2
+extern DOG_CURRENT current_3;				// 电流采样3
+extern DOG_VOLTAGE gray_sensor;				// 灰度传感器
+extern DOG_VOLTAGE bat_voltage;				// 电池电压检测
+extern DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
+extern DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
+extern DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
+extern DOG_PID motor_1_pid;					// 电机PID1
+extern DOG_PID motor_2_pid;					// 电机PID2
+extern DOG_PID motor_3_pid;					// 电机PID3
+extern DOG_PID current_1_pid;				// 电机电流PID1
+extern DOG_PID current_2_pid;				// 电机电流PID2
+extern DOG_PID current_3_pid;				// 电机电流PID3
+extern DOG_PID path_pid;						// 路径PID
+extern DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
+extern DOG_PID rotate_pid;					// 旋转PID
+extern DOG_PID box_x_pid;					// 箱子X PID
+extern DOG_PID box_y_pid;					// 箱子Y PID
+extern DOG_VOFA wireless_vofa;				// 无线串口VOFA
+extern DOG_IMU imu660ra;						// IMU660RA陀螺仪
+extern DOG_SOLVE euler_angle_solve;			// 欧拉角解算
+extern DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
+extern DOG_SOLVE circle_euler_angle_solve;	// 圆环欧拉角解算
+extern DOG_SOLVE box_euler_angle_solve;		// 箱子欧拉角解算
+extern DOG_SOLVE chassis_solve;				// 底盘解算
+extern DOG_SOLVE displacement_solve;			// 位移解算
+extern DOG_TIMER zebra_path_timer;			// 斑马线计时器
+extern DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
+extern DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
+extern DOG_CV dog_cv;						// 计算机视觉
+extern DOG_PATH dog_path;					// 循迹
 
 /* 使能标志位 */
-extern _bool_ circle_enable_flag;		// 圆环 使能标志位
-extern _bool_ zebra_enable_flag;		// 斑马线 使能标志位
-extern _bool_ ai_camera_0_enable_flag;	// AI相机0 使能标志位
-extern _bool_ ai_camera_1_enable_flag;	// AI相机1 使能标志位
-extern _bool_ ai_camera_2_enable_flag;	// AI相机2 使能标志位
+extern _bool_ circle_enable_flag;			// 圆环 使能标志位
+extern _bool_ zebra_enable_flag;			// 斑马线 使能标志位
+extern _bool_ ai_camera_0_enable_flag;		// AI相机0 使能标志位
+extern _bool_ ai_camera_1_enable_flag;		// AI相机1 使能标志位
+extern _bool_ ai_camera_2_enable_flag;		// AI相机2 使能标志位
+extern _bool_ supplement_lamp_enable_flag;	// 补光灯 使能标志位
 
 /* 完成标志位 */
 extern _bool_ rotate_finsh_flag;		// 旋转完成标志位
 extern _bool_ box_X_finsh_flag;			// 箱子X定位完成标志位
+extern _bool_ box_Y_finsh_flag;			// 箱子Y定位完成标志位
 extern _bool_ box_XY_finsh_flag;		// 箱子XY定位完成标志位
 
 /* 初始化标志位 */
@@ -186,9 +189,13 @@ extern int16 detection_center_err;						// 识别框中心误差
 extern uint8 detection_box_width;						// 识别框宽度
 extern uint8 detection_box_width_limit;					// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
 extern uint8 detection_box_width_target;				// 识别框目标宽度
+extern uint8 detection_box_height;						// 识别框高度度
+extern uint8 detection_box_height_limit;				// 识别框高度阈值（大于此阈值才可以进入箱子追踪模式）
 extern int16 detection_box_center_x;					// 识别框中心横坐标
 extern uint16 detection_box_center_x_limit;				// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
 extern _ai_camera_detection_result_ detection_result;	// 识别结果
+extern _ai_camera_detection_result_ detection_result_list[100];	// 识别结果列表
+extern uint8 detection_result_num;						// 识别结果列表数量
 extern uint16 rectificate_weight[4];					// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
 extern uint32 sum_weight;								// 加权和
 extern uint16 symmetry_rectificate_start_y;				// 对称法矫正图像遍历起始点高度
@@ -238,5 +245,10 @@ extern float I_KARMAN[2];
 
 /* 模糊PID 规则表 */
 extern _fuzzy_subset_ fuzzy_rules[8][8];
+
+/* 标志位初始化 */	
+void flag_init(void);
+/* 变量初始化 */	
+void variable_init(void);
 
 #endif

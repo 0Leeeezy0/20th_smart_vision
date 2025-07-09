@@ -52,7 +52,7 @@ void ai_camera_2_init(void){
 
 /* 
 	AI摄像头 识别结果转换 
-	AI_CAMERA_0: 识别框左上角X坐标；识别框宽度
+	AI_CAMERA_0: 识别框左上角X坐标；识别框宽度；识别框高度
 	AI_CAMERA_1: tool_detection_result_raw
 	AI_CAMERA_2: num_detection_result_raw
 */
@@ -61,12 +61,14 @@ static void detection_result_trans(_ai_camera_idx_ ai_camera_idx, ...){
    
 	switch(ai_camera_idx){
 		case AI_CAMERA_0:{
-			va_start(args, 2);  // 初始化可变参数列表
+			va_start(args, 3);  // 初始化可变参数列表
 			uint8 data_1 = (uint8)va_arg(args, int); // 读取 识别框左上角X坐标
-			uint8 data_2 = (uint8)va_arg(args, int); 					// 读取 识别框左上角X坐标
-			if(data_1 != 0XFF && data_2 != 0XFF){
+			uint8 data_2 = (uint8)va_arg(args, int); // 读取 识别框宽度
+			uint8 data_3 = (uint8)va_arg(args, int); // 读取 识别框高度
+			if(data_1 != 0XFF && data_2 != 0XFF && data_3 != 0XFF){
 				int16 detection_box_left_x = data_1-AI_CAMERA_0_OFFSET; // 读取 识别框左上角X坐标
 				detection_box_width = data_2;  		// 读取 识别框宽度
+				detection_box_height = data_3;  	// 读取 识别框宽度
 				detection_box_center_x = detection_box_left_x + detection_box_width/2;	// 计算 识别框中心X坐标
 			}
 			else
@@ -112,32 +114,34 @@ static void detection_result_trans(_ai_camera_idx_ ai_camera_idx, ...){
 //-------------------------------------------------------------------------------------------------------------------
 void uart_rx_interrupt_handler_ai_camera_0 (void)
 { 
-	uint16 ai_camera_0_detection_x;			// AI摄像头0 识别框左上角X坐标
-	uint16 ai_camera_0_detection_box_width;	// AI摄像头0 识别框宽度
-	
-//    get_data = uart_read_byte(UART_INDEX);                                      // 接收数据 while 等待式 不建议在中断使用
-	uint8 get_data = 0;                                                             // 接收数据变量
-    uint32 temp_length = 0;
-    uart_query_byte(AI_CAMERA_0_UART_INDEX, &get_data);  
-    {
-        fifo_write_buffer(&ai_camera_0_uart_fifo, &get_data, 1);   
-    }
-    
-    if(0xFF == get_data)
-    {
-        // 读取第1个数据，用于判断帧头，使用完清除此数据
-        temp_length = 1;
-        fifo_read_buffer(&ai_camera_0_uart_fifo, ai_camera_0_fifo_buffer, &temp_length, FIFO_READ_AND_CLEAN);
-        if(0xAA == ai_camera_0_fifo_buffer[0])
-        {
-            // 读取数据，用于获取目标序号，使用完清除此数据
-            temp_length = 2;
-            fifo_read_buffer(&ai_camera_0_uart_fifo, ai_camera_0_fifo_buffer, &temp_length, FIFO_READ_AND_CLEAN);
+	uint8 get_data = 0;
+	uint32 fifo_data_count = 0;                         // fifo 数据个数
+		
+	uart_query_byte(AI_CAMERA_0_UART_INDEX, &get_data);  		// 接收数据 查询式 有数据会返回 TRUE 没有数据会返回 FALSE
+    fifo_write_buffer(&ai_camera_0_uart_fifo, &get_data, 1);  	// 将数据写入 fifo 中
+	fifo_data_count = fifo_used(&ai_camera_0_uart_fifo); 		// FIFO查询当前数据个数
+    fifo_read_buffer(&ai_camera_0_uart_fifo, ai_camera_0_fifo_buffer, &fifo_data_count, FIFO_READ_ONLY);
+//	uart_write_buffer(AI_CAMERA_1_UART_INDEX, fifo_get_data_ai_camera_1, fifo_data_count_1);      // 将读取到的数据发送出去
+//	uart_write_buffer(AI_CAMERA_1_UART_INDEX, array3, 1);
+	if(ai_camera_0_fifo_buffer[0] != 0x2C) 
+	{
+			fifo_clear(&ai_camera_0_uart_fifo);
+	}
+	if(fifo_data_count >= 4)	//两个帧头两个帧尾
+	{	
+		if(	ai_camera_0_fifo_buffer[0] == 0x2C && 
+			ai_camera_0_fifo_buffer[1] == 0x12 && 
+			ai_camera_0_fifo_buffer[fifo_data_count - 2] == 0x5B && 
+			ai_camera_0_fifo_buffer[fifo_data_count - 1] == 0x5B )
 			// 解析转换
-			detection_result_trans(AI_CAMERA_0, ai_camera_0_fifo_buffer[0], ai_camera_0_fifo_buffer[1]);
-        }
-        fifo_clear(&ai_camera_0_uart_fifo);
-    }
+			detection_result_trans(AI_CAMERA_0, ai_camera_0_fifo_buffer[2], ai_camera_0_fifo_buffer[3], ai_camera_0_fifo_buffer[4]);
+		if(	ai_camera_0_fifo_buffer[fifo_data_count - 2] == 0x5B && 
+			ai_camera_0_fifo_buffer[fifo_data_count - 1] == 0x5B ||
+			fifo_data_count > 8)
+		{
+				fifo_clear(&ai_camera_0_uart_fifo);
+		}	
+	}
 }
 //-------------------------------------------------------------------------------------------------------------------
 // 函数简介     UART_INDEX 的接收中断处理函数 这个函数将在 UART_INDEX 对应的中断调用 详见 isr.c

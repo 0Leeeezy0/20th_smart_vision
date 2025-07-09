@@ -4,8 +4,11 @@
 #include "zf_common_headfile.h"
 #include "zf_common_debug.h"
 
+struct DOG_KARMAN_FILTER;
+struct DOG_LOWPASS_FILTER;
+
 // 卡尔曼滤波
-struct DOG_KARMAN_FILTER{
+typedef struct DOG_KARMAN_FILTER{
 	/* 卡尔曼滤波参数 */
 	float Kq;
 	float Kr;
@@ -18,7 +21,7 @@ struct DOG_KARMAN_FILTER{
 	
 	/* 成员函数 */
 	float (*karman_filter)(struct DOG_KARMAN_FILTER* this, float input);	// 卡尔曼滤波
-};
+}DOG_KARMAN_FILTER;
 
 // 卡尔曼滤波
 float karman_filter(struct DOG_KARMAN_FILTER* this, float input);
@@ -29,7 +32,7 @@ void karman(struct DOG_KARMAN_FILTER* this, float Kq, float Kr);
 void _karman(struct DOG_KARMAN_FILTER* this);
 
 // 低通滤波
-struct DOG_LOWPASS_FILTER{
+typedef struct DOG_LOWPASS_FILTER{
 	/* 低通滤波参数 */
 	float K;
 	
@@ -40,7 +43,7 @@ struct DOG_LOWPASS_FILTER{
 	
 	/* 成员函数 */
 	float (*lowpass_filter)(struct DOG_LOWPASS_FILTER* this, float input);	// 卡尔曼滤波
-};
+}DOG_LOWPASS_FILTER;
 
 // 低通滤波
 float lowpass_filter(struct DOG_LOWPASS_FILTER* this, float input);

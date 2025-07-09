@@ -569,6 +569,26 @@
               <FileType>5</FileType>
               <FilePath>..\code\DOG_timer.h</FilePath>
             </File>
+            <File>
+              <FileName>menu_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\menu_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>menu_data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\menu_data.h</FilePath>
+            </File>
+            <File>
+              <FileName>debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>debug.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\debug.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

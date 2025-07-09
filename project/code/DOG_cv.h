@@ -6,7 +6,9 @@
 
 #include "DOG_data.h"
 
-struct DOG_CV{
+struct DOG_CV;
+
+typedef struct DOG_CV{
 	/* 图像 */
 	uint8 image_OTSU[MT9V03X_H][MT9V03X_W];			// 二值化图像
 	uint8 image_dilate[MT9V03X_H][MT9V03X_W];		// 图形学膨胀图像
@@ -16,7 +18,7 @@ struct DOG_CV{
 	uint8 (*threshold)(struct DOG_CV* this, uint8 input[MT9V03X_H][MT9V03X_W]);	// 二值化
 	void (*dilate)(struct DOG_CV* this, uint8 input[MT9V03X_H][MT9V03X_W]);	// 图形学膨胀
 	void (*erode)(struct DOG_CV* this, uint8 input[MT9V03X_H][MT9V03X_W]);	// 图形学腐蚀
-};
+}DOG_CV;
 
 // 二值化
 uint8 threshold(struct DOG_CV* this, uint8 input[MT9V03X_H][MT9V03X_W]);
