@@ -609,6 +609,8 @@ void zebra_crossing_path_element_judge(void)
 }
 
 /* 循迹控制 */
+float path_pid_output=0;
+
 void path_control(float path_control_speed)
 {
 	chassis_motion_flag = CHASSIS_MOVE;
@@ -617,7 +619,7 @@ void path_control(float path_control_speed)
 	else if(path_follow_kind_flag == 1)
 		path_err = path[control_point[path_follow_kind_flag]][0] - MT9V03X_W/2;
 	
-	float path_pid_output = path_control_pid(PATH_PID_KIND,path_pid,path_err);
+	 path_pid_output = path_control_pid(PATH_PID_KIND,path_pid,path_err);
 	
 	chassis_control_transform(path_pid_output*x_speed_rate_rt,path_control_speed,path_pid_output*1.1);
 	

@@ -369,20 +369,22 @@ void bat_voltage_get(void)
 void motor_I_get(void)
 {
     
-    if(chassis_control.motor_1.dir==1) {I_Original_ADC_data_1 = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);}
-    else if (chassis_control.motor_1.dir==0){I_Original_ADC_data_1 = -1.0*(float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);}
-    if(chassis_control.motor_2.dir==1) {I_Original_ADC_data_2 = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);}
-    else if (chassis_control.motor_2.dir==0){I_Original_ADC_data_2 = -1.0*(float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);}
-    if(chassis_control.motor_3.dir==1) {I_Original_ADC_data_3 = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);}
-    else if (chassis_control.motor_3.dir==0){I_Original_ADC_data_3 = -1.0*(float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);}
-
+//    if(chassis_control.motor_1.dir==1) {I_Original_ADC_data_1 = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);}
+//    else if (chassis_control.motor_1.dir==0){I_Original_ADC_data_1 = -1.0*(float)adc_mean_filter_convert(MOTOR_1_I_PIN, 5);}
+//    if(chassis_control.motor_2.dir==1) {I_Original_ADC_data_2 = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);}
+//    else if (chassis_control.motor_2.dir==0){I_Original_ADC_data_2 = -1.0*(float)adc_mean_filter_convert(MOTOR_2_I_PIN, 5);}
+//    if(chassis_control.motor_3.dir==1) {I_Original_ADC_data_3 = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);}
+//    else if (chassis_control.motor_3.dir==0){I_Original_ADC_data_3 = -1.0*(float)adc_mean_filter_convert(MOTOR_3_I_PIN, 5);}
+    I_Original_ADC_data_1 = (float)adc_mean_filter_convert(MOTOR_1_I_PIN, 10);
+    I_Original_ADC_data_2 = (float)adc_mean_filter_convert(MOTOR_2_I_PIN, 10);
+    I_Original_ADC_data_3 = (float)adc_mean_filter_convert(MOTOR_3_I_PIN, 10);
     I_Karman_ADC_data_1 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_1_karman_variable ,I_Original_ADC_data_1);
-    I_Karman_ADC_data_2 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_2_karman_variable ,I_Original_ADC_data_2);
-    I_Karman_ADC_data_3 = karman(&current_filter.motor_current_1_karman_parameters,&current_filter.motor_current_3_karman_variable ,I_Original_ADC_data_3);
+    I_Karman_ADC_data_2 = karman(&current_filter.motor_current_2_karman_parameters,&current_filter.motor_current_2_karman_variable ,I_Original_ADC_data_2);
+    I_Karman_ADC_data_3 = karman(&current_filter.motor_current_3_karman_parameters,&current_filter.motor_current_3_karman_variable ,I_Original_ADC_data_3);
 
-    motor_1_I = I_Karman_ADC_data_1 / 4096*3.3/20/0.01;
-    motor_2_I = I_Karman_ADC_data_2 / 4096*3.3/20/0.01;
-    motor_3_I = I_Karman_ADC_data_3 / 4096*3.3/20/0.01;    
+    motor_1_I = (I_Karman_ADC_data_1-2048 )/ 4096*3.3/20/0.002;
+    motor_2_I = (I_Karman_ADC_data_2-2048 ) / 4096*3.3/20/0.002;
+    motor_3_I = (I_Karman_ADC_data_3-2048 ) / 4096*3.3/20/0.002;    
     
 //    motor_1_I = adc_convert(MOTOR_1_I_PIN);
 //    motor_2_I = adc_convert(MOTOR_2_I_PIN);
