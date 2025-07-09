@@ -11,7 +11,6 @@ static float speed = 100;
 	串口信息发送 
 	比赛时务必关闭
 */
-extern float path_pid_output;
 void menu_uart_service(void)
 {
 	/*****************************************/
@@ -24,10 +23,10 @@ void menu_uart_service(void)
 ////    motor_delta_update();
 ////    motor_value_delta_update();I_Original_ADC_data_2
 //    motor_current_update();  
-    just_float(2,path_err,path_pid_output);
-    just_float(1,bat_voltage);
-//    just_float(1,chassis_linear_speed);
-	update_data_end();
+//    just_float(2,path_err,path_pid_output);
+//    just_float(1,bat_voltage);
+////    just_float(1,chassis_linear_speed);
+//	update_data_end();
 	/*****************************************/
 }
 
