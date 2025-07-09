@@ -1,48 +1,70 @@
-#include "common.h"
+#include "zf_common_headfile.h"
+#include "zf_common_debug.h"
 
-/* 卡尔曼初始化 */
-void karman_init(_KALMAN_PARAMETERS_ *karman_parameters ,_KALMAN_VARIABLE_* karman_variable, float q, float r)
-{
-	karman_parameters -> q = q;
-	karman_parameters -> r = r;
+#include "DOG_filter.h"
+
+// 卡尔曼滤波
+float karman_filter(struct DOG_KARMAN_FILTER* this, float input){
+	// 预测协方差方程：k时刻系统估算协方差 = k-1时刻的系统协方差 + 过程噪声协方差
+    this -> now_p = this -> last_p + this -> Kq;
+    // 卡尔曼增益方程：卡尔曼增益 = k时刻系统估算协方差 / （k时刻系统估算协方差 + 观测噪声协方差）
+    this -> Kg = this -> now_p / (this -> now_p + this -> Kr);
+    // 更新最优值方程：k时刻状态变量的最优值 = 状态变量的预测值 + 卡尔曼增益 * （测量值 - 状态变量的预测值）
+    this -> value = this -> value + this -> Kg * (input - this -> value);//因为这一次的预测值就是上一次的输出值
+    // 更新协方差方程: 本次的系统协方差赋给 klm->LastP 为下一次运算准备。
+    this -> last_p = (1-this -> Kg) * this -> now_p;
 	
-	karman_variable -> p_last = 0;
-	karman_variable -> p_now = 0;
-	karman_variable -> value = 0;
-	karman_variable -> Kg = 0;
+	return (this -> value);
 }
 
-/* 卡尔曼滤波 */
-float karman(_KALMAN_PARAMETERS_ *karman_parameters ,_KALMAN_VARIABLE_* karman_variable, float input)
-{
-    //预测协方差方程：k时刻系统估算协方差 = k-1时刻的系统协方差 + 过程噪声协方差
-    karman_variable -> p_now = karman_variable -> p_last + karman_parameters -> q;
-    //卡尔曼增益方程：卡尔曼增益 = k时刻系统估算协方差 / （k时刻系统估算协方差 + 观测噪声协方差）
-    karman_variable -> Kg = karman_variable -> p_now / (karman_variable -> p_now + karman_parameters -> r);
-    //更新最优值方程：k时刻状态变量的最优值 = 状态变量的预测值 + 卡尔曼增益 * （测量值 - 状态变量的预测值）
-    karman_variable -> value = karman_variable -> value + karman_variable -> Kg * (input - karman_variable -> value);//因为这一次的预测值就是上一次的输出值
-    //更新协方差方程: 本次的系统协方差赋给 klm->LastP 为下一次运算准备。
-    karman_variable -> p_last = (1-karman_variable -> Kg) * karman_variable -> p_now;
+// 构造函数
+void karman(struct DOG_KARMAN_FILTER* this, float Kq, float Kr){
+	/* 成员变量 */
+	this -> Kq = Kq;
+	this -> Kr = Kr;
 	
-	return (karman_variable->value);
-}
-
-/* 低通滤波初始化 */
-void lowpass_init(_LOWPASS_PARAMETERS_ *lowpass_parameters, _LOWPASS_VARIABLE_ *lowpass_variable, float k)
-{
-	lowpass_parameters -> k = k;
-	lowpass_variable -> new_value = 0;
-	lowpass_variable -> old_value = 0;
-}
-
-/* 低通滤波 */
-float lowpass(_LOWPASS_PARAMETERS_ *lowpass_parameters, _LOWPASS_VARIABLE_ *lowpass_variable, float input)
-{
-	lowpass_variable -> new_value = input;		
-	lowpass_variable -> new_value = lowpass_parameters -> k*lowpass_variable->new_value+(1-lowpass_parameters -> k)*lowpass_variable -> old_value;
-	lowpass_variable -> old_value = lowpass_variable -> new_value;
-	return (lowpass_variable -> new_value);
-}
+	this -> last_p = 0;
+	this -> now_p = 0;
+	this -> value = 0;
+	this -> Kg = 0;
 	
+	/* 成员函数 */
+	this -> karman_filter = karman_filter;
+}
+// 析构函数
+void _karman(struct DOG_KARMAN_FILTER* this){
+	this -> Kq = 0;
+	this -> Kr = 0;
+	
+	this -> last_p = 0;
+	this -> now_p = 0;
+	this -> value = 0;
+	this -> Kg = 0;
+}
 
+// 低通滤波
+float lowpass_filter(struct DOG_LOWPASS_FILTER* this, float input){
+	this -> new_value = input;		
+	this -> new_value = this -> K*this -> new_value+(1-this -> K)*this -> old_value;
+	this -> old_value = this -> new_value;
+	return (this -> new_value);
+}
 
+// 构造函数
+void lowpass(struct DOG_LOWPASS_FILTER* this, float K){
+	/* 成员变量 */
+	this -> K = K;
+	
+	this -> old_value = 0;
+	this -> new_value = 0;
+
+	/* 成员函数 */
+	this -> lowpass_filter = lowpass_filter;
+}
+
+// 析构函数
+void _lowpass(struct DOG_LOWPASS_FILTER* this){
+	this -> K = 0;
+	this -> old_value = 0;
+	this -> new_value = 0;
+}

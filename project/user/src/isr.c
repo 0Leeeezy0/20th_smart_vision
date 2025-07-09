@@ -34,7 +34,7 @@
 ********************************************************************************************************************/
 
 #include "common.h"
-
+#include "data.h"
 
 void CSI_IRQHandler(void)
 {
@@ -44,83 +44,54 @@ void CSI_IRQHandler(void)
 
 void PIT_IRQHandler(void)
 {
-	/* 传感器值获取中断 */
+	/* 传感器值/解算 */
     if(pit_flag_get(PIT_CH0))
     {
-		encoder_get();
-		encoder_clear();
-		
-        motor_I_get();
-		
-        acc_get();
-		gyro_get();
-		euler_angle();
-		translate_shift();		
-		grayscale_sensor_get();
-		bat_voltage_get();
+		encoder_1.encoder_get(&encoder_1);
+		encoder_2.encoder_get(&encoder_2);
+		encoder_3.encoder_get(&encoder_3);
+		#ifdef SPEED_AND_CURRENT
+		current_1.current_get(&current_1);
+		current_2.current_get(&current_2);
+		current_3.current_get(&current_3);
+		current_1.current = current_1_karman.karman_filter(&current_1_karman, current_1.current);
+		current_2.current = current_2_karman.karman_filter(&current_2_karman, current_2.current);
+		current_3.current = current_3_karman.karman_filter(&current_3_karman, current_3.current);
+		#endif
+		imu660ra.gyro_get(&imu660ra);
+		imu660ra.acc_get(&imu660ra);
+		euler_angle_solve.euler_angle(&euler_angle_solve, imu660ra);
+		rotate_euler_angle_solve.euler_angle(&rotate_euler_angle_solve, imu660ra);
+		circle_euler_angle_solve.euler_angle(&circle_euler_angle_solve, imu660ra);
+		box_euler_angle_solve.euler_angle(&box_euler_angle_solve, imu660ra);
+		gray_sensor.voltage_get(&gray_sensor);
+		bat_voltage.voltage_get(&bat_voltage);
+		displacement_solve.move_solve(&displacement_solve, encoder_1.wheel_speed, encoder_2.wheel_speed, encoder_3.wheel_speed, euler_angle_solve.yaw);
 		
         pit_flag_clear(PIT_CH0);
     }
-    /* 底盘控制中断 */
+	/* 运动控制 */
     if(pit_flag_get(PIT_CH1))
     {
-		switch(chassis_motion_flag)
-		{
-			case CHASSIS_STOP:{ chassis_control_stop();	break; }
-			case CHASSIS_MOVE:{ chassis_control_move(MOTOR_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_angular_speed); break; }
-			case CHASSIS_ANGLE_ROTATE:{ chassis_control_angle_rotate(MOTOR_PID_KIND,ROTATE_PID_KIND,chassis_yaw,chassis_linear_speed,chassis_rotate_angle); break; }
-			case CHASSIS_DEBUG:{ chassis_control_debug(); break; }
+		switch(control_kind){
+			case Angle2Inv2Speed:{ Angle2Inv2Speed_control(); break; }
+			case X2Inv2Speed:{ X2Inv2Speed_control(); break; }
+			case Y2Inv2Speed:{ Y2Inv2Speed_control(); break; }
+			case XY2Inv2Speed:{ XY2Inv2Speed_control(); break; }
+			case Inv2Speed:{ Inv2Speed_control(); break; }
+			case Speed:{ Speed_control(); break; }
+			case PWM:{ PWM_control(); break; }
+			case Stop:{ motor_1.motor_stop(&motor_1); motor_2.motor_stop(&motor_2); motor_3.motor_stop(&motor_3); break; }
 		}
         pit_flag_clear(PIT_CH1);
     }
-    /* 计时中断 */
     if(pit_flag_get(PIT_CH2))
     {
-		// 底盘移动计时
-		if(chassis_move_time_count_flag)
-			chassis_move_time_count++;
-		else
-			chassis_move_time_count = 0;
-		// 圆环入环计时
-		if(circle_in_time_count_flag)
-			circle_in_time_count++;
-		else
-			circle_in_time_count = 0;
-		// 圆环出环计时
-		if(circle_out_time_count_flag)
-			circle_out_time_count++;
-		else
-			circle_out_time_count = 0;
-		// 斑马线元素开启判断计时
-		if(zebra_crossing_path_element_judge_start_time_count_flag)
-			zebra_crossing_path_element_start_judge_time_count++;
-		else
-			zebra_crossing_path_element_start_judge_time_count = 0;
-		// 斑马线元素停车延时计时
-		if(zebra_crossing_path_element_stop_delay_time_count_flag)
-			zebra_crossing_path_element_stop_delay_time_count++;
-		else
-			zebra_crossing_path_element_stop_delay_time_count = 0;
-		// 程序计时
-		if(program_time_count_flag)
-			program_time_count++;
-		else
-			program_time_count = 0;
-		// 调试计时
-		if(debug_time_count_flag)
-			debug_time_count++;
-		else
-			debug_time_count = 0;
-		// 速度控制计时
-		if(speed_control_time_count_flag)
-			speed_control_time_count++;
-		else
-			speed_control_time_count = 0;
-		
+		zebra_path_timer.ticking(&zebra_path_timer);
+		circle_in_timer.ticking(&circle_in_timer);
+		circle_out_timer.ticking(&circle_out_timer);
         pit_flag_clear(PIT_CH2);
     }
-    
-	/* 按键扫描中断 */
     if(pit_flag_get(PIT_CH3))
     {
 		key_action_get();
@@ -132,12 +103,16 @@ void PIT_IRQHandler(void)
 
 void LPUART1_IRQHandler(void)
 {
-    if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART1))
+    if(kLPUART_RxDataRegFullFlag && LPUART_GetStatusFlags(LPUART1))
     {
-        // AI摄像头1串口接收中断
+        // 接收中断
+		// AI摄像头1串口接收中断
         extern void uart_rx_interrupt_handler_ai_camera_1();
 		uart_rx_interrupt_handler_ai_camera_1();
-        // 接收中断
+		
+//		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)detection_result.tool_raw);
+//		wireless_vofa.justfloat_send(&wireless_vofa);
+		
     #if DEBUG_UART_USE_INTERRUPT                        // 如果开启 debug 串口中断
         debug_interrupr_handler();                      // 调用 debug 串口接收处理函数 数据会被 debug 环形缓冲区读取
     #endif                                              // 如果修改了 DEBUG_UART_INDEX 那这段代码需要放到对应的串口中断去
@@ -148,13 +123,15 @@ void LPUART1_IRQHandler(void)
 
 void LPUART2_IRQHandler(void)
 {
-    if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART2))
+    if(kLPUART_RxDataRegFullFlag && LPUART_GetStatusFlags(LPUART2))
     {
-		// AI摄像头2串口接收中断
+        // 接收中断
+        // AI摄像头2串口接收中断
 		extern void uart_rx_interrupt_handler_ai_camera_2();
         uart_rx_interrupt_handler_ai_camera_2();
-        // 接收中断
-        
+	
+//		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)22);
+//		wireless_vofa.justfloat_send(&wireless_vofa);
     }
         
     LPUART_ClearStatusFlags(LPUART2, kLPUART_RxOverrunFlag);    // 不允许删除
@@ -162,7 +139,7 @@ void LPUART2_IRQHandler(void)
 
 void LPUART3_IRQHandler(void)
 {
-    if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART3))
+    if(kLPUART_RxDataRegFullFlag && LPUART_GetStatusFlags(LPUART3))
     {
         // 接收中断
         
@@ -173,15 +150,15 @@ void LPUART3_IRQHandler(void)
 
 void LPUART4_IRQHandler(void)
 {
-    if(kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART4))
+    if(kLPUART_RxDataRegFullFlag && LPUART_GetStatusFlags(LPUART4))
     {
+        // 接收中断 
 		// AI摄像头0串口接收中断
 		extern void uart_rx_interrupt_handler_ai_camera_0();
         uart_rx_interrupt_handler_ai_camera_0();
-        // 接收中断 
-//        flexio_camera_uart_handler();
-//        
-//        gnss_uart_callback();
+		
+//		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)0);
+//		wireless_vofa.justfloat_send(&wireless_vofa);
     }
         
     LPUART_ClearStatusFlags(LPUART4, kLPUART_RxOverrunFlag);    // 不允许删除
