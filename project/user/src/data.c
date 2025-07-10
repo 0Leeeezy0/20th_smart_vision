@@ -132,6 +132,10 @@ float I_3_PID[5] = 		  { 0,     0,     0,     500,         9000 };
 // 循线
 float PATH_RANGE[2][3] = {{ 4.0,   25.0,  45.0 },		// 循迹误差区间
 						  { 10.0,  50.0,  80.0 }};		// 角速度区间
+
+float GYRO_RANGE[2][3] = {{ 10.0,  50.0,  80.0 },		// 循迹误差区间
+						  { 4.0,   25.0,  45.0}};		// 角速度区间
+
 float PATH_PID[4][6] =   {{ 0.390, 0,     2.2,   2,           45,          0.23},
 						  { 0.450, 0,     2.1,   2,           45,          0.22},
 						  { 0.550, 0,     1.9,   2,           45,          0.21},
@@ -160,6 +164,15 @@ float I_KARMAN[2] = 	  { 0.01, 0.1};
 
 /* 模糊PID 规则表 */
 _fuzzy_subset_ fuzzy_rules[8][8] = {{PM,		PM,		   PM,	      PB,		 PM,	    PM,	       PM,	      PID_NONE},
+									{PS,		PM,		   PB,		  PS,		 PB,		PM,	       PS,		  PID_NONE},
+									{PS,		PB,		   PM,	      PS,		 PM,	    PB,		   PS,		  PID_NONE},
+									{PB,		PM,		   PS,		  ZERO,		 PS,		PM,	       PB,		  PID_NONE},
+									{PS,		PB,		   PM,	      PS,		 PM,	    PB,		   PS,		  PID_NONE},
+									{PS,		PM,		   PB,		  PS,		 PB,		PM,	       PS,		  PID_NONE},
+									{PM,		PM,		   PM,		  PB,		 PM,	    PM,	       PM,	      PID_NONE},
+									{PID_NONE,  PID_NONE,  PID_NONE,  PID_NONE,	 PID_NONE,  PID_NONE,  PID_NONE,  PID_NONE}};
+
+_fuzzy_subset_ fuzzy_rules_gyro[8][8] = {{PM,		PM,		   PM,	      PB,		 PM,	    PM,	       PM,	      PID_NONE},
 									{PS,		PM,		   PB,		  PS,		 PB,		PM,	       PS,		  PID_NONE},
 									{PS,		PB,		   PM,	      PS,		 PM,	    PB,		   PS,		  PID_NONE},
 									{PB,		PM,		   PS,		  ZERO,		 PS,		PM,	       PB,		  PID_NONE},

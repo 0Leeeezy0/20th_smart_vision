@@ -226,6 +226,7 @@ extern float I_2_PID[5];
 extern float I_3_PID[5];
 // 循线
 extern float PATH_RANGE[2][3];
+extern float GYRO_RANGE[2][3];
 extern float PATH_PID[4][6];
 // 旋转
 extern float ROTATE_RANGE[3];
@@ -245,6 +246,7 @@ extern float I_KARMAN[2];
 
 /* 模糊PID 规则表 */
 extern _fuzzy_subset_ fuzzy_rules[8][8];
+extern _fuzzy_subset_ fuzzy_rules_gyro[8][8];
 
 /* 标志位初始化 */	
 void flag_init(void);

@@ -87,6 +87,8 @@ void PWM_control(void){
 /* 方向环PID计算 */
 void path_pid_calc(void){
 	float err[2] = { path_err, imu660ra.gyro_z };
+	float err_gyro[2] = {  imu660ra.gyro_z , path_err,};
+
 	// 循迹PID
 	float path_Kp[4] = { PATH_PID[0][0], PATH_PID[1][0], PATH_PID[2][0], PATH_PID[3][0] };
 	float path_Ki[4] = { PATH_PID[0][1], PATH_PID[1][1], PATH_PID[2][1], PATH_PID[3][1] };
@@ -101,7 +103,7 @@ void path_pid_calc(void){
 	float path_gyroz_output_limit[4] = { 0, 0, 0, 0 };
 	
 	path_pid.fuzzy_pid(&path_pid, err, path_Kp, path_Ki, path_Kd, path_i_limit, path_output_limit, 2);
-	path_gyroz_pid.fuzzy_pid(&path_gyroz_pid, err, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_i_limit, path_gyroz_output_limit, 1);
+	path_gyroz_pid.fuzzy_pid(&path_gyroz_pid, err_gyro, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_i_limit, path_gyroz_output_limit, 1);
 
 	move_solve_kind = XY_SPEED_SOLVE;
 	control_kind = Inv2Speed;

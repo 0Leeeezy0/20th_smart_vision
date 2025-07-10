@@ -115,7 +115,7 @@ int main(void)
 	pid(&path_pid);
 	path_pid.fuzzy_pid_init(&path_pid, fuzzy_rules, PATH_RANGE);
 	pid(&path_gyroz_pid);
-	path_gyroz_pid.fuzzy_pid_init(&path_gyroz_pid, fuzzy_rules, PATH_RANGE);
+	path_gyroz_pid.fuzzy_pid_init(&path_gyroz_pid, fuzzy_rules_gyro, GYRO_RANGE);
 	pid(&rotate_pid);
 	rotate_pid.fuzzy_pid_init(&rotate_pid, fuzzy_rules, ROTATE_RANGE);
 	pid(&box_x_pid);
