@@ -54,6 +54,9 @@ void PIT_IRQHandler(void)
 		current_1.current_get(&current_1);
 		current_2.current_get(&current_2);
 		current_3.current_get(&current_3);
+		current_1.current = current_1_karman.karman_filter(&current_1_karman, current_1.current);
+		current_2.current = current_2_karman.karman_filter(&current_2_karman, current_2.current);
+		current_3.current = current_3_karman.karman_filter(&current_3_karman, current_3.current);
 		#endif
 		imu660ra.gyro_get(&imu660ra);
 		imu660ra.acc_get(&imu660ra);

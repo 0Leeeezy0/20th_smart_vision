@@ -61,9 +61,9 @@ int main(void)
 	encoder(&encoder_3, ENCODER_3_MODULE_NUM, ENCODER_3_CH1, ENCODER_3_CH2, ENCODER_3_FRONT_DIR, 4096, SENSOR_SOLVE_IT_TIME, GEAR_RATIO, WHEEL_CIRCUMFERENCE);
 	
 	/* 电流采样 */
-	current(&current_1, CURRENT_1_PIN, ADC_12BIT, CURRENT_RATIO, 500,0);
-	current(&current_2, CURRENT_2_PIN, ADC_12BIT, CURRENT_RATIO, 500,1);
-	current(&current_3, CURRENT_3_PIN, ADC_12BIT, CURRENT_RATIO, 500,0);
+	current(&current_1, CURRENT_1_PIN, ADC_12BIT, CURRENT_RATIO, 500);
+	current(&current_2, CURRENT_2_PIN, ADC_12BIT, CURRENT_RATIO, 500);
+	current(&current_3, CURRENT_3_PIN, ADC_12BIT, CURRENT_RATIO, 500);
 	
 	/* 灰度传感器 */
 	voltage(&gray_sensor, GRAYSCALE_SENSOR_PIN, ADC_12BIT);
@@ -115,7 +115,7 @@ int main(void)
 	pid(&path_pid);
 	path_pid.fuzzy_pid_init(&path_pid, fuzzy_rules, PATH_RANGE);
 	pid(&path_gyroz_pid);
-	path_gyroz_pid.fuzzy_pid_init(&path_gyroz_pid, fuzzy_rules_gyro, GYRO_RANGE);
+	path_gyroz_pid.fuzzy_pid_init(&path_gyroz_pid, fuzzy_rules, PATH_RANGE);
 	pid(&rotate_pid);
 	rotate_pid.fuzzy_pid_init(&rotate_pid, fuzzy_rules, ROTATE_RANGE);
 	pid(&box_x_pid);
@@ -164,9 +164,9 @@ int main(void)
 //	box_XY_finsh_flag = False;
 //	rotate_finsh_flag = False;
 	
-	circle_enable_flag = False;		// 圆环 使能标志位
+	circle_enable_flag = True;		// 圆环 使能标志位
 	zebra_enable_flag = True;		// 斑马线 使能标志位
-	ai_camera_0_enable_flag = False;	// AI相机0 使能标志位
+	ai_camera_0_enable_flag = True;	// AI相机0 使能标志位
 	ai_camera_1_enable_flag = False;	// AI相机1 使能标志位
 	ai_camera_2_enable_flag = False;	// AI相机2 使能标志位
 	

@@ -87,8 +87,6 @@ void PWM_control(void){
 /* 方向环PID计算 */
 void path_pid_calc(void){
 	float err[2] = { path_err, imu660ra.gyro_z };
-	float err_gyro[2] = {  imu660ra.gyro_z , path_err,};
-
 	// 循迹PID
 	float path_Kp[4] = { PATH_PID[0][0], PATH_PID[1][0], PATH_PID[2][0], PATH_PID[3][0] };
 	float path_Ki[4] = { PATH_PID[0][1], PATH_PID[1][1], PATH_PID[2][1], PATH_PID[3][1] };
@@ -103,7 +101,7 @@ void path_pid_calc(void){
 	float path_gyroz_output_limit[4] = { 0, 0, 0, 0 };
 	
 	path_pid.fuzzy_pid(&path_pid, err, path_Kp, path_Ki, path_Kd, path_i_limit, path_output_limit, 2);
-	path_gyroz_pid.fuzzy_pid(&path_gyroz_pid, err_gyro, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_i_limit, path_gyroz_output_limit, 1);
+	path_gyroz_pid.fuzzy_pid(&path_gyroz_pid, err, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_i_limit, path_gyroz_output_limit, 1);
 
 	move_solve_kind = XY_SPEED_SOLVE;
 	control_kind = Inv2Speed;
@@ -163,7 +161,7 @@ static void motor_pid_calc(void){
 	current_2_pid.Kd = I_2_PID[2];
 	current_2_pid.i_limit = I_2_PID[3];
 	current_2_pid.output_limit = I_2_PID[4];
-	motor_pwm_duty[1] = current_1_pid.incremental_pid(&current_2_pid, motor_current_target[1], current_2.current);
+	motor_pwm_duty[1] = current_2_pid.incremental_pid(&current_2_pid, motor_current_target[1], current_2.current);
 	/* 电机3 */
 	motor_3_pid.Kp = MOTOR_3_PID[0];
 	motor_3_pid.Ki = MOTOR_3_PID[1];
@@ -176,7 +174,7 @@ static void motor_pid_calc(void){
 	current_3_pid.Kd = I_3_PID[2];
 	current_3_pid.i_limit = I_3_PID[3];
 	current_3_pid.output_limit = I_3_PID[4];
-	motor_pwm_duty[2] = current_1_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
+	motor_pwm_duty[2] = current_3_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
 	#endif
 
 

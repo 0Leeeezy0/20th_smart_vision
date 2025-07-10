@@ -320,7 +320,7 @@ float current_get(struct DOG_CURRENT* this){
 		// 求解去零飘偏移量
 		else if(this -> epoch > 0 && this -> epoch <= this -> calibration_epoch)
 		{
-			this -> current = (float)adc_mean_filter_convert(this -> adc_ch, 10)/(this -> current_ratio);
+			this -> current = (float)adc_mean_filter_convert(this -> adc_ch, 5)/(this -> current_ratio);
 			this -> current_calibration += this -> current/this -> calibration_epoch;
 		}
 		this -> epoch++;
@@ -332,23 +332,19 @@ float current_get(struct DOG_CURRENT* this){
 		}	
 	}
 	else
-	{
-	this -> current = (float)adc_mean_filter_convert(this -> adc_ch, 10)/(this -> current_ratio)-this -> current_calibration;  
-    if (this ->current_dir == 0) this -> current=-1.0 * this -> current;
-    }
-    return (this -> current);
-
+		this -> current = (float)adc_mean_filter_convert(this -> adc_ch, 5)/(this -> current_ratio)-this -> current_calibration;
+	return (this -> current);
 }
 
 // 构造函数
-void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_enum resolution, float current_ratio, uint32 calibration_epoch,uint8 dir){
+void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_enum resolution, float current_ratio, uint32 calibration_epoch){
 	this -> adc_ch = adc_ch;		
 	this -> resolution = resolution;		
 	this -> current_ratio = current_ratio;	
 	this -> calibration_epoch = calibration_epoch;
 	this -> epoch = 0;
 	this -> current_calibration = 0;
-    this ->current_dir=dir;
+
 	/* 成员函数 */
 	this -> current_get = current_get;
 	
