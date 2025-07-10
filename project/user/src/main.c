@@ -86,6 +86,7 @@ int main(void)
 	timer(&zebra_path_timer, 5);
 	timer(&circle_in_timer, 5);
 	timer(&circle_out_timer, 5);
+    timer(&motor_debug_timer, 5);
 	
 	/* 欧拉角解算 */
 	solve(&euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
@@ -163,6 +164,7 @@ int main(void)
 //	circle_out_timer.ticking_flag = True;
 //	box_XY_finsh_flag = False;
 //	rotate_finsh_flag = False;
+    motor_debug_timer.ticking_flag = True;
 	
 	circle_enable_flag = False;		// 圆环 使能标志位
 	zebra_enable_flag = True;		// 斑马线 使能标志位
@@ -194,6 +196,19 @@ int main(void)
 		#endif
 			// 此处编写需要循环执行的代码
 			menu_service_start();
+            
+            displacement_solve.solve_flag = True;
+            control_kind = Inv2Speed;
+            move_solve_kind = XY_SPEED_SOLVE;
+            x_speed_target = 0;
+            y_speed_target = 100;
+            angular_speed_target = 0;
+            vofa_debug();
+            if(displacement_solve.world_y_displacement > 200){
+                y_speed_target = 0;
+                while(1);
+            }
+                
 		}
     }
 	

@@ -38,6 +38,7 @@ DOG_SOLVE displacement_solve;		// 位移解算
 DOG_TIMER zebra_path_timer;			// 斑马线计时器
 DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
 DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
+DOG_TIMER motor_debug_timer;         // 电机调试计时器
 DOG_CV dog_cv;						// 计算机视觉
 DOG_PATH dog_path;					// 循迹
 
@@ -123,9 +124,9 @@ float box_fxxk_y_speed_target = 70;			// 推箱子Y速度目标值
 /*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd */
 // 电机
 #ifdef SPEED_AND_CURRENT
-float MOTOR_1_PID[5] = 	 { 0.035,   0.006,   0,  500,         13 };
-float MOTOR_2_PID[5] =    { 0.034,   0.005,   0,  500,         13 };
-float MOTOR_3_PID[5] =    { 0.034,   0.005,   0,  500,         13 };
+float MOTOR_1_PID[5] = 	 { 0.0263,   0.0050,   0,  500,         13 };
+float MOTOR_2_PID[5] =    { 0.0422,   0.0027,   0,  500,         13 };
+float MOTOR_3_PID[5] =    { 0.0422,   0.0027,   0,  500,         13 };
 
 #endif
 #ifdef SPEED

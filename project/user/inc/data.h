@@ -131,6 +131,7 @@ extern DOG_SOLVE displacement_solve;			// 位移解算
 extern DOG_TIMER zebra_path_timer;			// 斑马线计时器
 extern DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
 extern DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
+extern DOG_TIMER motor_debug_timer;         // 电机调试计时器
 extern DOG_CV dog_cv;						// 计算机视觉
 extern DOG_PATH dog_path;					// 循迹
 

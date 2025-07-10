@@ -87,6 +87,7 @@ void PIT_IRQHandler(void)
 		zebra_path_timer.ticking(&zebra_path_timer);
 		circle_in_timer.ticking(&circle_in_timer);
 		circle_out_timer.ticking(&circle_out_timer);
+        motor_debug_timer.ticking(&motor_debug_timer);
         pit_flag_clear(PIT_CH2);
     }
     if(pit_flag_get(PIT_CH3))
