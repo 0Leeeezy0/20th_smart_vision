@@ -90,7 +90,7 @@ int main(void)
 	timer(&circle_in_timer, 5);
 	timer(&circle_out_timer, 5);
     timer(&motor_debug_timer, 5);
-	timer(&slow_acceleration_timer, 5);
+	timer(&speed_slow_change_timer, 5);
 	
 	/* 欧拉角解算 */
 	solve(&euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
@@ -121,8 +121,10 @@ int main(void)
 	path_pid.fuzzy_pid_init(&path_pid, fuzzy_rules, PATH_RANGE);
 	pid(&path_gyroz_pid);
 	path_gyroz_pid.fuzzy_pid_init(&path_gyroz_pid, fuzzy_rules_gyro, GYRO_RANGE);
-	pid(&rotate_pid);
-	rotate_pid.fuzzy_pid_init(&rotate_pid, fuzzy_rules, ROTATE_RANGE);
+	pid(&angle_rotate_pid);
+	angle_rotate_pid.fuzzy_pid_init(&angle_rotate_pid, fuzzy_rules, ROTATE_RANGE);
+	pid(&circle_rotate_pid);
+	circle_rotate_pid.fuzzy_pid_init(&circle_rotate_pid, fuzzy_rules, ROTATE_RANGE);
 	pid(&box_x_pid);
 	box_x_pid.fuzzy_pid_init(&box_x_pid, fuzzy_rules, BOX_X_RANGE);
 	pid(&box_y_pid);
@@ -172,8 +174,8 @@ int main(void)
 	circle_enable_flag = True;		// 圆环 使能标志位
 	zebra_enable_flag = True;		// 斑马线 使能标志位
 	ai_camera_0_enable_flag = True;	// AI相机0 使能标志位
-	ai_camera_1_enable_flag = True;// AI相机1 使能标志位
-	ai_camera_2_enable_flag = True;// AI相机2 使能标志位
+	ai_camera_1_enable_flag = False;// AI相机1 使能标志位
+	ai_camera_2_enable_flag = False;// AI相机2 使能标志位
 	
 	ai_camera_0_init_flag = False;
 	detection_result.ai_camera_init_flag[0] = False;
@@ -184,7 +186,7 @@ int main(void)
 		detection_result.ai_camera_init_flag[0] = True;
 	if(ai_camera_2_enable_flag == False)
 		detection_result.ai_camera_init_flag[1] = True;
-	
+
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
@@ -201,12 +203,12 @@ int main(void)
 			menu_service_start();
             
 //          displacement_solve.solve_flag = True;
-			path_state = box_fxxk;
-			rotate_euler_angle_solve.solve_flag = True;
-			control_kind = Angle2Inv2Speed;
-			move_solve_kind = XY_SPEED_SOLVE;
-			x_speed_target = 0;
-			y_speed_target = 0;
+//			path_state = box_fxxk;
+//			rotate_euler_angle_solve.solve_flag = True;
+//			control_kind = Angle2Inv2Speed;
+//			move_solve_kind = XY_SPEED_SOLVE;
+//			x_speed_target = 0;
+//			y_speed_target = 0;
 //			angular_speed_target = -box_x_speed_target*box_x_angular_speed_rate;
 //			
 //			wireless_vofa.justfloat_add(&wireless_vofa, 3, imu660ra.acc_x, imu660ra.acc_y, imu660ra.acc_z);
@@ -218,8 +220,8 @@ int main(void)
 //              while(1);
 //          }       
 		}
-		wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)ai_camera_0_init_flag, (float)detection_result.ai_camera_init_flag[0], (float)detection_result.ai_camera_init_flag[1]);
-//		wireless_vofa.justfloat_add(&wireless_vofa, 2, rotate_euler_angle_solve.yaw, 0.0);
+//		wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)ai_camera_0_init_flag, (float)detection_result.ai_camera_init_flag[0], (float)detection_result.ai_camera_init_flag[1]);
+		wireless_vofa.justfloat_add(&wireless_vofa, 2, -circle_angle_target, circle_euler_angle_solve.yaw);
 		wireless_vofa.justfloat_send(&wireless_vofa);
     }
 	

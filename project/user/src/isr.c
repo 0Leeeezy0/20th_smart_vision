@@ -72,6 +72,7 @@ void PIT_IRQHandler(void)
     {
 		switch(control_kind){
 			case Angle2Inv2Speed:{ Angle2Inv2Speed_control(); break; }
+			case CircleAngle2Inv2Speed:{ CircleAngle2Inv2Speed_control(); break; }
 			case X2Inv2Speed:{ X2Inv2Speed_control(); break; }
 			case Y2Inv2Speed:{ Y2Inv2Speed_control(); break; }
 			case XY2Inv2Speed:{ XY2Inv2Speed_control(); break; }
@@ -88,7 +89,7 @@ void PIT_IRQHandler(void)
 		circle_in_timer.ticking(&circle_in_timer);
 		circle_out_timer.ticking(&circle_out_timer);
         motor_debug_timer.ticking(&motor_debug_timer);
-		slow_acceleration_timer.ticking(&slow_acceleration_timer);
+		speed_slow_change_timer.ticking(&speed_slow_change_timer);
         pit_flag_clear(PIT_CH2);
     }
     if(pit_flag_get(PIT_CH3))

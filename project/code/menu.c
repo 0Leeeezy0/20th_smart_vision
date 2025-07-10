@@ -341,7 +341,8 @@ void start(void)
 	circle_in_timer.ticking_flag = False;
 	circle_out_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
-	rotate_finsh_flag = False;
+	angle_rotate_finsh_flag = False;
+	circle_rotate_finsh_flag = False;
 	
 	system_delay_ms(100);
 		
@@ -382,7 +383,8 @@ void debug(void)
 	circle_in_timer.ticking_flag = False;
 	circle_out_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
-	rotate_finsh_flag = False;
+	angle_rotate_finsh_flag = False;
+	circle_rotate_finsh_flag = False;
 		
 	while(1)
 	{

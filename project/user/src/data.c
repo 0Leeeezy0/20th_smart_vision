@@ -25,7 +25,8 @@ DOG_PID current_2_pid;				// 电机电流PID2
 DOG_PID current_3_pid;				// 电机电流PID3
 DOG_PID path_pid;					// 路径PID
 DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
-DOG_PID rotate_pid;					// 旋转PID
+DOG_PID angle_rotate_pid;			// 角度环旋转PID
+DOG_PID circle_rotate_pid;			// 圆环旋转PID
 DOG_PID box_x_pid;					// 箱子X PID
 DOG_PID box_y_pid;					// 箱子Y PID
 DOG_VOFA wireless_vofa;				// 无线串口VOFA
@@ -39,7 +40,7 @@ DOG_SOLVE displacement_solve;		// 位移解算
 DOG_TIMER zebra_path_timer;			// 斑马线计时器
 DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
 DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
-DOG_TIMER slow_acceleration_timer;  // 缓加速计时器
+DOG_TIMER speed_slow_change_timer;  // 缓变速计时器
 DOG_TIMER motor_debug_timer;        // 电机调试计时器
 DOG_CV dog_cv;						// 计算机视觉
 DOG_PATH dog_path;					// 循迹
@@ -53,10 +54,11 @@ _bool_ ai_camera_2_enable_flag = True;		// AI相机2 使能标志位
 _bool_ supplement_lamp_enable_flag = True;	// 补光灯 使能标志位
 
 /* 完成标志位 */
-_bool_ rotate_finsh_flag = False;		// 旋转完成标志位
-_bool_ box_X_finsh_flag = False;		// 箱子X定位完成标志位
-_bool_ box_Y_finsh_flag = False;		// 箱子Y定位完成标志位
-_bool_ box_XY_finsh_flag = False;		// 箱子XY定位完成标志位
+_bool_ angle_rotate_finsh_flag = False;		// 角度环旋转完成标志位
+_bool_ circle_rotate_finsh_flag = False;	// 圆环旋转完成标志位
+_bool_ box_X_finsh_flag = False;			// 箱子X定位完成标志位
+_bool_ box_Y_finsh_flag = False;			// 箱子Y定位完成标志位
+_bool_ box_XY_finsh_flag = False;			// 箱子XY定位完成标志位
 
 /* 初始化标志位 */
 _bool_ ai_camera_0_init_flag = False;	// AI摄像头0 初始化标志位
@@ -90,9 +92,11 @@ float translation_yaw_target;				// 目标平动角度
 float x_speed_target;						// 目标x速度
 float y_speed_target;						// 目标y速度
 float angular_speed_target;					// 目标旋转速度
-float rotation_yaw_target;					// 目标旋转角度（角度环）
+float angle_rotation_yaw_target;			// 目标角度环旋转角度
+float circle_rotation_yaw_target;			// 目标圆环旋转角度
 float data_1;								// 运动学逆解算参数1（线速度/X速度）
 float data_2;								// 运动学逆解算参数2（航向角/Y速度）
+float last_y_speed_target = 40;				// 上一次目标循迹Y速度
 /* 箱子 */
 uint8 detection_box_width;						// 识别框宽度
 uint8 detection_box_width_limit = 30;			// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
@@ -116,10 +120,9 @@ uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率
 float last_box_distance = 0;					// 上一个箱子的路程
 /* 速度/角度/时间 */
 float path_y_speed_target = 160;			// 目标循迹Y速度
-float last_path_y_speed_target = 0;			// 上一次目标循迹Y速度
 float circle_y_speed_target = 110;			// 出入环目标Y速度
-float circle_angular_speed_target = 28;		// 出入环目标角速度
-float circle_angle_target = 60;				// 出入环目标转动角度
+float circle_angular_speed_target = 35;		// 出入环目标角速度
+float circle_angle_target = 90;				// 出入环目标转动角度
 float box_x_speed_target = 60;				// 箱子目标X速度
 float box_x_angular_speed_rate = 0.4;		// 箱子 转动速度/X速度 比例
 float box_fxxk_y_speed_target = 70;			// 推箱子Y速度目标值
@@ -223,12 +226,13 @@ void flag_init(void){
 	zebra_path_timer.ticking_flag = False;
 	circle_in_timer.ticking_flag = False;
 	circle_out_timer.ticking_flag = False;
-	slow_acceleration_timer.ticking_flag = False;
+	speed_slow_change_timer.ticking_flag = False;
 	// 完成标志位
-	rotate_finsh_flag = False;		// 旋转完成标志位
-	box_X_finsh_flag = False;		// 箱子X定位完成标志位
-	box_Y_finsh_flag = False;		// 箱子Y定位完成标志位
-	box_XY_finsh_flag = False;		// 箱子XY定位完成标志位
+	angle_rotate_finsh_flag = False;	// 角度环旋转完成标志位
+	circle_rotate_finsh_flag = False;	// 圆环旋转完成标志位
+	box_X_finsh_flag = False;			// 箱子X定位完成标志位
+	box_Y_finsh_flag = False;			// 箱子Y定位完成标志位
+	box_XY_finsh_flag = False;			// 箱子XY定位完成标志位
 }
 	
 /* 变量初始化 */	
@@ -236,7 +240,7 @@ void variable_init(void){
 	zebra_stop_distance = 0;
 	path_state = common_path;			// 赛道状态
 	last_path_state = common_path;		// 上一次赛道状态
-	control_kind = Stop;	// 控制类型
+	control_kind = Stop;				// 控制类型
 	memset(wheel_speed_target, 0, sizeof(wheel_speed_target));			// 轮子目标速度
 	memset(motor_current_target, 0, sizeof(motor_current_target));		// 电机电流目标值
 	memset(motor_pwm_duty, 0, sizeof(motor_pwm_duty));					// 电机PWM占空比
@@ -244,7 +248,16 @@ void variable_init(void){
 	detection_result_num = 0;
 	sum_weight_normalization = 0;		// 加权和归一化	
 	last_box_distance = 0;				// 上一个箱子的路程
-	last_path_y_speed_target = 0;
+	linear_speed_target = 0;			// 目标线速度
+	translation_yaw_target = 0;			// 目标平动角度
+	x_speed_target = 0;					// 目标x速度
+	y_speed_target = 0;					// 目标y速度
+	angular_speed_target = 0;			// 目标旋转速度
+	angle_rotation_yaw_target = 0;		// 目标角度环旋转角度
+	circle_rotation_yaw_target = 0;		// 目标圆环旋转角度
+	data_1 = 0;							// 运动学逆解算参数1（线速度/X速度）
+	data_2 = 0;							// 运动学逆解算参数2（航向角/Y速度）
+	last_y_speed_target = 40;			// 上一次速度
 	
 	dog_path.mid_x = MT9V03X_W/2;					// 动态中线
 	memset(dog_path.path,0,sizeof(dog_path.path));	// 路径线x、y坐标

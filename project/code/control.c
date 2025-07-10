@@ -3,7 +3,21 @@
 
 /* 角度环->运动学逆解算->速度环 控制 */
 void Angle2Inv2Speed_control(void){
-	rotate_pid_calc(); 
+	angle_rotate_pid_calc(); 
+	switch(move_solve_kind){ 
+		case SPEED_YAW_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, SPEED_YAW_SOLVE, linear_speed_target, translation_yaw_target, angular_speed_target); break; } 
+		case XY_SPEED_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target); break; }
+	}   
+	wheel_speed_target[0] = chassis_solve.wheel_1_speed; 
+	wheel_speed_target[1] = chassis_solve.wheel_2_speed;
+	wheel_speed_target[2] = chassis_solve.wheel_3_speed;
+	motor_pid_calc(); 
+	PWM_control(); 
+}
+
+/* 圆环角度环->运动学逆解算->速度环 控制 */
+void CircleAngle2Inv2Speed_control(void){
+	circle_rotate_pid_calc(); 
 	switch(move_solve_kind){ 
 		case SPEED_YAW_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, SPEED_YAW_SOLVE, linear_speed_target, translation_yaw_target, angular_speed_target); break; } 
 		case XY_SPEED_SOLVE:{ chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target); break; }
@@ -111,7 +125,7 @@ void path_pid_calc(void){
 	angular_speed_target = path_pid.positional_pid(&path_pid, 0, -path_err)-path_gyroz_pid.Kd*path_gyro_karman.value;	// 此处需注意gyro_z极性
 }
 
-/* 电机PID计算 */
+/* 电机 PID计算 */
 static void motor_pid_calc(void){
 	if(path_state == box_first_track || path_state == box_calibration || path_state == box_inv_calibration || path_state == box_second_track || path_state == box_fxxk || path_state == path_back){
 		// 速度环
@@ -251,26 +265,49 @@ static void motor_pid_calc(void){
 	}
 }
 
-/* 角度环PID计算 */
-static void rotate_pid_calc(void){
-	static uint8 chassis_rotate_finsh_num_count = 0;
+/* 角度环 PID计算 */
+static void angle_rotate_pid_calc(void){
+	static uint8 angle_rotate_finsh_num_count = 0;
 	
-	float err = rotation_yaw_target-rotate_euler_angle_solve.yaw;
+	float err = angle_rotation_yaw_target-rotate_euler_angle_solve.yaw;
 	float Kp[4] = { ROTATE_PID[0][0], ROTATE_PID[1][0], ROTATE_PID[2][0], ROTATE_PID[3][0] };
 	float Ki[4] = { ROTATE_PID[0][1], ROTATE_PID[1][1], ROTATE_PID[2][1], ROTATE_PID[3][1] };
 	float Kd[4] = { ROTATE_PID[0][2], ROTATE_PID[1][2], ROTATE_PID[2][2], ROTATE_PID[3][2] };
 	float i_limit[4] = { ROTATE_PID[0][3], ROTATE_PID[1][3], ROTATE_PID[2][3], ROTATE_PID[3][3] };
 	float output_limit[4] = { ROTATE_PID[0][4], ROTATE_PID[1][4], ROTATE_PID[2][4], ROTATE_PID[3][4] };
 	
-	rotate_pid.fuzzy_pid(&rotate_pid, &rotate_euler_angle_solve.yaw, Kp, Ki, Kd, i_limit, output_limit, 1);
+	angle_rotate_pid.fuzzy_pid(&angle_rotate_pid, &rotate_euler_angle_solve.yaw, Kp, Ki, Kd, i_limit, output_limit, 1);
 	
-	angular_speed_target = rotate_pid.positional_pid(&rotate_pid, rotation_yaw_target, rotate_euler_angle_solve.yaw);
+	angular_speed_target = angle_rotate_pid.positional_pid(&angle_rotate_pid, angle_rotation_yaw_target, rotate_euler_angle_solve.yaw);
 
-	if(abs(err) < 4.5)
-		chassis_rotate_finsh_num_count++;
-	if(chassis_rotate_finsh_num_count >= 5){
-		rotate_finsh_flag = True;
-		chassis_rotate_finsh_num_count = 0;
+	if(fabsf(err) < 4.5)
+		angle_rotate_finsh_num_count++;
+	if(angle_rotate_finsh_num_count >= 5){
+		angle_rotate_finsh_flag = True;
+		angle_rotate_finsh_num_count = 0;
+	}		
+}
+
+/* 圆环旋转 PID计算 */
+static void circle_rotate_pid_calc(void){
+	static uint8 circle_rotate_finsh_num_count = 0;
+	
+	float err = circle_rotation_yaw_target-circle_euler_angle_solve.yaw;
+	float Kp[4] = { ROTATE_PID[0][0], ROTATE_PID[1][0], ROTATE_PID[2][0], ROTATE_PID[3][0] };
+	float Ki[4] = { ROTATE_PID[0][1], ROTATE_PID[1][1], ROTATE_PID[2][1], ROTATE_PID[3][1] };
+	float Kd[4] = { ROTATE_PID[0][2], ROTATE_PID[1][2], ROTATE_PID[2][2], ROTATE_PID[3][2] };
+	float i_limit[4] = { ROTATE_PID[0][3], ROTATE_PID[1][3], ROTATE_PID[2][3], ROTATE_PID[3][3] };
+	float output_limit[4] = { circle_angular_speed_target, circle_angular_speed_target, circle_angular_speed_target, circle_angular_speed_target };
+	
+	circle_rotate_pid.fuzzy_pid(&circle_rotate_pid, &circle_euler_angle_solve.yaw, Kp, Ki, Kd, i_limit, output_limit, 1);
+	
+	angular_speed_target = circle_rotate_pid.positional_pid(&circle_rotate_pid, circle_rotation_yaw_target, circle_euler_angle_solve.yaw);
+
+	if(fabsf(err) < 4.5)
+		circle_rotate_finsh_num_count++;
+	if(circle_rotate_finsh_num_count >= 5){
+		circle_rotate_finsh_flag = True;
+		circle_rotate_finsh_num_count = 0;
 	}		
 }
 
@@ -407,15 +444,19 @@ static void box_xy_pid_calu(void){
 /* 缓加速 */
 void speed_slow_change(float _path_y_speed_target_){
 	// 若目标速度不等于之前的目标速度，缓变速
-	if(_path_y_speed_target_ != last_path_y_speed_target){
-		slow_acceleration_timer.ticking_flag = True;
-		// 只有在计时时间内才能进行缓缓变速
-		if(slow_acceleration_timer.time <= speed_slow_change_time)
-			path_y_speed_target = last_path_y_speed_target+(_path_y_speed_target_-last_path_y_speed_target)*(slow_acceleration_timer.time/speed_slow_change_time)*(slow_acceleration_timer.time/speed_slow_change_time)*(slow_acceleration_timer.time/speed_slow_change_time);
+	if(_path_y_speed_target_ != last_y_speed_target){
+		speed_slow_change_timer.ticking_flag = True;
+		// 只有在计时时间内才能进行缓变速
+		if(speed_slow_change_timer.time <= speed_slow_change_time)
+			y_speed_target = last_y_speed_target+(_path_y_speed_target_-last_y_speed_target)*(speed_slow_change_timer.time/speed_slow_change_time)*(speed_slow_change_timer.time/speed_slow_change_time)*(speed_slow_change_timer.time/speed_slow_change_time);
+	}
+	else{
+		y_speed_target = _path_y_speed_target_;
 	}
 	// 若目标速度等于目前速度，更新之前的目标速度
-	if(_path_y_speed_target_ == path_y_speed_target){
-		last_path_y_speed_target = _path_y_speed_target_;
+	if(_path_y_speed_target_ == y_speed_target){
+		last_y_speed_target = _path_y_speed_target_;
+		speed_slow_change_timer.ticking_flag = False;
 	}
 }
 

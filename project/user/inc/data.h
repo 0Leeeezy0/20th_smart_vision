@@ -32,24 +32,24 @@ typedef enum _path_state_{
 	L_circle_out = 5,			// 左圆环出环
 	R_circle_out = 6,			// 右圆环出环
 	zebra_path = 7,				// 斑马线赛道
-	zebra_path_stop = 8,		// 斑马线赛道停车
-	box_first_track = 9,		// 箱子一次定位
-	box_calibration = 10,		// 箱子矫正
-	box_inv_calibration = 11,	// 箱子逆矫正
-	box_second_track = 12,		// 箱子二次定位
-	box_fxxk = 13,				// 推箱子
-	path_back = 14,				// 回赛道
+	box_first_track = 8,		// 箱子一次定位
+	box_calibration = 9,		// 箱子矫正
+	box_inv_calibration = 10,	// 箱子逆矫正
+	box_second_track = 11,		// 箱子二次定位
+	box_fxxk = 12,				// 推箱子
+	path_back = 13,				// 回赛道
 }_path_state_;
 
 typedef enum _control_kind_{
-	Angle2Inv2Speed = 0,	// 角度环->运动学逆解算->速度环
-	X2Inv2Speed = 1,		// 箱子X->运动学逆解算->速度环
-	Y2Inv2Speed = 2,		// 箱子Y->运动学逆解算->速度环
-	XY2Inv2Speed = 3,		// 箱子XY->运动学逆解算->速度环
-	Inv2Speed = 4,			// 运动学逆解算->速度环
-	Speed = 5,				// 纯速度环
-	PWM = 6,				// 纯PWM控制
-	Stop = 7,				// 电机停车
+	Angle2Inv2Speed = 0,		// 角度环->运动学逆解算->速度环
+	CircleAngle2Inv2Speed = 1,	// 圆环角度环->运动学逆解算->速度环
+	X2Inv2Speed = 2,			// 箱子X->运动学逆解算->速度环
+	Y2Inv2Speed = 3,			// 箱子Y->运动学逆解算->速度环
+	XY2Inv2Speed = 4,			// 箱子XY->运动学逆解算->速度环
+	Inv2Speed = 5,				// 运动学逆解算->速度环
+	Speed = 6,					// 纯速度环
+	PWM = 7,					// 纯PWM控制
+	Stop = 8,					// 电机停车
 }_control_kind_;
 
 /* AI摄像头序号 */
@@ -116,23 +116,24 @@ extern DOG_PID motor_3_pid;					// 电机PID3
 extern DOG_PID current_1_pid;				// 电机电流PID1
 extern DOG_PID current_2_pid;				// 电机电流PID2
 extern DOG_PID current_3_pid;				// 电机电流PID3
-extern DOG_PID path_pid;						// 路径PID
+extern DOG_PID path_pid;					// 路径PID
 extern DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
-extern DOG_PID rotate_pid;					// 旋转PID
+extern DOG_PID angle_rotate_pid;			// 角度环旋转PID
+extern DOG_PID circle_rotate_pid;			// 圆环旋转PID
 extern DOG_PID box_x_pid;					// 箱子X PID
 extern DOG_PID box_y_pid;					// 箱子Y PID
 extern DOG_VOFA wireless_vofa;				// 无线串口VOFA
-extern DOG_IMU imu660ra;						// IMU660RA陀螺仪
+extern DOG_IMU imu660ra;					// IMU660RA陀螺仪
 extern DOG_SOLVE euler_angle_solve;			// 欧拉角解算
 extern DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
 extern DOG_SOLVE circle_euler_angle_solve;	// 圆环欧拉角解算
 extern DOG_SOLVE box_euler_angle_solve;		// 箱子欧拉角解算
 extern DOG_SOLVE chassis_solve;				// 底盘解算
-extern DOG_SOLVE displacement_solve;			// 位移解算
+extern DOG_SOLVE displacement_solve;		// 位移解算
 extern DOG_TIMER zebra_path_timer;			// 斑马线计时器
 extern DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
 extern DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
-extern DOG_TIMER slow_acceleration_timer;   // 缓加速计时器
+extern DOG_TIMER speed_slow_change_timer;   // 缓变速计时器
 extern DOG_TIMER motor_debug_timer;         // 电机调试计时器
 extern DOG_CV dog_cv;						// 计算机视觉
 extern DOG_PATH dog_path;					// 循迹
@@ -146,7 +147,8 @@ extern _bool_ ai_camera_2_enable_flag;		// AI相机2 使能标志位
 extern _bool_ supplement_lamp_enable_flag;	// 补光灯 使能标志位
 
 /* 完成标志位 */
-extern _bool_ rotate_finsh_flag;		// 旋转完成标志位
+extern _bool_ angle_rotate_finsh_flag;	// 角度环旋转完成标志位
+extern _bool_ circle_rotate_finsh_flag;	// 圆环旋转完成标志位
 extern _bool_ box_X_finsh_flag;			// 箱子X定位完成标志位
 extern _bool_ box_Y_finsh_flag;			// 箱子Y定位完成标志位
 extern _bool_ box_XY_finsh_flag;		// 箱子XY定位完成标志位
@@ -184,9 +186,11 @@ extern float x_speed_target;				// 目标x速度
 extern float y_speed_target;				// 目标y速度
 extern float angular_speed_target;			// 目标旋转速度
 extern float x_speed_rate;					// x速度比例（目标x速度/目标旋转速度）
-extern float rotation_yaw_target;			// 目标旋转角度	
+extern float angle_rotation_yaw_target;		// 目标角度环旋转角度
+extern float circle_rotation_yaw_target;	// 目标圆环旋转角度
 extern float data_1;						// 运动学逆解算参数1（线速度/X速度）
 extern float data_2;						// 运动学逆解算参数2（航向角/Y速度）
+extern float last_y_speed_target;			// 上一次目标循迹Y速度
 /* 箱子 */
 extern int16 detection_center_err;						// 识别框中心误差
 extern uint8 detection_box_width;						// 识别框宽度
@@ -211,7 +215,6 @@ extern uint16 frame_offset;								// 图像边框偏移量（左框右偏，右框左偏，防止曲
 extern float last_box_distance;							// 上一个箱子的路程
 /* 速度/角度/时间 */
 extern float path_y_speed_target;				// 目标循迹Y速度
-extern float last_path_y_speed_target;			// 上一次目标循迹Y速度
 extern float circle_y_speed_target;				// 出入环目标Y速度
 extern float circle_angular_speed_target;		// 出入环目标角速度
 extern float circle_angle_target;				// 出入环目标转动角度
