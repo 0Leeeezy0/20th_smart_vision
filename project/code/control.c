@@ -103,7 +103,7 @@ void path_pid_calc(void){
 	float path_gyroz_output_limit[4] = { 0, 0, 0, 0 };
 	
 	path_pid.fuzzy_pid(&path_pid, err, path_Kp, path_Ki, path_Kd, path_i_limit, path_output_limit, 2);
-	path_gyroz_pid.fuzzy_pid(&path_gyroz_pid, err_gyro, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_Kp, path_gyroz_i_limit, path_gyroz_output_limit, 1);
+	path_gyroz_pid.fuzzy_pid(&path_gyroz_pid, err_gyro, path_gyroz_Kp, path_gyroz_Ki, path_gyroz_Kd, path_gyroz_i_limit, path_gyroz_output_limit, 1);
 
 	move_solve_kind = XY_SPEED_SOLVE;
 	control_kind = Inv2Speed;

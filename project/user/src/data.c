@@ -87,7 +87,6 @@ float translation_yaw_target;				// 目标平动角度
 float x_speed_target;						// 目标x速度
 float y_speed_target;						// 目标y速度
 float angular_speed_target;					// 目标旋转速度
-float x_speed_rate = 2.2;					// x速度比例（目标x速度/目标旋转速度）
 float rotation_yaw_target;					// 目标旋转角度（角度环）
 float data_1;								// 运动学逆解算参数1（线速度/X速度）
 float data_2;								// 运动学逆解算参数2（航向角/Y速度）
@@ -113,7 +112,7 @@ float frame_white_num_normalization_limit = 0.25;		// 对称法矫正图像左右边框白点
 uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 float last_box_distance = 0;					// 上一个箱子的路程
 /* 速度/角度 */
-float path_y_speed_target = 140;			// 目标循迹Y速度
+float path_y_speed_target = 170;			// 目标循迹Y速度
 float circle_y_speed_target = 110;			// 出入环目标Y速度
 float circle_angular_speed_target = 28;		// 出入环目标角速度
 float circle_angle_target = 60;				// 出入环目标转动角度
@@ -124,7 +123,7 @@ float box_fxxk_y_speed_target = 70;			// 推箱子Y速度目标值
 /*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd */
 // 电机
 #ifdef SPEED_AND_CURRENT
-float MOTOR_1_PID[5] = 	  { 0.034,   0.005,   0,  500,         13 };
+float MOTOR_1_PID[5] = 	 { 0.035,   0.006,   0,  500,         13 };
 float MOTOR_2_PID[5] =    { 0.034,   0.005,   0,  500,         13 };
 float MOTOR_3_PID[5] =    { 0.034,   0.005,   0,  500,         13 };
 
@@ -140,16 +139,19 @@ float I_1_PID[5] = 		  { 60,     170,     0,     500,         9000 };
 float I_2_PID[5] = 		  { 60,     170,     0,     500,         9000 };
 float I_3_PID[5] = 		  { 60,     170,     0,     500,         9000 };
 // 循线
-float PATH_RANGE[2][3] = {{ 4.0,   25.0,  45.0 },		// 循迹误差区间
-						  { 10.0,  50.0,  80.0 }};		// 角速度区间
+float PATH_RANGE[2][3] = {{ 12.0,   25.0,  50.0 },		// 循迹误差区间
+						  { 40.0,  200.0,  300.0 }};		// 角速度区间
 
-float GYRO_RANGE[2][3] = {{ 10.0,  50.0,  80.0 },		// 循迹误差区间
-						  { 4.0,   25.0,  45.0}};		// 角速度区间
+float GYRO_RANGE[2][3] = {{ 40.0,  200.0,  300.0 },		// 循迹误差区间
+						  { 12.0,   25.0,  50.0}};		// 角速度区间
 
-float PATH_PID[4][6] =   {{ 0.390, 0,     2.2,   2,           45,          0.23},
-						  { 0.450, 0,     2.1,   2,           45,          0.22},
-						  { 0.550, 0,     1.9,   2,           45,          0.21},
-						  { 0.600, 0,     1.8,   2,           45,          0.18}};
+float PATH_PID[4][6] =    {{ 0.520, 0,     2.5,   2,           55,          0.10},
+						  { 0.560, 0,     2.2,   2,           55,          0.28},
+						  { 0.600, 0,     1.6,   2,           55,          0.14},
+						  { 0.660, 0,     1.0,   2,           55,          0.08}};
+
+float x_speed_rate = 2.3;					// x速度比例（目标x速度/目标旋转速度）
+
 // 旋转
 float ROTATE_RANGE[3] =   { 15.0,  50.0,  120.0 };		// 角度环误差区间						  
 float ROTATE_PID[4][5] = {{ 0.6,   0,     0.04,  2,           45 },
@@ -173,23 +175,28 @@ float BOX_Y_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           35 },
 float I_KARMAN[2] = 	  { 0.01, 0.1};
 
 /* 模糊PID 规则表 */
-_fuzzy_subset_ fuzzy_rules[8][8] = {{PM,		PM,		   PM,	      PB,		 PM,	    PM,	       PM,	      PID_NONE},
-									{PS,		PM,		   PB,		  PS,		 PB,		PM,	       PS,		  PID_NONE},
-									{PS,		PB,		   PM,	      PS,		 PM,	    PB,		   PS,		  PID_NONE},
-									{PB,		PM,		   PS,		  ZERO,		 PS,		PM,	       PB,		  PID_NONE},
-									{PS,		PB,		   PM,	      PS,		 PM,	    PB,		   PS,		  PID_NONE},
-									{PS,		PM,		   PB,		  PS,		 PB,		PM,	       PS,		  PID_NONE},
-									{PM,		PM,		   PM,		  PB,		 PM,	    PM,	       PM,	      PID_NONE},
-									{PID_NONE,  PID_NONE,  PID_NONE,  PID_NONE,	 PID_NONE,  PID_NONE,  PID_NONE,  PID_NONE}};
+_fuzzy_subset_ fuzzy_rules[8][8] =     
+{  
+{6,6,5,5,5,6,6, 7},
+{6,5,4,4,4,5,6, 7},
+{5,4,3,3,3,4,5, 7},
+{6,5,4,3,4,5,6, 7},
+{5,4,3,3,3,4,5, 7},
+{6,5,4,4,4,5,6, 7},
+{6,6,5,5,5,6,6, 7},
 
-_fuzzy_subset_ fuzzy_rules_gyro[8][8] = {{PM,		PM,		   PM,	      PB,		 PM,	    PM,	       PM,	      PID_NONE},
-									{PS,		PM,		   PB,		  PS,		 PB,		PM,	       PS,		  PID_NONE},
-									{PS,		PB,		   PM,	      PS,		 PM,	    PB,		   PS,		  PID_NONE},
-									{PB,		PM,		   PS,		  ZERO,		 PS,		PM,	       PB,		  PID_NONE},
-									{PS,		PB,		   PM,	      PS,		 PM,	    PB,		   PS,		  PID_NONE},
-									{PS,		PM,		   PB,		  PS,		 PB,		PM,	       PS,		  PID_NONE},
-									{PM,		PM,		   PM,		  PB,		 PM,	    PM,	       PM,	      PID_NONE},
-									{PID_NONE,  PID_NONE,  PID_NONE,  PID_NONE,	 PID_NONE,  PID_NONE,  PID_NONE,  PID_NONE}};
+{7,7,7,7,7,7,7,7}};
+_fuzzy_subset_ fuzzy_rules_gyro[8][8] = 
+                                    {  
+{7,7,7,6,7,7,7, 7},
+{7,7,7,5,7,7,7, 7},
+{7,7,7,4,7,7,7, 7},
+{6,5,4,3,4,5,6, 7},
+{7,7,7,4,7,7,7, 7},
+{7,7,7,5,7,7,7, 7},
+{7,7,7,6,7,7,7, 7},
+
+{7,7,7,7,7,7,7,7}};
 
 /* 标志位初始化 */	
 void flag_init(void){
