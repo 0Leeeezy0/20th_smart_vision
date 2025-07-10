@@ -86,9 +86,11 @@ void PWM_control(void){
 
 /* 方向环PID计算 */
 void path_pid_calc(void){
-	float err[2] = { path_err, imu660ra.gyro_z };
-	float err_gyro[2] = {  imu660ra.gyro_z , path_err,};
-
+	path_gyro_karman.karman_filter(&path_gyro_karman, imu660ra.gyro_z);
+    
+    float err[2] = { path_err,path_gyro_karman.value  };
+	float err_gyro[2] = { path_gyro_karman.value , path_err };
+    
 	// 循迹PID
 	float path_Kp[4] = { PATH_PID[0][0], PATH_PID[1][0], PATH_PID[2][0], PATH_PID[3][0] };
 	float path_Ki[4] = { PATH_PID[0][1], PATH_PID[1][1], PATH_PID[2][1], PATH_PID[3][1] };

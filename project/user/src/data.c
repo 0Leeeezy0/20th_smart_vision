@@ -16,6 +16,7 @@ DOG_VOLTAGE bat_voltage;			// 电池电压检测
 DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
 DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
 DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
+DOG_KARMAN_FILTER path_gyro_karman;	// 路径陀螺仪 卡尔曼滤波 
 DOG_PID motor_1_pid;				// 电机PID1
 DOG_PID motor_2_pid;				// 电机PID2
 DOG_PID motor_3_pid;				// 电机PID3
@@ -179,7 +180,8 @@ float BOX_Y_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           35 },
 						  { 1.8,   0,     0.27,  2,           100 }};
  
 /* KARMAN滤波器参数		   	Q     R     Q越小越平滑   R越小越接近(收敛越快)*/
-float I_KARMAN[2] = 	  { 0.01, 0.1};
+float I_KARMAN[2] = 	      { 0.01, 0.1};
+float PATH_GYRO_KARMAN[2] ={ 0.01, 0.1};
 
 /* 模糊PID 规则表 */
 _fuzzy_subset_ fuzzy_rules[8][8] =     

@@ -109,6 +109,7 @@ extern DOG_VOLTAGE bat_voltage;				// 电池电压检测
 extern DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
 extern DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
 extern DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
+extern DOG_KARMAN_FILTER path_gyro_karman;	// 路径陀螺仪 卡尔曼滤波 
 extern DOG_PID motor_1_pid;					// 电机PID1
 extern DOG_PID motor_2_pid;					// 电机PID2
 extern DOG_PID motor_3_pid;					// 电机PID3
@@ -244,6 +245,7 @@ extern float MOTOR_1_KARMAN[2];
 extern float MOTOR_2_KARMAN[2];
 extern float MOTOR_3_KARMAN[2];
 extern float I_KARMAN[2];
+extern float PATH_GYRO_KARMAN[2];
 
 /* 模糊PID 规则表 */
 extern _fuzzy_subset_ fuzzy_rules[8][8];

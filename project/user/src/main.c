@@ -75,6 +75,9 @@ int main(void)
 	karman(&current_1_karman, I_KARMAN[0], I_KARMAN[1]);
 	karman(&current_2_karman, I_KARMAN[0], I_KARMAN[1]);
 	karman(&current_3_karman, I_KARMAN[0], I_KARMAN[1]);
+    
+    /* Â·¾¶ÍÓÂÝÒÇÂË²¨ */
+    karman(&path_gyro_karman, PATH_GYRO_KARMAN[0], PATH_GYRO_KARMAN[1]);
 	
 	/* VOFA */
 	vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
