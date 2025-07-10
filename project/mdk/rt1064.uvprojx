@@ -410,6 +410,11 @@
               <FilePath>..\user\inc\isr.h</FilePath>
             </File>
             <File>
+              <FileName>DOG_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_filter.c</FilePath>
+            </File>
+            <File>
               <FileName>common.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\user\inc\common.h</FilePath>
@@ -424,6 +429,11 @@
         <Group>
           <GroupName>code</GroupName>
           <Files>
+            <File>
+              <FileName>DOG_menu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_menu.h</FilePath>
+            </File>
             <File>
               <FileName>ai.c</FileName>
               <FileType>1</FileType>
@@ -455,11 +465,6 @@
               <FilePath>..\code\DOG_cv.h</FilePath>
             </File>
             <File>
-              <FileName>DOG_filter.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\DOG_filter.c</FilePath>
-            </File>
-            <File>
               <FileName>DOG_filter.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\code\DOG_filter.h</FilePath>
@@ -468,11 +473,6 @@
               <FileName>DOG_menu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\code\DOG_menu.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_menu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_menu.h</FilePath>
             </File>
             <File>
               <FileName>DOG_motor.c</FileName>

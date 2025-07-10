@@ -337,8 +337,6 @@ void start(void)
 	box_euler_angle_solve.solve_flag = False;
 	chassis_solve.solve_flag = True;
 	displacement_solve.solve_flag = True;
-	circle_enable_flag = True;
-	zebra_enable_flag = True;
 	zebra_path_timer.ticking_flag = False;
 	circle_in_timer.ticking_flag = False;
 	circle_out_timer.ticking_flag = True;
