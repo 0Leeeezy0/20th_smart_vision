@@ -1,3 +1,4 @@
+#include "common.h"
 #include "data.h"
 
 /* 类定义 */	
@@ -122,13 +123,22 @@ float box_fxxk_y_speed_target = 70;			// 推箱子Y速度目标值
 
 /*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd */
 // 电机
+#ifdef SPEED_AND_CURRENT
+float MOTOR_1_PID[5] = 	  { 0.034,   0.005,   0,  500,         7 };
+float MOTOR_2_PID[5] =    { 0.034,   0.005,   0,  500,         7 };
+float MOTOR_3_PID[5] =    { 0.034,   0.005,   0,  500,         7 };
+
+#endif
+#ifdef SPEED
 float MOTOR_1_PID[5] = 	  { 8.8,   6.1,   0.98,  500,         9000 };
 float MOTOR_2_PID[5] =    { 8.8,   6.1,   0.98,  500,         9000 };
 float MOTOR_3_PID[5] =    { 8.8,   6.1,   0.98,  500,         9000 };
+#endif
+
 // 电流
-float I_1_PID[5] = 		  { 0,     0,     0,     500,         9000 };
-float I_2_PID[5] = 		  { 0,     0,     0,     500,         9000 };
-float I_3_PID[5] = 		  { 0,     0,     0,     500,         9000 };
+float I_1_PID[5] = 		  { 60,     170,     0,     500,         6000 };
+float I_2_PID[5] = 		  { 60,     170,     0,     500,         6000 };
+float I_3_PID[5] = 		  { 60,     170,     0,     500,         6000 };
 // 循线
 float PATH_RANGE[2][3] = {{ 4.0,   25.0,  45.0 },		// 循迹误差区间
 						  { 10.0,  50.0,  80.0 }};		// 角速度区间

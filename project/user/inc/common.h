@@ -126,7 +126,7 @@
 #define CURRENT_1_PIN				(ADC1_CH10_B21)		// 电流采样1 引脚
 #define CURRENT_2_PIN				(ADC1_CH3_B14)		// 电流采样2 引脚
 #define CURRENT_3_PIN				(ADC1_CH12_B23)		// 电流采样3 引脚
-#define CURRENT_RATIO				(float)(67584)		// 电压-电流换算系数（电压/电流）
+#define CURRENT_RATIO				(float)(49.6485)		// 电压-电流换算系数（电压/电流） a=4096 / 3.3 * 20 * 0.002
 
 /* 补光灯引脚 */
 #define SUPPLEMENT_LAMP_EN_PIN				(B10)		// 补光灯PWM引脚
@@ -137,7 +137,7 @@
 /****************************** 预定义参数 ******************************/
 /***********************************************************************/
 
-#define SPEED      						// 电机控制类型（速度环+电流环：SPEED_AND_CURRENT;速度环：SPEED）
+#define SPEED_AND_CURRENT      						// 电机控制类型（速度环+电流环：SPEED_AND_CURRENT;速度环：SPEED）
 
 /***********************************************************************/
 
