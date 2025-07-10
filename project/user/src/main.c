@@ -90,6 +90,7 @@ int main(void)
 	timer(&circle_in_timer, 5);
 	timer(&circle_out_timer, 5);
     timer(&motor_debug_timer, 5);
+	timer(&slow_acceleration_timer, 5);
 	
 	/* 欧拉角解算 */
 	solve(&euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
@@ -167,13 +168,12 @@ int main(void)
 //	circle_out_timer.ticking_flag = True;
 //	box_XY_finsh_flag = False;
 //	rotate_finsh_flag = False;
-    motor_debug_timer.ticking_flag = True;
 	
-	circle_enable_flag = False;		// 圆环 使能标志位
+	circle_enable_flag = True;		// 圆环 使能标志位
 	zebra_enable_flag = True;		// 斑马线 使能标志位
-	ai_camera_0_enable_flag = False;	// AI相机0 使能标志位
-	ai_camera_1_enable_flag = False;	// AI相机1 使能标志位
-	ai_camera_2_enable_flag = False;	// AI相机2 使能标志位
+	ai_camera_0_enable_flag = True;	// AI相机0 使能标志位
+	ai_camera_1_enable_flag = True;// AI相机1 使能标志位
+	ai_camera_2_enable_flag = True;// AI相机2 使能标志位
 	
 	ai_camera_0_init_flag = False;
 	detection_result.ai_camera_init_flag[0] = False;
@@ -200,19 +200,27 @@ int main(void)
 			// 此处编写需要循环执行的代码
 			menu_service_start();
             
-            displacement_solve.solve_flag = True;
-            control_kind = Inv2Speed;
-            move_solve_kind = XY_SPEED_SOLVE;
-            x_speed_target = 0;
-            y_speed_target = 100;
-            angular_speed_target = 0;
-            vofa_debug();
-            if(displacement_solve.world_y_displacement > 200){
-                y_speed_target = 0;
-                while(1);
-            }
-                
+//          displacement_solve.solve_flag = True;
+			path_state = box_fxxk;
+			rotate_euler_angle_solve.solve_flag = True;
+			control_kind = Angle2Inv2Speed;
+			move_solve_kind = XY_SPEED_SOLVE;
+			x_speed_target = 0;
+			y_speed_target = 0;
+//			angular_speed_target = -box_x_speed_target*box_x_angular_speed_rate;
+//			
+//			wireless_vofa.justfloat_add(&wireless_vofa, 3, imu660ra.acc_x, imu660ra.acc_y, imu660ra.acc_z);
+//			wireless_vofa.justfloat_send(&wireless_vofa);
+			
+//          vofa_debug();
+//          if(displacement_solve.world_y_displacement > 200){
+//              y_speed_target = 0;
+//              while(1);
+//          }       
 		}
+		wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)ai_camera_0_init_flag, (float)detection_result.ai_camera_init_flag[0], (float)detection_result.ai_camera_init_flag[1]);
+//		wireless_vofa.justfloat_add(&wireless_vofa, 2, rotate_euler_angle_solve.yaw, 0.0);
+		wireless_vofa.justfloat_send(&wireless_vofa);
     }
 	
 	return 0;

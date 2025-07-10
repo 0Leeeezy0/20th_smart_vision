@@ -853,7 +853,7 @@ void menu_detection_list(void)
 		{
 			if(i >= detection_list_page_num*(MAX_ROW-2) && i < (detection_list_page_num+1)*(MAX_ROW-2))
 			{
-				screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i,3);
+				screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3);
 				if(detection_result_list[i].tool != 0X10)
 				{
 					switch(detection_result_list[i].tool)
@@ -897,7 +897,7 @@ void menu_path_page(void)
 		menu_data_change(menu_path_data_add_service,menu_path_data_reduce_service);
 		menu_title_show();
 		
-		MENU_PATH.y_speed_target.data_float = y_speed_target;
+		MENU_PATH.y_speed_target.data_float = path_y_speed_target;
 		MENU_PATH.path_start.data_int16 = path_start;
 		MENU_PATH.path_end.data_int16 = path_end;
 		MENU_PATH.control_point_0.data_int16 = control_point[0];
@@ -981,6 +981,7 @@ void menu_motor_1_pid_page(void)
 	wheel_speed_target[0] = 0;
 	wheel_speed_target[1] = 0;
 	wheel_speed_target[2] = 0;
+	motor_debug_timer.ticking_flag = True;
 	while(1)
 	{
 		menu_back(menu_motor_pid_page_back_service);
@@ -990,6 +991,7 @@ void menu_motor_1_pid_page(void)
 		
 		control_kind = Speed;
 		
+		// 正弦速度
         wheel_speed_target[0] = 60*sin((float)motor_debug_timer.time/600.0);
 		MENU_MOTOR_1_PID.motor_target.data_int16 = wheel_speed_target[0];
 		MENU_MOTOR_1_PID.MOTOR_SPEED_PID.p.data_float = MOTOR_1_PID[0];
@@ -1048,6 +1050,7 @@ void menu_motor_2_pid_page(void)
 	wheel_speed_target[0] = 0;
 	wheel_speed_target[1] = 0;
 	wheel_speed_target[2] = 0;
+	motor_debug_timer.ticking_flag = True;
 	while(1)
 	{
 		menu_back(menu_motor_pid_page_back_service);
@@ -1057,6 +1060,7 @@ void menu_motor_2_pid_page(void)
 		
 		control_kind = Speed;
 		
+		// 正弦速度
         wheel_speed_target[1] = 40*sin((float)motor_debug_timer.time/600.0)+100;
 		MENU_MOTOR_2_PID.motor_target.data_int16 = wheel_speed_target[1];
 		MENU_MOTOR_2_PID.MOTOR_SPEED_PID.p.data_float = MOTOR_2_PID[0];
@@ -1115,6 +1119,7 @@ void menu_motor_3_pid_page(void)
 	wheel_speed_target[0] = 0;
 	wheel_speed_target[1] = 0;
 	wheel_speed_target[2] = 0;
+	motor_debug_timer.ticking_flag = True;
 	while(1)
 	{
 		menu_back(menu_motor_pid_page_back_service);
@@ -1124,6 +1129,7 @@ void menu_motor_3_pid_page(void)
 		
 		control_kind = Speed;
 		
+		// 正弦速度
         wheel_speed_target[2] = 60*sin((float)motor_debug_timer.time/600.0);
 		MENU_MOTOR_3_PID.motor_target.data_int16 = wheel_speed_target[2];
 		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.data_float = MOTOR_3_PID[0];
@@ -1268,6 +1274,8 @@ void menu_motor_pid_page_back_service(void)
 	memset(motor_current_target, 0, sizeof(motor_current_target));	
 	memset(motor_pwm_duty, 0, sizeof(motor_pwm_duty));
 	control_kind = Stop;
+	
+	motor_debug_timer.ticking_flag = False;
 }
 
 /* 菜单对称法矫正数据页面服务 */

@@ -85,6 +85,7 @@ static void box_y_pid_calu(void);
 /* BOX X/Y PIDº∆À„ */
 static void box_xy_pid_calu(void);
 
-
+/* ª∫±‰ÀŸ */
+void speed_slow_change(float _path_y_speed_target_);
 
 #endif

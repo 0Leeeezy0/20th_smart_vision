@@ -113,74 +113,142 @@ void path_pid_calc(void){
 
 /* 电机PID计算 */
 static void motor_pid_calc(void){
-	// 速度环
-	#ifdef SPEED
-	/* 电机1 */
-	motor_1_pid.Kp = MOTOR_1_PID[0];
-	motor_1_pid.Ki = MOTOR_1_PID[1];
-	motor_1_pid.Kd = MOTOR_1_PID[2];
-	motor_1_pid.i_limit = MOTOR_1_PID[3];
-	motor_1_pid.output_limit = MOTOR_1_PID[4];
-	motor_pwm_duty[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
-	/* 电机2 */
-	motor_2_pid.Kp = MOTOR_2_PID[0];
-	motor_2_pid.Ki = MOTOR_2_PID[1];
-	motor_2_pid.Kd = MOTOR_2_PID[2];
-	motor_2_pid.i_limit = MOTOR_2_PID[3];
-	motor_2_pid.output_limit = MOTOR_2_PID[4];
-	motor_pwm_duty[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
-	/* 电机3 */
-	motor_3_pid.Kp = MOTOR_3_PID[0];
-	motor_3_pid.Ki = MOTOR_3_PID[1];
-	motor_3_pid.Kd = MOTOR_3_PID[2];
-	motor_3_pid.i_limit = MOTOR_3_PID[3];
-	motor_3_pid.output_limit = MOTOR_3_PID[4];
-	motor_pwm_duty[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
-	#endif
-	// 速度环+电流环
-	#ifdef SPEED_AND_CURRENT
-	/* 电机1 */
-	motor_1_pid.Kp = MOTOR_1_PID[0];
-	motor_1_pid.Ki = MOTOR_1_PID[1];
-	motor_1_pid.Kd = MOTOR_1_PID[2];
-	motor_1_pid.i_limit = MOTOR_1_PID[3];
-	motor_1_pid.output_limit = MOTOR_1_PID[4];
-	motor_current_target[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
-	current_1_pid.Kp = I_1_PID[0];
-	current_1_pid.Ki = I_1_PID[1];
-	current_1_pid.Kd = I_1_PID[2];
-	current_1_pid.i_limit = I_1_PID[3];
-	current_1_pid.output_limit = I_1_PID[4];
-	motor_pwm_duty[0] = current_1_pid.incremental_pid(&current_1_pid, motor_current_target[0], current_1.current);
-	/* 电机2 */
-	motor_2_pid.Kp = MOTOR_2_PID[0];
-	motor_2_pid.Ki = MOTOR_2_PID[1];
-	motor_2_pid.Kd = MOTOR_2_PID[2];
-	motor_2_pid.i_limit = MOTOR_2_PID[3];
-	motor_2_pid.output_limit = MOTOR_2_PID[4];
-	motor_current_target[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
-	current_2_pid.Kp = I_2_PID[0];
-	current_2_pid.Ki = I_2_PID[1];
-	current_2_pid.Kd = I_2_PID[2];
-	current_2_pid.i_limit = I_2_PID[3];
-	current_2_pid.output_limit = I_2_PID[4];
-	motor_pwm_duty[1] = current_2_pid.incremental_pid(&current_2_pid, motor_current_target[1], current_2.current);
-	/* 电机3 */
-	motor_3_pid.Kp = MOTOR_3_PID[0];
-	motor_3_pid.Ki = MOTOR_3_PID[1];
-	motor_3_pid.Kd = MOTOR_3_PID[2];
-	motor_3_pid.i_limit = MOTOR_3_PID[3];
-	motor_3_pid.output_limit = MOTOR_3_PID[4];
-	motor_current_target[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
-	current_3_pid.Kp = I_3_PID[0];
-	current_3_pid.Ki = I_3_PID[1];
-	current_3_pid.Kd = I_3_PID[2];
-	current_3_pid.i_limit = I_3_PID[3];
-	current_3_pid.output_limit = I_3_PID[4];
-	motor_pwm_duty[2] = current_3_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
-	#endif
-
-
+	if(path_state == box_first_track || path_state == box_calibration || path_state == box_inv_calibration || path_state == box_second_track || path_state == box_fxxk || path_state == path_back){
+		// 速度环
+		#ifdef SPEED
+		/* 电机1 */
+		motor_1_pid.Kp = MOTOR_1_PID[0];
+		motor_1_pid.Ki = MOTOR_1_PID[1];
+		motor_1_pid.Kd = MOTOR_1_PID[2];
+		motor_1_pid.i_limit = MOTOR_1_PID[3];
+		motor_1_pid.output_limit = MOTOR_1_PID[4];
+		motor_pwm_duty[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
+		/* 电机2 */
+		motor_2_pid.Kp = MOTOR_1_PID[0];
+		motor_2_pid.Ki = MOTOR_1_PID[1];
+		motor_2_pid.Kd = MOTOR_1_PID[2];
+		motor_2_pid.i_limit = MOTOR_1_PID[3];
+		motor_2_pid.output_limit = MOTOR_1_PID[4];
+		motor_pwm_duty[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
+		/* 电机3 */
+		motor_3_pid.Kp = MOTOR_1_PID[0];
+		motor_3_pid.Ki = MOTOR_1_PID[1];
+		motor_3_pid.Kd = MOTOR_1_PID[2];
+		motor_3_pid.i_limit = MOTOR_1_PID[3];
+		motor_3_pid.output_limit = MOTOR_1_PID[4];
+		motor_pwm_duty[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
+		#endif
+		// 速度环+电流环
+		#ifdef SPEED_AND_CURRENT
+		/* 电机1 */
+		motor_1_pid.Kp = MOTOR_1_PID[0];
+		motor_1_pid.Ki = MOTOR_1_PID[1];
+		motor_1_pid.Kd = MOTOR_1_PID[2];
+		motor_1_pid.i_limit = MOTOR_1_PID[3];
+		motor_1_pid.output_limit = MOTOR_1_PID[4];
+		motor_current_target[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
+		current_1_pid.Kp = I_1_PID[0];
+		current_1_pid.Ki = I_1_PID[1];
+		current_1_pid.Kd = I_1_PID[2];
+		current_1_pid.i_limit = I_1_PID[3];
+		current_1_pid.output_limit = I_1_PID[4];
+		motor_pwm_duty[0] = current_1_pid.incremental_pid(&current_1_pid, motor_current_target[0], current_1.current);
+		/* 电机2 */
+		motor_2_pid.Kp = MOTOR_1_PID[0];
+		motor_2_pid.Ki = MOTOR_1_PID[1];
+		motor_2_pid.Kd = MOTOR_1_PID[2];
+		motor_2_pid.i_limit = MOTOR_1_PID[3];
+		motor_2_pid.output_limit = MOTOR_1_PID[4];
+		motor_current_target[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
+		current_2_pid.Kp = I_2_PID[0];
+		current_2_pid.Ki = I_2_PID[1];
+		current_2_pid.Kd = I_2_PID[2];
+		current_2_pid.i_limit = I_2_PID[3];
+		current_2_pid.output_limit = I_2_PID[4];
+		motor_pwm_duty[1] = current_2_pid.incremental_pid(&current_2_pid, motor_current_target[1], current_2.current);
+		/* 电机3 */
+		motor_3_pid.Kp = MOTOR_1_PID[0];
+		motor_3_pid.Ki = MOTOR_1_PID[1];
+		motor_3_pid.Kd = MOTOR_1_PID[2];
+		motor_3_pid.i_limit = MOTOR_1_PID[3];
+		motor_3_pid.output_limit = MOTOR_1_PID[4];
+		motor_current_target[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
+		current_3_pid.Kp = I_3_PID[0];
+		current_3_pid.Ki = I_3_PID[1];
+		current_3_pid.Kd = I_3_PID[2];
+		current_3_pid.i_limit = I_3_PID[3];
+		current_3_pid.output_limit = I_3_PID[4];
+		motor_pwm_duty[2] = current_3_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
+		#endif
+	}
+	else{
+		// 速度环
+		#ifdef SPEED
+		/* 电机1 */
+		motor_1_pid.Kp = MOTOR_1_PID[0];
+		motor_1_pid.Ki = MOTOR_1_PID[1];
+		motor_1_pid.Kd = MOTOR_1_PID[2];
+		motor_1_pid.i_limit = MOTOR_1_PID[3];
+		motor_1_pid.output_limit = MOTOR_1_PID[4];
+		motor_pwm_duty[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
+		/* 电机2 */
+		motor_2_pid.Kp = MOTOR_2_PID[0];
+		motor_2_pid.Ki = MOTOR_2_PID[1];
+		motor_2_pid.Kd = MOTOR_2_PID[2];
+		motor_2_pid.i_limit = MOTOR_2_PID[3];
+		motor_2_pid.output_limit = MOTOR_2_PID[4];
+		motor_pwm_duty[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
+		/* 电机3 */
+		motor_3_pid.Kp = MOTOR_3_PID[0];
+		motor_3_pid.Ki = MOTOR_3_PID[1];
+		motor_3_pid.Kd = MOTOR_3_PID[2];
+		motor_3_pid.i_limit = MOTOR_3_PID[3];
+		motor_3_pid.output_limit = MOTOR_3_PID[4];
+		motor_pwm_duty[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
+		#endif
+		// 速度环+电流环
+		#ifdef SPEED_AND_CURRENT
+		/* 电机1 */
+		motor_1_pid.Kp = MOTOR_1_PID[0];
+		motor_1_pid.Ki = MOTOR_1_PID[1];
+		motor_1_pid.Kd = MOTOR_1_PID[2];
+		motor_1_pid.i_limit = MOTOR_1_PID[3];
+		motor_1_pid.output_limit = MOTOR_1_PID[4];
+		motor_current_target[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
+		current_1_pid.Kp = I_1_PID[0];
+		current_1_pid.Ki = I_1_PID[1];
+		current_1_pid.Kd = I_1_PID[2];
+		current_1_pid.i_limit = I_1_PID[3];
+		current_1_pid.output_limit = I_1_PID[4];
+		motor_pwm_duty[0] = current_1_pid.incremental_pid(&current_1_pid, motor_current_target[0], current_1.current);
+		/* 电机2 */
+		motor_2_pid.Kp = MOTOR_2_PID[0];
+		motor_2_pid.Ki = MOTOR_2_PID[1];
+		motor_2_pid.Kd = MOTOR_2_PID[2];
+		motor_2_pid.i_limit = MOTOR_2_PID[3];
+		motor_2_pid.output_limit = MOTOR_2_PID[4];
+		motor_current_target[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
+		current_2_pid.Kp = I_2_PID[0];
+		current_2_pid.Ki = I_2_PID[1];
+		current_2_pid.Kd = I_2_PID[2];
+		current_2_pid.i_limit = I_2_PID[3];
+		current_2_pid.output_limit = I_2_PID[4];
+		motor_pwm_duty[1] = current_2_pid.incremental_pid(&current_2_pid, motor_current_target[1], current_2.current);
+		/* 电机3 */
+		motor_3_pid.Kp = MOTOR_3_PID[0];
+		motor_3_pid.Ki = MOTOR_3_PID[1];
+		motor_3_pid.Kd = MOTOR_3_PID[2];
+		motor_3_pid.i_limit = MOTOR_3_PID[3];
+		motor_3_pid.output_limit = MOTOR_3_PID[4];
+		motor_current_target[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
+		current_3_pid.Kp = I_3_PID[0];
+		current_3_pid.Ki = I_3_PID[1];
+		current_3_pid.Kd = I_3_PID[2];
+		current_3_pid.i_limit = I_3_PID[3];
+		current_3_pid.output_limit = I_3_PID[4];
+		motor_pwm_duty[2] = current_3_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
+		#endif
+	}
 }
 
 /* 角度环PID计算 */
@@ -333,6 +401,21 @@ static void box_xy_pid_calu(void){
 		y_speed_target = 0;
 		num = 0;
 		box_XY_finsh_flag = True;
+	}
+}
+
+/* 缓加速 */
+void speed_slow_change(float _path_y_speed_target_){
+	// 若目标速度不等于之前的目标速度，缓变速
+	if(_path_y_speed_target_ != last_path_y_speed_target){
+		slow_acceleration_timer.ticking_flag = True;
+		// 只有在计时时间内才能进行缓缓变速
+		if(slow_acceleration_timer.time <= speed_slow_change_time)
+			path_y_speed_target = last_path_y_speed_target+(_path_y_speed_target_-last_path_y_speed_target)*(slow_acceleration_timer.time/speed_slow_change_time)*(slow_acceleration_timer.time/speed_slow_change_time)*(slow_acceleration_timer.time/speed_slow_change_time);
+	}
+	// 若目标速度等于目前速度，更新之前的目标速度
+	if(_path_y_speed_target_ == path_y_speed_target){
+		last_path_y_speed_target = _path_y_speed_target_;
 	}
 }
 

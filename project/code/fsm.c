@@ -360,13 +360,15 @@ void fsm(void){
 			path_err = dog_path.path[control_point[1]][0]-MT9V03X_W/2;	
 			path_pid_calc();
 			x_speed_target = 0;
-			y_speed_target = circle_y_speed_target;
+			speed_slow_change(circle_y_speed_target);	// 缓变速
+//			y_speed_target = circle_y_speed_target;
 		}
 		else{
 			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
 			path_pid_calc();
 			x_speed_target = angular_speed_target*x_speed_rate;
-			y_speed_target = path_y_speed_target;
+			speed_slow_change(path_y_speed_target);	// 缓变速
+//			y_speed_target = path_y_speed_target;
 		}
 	}
 }
@@ -481,7 +483,7 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 		uint16 black_white_point_num = 0;	// 黑白跳变点数量
 		if(zebra_path_timer.time >= 5000)
 		{
-			for(int X = 0;X < MT9V03X_W-1;X++)
+			for(int X = 0+25;X < MT9V03X_W-1-25;X++)
 			{
 				if((dog_cv.image_OTSU[MT9V03X_H-10][X] == 255 && dog_cv.image_OTSU[MT9V03X_H-10][X+1] == 0) || (dog_cv.image_OTSU[MT9V03X_H-10][X] == 0 && dog_cv.image_OTSU[MT9V03X_H-10][X+1] == 255))
 				{

@@ -132,6 +132,7 @@ extern DOG_SOLVE displacement_solve;			// 位移解算
 extern DOG_TIMER zebra_path_timer;			// 斑马线计时器
 extern DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
 extern DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
+extern DOG_TIMER slow_acceleration_timer;   // 缓加速计时器
 extern DOG_TIMER motor_debug_timer;         // 电机调试计时器
 extern DOG_CV dog_cv;						// 计算机视觉
 extern DOG_PATH dog_path;					// 循迹
@@ -208,14 +209,16 @@ extern float frame_white_num_normalization[2];			// 对称法矫正图像左右边框白点数
 extern float frame_white_num_normalization_limit;		// 对称法矫正图像左右边框白点数量归一化阈值
 extern uint16 frame_offset;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 extern float last_box_distance;							// 上一个箱子的路程
-/* 速度/角度 */
+/* 速度/角度/时间 */
 extern float path_y_speed_target;				// 目标循迹Y速度
+extern float last_path_y_speed_target;			// 上一次目标循迹Y速度
 extern float circle_y_speed_target;				// 出入环目标Y速度
 extern float circle_angular_speed_target;		// 出入环目标角速度
 extern float circle_angle_target;				// 出入环目标转动角度
 extern float box_x_speed_target;				// 箱子目标X速度
 extern float box_x_angular_speed_rate;			// 箱子 转动速度/X速度 比例
 extern float box_fxxk_y_speed_target;			// 推箱子Y速度目标值
+extern float speed_slow_change_time;			// 缓变速时间
 
 /* PID参数 */
 // 电机

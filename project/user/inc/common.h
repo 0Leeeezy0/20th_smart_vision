@@ -173,7 +173,7 @@
 #define SENSOR_SOLVE_IT_CH 						( PIT_CH0 ) 			// 传感器值/解算获取中断号
 #define SENSOR_SOLVE_IT_TIME 					( 5 ) 					// 传感器值/解算获取中断周期 ms
 #define CONTROL_IT_CH 							( PIT_CH1 )				// 控制中断号
-#define CONTROL_IT_TIME  						( 4 )					// 控制中断周期 ms
+#define CONTROL_IT_TIME  						( 5 )					// 控制中断周期 ms
 #define TIMER_IT_CH 							( PIT_CH2 )				// 计时器中断号
 #define TIMER_IT_TIME							( 5 )					// 计时器中断周期 ms
 #define MENU_KEY_SCAN_IT_CH 					( PIT_CH3 )				// 按键扫描中断号

@@ -39,7 +39,8 @@ DOG_SOLVE displacement_solve;		// Î»ÒÆ½âËã
 DOG_TIMER zebra_path_timer;			// °ßÂíÏß¼ÆÊ±Æ÷
 DOG_TIMER circle_in_timer;			// Ô²»·Èë»·¼ÆÊ±Æ÷£¨Èë»·ºó¿ªÊ¼¼ÆÊ±£¬¼ÆÊ±³¬¹ıãĞÖµÊ±¼ä²ÅÔÊĞí½øÈë³ö»·×´Ì¬£©
 DOG_TIMER circle_out_timer;			// Ô²»·³ö»·¼ÆÊ±Æ÷£¨³ö»·ºó¿ªÊ¼¼ÆÊ±£¬¼ÆÊ±³¬¹ıãĞÖµÊ±¼ä²ÅÔÊĞí½øÈë½ø»·×´Ì¬£©
-DOG_TIMER motor_debug_timer;         // µç»úµ÷ÊÔ¼ÆÊ±Æ÷
+DOG_TIMER slow_acceleration_timer;  // »º¼ÓËÙ¼ÆÊ±Æ÷
+DOG_TIMER motor_debug_timer;        // µç»úµ÷ÊÔ¼ÆÊ±Æ÷
 DOG_CV dog_cv;						// ¼ÆËã»úÊÓ¾õ
 DOG_PATH dog_path;					// Ñ­¼£
 
@@ -113,21 +114,23 @@ float frame_white_num_normalization[2] = {0};			// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ×óÓÒ±ß¿ò°×µãÊıÁ
 float frame_white_num_normalization_limit = 0.25;		// ¶Ô³Æ·¨½ÃÕıÍ¼Ïñ×óÓÒ±ß¿ò°×µãÊıÁ¿¹éÒ»»¯ãĞÖµ
 uint16 frame_offset = 15;								// Í¼Ïñ±ß¿òÆ«ÒÆÁ¿£¨×ó¿òÓÒÆ«£¬ÓÒ¿ò×óÆ«£¬·ÀÖ¹ÇúÂÊ³¬¼¶´óµÄÍäµÀÎŞ·¨Ê¹ÓÃ¶Ô³Æ·¨½øĞĞ½ÃÕı£© 
 float last_box_distance = 0;					// ÉÏÒ»¸öÏä×ÓµÄÂ·³Ì
-/* ËÙ¶È/½Ç¶È */
-float path_y_speed_target = 190;			// Ä¿±êÑ­¼£YËÙ¶È
+/* ËÙ¶È/½Ç¶È/Ê±¼ä */
+float path_y_speed_target = 160;			// Ä¿±êÑ­¼£YËÙ¶È
+float last_path_y_speed_target = 0;			// ÉÏÒ»´ÎÄ¿±êÑ­¼£YËÙ¶È
 float circle_y_speed_target = 110;			// ³öÈë»·Ä¿±êYËÙ¶È
 float circle_angular_speed_target = 28;		// ³öÈë»·Ä¿±ê½ÇËÙ¶È
 float circle_angle_target = 60;				// ³öÈë»·Ä¿±ê×ª¶¯½Ç¶È
 float box_x_speed_target = 60;				// Ïä×ÓÄ¿±êXËÙ¶È
 float box_x_angular_speed_rate = 0.4;		// Ïä×Ó ×ª¶¯ËÙ¶È/XËÙ¶È ±ÈÀı
 float box_fxxk_y_speed_target = 70;			// ÍÆÏä×ÓYËÙ¶ÈÄ¿±êÖµ
+float speed_slow_change_time = 1000.0;		// »º±äËÙÊ±¼ä
 
 /*    PID²ÎÊı     			Kp     Ki     Kd     »ı·ÖÏŞ·ù     Êä³öÏŞ·ù     ÍÓÂİÒÇKd */
 // µç»ú
 #ifdef SPEED_AND_CURRENT
-float MOTOR_1_PID[5] = 	 { 0.0263,   0.0050,   0,  500,         13 };
-float MOTOR_2_PID[5] =    { 0.0422,   0.0027,   0,  500,         13 };
-float MOTOR_3_PID[5] =    { 0.0422,   0.0027,   0,  500,         13 };
+float MOTOR_1_PID[5] = 	  { 0.0263,   0.0050,   0,  500,         13 };		// Ó²
+float MOTOR_2_PID[5] =    { 0.0422,   0.0027,   0,  500,         13 };		// Èí
+float MOTOR_3_PID[5] =    { 0.0422,   0.0027,   0,  500,         13 };		// Èí
 
 #endif
 #ifdef SPEED
@@ -153,19 +156,19 @@ float GYRO_RANGE[2][3] = {{ 40.0,  100.0,  300.0 },		// Ñ­¼£Îó²îÇø¼ä
 //						  { 0.660, 0,     1.0,   2,           55,          0.08}};
 
                           
-float PATH_PID[4][6] =    {{ 0.90,  0,     0.5,   2,           75,          0.08},
-						  { 1.200, 0,    -3.5,   2,           75,         0.08},
-						  { 1.500, 0,    -2.6,   2,           75,         0.08},
-						  { 1.680, 0,     0.5,   2,           75,        0.08}};
+float PATH_PID[4][6] =    {{ 0.90, 0,     0.5,   2,           75,          0.08},
+						  { 1.200, 0,    -3.5,   2,           75,          0.08},
+						  { 1.500, 0,    -2.6,   2,           75,          0.08},
+						  { 1.680, 0,     0.5,   2,           75,          0.08}};
 
 float x_speed_rate = 2.3;					// xËÙ¶È±ÈÀı£¨Ä¿±êxËÙ¶È/Ä¿±êĞı×ªËÙ¶È£©
 
 // Ğı×ª
 float ROTATE_RANGE[3] =   { 15.0,  50.0,  120.0 };		// ½Ç¶È»·Îó²îÇø¼ä						  
-float ROTATE_PID[4][5] = {{ 0.6,   0,     0.04,  2,           45 },
-						  { 1.0,   0,     0.06,  2,           75 },
-						  { 1.15,  0,     0.08,  2,           105 },
-						  { 1.6,   0,     0.08,  2,		      130 }};							  
+float ROTATE_PID[4][5] = {{ 0.6,   0,     1.54,  20,          45 },
+						  { 0.9,   0,     1.20,  20,          75 },
+						  { 1.25,  0,     0.84,  20,          105 },
+						  { 1.8,   0,     0.58,  20,	      130 }};							  
 // BOX X
 float BOX_X_RANGE[3] =    { 10.0,  20.0,  30.0 };		// BOX XÎó²îÇø¼ä	
 float BOX_X_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           35 },
@@ -220,6 +223,7 @@ void flag_init(void){
 	zebra_path_timer.ticking_flag = False;
 	circle_in_timer.ticking_flag = False;
 	circle_out_timer.ticking_flag = False;
+	slow_acceleration_timer.ticking_flag = False;
 	// Íê³É±êÖ¾Î»
 	rotate_finsh_flag = False;		// Ğı×ªÍê³É±êÖ¾Î»
 	box_X_finsh_flag = False;		// Ïä×ÓX¶¨Î»Íê³É±êÖ¾Î»
@@ -240,6 +244,7 @@ void variable_init(void){
 	detection_result_num = 0;
 	sum_weight_normalization = 0;		// ¼ÓÈ¨ºÍ¹éÒ»»¯	
 	last_box_distance = 0;				// ÉÏÒ»¸öÏä×ÓµÄÂ·³Ì
+	last_path_y_speed_target = 0;
 	
 	dog_path.mid_x = MT9V03X_W/2;					// ¶¯Ì¬ÖĞÏß
 	memset(dog_path.path,0,sizeof(dog_path.path));	// Â·¾¶Ïßx¡¢y×ø±ê
