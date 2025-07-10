@@ -410,11 +410,6 @@
               <FilePath>..\user\inc\isr.h</FilePath>
             </File>
             <File>
-              <FileName>DOG_filter.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\DOG_filter.c</FilePath>
-            </File>
-            <File>
               <FileName>common.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\user\inc\common.h</FilePath>
@@ -463,6 +458,11 @@
               <FileName>DOG_cv.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\code\DOG_cv.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_filter.c</FilePath>
             </File>
             <File>
               <FileName>DOG_filter.h</FileName>

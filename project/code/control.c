@@ -87,7 +87,6 @@ void PWM_control(void){
 /* 方向环PID计算 */
 void path_pid_calc(void){
 	path_gyro_karman.karman_filter(&path_gyro_karman, imu660ra.gyro_z);
-    
     float err[2] = { path_err,path_gyro_karman.value  };
 	float err_gyro[2] = { path_gyro_karman.value , path_err };
     
@@ -109,7 +108,7 @@ void path_pid_calc(void){
 
 	move_solve_kind = XY_SPEED_SOLVE;
 	control_kind = Inv2Speed;
-	angular_speed_target = path_pid.positional_pid(&path_pid, 0, -path_err)-path_gyroz_pid.Kd*imu660ra.gyro_z;	// 此处需注意gyro_z极性
+	angular_speed_target = path_pid.positional_pid(&path_pid, 0, -path_err)-path_gyroz_pid.Kd*path_gyro_karman.value;	// 此处需注意gyro_z极性
 }
 
 /* 电机PID计算 */
