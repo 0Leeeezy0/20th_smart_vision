@@ -1124,7 +1124,7 @@ void menu_motor_3_pid_page(void)
 		
 		control_kind = Speed;
 		
-		MENU_MOTOR_3_PID.motor_target.data_int16 = wheel_speed_target[0];
+		MENU_MOTOR_3_PID.motor_target.data_int16 = wheel_speed_target[2];
 		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.p.data_float = MOTOR_3_PID[0];
 		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.i.data_float = MOTOR_3_PID[1];
 		MENU_MOTOR_3_PID.MOTOR_SPEED_PID.d.data_float = MOTOR_3_PID[2];
@@ -1531,7 +1531,7 @@ void menu_motor_3_pid_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ wheel_speed_target[0]+=5; break; }
+		case 0:{ wheel_speed_target[2]+=5; break; }
 		case 1:{ MOTOR_3_PID[0]+=0.1; break; }
 		case 2:{ MOTOR_3_PID[1]+=0.01; break; }
 		case 3:{ MOTOR_3_PID[2]+=0.01; break; }
@@ -1548,7 +1548,7 @@ void menu_motor_3_pid_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ wheel_speed_target[0]-=5; break; }
+		case 0:{ wheel_speed_target[2]-=5; break; }
 		case 1:{ MOTOR_3_PID[0]-=0.1; break; }
 		case 2:{ MOTOR_3_PID[1]-=0.01; break; }
 		case 3:{ MOTOR_3_PID[2]-=0.01; break; }

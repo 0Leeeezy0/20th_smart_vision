@@ -65,6 +65,15 @@
 #define MOTOR_3_FRONT_DIR 	( False )
 
 /* 
+电流方向标定
+如果正占空时旋转时电流数值为正，则标定值为 True
+如果正占空时时电流数值为负，则标定值为 False
+*/
+#define CURRENT_1_FRONT_DIR ( False )
+#define CURRENT_2_FRONT_DIR ( True )
+#define CURRENT_3_FRONT_DIR ( False )
+
+/* 
 编码器方向标定
 如果电机逆时针旋转时编码器数值为正，则标定值为 True
 如果电机逆时针旋转时编码器数值为负，则标定值为 False
@@ -112,6 +121,7 @@
 #define GEAR_RATIO 				(float)(4.22)			// 齿轮比（ 编码器转速/电机输出侧转速 ）(4.22*1/1)
 #define WHEEL_CIRCUMFERENCE 	(float)(18.6047584)		// 轮周长（cm）
 #define RADIUS					(float)(10.0)			// 底盘中心到车轮距离（cm）
+#define GYRO_Z_RATE				(float)()				// 
 
 /* 蜂鸣器 */
 #define BUZZER_PIN 		(PWM4_MODULE3_CHA_C31)
@@ -135,7 +145,6 @@
 /*********************************************************************/
 
 /****************************** 预定义参数 ******************************/
-/***********************************************************************/
 
 #define SPEED_AND_CURRENT      						// 电机控制类型（速度环+电流环：SPEED_AND_CURRENT;速度环：SPEED）
 

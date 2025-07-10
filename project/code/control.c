@@ -163,7 +163,7 @@ static void motor_pid_calc(void){
 	current_2_pid.Kd = I_2_PID[2];
 	current_2_pid.i_limit = I_2_PID[3];
 	current_2_pid.output_limit = I_2_PID[4];
-	motor_pwm_duty[1] = current_1_pid.incremental_pid(&current_2_pid, motor_current_target[1], current_2.current);
+	motor_pwm_duty[1] = current_2_pid.incremental_pid(&current_2_pid, motor_current_target[1], current_2.current);
 	/* µç»ú3 */
 	motor_3_pid.Kp = MOTOR_3_PID[0];
 	motor_3_pid.Ki = MOTOR_3_PID[1];
@@ -176,7 +176,7 @@ static void motor_pid_calc(void){
 	current_3_pid.Kd = I_3_PID[2];
 	current_3_pid.i_limit = I_3_PID[3];
 	current_3_pid.output_limit = I_3_PID[4];
-	motor_pwm_duty[2] = current_1_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
+	motor_pwm_duty[2] = current_3_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
 	#endif
 
 
