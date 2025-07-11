@@ -30,7 +30,7 @@ void fsm(void){
 			control_kind = CircleAngle2Inv2Speed; 	// 设置控制类型
 			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 			x_speed_target = 0;
-			speed_slow_change(circle_y_speed_target, False);
+			y_speed_slow_change(circle_y_speed_target, False);
 			circle_rotation_yaw_target = -circle_angle_target[0];
 			// 判断是否转到指定角度
 			if(circle_rotate_finsh_flag == True)
@@ -58,7 +58,7 @@ void fsm(void){
 			control_kind = CircleAngle2Inv2Speed; 	// 设置控制类型
 			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 			x_speed_target = 0;
-			speed_slow_change(circle_y_speed_target, False);
+			y_speed_slow_change(circle_y_speed_target, False);
 			circle_rotation_yaw_target = -circle_angle_target[1];
 			// 判断是否转到指定角度
 			if(circle_rotate_finsh_flag == True)
@@ -86,7 +86,7 @@ void fsm(void){
 			control_kind = CircleAngle2Inv2Speed; 	// 设置控制类型
 			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 			x_speed_target = 0;
-			speed_slow_change(circle_y_speed_target, False);
+			y_speed_slow_change(circle_y_speed_target, False);
 			circle_rotation_yaw_target = circle_angle_target[0];
 			// 判断是否转到指定角度
 			if(circle_rotate_finsh_flag == True)
@@ -114,7 +114,7 @@ void fsm(void){
 			control_kind = CircleAngle2Inv2Speed; 	// 设置控制类型
 			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 			x_speed_target = 0;
-			speed_slow_change(circle_y_speed_target, False);
+			y_speed_slow_change(circle_y_speed_target, False);
 			circle_rotation_yaw_target = circle_angle_target[1];
 			// 判断是否转到指定角度
 			if(circle_rotate_finsh_flag == True)
@@ -319,7 +319,7 @@ void fsm(void){
 			move_solve_kind = XY_SPEED_SOLVE;	// 设置解算类型
 			box_x_pid.fuzzy_pid(&box_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
 			x_speed_target = box_x_pid.positional_pid(&box_x_pid, 0, -detection_box_center_err);
-			speed_slow_change(box_fxxk_y_speed_target, True);		// 设置推箱子目标速度   
+			y_speed_slow_change(box_fxxk_y_speed_target, True);		// 设置推箱子目标速度   
 			angle_rotation_yaw_target = 0;							// 设置目标旋转角度
 			/* 判断是否在赛道内 */
 			if(gray_sensor.voltage < 0.3 && num < 22)
@@ -367,7 +367,8 @@ void fsm(void){
 					wheel_speed_target[1] = 0;
 					wheel_speed_target[2] = 0;
 					
-					y_speed_target = 0;			// 设置循线缓启动速度
+					x_speed_target = 0.5;		// 设置循线X速度缓启动速度
+					y_speed_target = 0;			// 设置循线Y速度缓启动速度
 					/* 变量设置 */
 					last_box_distance = displacement_solve.distance;	// 记录当前箱子相对于起始点的路程
 					dog_path.mid_x = MT9V03X_W/2;						// 设置循线起始中点（一定要有这个，不然会原地掉头）
@@ -402,11 +403,16 @@ void fsm(void){
 			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
 			path_pid_calc();
 //			angular_speed_target*x_speed_rate;
-			if(displacement_solve.y_speed >= circle_y_speed_target_limit)
-				x_speed_target = angular_speed_target*x_speed_rate;
+//			if(displacement_solve.y_speed >= circle_y_speed_target_limit)
+//				x_speed_target = angular_speed_target*x_speed_rate;
+//			else
+//				x_speed_target = 0;
+			// 当y速度还在缓变速时，使能X缓变速
+			if(y_speed_target != path_y_speed_target)
+				x_speed_slow_change(angular_speed_target*x_speed_rate, True);	// X缓变速
 			else
-				x_speed_target = 0;
-			speed_slow_change(circle_y_speed_target, True);	// 缓变速
+				x_speed_slow_change(angular_speed_target*x_speed_rate, False);
+			y_speed_slow_change(circle_y_speed_target, True);				// Y缓变速
 		}
 		// 普通赛道/斑马线
 		else{
@@ -414,11 +420,16 @@ void fsm(void){
 			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
 			path_pid_calc();
 //			angular_speed_target*x_speed_rate;
-			if(displacement_solve.y_speed >= path_y_speed_target_limit)
-				x_speed_target = angular_speed_target*x_speed_rate;
+//			if(displacement_solve.y_speed >= path_y_speed_target_limit)
+//				x_speed_target = angular_speed_target*x_speed_rate;
+//			else
+//				x_speed_target = 0;
+			// 当y速度还在缓变速时，使能X缓变速
+			if(y_speed_target != path_y_speed_target)
+				x_speed_slow_change(angular_speed_target*x_speed_rate, True);	// X缓变速
 			else
-				x_speed_target = 0;
-			speed_slow_change(path_y_speed_target, True);	// 缓变速
+				x_speed_slow_change(angular_speed_target*x_speed_rate, False);
+			y_speed_slow_change(path_y_speed_target, True);					// Y缓变速
 		}
 	}
 }

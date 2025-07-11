@@ -15,7 +15,7 @@ void vofa_debug(void){
 //    wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)motor_pwm_duty[0], (float)motor_pwm_duty[1], (float)motor_pwm_duty[2]);
 
     //	wireless_vofa.justfloat_add(&wireless_vofa, 4, y_speed_target, last_y_speed_target, (float)path_state, (float)speed_slow_change_timer.time);
-	wireless_vofa.justfloat_add(&wireless_vofa, 4, y_speed_target, displacement_solve.y_speed, (float)path_state, (float)speed_slow_change_timer.time);
+	wireless_vofa.justfloat_add(&wireless_vofa, 6, x_speed_target, displacement_solve.x_speed, y_speed_target, displacement_solve.y_speed, (float)path_state, (float)x_speed_slow_change_timer.time);
     wireless_vofa.justfloat_send(&wireless_vofa);
 
 }

@@ -38,7 +38,8 @@ DOG_SOLVE box_euler_angle_solve;	// 箱子欧拉角解算
 DOG_SOLVE chassis_solve;			// 底盘解算
 DOG_SOLVE displacement_solve;		// 位移解算
 DOG_TIMER zebra_path_timer;			// 斑马线计时器
-DOG_TIMER speed_slow_change_timer;  // 缓变速计时器
+DOG_TIMER x_speed_slow_change_timer; // X缓变速计时器
+DOG_TIMER y_speed_slow_change_timer; // Y缓变速计时器
 DOG_TIMER motor_debug_timer;        // 电机调试计时器
 DOG_CV dog_cv;						// 计算机视觉
 DOG_PATH dog_path;					// 循迹
@@ -98,7 +99,8 @@ float angle_rotation_yaw_target;				// 目标角度环旋转角度
 float circle_rotation_yaw_target;				// 目标圆环旋转角度
 float data_1;									// 运动学逆解算参数1（线速度/X速度）
 float data_2;									// 运动学逆解算参数2（航向角/Y速度）
-float speed_slow_change_rate = 0.001;			// 缓变速率（越大缓变速越快）
+float x_speed_slow_change_rate = 0.001;			// X缓变速率（越大缓变速越快）
+float y_speed_slow_change_rate = 0.001;			// X缓变速率（越大缓变速越快）
 /* 箱子 */
 uint8 detection_box_width;						// 识别框宽度
 uint8 detection_box_width_limit = 30;			// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
@@ -131,7 +133,8 @@ float circle_angle_target[2] = {75, 60};		// 出入环目标转动角度
 float box_x_speed_target = 60;					// 箱子目标X速度
 float box_x_angular_speed_rate = 0.36;			// 箱子 转动速度/X速度 比例
 float box_fxxk_y_speed_target = 80;				// 推箱子Y速度目标值
-uint32 last_speed_slow_change_timer_time = 0;	// 缓变速上一次计时器时间
+uint32 last_x_speed_slow_change_timer_time = 0;	// X缓变速上一次计时器时间
+uint32 last_y_speed_slow_change_timer_time = 0;	// Y缓变速上一次计时器时间
 
 /*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd */
 // 电机
@@ -168,7 +171,7 @@ float GYRO_RANGE[2][3] = {{ 40.0,  200.0,  400.0 },		// 循迹误差区间
 //						  { 1.40, 0,    -2.6,   2,           75,          0.03},
 //						  { 1.30, 0,     0.5,   2,           75,          0.05}};
                         
-float PATH_PID[4][6] =    {{ 2.8, 0,     5.0,   2,           75,          0.05},
+float PATH_PID[4][6] =   {{ 2.8, 0,     5.0,   2,           75,          0.05},
 						  { 1.3, 0,     10.0,   2,           75,          0.05},
 						  { 0.8, 0,     0.0,   2,           75,          0.05},
 						  { 0.5, 0,     0.0,   2,           75,          0.05}};
@@ -271,7 +274,8 @@ void flag_init(void){
 	displacement_solve.solve_flag = False;
 	// 计时器使能标志位
 	zebra_path_timer.ticking_flag = False;
-	speed_slow_change_timer.ticking_flag = False;
+	x_speed_slow_change_timer.ticking_flag = False;
+	y_speed_slow_change_timer.ticking_flag = False;
 	// 完成标志位
 	angle_rotate_finsh_flag = False;	// 角度环旋转完成标志位
 	circle_rotate_finsh_flag = False;	// 圆环旋转完成标志位
@@ -302,7 +306,8 @@ void variable_init(void){
 	circle_rotation_yaw_target = 0;		// 目标圆环旋转角度
 	data_1 = 0;							// 运动学逆解算参数1（线速度/X速度）
 	data_2 = 0;							// 运动学逆解算参数2（航向角/Y速度）
-	last_speed_slow_change_timer_time = 0;	// 缓变速上一次计时器时间
+	last_x_speed_slow_change_timer_time = 0;	// X缓变速上一次计时器时间
+	last_y_speed_slow_change_timer_time = 0;	// Y缓变速上一次计时器时间
 	circle_in_distance = 0;			// 圆环进环处相对起始点的路程
 	circle_out_distance = 0;		// 圆环出环处相对起始点的路程
 	

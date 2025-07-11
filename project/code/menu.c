@@ -338,7 +338,8 @@ void start(void)
 	chassis_solve.solve_flag = True;
 	displacement_solve.solve_flag = True;
 	zebra_path_timer.ticking_flag = False;
-	speed_slow_change_timer.ticking_flag = True;
+	x_speed_slow_change_timer.ticking_flag = True;
+	y_speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
 	circle_rotate_finsh_flag = False;
@@ -379,7 +380,8 @@ void debug(void)
 	circle_enable_flag = True;
 	zebra_enable_flag = True;
 	zebra_path_timer.ticking_flag = False;
-	speed_slow_change_timer.ticking_flag = True;
+	x_speed_slow_change_timer.ticking_flag = True;
+	y_speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
 	circle_rotate_finsh_flag = False;
