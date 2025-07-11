@@ -171,9 +171,9 @@ int main(void)
 //	box_XY_finsh_flag = False;
 //	rotate_finsh_flag = False;
 	
-	circle_enable_flag = True;		// 圆环 使能标志位
+	circle_enable_flag = False;		// 圆环 使能标志位
 	zebra_enable_flag = True;		// 斑马线 使能标志位
-	ai_camera_0_enable_flag = True;	// AI相机0 使能标志位
+	ai_camera_0_enable_flag = False;	// AI相机0 使能标志位
 	ai_camera_1_enable_flag = False;// AI相机1 使能标志位
 	ai_camera_2_enable_flag = False;// AI相机2 使能标志位
 	

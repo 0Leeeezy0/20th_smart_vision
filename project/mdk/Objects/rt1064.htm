@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Fri Jul 11 02:40:26 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6220000: Last Updated: Fri Jul 11 15:29:40 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1408 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -616,10 +616,10 @@ Global Symbols
 <P><STRONG><a name="[16]"></a>DefaultISR</STRONG> (Thumb, 4 bytes, Stack size unknown bytes, startup_mimxrt1064.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ACMP1_IRQHandler
 </UL>
-<BR>[Address Reference Count : 5]<UL><LI> startup_mimxrt1064.o(.isr_vector)
-<LI> fsl_csi.o(.data.s_csiIsr)
+<BR>[Address Reference Count : 5]<UL><LI> fsl_csi.o(.data.s_csiIsr)
 <LI> fsl_flexcan.o(.data.s_flexcanIsr)
 <LI> fsl_lpuart.o(.data.s_lpuartIsr)
+<LI> startup_mimxrt1064.o(.isr_vector)
 <LI> fsl_usdhc.o(.data.s_usdhcIsr)
 </UL>
 <P><STRONG><a name="[a2]"></a>ENC1_IRQHandler</STRONG> (Thumb, 4 bytes, Stack size unknown bytes, startup_mimxrt1064.o(.text))
@@ -998,7 +998,7 @@ Global Symbols
 <P><STRONG><a name="[bd]"></a>FLEXIO3_IRQHandler</STRONG> (Thumb, 4 bytes, Stack size unknown bytes, startup_mimxrt1064.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1064.o(.isr_vector)
 </UL>
-<P><STRONG><a name="[313]"></a>__scatterload</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, init.o(.text))
+<P><STRONG><a name="[313]"></a>__scatterload</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, init.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[314]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main_after_scatterload
 </UL>
 <BR>[Called By]<UL><LI><a href="#[312]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
@@ -2126,7 +2126,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[1f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterInit
 </UL>
 
-<P><STRONG><a name="[200]"></a>LPSPI_MasterSetDelayScaler</STRONG> (Thumb, 120 bytes, Stack size 16 bytes, fsl_lpspi.o(.text.LPSPI_MasterSetDelayScaler))
+<P><STRONG><a name="[200]"></a>LPSPI_MasterSetDelayScaler</STRONG> (Thumb, 122 bytes, Stack size 16 bytes, fsl_lpspi.o(.text.LPSPI_MasterSetDelayScaler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 608<LI>Call Chain = LPSPI_MasterSetDelayScaler &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
@@ -2435,7 +2435,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwm_init
 </UL>
 
-<P><STRONG><a name="[228]"></a>PWM_SetupPwm</STRONG> (Thumb, 1530 bytes, Stack size 56 bytes, fsl_pwm.o(.text.PWM_SetupPwm))
+<P><STRONG><a name="[228]"></a>PWM_SetupPwm</STRONG> (Thumb, 1528 bytes, Stack size 56 bytes, fsl_pwm.o(.text.PWM_SetupPwm))
 <BR><BR>[Stack]<UL><LI>Max Depth = 648<LI>Call Chain = PWM_SetupPwm &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
@@ -2730,7 +2730,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_mean_filter_convert
 </UL>
 
-<P><STRONG><a name="[242]"></a>adc_init</STRONG> (Thumb, 112 bytes, Stack size 40 bytes, zf_driver_adc.o(.text.adc_init))
+<P><STRONG><a name="[242]"></a>adc_init</STRONG> (Thumb, 114 bytes, Stack size 40 bytes, zf_driver_adc.o(.text.adc_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 744<LI>Call Chain = adc_init &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_assert_handler
@@ -3013,7 +3013,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[275]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder
 </UL>
 
-<P><STRONG><a name="[fe]"></a>encoder_get</STRONG> (Thumb, 184 bytes, Stack size 24 bytes, dog_sensor.o(.text.encoder_get))
+<P><STRONG><a name="[fe]"></a>encoder_get</STRONG> (Thumb, 176 bytes, Stack size 24 bytes, dog_sensor.o(.text.encoder_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = encoder_get &rArr; encoder_get_count &rArr; QTMR_GetCurrentTimerCount
 </UL>
 <BR>[Calls]<UL><LI><a href="#[279]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;encoder_clear_count
@@ -3047,7 +3047,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_cv.o(.text.cv)
 </UL>
-<P><STRONG><a name="[12c]"></a>euler_angle</STRONG> (Thumb, 348 bytes, Stack size 40 bytes, dog_solve.o(.text.euler_angle))
+<P><STRONG><a name="[12c]"></a>euler_angle</STRONG> (Thumb, 328 bytes, Stack size 40 bytes, dog_solve.o(.text.euler_angle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = euler_angle &rArr; __hardfp_fmod &rArr; _drem &rArr; _double_epilogue &rArr; _double_round
 </UL>
 <BR>[Calls]<UL><LI><a href="#[27d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fmod
@@ -3164,7 +3164,7 @@ Global Symbols
 <LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_root_page
 </UL>
 
-<P><STRONG><a name="[266]"></a>fsm</STRONG> (Thumb, 3784 bytes, Stack size 48 bytes, fsm.o(.text.fsm))
+<P><STRONG><a name="[266]"></a>fsm</STRONG> (Thumb, 3768 bytes, Stack size 48 bytes, fsm.o(.text.fsm))
 <BR><BR>[Stack]<UL><LI>Max Depth = 720<LI>Call Chain = fsm &rArr; menu_detection_list &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[288]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symmetry_rectificate
@@ -3225,7 +3225,7 @@ Global Symbols
 <LI><a href="#[2e3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;soft_iic_wait_ack
 </UL>
 
-<P><STRONG><a name="[290]"></a>gpio_init</STRONG> (Thumb, 128 bytes, Stack size 24 bytes, zf_driver_gpio.o(.text.gpio_init))
+<P><STRONG><a name="[290]"></a>gpio_init</STRONG> (Thumb, 130 bytes, Stack size 24 bytes, zf_driver_gpio.o(.text.gpio_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = gpio_init &rArr; GPIO_PinInit &rArr; CLOCK_EnableClock &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinInit
@@ -3423,7 +3423,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_show_string
 </UL>
 
-<P><STRONG><a name="[10c]"></a>ips200_show_float</STRONG> (Thumb, 378 bytes, Stack size 88 bytes, zf_device_ips200.o(.text.ips200_show_float))
+<P><STRONG><a name="[10c]"></a>ips200_show_float</STRONG> (Thumb, 376 bytes, Stack size 88 bytes, zf_device_ips200.o(.text.ips200_show_float))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1408<LI>Call Chain = ips200_show_float &rArr; ips200_show_string &rArr; ips200_show_char &rArr; ips200_set_region &rArr; ips200_write_command &rArr; spi_write_8bit &rArr; spi_write_8bit_array &rArr; spi_write &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_assert_handler
@@ -3763,12 +3763,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[112]"></a>menu_motor_1_pid_add_service</STRONG> (Thumb, 404 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_1_pid_add_service))
+<P><STRONG><a name="[112]"></a>menu_motor_1_pid_add_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_1_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_1_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_1_pid_page)
 </UL>
-<P><STRONG><a name="[12]"></a>menu_motor_1_pid_page</STRONG> (Thumb, 800 bytes, Stack size 88 bytes, menu.o(.text.menu_motor_1_pid_page))
+<P><STRONG><a name="[12]"></a>menu_motor_1_pid_page</STRONG> (Thumb, 784 bytes, Stack size 88 bytes, menu.o(.text.menu_motor_1_pid_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = menu_motor_1_pid_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
@@ -3782,17 +3782,17 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_motor_1_pid_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[113]"></a>menu_motor_1_pid_reduce_service</STRONG> (Thumb, 404 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_1_pid_reduce_service))
+<P><STRONG><a name="[113]"></a>menu_motor_1_pid_reduce_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_1_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_1_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_1_pid_page)
 </UL>
-<P><STRONG><a name="[114]"></a>menu_motor_2_pid_add_service</STRONG> (Thumb, 388 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_2_pid_add_service))
+<P><STRONG><a name="[114]"></a>menu_motor_2_pid_add_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_2_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_2_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_2_pid_page)
 </UL>
-<P><STRONG><a name="[13]"></a>menu_motor_2_pid_page</STRONG> (Thumb, 808 bytes, Stack size 88 bytes, menu.o(.text.menu_motor_2_pid_page))
+<P><STRONG><a name="[13]"></a>menu_motor_2_pid_page</STRONG> (Thumb, 784 bytes, Stack size 88 bytes, menu.o(.text.menu_motor_2_pid_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = menu_motor_2_pid_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
@@ -3806,17 +3806,17 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_motor_2_pid_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[115]"></a>menu_motor_2_pid_reduce_service</STRONG> (Thumb, 388 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_2_pid_reduce_service))
+<P><STRONG><a name="[115]"></a>menu_motor_2_pid_reduce_service</STRONG> (Thumb, 368 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_2_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_2_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_2_pid_page)
 </UL>
-<P><STRONG><a name="[116]"></a>menu_motor_3_pid_add_service</STRONG> (Thumb, 400 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_3_pid_add_service))
+<P><STRONG><a name="[116]"></a>menu_motor_3_pid_add_service</STRONG> (Thumb, 384 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_3_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_3_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_3_pid_page)
 </UL>
-<P><STRONG><a name="[14]"></a>menu_motor_3_pid_page</STRONG> (Thumb, 784 bytes, Stack size 88 bytes, menu.o(.text.menu_motor_3_pid_page))
+<P><STRONG><a name="[14]"></a>menu_motor_3_pid_page</STRONG> (Thumb, 768 bytes, Stack size 88 bytes, menu.o(.text.menu_motor_3_pid_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = menu_motor_3_pid_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
@@ -3830,19 +3830,19 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_motor_3_pid_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[117]"></a>menu_motor_3_pid_reduce_service</STRONG> (Thumb, 400 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_3_pid_reduce_service))
+<P><STRONG><a name="[117]"></a>menu_motor_3_pid_reduce_service</STRONG> (Thumb, 384 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_3_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_3_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_3_pid_page)
 </UL>
-<P><STRONG><a name="[119]"></a>menu_motor_data_add_service</STRONG> (Thumb, 272 bytes, Stack size 16 bytes, menu.o(.text.menu_motor_data_add_service))
+<P><STRONG><a name="[119]"></a>menu_motor_data_add_service</STRONG> (Thumb, 268 bytes, Stack size 16 bytes, menu.o(.text.menu_motor_data_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = menu_motor_data_add_service
 </UL>
 <BR>[Calls]<UL><LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_page)
 </UL>
-<P><STRONG><a name="[11a]"></a>menu_motor_data_reduce_service</STRONG> (Thumb, 272 bytes, Stack size 16 bytes, menu.o(.text.menu_motor_data_reduce_service))
+<P><STRONG><a name="[11a]"></a>menu_motor_data_reduce_service</STRONG> (Thumb, 268 bytes, Stack size 16 bytes, menu.o(.text.menu_motor_data_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = menu_motor_data_reduce_service
 </UL>
 <BR>[Calls]<UL><LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
@@ -3902,12 +3902,12 @@ Global Symbols
 <LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_detection_list
 </UL>
 
-<P><STRONG><a name="[11b]"></a>menu_path_data_add_service</STRONG> (Thumb, 192 bytes, Stack size 4 bytes, menu.o(.text.menu_path_data_add_service))
+<P><STRONG><a name="[11b]"></a>menu_path_data_add_service</STRONG> (Thumb, 184 bytes, Stack size 4 bytes, menu.o(.text.menu_path_data_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_data_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_path_page)
 </UL>
-<P><STRONG><a name="[11c]"></a>menu_path_data_reduce_service</STRONG> (Thumb, 192 bytes, Stack size 4 bytes, menu.o(.text.menu_path_data_reduce_service))
+<P><STRONG><a name="[11c]"></a>menu_path_data_reduce_service</STRONG> (Thumb, 184 bytes, Stack size 4 bytes, menu.o(.text.menu_path_data_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_data_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_path_page)
@@ -3925,7 +3925,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_path_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[11d]"></a>menu_path_pid_add_service</STRONG> (Thumb, 408 bytes, Stack size 4 bytes, menu.o(.text.menu_path_pid_add_service))
+<P><STRONG><a name="[11d]"></a>menu_path_pid_add_service</STRONG> (Thumb, 400 bytes, Stack size 4 bytes, menu.o(.text.menu_path_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_path_pid_page)
@@ -3943,7 +3943,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_path_pid_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[11e]"></a>menu_path_pid_reduce_service</STRONG> (Thumb, 408 bytes, Stack size 4 bytes, menu.o(.text.menu_path_pid_reduce_service))
+<P><STRONG><a name="[11e]"></a>menu_path_pid_reduce_service</STRONG> (Thumb, 400 bytes, Stack size 4 bytes, menu.o(.text.menu_path_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_path_pid_page)
@@ -4016,7 +4016,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_symmetry_rectificate_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[265]"></a>menu_title_show</STRONG> (Thumb, 128 bytes, Stack size 16 bytes, menu.o(.text.menu_title_show))
+<P><STRONG><a name="[265]"></a>menu_title_show</STRONG> (Thumb, 120 bytes, Stack size 16 bytes, menu.o(.text.menu_title_show))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = menu_title_show
 </UL>
 <BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_path_pid_page
@@ -4079,7 +4079,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_motor.o(.text.motor)
 </UL>
-<P><STRONG><a name="[12d]"></a>move_inv_solve</STRONG> (Thumb, 320 bytes, Stack size 64 bytes, dog_solve.o(.text.move_inv_solve))
+<P><STRONG><a name="[12d]"></a>move_inv_solve</STRONG> (Thumb, 296 bytes, Stack size 64 bytes, dog_solve.o(.text.move_inv_solve))
 <BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = move_inv_solve &rArr; __hardfp_sinf &rArr; __mathlib_rredf2
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
@@ -4087,7 +4087,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_solve.o(.text.solve)
 </UL>
-<P><STRONG><a name="[12e]"></a>move_solve</STRONG> (Thumb, 1424 bytes, Stack size 72 bytes, dog_solve.o(.text.move_solve))
+<P><STRONG><a name="[12e]"></a>move_solve</STRONG> (Thumb, 1384 bytes, Stack size 72 bytes, dog_solve.o(.text.move_solve))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = move_solve &rArr; __hardfp_atan &rArr; fabs
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
@@ -4157,12 +4157,12 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[125]"></a>path_extract</STRONG> (Thumb, 490 bytes, Stack size 12 bytes, dog_path.o(.text.path_extract))
+<P><STRONG><a name="[125]"></a>path_extract</STRONG> (Thumb, 494 bytes, Stack size 12 bytes, dog_path.o(.text.path_extract))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = path_extract
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_path.o(.text.path)
 </UL>
-<P><STRONG><a name="[289]"></a>path_pid_calc</STRONG> (Thumb, 392 bytes, Stack size 224 bytes, control.o(.text.path_pid_calc))
+<P><STRONG><a name="[289]"></a>path_pid_calc</STRONG> (Thumb, 388 bytes, Stack size 224 bytes, control.o(.text.path_pid_calc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = path_pid_calc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm
@@ -4182,7 +4182,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[2bd]"></a>pit_init</STRONG> (Thumb, 140 bytes, Stack size 32 bytes, zf_driver_pit.o(.text.pit_init))
+<P><STRONG><a name="[2bd]"></a>pit_init</STRONG> (Thumb, 142 bytes, Stack size 32 bytes, zf_driver_pit.o(.text.pit_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 688<LI>Call Chain = pit_init &rArr; PIT_Init &rArr; CLOCK_EnableClock &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[218]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Deinit
@@ -4202,7 +4202,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_pid.o(.text.pid)
 </UL>
-<P><STRONG><a name="[2c7]"></a>pwm_init</STRONG> (Thumb, 710 bytes, Stack size 104 bytes, zf_driver_pwm.o(.text.pwm_init))
+<P><STRONG><a name="[2c7]"></a>pwm_init</STRONG> (Thumb, 722 bytes, Stack size 104 bytes, zf_driver_pwm.o(.text.pwm_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 856<LI>Call Chain = pwm_init &rArr; CLOCK_GetFreq &rArr; CLOCK_GetPerClkFreq &rArr; CLOCK_GetIpgFreq &rArr; CLOCK_GetAhbFreq &rArr; CLOCK_GetPeriphClkFreq &rArr; CLOCK_GetSysPfdFreq &rArr; CLOCK_GetPllFreq &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_assert_handler
@@ -4228,7 +4228,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwm_init
 </UL>
 
-<P><STRONG><a name="[273]"></a>pwm_set_duty</STRONG> (Thumb, 256 bytes, Stack size 40 bytes, zf_driver_pwm.o(.text.pwm_set_duty))
+<P><STRONG><a name="[273]"></a>pwm_set_duty</STRONG> (Thumb, 260 bytes, Stack size 40 bytes, zf_driver_pwm.o(.text.pwm_set_duty))
 <BR><BR>[Stack]<UL><LI>Max Depth = 664 + In Cycle
 <LI>Call Chain = pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
@@ -4282,7 +4282,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_path.o(.text.path)
 </UL>
-<P><STRONG><a name="[127]"></a>side_point_kind_judge</STRONG> (Thumb, 1328 bytes, Stack size 168 bytes, dog_path.o(.text.side_point_kind_judge))
+<P><STRONG><a name="[127]"></a>side_point_kind_judge</STRONG> (Thumb, 1320 bytes, Stack size 168 bytes, dog_path.o(.text.side_point_kind_judge))
 <BR><BR>[Stack]<UL><LI>Max Depth = 384<LI>Call Chain = side_point_kind_judge &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_acos
@@ -4337,7 +4337,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm
 </UL>
 
-<P><STRONG><a name="[297]"></a>spi_init</STRONG> (Thumb, 690 bytes, Stack size 96 bytes, zf_driver_spi.o(.text.spi_init))
+<P><STRONG><a name="[297]"></a>spi_init</STRONG> (Thumb, 684 bytes, Stack size 96 bytes, zf_driver_spi.o(.text.spi_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 856<LI>Call Chain = spi_init &rArr; LPSPI_MasterInit &rArr; LPSPI_MasterSetDelayTimes &rArr; LPSPI_MasterSetDelayScaler &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_assert_handler
@@ -4670,8 +4670,8 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[267]"></a>vofa_debug</STRONG> (Thumb, 126 bytes, Stack size 40 bytes, debug.o(.text.vofa_debug))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = vofa_debug
+<P><STRONG><a name="[267]"></a>vofa_debug</STRONG> (Thumb, 232 bytes, Stack size 48 bytes, debug.o(.text.vofa_debug))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = vofa_debug
 </UL>
 <BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_path_pid_page
 <LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_motor_3_pid_page
@@ -4702,7 +4702,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[133]"></a>voltage_get</STRONG> (Thumb, 200 bytes, Stack size 16 bytes, dog_sensor.o(.text.voltage_get))
+<P><STRONG><a name="[133]"></a>voltage_get</STRONG> (Thumb, 176 bytes, Stack size 16 bytes, dog_sensor.o(.text.voltage_get))
 <BR><BR>[Stack]<UL><LI>Max Depth = 664<LI>Call Chain = voltage_get &rArr; adc_mean_filter_convert &rArr; adc_convert &rArr; ADC_SetChannelConfig &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_mean_filter_convert
@@ -5092,7 +5092,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[1b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CircleAngle2Inv2Speed_control
 </UL>
 
-<P><STRONG><a name="[23d]"></a>box_x_pid_calu</STRONG> (Thumb, 360 bytes, Stack size 120 bytes, control.o(.text.box_x_pid_calu))
+<P><STRONG><a name="[23d]"></a>box_x_pid_calu</STRONG> (Thumb, 356 bytes, Stack size 120 bytes, control.o(.text.box_x_pid_calu))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = box_x_pid_calu
 </UL>
 <BR>[Calls]<UL><LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
@@ -5108,7 +5108,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[21e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Y2Inv2Speed_control
 </UL>
 
-<P><STRONG><a name="[23e]"></a>box_xy_pid_calu</STRONG> (Thumb, 696 bytes, Stack size 224 bytes, control.o(.text.box_xy_pid_calu))
+<P><STRONG><a name="[23e]"></a>box_xy_pid_calu</STRONG> (Thumb, 692 bytes, Stack size 224 bytes, control.o(.text.box_xy_pid_calu))
 <BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = box_xy_pid_calu
 </UL>
 <BR>[Calls]<UL><LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
@@ -5116,7 +5116,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[21f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;XY2Inv2Speed_control
 </UL>
 
-<P><STRONG><a name="[286]"></a>path_state_judge</STRONG> (Thumb, 1924 bytes, Stack size 48 bytes, fsm.o(.text.path_state_judge))
+<P><STRONG><a name="[286]"></a>path_state_judge</STRONG> (Thumb, 1920 bytes, Stack size 48 bytes, fsm.o(.text.path_state_judge))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = path_state_judge
 </UL>
 <BR>[Calls]<UL><LI><a href="#[252]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
