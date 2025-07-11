@@ -86,8 +86,6 @@ void PIT_IRQHandler(void)
     if(pit_flag_get(PIT_CH2))
     {
 		zebra_path_timer.ticking(&zebra_path_timer);
-		circle_in_timer.ticking(&circle_in_timer);
-		circle_out_timer.ticking(&circle_out_timer);
         motor_debug_timer.ticking(&motor_debug_timer);
 		speed_slow_change_timer.ticking(&speed_slow_change_timer);
         pit_flag_clear(PIT_CH2);
@@ -127,8 +125,10 @@ void LPUART2_IRQHandler(void)
     {
         // 接收中断
         // AI摄像头2串口接收中断
+		#ifndef AI_CAMERA_MERGE
 		extern void uart_rx_interrupt_handler_ai_camera_2();
         uart_rx_interrupt_handler_ai_camera_2();
+		#endif
 	
 //		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)22);
 //		wireless_vofa.justfloat_send(&wireless_vofa);

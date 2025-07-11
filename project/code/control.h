@@ -99,7 +99,13 @@ static void box_y_pid_calu(void);
 /* BOX X/Y PID计算 */
 static void box_xy_pid_calu(void);
 
-/* 缓变速 */
-void speed_slow_change(float _path_y_speed_target_);
+/* 
+	缓变速 
+	变量说明：
+	_path_y_speed_target_ 目标速度
+	speed_slow_change_enable_flag 缓变速使能标志位
+	缓启动速度可以通过 y_speed_target 手动设置
+*/
+void speed_slow_change(float _path_y_speed_target_, _bool_ speed_slow_change_enable_flag);
 
 #endif

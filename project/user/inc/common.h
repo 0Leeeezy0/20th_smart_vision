@@ -104,17 +104,19 @@
 #define AI_CAMERA_0_UART_TX_PIN           	( UART4_TX_C16 )                       
 #define AI_CAMERA_0_UART_RX_PIN           	( UART4_RX_C17 ) 
 
+#define AI_CAMERA_MERGE			// AI摄像头融合
 /* AI摄像头1 串口引脚 */
 #define AI_CAMERA_1_UART_INDEX			    ( UART_1 )                              
 #define AI_CAMERA_1_UART_BAUDRATE           ( 115200 )                            
 #define AI_CAMERA_1_UART_TX_PIN             ( UART1_TX_B12 )                       
 #define AI_CAMERA_1_UART_RX_PIN             ( UART1_RX_B13 ) 
-
+#ifndef AI_CAMERA_MERGE
 /* AI摄像头2 串口引脚 */
 #define AI_CAMERA_2_UART_INDEX			    ( UART_2 )                              
 #define AI_CAMERA_2_UART_BAUDRATE           ( 115200 )                            
 #define AI_CAMERA_2_UART_TX_PIN             ( UART2_TX_B18 )                       
 #define AI_CAMERA_2_UART_RX_PIN             ( UART2_RX_B19 ) 
+#endif
 
 /* 底盘参数*/
 #define ENCODER_LINE_NUM		(float)(4096)			// 编码器线数
@@ -154,7 +156,7 @@
 
 #define AI_CAMERA_0_IMAGE_WIDTH		( 160 )			// AI摄像头0 图像宽度
 #define AI_CAMERA_0_IMAGE_HIGHT		( 120 )			// AI摄像头0 图像高度
-#define AI_CAMERA_0_OFFSET 			(  11 )			// AI摄像头0 图像偏移量
+#define AI_CAMERA_0_OFFSET 			(  5 )			// AI摄像头0 图像偏移量
 #define AI_CAMERA_0_IMAGE_RATE		(float)(  1  ) 	// AI摄像头0 图像与总钻风比例，用于自适应AI追踪
 
 /**************************************************************************/

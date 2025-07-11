@@ -79,11 +79,14 @@ void menu_data_leeeezy_init(void)
 	
 	MENU_CIRCLE_PATH.circle_enable_flag.name = "CIRCLE_EN";
 	MENU_CIRCLE_PATH.circle_y_speed_target.name = "CIRCLE_Y_SPEED_TAR";
-	MENU_CIRCLE_PATH.circle_angular_speed_target.name = "CIRCLE_A_SPEED_TAR";
-	MENU_CIRCLE_PATH.circle_angle.name = "CIRCLE_ANGLE";
+	MENU_CIRCLE_PATH.circle_angular_speed_target.name = "CIRCLE_A_SPEED_TAR"; 
+	MENU_CIRCLE_PATH.circle_in_angle.name = "CIRCLE_IN_ANGLE";
+	MENU_CIRCLE_PATH.circle_out_angle.name = "CIRCLE_OUT_ANGLE";
 	MENU_CIRCLE_PATH.circle_check_y.name = "CIRCLE_CHECK_Y";
 	MENU_CIRCLE_PATH.side_extract_start.name = "SIDE_START";
 	MENU_CIRCLE_PATH.side_extract_end.name = "SIDE_END";
+	MENU_CIRCLE_PATH.circle_in_distance_limit.name = "CIRCLE_IN_DIS";
+	MENU_CIRCLE_PATH.circle_out_distance_limit.name = "CIRCLE_OUT_DIS";
 	
 	MENU_MOTOR_1_PID.control_mode.name = "MODE";
 	MENU_MOTOR_1_PID.control_mode.data_uint8 = 0;

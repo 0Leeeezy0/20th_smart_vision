@@ -67,6 +67,11 @@ void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_
 		this -> diff_wheel_2_displacement = wheel_2_speed_real*this -> solve_IT_time/1000.;
 		this -> diff_wheel_3_displacement = wheel_3_speed_real*this -> solve_IT_time/1000.;
 		
+		// 三个轮子合成的速度
+		this -> x_speed = (-2.*wheel_1_speed_real+wheel_2_speed_real+wheel_3_speed_real)/3.;
+		this -> y_speed = (wheel_2_speed_real-wheel_3_speed_real)/SQRT_3;
+		this -> angular_speed = (wheel_1_speed_real+wheel_2_speed_real+wheel_3_speed_real)/3.;
+		
 		// 分解到车身X、Y方向上的位移微分
 		this -> diff_x_displacement = (-2.*this -> diff_wheel_1_displacement+this -> diff_wheel_2_displacement+this -> diff_wheel_3_displacement)/3.;
 		this -> diff_y_displacement = (this -> diff_wheel_2_displacement-this -> diff_wheel_3_displacement)/SQRT_3;

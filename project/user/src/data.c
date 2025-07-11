@@ -38,8 +38,6 @@ DOG_SOLVE box_euler_angle_solve;	// 箱子欧拉角解算
 DOG_SOLVE chassis_solve;			// 底盘解算
 DOG_SOLVE displacement_solve;		// 位移解算
 DOG_TIMER zebra_path_timer;			// 斑马线计时器
-DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
-DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
 DOG_TIMER speed_slow_change_timer;  // 缓变速计时器
 DOG_TIMER motor_debug_timer;        // 电机调试计时器
 DOG_CV dog_cv;						// 计算机视觉
@@ -71,10 +69,14 @@ uint16 path_end = 30;					// 路径线结束高度
 uint16 side_extract_start_y = 80;		// 边线提取起始高度
 uint16 side_extract_end_y = 20;			// 边线提取结束高度
 uint16 prediction_point = 30;			// 预测点高度：其横坐标将作为下一帧的搜线起点
-uint16 control_point[2] = {65 ,60};		// 控制点高度（0：最长白列；1：路径线提取）
+uint16 control_point[2] = {65, 55};		// 控制点高度（0：最长白列；1：路径线提取）
 /* 圆环 */
-uint16 circle_check_y = 65;				// 圆环检测线高度
+uint16 circle_check_y = 55;				// 圆环检测线高度（越大越晚进环）
 uint16 side_x_delta_range[2] = {3, 15};	// 边线X差值阈值范围（小，大）
+float circle_in_distance = 0;			// 圆环进环处相对起始点的路程
+float circle_out_distance = 0;			// 圆环出环处相对起始点的路程
+float circle_in_distance_limit = 150;	// 圆环进环处相对起始点的路程阈值（路程大于该阈值才能出环）
+float circle_out_distance_limit = 100;	// 圆环出环处相对起始点的路程阈值（路程大于该阈值才能入环）
 /* 斑马线 */
 uint16 zebra_check_y = 1;				// 斑马线检测线高度
 uint16 zebra_stop_distance = 0;			// 斑马线停车距离
@@ -82,21 +84,21 @@ uint16 zebra_stop_distance = 0;			// 斑马线停车距离
 _path_state_ path_state = common_path;		// 赛道状态
 _path_state_ last_path_state = common_path;	// 上一次赛道状态
 /* 控制 */
-_control_kind_ control_kind = Stop;			// 控制类型
-float wheel_speed_target[3] = {0, 0, 0};	// 轮子目标速度
-float motor_current_target[3] = {0, 0, 0};	// 电机电流目标值
-float motor_pwm_duty[3] = {0, 0, 0};		// 电机PWM占空比
-_move_solve_kind_ move_solve_kind;			// 运动解算类型
-float linear_speed_target;					// 目标线速度
-float translation_yaw_target;				// 目标平动角度
-float x_speed_target;						// 目标x速度
-float y_speed_target;						// 目标y速度
-float angular_speed_target;					// 目标旋转速度
-float angle_rotation_yaw_target;			// 目标角度环旋转角度
-float circle_rotation_yaw_target;			// 目标圆环旋转角度
-float data_1;								// 运动学逆解算参数1（线速度/X速度）
-float data_2;								// 运动学逆解算参数2（航向角/Y速度）
-float last_y_speed_target = 40;				// 上一次目标循迹Y速度
+_control_kind_ control_kind = Stop;				// 控制类型
+float wheel_speed_target[3] = {0, 0, 0};		// 轮子目标速度
+float motor_current_target[3] = {0, 0, 0};		// 电机电流目标值
+float motor_pwm_duty[3] = {0, 0, 0};			// 电机PWM占空比
+_move_solve_kind_ move_solve_kind;				// 运动解算类型
+float linear_speed_target;						// 目标线速度
+float translation_yaw_target;					// 目标平动角度
+float x_speed_target;							// 目标x速度
+float y_speed_target;							// 目标y速度
+float angular_speed_target;						// 目标旋转速度
+float angle_rotation_yaw_target;				// 目标角度环旋转角度
+float circle_rotation_yaw_target;				// 目标圆环旋转角度
+float data_1;									// 运动学逆解算参数1（线速度/X速度）
+float data_2;									// 运动学逆解算参数2（航向角/Y速度）
+float speed_slow_change_rate = 0.001;			// 缓变速率（越大缓变速越快）
 /* 箱子 */
 uint8 detection_box_width;						// 识别框宽度
 uint8 detection_box_width_limit = 30;			// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
@@ -105,6 +107,7 @@ uint8 detection_box_height;						// 识别框高度度
 uint8 detection_box_height_limit = 30;			// 识别框高度阈值（大于此阈值才可以进入箱子追踪模式）
 int16 detection_box_center_x;					// 识别框中心横坐标
 uint16 detection_box_center_x_limit = 65;		// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
+uint8 box_y_track_enable_center_x_limit = 40;	// 箱子Y方向定位使能的中心横坐标阈值
 _ai_camera_detection_result_ detection_result;	// 识别结果
 _ai_camera_detection_result_ detection_result_list[100] = {0};	// 识别结果列表
 uint8 detection_result_num = 0;					// 识别结果列表数量
@@ -117,16 +120,18 @@ float sum_weight_normalization_limit[2] = {0.94, 0.80};	// 加权和归一化阈值
 float frame_white_num_normalization[2] = {0};			// 对称法矫正图像左右边框白点数量归一化
 float frame_white_num_normalization_limit = 0.25;		// 对称法矫正图像左右边框白点数量归一化阈值
 uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
-float last_box_distance = 0;					// 上一个箱子的路程
+float last_box_distance = 0;					// 上一个箱子相对于起始点的路程
 /* 速度/角度/时间 */
-float path_y_speed_target = 160;			// 目标循迹Y速度
-float circle_y_speed_target = 150;			// 出入环目标Y速度
-float circle_angular_speed_target = 55;		// 出入环目标角速度
-float circle_angle_target = 85;				// 出入环目标转动角度
-float box_x_speed_target = 60;				// 箱子目标X速度
-float box_x_angular_speed_rate = 0.4;		// 箱子 转动速度/X速度 比例
-float box_fxxk_y_speed_target = 70;			// 推箱子Y速度目标值
-float speed_slow_change_time = 1000.0;		// 缓变速时间
+float path_y_speed_target = 160;				// 目标循迹Y速度
+float circle_y_speed_target = 150;				// 目标圆环Y速度
+float path_y_speed_target_limit = 120;			// 目标循迹Y速度阈值（大于该阈值才开启X方向速度）
+float circle_y_speed_target_limit = 120;		// 目标圆环Y速度阈值（大于该阈值才开启X方向速度）
+float circle_angular_speed_target = 55;			// 出入环目标角速度
+float circle_angle_target[2] = {75, 60};		// 出入环目标转动角度
+float box_x_speed_target = 60;					// 箱子目标X速度
+float box_x_angular_speed_rate = 0.36;			// 箱子 转动速度/X速度 比例
+float box_fxxk_y_speed_target = 80;				// 推箱子Y速度目标值
+uint32 last_speed_slow_change_timer_time = 0;	// 缓变速上一次计时器时间
 
 /*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd */
 // 电机
@@ -148,7 +153,7 @@ float I_2_PID[5] = 		  { 60,     170,     0,     500,         9000 };
 float I_3_PID[5] = 		  { 60,     170,     0,     500,         9000 };
 // 循线
 float PATH_RANGE[2][3] = {{ 8.0,   30.0,  60.0 },		// 循迹误差区间
-						  { 40.0,  200.0,  400.0 }};		// 角速度区间
+						  { 40.0,  200.0, 400.0 }};		// 角速度区间
 
 float GYRO_RANGE[2][3] = {{ 40.0,  200.0,  400.0 },		// 循迹误差区间
 						  { 12.0,   25.0,  50.0}};		// 角速度区间
@@ -172,40 +177,30 @@ float x_speed_rate = 2.4;					// x速度比例（目标x速度/目标旋转速度）
 
 // 旋转
 float ROTATE_RANGE[3] =   { 15.0,  50.0,  120.0 };		// 角度环误差区间						  
-float ROTATE_PID[4][5] = {{ 0.6,   0,     1.54,  20,          45 },
-						  { 0.9,   0,     1.20,  20,          75 },
-						  { 1.25,  0,     0.84,  20,          105 },
-						  { 1.8,   0,     0.58,  20,	      130 }};							  
+float ROTATE_PID[4][5] = {{ 0.8,   0,     1.54,  20,          45 },
+						  { 1.1,   0,     1.20,  20,          75 },
+						  { 1.6,   0,     0.84,  20,          105 },
+						  { 2.1,   0,     0.58,  20,	      130 }};							  
 // BOX X
 float BOX_X_RANGE[3] =    { 10.0,  20.0,  30.0 };		// BOX X误差区间	
-float BOX_X_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           35 },
-						  { 0.6,   0,     0.12,  2,           60 },
-					      { 1.2,   0,     0.17,  2,           80 },
-						  { 1.7,   0,     0.17,  2,           100 }};					  
+float BOX_X_PID[4][5] =  {{ 0.45,  0,     1.27,  2,           35 },
+						  { 0.75,  0,     1.00,  2,           60 },
+					      { 0.9,   0,     0.37,  2,           80 },
+						  { 1.2,   0,     0.47,  2,           100 }};					  
 // BOX Y
 float BOX_Y_RANGE[3] =    { 10.0,  20.0,  45.0 };		// BOX Y误差区间	
-float BOX_Y_PID[4][5] =  {{ 0.35,  0,     0.07,  2,           35 },
-						  { 0.50,  0,     0.17,  2,           60 },
-					      { 1.2,   0,     0.27,  2,           80 },
-						  { 1.8,   0,     0.27,  2,           100 }};
+float BOX_Y_PID[4][5] =  {{ 0.45,  0,     1.27,  2,           35 },
+						  { 0.75,  0,     1.00,  2,           60 },
+					      { 1.2,   0,     0.37,  2,           80 },
+						  { 1.7,   0,     0.47,  2,           100 }};
  
-/* KARMAN滤波器参数		   	Q     R     Q越小越平滑   R越小越接近(收敛越快)*/
-float I_KARMAN[2] = 	      { 0.01, 0.1};
+/* KARMAN滤波器参数		   	 Q     R     Q越小越平滑   R越小越接近(收敛越快)*/
+float I_KARMAN[2] = 	   { 0.01, 0.1};
 float PATH_GYRO_KARMAN[2] ={ 0.01, 0.1};
 
 /* 模糊PID 规则表 */
-//_fuzzy_subset_ fuzzy_rules[8][8] =     
-//{  
-//{6,6,5,5,5,6,6, 7},
-//{6,5,4,4,4,5,6, 7},
-//{5,4,3,3,3,4,5, 7},
-//{6,5,4,3,4,5,6, 7},
-//{5,4,3,3,3,4,5, 7},
-//{6,5,4,4,4,5,6, 7},
-//{6,6,5,5,5,6,6, 7},
-
-//{7,7,7,7,7,7,7,7}};
-_fuzzy_subset_ fuzzy_rules[8][8] =     
+// 方向环
+_fuzzy_subset_ path_fuzzy_rules[8][8] =     
 {  
 {6,5,4,3,4,5,6, 7},
 {6,5,4,3,4,5,6, 7},
@@ -216,8 +211,9 @@ _fuzzy_subset_ fuzzy_rules[8][8] =
 {6,5,4,3,4,5,6, 7},
 
 {7,7,7,7,7,7,7,7}};
-_fuzzy_subset_ fuzzy_rules_gyro[8][8] = 
-                                    {  
+// 方向环陀螺仪
+_fuzzy_subset_ gyro_fuzzy_rules[8][8] = 
+{  
 {7,7,7,6,7,7,7, 7},
 {7,7,7,5,7,7,7, 7},
 {7,7,7,4,7,7,7, 7},
@@ -225,6 +221,42 @@ _fuzzy_subset_ fuzzy_rules_gyro[8][8] =
 {7,7,7,4,7,7,7, 7},
 {7,7,7,5,7,7,7, 7},
 {7,7,7,6,7,7,7, 7},
+
+{7,7,7,7,7,7,7,7}};
+// 箱子X/Y定位
+_fuzzy_subset_ xy_fuzzy_rules[8][8] =     
+{  
+{6,6,5,5,5,6,6, 7},
+{6,5,4,4,4,5,6, 7},
+{5,4,3,3,3,4,5, 7},
+{6,5,4,3,4,5,6, 7},
+{5,4,3,3,3,4,5, 7},
+{6,5,4,4,4,5,6, 7},
+{6,6,5,5,5,6,6, 7},
+
+{7,7,7,7,7,7,7,7}};
+// 角度环
+_fuzzy_subset_ angle_rotate_fuzzy_rules[8][8] =     
+{  
+{6,6,5,5,5,6,6, 7},
+{6,5,4,4,4,5,6, 7},
+{5,4,3,3,3,4,5, 7},
+{6,5,4,3,4,5,6, 7},
+{5,4,3,3,3,4,5, 7},
+{6,5,4,4,4,5,6, 7},
+{6,6,5,5,5,6,6, 7},
+
+{7,7,7,7,7,7,7,7}};
+// 圆环角度环
+_fuzzy_subset_ circle_rotate_fuzzy_rules[8][8] =     
+{  
+{6,6,5,5,5,6,6, 7},
+{6,5,4,4,4,5,6, 7},
+{5,4,3,3,3,4,5, 7},
+{6,5,4,3,4,5,6, 7},
+{5,4,3,3,3,4,5, 7},
+{6,5,4,4,4,5,6, 7},
+{6,6,5,5,5,6,6, 7},
 
 {7,7,7,7,7,7,7,7}};
 
@@ -239,8 +271,6 @@ void flag_init(void){
 	displacement_solve.solve_flag = False;
 	// 计时器使能标志位
 	zebra_path_timer.ticking_flag = False;
-	circle_in_timer.ticking_flag = False;
-	circle_out_timer.ticking_flag = False;
 	speed_slow_change_timer.ticking_flag = False;
 	// 完成标志位
 	angle_rotate_finsh_flag = False;	// 角度环旋转完成标志位
@@ -272,7 +302,9 @@ void variable_init(void){
 	circle_rotation_yaw_target = 0;		// 目标圆环旋转角度
 	data_1 = 0;							// 运动学逆解算参数1（线速度/X速度）
 	data_2 = 0;							// 运动学逆解算参数2（航向角/Y速度）
-	last_y_speed_target = 40;			// 上一次速度
+	last_speed_slow_change_timer_time = 0;	// 缓变速上一次计时器时间
+	circle_in_distance = 0;			// 圆环进环处相对起始点的路程
+	circle_out_distance = 0;		// 圆环出环处相对起始点的路程
 	
 	dog_path.mid_x = MT9V03X_W/2;					// 动态中线
 	memset(dog_path.path,0,sizeof(dog_path.path));	// 路径线x、y坐标

@@ -410,8 +410,13 @@ static void box_xy_pid_calu(void){
 
 	box_x_pid.fuzzy_pid(&box_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
 	x_speed_target = box_x_pid.positional_pid(&box_x_pid, 0, -detection_box_center_err);
-	box_y_pid.fuzzy_pid(&box_y_pid, &detection_box_width_err, Y_Kp, Y_Ki, Y_Kd, Y_i_limit, Y_output_limit, 1);
-	y_speed_target = box_y_pid.positional_pid(&box_y_pid, detection_box_width_target, detection_box_width);
+	if(abs(detection_box_center_err) < box_y_track_enable_center_x_limit){
+		box_y_pid.fuzzy_pid(&box_y_pid, &detection_box_width_err, Y_Kp, Y_Ki, Y_Kd, Y_i_limit, Y_output_limit, 1);
+		y_speed_target = box_y_pid.positional_pid(&box_y_pid, detection_box_width_target, detection_box_width);
+	}
+	else
+		y_speed_target = 0;
+	
 //	if(x_speed_target/x_speed_rate >= 6)
 //		angular_speed_target = 6;
 //	else
@@ -421,10 +426,10 @@ static void box_xy_pid_calu(void){
 	if(abs(detection_box_width_err) <= 6 && abs(detection_box_center_err) <= 6)
 		num++;
 	// 不在阈值范围内清零
-	if(abs(detection_box_width_err) > 6 && abs(detection_box_center_err) > 6)
-		num = 0;
+//	if(abs(detection_box_width_err) > 6 && abs(detection_box_center_err) > 6)
+//		num = 0;
 	// 追踪到阈值内
-	if(abs(detection_box_width_err) <= 4 && abs(detection_box_center_err) <= 4)
+	if(abs(detection_box_width_err) <= 3 && abs(detection_box_center_err) <= 3)
 	{
 		x_speed_target = 0;
 		y_speed_target = 0;
@@ -441,22 +446,30 @@ static void box_xy_pid_calu(void){
 	}
 }
 
-/* 缓加速 */
-void speed_slow_change(float _path_y_speed_target_){
-	// 若目标速度不等于之前的目标速度，缓变速
-	if(_path_y_speed_target_ != last_y_speed_target){
-		speed_slow_change_timer.ticking_flag = True;
-		// 只有在计时时间内才能进行缓变速
-		if(speed_slow_change_timer.time <= speed_slow_change_time)
-			y_speed_target = last_y_speed_target+(_path_y_speed_target_-last_y_speed_target)*(speed_slow_change_timer.time/speed_slow_change_time)*(speed_slow_change_timer.time/speed_slow_change_time)*(speed_slow_change_timer.time/speed_slow_change_time);
-	}
-	else{
+/* 
+	缓变速 
+	变量说明：
+	_path_y_speed_target_ 目标速度
+	speed_slow_change_enable_flag 缓变速使能标志位
+*/
+void speed_slow_change(float _path_y_speed_target_, _bool_ speed_slow_change_enable_flag){
+	// 计算前后两次函数调用时间间隔
+	uint32 speed_slow_change_timer_time_delta = speed_slow_change_timer.time-last_speed_slow_change_timer_time;
+	
+	// 若间隔大于100ms，则需要重置上一次时间
+	if(speed_slow_change_timer_time_delta > 100)
+		last_speed_slow_change_timer_time = speed_slow_change_timer.time;
+	
+	// 启用缓变速
+	if(speed_slow_change_enable_flag == True && y_speed_target < _path_y_speed_target_){
+		// 缓变速
+		y_speed_target += (_path_y_speed_target_-displacement_solve.y_speed)*speed_slow_change_timer_time_delta*speed_slow_change_rate;
+	}	
+	// 关闭缓变速
+	else
 		y_speed_target = _path_y_speed_target_;
-	}
-	// 若目标速度等于目前速度，更新之前的目标速度
-	if(_path_y_speed_target_ == y_speed_target){
-		last_y_speed_target = _path_y_speed_target_;
-		speed_slow_change_timer.ticking_flag = False;
-	}
+	
+	// 更新上一次缓变速计时器时间
+	last_speed_slow_change_timer_time = speed_slow_change_timer.time;
 }
 

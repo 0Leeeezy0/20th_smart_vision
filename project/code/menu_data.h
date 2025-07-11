@@ -132,9 +132,12 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ circle_y_speed_target;
 	_MENU_DATA_NAME_TYPE_ circle_angular_speed_target;
 	_MENU_DATA_NAME_TYPE_ circle_check_y;
-	_MENU_DATA_NAME_TYPE_ circle_angle;
+	_MENU_DATA_NAME_TYPE_ circle_in_angle;
+	_MENU_DATA_NAME_TYPE_ circle_out_angle;
 	_MENU_DATA_NAME_TYPE_ side_extract_start;
 	_MENU_DATA_NAME_TYPE_ side_extract_end;
+	_MENU_DATA_NAME_TYPE_ circle_in_distance_limit;
+	_MENU_DATA_NAME_TYPE_ circle_out_distance_limit;
 }_MENU_CIRCLE_PATH_;
 
 /* ²Ëµ¥PID²ÎÊý */

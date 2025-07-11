@@ -131,8 +131,6 @@ extern DOG_SOLVE box_euler_angle_solve;		// 箱子欧拉角解算
 extern DOG_SOLVE chassis_solve;				// 底盘解算
 extern DOG_SOLVE displacement_solve;		// 位移解算
 extern DOG_TIMER zebra_path_timer;			// 斑马线计时器
-extern DOG_TIMER circle_in_timer;			// 圆环入环计时器（入环后开始计时，计时超过阈值时间才允许进入出环状态）
-extern DOG_TIMER circle_out_timer;			// 圆环出环计时器（出环后开始计时，计时超过阈值时间才允许进入进环状态）
 extern DOG_TIMER speed_slow_change_timer;   // 缓变速计时器
 extern DOG_TIMER motor_debug_timer;         // 电机调试计时器
 extern DOG_CV dog_cv;						// 计算机视觉
@@ -168,6 +166,10 @@ extern uint16 control_point[2];			// 控制点高度（0：最长白列；1：路径线提取）
 /* 圆环 */
 extern uint16 circle_check_y;			// 圆环检测线高度
 extern uint16 side_x_delta_range[2];	// 边线X差值阈值范围
+extern float circle_in_distance;		// 圆环进环处相对起始点的路程
+extern float circle_out_distance;		// 圆环出环处相对起始点的路程
+extern float circle_in_distance_limit ;	// 圆环进环处相对起始点的路程阈值（路程大于该阈值才能出环）
+extern float circle_out_distance_limit;	// 圆环出环处相对起始点的路程阈值（路程大于该阈值才能进环）
 /* 斑马线 */
 extern uint16 zebra_check_y;			// 斑马线检测线高度
 extern uint16 zebra_stop_distance;  	// 斑马线停车距离
@@ -175,22 +177,22 @@ extern uint16 zebra_stop_distance;  	// 斑马线停车距离
 extern _path_state_ path_state;			// 赛道状态
 extern _path_state_ last_path_state;	// 上一次赛道状态
 /* 控制 */
-extern _control_kind_ control_kind;			// 控制类型
-extern float wheel_speed_target[3];			// 轮子目标速度
-extern float motor_current_target[3];		// 电机电流目标值
-extern float motor_pwm_duty[3];		        // 电机PWM占空比
-extern _move_solve_kind_ move_solve_kind;	// 运动解算类型
-extern float linear_speed_target;			// 目标线速度
-extern float translation_yaw_target;		// 目标平动角度
-extern float x_speed_target;				// 目标x速度
-extern float y_speed_target;				// 目标y速度
-extern float angular_speed_target;			// 目标旋转速度
-extern float x_speed_rate;					// x速度比例（目标x速度/目标旋转速度）
-extern float angle_rotation_yaw_target;		// 目标角度环旋转角度
-extern float circle_rotation_yaw_target;	// 目标圆环旋转角度
-extern float data_1;						// 运动学逆解算参数1（线速度/X速度）
-extern float data_2;						// 运动学逆解算参数2（航向角/Y速度）
-extern float last_y_speed_target;			// 上一次目标循迹Y速度
+extern _control_kind_ control_kind;					// 控制类型
+extern float wheel_speed_target[3];					// 轮子目标速度
+extern float motor_current_target[3];				// 电机电流目标值
+extern float motor_pwm_duty[3];		       			// 电机PWM占空比
+extern _move_solve_kind_ move_solve_kind;			// 运动解算类型
+extern float linear_speed_target;					// 目标线速度
+extern float translation_yaw_target;				// 目标平动角度
+extern float x_speed_target;						// 目标x速度
+extern float y_speed_target;						// 目标y速度
+extern float angular_speed_target;					// 目标旋转速度
+extern float x_speed_rate;							// x速度比例（目标x速度/目标旋转速度）
+extern float angle_rotation_yaw_target;				// 目标角度环旋转角度
+extern float circle_rotation_yaw_target;			// 目标圆环旋转角度
+extern float data_1;								// 运动学逆解算参数1（线速度/X速度）
+extern float data_2;								// 运动学逆解算参数2（航向角/Y速度）
+extern float speed_slow_change_rate;				// 缓变速率
 /* 箱子 */
 extern int16 detection_center_err;						// 识别框中心误差
 extern uint8 detection_box_width;						// 识别框宽度
@@ -200,6 +202,7 @@ extern uint8 detection_box_height;						// 识别框高度度
 extern uint8 detection_box_height_limit;				// 识别框高度阈值（大于此阈值才可以进入箱子追踪模式）
 extern int16 detection_box_center_x;					// 识别框中心横坐标
 extern uint16 detection_box_center_x_limit;				// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
+extern uint8 box_y_track_enable_center_x_limit;			// 箱子Y方向定位使能的中心横坐标阈值
 extern _ai_camera_detection_result_ detection_result;	// 识别结果
 extern _ai_camera_detection_result_ detection_result_list[100];	// 识别结果列表
 extern uint8 detection_result_num;						// 识别结果列表数量
@@ -214,14 +217,16 @@ extern float frame_white_num_normalization_limit;		// 对称法矫正图像左右边框白点
 extern uint16 frame_offset;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 extern float last_box_distance;							// 上一个箱子的路程
 /* 速度/角度/时间 */
-extern float path_y_speed_target;				// 目标循迹Y速度
-extern float circle_y_speed_target;				// 出入环目标Y速度
-extern float circle_angular_speed_target;		// 出入环目标角速度
-extern float circle_angle_target;				// 出入环目标转动角度
-extern float box_x_speed_target;				// 箱子目标X速度
-extern float box_x_angular_speed_rate;			// 箱子 转动速度/X速度 比例
-extern float box_fxxk_y_speed_target;			// 推箱子Y速度目标值
-extern float speed_slow_change_time;			// 缓变速时间
+extern float path_y_speed_target;					// 目标循迹Y速度
+extern float circle_y_speed_target;					// 圆环目标Y速度
+extern float path_y_speed_target_limit;				// 目标循迹Y速度阈值（大于该阈值才开启X方向速度）
+extern float circle_y_speed_target_limit;			// 目标循迹Y速度阈值（大于该阈值才开启X方向速度）
+extern float circle_angular_speed_target;			// 出入环目标角速度
+extern float circle_angle_target[2];				// 出入环目标转动角度
+extern float box_x_speed_target;					// 箱子目标X速度
+extern float box_x_angular_speed_rate;				// 箱子 转动速度/X速度 比例
+extern float box_fxxk_y_speed_target;				// 推箱子Y速度目标值
+extern uint32 last_speed_slow_change_timer_time;	// 缓变速上一次计时器时间
 
 /* PID参数 */
 // 电机
@@ -254,8 +259,11 @@ extern float I_KARMAN[2];
 extern float PATH_GYRO_KARMAN[2];
 
 /* 模糊PID 规则表 */
-extern _fuzzy_subset_ fuzzy_rules[8][8];
-extern _fuzzy_subset_ fuzzy_rules_gyro[8][8];
+extern _fuzzy_subset_ path_fuzzy_rules[8][8];
+extern _fuzzy_subset_ gyro_fuzzy_rules[8][8];
+extern _fuzzy_subset_ xy_fuzzy_rules[8][8];
+extern _fuzzy_subset_ angle_rotate_fuzzy_rules[8][8];
+extern _fuzzy_subset_ circle_rotate_fuzzy_rules[8][8];
 
 /* 标志位初始化 */	
 void flag_init(void);

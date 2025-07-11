@@ -59,7 +59,7 @@ static _MENU_PAGE_ menu_page[] =
 	{"AI_CAMERA_1&2"	,True		,1	,12		,1		,menu_ai_camera_1_and_2_page		},
 	{"DETECTION_LIST"	,True		,1	,13		,0		,menu_detection_list				},
 	{"PATH"				,True		,1	,14		,7		,menu_path_page						},
-	{"CIRCLE_PATH"		,True		,1	,15		,7		,menu_circle_path_page				},
+	{"CIRCLE_PATH"		,True		,1	,15		,10		,menu_circle_path_page				},
 	{"MOTOR_1 PID"		,True 		,1 	,16 	,11 	,menu_motor_1_pid_page				},
 	{"MOTOR_2 PID"		,True 		,1 	,17 	,11 	,menu_motor_2_pid_page				},
 	{"MOTOR_3 PID"		,True 		,1 	,18 	,11 	,menu_motor_3_pid_page				},
@@ -338,8 +338,7 @@ void start(void)
 	chassis_solve.solve_flag = True;
 	displacement_solve.solve_flag = True;
 	zebra_path_timer.ticking_flag = False;
-	circle_in_timer.ticking_flag = False;
-	circle_out_timer.ticking_flag = True;
+	speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
 	circle_rotate_finsh_flag = False;
@@ -380,8 +379,7 @@ void debug(void)
 	circle_enable_flag = True;
 	zebra_enable_flag = True;
 	zebra_path_timer.ticking_flag = False;
-	circle_in_timer.ticking_flag = False;
-	circle_out_timer.ticking_flag = True;
+	speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
 	circle_rotate_finsh_flag = False;
@@ -947,9 +945,12 @@ void menu_circle_path_page(void)
 		MENU_CIRCLE_PATH.circle_y_speed_target.data_float = circle_y_speed_target;
 		MENU_CIRCLE_PATH.circle_angular_speed_target.data_float = circle_angular_speed_target;
 		MENU_CIRCLE_PATH.circle_check_y.data_int16 = circle_check_y;
-		MENU_CIRCLE_PATH.circle_angle.data_int16 = circle_angle_target;
+		MENU_CIRCLE_PATH.circle_in_angle.data_int16 = circle_angle_target[0];
+		MENU_CIRCLE_PATH.circle_out_angle.data_int16 = circle_angle_target[1];
 		MENU_CIRCLE_PATH.side_extract_start.data_int16 = side_extract_start_y;
 		MENU_CIRCLE_PATH.side_extract_end.data_int16 = side_extract_end_y;
+		MENU_CIRCLE_PATH.circle_in_distance_limit.data_float = circle_in_distance_limit;
+		MENU_CIRCLE_PATH.circle_out_distance_limit.data_float = circle_out_distance_limit;
 	
 		// 显示圆环循线数据
 		screen_string(0,MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_enable_flag.name);
@@ -964,14 +965,23 @@ void menu_circle_path_page(void)
 		screen_string(0,4*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_check_y.name);
 		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_check_y.data_int16,3);
 		
-		screen_string(0,5*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_angle.name);
-		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_angle.data_int16,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_angle.name);
+		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_angle.data_int16,3);
 		
-		screen_string(0,6*MENU_ROW_PITCH,MENU_CIRCLE_PATH.side_extract_start.name);
-		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_CIRCLE_PATH.side_extract_start.data_int16,3);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_angle.name);
+		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_angle.data_int16,3);
 		
-		screen_string(0,7*MENU_ROW_PITCH,MENU_CIRCLE_PATH.side_extract_end.name);
-		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_CIRCLE_PATH.side_extract_end.data_int16,3);
+		screen_string(0,7*MENU_ROW_PITCH,MENU_CIRCLE_PATH.side_extract_start.name);
+		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_CIRCLE_PATH.side_extract_start.data_int16,3);
+		
+		screen_string(0,8*MENU_ROW_PITCH,MENU_CIRCLE_PATH.side_extract_end.name);
+		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_CIRCLE_PATH.side_extract_end.data_int16,3);
+		
+		screen_string(0,9*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_distance_limit.name);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_in_distance_limit.data_float,3,1);
+		
+		screen_string(0,10*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_distance_limit.name);
+		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_CIRCLE_PATH.circle_out_distance_limit.data_float,3,1);
 		vofa_debug();
 	}
 }
@@ -1437,9 +1447,12 @@ void menu_circle_path_data_add_service(void)
 		case 1:{ circle_y_speed_target+=1; break; }
 		case 2:{ circle_angular_speed_target+=1; break; }
 		case 3:{ circle_check_y+=1; break; }
-		case 4:{ circle_angle_target+=1; break; }
-		case 5:{ side_extract_start_y+=1; break; }
-		case 6:{ side_extract_end_y+=1; break; }			
+		case 4:{ circle_angle_target[0]+=1; break; }
+		case 5:{ circle_angle_target[1]+=1; break; }
+		case 6:{ side_extract_start_y+=1; break; }
+		case 7:{ side_extract_end_y+=1; break; }
+		case 8:{ circle_in_distance_limit+=1.0; break; }
+		case 9:{ circle_out_distance_limit+=1.0; break; }			
 	}
 	if(circle_enable_flag > 1)
 	{
@@ -1454,9 +1467,12 @@ void menu_circle_path_data_reduce_service(void)
 		case 1:{ circle_y_speed_target-=1; break; }
 		case 2:{ circle_angular_speed_target-=1; break; }
 		case 3:{ circle_check_y-=1; break; }
-		case 4:{ circle_angle_target-=1; break; }
-		case 5:{ side_extract_start_y-=1; break; }
-		case 6:{ side_extract_end_y-=1; break; }			
+		case 4:{ circle_angle_target[0]-=1; break; }
+		case 5:{ circle_angle_target[1]-=1; break; }
+		case 6:{ side_extract_start_y-=1; break; }
+		case 7:{ side_extract_end_y-=1; break; }	
+		case 8:{ circle_in_distance_limit-=1.0; break; }
+		case 9:{ circle_out_distance_limit-=1.0; break; }			
 	}
 	if(circle_enable_flag > 1)
 	{
