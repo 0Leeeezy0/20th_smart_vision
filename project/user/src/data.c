@@ -119,7 +119,7 @@ float frame_white_num_normalization_limit = 0.25;		// 对称法矫正图像左右边框白点
 uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 float last_box_distance = 0;					// 上一个箱子的路程
 /* 速度/角度/时间 */
-float path_y_speed_target = 180;			// 目标循迹Y速度
+float path_y_speed_target = 160;			// 目标循迹Y速度
 float circle_y_speed_target = 140;			// 出入环目标Y速度
 float circle_angular_speed_target = 35;		// 出入环目标角速度
 float circle_angle_target = 90;				// 出入环目标转动角度
@@ -163,8 +163,8 @@ float GYRO_RANGE[2][3] = {{ 40.0,  200.0,  400.0 },		// 循迹误差区间
 //						  { 1.40, 0,    -2.6,   2,           75,          0.03},
 //						  { 1.30, 0,     0.5,   2,           75,          0.05}};
                         
-float PATH_PID[4][6] =    {{ 1.8, 0,     0.0,   2,           75,          0.05},
-						  { 1.3, 0,     0.0,   2,           75,          0.05},
+float PATH_PID[4][6] =    {{ 2.8, 0,     5.0,   2,           75,          0.05},
+						  { 1.3, 0,     10.0,   2,           75,          0.05},
 						  { 0.8, 0,     0.0,   2,           75,          0.05},
 						  { 0.5, 0,     0.0,   2,           75,          0.05}};
 
