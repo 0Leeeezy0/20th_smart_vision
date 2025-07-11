@@ -131,7 +131,6 @@ extern DOG_SOLVE box_euler_angle_solve;		// 箱子欧拉角解算
 extern DOG_SOLVE chassis_solve;				// 底盘解算
 extern DOG_SOLVE displacement_solve;		// 位移解算
 extern DOG_TIMER zebra_path_timer;			// 斑马线计时器
-extern DOG_TIMER x_speed_slow_change_timer; // X缓变速计时器
 extern DOG_TIMER y_speed_slow_change_timer; // Y缓变速计时器
 extern DOG_TIMER motor_debug_timer;         // 电机调试计时器
 extern DOG_CV dog_cv;						// 计算机视觉
@@ -188,13 +187,12 @@ extern float translation_yaw_target;				// 目标平动角度
 extern float x_speed_target;						// 目标x速度
 extern float y_speed_target;						// 目标y速度
 extern float angular_speed_target;					// 目标旋转速度
-extern float x_speed_rate;							// x速度比例（目标x速度/目标旋转速度）
 extern float angle_rotation_yaw_target;				// 目标角度环旋转角度
 extern float circle_rotation_yaw_target;			// 目标圆环旋转角度
 extern float data_1;								// 运动学逆解算参数1（线速度/X速度）
 extern float data_2;								// 运动学逆解算参数2（航向角/Y速度）
-extern float x_speed_slow_change_rate;				// X缓变速率（越大缓变速越快）
 extern float y_speed_slow_change_rate;				// X缓变速率（越大缓变速越快）
+extern float x_speed_rate;							// x速度比例（目标x速度/目标旋转速度）
 /* 箱子 */
 extern int16 detection_center_err;						// 识别框中心误差
 extern uint8 detection_box_width;						// 识别框宽度
@@ -228,7 +226,6 @@ extern float circle_angle_target[2];				// 出入环目标转动角度
 extern float box_x_speed_target;					// 箱子目标X速度
 extern float box_x_angular_speed_rate;				// 箱子 转动速度/X速度 比例
 extern float box_fxxk_y_speed_target;				// 推箱子Y速度目标值
-extern uint32 last_x_speed_slow_change_timer_time;	// X缓变速上一次计时器时间
 extern uint32 last_y_speed_slow_change_timer_time;	// Y缓变速上一次计时器时间
 
 /* PID参数 */

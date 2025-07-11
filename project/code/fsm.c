@@ -367,7 +367,6 @@ void fsm(void){
 					wheel_speed_target[1] = 0;
 					wheel_speed_target[2] = 0;
 					
-					x_speed_target = 0.5;		// 设置循线X速度缓启动速度
 					y_speed_target = 0;			// 设置循线Y速度缓启动速度
 					/* 变量设置 */
 					last_box_distance = displacement_solve.distance;	// 记录当前箱子相对于起始点的路程
@@ -403,15 +402,10 @@ void fsm(void){
 			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
 			path_pid_calc();
 //			angular_speed_target*x_speed_rate;
-//			if(displacement_solve.y_speed >= circle_y_speed_target_limit)
-//				x_speed_target = angular_speed_target*x_speed_rate;
-//			else
-//				x_speed_target = 0;
-			// 当y速度还在缓变速时，使能X缓变速
-			if(y_speed_target != path_y_speed_target)
-				x_speed_slow_change(angular_speed_target*x_speed_rate, True);	// X缓变速
+			if(displacement_solve.y_speed >= circle_y_speed_target_limit)
+				x_speed_target = angular_speed_target*x_speed_rate;
 			else
-				x_speed_slow_change(angular_speed_target*x_speed_rate, False);
+				x_speed_target = 0;
 			y_speed_slow_change(circle_y_speed_target, True);				// Y缓变速
 		}
 		// 普通赛道/斑马线
@@ -420,15 +414,10 @@ void fsm(void){
 			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
 			path_pid_calc();
 //			angular_speed_target*x_speed_rate;
-//			if(displacement_solve.y_speed >= path_y_speed_target_limit)
-//				x_speed_target = angular_speed_target*x_speed_rate;
-//			else
-//				x_speed_target = 0;
-			// 当y速度还在缓变速时，使能X缓变速
-			if(y_speed_target != path_y_speed_target)
-				x_speed_slow_change(angular_speed_target*x_speed_rate, True);	// X缓变速
+			if(displacement_solve.y_speed >= path_y_speed_target_limit)
+				x_speed_target = angular_speed_target*x_speed_rate;
 			else
-				x_speed_slow_change(angular_speed_target*x_speed_rate, False);
+				x_speed_target = 0;
 			y_speed_slow_change(path_y_speed_target, True);					// Y缓变速
 		}
 	}

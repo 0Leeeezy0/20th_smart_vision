@@ -88,7 +88,6 @@ int main(void)
 	/* 计时器 */
 	timer(&zebra_path_timer, 5);
     timer(&motor_debug_timer, 5);
-	timer(&x_speed_slow_change_timer, 5);
 	timer(&y_speed_slow_change_timer, 5);
 	
 	/* 欧拉角解算 */
