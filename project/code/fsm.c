@@ -393,7 +393,7 @@ void fsm(void){
 		if(path_state == L_circle || path_state == R_circle){
 			path_err = dog_path.path[control_point[1]][0]-MT9V03X_W/2;	
 			path_pid_calc();
-			x_speed_target = 0;
+			x_speed_target = angular_speed_target*x_speed_rate;
 			speed_slow_change(circle_y_speed_target);	// »º±äËÙ
 //			y_speed_target = circle_y_speed_target;
 		}

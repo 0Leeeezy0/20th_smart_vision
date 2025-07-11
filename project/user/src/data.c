@@ -73,7 +73,7 @@ uint16 side_extract_end_y = 20;			// 边线提取结束高度
 uint16 prediction_point = 30;			// 预测点高度：其横坐标将作为下一帧的搜线起点
 uint16 control_point[2] = {65 ,60};		// 控制点高度（0：最长白列；1：路径线提取）
 /* 圆环 */
-uint16 circle_check_y = 60;				// 圆环检测线高度
+uint16 circle_check_y = 65;				// 圆环检测线高度
 uint16 side_x_delta_range[2] = {3, 15};	// 边线X差值阈值范围（小，大）
 /* 斑马线 */
 uint16 zebra_check_y = 1;				// 斑马线检测线高度
@@ -120,9 +120,9 @@ uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率
 float last_box_distance = 0;					// 上一个箱子的路程
 /* 速度/角度/时间 */
 float path_y_speed_target = 160;			// 目标循迹Y速度
-float circle_y_speed_target = 140;			// 出入环目标Y速度
-float circle_angular_speed_target = 35;		// 出入环目标角速度
-float circle_angle_target = 90;				// 出入环目标转动角度
+float circle_y_speed_target = 150;			// 出入环目标Y速度
+float circle_angular_speed_target = 55;		// 出入环目标角速度
+float circle_angle_target = 85;				// 出入环目标转动角度
 float box_x_speed_target = 60;				// 箱子目标X速度
 float box_x_angular_speed_rate = 0.4;		// 箱子 转动速度/X速度 比例
 float box_fxxk_y_speed_target = 70;			// 推箱子Y速度目标值
