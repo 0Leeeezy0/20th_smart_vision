@@ -124,6 +124,7 @@ float frame_white_num_normalization_limit = 0.25;		// 对称法矫正图像左右边框白点
 uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 float last_box_world_x = 0;								// 上一个箱子相对于起始点的世界X坐标
 float last_box_world_y = 0;								// 上一个箱子相对于起始点的世界Y坐标
+float box_distance = 100;								// 箱子间距
 /* 速度/角度/时间 */
 uint8 plan_idx = 0;									// 方案索引（由低至高，方案速度逐渐变快）			
 float path_y_speed_target[3] = {170, 190, 210};		// 目标循迹Y速度

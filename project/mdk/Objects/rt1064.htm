@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jul 13 06:31:33 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jul 13 07:21:52 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1408 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3573,18 +3573,18 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
-<P><STRONG><a name="[105]"></a>menu_ai_camera_0_data_add_service</STRONG> (Thumb, 264 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_0_data_add_service))
+<P><STRONG><a name="[105]"></a>menu_ai_camera_0_data_add_service</STRONG> (Thumb, 288 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_0_data_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_ai_camera_0_data_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_ai_camera_0_page)
 </UL>
-<P><STRONG><a name="[106]"></a>menu_ai_camera_0_data_reduce_service</STRONG> (Thumb, 240 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_0_data_reduce_service))
+<P><STRONG><a name="[106]"></a>menu_ai_camera_0_data_reduce_service</STRONG> (Thumb, 288 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_0_data_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_ai_camera_0_data_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_ai_camera_0_page)
 </UL>
-<P><STRONG><a name="[e]"></a>menu_ai_camera_0_page</STRONG> (Thumb, 662 bytes, Stack size 88 bytes, menu.o(.text.menu_ai_camera_0_page))
-<BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = menu_ai_camera_0_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[e]"></a>menu_ai_camera_0_page</STRONG> (Thumb, 724 bytes, Stack size 96 bytes, menu.o(.text.menu_ai_camera_0_page))
+<BR><BR>[Stack]<UL><LI>Max Depth = 744<LI>Call Chain = menu_ai_camera_0_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
@@ -3683,7 +3683,7 @@ Global Symbols
 <LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;plan
 </UL>
 
-<P><STRONG><a name="[2c5]"></a>menu_data_leeeezy_init</STRONG> (Thumb, 1040 bytes, Stack size 16 bytes, menu_data.o(.text.menu_data_leeeezy_init))
+<P><STRONG><a name="[2c5]"></a>menu_data_leeeezy_init</STRONG> (Thumb, 1050 bytes, Stack size 16 bytes, menu_data.o(.text.menu_data_leeeezy_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = menu_data_leeeezy_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_init
@@ -4537,12 +4537,12 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[0]"></a>type_default_callback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, zf_device_type.o(.text.type_default_callback))
-<BR>[Address Reference Count : 6]<UL><LI> zf_device_type.o(.text.set_camera_type)
-<LI> zf_device_type.o(.data.camera_uart_handler)
+<BR>[Address Reference Count : 6]<UL><LI> zf_device_type.o(.data.camera_uart_handler)
 <LI> zf_device_type.o(.data.flexio_camera_vsync_handler)
 <LI> zf_device_type.o(.data.wireless_module_uart_handler)
 <LI> zf_device_type.o(.data.wireless_module_spi_handler)
 <LI> zf_device_type.o(.data.tof_module_exti_handler)
+<LI> zf_device_type.o(.text.set_camera_type)
 </UL>
 <P><STRONG><a name="[24e]"></a>uart_init</STRONG> (Thumb, 158 bytes, Stack size 56 bytes, zf_driver_uart.o(.text.uart_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 792<LI>Call Chain = uart_init &rArr; uart_iomuxc &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
@@ -4668,8 +4668,10 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[268]"></a>vofa_debug</STRONG> (Thumb, 296 bytes, Stack size 48 bytes, debug.o(.text.vofa_debug))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = vofa_debug
+<P><STRONG><a name="[268]"></a>vofa_debug</STRONG> (Thumb, 138 bytes, Stack size 24 bytes, debug.o(.text.vofa_debug))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = vofa_debug &rArr; __hardfp_sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_path_pid_page
 <LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_motor_3_pid_page
@@ -4861,6 +4863,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[2fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 </UL>
 <BR>[Called By]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_solve
+<LI><a href="#[268]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
 <LI><a href="#[287]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_state_judge
 <LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;side_point_kind_judge
 </UL>

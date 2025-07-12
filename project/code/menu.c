@@ -56,7 +56,7 @@ static _MENU_PAGE_ menu_page[] =
 	{"EULER_ANGLE"      ,True		,1	,9		,0		,menu_euler_angle_page				},
 	{"TRANSLATE_SHIFT"	,True		,1	,10		,0		,menu_translate_shift_page			},
 	{"RECTIFICATE"		,True		,1	,11		,0		,menu_symmetry_rectificate_page		},
-	{"AI_CAMERA_0"		,True		,1	,12		,7		,menu_ai_camera_0_page				},
+	{"AI_CAMERA_0"		,True		,1	,12		,8		,menu_ai_camera_0_page				},
 	{"AI_CAMERA_1&2"	,True		,1	,13		,1		,menu_ai_camera_1_and_2_page		},
 	{"DETECTION_LIST"	,True		,1	,14		,0		,menu_detection_list				},
 	{"PATH"				,True		,1	,15		,7		,menu_path_page						},
@@ -768,6 +768,7 @@ void menu_ai_camera_0_page(void)
 		MENU_AI_CAMERA_0.box_x_speed_target.data_float = box_x_speed_target;
 		MENU_AI_CAMERA_0.box_x_angular_speed_rate.data_float = box_x_angular_speed_rate;
 		MENU_AI_CAMERA_0.box_fxxk_speed.data_float = box_fxxk_y_speed_target[plan_idx];
+		MENU_AI_CAMERA_0.box_distance.data_float = box_distance;
 		
 		// 显示MCXVISION摄像头数据
 		screen_string(0,MENU_ROW_PITCH,MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name);
@@ -791,17 +792,20 @@ void menu_ai_camera_0_page(void)
 		screen_string(0,7*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_fxxk_speed.name);
 		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_fxxk_speed.data_float,3,1);
 		
-		screen_string(0,7*MENU_ROW_PITCH,"CENTER_X");
-		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,detection_box_center_x,3);
+		screen_string(0,8*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_distance.name);
+		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_distance.data_float,3,1);
 		
-		screen_string(0,8*MENU_ROW_PITCH,"BOX_WIDTH");
-		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,detection_box_width,3);
+		screen_string(0,10*MENU_ROW_PITCH,"CENTER_X");
+		screen_int(DATA_MAX_COL,10*MENU_ROW_PITCH,detection_box_center_x,3);
 		
-		screen_string(0,9*MENU_ROW_PITCH,"BOX_HEIGHT");
-		screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,detection_box_height,3);
+		screen_string(0,11*MENU_ROW_PITCH,"BOX_WIDTH");
+		screen_int(DATA_MAX_COL,11*MENU_ROW_PITCH,detection_box_width,3);
 		
-		screen_string(0,10*MENU_ROW_PITCH,"TRACK_ERR");
-		screen_int(DATA_MAX_COL,10*MENU_ROW_PITCH,detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2,3);
+		screen_string(0,12*MENU_ROW_PITCH,"BOX_HEIGHT");
+		screen_int(DATA_MAX_COL,12*MENU_ROW_PITCH,detection_box_height,3);
+		
+		screen_string(0,13*MENU_ROW_PITCH,"TRACK_ERR");
+		screen_int(DATA_MAX_COL,13*MENU_ROW_PITCH,detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2,3);
 		vofa_debug();
 	}
 }
@@ -1431,6 +1435,7 @@ void menu_ai_camera_0_data_add_service(void)
 		case 4:{ box_x_speed_target+=0.5; break; }
 		case 5:{ box_x_angular_speed_rate+=0.01; break; }
 		case 6:{ box_fxxk_y_speed_target[plan_idx]+=1.0; break; }
+		case 7:{ box_distance+=5; break; }
 	}
 	if(ai_camera_0_enable_flag > 1)
 	{
@@ -1447,7 +1452,8 @@ void menu_ai_camera_0_data_reduce_service(void)
 		case 3:{ detection_box_center_x_limit-=1; break; }
 		case 4:{ box_x_speed_target-=0.5; break; }
 		case 5:{ box_x_angular_speed_rate-=0.01; break; }
-		case 6:{ box_fxxk_y_speed_target[plan_idx]=1.0; break; }
+		case 6:{ box_fxxk_y_speed_target[plan_idx]-=1.0; break; }
+		case 7:{ box_distance-=5; break; }
 	}
 	if(ai_camera_0_enable_flag > 1)
 	{

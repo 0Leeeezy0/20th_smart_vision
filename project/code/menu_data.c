@@ -71,6 +71,7 @@ void menu_data_leeeezy_init(void)
 	MENU_AI_CAMERA_0.box_x_speed_target.name = "BOX_X_SPEED";
 	MENU_AI_CAMERA_0.box_x_angular_speed_rate.name = "BOX_SPEED_RATE";
 	MENU_AI_CAMERA_0.box_fxxk_speed.name = "BOX_FXXK_SPEED";
+	MENU_AI_CAMERA_0.box_distance.name = "BOX_DISTANCE";
 	
 	MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.name = "SUP_EN"; 
 	MENU_AI_CAMERA_1_2.detection_result.name = "DETECTION_RESULT";
