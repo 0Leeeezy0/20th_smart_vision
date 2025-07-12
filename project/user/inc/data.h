@@ -217,15 +217,16 @@ extern float frame_white_num_normalization_limit;		// 对称法矫正图像左右边框白点
 extern uint16 frame_offset;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 extern float last_box_distance;							// 上一个箱子的路程
 /* 速度/角度/时间 */
-extern float path_y_speed_target;					// 目标循迹Y速度
-extern float circle_y_speed_target;					// 圆环目标Y速度
-extern float path_y_speed_target_limit;				// 目标循迹Y速度阈值（大于该阈值才开启X方向速度）
-extern float circle_y_speed_target_limit;			// 目标循迹Y速度阈值（大于该阈值才开启X方向速度）
+extern uint8 plan_idx;								// 方案索引（由低至高，方案速度逐渐变快）	
+extern float path_y_speed_target[3];				// 目标循迹Y速度
+extern float circle_y_speed_target[3];				// 目标圆环Y速度
+extern float path_x_speed_enable_y_speed_rate;		// 目标循迹Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
+extern float circle_x_speed_enable_y_speed_rate;	// 目标圆环Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
 extern float circle_angular_speed_target;			// 出入环目标角速度
 extern float circle_angle_target[2];				// 出入环目标转动角度
 extern float box_x_speed_target;					// 箱子目标X速度
 extern float box_x_angular_speed_rate;				// 箱子 转动速度/X速度 比例
-extern float box_fxxk_y_speed_target;				// 推箱子Y速度目标值
+extern float box_fxxk_y_speed_target[3];			// 推箱子Y速度目标值
 extern uint32 last_y_speed_slow_change_timer_time;	// Y缓变速上一次计时器时间
 
 /* PID参数 */
@@ -240,7 +241,7 @@ extern float I_3_PID[5];
 // 循线
 extern float PATH_RANGE[2][3];
 extern float GYRO_RANGE[2][3];
-extern float PATH_PID[4][6];
+extern float PATH_PID[3][4][6];
 // 旋转
 extern float ROTATE_RANGE[3];
 extern float ROTATE_PID[4][5];						  

@@ -15,6 +15,7 @@ _MENU_MOTOR_ MENU_MOTOR;
 _MENU_GYRO_ACC_ MENU_GYRO_ACC;
 _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
 _MENU_SHIFT_ MENU_SHIFT;
+_MENU_PLAN_ MENU_PLAN;
 _MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
 _MENU_AI_CAMERA_1_2_ MENU_AI_CAMERA_1_2;
 _MENU_PATH_ MENU_PATH;
@@ -60,11 +61,14 @@ void menu_data_leeeezy_init(void)
 	MENU_SHIFT.world_x.name = "WORLD_X";
 	MENU_SHIFT.world_y.name = "WORLD_Y";
 	MENU_SHIFT.world_yaw.name = "WORLD_YAW";
+	
+	MENU_PLAN.plan_idx.name = "PLAN_IDX";
 
 	MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name = "CAMERA_0_EN";
 	MENU_AI_CAMERA_0.detection_box_width_limit.name = "W_LIMIT";
 	MENU_AI_CAMERA_0.detection_box_width_target.name = "W_TARGET";
 	MENU_AI_CAMERA_0.detection_box_center_limit.name = "CENTER_ERR_LIMIT";
+	MENU_AI_CAMERA_0.box_fxxk_speed.name = "BOX_FXXK_SPEED";
 	
 	MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.name = "SUP_EN"; 
 	MENU_AI_CAMERA_1_2.detection_result.name = "DETECTION_RESULT";

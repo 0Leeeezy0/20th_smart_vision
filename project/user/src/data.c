@@ -123,16 +123,17 @@ float frame_white_num_normalization_limit = 0.25;		// 对称法矫正图像左右边框白点
 uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
 float last_box_distance = 0;					// 上一个箱子相对于起始点的路程
 /* 速度/角度/时间 */
-float path_y_speed_target = 190;				// 目标循迹Y速度
-float circle_y_speed_target = 160;				// 目标圆环Y速度
-float path_y_speed_target_limit = 120;			// 目标循迹Y速度阈值（大于该阈值才开启X方向速度）
-float circle_y_speed_target_limit = 120;		// 目标圆环Y速度阈值（大于该阈值才开启X方向速度）
-float circle_angular_speed_target = 50;			// 出入环目标角速度
-float circle_angle_target[2] = {70, 65};		// 出入环目标转动角度
-float box_x_speed_target = 60;					// 箱子目标X速度
-float box_x_angular_speed_rate = 0.36;			// 箱子 转动速度/X速度 比例
-float box_fxxk_y_speed_target = 80;				// 推箱子Y速度目标值
-uint32 last_y_speed_slow_change_timer_time = 0;	// Y缓变速上一次计时器时间
+uint8 plan_idx = 0;									// 方案索引（由低至高，方案速度逐渐变快）			
+float path_y_speed_target[3] = {170, 190, 210};		// 目标循迹Y速度
+float circle_y_speed_target[3] = {150, 160, 170};	// 目标圆环Y速度
+float path_x_speed_enable_y_speed_rate = 0.8;		// 目标循迹Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
+float circle_x_speed_enable_y_speed_rate = 0.8;		// 目标圆环Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
+float circle_angular_speed_target = 50;				// 出入环目标角速度
+float circle_angle_target[2] = {70, 65};			// 出入环目标转动角度
+float box_x_speed_target = 60;						// 箱子目标X速度
+float box_x_angular_speed_rate = 0.36;				// 箱子 转动速度/X速度 比例
+float box_fxxk_y_speed_target[3] = {80, 80, 80};	// 推箱子Y速度目标值
+uint32 last_y_speed_slow_change_timer_time = 0;		// Y缓变速上一次计时器时间
 
 /*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd */
 // 电机
@@ -159,16 +160,25 @@ float PATH_RANGE[2][3] = {{ 8.0,   30.0,  60.0 },		// 循迹误差区间
 float GYRO_RANGE[2][3] = {{ 40.0,  200.0,  400.0 },		// 循迹误差区间
 						  { 12.0,   25.0,  50.0}};		// 角速度区间
 
-                        
+//float PATH_PID[4][6] =  {{ 2.3, 0,     0.0,   2,           75,          0.25},
+//						   { 2.0, 0,     0.0,   2,          75,           0.19},
+//						   { 1.4, 0,     0.0,   2,           75,          0.16},
+//						   { 0.6, 0,     0.0,   2,           75,          0.13}};
+						  
+float PATH_PID[3][4][6] ={{{ 2.3, 0,     0.0,   2,           75,          0.25},		/* 低 */
+						   { 2.0, 0,     0.0,   2,           75,           0.19},
+						   { 1.4, 0,     0.0,   2,           75,          0.13},
+						   { 0.6, 0,     0.0,   2,           75,          0.11}},
 
-//float PATH_PID[4][6] =   {{ 2.3, 0,     0.0,   2,           75,          0.25},
-//						  { 2.0, 0,     0.0,   2,          75,           0.19},
-//						  { 1.4, 0,     0.0,   2,           75,          0.17},
-//						  { 0.6, 0,     0.0,   2,           75,          0.15}};
-float PATH_PID[4][6] =   {{ 2.3, 0,     0.0,   2,           75,          0.25},
-						  { 2.0, 0,     0.0,   2,          75,           0.19},
-						  { 1.4, 0,     0.0,   2,           75,          0.16},
-						  { 0.6, 0,     0.0,   2,           75,          0.13}};
+						  {{ 2.3, 0,     0.0,   2,           75,          0.25},		/* 中 */
+						   { 2.0, 0,     0.0,   2,           75,           0.19},
+						   { 1.4, 0,     0.0,   2,           75,          0.13},
+						   { 0.6, 0,     0.0,   2,           75,          0.11}},
+						  
+						  {{ 2.3, 0,     0.0,   2,           75,          0.25},		/* 高 */
+						   { 2.0, 0,     0.0,   2,           75,           0.19},
+						   { 1.4, 0,     0.0,   2,           75,          0.13},
+						   { 0.6, 0,     0.0,   2,           75,          0.11}}};
 
 // 旋转
 float ROTATE_RANGE[3] =   { 15.0,  50.0,  120.0 };		// 角度环误差区间						  

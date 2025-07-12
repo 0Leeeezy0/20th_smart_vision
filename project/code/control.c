@@ -105,15 +105,15 @@ void path_pid_calc(void){
 	float err_gyro[2] = { path_gyro_karman.value , path_err };
     
 	// Ñ­¼£PID
-	float path_Kp[4] = { PATH_PID[0][0], PATH_PID[1][0], PATH_PID[2][0], PATH_PID[3][0] };
-	float path_Ki[4] = { PATH_PID[0][1], PATH_PID[1][1], PATH_PID[2][1], PATH_PID[3][1] };
-	float path_Kd[4] = { PATH_PID[0][2], PATH_PID[1][2], PATH_PID[2][2], PATH_PID[3][2] };
-	float path_i_limit[4] = { PATH_PID[0][3], PATH_PID[1][3], PATH_PID[2][3], PATH_PID[3][3] };
-	float path_output_limit[4] = { PATH_PID[0][4], PATH_PID[1][4], PATH_PID[2][4], PATH_PID[3][4] };
+	float path_Kp[4] = { PATH_PID[plan_idx][0][0], PATH_PID[plan_idx][1][0], PATH_PID[plan_idx][2][0], PATH_PID[plan_idx][3][0] };
+	float path_Ki[4] = { PATH_PID[plan_idx][0][1], PATH_PID[plan_idx][1][1], PATH_PID[plan_idx][2][1], PATH_PID[plan_idx][3][1] };
+	float path_Kd[4] = { PATH_PID[plan_idx][0][2], PATH_PID[plan_idx][1][2], PATH_PID[plan_idx][2][2], PATH_PID[plan_idx][3][2] };
+	float path_i_limit[4] = { PATH_PID[plan_idx][0][3], PATH_PID[plan_idx][1][3], PATH_PID[plan_idx][2][3], PATH_PID[plan_idx][3][3] };
+	float path_output_limit[4] = { PATH_PID[plan_idx][0][4], PATH_PID[plan_idx][1][4], PATH_PID[plan_idx][2][4], PATH_PID[plan_idx][3][4] };
 	// ½ÇËÙ¶ÈPID
 	float path_gyroz_Kp[4] = { 0, 0, 0, 0 };
 	float path_gyroz_Ki[4] = { 0, 0, 0, 0 };
-	float path_gyroz_Kd[4] = { PATH_PID[0][5], PATH_PID[1][5], PATH_PID[2][5], PATH_PID[3][5] };
+	float path_gyroz_Kd[4] = { PATH_PID[plan_idx][0][5], PATH_PID[plan_idx][1][5], PATH_PID[plan_idx][2][5], PATH_PID[plan_idx][3][5] };
 	float path_gyroz_i_limit[4] = { 0, 0, 0, 0 };
 	float path_gyroz_output_limit[4] = { 0, 0, 0, 0 };
 	
