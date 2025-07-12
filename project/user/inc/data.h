@@ -216,7 +216,8 @@ extern float sum_weight_normalization_limit[2];			// 加权和归一化阈值
 extern float frame_white_num_normalization[2];			// 对称法矫正图像左右边框白点数量归一化
 extern float frame_white_num_normalization_limit;		// 对称法矫正图像左右边框白点数量归一化阈值
 extern uint16 frame_offset;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
-extern float last_box_distance;							// 上一个箱子的路程
+extern float last_box_world_x;							// 上一个箱子相对于起始点的世界X坐标
+extern float last_box_world_y;							// 上一个箱子相对于起始点的世界Y坐标
 /* 速度/角度/时间 */
 extern uint8 plan_idx;								// 方案索引（由低至高，方案速度逐渐变快）	
 extern float path_y_speed_target[3];				// 目标循迹Y速度

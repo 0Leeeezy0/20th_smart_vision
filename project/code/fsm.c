@@ -349,8 +349,11 @@ void fsm(void){
 				/* 变量设置 */
 				is_in_track = False;	
 				num = 0;
-				/* 标志位设置 */
+				// 记录推箱子完成时的坐标
+				last_box_world_x = displacement_solve.world_x_displacement;
+				last_box_world_y = displacement_solve.world_y_displacement;
 				box_fxxk_finsh_distance = displacement_solve.distance;	// 记录推离箱子时的路程
+				/* 标志位设置 */
 				rotate_euler_angle_solve.solve_flag = False;	// 关闭箱子欧拉角解算
 				/* 状态切换 */
 				path_state = path_back;	// 进入 回赛道 状态
@@ -382,7 +385,6 @@ void fsm(void){
 					
 					y_speed_target = 0;			// 设置循线Y速度缓启动速度
 					/* 变量设置 */
-					last_box_distance = displacement_solve.distance;	// 记录当前箱子相对于起始点的路程
 					dog_path.mid_x = MT9V03X_W/2;						// 设置循线起始中点（一定要有这个，不然会原地掉头）
 					// 最长白列
 					dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[0]);
@@ -554,7 +556,7 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 	}
 	// 箱子状态判断
 	// 箱子一次定位（宽度超过阈值且中心坐标在范围内时进入定位状态 或 高度超过阈值时进入状态 防止箱子在图像边缘导致无法进入定位状态从而掠过箱子）
-	if(ai_camera_0_enable_flag == True && ((detection_box_width >= detection_box_width_limit && abs(detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2) <= detection_box_center_x_limit) || detection_box_height >= detection_box_height_limit) && (displacement_solve.distance-last_box_distance) >= 80){
+	if(ai_camera_0_enable_flag == True && ((detection_box_width >= detection_box_width_limit && abs(detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2) <= detection_box_center_x_limit) || detection_box_height >= detection_box_height_limit) && PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x),(displacement_solve.world_y_displacement-last_box_world_y)) >= 80){
 		// 识别框宽度或高度超过阈值，进入箱子定位状态
 		path_state_return = box_first_track;
 		box_track_num = 0;

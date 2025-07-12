@@ -27,10 +27,94 @@ Project File Date:  07/12/2025
 <h2>Output:</h2>
 *** Using Compiler 'V6.19', folder: 'D:\KEIL\ARM\ARMCLANG\Bin'
 Build target 'nor_sdram_zf_dtcm'
+compiling data.c...
+compiling DOG_motor.c...
+../code/ai.c(67): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+                        va_start(args, 3);  // <B3><F5>ʼ<BB><AF><BF>ɱ<E4><B2><CE><CA><FD><C1>б<ED>
+                                       ^
+../code/ai.c(83): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+                        va_start(args, 1);  // <B3><F5>ʼ<BB><AF><BF>ɱ<E4><B2><CE><CA><FD><C1>б<ED>
+                                       ^
+../code/ai.c(96): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+                        va_start(args, 1);  // <B3><F5>ʼ<BB><AF><BF>ɱ<E4><B2><CE><CA><FD><C1>б<ED>
+                                       ^
+3 warnings generated.
+compiling ai.c...
+compiling isr.c...
+../user/src/main.c(23): warning: '/*' within block comment [-Wcomment]
+//* 
+ ^
+../user/src/main.c(24): warning: '/*' within block comment [-Wcomment]
+//* <CE>ļ<FE><C3><FB><B3><C6>          main
+ ^
+../user/src/main.c(25): warning: '/*' within block comment [-Wcomment]
+//* <B9><AB>˾<C3><FB><B3><C6>          <B3>ɶ<BC><D6><F0><B7>ɿƼ<BC><D3><D0><CF><U+07B9><AB>˾
+ ^
+../user/src/main.c(26): warning: '/*' within block comment [-Wcomment]
+//* <B0>汾<D0><C5>Ϣ          <B2>鿴 libraries/doc <CE>ļ<FE><BC><D0><C4><DA> version <CE>ļ<FE> <B0>汾˵<C3><F7>
+ ^
+../user/src/main.c(27): warning: '/*' within block comment [-Wcomment]
+//* <BF><AA><B7><A2><BB><B7><BE><B3>          IAR 8.32.4 or MDK 5.33
+ ^
+../user/src/main.c(83): warning: implicit conversion from enumeration type 'uart_tx_pin_enum' to different enumeration type 'uart_rx_pin_enum' [-Wenum-conversion]
+        vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
+        ~~~~                                                                    ^~~~~~~~~~~~~~~~~~~~
+../../libraries/zf_device\zf_device_wireless_uart.h(56): note: expanded from macro 'WIRELESS_UART_RX_PIN'
+#define WIRELESS_UART_RX_PIN        (UART8_TX_D16)                              // <CE><DE><CF>ߴ<AE><BF>ڶ<D4>Ӧģ<BF><E9><B5><C4> RX Ҫ<BD>ӵ<BD><B5><A5>Ƭ<BB><FA><B5><C4> TX
+                                     ^~~~~~~~~~~~
+../user/src/main.c(83): warning: implicit conversion from enumeration type 'uart_rx_pin_enum' to different enumeration type 'uart_tx_pin_enum' [-Wenum-conversion]
+        vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
+        ~~~~                                              ^~~~~~~~~~~~~~~~~~~~
+../../libraries/zf_device\zf_device_wireless_uart.h(55): note: expanded from macro 'WIRELESS_UART_TX_PIN'
+#define WIRELESS_UART_TX_PIN        (UART8_RX_D17)                              // <CE><DE><CF>ߴ<AE><BF>ڶ<D4>Ӧģ<BF><E9><B5><C4> TX Ҫ<BD>ӵ<BD><B5><A5>Ƭ<BB><FA><B5><C4> RX
+                                     ^~~~~~~~~~~~
+../user/src/main.c(123): warning: incompatible pointer types passing 'float[3]' to parameter of type 'float (*)[3]'; take the address with & [-Wincompatible-pointer-types]
+        angle_rotate_pid.fuzzy_pid_init(&angle_rotate_pid, angle_rotate_fuzzy_rules, ROTATE_RANGE);
+                                                                                     ^~~~~~~~~~~~
+                                                                                     &
+../user/src/main.c(125): warning: incompatible pointer types passing 'float[3]' to parameter of type 'float (*)[3]'; take the address with & [-Wincompatible-pointer-types]
+        circle_rotate_pid.fuzzy_pid_init(&circle_rotate_pid, circle_rotate_fuzzy_rules, ROTATE_RANGE);
+                                                                                        ^~~~~~~~~~~~
+                                                                                        &
+../user/src/main.c(127): warning: incompatible pointer types passing 'float[3]' to parameter of type 'float (*)[3]'; take the address with & [-Wincompatible-pointer-types]
+        box_x_pid.fuzzy_pid_init(&box_x_pid, xy_fuzzy_rules, BOX_X_RANGE);
+                                                             ^~~~~~~~~~~
+                                                             &
+../user/src/main.c(129): warning: incompatible pointer types passing 'float[3]' to parameter of type 'float (*)[3]'; take the address with & [-Wincompatible-pointer-types]
+        box_y_pid.fuzzy_pid_init(&box_y_pid, xy_fuzzy_rules, BOX_Y_RANGE);
+                                                             ^~~~~~~~~~~
+                                                             &
+11 warnings generated.
+compiling main.c...
+compiling fsm.c...
+../code/DOG_cv.c(70): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+1 warning generated.
+compiling DOG_cv.c...
+compiling DOG_pid.c...
+../code/DOG_menu.c(46): warning: second argument to 'va_start' is not the last named parameter [-Wvarargs]
+    va_start(args, 1);
+                   ^
+../code/DOG_menu.c(134): warning: passing an object that undergoes default argument promotion to 'va_start' has undefined behavior [-Wvarargs]
+    va_start(args, (int)widget_num);
+                        ^
+../code/DOG_menu.c(132): note: parameter of type 'uint16' (aka 'unsigned short') is declared here
+void menu_page(struct DOG_MENU_PAGE* this, struct DOG_MENU_WIDGET* menu_page_widget_bind, void (*page_service)(void), uint16 widget_num, ...){
+                                                                                                                             ^
+2 warnings generated.
+compiling DOG_menu.c...
+compiling DOG_sensor.c...
 compiling control.c...
+compiling DOG_path.c...
+compiling menu.c...
+compiling DOG_timer.c...
+compiling DOG_solve.c...
+compiling debug.c...
+compiling menu_data.c...
 linking...
-Program Size: Code=134656 RO-data=18464 RW-data=1888 ZI-data=97188  
-".\Objects\rt1064.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=134704 RO-data=18464 RW-data=1888 ZI-data=97192  
+".\Objects\rt1064.axf" - 0 Error(s), 17 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -43,7 +127,7 @@ Package Vendor: NXP
   D:/KEIL/ARM/Pack/NXP/MIMXRT1064_DFP/19.0.0/devices/MIMXRT1064
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

@@ -122,7 +122,8 @@ float sum_weight_normalization_limit[2] = {0.94, 0.80};	// 加权和归一化阈值
 float frame_white_num_normalization[2] = {0};			// 对称法矫正图像左右边框白点数量归一化
 float frame_white_num_normalization_limit = 0.25;		// 对称法矫正图像左右边框白点数量归一化阈值
 uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
-float last_box_distance = 0;					// 上一个箱子相对于起始点的路程
+float last_box_world_x = 0;								// 上一个箱子相对于起始点的世界X坐标
+float last_box_world_y = 0;								// 上一个箱子相对于起始点的世界Y坐标
 /* 速度/角度/时间 */
 uint8 plan_idx = 0;									// 方案索引（由低至高，方案速度逐渐变快）			
 float path_y_speed_target[3] = {170, 190, 210};		// 目标循迹Y速度
@@ -299,7 +300,8 @@ void variable_init(void){
 	memset(detection_result_list, 0, sizeof(detection_result_list));	// 识别结果列表
 	detection_result_num = 0;
 	sum_weight_normalization = 0;		// 加权和归一化	
-	last_box_distance = 0;				// 上一个箱子的路程
+	last_box_world_x = 0;				// 上一个箱子相对于起始点的世界X坐标
+	last_box_world_y = 0;				// 上一个箱子相对于起始点的世界Y坐标
 	linear_speed_target = 0;			// 目标线速度
 	translation_yaw_target = 0;			// 目标平动角度
 	x_speed_target = 0;					// 目标x速度

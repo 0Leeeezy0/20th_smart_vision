@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jul 13 06:03:11 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jul 13 06:31:33 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1408 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -4649,7 +4649,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_uart_str_output
 </UL>
 
-<P><STRONG><a name="[263]"></a>variable_init</STRONG> (Thumb, 476 bytes, Stack size 32 bytes, data.o(.text.variable_init))
+<P><STRONG><a name="[263]"></a>variable_init</STRONG> (Thumb, 486 bytes, Stack size 32 bytes, data.o(.text.variable_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = variable_init &rArr; memset
 </UL>
 <BR>[Calls]<UL><LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memset
@@ -4861,6 +4861,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[2fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 </UL>
 <BR>[Called By]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_solve
+<LI><a href="#[287]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_state_judge
 <LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;side_point_kind_judge
 </UL>
 
@@ -5109,10 +5110,11 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[221]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;XY2Inv2Speed_control
 </UL>
 
-<P><STRONG><a name="[287]"></a>path_state_judge</STRONG> (Thumb, 1964 bytes, Stack size 48 bytes, fsm.o(.text.path_state_judge))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = path_state_judge
+<P><STRONG><a name="[287]"></a>path_state_judge</STRONG> (Thumb, 2008 bytes, Stack size 48 bytes, fsm.o(.text.path_state_judge))
+<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = path_state_judge &rArr; __hardfp_sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[253]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;abs
+<LI><a href="#[2cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[267]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm
 </UL>
