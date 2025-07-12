@@ -238,8 +238,8 @@ int main(void)
 //		wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)ai_camera_0_init_flag, (float)detection_result.ai_camera_init_flag[0], (float)detection_result.ai_camera_init_flag[1]);
 //		wireless_vofa.justfloat_add(&wireless_vofa, 5, (float)(detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2), (float)(detection_box_width-detection_box_width_target), (float)detection_box_height, x_speed_target, y_speed_target);
 //		wireless_vofa.justfloat_add(&wireless_vofa, 3, box_x_pid.Kp, box_x_pid.Kd, box_x_pid.output_limit);
-		wireless_vofa.justfloat_add(&wireless_vofa, 3, displacement_solve.x_speed, displacement_solve.y_speed, displacement_solve.angular_speed);
-		wireless_vofa.justfloat_send(&wireless_vofa);
+//		wireless_vofa.justfloat_add(&wireless_vofa, 3, displacement_solve.x_speed, displacement_solve.y_speed, displacement_solve.angular_speed);
+//		wireless_vofa.justfloat_send(&wireless_vofa);
     }
 	
 	return 0;
