@@ -56,7 +56,7 @@ static _MENU_PAGE_ menu_page[] =
 	{"EULER_ANGLE"      ,True		,1	,9		,0		,menu_euler_angle_page				},
 	{"TRANSLATE_SHIFT"	,True		,1	,10		,0		,menu_translate_shift_page			},
 	{"RECTIFICATE"		,True		,1	,11		,0		,menu_symmetry_rectificate_page		},
-	{"AI_CAMERA_0"		,True		,1	,12		,5		,menu_ai_camera_0_page				},
+	{"AI_CAMERA_0"		,True		,1	,12		,7		,menu_ai_camera_0_page				},
 	{"AI_CAMERA_1&2"	,True		,1	,13		,1		,menu_ai_camera_1_and_2_page		},
 	{"DETECTION_LIST"	,True		,1	,14		,0		,menu_detection_list				},
 	{"PATH"				,True		,1	,15		,7		,menu_path_page						},
@@ -339,7 +339,7 @@ void start(void)
 	chassis_solve.solve_flag = True;
 	displacement_solve.solve_flag = True;
 	zebra_path_timer.ticking_flag = False;
-	y_speed_slow_change_timer.ticking_flag = True;
+	speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
 	circle_rotate_finsh_flag = False;
@@ -380,7 +380,7 @@ void debug(void)
 	circle_enable_flag = True;
 	zebra_enable_flag = True;
 	zebra_path_timer.ticking_flag = False;
-	y_speed_slow_change_timer.ticking_flag = True;
+	speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
 	circle_rotate_finsh_flag = False;
@@ -765,6 +765,8 @@ void menu_ai_camera_0_page(void)
 		MENU_AI_CAMERA_0.detection_box_width_limit.data_int16 = detection_box_width_limit;
 		MENU_AI_CAMERA_0.detection_box_width_target.data_int16 = detection_box_width_target;
 		MENU_AI_CAMERA_0.detection_box_center_limit.data_int16 = detection_box_center_x_limit;
+		MENU_AI_CAMERA_0.box_x_speed_target.data_float = box_x_speed_target;
+		MENU_AI_CAMERA_0.box_x_angular_speed_rate.data_float = box_x_angular_speed_rate;
 		MENU_AI_CAMERA_0.box_fxxk_speed.data_float = box_fxxk_y_speed_target[plan_idx];
 		
 		// 显示MCXVISION摄像头数据
@@ -780,8 +782,14 @@ void menu_ai_camera_0_page(void)
 		screen_string(0,4*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.name);
 		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_AI_CAMERA_0.detection_box_center_limit.data_int16,3);
 		
-		screen_string(0,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_fxxk_speed.name);
-		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_fxxk_speed.data_float,3,1);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_x_speed_target.name);
+		screen_float(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_x_speed_target.data_float,3,1);
+		
+		screen_string(0,6*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_x_angular_speed_rate.name);
+		screen_float(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_x_angular_speed_rate.data_float,3,1);
+		
+		screen_string(0,7*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_fxxk_speed.name);
+		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_AI_CAMERA_0.box_fxxk_speed.data_float,3,1);
 		
 		screen_string(0,7*MENU_ROW_PITCH,"CENTER_X");
 		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,detection_box_center_x,3);
@@ -1420,7 +1428,9 @@ void menu_ai_camera_0_data_add_service(void)
 		case 1:{ detection_box_width_limit+=1; break; }
 		case 2:{ detection_box_width_target+=1; break; }
 		case 3:{ detection_box_center_x_limit+=1; break; }
-		case 4:{ box_fxxk_y_speed_target[plan_idx]+=1.0; break; }
+		case 4:{ box_x_speed_target+=0.5; break; }
+		case 5:{ box_x_angular_speed_rate+=0.01; break; }
+		case 6:{ box_fxxk_y_speed_target[plan_idx]+=1.0; break; }
 	}
 	if(ai_camera_0_enable_flag > 1)
 	{
@@ -1435,7 +1445,9 @@ void menu_ai_camera_0_data_reduce_service(void)
 		case 1:{ detection_box_width_limit-=1; break; }
 		case 2:{ detection_box_width_target-=1; break; }
 		case 3:{ detection_box_center_x_limit-=1; break; }
-		case 4:{ box_fxxk_y_speed_target[plan_idx]=1.0; break; }
+		case 4:{ box_x_speed_target-=0.5; break; }
+		case 5:{ box_x_angular_speed_rate-=0.01; break; }
+		case 6:{ box_fxxk_y_speed_target[plan_idx]=1.0; break; }
 	}
 	if(ai_camera_0_enable_flag > 1)
 	{

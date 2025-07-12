@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sat Jul 12 19:07:47 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jul 13 06:03:11 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1408 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2108,7 +2108,6 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 760<LI>Call Chain = LPSPI_MasterInit &rArr; LPSPI_MasterSetDelayTimes &rArr; LPSPI_MasterSetDelayScaler &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[14f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-<LI><a href="#[1f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_GetInstance
 <LI><a href="#[200]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_Enable
 <LI><a href="#[1ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_SetFifoWatermarks
 <LI><a href="#[1fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_SetOnePcsPolarity
@@ -2117,6 +2116,7 @@ Global Symbols
 <LI><a href="#[201]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterSetDelayTimes
 <LI><a href="#[1fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterSetBaudRate
 <LI><a href="#[202]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_SetDummyData
+<LI><a href="#[1f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_GetInstance
 </UL>
 <BR>[Called By]<UL><LI><a href="#[298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_init
 </UL>
@@ -2151,7 +2151,6 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 728<LI>Call Chain = LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[14f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-<LI><a href="#[1f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_GetInstance
 <LI><a href="#[20b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_WriteData
 <LI><a href="#[1f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_CombineWriteData
 <LI><a href="#[209]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_TxFifoReady
@@ -2165,6 +2164,7 @@ Global Symbols
 <LI><a href="#[20c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_GetRxFifoCount
 <LI><a href="#[200]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_Enable
 <LI><a href="#[1f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_CheckTransferArgument
+<LI><a href="#[1f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_GetInstance
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_write
 </UL>
@@ -2636,8 +2636,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_WriteBlocking
-<LI><a href="#[1fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterInit
+<BR>[Called By]<UL><LI><a href="#[1fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterInit
 <LI><a href="#[1fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterGetDefaultConfig
 <LI><a href="#[204]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterTransferBlocking
 <LI><a href="#[1a2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetDiv
@@ -2671,6 +2670,7 @@ Global Symbols
 <LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_GetChannelStatusFlags
 <LI><a href="#[217]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
 <LI><a href="#[216]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetDefaultConfig
+<LI><a href="#[219]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_WriteBlocking
 <LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
 <LI><a href="#[1a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CSI_GetInstance
 <LI><a href="#[16e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_GetPllFreq
@@ -2685,7 +2685,6 @@ Global Symbols
 <LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ENET_GetInstance
 <LI><a href="#[1bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
 <LI><a href="#[1be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
-<LI><a href="#[1f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_GetInstance
 <LI><a href="#[1f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_CombineWriteData
 <LI><a href="#[20e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_SeparateReadData
 <LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
@@ -2711,6 +2710,7 @@ Global Symbols
 <LI><a href="#[1f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_CheckTransferArgument
 <LI><a href="#[203]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterSetDelayScaler
 <LI><a href="#[1fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterSetBaudRate
+<LI><a href="#[1f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_GetInstance
 <LI><a href="#[184]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
 <LI><a href="#[167]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetDiv
 <LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetMux
@@ -2770,11 +2770,11 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[24b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IOMUXC_SetPinConfig
 <LI><a href="#[24a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IOMUXC_SetPinMux
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_iomuxc
-<LI><a href="#[2e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_iomuxc
+<BR>[Called By]<UL><LI><a href="#[2e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_iomuxc
 <LI><a href="#[2da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwm_iomuxc
 <LI><a href="#[27c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;qtimer_iomuxc
 <LI><a href="#[25b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;csi_iomuxc
+<LI><a href="#[2f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_iomuxc
 </UL>
 
 <P><STRONG><a name="[252]"></a>ai_camera_init</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, ai.o(.text.ai_camera_init))
@@ -2877,7 +2877,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[3]"></a>debug</STRONG> (Thumb, 1084 bytes, Stack size 104 bytes, menu.o(.text.debug))
-<BR><BR>[Stack]<UL><LI>Max Depth = 936<LI>Call Chain = debug &rArr; fsm &rArr; menu_detection_list &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<BR><BR>[Stack]<UL><LI>Max Depth = 904<LI>Call Chain = debug &rArr; fsm &rArr; menu_detection_list &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
@@ -2918,7 +2918,6 @@ Global Symbols
 <LI><a href="#[24e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_init
 <LI><a href="#[24d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_init
 <LI><a href="#[2b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_init
-<LI><a href="#[2f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_iomuxc
 <LI><a href="#[298]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_init
 <LI><a href="#[29d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_read_8bit_registers
 <LI><a href="#[29f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;spi_write_8bit_registers
@@ -2942,6 +2941,7 @@ Global Symbols
 <LI><a href="#[28d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;func_int_to_str
 <LI><a href="#[2ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_show_char
 <LI><a href="#[2a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_set_region
+<LI><a href="#[2f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_iomuxc
 </UL>
 
 <P><STRONG><a name="[26d]"></a>debug_init</STRONG> (Thumb, 80 bytes, Stack size 40 bytes, zf_common_debug.o(.text.debug_init))
@@ -3161,8 +3161,8 @@ Global Symbols
 <LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_root_page
 </UL>
 
-<P><STRONG><a name="[267]"></a>fsm</STRONG> (Thumb, 4368 bytes, Stack size 160 bytes, fsm.o(.text.fsm))
-<BR><BR>[Stack]<UL><LI>Max Depth = 832<LI>Call Chain = fsm &rArr; menu_detection_list &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[267]"></a>fsm</STRONG> (Thumb, 4318 bytes, Stack size 128 bytes, fsm.o(.text.fsm))
+<BR><BR>[Stack]<UL><LI>Max Depth = 800<LI>Call Chain = fsm &rArr; menu_detection_list &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[28a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symmetry_rectificate
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_detection_list
@@ -3545,7 +3545,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_path.o(.text.path)
 </UL>
-<P><STRONG><a name="[c0]"></a>main</STRONG> (Thumb, 1578 bytes, Stack size 120 bytes, main.o(.text.main))
+<P><STRONG><a name="[c0]"></a>main</STRONG> (Thumb, 1616 bytes, Stack size 120 bytes, main.o(.text.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1192<LI>Call Chain = main &rArr; menu_init &rArr; ips200_init &rArr; ips200_clear &rArr; ips200_set_region &rArr; ips200_write_command &rArr; spi_write_8bit &rArr; spi_write_8bit_array &rArr; spi_write &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
@@ -3573,18 +3573,18 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
-<P><STRONG><a name="[105]"></a>menu_ai_camera_0_data_add_service</STRONG> (Thumb, 180 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_0_data_add_service))
+<P><STRONG><a name="[105]"></a>menu_ai_camera_0_data_add_service</STRONG> (Thumb, 264 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_0_data_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_ai_camera_0_data_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_ai_camera_0_page)
 </UL>
-<P><STRONG><a name="[106]"></a>menu_ai_camera_0_data_reduce_service</STRONG> (Thumb, 160 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_0_data_reduce_service))
+<P><STRONG><a name="[106]"></a>menu_ai_camera_0_data_reduce_service</STRONG> (Thumb, 240 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_0_data_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_ai_camera_0_data_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_ai_camera_0_page)
 </UL>
-<P><STRONG><a name="[e]"></a>menu_ai_camera_0_page</STRONG> (Thumb, 544 bytes, Stack size 80 bytes, menu.o(.text.menu_ai_camera_0_page))
-<BR><BR>[Stack]<UL><LI>Max Depth = 728<LI>Call Chain = menu_ai_camera_0_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[e]"></a>menu_ai_camera_0_page</STRONG> (Thumb, 662 bytes, Stack size 88 bytes, menu.o(.text.menu_ai_camera_0_page))
+<BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = menu_ai_camera_0_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
@@ -3683,7 +3683,7 @@ Global Symbols
 <LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;plan
 </UL>
 
-<P><STRONG><a name="[2c5]"></a>menu_data_leeeezy_init</STRONG> (Thumb, 1020 bytes, Stack size 16 bytes, menu_data.o(.text.menu_data_leeeezy_init))
+<P><STRONG><a name="[2c5]"></a>menu_data_leeeezy_init</STRONG> (Thumb, 1040 bytes, Stack size 16 bytes, menu_data.o(.text.menu_data_leeeezy_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = menu_data_leeeezy_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_init
@@ -4089,18 +4089,18 @@ Global Symbols
 <P><STRONG><a name="[130]"></a>move_inv_solve</STRONG> (Thumb, 320 bytes, Stack size 64 bytes, dog_solve.o(.text.move_inv_solve))
 <BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = move_inv_solve &rArr; __hardfp_sinf &rArr; __mathlib_rredf2
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
-<LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
+<BR>[Calls]<UL><LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
+<LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_solve.o(.text.solve)
 </UL>
 <P><STRONG><a name="[131]"></a>move_solve</STRONG> (Thumb, 1536 bytes, Stack size 72 bytes, dog_solve.o(.text.move_solve))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = move_solve &rArr; __hardfp_atan &rArr; __ARM_fpclassify
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
-<LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
+<BR>[Calls]<UL><LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 <LI><a href="#[2cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
 <LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
+<LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_solve.o(.text.solve)
 </UL>
@@ -4456,7 +4456,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[2]"></a>start</STRONG> (Thumb, 202 bytes, Stack size 16 bytes, menu.o(.text.start))
-<BR><BR>[Stack]<UL><LI>Max Depth = 848<LI>Call Chain = start &rArr; fsm &rArr; menu_detection_list &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<BR><BR>[Stack]<UL><LI>Max Depth = 816<LI>Call Chain = start &rArr; fsm &rArr; menu_detection_list &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
@@ -4537,22 +4537,22 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[0]"></a>type_default_callback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, zf_device_type.o(.text.type_default_callback))
-<BR>[Address Reference Count : 6]<UL><LI> zf_device_type.o(.data.camera_uart_handler)
+<BR>[Address Reference Count : 6]<UL><LI> zf_device_type.o(.text.set_camera_type)
+<LI> zf_device_type.o(.data.camera_uart_handler)
 <LI> zf_device_type.o(.data.flexio_camera_vsync_handler)
 <LI> zf_device_type.o(.data.wireless_module_uart_handler)
 <LI> zf_device_type.o(.data.wireless_module_spi_handler)
 <LI> zf_device_type.o(.data.tof_module_exti_handler)
-<LI> zf_device_type.o(.text.set_camera_type)
 </UL>
 <P><STRONG><a name="[24e]"></a>uart_init</STRONG> (Thumb, 158 bytes, Stack size 56 bytes, zf_driver_uart.o(.text.uart_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 792<LI>Call Chain = uart_init &rArr; uart_iomuxc &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_assert_handler
-<LI><a href="#[2f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_iomuxc
 <LI><a href="#[214]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Deinit
 <LI><a href="#[217]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
 <LI><a href="#[216]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetDefaultConfig
 <LI><a href="#[16c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_DebugConsoleSrcFreq
+<LI><a href="#[2f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_iomuxc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mt9v03x_init
 <LI><a href="#[251]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ai_camera_1_init
@@ -4584,9 +4584,9 @@ Global Symbols
 <P><STRONG><a name="[24f]"></a>uart_rx_interrupt</STRONG> (Thumb, 82 bytes, Stack size 16 bytes, zf_driver_uart.o(.text.uart_rx_interrupt))
 <BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = uart_rx_interrupt &rArr; interrupt_enable &rArr; EnableIRQ &rArr; __NVIC_EnableIRQ
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_EnableInterrupts
-<LI><a href="#[2a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;interrupt_enable
+<BR>[Calls]<UL><LI><a href="#[2a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;interrupt_enable
 <LI><a href="#[2f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_DisableInterrupts
+<LI><a href="#[2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_EnableInterrupts
 </UL>
 <BR>[Called By]<UL><LI><a href="#[25f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mt9v03x_init
 <LI><a href="#[251]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ai_camera_1_init
@@ -4649,7 +4649,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_uart_str_output
 </UL>
 
-<P><STRONG><a name="[263]"></a>variable_init</STRONG> (Thumb, 466 bytes, Stack size 32 bytes, data.o(.text.variable_init))
+<P><STRONG><a name="[263]"></a>variable_init</STRONG> (Thumb, 476 bytes, Stack size 32 bytes, data.o(.text.variable_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = variable_init &rArr; memset
 </UL>
 <BR>[Calls]<UL><LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memset
@@ -4929,13 +4929,13 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[304]"></a>__mathlib_flt_infnan</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, funder.o(i.__mathlib_flt_infnan))
-<BR><BR>[Called By]<UL><LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
-<LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
+<BR><BR>[Called By]<UL><LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
+<LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 
 <P><STRONG><a name="[303]"></a>__mathlib_flt_invalid</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, funder.o(i.__mathlib_flt_invalid))
-<BR><BR>[Called By]<UL><LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
-<LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
+<BR><BR>[Called By]<UL><LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
+<LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 
 <P><STRONG><a name="[30d]"></a>__mathlib_flt_underflow</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, funder.o(i.__mathlib_flt_underflow))
@@ -4945,19 +4945,19 @@ Global Symbols
 <P><STRONG><a name="[302]"></a>__mathlib_rredf2</STRONG> (Thumb, 316 bytes, Stack size 20 bytes, rredf.o(i.__mathlib_rredf2))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = __mathlib_rredf2
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
-<LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
+<BR>[Called By]<UL><LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
+<LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 
 <P><STRONG><a name="[2fb]"></a>__set_errno</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, errno.o(i.__set_errno))
-<BR><BR>[Called By]<UL><LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
-<LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_acos
+<BR><BR>[Called By]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_acos
 <LI><a href="#[2fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sqrt
 <LI><a href="#[2cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
 <LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
 <LI><a href="#[2c7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
 <LI><a href="#[1c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 <LI><a href="#[27e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fmod
+<LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 
 <P><STRONG><a name="[301]"></a>fabs</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, fabs.o(i.fabs))

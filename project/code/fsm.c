@@ -161,6 +161,8 @@ void fsm(void){
 				wheel_speed_target[0] = 0;
 				wheel_speed_target[1] = 0;
 				wheel_speed_target[2] = 0;
+				
+				x_speed_target = 0;			// 设置循线X速度缓启动速度
 				/* 初始化识别结果 */
 				detection_result.tool_detection_finsh_flag = False;
 				detection_result.num_detection_finsh_flag = False;
@@ -206,7 +208,7 @@ void fsm(void){
 					box_dir = 1;
 				x_speed_target = box_dir*box_x_speed_target;
 				y_speed_target = 0;
-				angular_speed_target = -box_dir*box_x_speed_target*box_x_angular_speed_rate;
+				angular_speed_target = -box_dir*displacement_solve.x_speed*box_x_angular_speed_rate;
 				// 计算对称度
 				symmetry_rectificate(dog_cv.image_OTSU);
 				// 找最大归一化加权和与其对应航向角（取加权和对应的角度较大的那个）
@@ -230,8 +232,10 @@ void fsm(void){
 					wheel_speed_target[0] = 0;
 					wheel_speed_target[1] = 0;
 					wheel_speed_target[2] = 0;
+					
+					y_speed_target = 20;			// 设置循线Y速度缓启动速度
 					/* 状态切换 */
-					path_state = box_second_track;	// 进入箱子二次定位状态
+					path_state = box_second_track;	// 进入推箱子箱子状态
 					/* 存储识别结果 */
 					detection_result_list[detection_result_num] = detection_result;
 					detection_result_num++;
@@ -274,8 +278,10 @@ void fsm(void){
 				wheel_speed_target[0] = 0;
 				wheel_speed_target[1] = 1;
 				wheel_speed_target[2] = 2;
+				
+				y_speed_target = 20;			// 设置循线Y速度缓启动速度
 				/* 状态切换 */
-				path_state = box_second_track;	// 进入箱子二次定位状态
+				path_state = box_second_track;	// 进入推箱子箱子状态
 				/* 标志位 */
 				box_X_finsh_flag = False;		// 箱子X定位完成标志位
 				break;
@@ -315,12 +321,19 @@ void fsm(void){
 			float X_output_limit[4] = { BOX_X_PID[0][4], BOX_X_PID[1][4], BOX_X_PID[2][4], BOX_X_PID[3][4] };
 			
 			/* 运动设置 */
-			control_kind = Angle2Inv2Speed;		// 设置控制模式
-			move_solve_kind = XY_SPEED_SOLVE;	// 设置解算类型
-			box_x_pid.fuzzy_pid(&box_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
-			x_speed_target = box_x_pid.positional_pid(&box_x_pid, 0, -detection_box_center_err);
-			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], True);		// 设置推箱子目标速度   
-			angle_rotation_yaw_target = 0;							// 设置目标旋转角度
+//			control_kind = Angle2Inv2Speed;		// 设置控制模式
+//			move_solve_kind = XY_SPEED_SOLVE;	// 设置解算类型
+//			box_x_pid.fuzzy_pid(&box_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
+//			x_speed_target = 0;	// box_x_pid.positional_pid(&box_x_pid, 0, -detection_box_center_err);
+//			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], True);		// 设置推箱子目标速度   
+//			angle_rotation_yaw_target = 0;							// 设置目标旋转角度
+			// 当中心坐标小于一定阈值，停止X定位
+//			if(abs(detection_box_center_err) <= 5)
+//			{
+//				x_speed_target = 0;
+//			}
+			control_kind = X2Inv2Speed;		// 设置控制模式
+			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], True);		// 设置推箱子目标速度  
 			/* 判断是否在赛道内 */
 			if(gray_sensor.voltage < 0.3 && num < 22)
 				num++;

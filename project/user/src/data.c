@@ -38,7 +38,7 @@ DOG_SOLVE box_euler_angle_solve;	// Ïä×ÓÅ·À­½Ç½âËã
 DOG_SOLVE chassis_solve;			// µ×ÅÌ½âËã
 DOG_SOLVE displacement_solve;		// Î»ÒÆ½âËã
 DOG_TIMER zebra_path_timer;			// °ßÂíÏß¼ÆÊ±Æ÷
-DOG_TIMER y_speed_slow_change_timer; // Y»º±äËÙ¼ÆÊ±Æ÷
+DOG_TIMER speed_slow_change_timer;  // »º±äËÙ¼ÆÊ±Æ÷
 DOG_TIMER motor_debug_timer;        // µç»úµ÷ÊÔ¼ÆÊ±Æ÷
 DOG_CV dog_cv;						// ¼ÆËã»úÊÓ¾õ
 DOG_PATH dog_path;					// Ñ­¼£
@@ -98,8 +98,9 @@ float angle_rotation_yaw_target;				// Ä¿±ê½Ç¶È»·Ğı×ª½Ç¶È
 float circle_rotation_yaw_target;				// Ä¿±êÔ²»·Ğı×ª½Ç¶È
 float data_1;									// ÔË¶¯Ñ§Äæ½âËã²ÎÊı1£¨ÏßËÙ¶È/XËÙ¶È£©
 float data_2;									// ÔË¶¯Ñ§Äæ½âËã²ÎÊı2£¨º½Ïò½Ç/YËÙ¶È£©
-float y_speed_slow_change_rate = 0.001;			// Y»º±äËÙÂÊ£¨Ô½´ó»º±äËÙÔ½¿ì£©
-float x_speed_rate = 2.4;						// xËÙ¶È±ÈÀı£¨Ä¿±êxËÙ¶È/Ä¿±êĞı×ªËÙ¶È£©
+float x_speed_slow_change_rate = 0.0003;		// X»º±äËÙÂÊ£¨Ô½´ó»º±äËÙÔ½¿ì£©
+float y_speed_slow_change_rate = 0.003;			// Y»º±äËÙÂÊ£¨Ô½´ó»º±äËÙÔ½¿ì£©
+float x_speed_rate = 2.4;						// Ñ­ÏßxËÙ¶È±ÈÀı£¨Ä¿±êÑ­ÏßxËÙ¶È/Ä¿±êÑ­ÏßĞı×ªËÙ¶È£©
 /* Ïä×Ó */
 uint8 detection_box_width;						// Ê¶±ğ¿ò¿í¶È
 uint8 detection_box_width_limit = 30;			// Ê¶±ğ¿ò¿í¶ÈãĞÖµ£¨´óÓÚ´ËãĞÖµ²Å¿ÉÒÔ½øÈëÏä×Ó×·×ÙÄ£Ê½£©
@@ -130,9 +131,10 @@ float path_x_speed_enable_y_speed_rate = 0.8;		// Ä¿±êÑ­¼£YËÙ¶È±ÈÀı£¨ÊµÊ±Ä¿±êËÙ¶
 float circle_x_speed_enable_y_speed_rate = 0.8;		// Ä¿±êÔ²»·YËÙ¶È±ÈÀı£¨ÊµÊ±Ä¿±êËÙ¶È/Ä¿±êËÙ¶È ´óÓÚ¸Ã±ÈÀı²Å¿ªÆôX·½ÏòËÙ¶È£©
 float circle_angular_speed_target = 50;				// ³öÈë»·Ä¿±ê½ÇËÙ¶È
 float circle_angle_target[2] = {70, 65};			// ³öÈë»·Ä¿±ê×ª¶¯½Ç¶È
-float box_x_speed_target = 60;						// Ïä×ÓÄ¿±êXËÙ¶È
-float box_x_angular_speed_rate = 0.36;				// Ïä×Ó ×ª¶¯ËÙ¶È/XËÙ¶È ±ÈÀı
+float box_x_speed_target = 55;						// Ïä×ÓÄ¿±êXËÙ¶È
+float box_x_angular_speed_rate = 0.4;				// Ïä×Ó ×ª¶¯ËÙ¶È/XËÙ¶È ±ÈÀı£¨Ô½´óĞı×ª°ë¾¶Ô½Ğ¡£©
 float box_fxxk_y_speed_target[3] = {80, 80, 80};	// ÍÆÏä×ÓYËÙ¶ÈÄ¿±êÖµ
+uint32 last_x_speed_slow_change_timer_time = 0;		// X»º±äËÙÉÏÒ»´Î¼ÆÊ±Æ÷Ê±¼ä
 uint32 last_y_speed_slow_change_timer_time = 0;		// Y»º±äËÙÉÏÒ»´Î¼ÆÊ±Æ÷Ê±¼ä
 
 /*    PID²ÎÊı     			Kp     Ki     Kd     »ı·ÖÏŞ·ù     Êä³öÏŞ·ù     ÍÓÂİÒÇKd */
@@ -182,7 +184,7 @@ float PATH_PID[3][4][6] ={{{ 2.3, 0,     0.0,   2,           75,          0.25},
 
 // Ğı×ª
 float ROTATE_RANGE[3] =   { 15.0,  50.0,  120.0 };		// ½Ç¶È»·Îó²îÇø¼ä						  
-float ROTATE_PID[4][5] = {{ 0.8,   0,     1.54,  20,          45 },
+float ROTATE_PID[4][5] = {{ 0.5,   0,     1.54,  20,          45 },
 						  { 1.1,   0,     1.20,  20,          75 },
 						  { 1.6,   0,     0.84,  20,          105 },
 						  { 2.1,   0,     0.58,  20,	      130 }};							  
@@ -276,7 +278,7 @@ void flag_init(void){
 	displacement_solve.solve_flag = False;
 	// ¼ÆÊ±Æ÷Ê¹ÄÜ±êÖ¾Î»
 	zebra_path_timer.ticking_flag = False;
-	y_speed_slow_change_timer.ticking_flag = False;
+	speed_slow_change_timer.ticking_flag = False;
 	// Íê³É±êÖ¾Î»
 	angle_rotate_finsh_flag = False;	// ½Ç¶È»·Ğı×ªÍê³É±êÖ¾Î»
 	circle_rotate_finsh_flag = False;	// Ô²»·Ğı×ªÍê³É±êÖ¾Î»
@@ -307,6 +309,7 @@ void variable_init(void){
 	circle_rotation_yaw_target = 0;		// Ä¿±êÔ²»·Ğı×ª½Ç¶È
 	data_1 = 0;							// ÔË¶¯Ñ§Äæ½âËã²ÎÊı1£¨ÏßËÙ¶È/XËÙ¶È£©
 	data_2 = 0;							// ÔË¶¯Ñ§Äæ½âËã²ÎÊı2£¨º½Ïò½Ç/YËÙ¶È£©
+	last_x_speed_slow_change_timer_time = 0;	// X»º±äËÙÉÏÒ»´Î¼ÆÊ±Æ÷Ê±¼ä
 	last_y_speed_slow_change_timer_time = 0;	// Y»º±äËÙÉÏÒ»´Î¼ÆÊ±Æ÷Ê±¼ä
 	circle_in_distance = 0;			// Ô²»·½ø»·´¦Ïà¶ÔÆğÊ¼µãµÄÂ·³Ì
 	circle_out_distance = 0;		// Ô²»·³ö»·´¦Ïà¶ÔÆğÊ¼µãµÄÂ·³Ì

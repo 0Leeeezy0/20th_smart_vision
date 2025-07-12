@@ -437,13 +437,40 @@ static void box_xy_pid_calu(void){
 		box_XY_finsh_flag = True;
 	}
 	// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
-	if(num > 5)
+	if(num > 3)
 	{
 		x_speed_target = 0;
 		y_speed_target = 0;
 		num = 0;
 		box_XY_finsh_flag = True;
 	}
+}
+
+/* 
+	X缓变速 
+	变量说明：
+	_path_x_speed_target_ 目标速度
+	speed_slow_change_enable_flag 缓变速使能标志位
+*/
+void x_speed_slow_change(float _path_x_speed_target_, _bool_ speed_slow_change_enable_flag){
+	// 计算前后两次函数调用时间间隔
+	uint32 speed_slow_change_timer_time_delta = speed_slow_change_timer.time-last_x_speed_slow_change_timer_time;
+	
+	// 若间隔大于100ms，则需要重置上一次时间
+	if(speed_slow_change_timer_time_delta > 100)
+		last_x_speed_slow_change_timer_time = speed_slow_change_timer.time;
+	
+	// 启用缓变速（需消除死区）
+	if(speed_slow_change_enable_flag == True && x_speed_target < _path_x_speed_target_){
+		// 缓变速
+		x_speed_target += (_path_x_speed_target_-displacement_solve.x_speed)*speed_slow_change_timer_time_delta*x_speed_slow_change_rate;
+	}	
+	// 关闭缓变速
+	else
+		x_speed_target = _path_x_speed_target_;
+	
+	// 更新上一次缓变速计时器时间
+	last_x_speed_slow_change_timer_time = speed_slow_change_timer.time;
 }
 
 /* 
@@ -454,11 +481,11 @@ static void box_xy_pid_calu(void){
 */
 void y_speed_slow_change(float _path_y_speed_target_, _bool_ speed_slow_change_enable_flag){
 	// 计算前后两次函数调用时间间隔
-	uint32 speed_slow_change_timer_time_delta = y_speed_slow_change_timer.time-last_y_speed_slow_change_timer_time;
+	uint32 speed_slow_change_timer_time_delta = speed_slow_change_timer.time-last_y_speed_slow_change_timer_time;
 	
 	// 若间隔大于100ms，则需要重置上一次时间
 	if(speed_slow_change_timer_time_delta > 100)
-		last_y_speed_slow_change_timer_time = y_speed_slow_change_timer.time;
+		last_y_speed_slow_change_timer_time = speed_slow_change_timer.time;
 	
 	// 启用缓变速（需消除死区）
 	if(speed_slow_change_enable_flag == True && y_speed_target < _path_y_speed_target_){
@@ -470,6 +497,6 @@ void y_speed_slow_change(float _path_y_speed_target_, _bool_ speed_slow_change_e
 		y_speed_target = _path_y_speed_target_;
 	
 	// 更新上一次缓变速计时器时间
-	last_y_speed_slow_change_timer_time = y_speed_slow_change_timer.time;
+	last_y_speed_slow_change_timer_time = speed_slow_change_timer.time;
 }
 

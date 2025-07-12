@@ -68,6 +68,8 @@ void menu_data_leeeezy_init(void)
 	MENU_AI_CAMERA_0.detection_box_width_limit.name = "W_LIMIT";
 	MENU_AI_CAMERA_0.detection_box_width_target.name = "W_TARGET";
 	MENU_AI_CAMERA_0.detection_box_center_limit.name = "CENTER_ERR_LIMIT";
+	MENU_AI_CAMERA_0.box_x_speed_target.name = "BOX_X_SPEED";
+	MENU_AI_CAMERA_0.box_x_angular_speed_rate.name = "BOX_SPEED_RATE";
 	MENU_AI_CAMERA_0.box_fxxk_speed.name = "BOX_FXXK_SPEED";
 	
 	MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.name = "SUP_EN"; 
