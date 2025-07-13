@@ -112,6 +112,11 @@ int main(void)
 	pid(&motor_1_pid);
 	pid(&motor_2_pid);
 	pid(&motor_3_pid);
+	#ifdef FUZZY_SPEED_AND_CURRENT
+	motor_1_pid.fuzzy_pid_init(&motor_1_pid, motor_fuzzy_rules, MOTOR_RANGE);
+	motor_2_pid.fuzzy_pid_init(&motor_2_pid, motor_fuzzy_rules, MOTOR_RANGE);
+	motor_3_pid.fuzzy_pid_init(&motor_3_pid, motor_fuzzy_rules, MOTOR_RANGE);
+	#endif
 	pid(&current_1_pid);
 	pid(&current_2_pid);
 	pid(&current_3_pid);
@@ -189,24 +194,25 @@ int main(void)
     while(1)
     {
 		// 此处编写需要循环执行的代码
-		#ifdef SPEED_AND_CURRENT
-		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && current_1.current_calibration_flag == True && current_2.current_calibration_flag == True && current_3.current_calibration_flag == True && ai_camera_0_init_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)
-		{
-		#endif
 		#ifdef SPEED
 		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && ai_camera_0_init_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)
+		{
+		#else
+		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && current_1.current_calibration_flag == True && current_2.current_calibration_flag == True && current_3.current_calibration_flag == True && ai_camera_0_init_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)
 		{
 		#endif
 			// 此处编写需要循环执行的代码
 			menu_service_start(); 
 
 			displacement_solve.solve_flag = True;
+			euler_angle_solve.solve_flag = True;
+			
 			/* 运动设置 */
-			control_kind = Inv2Speed; 			// 设置控制类型
-			move_solve_kind = XY_SPEED_SOLVE;	// 设置解算类型
-			x_speed_target = box_x_speed_target;
-			y_speed_target = 0;
-			angular_speed_target = -displacement_solve.x_speed*box_x_angular_speed_rate;
+//			control_kind = Inv2Speed; 			// 设置控制类型
+//			move_solve_kind = XY_SPEED_SOLVE;	// 设置解算类型
+//			x_speed_target = box_x_speed_target;
+//			y_speed_target = 0;
+//			angular_speed_target = -displacement_solve.x_speed*box_x_angular_speed_rate;
 		}
     }
 	

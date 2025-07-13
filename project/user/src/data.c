@@ -133,14 +133,21 @@ float path_x_speed_enable_y_speed_rate = 0.8;		// Ä¿±êÑ­¼£YËÙ¶È±ÈÀı£¨ÊµÊ±Ä¿±êËÙ¶
 float circle_x_speed_enable_y_speed_rate = 0.8;		// Ä¿±êÔ²»·YËÙ¶È±ÈÀı£¨ÊµÊ±Ä¿±êËÙ¶È/Ä¿±êËÙ¶È ´óÓÚ¸Ã±ÈÀı²Å¿ªÆôX·½ÏòËÙ¶È£©
 float circle_angular_speed_target = 50;				// ³öÈë»·Ä¿±ê½ÇËÙ¶È
 float circle_angle_target[2] = {70, 65};			// ³öÈë»·Ä¿±ê×ª¶¯½Ç¶È
-float box_x_speed_target = 55;						// Ïä×ÓÄ¿±êXËÙ¶È
-float box_x_angular_speed_rate = 0.4;				// Ïä×Ó ×ª¶¯ËÙ¶È/XËÙ¶È ±ÈÀı£¨Ô½´óĞı×ª°ë¾¶Ô½Ğ¡£©
+float box_x_speed_target = 65;						// Ïä×ÓÄ¿±êXËÙ¶È
+float box_x_angular_speed_rate = 0.33;				// Ïä×Ó ×ª¶¯ËÙ¶È/XËÙ¶È ±ÈÀı£¨Ô½´óĞı×ª°ë¾¶Ô½Ğ¡£©
 float box_fxxk_y_speed_target[3] = {80, 80, 80};	// ÍÆÏä×ÓYËÙ¶ÈÄ¿±êÖµ
 uint32 last_x_speed_slow_change_timer_time = 0;		// X»º±äËÙÉÏÒ»´Î¼ÆÊ±Æ÷Ê±¼ä
 uint32 last_y_speed_slow_change_timer_time = 0;		// Y»º±äËÙÉÏÒ»´Î¼ÆÊ±Æ÷Ê±¼ä
 
 /*    PID²ÎÊı     			Kp     Ki     Kd     »ı·ÖÏŞ·ù     Êä³öÏŞ·ù     ÍÓÂİÒÇKd */
 // µç»ú
+#ifdef FUZZY_SPEED_AND_CURRENT
+float MOTOR_RANGE[3] = { 0.0,   10.0, 160.0 };		// ËÙ¶ÈÆÚÍûÇø¼ä
+float MOTOR_PID[4][5] =  {{ 0.050,    0.010,    0.0,  0,         13},
+						  { 0.070,    0.020,    0.0,  0,         13},
+						  { 0.040,    0.009,    0.0,  0,         13},
+						  { 0.040,    0.003,    0.0,  0,         13}};
+#endif
 #ifdef SPEED_AND_CURRENT
 float MOTOR_1_PID[5] = 	  { 0.0263,   0.0050,   0,  500,         13 };		// Ó²
 float MOTOR_2_PID[5] =    { 0.0422,   0.0027,   0,  500,         13 };		// Èí
@@ -208,6 +215,17 @@ float I_KARMAN[2] = 	   { 0.01, 0.1};
 float PATH_GYRO_KARMAN[2] ={ 0.01, 0.1};
 
 /* Ä£ºıPID ¹æÔò±í */
+// ËÙ¶È»·
+_fuzzy_subset_ motor_fuzzy_rules[8][8] = 
+{  
+{7,7,7,6,7,7,7, 7},
+{7,7,7,5,7,7,7, 7},
+{7,7,7,4,7,7,7, 7},
+{6,5,4,3,4,5,6, 7},
+{7,7,7,4,7,7,7, 7},
+{7,7,7,5,7,7,7, 7},
+{7,7,7,6,7,7,7, 7},
+{7,7,7,7,7,7,7,7}};
 // ·½Ïò»·
 _fuzzy_subset_ path_fuzzy_rules[8][8] =     
 {  

@@ -20,6 +20,9 @@
 #include "DOG_timer.h"
 #include "DOG_data.h"
 
+/* 用户头文件 */
+#include "common.h"
+
 /* 枚举定义 */
 /* 控制类型 */
 /* 赛道状态 */
@@ -235,9 +238,14 @@ extern uint32 last_y_speed_slow_change_timer_time;	// Y缓变速上一次计时器时间
 
 /* PID参数 */
 // 电机
+#ifdef FUZZY_SPEED_AND_CURRENT
+extern float MOTOR_RANGE[3];
+extern float MOTOR_PID[4][5];
+#else
 extern float MOTOR_1_PID[5];
 extern float MOTOR_2_PID[5];
 extern float MOTOR_3_PID[5];
+#endif
 // 电流
 extern float I_1_PID[5];
 extern float I_2_PID[5];
@@ -264,6 +272,7 @@ extern float I_KARMAN[2];
 extern float PATH_GYRO_KARMAN[2];
 
 /* 模糊PID 规则表 */
+extern _fuzzy_subset_ motor_fuzzy_rules[8][8];
 extern _fuzzy_subset_ path_fuzzy_rules[8][8];
 extern _fuzzy_subset_ gyro_fuzzy_rules[8][8];
 extern _fuzzy_subset_ xy_fuzzy_rules[8][8];

@@ -194,6 +194,43 @@ static void motor_pid_calc(void){
 		current_3_pid.output_limit = I_3_PID[4];
 		motor_pwm_duty[2] = current_3_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
 		#endif
+		#ifdef FUZZY_SPEED_AND_CURRENT
+		float motor_1_err = wheel_speed_target[0];
+		float motor_2_err = wheel_speed_target[1];
+		float motor_3_err = wheel_speed_target[2];
+		float Kp[4] = { MOTOR_PID[0][0], MOTOR_PID[1][0], MOTOR_PID[2][0], MOTOR_PID[3][0] };
+		float Ki[4] = { MOTOR_PID[0][1], MOTOR_PID[1][1], MOTOR_PID[2][1], MOTOR_PID[3][1] };
+		float Kd[4] = { MOTOR_PID[0][2], MOTOR_PID[1][2], MOTOR_PID[2][2], MOTOR_PID[3][2] };
+		float i_limit[4] = { MOTOR_PID[0][3], MOTOR_PID[1][3], MOTOR_PID[2][3], MOTOR_PID[3][3] };
+		float output_limit[4] = { MOTOR_PID[0][4], MOTOR_PID[1][4], MOTOR_PID[2][4], MOTOR_PID[3][4] };
+		/* 电机1 */
+		motor_1_pid.fuzzy_pid(&motor_1_pid, &motor_1_err, Kp, Ki, Kd, i_limit, output_limit, 1);
+		motor_current_target[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
+		current_1_pid.Kp = I_1_PID[0];
+		current_1_pid.Ki = I_1_PID[1];
+		current_1_pid.Kd = I_1_PID[2];
+		current_1_pid.i_limit = I_1_PID[3];
+		current_1_pid.output_limit = I_1_PID[4];
+		motor_pwm_duty[0] = current_1_pid.incremental_pid(&current_1_pid, motor_current_target[0], current_1.current);
+		/* 电机2 */
+		motor_2_pid.fuzzy_pid(&motor_2_pid, &motor_2_err, Kp, Ki, Kd, i_limit, output_limit, 1);
+		motor_current_target[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
+		current_2_pid.Kp = I_2_PID[0];
+		current_2_pid.Ki = I_2_PID[1];
+		current_2_pid.Kd = I_2_PID[2];
+		current_2_pid.i_limit = I_2_PID[3];
+		current_2_pid.output_limit = I_2_PID[4];
+		motor_pwm_duty[1] = current_2_pid.incremental_pid(&current_2_pid, motor_current_target[1], current_2.current);
+		/* 电机3 */
+		motor_3_pid.fuzzy_pid(&motor_3_pid, &motor_3_err, Kp, Ki, Kd, i_limit, output_limit, 1);
+		motor_current_target[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
+		current_3_pid.Kp = I_3_PID[0];
+		current_3_pid.Ki = I_3_PID[1];
+		current_3_pid.Kd = I_3_PID[2];
+		current_3_pid.i_limit = I_3_PID[3];
+		current_3_pid.output_limit = I_3_PID[4];
+		motor_pwm_duty[2] = current_3_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
+		#endif
 	}
 	else{
 		// 速度环
@@ -254,6 +291,43 @@ static void motor_pid_calc(void){
 		motor_3_pid.Kd = MOTOR_3_PID[2];
 		motor_3_pid.i_limit = MOTOR_3_PID[3];
 		motor_3_pid.output_limit = MOTOR_3_PID[4];
+		motor_current_target[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
+		current_3_pid.Kp = I_3_PID[0];
+		current_3_pid.Ki = I_3_PID[1];
+		current_3_pid.Kd = I_3_PID[2];
+		current_3_pid.i_limit = I_3_PID[3];
+		current_3_pid.output_limit = I_3_PID[4];
+		motor_pwm_duty[2] = current_3_pid.incremental_pid(&current_3_pid, motor_current_target[2], current_3.current);
+		#endif
+		#ifdef FUZZY_SPEED_AND_CURRENT
+		float motor_1_err = wheel_speed_target[0];
+		float motor_2_err = wheel_speed_target[1];
+		float motor_3_err = wheel_speed_target[2];
+		float Kp[4] = { MOTOR_PID[0][0], MOTOR_PID[1][0], MOTOR_PID[2][0], MOTOR_PID[3][0] };
+		float Ki[4] = { MOTOR_PID[0][1], MOTOR_PID[1][1], MOTOR_PID[2][1], MOTOR_PID[3][1] };
+		float Kd[4] = { MOTOR_PID[0][2], MOTOR_PID[1][2], MOTOR_PID[2][2], MOTOR_PID[3][2] };
+		float i_limit[4] = { MOTOR_PID[0][3], MOTOR_PID[1][3], MOTOR_PID[2][3], MOTOR_PID[3][3] };
+		float output_limit[4] = { MOTOR_PID[0][4], MOTOR_PID[1][4], MOTOR_PID[2][4], MOTOR_PID[3][4] };
+		/* 电机1 */
+		motor_1_pid.fuzzy_pid(&motor_1_pid, &motor_1_err, Kp, Ki, Kd, i_limit, output_limit, 1);
+		motor_current_target[0] = motor_1_pid.incremental_pid(&motor_1_pid, wheel_speed_target[0], encoder_1.wheel_speed);
+		current_1_pid.Kp = I_1_PID[0];
+		current_1_pid.Ki = I_1_PID[1];
+		current_1_pid.Kd = I_1_PID[2];
+		current_1_pid.i_limit = I_1_PID[3];
+		current_1_pid.output_limit = I_1_PID[4];
+		motor_pwm_duty[0] = current_1_pid.incremental_pid(&current_1_pid, motor_current_target[0], current_1.current);
+		/* 电机2 */
+		motor_2_pid.fuzzy_pid(&motor_2_pid, &motor_2_err, Kp, Ki, Kd, i_limit, output_limit, 1);
+		motor_current_target[1] = motor_2_pid.incremental_pid(&motor_2_pid, wheel_speed_target[1], encoder_2.wheel_speed);
+		current_2_pid.Kp = I_2_PID[0];
+		current_2_pid.Ki = I_2_PID[1];
+		current_2_pid.Kd = I_2_PID[2];
+		current_2_pid.i_limit = I_2_PID[3];
+		current_2_pid.output_limit = I_2_PID[4];
+		motor_pwm_duty[1] = current_2_pid.incremental_pid(&current_2_pid, motor_current_target[1], current_2.current);
+		/* 电机3 */
+		motor_3_pid.fuzzy_pid(&motor_3_pid, &motor_3_err, Kp, Ki, Kd, i_limit, output_limit, 1);
 		motor_current_target[2] = motor_3_pid.incremental_pid(&motor_3_pid, wheel_speed_target[2], encoder_3.wheel_speed);
 		current_3_pid.Kp = I_3_PID[0];
 		current_3_pid.Ki = I_3_PID[1];

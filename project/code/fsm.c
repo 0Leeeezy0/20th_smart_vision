@@ -157,10 +157,10 @@ void fsm(void){
 				/* 标志位 */
 				box_XY_finsh_flag = False;
 				/* 停车 */
-				control_kind = Speed;		// 设置控制模式
-				wheel_speed_target[0] = 0;
-				wheel_speed_target[1] = 0;
-				wheel_speed_target[2] = 0;
+//				control_kind = Speed;		// 设置控制模式
+//				wheel_speed_target[0] = 0;
+//				wheel_speed_target[1] = 0;
+//				wheel_speed_target[2] = 0;
 				
 				x_speed_target = 0;			// 设置循线X速度缓启动速度
 				/* 初始化识别结果 */
@@ -208,7 +208,7 @@ void fsm(void){
 					box_dir = 1;
 				x_speed_target = box_dir*box_x_speed_target;
 				y_speed_target = 0;
-				angular_speed_target = -box_dir*displacement_solve.x_speed*box_x_angular_speed_rate;
+				angular_speed_target = -box_dir*box_x_speed_target*box_x_angular_speed_rate;
 				// 计算对称度
 				symmetry_rectificate(dog_cv.image_OTSU);
 				// 找最大归一化加权和与其对应航向角（取加权和对应的角度较大的那个）
@@ -228,10 +228,10 @@ void fsm(void){
 					max_sum_weight_normalization_yaw = 0;		// 最大归一化加权和对应的航向角
 					max_sum_weight_normalization = 0;			// 最大归一化加权和
 					/* 停车 */
-					control_kind = Speed;			// 设置控制模式
-					wheel_speed_target[0] = 0;
-					wheel_speed_target[1] = 0;
-					wheel_speed_target[2] = 0;
+//					control_kind = Speed;			// 设置控制模式
+//					wheel_speed_target[0] = 0;
+//					wheel_speed_target[1] = 0;
+//					wheel_speed_target[2] = 0;
 					
 					y_speed_target = 20;			// 设置循线Y速度缓启动速度
 					/* 状态切换 */
@@ -251,7 +251,7 @@ void fsm(void){
 					move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 					x_speed_target = -box_dir*box_x_speed_target;
 					y_speed_target = 0;
-					angular_speed_target = box_dir*box_x_speed_target*box_x_angular_speed_rate;
+					angular_speed_target = -box_dir*box_x_speed_target*box_x_angular_speed_rate;
 					/* 状态切换 */
 					path_state = box_inv_calibration;		// 进入箱子逆矫正状态
 					/* 存储识别结果 */
@@ -274,10 +274,10 @@ void fsm(void){
 				/* 清空中间量 */ 
 				max_sum_weight_normalization_yaw = 0;	// 最大归一化加权和对应的航向角
 				/* 停车 */
-				control_kind = Speed;			// 设置控制模式
-				wheel_speed_target[0] = 0;
-				wheel_speed_target[1] = 1;
-				wheel_speed_target[2] = 2;
+//				control_kind = Speed;			// 设置控制模式
+//				wheel_speed_target[0] = 0;
+//				wheel_speed_target[1] = 0;
+//				wheel_speed_target[2] = 0;
 				
 				y_speed_target = 20;			// 设置循线Y速度缓启动速度
 				/* 状态切换 */
@@ -295,10 +295,10 @@ void fsm(void){
 			angular_speed_target = 0;
 			if(box_X_finsh_flag == True){
 				/* 停车 */
-				control_kind = Speed;		// 设置控制模式
-				wheel_speed_target[0] = 0;
-				wheel_speed_target[1] = 0;
-				wheel_speed_target[2] = 0;
+//				control_kind = Speed;		// 设置控制模式
+//				wheel_speed_target[0] = 0;
+//				wheel_speed_target[1] = 0;
+//				wheel_speed_target[2] = 0;
 				path_state = box_fxxk;		// 进入箱子推离状态
 				
 				y_speed_target = 0;			// 设置推箱子缓启动速度
@@ -321,18 +321,9 @@ void fsm(void){
 			float X_output_limit[4] = { BOX_X_PID[0][4], BOX_X_PID[1][4], BOX_X_PID[2][4], BOX_X_PID[3][4] };
 			
 			/* 运动设置 */
-//			control_kind = Angle2Inv2Speed;		// 设置控制模式
-//			move_solve_kind = XY_SPEED_SOLVE;	// 设置解算类型
-//			box_x_pid.fuzzy_pid(&box_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
-//			x_speed_target = 0;	// box_x_pid.positional_pid(&box_x_pid, 0, -detection_box_center_err);
-//			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], True);		// 设置推箱子目标速度   
-//			angle_rotation_yaw_target = 0;							// 设置目标旋转角度
-			// 当中心坐标小于一定阈值，停止X定位
-//			if(abs(detection_box_center_err) <= 5)
-//			{
-//				x_speed_target = 0;
-//			}
 			control_kind = X2Inv2Speed;		// 设置控制模式
+//			y_speed_target = box_fxxk_y_speed_target[plan_idx];
+			angular_speed_target = -PATH_PID[plan_idx][0][5]*imu660ra.gyro_z;
 			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], True);		// 设置推箱子目标速度  
 			/* 判断是否在赛道内 */
 			if(gray_sensor.voltage < 0.3 && num < 22)
@@ -342,10 +333,10 @@ void fsm(void){
 			if(is_in_track == True && gray_sensor.voltage > 0.6)
 			{
 				/* 停车 */
-				control_kind = Speed;		// 设置控制模式
-				wheel_speed_target[0] = 0;
-				wheel_speed_target[1] = 0;
-				wheel_speed_target[2] = 0;
+//				control_kind = Speed;		// 设置控制模式
+//				wheel_speed_target[0] = 0;
+//				wheel_speed_target[1] = 0;
+//				wheel_speed_target[2] = 0;
 				/* 变量设置 */
 				is_in_track = False;	
 				num = 0;
@@ -378,10 +369,10 @@ void fsm(void){
 					rotate_euler_angle_solve.solve_flag = False;	// 关闭箱子欧拉角解算
 					angle_rotate_finsh_flag = False;				// 初始化旋转完成标志位
 					/* 停车 */
-					control_kind = Speed;		// 设置控制模式
-					wheel_speed_target[0] = 0;
-					wheel_speed_target[1] = 0;
-					wheel_speed_target[2] = 0;
+//					control_kind = Speed;		// 设置控制模式
+//					wheel_speed_target[0] = 0;
+//					wheel_speed_target[1] = 0;
+//					wheel_speed_target[2] = 0;
 					
 					y_speed_target = 0;			// 设置循线Y速度缓启动速度
 					/* 变量设置 */

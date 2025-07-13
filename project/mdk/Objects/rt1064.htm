@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jul 13 07:21:52 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jul 13 23:46:44 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1408 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1280,7 +1280,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[156]"></a>Angle2Inv2Speed_control</STRONG> (Thumb, 178 bytes, Stack size 16 bytes, control.o(.text.Angle2Inv2Speed_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = Angle2Inv2Speed_control &rArr; angle_rotate_pid_calc
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = Angle2Inv2Speed_control &rArr; motor_pid_calc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_pid_calc
 <LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angle_rotate_pid_calc
@@ -1623,7 +1623,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[1bc]"></a>CircleAngle2Inv2Speed_control</STRONG> (Thumb, 178 bytes, Stack size 16 bytes, control.o(.text.CircleAngle2Inv2Speed_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = CircleAngle2Inv2Speed_control &rArr; circle_rotate_pid_calc
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = CircleAngle2Inv2Speed_control &rArr; motor_pid_calc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;circle_rotate_pid_calc
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_pid_calc
@@ -2009,7 +2009,7 @@ Global Symbols
 <LI> startup_mimxrt1064.o(.isr_vector)
 </UL>
 <P><STRONG><a name="[1f3]"></a>Inv2Speed_control</STRONG> (Thumb, 174 bytes, Stack size 16 bytes, control.o(.text.Inv2Speed_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = Inv2Speed_control &rArr; PWM_control
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = Inv2Speed_control &rArr; motor_pid_calc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_pid_calc
 <LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PWM_control
@@ -2543,7 +2543,7 @@ Global Symbols
 <LI> startup_mimxrt1064.o(.isr_vector)
 </UL>
 <P><STRONG><a name="[222]"></a>Speed_control</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, control.o(.text.Speed_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = Speed_control &rArr; PWM_control
+<BR><BR>[Stack]<UL><LI>Max Depth = 304<LI>Call Chain = Speed_control &rArr; motor_pid_calc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_pid_calc
 <LI><a href="#[159]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PWM_control
@@ -2602,7 +2602,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1064.o(.isr_vector)
 </UL>
 <P><STRONG><a name="[21f]"></a>X2Inv2Speed_control</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, control.o(.text.X2Inv2Speed_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = X2Inv2Speed_control &rArr; box_x_pid_calu
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = X2Inv2Speed_control &rArr; motor_pid_calc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[23f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;box_x_pid_calu
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_pid_calc
@@ -2612,7 +2612,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[221]"></a>XY2Inv2Speed_control</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, control.o(.text.XY2Inv2Speed_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 224<LI>Call Chain = XY2Inv2Speed_control &rArr; box_xy_pid_calu
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = XY2Inv2Speed_control &rArr; motor_pid_calc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[240]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;box_xy_pid_calu
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_pid_calc
@@ -2622,7 +2622,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[220]"></a>Y2Inv2Speed_control</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, control.o(.text.Y2Inv2Speed_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = Y2Inv2Speed_control &rArr; box_y_pid_calu
+<BR><BR>[Stack]<UL><LI>Max Depth = 312<LI>Call Chain = Y2Inv2Speed_control &rArr; motor_pid_calc
 </UL>
 <BR>[Calls]<UL><LI><a href="#[241]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;box_y_pid_calu
 <LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_pid_calc
@@ -3161,7 +3161,7 @@ Global Symbols
 <LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_root_page
 </UL>
 
-<P><STRONG><a name="[267]"></a>fsm</STRONG> (Thumb, 4318 bytes, Stack size 128 bytes, fsm.o(.text.fsm))
+<P><STRONG><a name="[267]"></a>fsm</STRONG> (Thumb, 4198 bytes, Stack size 128 bytes, fsm.o(.text.fsm))
 <BR><BR>[Stack]<UL><LI>Max Depth = 800<LI>Call Chain = fsm &rArr; menu_detection_list &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[28a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symmetry_rectificate
@@ -3545,8 +3545,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_path.o(.text.path)
 </UL>
-<P><STRONG><a name="[c0]"></a>main</STRONG> (Thumb, 1616 bytes, Stack size 120 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1192<LI>Call Chain = main &rArr; menu_init &rArr; ips200_init &rArr; ips200_clear &rArr; ips200_set_region &rArr; ips200_write_command &rArr; spi_write_8bit &rArr; spi_write_8bit_array &rArr; spi_write &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[c0]"></a>main</STRONG> (Thumb, 1600 bytes, Stack size 136 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 1208<LI>Call Chain = main &rArr; menu_init &rArr; ips200_init &rArr; ips200_clear &rArr; ips200_set_region &rArr; ips200_write_command &rArr; spi_write_8bit &rArr; spi_write_8bit_array &rArr; spi_write &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
 <LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_init
@@ -3583,7 +3583,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_ai_camera_0_page)
 </UL>
-<P><STRONG><a name="[e]"></a>menu_ai_camera_0_page</STRONG> (Thumb, 724 bytes, Stack size 96 bytes, menu.o(.text.menu_ai_camera_0_page))
+<P><STRONG><a name="[e]"></a>menu_ai_camera_0_page</STRONG> (Thumb, 722 bytes, Stack size 96 bytes, menu.o(.text.menu_ai_camera_0_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 744<LI>Call Chain = menu_ai_camera_0_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
@@ -3761,13 +3761,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[113]"></a>menu_motor_1_pid_add_service</STRONG> (Thumb, 404 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_1_pid_add_service))
+<P><STRONG><a name="[113]"></a>menu_motor_1_pid_add_service</STRONG> (Thumb, 204 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_1_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_1_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_1_pid_page)
 </UL>
-<P><STRONG><a name="[13]"></a>menu_motor_1_pid_page</STRONG> (Thumb, 800 bytes, Stack size 88 bytes, menu.o(.text.menu_motor_1_pid_page))
-<BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = menu_motor_1_pid_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[13]"></a>menu_motor_1_pid_page</STRONG> (Thumb, 544 bytes, Stack size 64 bytes, menu.o(.text.menu_motor_1_pid_page))
+<BR><BR>[Stack]<UL><LI>Max Depth = 712<LI>Call Chain = menu_motor_1_pid_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
@@ -3780,18 +3780,18 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_motor_1_pid_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[114]"></a>menu_motor_1_pid_reduce_service</STRONG> (Thumb, 404 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_1_pid_reduce_service))
+<P><STRONG><a name="[114]"></a>menu_motor_1_pid_reduce_service</STRONG> (Thumb, 204 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_1_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_1_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_1_pid_page)
 </UL>
-<P><STRONG><a name="[115]"></a>menu_motor_2_pid_add_service</STRONG> (Thumb, 388 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_2_pid_add_service))
+<P><STRONG><a name="[115]"></a>menu_motor_2_pid_add_service</STRONG> (Thumb, 204 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_2_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_2_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_2_pid_page)
 </UL>
-<P><STRONG><a name="[14]"></a>menu_motor_2_pid_page</STRONG> (Thumb, 808 bytes, Stack size 88 bytes, menu.o(.text.menu_motor_2_pid_page))
-<BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = menu_motor_2_pid_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[14]"></a>menu_motor_2_pid_page</STRONG> (Thumb, 560 bytes, Stack size 64 bytes, menu.o(.text.menu_motor_2_pid_page))
+<BR><BR>[Stack]<UL><LI>Max Depth = 712<LI>Call Chain = menu_motor_2_pid_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
@@ -3804,18 +3804,18 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_motor_2_pid_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[116]"></a>menu_motor_2_pid_reduce_service</STRONG> (Thumb, 388 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_2_pid_reduce_service))
+<P><STRONG><a name="[116]"></a>menu_motor_2_pid_reduce_service</STRONG> (Thumb, 204 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_2_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_2_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_2_pid_page)
 </UL>
-<P><STRONG><a name="[117]"></a>menu_motor_3_pid_add_service</STRONG> (Thumb, 400 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_3_pid_add_service))
+<P><STRONG><a name="[117]"></a>menu_motor_3_pid_add_service</STRONG> (Thumb, 240 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_3_pid_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_3_pid_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_3_pid_page)
 </UL>
-<P><STRONG><a name="[15]"></a>menu_motor_3_pid_page</STRONG> (Thumb, 784 bytes, Stack size 88 bytes, menu.o(.text.menu_motor_3_pid_page))
-<BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = menu_motor_3_pid_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[15]"></a>menu_motor_3_pid_page</STRONG> (Thumb, 528 bytes, Stack size 56 bytes, menu.o(.text.menu_motor_3_pid_page))
+<BR><BR>[Stack]<UL><LI>Max Depth = 704<LI>Call Chain = menu_motor_3_pid_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
@@ -3828,7 +3828,7 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_motor_3_pid_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[118]"></a>menu_motor_3_pid_reduce_service</STRONG> (Thumb, 400 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_3_pid_reduce_service))
+<P><STRONG><a name="[118]"></a>menu_motor_3_pid_reduce_service</STRONG> (Thumb, 240 bytes, Stack size 4 bytes, menu.o(.text.menu_motor_3_pid_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_motor_3_pid_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_motor_3_pid_page)
@@ -3991,8 +3991,7 @@ Global Symbols
 <LI><a href="#[263]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;variable_init
 <LI><a href="#[262]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flag_init
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_calibrate
-<LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
+<BR>[Called By]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
 </UL>
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_root_page)
 <LI> menu.o(.data.menu_page)
@@ -4274,14 +4273,13 @@ Global Symbols
 <P><STRONG><a name="[5]"></a>save</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, menu.o(.text.save))
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[7]"></a>sensor_calibrate</STRONG> (Thumb, 202 bytes, Stack size 8 bytes, menu.o(.text.sensor_calibrate))
-<BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = sensor_calibrate &rArr; menu_root_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[7]"></a>sensor_calibrate</STRONG> (Thumb, 148 bytes, Stack size 8 bytes, menu.o(.text.sensor_calibrate))
+<BR><BR>[Stack]<UL><LI>Max Depth = 656<LI>Call Chain = sensor_calibrate &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[266]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[268]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
 <LI><a href="#[265]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_point
-<LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_root_page
 <LI><a href="#[261]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_delay_ms
 <LI><a href="#[260]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_page_init
 </UL>
@@ -5069,8 +5067,8 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Angle2Inv2Speed_control
 </UL>
 
-<P><STRONG><a name="[158]"></a>motor_pid_calc</STRONG> (Thumb, 928 bytes, Stack size 40 bytes, control.o(.text.motor_pid_calc))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = motor_pid_calc
+<P><STRONG><a name="[158]"></a>motor_pid_calc</STRONG> (Thumb, 1202 bytes, Stack size 296 bytes, control.o(.text.motor_pid_calc))
+<BR><BR>[Stack]<UL><LI>Max Depth = 296<LI>Call Chain = motor_pid_calc
 </UL>
 <BR>[Called By]<UL><LI><a href="#[222]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Speed_control
 <LI><a href="#[1f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Inv2Speed_control

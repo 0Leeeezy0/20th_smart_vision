@@ -1,35 +1,6 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-/* C标准库 */
-#include "math.h"
-
-/* 逐飞库头文件 */
-#include "zf_common_headfile.h"
-#include "zf_common_debug.h"
-#include "isr.h"
-
-/* DOG库头文件 */
-#include "DOG_motor.h"
-#include "DOG_data.h"
-#include "DOG_vofa.h"
-#include "DOG_sensor.h"
-#include "DOG_solve.h"
-#include "DOG_cv.h"
-#include "DOG_path.h"
-#include "DOG_filter.h"
-#include "DOG_pid.h"
-#include "DOG_timer.h"
-//#include "DOG_menu.h"
-
-/* 用户头文件 */
-#include "debug.h"
-#include "menu.h"
-#include "menu_data.h"
-#include "ai.h"
-#include "control.h"
-#include "fsm.h"
-
 /****************************** 硬件参数 ******************************/
 /* 以下顺序都是摄像头支架后为1开始顺时针记数 */
 /* 电机驱动引脚 */
@@ -148,7 +119,7 @@
 
 /****************************** 预定义参数 ******************************/
 
-#define SPEED_AND_CURRENT      						// 电机控制类型（速度环+电流环：SPEED_AND_CURRENT;速度环：SPEED）
+#define FUZZY_SPEED_AND_CURRENT      						// 电机控制类型（模糊速度环+电流环：FUZZY_SPEED_AND_CURRENT;速度环+电流环：SPEED_AND_CURRENT;速度环：SPEED）
 
 /***********************************************************************/
 
@@ -185,6 +156,35 @@
 #define AI_CAMERA_2_UART_PRIORITY     			( LPUART2_IRQn )  		// AI摄像头1 串口接收中断号
 
 /*********************************************************************/
+
+/* C标准库 */
+#include "math.h"
+
+/* 逐飞库头文件 */
+#include "zf_common_headfile.h"
+#include "zf_common_debug.h"
+#include "isr.h"
+
+/* DOG库头文件 */
+#include "DOG_motor.h"
+#include "DOG_data.h"
+#include "DOG_vofa.h"
+#include "DOG_sensor.h"
+#include "DOG_solve.h"
+#include "DOG_cv.h"
+#include "DOG_path.h"
+#include "DOG_filter.h"
+#include "DOG_pid.h"
+#include "DOG_timer.h"
+//#include "DOG_menu.h"
+
+/* 用户头文件 */
+#include "debug.h"
+#include "menu.h"
+#include "menu_data.h"
+#include "ai.h"
+#include "control.h"
+#include "fsm.h"
 
 
 #endif
