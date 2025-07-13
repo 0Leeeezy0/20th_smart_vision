@@ -129,6 +129,9 @@ void start(void);
 /* 调试 */
 void debug(void);
 
+/* 方案选择 */
+void plan(void);
+
 /* 保存参数 */
 void save(void);
 
@@ -217,6 +220,10 @@ void menu_motor_pid_page_back_service(void);
 /* 菜单对称法矫正数据页面服务 */
 //void menu_symmetry_rectificate_data_add_service(void);
 //void menu_asymmetry_rectificate_data_reduce_service(void);
+
+/* 方案页面服务 */
+void menu_plan_data_add_service(void);
+void menu_plan_data_reduce_service(void);
 
 /* 电机数据页面服务 */
 void menu_motor_data_add_service(void);

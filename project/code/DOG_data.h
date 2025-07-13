@@ -3,10 +3,11 @@
 
 #include "stdio.h"
 
-#define CHECK(x) 		((x)==1?1:((x)==0?-1:0))	// 1->1;0->-1
-#define DEG2RAD(x) 		(double)(PI*(x)/180.0)	// 角度->弧度
-#define RAD2DEG(x) 		(double)(180.0*(x)/PI)	// 弧度->角度
-#define ROUND(x,y) 		((x-(x%y))/y)		// 整除
+#define CHECK(x) 			((x)==1?1:((x)==0?-1:0))	// 1->1;0->-1
+#define DEG2RAD(x) 			(double)(PI*(x)/180.0)		// 角度->弧度
+#define RAD2DEG(x) 			(double)(180.0*(x)/PI)		// 弧度->角度
+#define ROUND(x,y) 			((x-(x%y))/y)				// 整除
+#define PYTHAGOREAN(x,y) 	(sqrt((x)*(x)+(y)*(y)))		// 求两点距离
 
 #define SQRT_3			(double)(1.7320508075688772935274463415059)
 #define SQRT_2			(double)(1.4142135623730950488016887242097)

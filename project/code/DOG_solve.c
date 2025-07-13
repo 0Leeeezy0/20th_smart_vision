@@ -67,10 +67,22 @@ void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_
 		this -> diff_wheel_2_displacement = wheel_2_speed_real*this -> solve_IT_time/1000.;
 		this -> diff_wheel_3_displacement = wheel_3_speed_real*this -> solve_IT_time/1000.;
 		
+		// 三个轮子合成的速度
+		this -> x_speed = (-2.*wheel_1_speed_real+wheel_2_speed_real+wheel_3_speed_real)/3.;
+		this -> y_speed = (wheel_2_speed_real-wheel_3_speed_real)/SQRT_3;
+		this -> angular_speed = (wheel_1_speed_real+wheel_2_speed_real+wheel_3_speed_real)/3.;
+		
 		// 分解到车身X、Y方向上的位移微分
 		this -> diff_x_displacement = (-2.*this -> diff_wheel_1_displacement+this -> diff_wheel_2_displacement+this -> diff_wheel_3_displacement)/3.;
 		this -> diff_y_displacement = (this -> diff_wheel_2_displacement-this -> diff_wheel_3_displacement)/SQRT_3;
 		this -> diff_yaw = RAD2DEG((this -> diff_wheel_1_displacement+this -> diff_wheel_2_displacement+this -> diff_wheel_3_displacement)/(3.0*this -> radius));
+		
+		// 计算世界航向角
+		this -> world_yaw += this -> diff_yaw;
+		this -> world_yaw = fmod(this -> world_yaw, 360);
+		// 修正世界航向角
+		if(this -> world_yaw > 180)this -> world_yaw = this -> world_yaw-360;
+		else if(this -> world_yaw < -180)this -> world_yaw = this -> world_yaw+360;
 		
 		// 和位移微分
 		this -> diff_displacement = sqrt(this -> diff_x_displacement*this -> diff_x_displacement+this -> diff_y_displacement*this -> diff_y_displacement);
@@ -92,10 +104,11 @@ void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_
 		/* 修正航向角 */
 		if(yaw > 180)yaw = yaw-360;
 		else if(yaw < -180)yaw = yaw+360;
+		this -> world_yaw = (yaw+this -> world_yaw)/2.0;
 		
-		// 世界X,Y方向上的位移微分和位移
-		this -> diff_world_x_displacement = this -> diff_displacement*sinf(DEG2RAD(this -> diff_displacement_yaw+yaw*1.15));
-		this -> diff_world_y_displacement = this -> diff_displacement*cosf(DEG2RAD(this -> diff_displacement_yaw+yaw*1.15));
+		// 世界X,Y方向上的位移微分和位移（含惯性修正系数）
+		this -> diff_world_x_displacement = this -> diff_displacement*sinf(DEG2RAD(this -> diff_displacement_yaw+this -> world_yaw*1.06));
+		this -> diff_world_y_displacement = this -> diff_displacement*cosf(DEG2RAD(this -> diff_displacement_yaw+this -> world_yaw*1.06));
 		this -> world_x_displacement += this -> diff_world_x_displacement;
 		this -> world_y_displacement += this -> diff_world_y_displacement;
 	

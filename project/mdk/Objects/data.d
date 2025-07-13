@@ -1,4 +1,5 @@
-./objects/data.o: ..\user\src\data.c ..\user\inc\data.h \
+./objects/data.o: ..\user\src\data.c ..\user\inc\common.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdint.h \
@@ -108,4 +109,6 @@
   ..\code\DOG_motor.h ..\code\DOG_data.h ..\code\DOG_vofa.h \
   ..\code\DOG_sensor.h ..\code\DOG_solve.h ..\code\DOG_cv.h \
   ..\code\DOG_path.h ..\code\DOG_filter.h ..\code\DOG_pid.h \
-  ..\code\DOG_menu.h ..\code\DOG_timer.h
+  ..\code\DOG_timer.h ..\code\debug.h ..\code\menu.h ..\code\menu_data.h \
+  ..\code\ai.h ..\user\inc\data.h ..\code\DOG_menu.h ..\code\control.h \
+  ..\code\fsm.h

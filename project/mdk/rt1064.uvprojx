@@ -425,6 +425,11 @@
           <GroupName>code</GroupName>
           <Files>
             <File>
+              <FileName>DOG_menu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_menu.h</FilePath>
+            </File>
+            <File>
               <FileName>ai.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\code\ai.c</FilePath>
@@ -468,11 +473,6 @@
               <FileName>DOG_menu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\code\DOG_menu.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_menu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_menu.h</FilePath>
             </File>
             <File>
               <FileName>DOG_motor.c</FileName>

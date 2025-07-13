@@ -35,8 +35,12 @@ typedef struct DOG_SOLVE{
 	float wheel_1_displacement;	// 轮子位移
 	float wheel_2_displacement;	
 	float wheel_3_displacement;	
+	float x_speed;				// X方向速度
+	float y_speed;				// Y方向速度
+	float angular_speed;		// 旋转速度
 	float world_x_displacement;	// 世界坐标
 	float world_y_displacement;	
+	float world_yaw;		
 	float distance;		// 路程
 	float displacement;	// 位移
 	float displacement_yaw;	// 位移航向角

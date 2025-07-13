@@ -99,15 +99,17 @@ typedef struct DOG_CURRENT{
 	/* ADC参数 */
 	adc_channel_enum adc_ch;			// ADC引脚
 	adc_resolution_enum resolution;		// ADC分辨率
-	float current_ratio;				// 电压-电流换算系数（电压/电流）、
+	float current_ratio;				// 电压-电流换算系数（电压/电流）
+	_bool_ current_reverse_flag;	    // 电流反转标志位
 	/* 去零飘 */
 	_bool_ current_calibration_flag;	// 电流去零飘标志位
+
 	uint32 calibration_epoch;			// 去零飘轮次
 	uint32 epoch;						// 轮次
 	float current_calibration;		// 去零飘值
 	/* 读取值 */
 	float current;						// 电流
-	
+
 	float (*current_get)(struct DOG_CURRENT* this);	// 电流获取
 }DOG_CURRENT;
 
@@ -115,7 +117,7 @@ typedef struct DOG_CURRENT{
 float current_get(struct DOG_CURRENT* this);
 
 // 构造函数
-void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_enum resolution, float current_ratio, uint32 calibration_epoch);
+void current(struct DOG_CURRENT* this, adc_channel_enum adc_ch, adc_resolution_enum resolution, float current_ratio, uint32 calibration_epoch,_bool_ current_reverse_flag);
 // 析构函数
 void _current(struct DOG_CURRENT* this);
 /****************************************************************************************************************************/

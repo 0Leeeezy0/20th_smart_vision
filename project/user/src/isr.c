@@ -50,13 +50,10 @@ void PIT_IRQHandler(void)
 		encoder_1.encoder_get(&encoder_1);
 		encoder_2.encoder_get(&encoder_2);
 		encoder_3.encoder_get(&encoder_3);
-		#ifdef SPEED_AND_CURRENT
+		#ifndef SPEED
 		current_1.current_get(&current_1);
 		current_2.current_get(&current_2);
 		current_3.current_get(&current_3);
-		current_1.current = current_1_karman.karman_filter(&current_1_karman, current_1.current);
-		current_2.current = current_2_karman.karman_filter(&current_2_karman, current_2.current);
-		current_3.current = current_3_karman.karman_filter(&current_3_karman, current_3.current);
 		#endif
 		imu660ra.gyro_get(&imu660ra);
 		imu660ra.acc_get(&imu660ra);
@@ -75,6 +72,7 @@ void PIT_IRQHandler(void)
     {
 		switch(control_kind){
 			case Angle2Inv2Speed:{ Angle2Inv2Speed_control(); break; }
+			case CircleAngle2Inv2Speed:{ CircleAngle2Inv2Speed_control(); break; }
 			case X2Inv2Speed:{ X2Inv2Speed_control(); break; }
 			case Y2Inv2Speed:{ Y2Inv2Speed_control(); break; }
 			case XY2Inv2Speed:{ XY2Inv2Speed_control(); break; }
@@ -88,8 +86,8 @@ void PIT_IRQHandler(void)
     if(pit_flag_get(PIT_CH2))
     {
 		zebra_path_timer.ticking(&zebra_path_timer);
-		circle_in_timer.ticking(&circle_in_timer);
-		circle_out_timer.ticking(&circle_out_timer);
+        motor_debug_timer.ticking(&motor_debug_timer);
+		speed_slow_change_timer.ticking(&speed_slow_change_timer);
         pit_flag_clear(PIT_CH2);
     }
     if(pit_flag_get(PIT_CH3))
@@ -127,8 +125,10 @@ void LPUART2_IRQHandler(void)
     {
         // 接收中断
         // AI摄像头2串口接收中断
+		#ifndef AI_CAMERA_MERGE
 		extern void uart_rx_interrupt_handler_ai_camera_2();
         uart_rx_interrupt_handler_ai_camera_2();
+		#endif
 	
 //		wireless_vofa.justfloat_add(&wireless_vofa, 1, (float)22);
 //		wireless_vofa.justfloat_send(&wireless_vofa);

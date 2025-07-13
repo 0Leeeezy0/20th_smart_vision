@@ -61,9 +61,9 @@ int main(void)
 	encoder(&encoder_3, ENCODER_3_MODULE_NUM, ENCODER_3_CH1, ENCODER_3_CH2, ENCODER_3_FRONT_DIR, 4096, SENSOR_SOLVE_IT_TIME, GEAR_RATIO, WHEEL_CIRCUMFERENCE);
 	
 	/* 电流采样 */
-	current(&current_1, CURRENT_1_PIN, ADC_12BIT, CURRENT_RATIO, 500);
-	current(&current_2, CURRENT_2_PIN, ADC_12BIT, CURRENT_RATIO, 500);
-	current(&current_3, CURRENT_3_PIN, ADC_12BIT, CURRENT_RATIO, 500);
+	current(&current_1, CURRENT_1_PIN, ADC_12BIT, CURRENT_RATIO, 500,CURRENT_1_FRONT_DIR);
+	current(&current_2, CURRENT_2_PIN, ADC_12BIT, CURRENT_RATIO, 500,CURRENT_2_FRONT_DIR);
+	current(&current_3, CURRENT_3_PIN, ADC_12BIT, CURRENT_RATIO, 500,CURRENT_1_FRONT_DIR);
 	
 	/* 灰度传感器 */
 	voltage(&gray_sensor, GRAYSCALE_SENSOR_PIN, ADC_12BIT);
@@ -75,6 +75,9 @@ int main(void)
 	karman(&current_1_karman, I_KARMAN[0], I_KARMAN[1]);
 	karman(&current_2_karman, I_KARMAN[0], I_KARMAN[1]);
 	karman(&current_3_karman, I_KARMAN[0], I_KARMAN[1]);
+    
+    /* 路径陀螺仪滤波 */
+    karman(&path_gyro_karman, PATH_GYRO_KARMAN[0], PATH_GYRO_KARMAN[1]);
 	
 	/* VOFA */
 	vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
@@ -84,8 +87,8 @@ int main(void)
 	
 	/* 计时器 */
 	timer(&zebra_path_timer, 5);
-	timer(&circle_in_timer, 5);
-	timer(&circle_out_timer, 5);
+    timer(&motor_debug_timer, 5);
+	timer(&speed_slow_change_timer, 5);
 	
 	/* 欧拉角解算 */
 	solve(&euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
@@ -109,19 +112,26 @@ int main(void)
 	pid(&motor_1_pid);
 	pid(&motor_2_pid);
 	pid(&motor_3_pid);
+	#ifdef FUZZY_SPEED_AND_CURRENT
+	motor_1_pid.fuzzy_pid_init(&motor_1_pid, motor_fuzzy_rules, MOTOR_RANGE);
+	motor_2_pid.fuzzy_pid_init(&motor_2_pid, motor_fuzzy_rules, MOTOR_RANGE);
+	motor_3_pid.fuzzy_pid_init(&motor_3_pid, motor_fuzzy_rules, MOTOR_RANGE);
+	#endif
 	pid(&current_1_pid);
 	pid(&current_2_pid);
 	pid(&current_3_pid);
 	pid(&path_pid);
-	path_pid.fuzzy_pid_init(&path_pid, fuzzy_rules, PATH_RANGE);
+	path_pid.fuzzy_pid_init(&path_pid, path_fuzzy_rules, PATH_RANGE);
 	pid(&path_gyroz_pid);
-	path_gyroz_pid.fuzzy_pid_init(&path_gyroz_pid, fuzzy_rules, PATH_RANGE);
-	pid(&rotate_pid);
-	rotate_pid.fuzzy_pid_init(&rotate_pid, fuzzy_rules, ROTATE_RANGE);
+	path_gyroz_pid.fuzzy_pid_init(&path_gyroz_pid, gyro_fuzzy_rules, GYRO_RANGE);
+	pid(&angle_rotate_pid);
+	angle_rotate_pid.fuzzy_pid_init(&angle_rotate_pid, angle_rotate_fuzzy_rules, ROTATE_RANGE);
+	pid(&circle_rotate_pid);
+	circle_rotate_pid.fuzzy_pid_init(&circle_rotate_pid, circle_rotate_fuzzy_rules, ROTATE_RANGE);
 	pid(&box_x_pid);
-	box_x_pid.fuzzy_pid_init(&box_x_pid, fuzzy_rules, BOX_X_RANGE);
+	box_x_pid.fuzzy_pid_init(&box_x_pid, xy_fuzzy_rules, BOX_X_RANGE);
 	pid(&box_y_pid);
-	box_y_pid.fuzzy_pid_init(&box_y_pid, fuzzy_rules, BOX_Y_RANGE);
+	box_y_pid.fuzzy_pid_init(&box_y_pid, xy_fuzzy_rules, BOX_Y_RANGE);
 	
 	/* 箱子矫正 */
 	symmetry_rectificate_init();
@@ -164,11 +174,11 @@ int main(void)
 //	box_XY_finsh_flag = False;
 //	rotate_finsh_flag = False;
 	
-	circle_enable_flag = True;		// 圆环 使能标志位
-	zebra_enable_flag = True;		// 斑马线 使能标志位
-	ai_camera_0_enable_flag = True;	// AI相机0 使能标志位
-	ai_camera_1_enable_flag = False;	// AI相机1 使能标志位
-	ai_camera_2_enable_flag = False;	// AI相机2 使能标志位
+	circle_enable_flag = True;			// 圆环 使能标志位
+	zebra_enable_flag = True;			// 斑马线 使能标志位
+	ai_camera_0_enable_flag = False;		// AI相机0 使能标志位
+	ai_camera_1_enable_flag = False;		// AI相机1 使能标志位
+	ai_camera_2_enable_flag = False;		// AI相机2 使能标志位
 	
 	ai_camera_0_init_flag = False;
 	detection_result.ai_camera_init_flag[0] = False;
@@ -179,21 +189,51 @@ int main(void)
 		detection_result.ai_camera_init_flag[0] = True;
 	if(ai_camera_2_enable_flag == False)
 		detection_result.ai_camera_init_flag[1] = True;
-	
+
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
     {
 		// 此处编写需要循环执行的代码
-		#ifdef SPEED_AND_CURRENT
-		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && current_1.current_calibration_flag == True && current_2.current_calibration_flag == True && current_3.current_calibration_flag == True && ai_camera_0_init_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)
-		{
-		#endif
 		#ifdef SPEED
 		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && ai_camera_0_init_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)
 		{
+		#else
+		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && current_1.current_calibration_flag == True && current_2.current_calibration_flag == True && current_3.current_calibration_flag == True && ai_camera_0_init_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)
+		{
 		#endif
 			// 此处编写需要循环执行的代码
-			menu_service_start();
+			menu_service_start(); 
+
+//			displacement_solve.solve_flag = True;
+//			euler_angle_solve.solve_flag = True;
+//			
+//			control_kind = Inv2Speed;
+//			move_solve_kind = XY_SPEED_SOLVE;
+//			angular_speed_target = 0;
+//			
+//			if(displacement_solve.world_x_displacement-200 < 0){
+//				x_speed_target = 50;
+//			}
+//			else{
+//				x_speed_target = 0;
+//			}
+//			if(displacement_solve.world_y_displacement-200 < 0){
+//				y_speed_target = 50;
+//			}
+//			else{
+//				y_speed_target = 0;
+//			}
+			
+			
+//			wireless_vofa.justfloat_add(&wireless_vofa, 4, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance);
+//			wireless_vofa.justfloat_send(&wireless_vofa);
+			
+			/* 运动设置 */
+//			control_kind = Inv2Speed; 			// 设置控制类型
+//			move_solve_kind = XY_SPEED_SOLVE;	// 设置解算类型
+//			x_speed_target = box_x_speed_target;
+//			y_speed_target = 0;
+//			angular_speed_target = -displacement_solve.x_speed*box_x_angular_speed_rate;
 		}
     }
 	
