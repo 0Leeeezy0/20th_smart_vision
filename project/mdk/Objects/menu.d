@@ -1,4 +1,4 @@
-./objects/menu.o: ..\code\menu.c ..\user\inc\common.h \
+./objects/menu.o: ..\code\menu.c ..\code\menu.h ..\user\inc\common.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \
@@ -106,7 +106,8 @@
   ..\..\libraries\components\sdmmc\common\fsl_sdmmc_spec.h \
   ..\..\libraries\components\sdmmc\sdmmc_config.h \
   ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h \
-  ..\user\inc\data.h ..\code\chassis_control.h ..\code\path_control.h \
-  ..\code\cv.h ..\code\vofa_debug.h ..\code\vofa_debug_app.h \
-  ..\code\menu.h ..\code\menu_data.h ..\code\ai_camera.h \
-  ..\code\task_dispatch.h
+  ..\code\DOG_motor.h ..\code\DOG_data.h ..\code\DOG_vofa.h \
+  ..\code\DOG_sensor.h ..\code\DOG_solve.h ..\code\DOG_cv.h \
+  ..\code\DOG_path.h ..\code\DOG_filter.h ..\code\DOG_pid.h \
+  ..\code\DOG_timer.h ..\code\debug.h ..\code\menu_data.h ..\code\ai.h \
+  ..\user\inc\data.h ..\code\DOG_menu.h ..\code\control.h ..\code\fsm.h

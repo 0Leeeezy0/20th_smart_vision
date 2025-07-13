@@ -1,5 +1,4 @@
-./objects/dog_vofa.o: ..\code\DOG_vofa.c ..\user\inc\common.h \
-  D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h \
+./objects/dog_vofa.o: ..\code\DOG_vofa.c \
   ..\..\libraries\zf_common\zf_common_headfile.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \
   D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdint.h \
@@ -105,8 +104,12 @@
   ..\..\libraries\sdk\drives\fsl_usdhc.h \
   ..\..\libraries\components\sdmmc\common\fsl_sdmmc_spec.h \
   ..\..\libraries\components\sdmmc\sdmmc_config.h \
+<<<<<<< HEAD
   ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h \
   ..\user\inc\data.h ..\code\DOG_chassis.h ..\code\DOG_path.h \
   ..\code\DOG_image.h ..\code\DOG_vofa.h ..\code\DOG_vofa_app.h \
   ..\code\DOG_menu.h ..\code\DOG_menu_data.h ..\code\DOG_ai.h \
   ..\code\DOG_fsm.h ..\code\DOG_pid.h ..\code\DOG_element.h
+=======
+  ..\..\libraries\sdk\board\clock_config.h ..\code\DOG_vofa.h
+>>>>>>> 7295a0a293e342ca2ba407fd0b968a2e6043c05c
