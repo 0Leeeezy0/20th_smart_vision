@@ -50,32 +50,9 @@ void side_extract(struct DOG_PATH* this, uint8 input[MT9V03X_H][MT9V03X_W]);
 // 边线点类型判断
 void side_point_kind_judge(struct DOG_PATH* this);				
 
-<<<<<<< HEAD
-/* 循迹控制 */
-void path_control(float path_control_speed);
-
-/* 边线点类型判断 */
-void side_point_kind_judge(void);
-
-/* 赛道归一化曲率计算 */
-void path_curvature_normalization_judge(void);
-
-/* 圆环判断 */
-void circle_path_element_judge(void);
-
-/* 斑马线元素判断 */
-void zebra_crossing_path_element_judge(void);
-
-/* 循迹PID参数结构体初始化 */
-_PATH_PID_ path_control_pid_init(void);
-
-/* 循迹PID */
-float path_control_pid(float (*FUNC_PATH)(_PID_PARAMETERS_*,_PID_VARIABLE_*,float,float),_PATH_PID_ path_pid,int16 path_err);
-=======
 // 构造函数
 void path(struct DOG_PATH* this, uint16 path_start, uint16 path_end, uint16 side_extract_start_y, uint16 side_extract_end_y, uint16 prediction_point);
 // 析构函数
 void _path(struct DOG_PATH* this);
->>>>>>> 7295a0a293e342ca2ba407fd0b968a2e6043c05c
 
 #endif

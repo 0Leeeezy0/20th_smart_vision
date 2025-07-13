@@ -15,6 +15,7 @@ _MENU_MOTOR_ MENU_MOTOR;
 _MENU_GYRO_ACC_ MENU_GYRO_ACC;
 _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
 _MENU_SHIFT_ MENU_SHIFT;
+_MENU_PLAN_ MENU_PLAN;
 _MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
 _MENU_AI_CAMERA_1_2_ MENU_AI_CAMERA_1_2;
 _MENU_PATH_ MENU_PATH;
@@ -60,11 +61,17 @@ void menu_data_leeeezy_init(void)
 	MENU_SHIFT.world_x.name = "WORLD_X";
 	MENU_SHIFT.world_y.name = "WORLD_Y";
 	MENU_SHIFT.world_yaw.name = "WORLD_YAW";
+	
+	MENU_PLAN.plan_idx.name = "PLAN_IDX";
 
 	MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name = "CAMERA_0_EN";
 	MENU_AI_CAMERA_0.detection_box_width_limit.name = "W_LIMIT";
 	MENU_AI_CAMERA_0.detection_box_width_target.name = "W_TARGET";
 	MENU_AI_CAMERA_0.detection_box_center_limit.name = "CENTER_ERR_LIMIT";
+	MENU_AI_CAMERA_0.box_x_speed_target.name = "BOX_X_SPEED";
+	MENU_AI_CAMERA_0.box_x_angular_speed_rate.name = "BOX_SPEED_RATE";
+	MENU_AI_CAMERA_0.box_fxxk_speed.name = "BOX_FXXK_SPEED";
+	MENU_AI_CAMERA_0.box_distance.name = "BOX_DISTANCE";
 	
 	MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.name = "SUP_EN"; 
 	MENU_AI_CAMERA_1_2.detection_result.name = "DETECTION_RESULT";
@@ -79,11 +86,14 @@ void menu_data_leeeezy_init(void)
 	
 	MENU_CIRCLE_PATH.circle_enable_flag.name = "CIRCLE_EN";
 	MENU_CIRCLE_PATH.circle_y_speed_target.name = "CIRCLE_Y_SPEED_TAR";
-	MENU_CIRCLE_PATH.circle_angular_speed_target.name = "CIRCLE_A_SPEED_TAR";
-	MENU_CIRCLE_PATH.circle_angle.name = "CIRCLE_ANGLE";
+	MENU_CIRCLE_PATH.circle_angular_speed_target.name = "CIRCLE_A_SPEED_TAR"; 
+	MENU_CIRCLE_PATH.circle_in_angle.name = "CIRCLE_IN_ANGLE";
+	MENU_CIRCLE_PATH.circle_out_angle.name = "CIRCLE_OUT_ANGLE";
 	MENU_CIRCLE_PATH.circle_check_y.name = "CIRCLE_CHECK_Y";
 	MENU_CIRCLE_PATH.side_extract_start.name = "SIDE_START";
 	MENU_CIRCLE_PATH.side_extract_end.name = "SIDE_END";
+	MENU_CIRCLE_PATH.circle_in_distance_limit.name = "CIRCLE_IN_DIS";
+	MENU_CIRCLE_PATH.circle_out_distance_limit.name = "CIRCLE_OUT_DIS";
 	
 	MENU_MOTOR_1_PID.control_mode.name = "MODE";
 	MENU_MOTOR_1_PID.control_mode.data_uint8 = 0;

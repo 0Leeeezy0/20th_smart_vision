@@ -27,11 +27,7 @@ float incremental_pid(struct DOG_PID* this ,float target, float feedback){
 	{
 		this -> value = -this -> output_limit;
 	}
-<<<<<<< HEAD
-	return pid_paraments -> value;
-=======
 	return this -> value;
->>>>>>> 7295a0a293e342ca2ba407fd0b968a2e6043c05c
 }
 
 // Œª÷√ Ω PID

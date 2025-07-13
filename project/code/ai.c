@@ -21,7 +21,9 @@ static uint8 uart_data[] = {0x2C, 0x9F, 0x08, 0x5B, 0x5B};
 void ai_camera_init(void){
 	ai_camera_0_init();
 	ai_camera_1_init();
+	#ifndef AI_CAMERA_MERGE
 	ai_camera_2_init();
+	#endif
 }
 
 /* AI摄像头0 初始化 */
@@ -32,7 +34,7 @@ void ai_camera_0_init(void){
     interrupt_set_priority(AI_CAMERA_0_UART_PRIORITY, 0);                                   // 设置对应 UART_INDEX 的中断优先级为 0
 }
 
-/* AI摄像头1（工具） 初始化 */	
+/* AI摄像头1（工具/工具＋数字） 初始化 */	
 void ai_camera_1_init(void){
     fifo_init(&ai_camera_1_uart_fifo, FIFO_DATA_8BIT, ai_camera_1_uart_buffer, 64);              // 初始化 fifo 挂载缓冲区
     
@@ -40,7 +42,7 @@ void ai_camera_1_init(void){
     uart_rx_interrupt(AI_CAMERA_1_UART_INDEX, ZF_ENABLE);                                   // 开启 UART_INDEX 的接收中断
     interrupt_set_priority(AI_CAMERA_1_UART_PRIORITY, 0);                                   // 设置对应 UART_INDEX 的中断优先级为 0
 }
-
+#ifndef AI_CAMERA_MERGE
 /* AI摄像头2（数字） 初始化 */
 void ai_camera_2_init(void){
     fifo_init(&ai_camera_2_uart_fifo, FIFO_DATA_8BIT, ai_camera_2_uart_buffer, 64);              // 初始化 fifo 挂载缓冲区
@@ -49,6 +51,7 @@ void ai_camera_2_init(void){
     uart_rx_interrupt(AI_CAMERA_2_UART_INDEX, ZF_ENABLE);                                   // 开启 UART_INDEX 的接收中断
     interrupt_set_priority(AI_CAMERA_2_UART_PRIORITY, 0);                                   // 设置对应 UART_INDEX 的中断优先级为 0
 }
+#endif
 
 /* 
 	AI摄像头 识别结果转换 
@@ -162,8 +165,27 @@ void uart_rx_interrupt_handler_ai_camera_1 (void)
 //	uart_write_buffer(AI_CAMERA_1_UART_INDEX, array3, 1);
 	if(ai_camera_1_fifo_buffer[0] != 0x2C) 
 	{
-			fifo_clear(&ai_camera_1_uart_fifo);
+		fifo_clear(&ai_camera_1_uart_fifo);
 	}
+	#ifdef AI_CAMERA_MERGE
+	if(fifo_data_count >= 4)	//两个帧头两个帧尾
+	{	
+		if(	ai_camera_1_fifo_buffer[0] == 0x2C && 
+			ai_camera_1_fifo_buffer[1] == 0x12 && 
+			ai_camera_1_fifo_buffer[fifo_data_count - 2] == 0x5B && 
+			ai_camera_1_fifo_buffer[fifo_data_count - 1] == 0x5B )
+			// 解析转换
+			detection_result_trans(AI_CAMERA_1, ai_camera_1_fifo_buffer[2]);
+			detection_result_trans(AI_CAMERA_2, ai_camera_1_fifo_buffer[3]);
+		if(	ai_camera_1_fifo_buffer[fifo_data_count - 2] == 0x5B && 
+			ai_camera_1_fifo_buffer[fifo_data_count - 1] == 0x5B ||
+			fifo_data_count > 8)
+		{
+				fifo_clear(&ai_camera_1_uart_fifo);
+		}	
+	}
+	#endif
+	#ifndef AI_CAMERA_MERGE
 	if(fifo_data_count >= 4)	//两个帧头两个帧尾
 	{	
 		if(	ai_camera_1_fifo_buffer[0] == 0x2C && 
@@ -179,8 +201,10 @@ void uart_rx_interrupt_handler_ai_camera_1 (void)
 				fifo_clear(&ai_camera_1_uart_fifo);
 		}	
 	}
+	#endif
 }
 
+#ifndef AI_CAMERA_MERGE
 //-------------------------------------------------------------------------------------------------------------------
 // 函数简介     UART_INDEX 的接收中断处理函数 这个函数将在 UART_INDEX 对应的中断调用 详见 isr.c
 // 参数说明     void
@@ -217,3 +241,4 @@ void uart_rx_interrupt_handler_ai_camera_2 (void)
 		}
 	}
 }
+#endif
