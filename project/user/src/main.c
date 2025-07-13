@@ -204,6 +204,7 @@ int main(void)
 			// 此处编写需要循环执行的代码
 			menu_service_start(); 
 
+<<<<<<< HEAD
 //			displacement_solve.solve_flag = True;
 //			euler_angle_solve.solve_flag = True;
 //			
@@ -227,6 +228,10 @@ int main(void)
 			
 //			wireless_vofa.justfloat_add(&wireless_vofa, 4, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance);
 //			wireless_vofa.justfloat_send(&wireless_vofa);
+=======
+			displacement_solve.solve_flag = True;
+			euler_angle_solve.solve_flag = True;
+>>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 			
 			/* 运动设置 */
 //			control_kind = Inv2Speed; 			// 设置控制类型

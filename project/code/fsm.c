@@ -251,7 +251,11 @@ void fsm(void){
 					move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 					x_speed_target = -box_dir*box_x_speed_target;
 					y_speed_target = 0;
+<<<<<<< HEAD
 					angular_speed_target = box_dir*box_x_speed_target*box_x_angular_speed_rate;
+=======
+					angular_speed_target = -box_dir*box_x_speed_target*box_x_angular_speed_rate;
+>>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 					/* 状态切换 */
 					path_state = box_inv_calibration;		// 进入箱子逆矫正状态
 					/* 存储识别结果 */
