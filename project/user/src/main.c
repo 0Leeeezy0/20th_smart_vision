@@ -204,8 +204,29 @@ int main(void)
 			// 此处编写需要循环执行的代码
 			menu_service_start(); 
 
-			displacement_solve.solve_flag = True;
-			euler_angle_solve.solve_flag = True;
+//			displacement_solve.solve_flag = True;
+//			euler_angle_solve.solve_flag = True;
+//			
+//			control_kind = Inv2Speed;
+//			move_solve_kind = XY_SPEED_SOLVE;
+//			angular_speed_target = 0;
+//			
+//			if(displacement_solve.world_x_displacement-200 < 0){
+//				x_speed_target = 50;
+//			}
+//			else{
+//				x_speed_target = 0;
+//			}
+//			if(displacement_solve.world_y_displacement-200 < 0){
+//				y_speed_target = 50;
+//			}
+//			else{
+//				y_speed_target = 0;
+//			}
+			
+			
+//			wireless_vofa.justfloat_add(&wireless_vofa, 4, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance);
+//			wireless_vofa.justfloat_send(&wireless_vofa);
 			
 			/* 运动设置 */
 //			control_kind = Inv2Speed; 			// 设置控制类型
