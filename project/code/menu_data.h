@@ -119,6 +119,8 @@ typedef struct
 /* AI摄像头1/2 参数 */
 typedef struct
 {
+	_MENU_DATA_NAME_TYPE_ ai_camera_1_enable_flag;		// 使能
+	_MENU_DATA_NAME_TYPE_ ai_camera_2_enable_flag;		// 使能
 	_MENU_DATA_NAME_TYPE_ supplement_lamp_enable_flag;	// 补光灯使能
 	_MENU_DATA_NAME_TYPE_ detection_result;		// 标志识别结果
 }_MENU_AI_CAMERA_1_2_;
@@ -126,6 +128,7 @@ typedef struct
 /* 菜单循线参数 */
 typedef struct
 {
+	_MENU_DATA_NAME_TYPE_ zebra_enable_flag;			// 使能
 	_MENU_DATA_NAME_TYPE_ y_speed_target;
 	_MENU_DATA_NAME_TYPE_ path_start;
 	_MENU_DATA_NAME_TYPE_ path_end;

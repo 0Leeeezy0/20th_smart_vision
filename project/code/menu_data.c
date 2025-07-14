@@ -73,9 +73,12 @@ void menu_data_leeeezy_init(void)
 	MENU_AI_CAMERA_0.box_fxxk_speed.name = "BOX_FXXK_SPEED";
 	MENU_AI_CAMERA_0.box_distance.name = "BOX_DISTANCE";
 	
+	MENU_AI_CAMERA_1_2.ai_camera_1_enable_flag.name = "CAMERA_1_EN";
+	MENU_AI_CAMERA_1_2.ai_camera_2_enable_flag.name = "CAMERA_2_EN";
 	MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.name = "SUP_EN"; 
 	MENU_AI_CAMERA_1_2.detection_result.name = "DETECTION_RESULT";
 	
+	MENU_PATH.zebra_enable_flag.name = "ZEBRA_EN";	
 	MENU_PATH.y_speed_target.name = "Y_SPEED_TAR";
 	MENU_PATH.path_start.name = "PATH_START";
 	MENU_PATH.path_end.name = "PATH_END";
