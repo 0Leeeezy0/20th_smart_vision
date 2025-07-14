@@ -40,8 +40,10 @@ DOG_SOLVE displacement_solve;		// 位移解算
 DOG_TIMER zebra_path_timer;			// 斑马线计时器
 DOG_TIMER speed_slow_change_timer;  // 缓变速计时器
 DOG_TIMER motor_debug_timer;        // 电机调试计时器
+DOG_TIMER rwr_timer;				// RWR计时器
 DOG_CV dog_cv;						// 计算机视觉
 DOG_PATH dog_path;					// 循迹
+DOG_RWR dog_rwr;					// RWR
 
 /* 使能标志位 */
 _bool_ circle_enable_flag = True;			// 圆环 使能标志位
@@ -299,6 +301,7 @@ void flag_init(void){
 	// 计时器使能标志位
 	zebra_path_timer.ticking_flag = False;
 	speed_slow_change_timer.ticking_flag = False;
+	rwr_timer.ticking_flag = False;
 	// 完成标志位
 	angle_rotate_finsh_flag = False;	// 角度环旋转完成标志位
 	circle_rotate_finsh_flag = False;	// 圆环旋转完成标志位
@@ -334,6 +337,9 @@ void variable_init(void){
 	last_y_speed_slow_change_timer_time = 0;	// Y缓变速上一次计时器时间
 	circle_in_distance = 0;			// 圆环进环处相对起始点的路程
 	circle_out_distance = 0;		// 圆环出环处相对起始点的路程
+	dog_rwr.radar_scanning_enable_flag = False;
+	dog_rwr.radar_tracking_enable_flag = False;
+	dog_rwr.missile_launch_enable_flag = False;	
 	
 	dog_path.mid_x = MT9V03X_W/2;					// 动态中线
 	memset(dog_path.path,0,sizeof(dog_path.path));	// 路径线x、y坐标

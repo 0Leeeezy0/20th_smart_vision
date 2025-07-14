@@ -136,8 +136,10 @@ extern DOG_SOLVE displacement_solve;		// 位移解算
 extern DOG_TIMER zebra_path_timer;			// 斑马线计时器
 extern DOG_TIMER speed_slow_change_timer;   // 缓变速计时器
 extern DOG_TIMER motor_debug_timer;         // 电机调试计时器
+extern DOG_TIMER rwr_timer;					// RWR计时器
 extern DOG_CV dog_cv;						// 计算机视觉
 extern DOG_PATH dog_path;					// 循迹
+extern DOG_RWR dog_rwr;						// RWR
 
 /* 使能标志位 */
 extern _bool_ circle_enable_flag;			// 圆环 使能标志位

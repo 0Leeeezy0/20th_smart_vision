@@ -89,6 +89,7 @@ int main(void)
 	timer(&zebra_path_timer, 5);
     timer(&motor_debug_timer, 5);
 	timer(&speed_slow_change_timer, 5);
+	timer(&rwr_timer, 5);
 	
 	/* 欧拉角解算 */
 	solve(&euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
@@ -107,6 +108,9 @@ int main(void)
 	
 	/* 路径 */
 	path(&dog_path, path_start, path_end, side_extract_start_y, side_extract_end_y, prediction_point);
+	
+	/* RWR */
+	rwr(&dog_rwr, BUZZER_PIN, &rwr_timer.time);
 	
 	/* PID */
 	pid(&motor_1_pid);
@@ -192,7 +196,7 @@ int main(void)
 
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
-    {
+    {	
 		// 此处编写需要循环执行的代码
 		#ifdef SPEED
 		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && ai_camera_0_init_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)

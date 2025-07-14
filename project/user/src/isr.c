@@ -85,14 +85,22 @@ void PIT_IRQHandler(void)
     }
     if(pit_flag_get(PIT_CH2))
     {
+		// ¼ÆÊ±Æ÷
 		zebra_path_timer.ticking(&zebra_path_timer);
         motor_debug_timer.ticking(&motor_debug_timer);
-		speed_slow_change_timer.ticking(&speed_slow_change_timer);
+		speed_slow_change_timer.ticking(&speed_slow_change_timer);  
+		rwr_timer.ticking(&rwr_timer);
+		
         pit_flag_clear(PIT_CH2);
     }
     if(pit_flag_get(PIT_CH3))
     {
+		// °´¼ü
 		key_action_get();
+		// RWR
+		dog_rwr.radar_scanning(&dog_rwr);
+		dog_rwr.radar_tracking(&dog_rwr);
+		dog_rwr.missile_launch(&dog_rwr);
         pit_flag_clear(PIT_CH3);
     }
 

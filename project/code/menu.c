@@ -174,6 +174,7 @@ void menu_back(FUNC_PAGE_BACK_SERVICE func_page_back_service)
 				{
 					func_page_back_service();
 				}
+				system_delay_ms(100);
 				menu_page[i].func_page();	
 				break;
 			}
@@ -210,7 +211,7 @@ void menu_point(void)
 				// 更新索引
 				last_page_level = page_level;
 				last_page_num = page_num;
-				system_delay_ms(50);
+				system_delay_ms(100);
 				menu_page[i].func_page();	
 				break;
 			}
@@ -339,6 +340,7 @@ void start(void)
 	chassis_solve.solve_flag = True;
 	displacement_solve.solve_flag = True;
 	zebra_path_timer.ticking_flag = False;
+	rwr_timer.ticking_flag = True;
 	speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
@@ -380,6 +382,7 @@ void debug(void)
 	circle_enable_flag = True;
 	zebra_enable_flag = True;
 	zebra_path_timer.ticking_flag = False;
+	rwr_timer.ticking_flag = True;
 	speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
@@ -876,6 +879,10 @@ void menu_detection_list(void)
 	
 	int8 detection_list_page_num = 0;
 	int8 row_num = MAX_ROW-2;
+	// 标志位初始化
+	flag_init();
+	// 变量初始化
+	variable_init();
 	
 	while(1)
 	{

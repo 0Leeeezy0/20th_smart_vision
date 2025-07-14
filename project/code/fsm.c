@@ -153,6 +153,10 @@ void fsm(void){
 			/* 运动设置 */
 			control_kind = XY2Inv2Speed;	// 设置控制模式
 			angular_speed_target = 0;
+			/* 音效设置 */
+			dog_rwr.radar_scanning_enable_flag = False;
+			dog_rwr.radar_tracking_enable_flag = True;
+			dog_rwr.missile_launch_enable_flag = False;			
 			if(box_XY_finsh_flag == True){
 				/* 标志位 */
 				box_XY_finsh_flag = False;
@@ -178,6 +182,10 @@ void fsm(void){
 		// 箱子矫正
 		case box_calibration:{
 			static float max_sum_weight_normalization = 0;				// 最大归一化加权和
+			/* 音效设置 */
+			dog_rwr.radar_scanning_enable_flag = False;
+			dog_rwr.radar_tracking_enable_flag = True;
+			dog_rwr.missile_launch_enable_flag = False;		
 			// 在没接收到数据前一直发送开始识别串口（防止AI摄像头没收到）
 			if( (ai_camera_1_enable_flag == True && ai_camera_2_enable_flag == True && detection_result.tool_detection_finsh_flag == False && detection_result.num_detection_finsh_flag == False) ||
 				(ai_camera_1_enable_flag == True && ai_camera_2_enable_flag == False && detection_result.tool_detection_finsh_flag == False && detection_result.num_detection_finsh_flag == False) ||
@@ -263,6 +271,10 @@ void fsm(void){
 		}
 		// 箱子逆矫正
 		case box_inv_calibration:{
+			/* 音效设置 */
+			dog_rwr.radar_scanning_enable_flag = False;
+			dog_rwr.radar_tracking_enable_flag = True;
+			dog_rwr.missile_launch_enable_flag = False;		
 			// 防止有时候为0的情况就默认转90度
 			if(max_sum_weight_normalization_yaw == 0){
 				max_sum_weight_normalization_yaw = 90;
@@ -287,6 +299,10 @@ void fsm(void){
 		}
 		// 箱子二次定位
 		case box_second_track:{
+			/* 音效设置 */
+			dog_rwr.radar_scanning_enable_flag = False;
+			dog_rwr.radar_tracking_enable_flag = False;
+			dog_rwr.missile_launch_enable_flag = True;		
 			/* 运动设置 */
 			control_kind = X2Inv2Speed;
 			angular_speed_target = 0;
@@ -307,6 +323,10 @@ void fsm(void){
 		// 箱子推离状态
 		case box_fxxk:{	// 为防止启动瞬间偏转，因此加入陀螺仪抑制
 			static uint8 num = 0;
+			/* 音效设置 */
+			dog_rwr.radar_scanning_enable_flag = False;
+			dog_rwr.radar_tracking_enable_flag = False;
+			dog_rwr.missile_launch_enable_flag = True;	
 			/* 标志位设置 */
 			static _bool_ is_in_track = False;	// 是否在赛道标志位
 			rotate_euler_angle_solve.solve_flag = True;	// 开启旋转欧拉角解算
@@ -354,6 +374,10 @@ void fsm(void){
 		// 回赛道状态
 		case path_back:{
 			if(fabsf(displacement_solve.distance-box_fxxk_finsh_distance) >= 30){
+				/* 音效设置 */
+				dog_rwr.radar_scanning_enable_flag = False;
+				dog_rwr.radar_tracking_enable_flag = False;
+				dog_rwr.missile_launch_enable_flag = True;	
 				/* 标志位设置 */
 				rotate_euler_angle_solve.solve_flag = True;	// 开启旋转欧拉角解算
 				
@@ -400,6 +424,9 @@ void fsm(void){
 	
 	// 循线控制
 	if(path_state == common_path || path_state == L_circle || path_state == R_circle || path_state == zebra_path){
+		dog_rwr.radar_scanning_enable_flag = True;
+		dog_rwr.radar_tracking_enable_flag = False;
+		dog_rwr.missile_launch_enable_flag = False;
 		// 圆环
 		if(path_state == L_circle || path_state == R_circle){
 			// 循线误差计算
