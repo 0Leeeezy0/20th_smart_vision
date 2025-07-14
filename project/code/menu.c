@@ -57,9 +57,9 @@ static _MENU_PAGE_ menu_page[] =
 	{"TRANSLATE_SHIFT"	,True		,1	,10		,0		,menu_translate_shift_page			},
 	{"RECTIFICATE"		,True		,1	,11		,0		,menu_symmetry_rectificate_page		},
 	{"AI_CAMERA_0"		,True		,1	,12		,8		,menu_ai_camera_0_page				},
-	{"AI_CAMERA_1&2"	,True		,1	,13		,1		,menu_ai_camera_1_and_2_page		},
+	{"AI_CAMERA_1&2"	,True		,1	,13		,3		,menu_ai_camera_1_and_2_page		},
 	{"DETECTION_LIST"	,True		,1	,14		,0		,menu_detection_list				},
-	{"PATH"				,True		,1	,15		,7		,menu_path_page						},
+	{"PATH"				,True		,1	,15		,8		,menu_path_page						},
 	{"CIRCLE_PATH"		,True		,1	,16		,10		,menu_circle_path_page				},
 	{"MOTOR_1 PID"		,True 		,1 	,17 	,11 	,menu_motor_1_pid_page				},
 	{"MOTOR_2 PID"		,True 		,1 	,18 	,11 	,menu_motor_2_pid_page				},
@@ -770,7 +770,6 @@ void menu_ai_camera_0_page(void)
 		MENU_AI_CAMERA_0.box_fxxk_speed.data_float = box_fxxk_y_speed_target[plan_idx];
 		MENU_AI_CAMERA_0.box_distance.data_float = box_distance;
 		
-		// 显示MCXVISION摄像头数据
 		screen_string(0,MENU_ROW_PITCH,MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name);
 		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_AI_CAMERA_0.ai_camera_0_enable_flag.data_uint8,1);
 		
@@ -821,43 +820,51 @@ void menu_ai_camera_1_and_2_page(void)
 		menu_data_change(menu_ai_camera_1_and_2_data_add_service,menu_ai_camera_1_and_2_data_reduce_service);
 		menu_title_show();
 		
+		MENU_AI_CAMERA_1_2.ai_camera_1_enable_flag.data_uint8 = ai_camera_1_enable_flag;
+		MENU_AI_CAMERA_1_2.ai_camera_2_enable_flag.data_uint8 = ai_camera_2_enable_flag;
 		MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.data_uint8 = supplement_lamp_enable_flag;
 		
-		screen_string(0,MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.name);
-		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.data_uint8,1);
+		screen_string(0,MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.ai_camera_1_enable_flag.name);
+		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.ai_camera_1_enable_flag.data_uint8,1);
 		
-		screen_string(0,3*MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.detection_result.name);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.ai_camera_2_enable_flag.name);
+		screen_uint(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.ai_camera_2_enable_flag.data_uint8,1);
+		
+		screen_string(0,3*MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.name);
+		screen_uint(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.supplement_lamp_enable_flag.data_uint8,1);
+		
+		screen_string(0,5*MENU_ROW_PITCH,MENU_AI_CAMERA_1_2.detection_result.name);
 		if(detection_result.tool != 0X10)
 		{
 			switch(detection_result.tool)
 			{
-				case wrench:{ screen_string(0,4*MENU_ROW_PITCH,"WRENCH        "); break; }
-				case soldering_iron:{ screen_string(0,4*MENU_ROW_PITCH,"SOLDERING_IRON"); break; }
-				case electrodrill:{ screen_string(0,4*MENU_ROW_PITCH,"ELECTRODRILL  "); break; }
-				case tape_measure:{ screen_string(0,4*MENU_ROW_PITCH,"TAPE_MEASURE  "); break; }
-				case screwdriver:{ screen_string(0,4*MENU_ROW_PITCH,"SCREWDRIVER   "); break; }
-				case pliers:{ screen_string(0,4*MENU_ROW_PITCH,"PLIERS        "); break; }
-				case oscillograph:{ screen_string(0,4*MENU_ROW_PITCH,"OSCILLOGRAPH  "); break; }
-				case multimeter:{ screen_string(0,4*MENU_ROW_PITCH,"MULTIMETER    "); break; }
-				case printer:{ screen_string(0,4*MENU_ROW_PITCH,"PRINTER       "); break; }
-				case keyboard:{ screen_string(0,4*MENU_ROW_PITCH,"KEYBOARD      "); break; }
-				case mobilephone:{ screen_string(0,4*MENU_ROW_PITCH,"MOBILEPHONE   "); break; }
-				case mouse:{ screen_string(0,4*MENU_ROW_PITCH,"MOUSE         "); break; }
-				case headphones:{ screen_string(0,4*MENU_ROW_PITCH,"HEADPHONES    "); break; }
-				case monitor:{ screen_string(0,4*MENU_ROW_PITCH,"MONITOR       "); break; }
-				case speaker:{ screen_string(0,4*MENU_ROW_PITCH,"SPEAKER       "); break; }
+				case wrench:{ screen_string(0,6*MENU_ROW_PITCH,"WRENCH        "); break; }
+				case soldering_iron:{ screen_string(0,6*MENU_ROW_PITCH,"SOLDERING_IRON"); break; }
+				case electrodrill:{ screen_string(0,6*MENU_ROW_PITCH,"ELECTRODRILL  "); break; }
+				case tape_measure:{ screen_string(0,6*MENU_ROW_PITCH,"TAPE_MEASURE  "); break; }
+				case screwdriver:{ screen_string(0,6*MENU_ROW_PITCH,"SCREWDRIVER   "); break; }
+				case pliers:{ screen_string(0,6*MENU_ROW_PITCH,"PLIERS        "); break; }
+				case oscillograph:{ screen_string(0,6*MENU_ROW_PITCH,"OSCILLOGRAPH  "); break; }
+				case multimeter:{ screen_string(0,6*MENU_ROW_PITCH,"MULTIMETER    "); break; }
+				case printer:{ screen_string(0,6*MENU_ROW_PITCH,"PRINTER       "); break; }
+				case keyboard:{ screen_string(0,6*MENU_ROW_PITCH,"KEYBOARD      "); break; }
+				case mobilephone:{ screen_string(0,6*MENU_ROW_PITCH,"MOBILEPHONE   "); break; }
+				case mouse:{ screen_string(0,6*MENU_ROW_PITCH,"MOUSE         "); break; }
+				case headphones:{ screen_string(0,6*MENU_ROW_PITCH,"HEADPHONES    "); break; }
+				case monitor:{ screen_string(0,6*MENU_ROW_PITCH,"MONITOR       "); break; }
+				case speaker:{ screen_string(0,6*MENU_ROW_PITCH,"SPEAKER       "); break; }
 				default:break;
 			}
 		}
 		else if(detection_result.tool == 0X10)
 		{
-			screen_string(0,4*MENU_ROW_PITCH,"              ");
-			screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,detection_result.num,3);
+			screen_string(0,6*MENU_ROW_PITCH,"              ");
+			screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,detection_result.num,3);
 		}
 		
-		screen_string(0,6*MENU_ROW_PITCH,"DETECTION_RAW_DATA");
-		screen_uint(DATA_MAX_COL+20,6*MENU_ROW_PITCH,detection_result.tool_raw,3);
-		screen_uint(DATA_MAX_COL+50,6*MENU_ROW_PITCH,detection_result.num_raw,3);
+		screen_string(0,8*MENU_ROW_PITCH,"DETECTION_RAW_DATA");
+		screen_uint(DATA_MAX_COL+20,8*MENU_ROW_PITCH,detection_result.tool_raw,3);
+		screen_uint(DATA_MAX_COL+50,8*MENU_ROW_PITCH,detection_result.num_raw,3);
 		vofa_debug();
 	}
 }
@@ -944,6 +951,7 @@ void menu_path_page(void)
 		menu_data_change(menu_path_data_add_service,menu_path_data_reduce_service);
 		menu_title_show();
 		
+		MENU_PATH.zebra_enable_flag.data_uint8 = zebra_enable_flag;
 		MENU_PATH.y_speed_target.data_float = path_y_speed_target[plan_idx];
 		MENU_PATH.path_start.data_int16 = path_start;
 		MENU_PATH.path_end.data_int16 = path_end;
@@ -953,26 +961,29 @@ void menu_path_page(void)
 		MENU_PATH.x_speed_rate.data_float = x_speed_rate;
 	
 		// 显示循线数据
-		screen_string(0,MENU_ROW_PITCH,MENU_PATH.y_speed_target.name);
-		screen_float(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH.y_speed_target.data_float,3,1);
+		screen_string(0,MENU_ROW_PITCH,MENU_PATH.zebra_enable_flag.name);
+		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_PATH.zebra_enable_flag.data_uint8,1);
 		
-		screen_string(0,2*MENU_ROW_PITCH,MENU_PATH.path_start.name);
-		screen_int(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_PATH.path_start.data_int16,3);
+		screen_string(0,2*MENU_ROW_PITCH,MENU_PATH.y_speed_target.name);
+		screen_float(DATA_MAX_COL,2*MENU_ROW_PITCH,MENU_PATH.y_speed_target.data_float,3,1);
 		
-		screen_string(0,3*MENU_ROW_PITCH,MENU_PATH.path_end.name);
-		screen_int(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_PATH.path_end.data_int16,3);
+		screen_string(0,3*MENU_ROW_PITCH,MENU_PATH.path_start.name);
+		screen_int(DATA_MAX_COL,3*MENU_ROW_PITCH,MENU_PATH.path_start.data_int16,3);
 		
-		screen_string(0,4*MENU_ROW_PITCH,MENU_PATH.control_point_0.name);
-		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_PATH.control_point_0.data_int16,3);
+		screen_string(0,4*MENU_ROW_PITCH,MENU_PATH.path_end.name);
+		screen_int(DATA_MAX_COL,4*MENU_ROW_PITCH,MENU_PATH.path_end.data_int16,3);
 		
-		screen_string(0,5*MENU_ROW_PITCH,MENU_PATH.control_point_1.name);
-		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_PATH.control_point_1.data_int16,3);
+		screen_string(0,5*MENU_ROW_PITCH,MENU_PATH.control_point_0.name);
+		screen_int(DATA_MAX_COL,5*MENU_ROW_PITCH,MENU_PATH.control_point_0.data_int16,3);
 		
-		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
-		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
+		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH.control_point_1.name);
+		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_PATH.control_point_1.data_int16,3);
 		
-		screen_string(0,7*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.name);
-		screen_float(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.data_float,1,1);
+		screen_string(0,7*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
+		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
+		
+		screen_string(0,8*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.name);
+		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.data_float,1,1);
 		vofa_debug();
 	}
 }
@@ -1478,7 +1489,17 @@ void menu_ai_camera_1_and_2_data_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ supplement_lamp_enable_flag+=1; break; }
+		case 0:{ ai_camera_1_enable_flag+=1; break; }
+		case 1:{ ai_camera_2_enable_flag+=1; break; }
+		case 2:{ supplement_lamp_enable_flag+=1; break; }
+	}
+	if(ai_camera_1_enable_flag > 1)
+	{
+		ai_camera_1_enable_flag = 0;
+	}
+	if(ai_camera_2_enable_flag > 1)
+	{
+		ai_camera_2_enable_flag = 0;
 	}
 	if(supplement_lamp_enable_flag > 1)
 	{
@@ -1489,7 +1510,17 @@ void menu_ai_camera_1_and_2_data_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ supplement_lamp_enable_flag-=1; break; }
+		case 0:{ ai_camera_1_enable_flag-=1; break; }
+		case 1:{ ai_camera_2_enable_flag-=1; break; }
+		case 2:{ supplement_lamp_enable_flag-=1; break; }
+	}
+	if(ai_camera_1_enable_flag > 1)
+	{
+		ai_camera_1_enable_flag = 1;
+	}
+	if(ai_camera_2_enable_flag > 1)
+	{
+		ai_camera_2_enable_flag = 1;
 	}
 	if(supplement_lamp_enable_flag > 1)
 	{
@@ -1502,26 +1533,36 @@ void menu_path_data_add_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_y_speed_target[plan_idx]+=5; break; }
-		case 1:{ path_start+=1; break; }
-		case 2:{ path_end+=1; break; }
-		case 3:{ control_point[0]+=1; break; }
-		case 4:{ control_point[1]+=1; break; }
-		case 5:{ prediction_point+=1; break; }
-		case 6:{ x_speed_rate+=0.1; break; }
+		case 0:{ zebra_enable_flag+=1; break; }
+		case 1:{ path_y_speed_target[plan_idx]+=5; break; }
+		case 2:{ path_start+=1; break; }
+		case 3:{ path_end+=1; break; }
+		case 4:{ control_point[0]+=1; break; }
+		case 5:{ control_point[1]+=1; break; }
+		case 6:{ prediction_point+=1; break; }
+		case 7:{ x_speed_rate+=0.1; break; }
+	}
+	if(zebra_enable_flag > 1)
+	{
+		zebra_enable_flag = 0;
 	}
 }
 void menu_path_data_reduce_service(void)
 {
 	switch(point_row_num)
 	{
-		case 0:{ path_y_speed_target[plan_idx]-=5; break; }
-		case 1:{ path_start-=1; break; }
-		case 2:{ path_end-=1; break; }
-		case 3:{ control_point[0]-=1; break; }
-		case 4:{ control_point[1]-=1; break; }
-		case 5:{ prediction_point-=1; break; }
-		case 6:{ x_speed_rate-=0.1; break; }
+		case 0:{ zebra_enable_flag-=1; break; }
+		case 1:{ path_y_speed_target[plan_idx]-=5; break; }
+		case 2:{ path_start-=1; break; }
+		case 3:{ path_end-=1; break; }
+		case 4:{ control_point[0]-=1; break; }
+		case 5:{ control_point[1]-=1; break; }
+		case 6:{ prediction_point-=1; break; }
+		case 7:{ x_speed_rate-=0.1; break; }
+	}
+	if(zebra_enable_flag > 1)
+	{
+		zebra_enable_flag = 1;
 	}
 }
 
@@ -1531,7 +1572,7 @@ void menu_circle_path_data_add_service(void)
 	switch(point_row_num)
 	{
 		case 0:{ circle_enable_flag+=1; break; }
-		case 1:{ circle_y_speed_target[plan_idx]+=1; break; }
+		case 1:{ circle_y_speed_target[plan_idx]+=5; break; }
 		case 2:{ circle_angular_speed_target+=1; break; }
 		case 3:{ circle_check_y+=1; break; }
 		case 4:{ circle_angle_target[0]+=1; break; }
@@ -1551,7 +1592,7 @@ void menu_circle_path_data_reduce_service(void)
 	switch(point_row_num)
 	{
 		case 0:{ circle_enable_flag-=1; break; }
-		case 1:{ circle_y_speed_target[plan_idx]-=1; break; }
+		case 1:{ circle_y_speed_target[plan_idx]-=5; break; }
 		case 2:{ circle_angular_speed_target-=1; break; }
 		case 3:{ circle_check_y-=1; break; }
 		case 4:{ circle_angle_target[0]-=1; break; }

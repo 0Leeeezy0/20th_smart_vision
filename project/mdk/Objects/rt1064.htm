@@ -3,11 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<<<<<<< HEAD
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Mon Jul 14 01:01:34 2025
-=======
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Sun Jul 13 23:46:44 2025
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Mon Jul 14 14:06:52 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1408 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2387,11 +2383,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pit_init
 </UL>
 
-<<<<<<< HEAD
 <P><STRONG><a name="[9c]"></a>PIT_IRQHandler</STRONG> (Thumb, 756 bytes, Stack size 224 bytes, isr.o(.text.PIT_IRQHandler))
-=======
-<P><STRONG><a name="[9c]"></a>PIT_IRQHandler</STRONG> (Thumb, 754 bytes, Stack size 224 bytes, isr.o(.text.PIT_IRQHandler))
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 <BR><BR>[Stack]<UL><LI>Max Depth = 880<LI>Call Chain = PIT_IRQHandler &rArr; key_action_get &rArr; key_scanner &rArr; gpio_get_level &rArr; GPIO_ReadPadStatus &rArr; GPIO_PinReadPadStatus &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[223]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_action_get
@@ -2908,8 +2900,7 @@ Global Symbols
 <LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_output
 <LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;debug_protective_handler
 </UL>
-<BR>[Called By]<UL><LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_write_element
-<LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_init
+<BR>[Called By]<UL><LI><a href="#[244]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;adc_init
 <LI><a href="#[2c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwm_init
 <LI><a href="#[274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pwm_set_duty
 <LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_draw_point
@@ -2947,6 +2938,7 @@ Global Symbols
 <LI><a href="#[28c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;func_double_to_str
 <LI><a href="#[28e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;func_uint_to_str
 <LI><a href="#[28d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;func_int_to_str
+<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_write_element
 <LI><a href="#[2ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_show_char
 <LI><a href="#[2a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ips200_set_region
 <LI><a href="#[2f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_iomuxc
@@ -3169,7 +3161,7 @@ Global Symbols
 <LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_root_page
 </UL>
 
-<P><STRONG><a name="[267]"></a>fsm</STRONG> (Thumb, 4198 bytes, Stack size 128 bytes, fsm.o(.text.fsm))
+<P><STRONG><a name="[267]"></a>fsm</STRONG> (Thumb, 4334 bytes, Stack size 128 bytes, fsm.o(.text.fsm))
 <BR><BR>[Stack]<UL><LI>Max Depth = 800<LI>Call Chain = fsm &rArr; menu_detection_list &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[28a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;symmetry_rectificate
@@ -3553,11 +3545,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_path.o(.text.path)
 </UL>
-<<<<<<< HEAD
 <P><STRONG><a name="[c0]"></a>main</STRONG> (Thumb, 1578 bytes, Stack size 136 bytes, main.o(.text.main))
-=======
-<P><STRONG><a name="[c0]"></a>main</STRONG> (Thumb, 1600 bytes, Stack size 136 bytes, main.o(.text.main))
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 <BR><BR>[Stack]<UL><LI>Max Depth = 1208<LI>Call Chain = main &rArr; menu_init &rArr; ips200_init &rArr; ips200_clear &rArr; ips200_set_region &rArr; ips200_write_command &rArr; spi_write_8bit &rArr; spi_write_8bit_array &rArr; spi_write &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
@@ -3608,14 +3596,18 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_ai_camera_0_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[107]"></a>menu_ai_camera_1_and_2_data_add_service</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, menu.o(.text.menu_ai_camera_1_and_2_data_add_service))
+<P><STRONG><a name="[107]"></a>menu_ai_camera_1_and_2_data_add_service</STRONG> (Thumb, 180 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_1_and_2_data_add_service))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_ai_camera_1_and_2_data_add_service
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_ai_camera_1_and_2_page)
 </UL>
-<P><STRONG><a name="[108]"></a>menu_ai_camera_1_and_2_data_reduce_service</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, menu.o(.text.menu_ai_camera_1_and_2_data_reduce_service))
+<P><STRONG><a name="[108]"></a>menu_ai_camera_1_and_2_data_reduce_service</STRONG> (Thumb, 180 bytes, Stack size 4 bytes, menu.o(.text.menu_ai_camera_1_and_2_data_reduce_service))
+<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_ai_camera_1_and_2_data_reduce_service
+</UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_ai_camera_1_and_2_page)
 </UL>
-<P><STRONG><a name="[f]"></a>menu_ai_camera_1_and_2_page</STRONG> (Thumb, 754 bytes, Stack size 48 bytes, menu.o(.text.menu_ai_camera_1_and_2_page))
-<BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = menu_ai_camera_1_and_2_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[f]"></a>menu_ai_camera_1_and_2_page</STRONG> (Thumb, 860 bytes, Stack size 72 bytes, menu.o(.text.menu_ai_camera_1_and_2_page))
+<BR><BR>[Stack]<UL><LI>Max Depth = 720<LI>Call Chain = menu_ai_camera_1_and_2_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[264]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
@@ -3695,7 +3687,7 @@ Global Symbols
 <LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;plan
 </UL>
 
-<P><STRONG><a name="[2c5]"></a>menu_data_leeeezy_init</STRONG> (Thumb, 1050 bytes, Stack size 16 bytes, menu_data.o(.text.menu_data_leeeezy_init))
+<P><STRONG><a name="[2c5]"></a>menu_data_leeeezy_init</STRONG> (Thumb, 1080 bytes, Stack size 16 bytes, menu_data.o(.text.menu_data_leeeezy_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = menu_data_leeeezy_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_init
@@ -3913,17 +3905,17 @@ Global Symbols
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_detection_list
 </UL>
 
-<P><STRONG><a name="[11c]"></a>menu_path_data_add_service</STRONG> (Thumb, 208 bytes, Stack size 4 bytes, menu.o(.text.menu_path_data_add_service))
+<P><STRONG><a name="[11c]"></a>menu_path_data_add_service</STRONG> (Thumb, 248 bytes, Stack size 4 bytes, menu.o(.text.menu_path_data_add_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_data_add_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_path_page)
 </UL>
-<P><STRONG><a name="[11d]"></a>menu_path_data_reduce_service</STRONG> (Thumb, 208 bytes, Stack size 4 bytes, menu.o(.text.menu_path_data_reduce_service))
+<P><STRONG><a name="[11d]"></a>menu_path_data_reduce_service</STRONG> (Thumb, 248 bytes, Stack size 4 bytes, menu.o(.text.menu_path_data_reduce_service))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = menu_path_data_reduce_service
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> menu.o(.text.menu_path_page)
 </UL>
-<P><STRONG><a name="[11]"></a>menu_path_page</STRONG> (Thumb, 466 bytes, Stack size 72 bytes, menu.o(.text.menu_path_page))
+<P><STRONG><a name="[11]"></a>menu_path_page</STRONG> (Thumb, 522 bytes, Stack size 72 bytes, menu.o(.text.menu_path_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 720<LI>Call Chain = menu_path_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
@@ -4105,21 +4097,13 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_solve.o(.text.solve)
 </UL>
-<<<<<<< HEAD
 <P><STRONG><a name="[131]"></a>move_solve</STRONG> (Thumb, 1720 bytes, Stack size 72 bytes, dog_solve.o(.text.move_solve))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = move_solve &rArr; __hardfp_fmod &rArr; _drem &rArr; _double_epilogue &rArr; _double_round
-=======
-<P><STRONG><a name="[131]"></a>move_solve</STRONG> (Thumb, 1536 bytes, Stack size 72 bytes, dog_solve.o(.text.move_solve))
-<BR><BR>[Stack]<UL><LI>Max Depth = 120<LI>Call Chain = move_solve &rArr; __hardfp_atan &rArr; __ARM_fpclassify
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 </UL>
 <BR>[Calls]<UL><LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_atan
 <LI><a href="#[2cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
 <LI><a href="#[2c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sinf
-<<<<<<< HEAD
 <LI><a href="#[27e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fmod
-=======
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 <LI><a href="#[2ca]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_cosf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_solve.o(.text.solve)
@@ -4364,11 +4348,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[2d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mt9v03x_write_word_sccb
 </UL>
 
-<<<<<<< HEAD
 <P><STRONG><a name="[2ba]"></a>solve</STRONG> (Thumb, 162 bytes, Stack size 12 bytes, dog_solve.o(.text.solve))
-=======
-<P><STRONG><a name="[2ba]"></a>solve</STRONG> (Thumb, 160 bytes, Stack size 12 bytes, dog_solve.o(.text.solve))
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = solve
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -4691,17 +4671,9 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<<<<<<< HEAD
-<P><STRONG><a name="[268]"></a>vofa_debug</STRONG> (Thumb, 92 bytes, Stack size 40 bytes, debug.o(.text.vofa_debug))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = vofa_debug
+<P><STRONG><a name="[268]"></a>vofa_debug</STRONG> (Thumb, 118 bytes, Stack size 48 bytes, debug.o(.text.vofa_debug))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = vofa_debug
 </UL>
-=======
-<P><STRONG><a name="[268]"></a>vofa_debug</STRONG> (Thumb, 138 bytes, Stack size 24 bytes, debug.o(.text.vofa_debug))
-<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = vofa_debug &rArr; __hardfp_sqrt
-</UL>
-<BR>[Calls]<UL><LI><a href="#[2cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sqrt
-</UL>
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 <BR>[Called By]<UL><LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_path_pid_page
 <LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_motor_3_pid_page
 <LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_motor_2_pid_page
@@ -4830,12 +4802,8 @@ Global Symbols
 <LI><a href="#[2fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_invalid
 <LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_drem
 </UL>
-<<<<<<< HEAD
 <BR>[Called By]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_solve
 <LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;euler_angle
-=======
-<BR>[Called By]<UL><LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;euler_angle
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 </UL>
 
 <P><STRONG><a name="[1c1]"></a>__hardfp_modf</STRONG> (Thumb, 186 bytes, Stack size 24 bytes, modf.o(i.__hardfp_modf))
@@ -4897,10 +4865,6 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[2fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 </UL>
 <BR>[Called By]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_solve
-<<<<<<< HEAD
-=======
-<LI><a href="#[268]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 <LI><a href="#[287]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;path_state_judge
 <LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;side_point_kind_judge
 </UL>
@@ -5194,8 +5158,8 @@ Local Symbols
 <P><STRONG><a name="[285]"></a>fifo_head_offset</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, zf_common_fifo.o(.text.fifo_head_offset))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fifo_head_offset
 </UL>
-<BR>[Called By]<UL><LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_write_element
-<LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_write_buffer
+<BR>[Called By]<UL><LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_write_buffer
+<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_write_element
 </UL>
 
 <P><STRONG><a name="[284]"></a>fifo_end_offset</STRONG> (Thumb, 60 bytes, Stack size 8 bytes, zf_common_fifo.o(.text.fifo_end_offset))
@@ -5760,11 +5724,11 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[123]"></a>mt9v03x_uart_callback</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, zf_device_mt9v03x.o(.text.mt9v03x_uart_callback))
-<BR><BR>[Stack]<UL><LI>Max Depth = 744<LI>Call Chain = mt9v03x_uart_callback &rArr; fifo_write_element &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
+<BR><BR>[Stack]<UL><LI>Max Depth = 744<LI>Call Chain = mt9v03x_uart_callback &rArr; fifo_clear &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_write_element
-<LI><a href="#[281]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_clear
+<BR>[Calls]<UL><LI><a href="#[281]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_clear
 <LI><a href="#[270]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_query_byte
+<LI><a href="#[286]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fifo_write_element
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> zf_device_mt9v03x.o(.text.mt9v03x_init)
 </UL>

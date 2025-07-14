@@ -93,11 +93,7 @@
 #define ENCODER_LINE_NUM		(float)(4096)			// 编码器线数
 #define GEAR_RATIO 				(float)(4.22)			// 齿轮比（ 编码器转速/电机输出侧转速 ）(4.22*1/1)
 #define WHEEL_CIRCUMFERENCE 	(float)(18.6047584)		// 轮周长（cm）
-<<<<<<< HEAD
 #define RADIUS					(float)(9.5244294)		// 底盘中心到车轮距离（cm）
-=======
-#define RADIUS					(float)(10.0)			// 底盘中心到车轮距离（cm）
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 #define GYRO_Z_RATE				(float)()				// 
 
 /* 蜂鸣器 */

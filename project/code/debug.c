@@ -16,17 +16,11 @@ void vofa_debug(void){
 //    wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)motor_pwm_duty[0], (float)motor_pwm_duty[1], (float)motor_pwm_duty[2]);
 
     //	wireless_vofa.justfloat_add(&wireless_vofa, 4, y_speed_target, last_y_speed_target, (float)path_state, (float)speed_slow_change_timer.time);
-<<<<<<< HEAD
 //	wireless_vofa.justfloat_add(&wireless_vofa, 2, PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x),(displacement_solve.world_y_displacement-last_box_world_y)), (float)path_state);
 //    wireless_vofa.justfloat_send(&wireless_vofa);
 	
-	wireless_vofa.justfloat_add(&wireless_vofa, 4, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance);
+	wireless_vofa.justfloat_add(&wireless_vofa, 5, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance, (float)path_state);
 	wireless_vofa.justfloat_send(&wireless_vofa);
-=======
-	wireless_vofa.justfloat_add(&wireless_vofa, 2, PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x),(displacement_solve.world_y_displacement-last_box_world_y)), (float)path_state);
-    wireless_vofa.justfloat_send(&wireless_vofa);
-
->>>>>>> 5769976bef70a96baf7ac3ed7a075fe44e7937fa
 }
 //增加调试效率 请勿删除
 //速度环调试
