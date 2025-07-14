@@ -1,14 +1,28 @@
-./objects/dog_path.o: ..\code\DOG_path.c ..\user\inc\common.h \
+./objects/dog_path.o: ..\code\DOG_path.c \
   ..\..\libraries\zf_common\zf_common_headfile.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdio.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdint.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\string.h \
   ..\..\libraries\sdk\drives\fsl_common.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\assert.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdbool.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdlib.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\stddef.h \
   ..\..\libraries\sdk\deceive\fsl_device_registers.h \
   ..\..\libraries\sdk\deceive\MIMXRT1064.h \
   ..\..\libraries\sdk\CMSIS\Include\core_cm7.h \
+  ..\..\libraries\sdk\CMSIS\Include\cmsis_version.h \
+  ..\..\libraries\sdk\CMSIS\Include\cmsis_compiler.h \
+  ..\..\libraries\sdk\CMSIS\Include\cmsis_armclang.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\arm_acle.h \
+  ..\..\libraries\sdk\CMSIS\Include\mpu_armv7.h \
   ..\..\libraries\sdk\deceive\system_MIMXRT1064.h \
   ..\..\libraries\sdk\deceive\MIMXRT1064_features.h \
   ..\..\libraries\sdk\drives\fsl_common_arm.h \
   ..\..\libraries\sdk\drives\fsl_clock.h \
   ..\..\libraries\sdk\utilities\debug_console\fsl_debug_console.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\stdarg.h \
   ..\..\libraries\sdk\drives\fsl_iomuxc.h \
   ..\..\libraries\sdk\drives\fsl_cache.h \
   ..\..\libraries\sdk\drives\fsl_csi.h \
@@ -90,9 +104,6 @@
   ..\..\libraries\sdk\drives\fsl_usdhc.h \
   ..\..\libraries\components\sdmmc\common\fsl_sdmmc_spec.h \
   ..\..\libraries\components\sdmmc\sdmmc_config.h \
-  ..\..\libraries\sdk\board\clock_config.h ..\user\inc\isr.h \
-  ..\code\DOG_pid.h ..\code\DOG_filter.h ..\user\inc\data.h \
-  ..\code\DOG_chassis.h ..\code\DOG_path.h ..\code\DOG_image.h \
-  ..\code\DOG_vofa.h ..\code\DOG_vofa_app.h ..\code\DOG_menu.h \
-  ..\code\DOG_menu_data.h ..\code\DOG_ai.h ..\code\DOG_fsm.h \
-  ..\code\DOG_element.h ..\code\DOG_debug.h
+  ..\..\libraries\sdk\board\clock_config.h ..\code\DOG_path.h \
+  ..\code\DOG_data.h ..\code\DOG_cv.h \
+  D:\KEIL\ARM\ARMCLANG\Bin\..\include\math.h

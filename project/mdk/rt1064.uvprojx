@@ -10,7 +10,7 @@
       <TargetName>nor_sdram_zf_dtcm</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6220000::V6.22::ARMCLANG</pCCUsed>
+      <pCCUsed>6190000::V6.19::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -425,34 +425,49 @@
           <GroupName>code</GroupName>
           <Files>
             <File>
-              <FileName>DOG_ai.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\DOG_ai.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_ai.h</FileName>
+              <FileName>DOG_menu.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\code\DOG_ai.h</FilePath>
+              <FilePath>..\code\DOG_menu.h</FilePath>
             </File>
             <File>
-              <FileName>DOG_chassis.c</FileName>
+              <FileName>ai.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\code\DOG_chassis.c</FilePath>
+              <FilePath>..\code\ai.c</FilePath>
             </File>
             <File>
-              <FileName>DOG_chassis.h</FileName>
+              <FileName>ai.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\code\DOG_chassis.h</FilePath>
+              <FilePath>..\code\ai.h</FilePath>
             </File>
             <File>
-              <FileName>DOG_element.c</FileName>
+              <FileName>control.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\code\DOG_element.c</FilePath>
+              <FilePath>..\code\control.c</FilePath>
             </File>
             <File>
-              <FileName>DOG_element.h</FileName>
+              <FileName>control.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\code\DOG_element.h</FilePath>
+              <FilePath>..\code\control.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_cv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_cv.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_cv.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_cv.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_filter.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_filter.h</FilePath>
             </File>
             <File>
               <FileName>DOG_menu.c</FileName>
@@ -460,69 +475,14 @@
               <FilePath>..\code\DOG_menu.c</FilePath>
             </File>
             <File>
-              <FileName>DOG_menu.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_menu.h</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_fsm.c</FileName>
+              <FileName>DOG_motor.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\code\DOG_fsm.c</FilePath>
+              <FilePath>..\code\DOG_motor.c</FilePath>
             </File>
             <File>
-              <FileName>DOG_fsm.h</FileName>
+              <FileName>DOG_motor.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\code\DOG_fsm.h</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_image.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\DOG_image.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_image.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_image.h</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_menu_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\DOG_menu_data.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_menu_data.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_menu_data.h</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_vofa.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\DOG_vofa.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_vofa.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_vofa.h</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_vofa_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\DOG_vofa_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_vofa_app.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_vofa_app.h</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\code\DOG_pid.c</FilePath>
-            </File>
-            <File>
-              <FileName>DOG_pid.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\code\DOG_pid.h</FilePath>
+              <FilePath>..\code\DOG_motor.h</FilePath>
             </File>
             <File>
               <FileName>DOG_path.c</FileName>
@@ -535,24 +495,99 @@
               <FilePath>..\code\DOG_path.h</FilePath>
             </File>
             <File>
-              <FileName>DOG_debug.c</FileName>
+              <FileName>DOG_pid.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\code\DOG_debug.c</FilePath>
+              <FilePath>..\code\DOG_pid.c</FilePath>
             </File>
             <File>
-              <FileName>DOG_debug.h</FileName>
+              <FileName>DOG_pid.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\code\DOG_debug.h</FilePath>
+              <FilePath>..\code\DOG_pid.h</FilePath>
             </File>
             <File>
-              <FileName>DOG_filter.c</FileName>
+              <FileName>DOG_sensor.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\code\DOG_filter.c</FilePath>
+              <FilePath>..\code\DOG_sensor.c</FilePath>
             </File>
             <File>
-              <FileName>DOG_filter.h</FileName>
+              <FileName>DOG_sensor.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\code\DOG_filter.h</FilePath>
+              <FilePath>..\code\DOG_sensor.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_vofa.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_vofa.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_vofa.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_vofa.h</FilePath>
+            </File>
+            <File>
+              <FileName>fsm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\fsm.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\fsm.h</FilePath>
+            </File>
+            <File>
+              <FileName>menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>menu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\menu.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_data.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_solve.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_solve.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_solve.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_solve.h</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\DOG_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>DOG_timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\DOG_timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>menu_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\menu_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>menu_data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\menu_data.h</FilePath>
+            </File>
+            <File>
+              <FileName>debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\code\debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>debug.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\code\debug.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -825,6 +860,11 @@
               <FilePath>..\..\libraries\zf_driver\zf_driver_spi.h</FilePath>
             </File>
             <File>
+              <FileName>zf_driver_usb_cdc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\libraries\zf_driver\zf_driver_usb_cdc.c</FilePath>
+            </File>
+            <File>
               <FileName>zf_driver_timer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\zf_driver\zf_driver_timer.c</FilePath>
@@ -843,11 +883,6 @@
               <FileName>zf_driver_uart.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\libraries\zf_driver\zf_driver_uart.h</FilePath>
-            </File>
-            <File>
-              <FileName>zf_driver_usb_cdc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\libraries\zf_driver\zf_driver_usb_cdc.c</FilePath>
             </File>
             <File>
               <FileName>zf_driver_usb_cdc.h</FileName>
@@ -885,6 +920,11 @@
               <FilePath>..\..\libraries\zf_device\zf_device_camera.c</FilePath>
             </File>
             <File>
+              <FileName>zf_device_imu660ra.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\libraries\zf_device\zf_device_imu660ra.h</FilePath>
+            </File>
+            <File>
               <FileName>zf_device_camera.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\libraries\zf_device\zf_device_camera.h</FilePath>
@@ -913,11 +953,6 @@
               <FileName>zf_device_imu660ra.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\libraries\zf_device\zf_device_imu660ra.c</FilePath>
-            </File>
-            <File>
-              <FileName>zf_device_imu660ra.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\..\libraries\zf_device\zf_device_imu660ra.h</FilePath>
             </File>
             <File>
               <FileName>zf_device_ips114.c</FileName>

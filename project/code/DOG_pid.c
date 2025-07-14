@@ -1,261 +1,207 @@
-#include "common.h"
+#include "zf_common_headfile.h"
+#include "zf_common_debug.h"
+#include "math.h"
 
-/* 模糊规则 */
-static _FUZZY_SUBSET_ fuzzy_rules[8][8] = { {POSITIVE_MEDIUM,	POSITIVE_MEDIUM,	POSITIVE_MEDIUM,	POSITIVE_BIG,		POSITIVE_MEDIUM,	POSITIVE_MEDIUM,	POSITIVE_MEDIUM,	PID_NONE},
-											{POSITIVE_SMALL,	POSITIVE_MEDIUM,	POSITIVE_BIG,		POSITIVE_SMALL,		POSITIVE_BIG,		POSITIVE_MEDIUM,	POSITIVE_SMALL,		PID_NONE},
-											{POSITIVE_SMALL,	POSITIVE_BIG,		POSITIVE_MEDIUM,	POSITIVE_SMALL,		POSITIVE_MEDIUM,	POSITIVE_BIG,		POSITIVE_SMALL,		PID_NONE},
-											{POSITIVE_BIG,		POSITIVE_MEDIUM,	POSITIVE_SMALL,		ZERO,				POSITIVE_SMALL,		POSITIVE_MEDIUM,	POSITIVE_BIG,		PID_NONE},
-											{POSITIVE_SMALL,	POSITIVE_BIG,		POSITIVE_MEDIUM,	POSITIVE_SMALL,		POSITIVE_MEDIUM,	POSITIVE_BIG,		POSITIVE_SMALL,		PID_NONE},
-											{POSITIVE_SMALL,	POSITIVE_MEDIUM,	POSITIVE_BIG,		POSITIVE_SMALL,		POSITIVE_BIG,		POSITIVE_MEDIUM,	POSITIVE_SMALL,		PID_NONE},
-											{POSITIVE_MEDIUM,	POSITIVE_MEDIUM,	POSITIVE_MEDIUM,	POSITIVE_BIG,		POSITIVE_MEDIUM,	POSITIVE_MEDIUM,	POSITIVE_MEDIUM,	PID_NONE},
-											{PID_NONE,			PID_NONE,			PID_NONE,			PID_NONE,			PID_NONE,			PID_NONE,			PID_NONE, 			PID_NONE}};
+#include "DOG_pid.h"
 
-//static _FUZZY_SUBSET_ fuzzy_rules[8][8] = {{5,5,5,6,5,5,5,7},
-//											 {4,5,6,4,6,5,4,7},
-//											 {4,6,5,4,5,6,4,7},
-//											 {6,5,4,3,4,5,6,7},
-//											 {4,6,5,4,5,6,4,7},
-//											 {4,5,6,4,6,5,4,7},
-//											 {5,5,5,6,5,5,5,7},
-//											 {7,7,7,7,7,7,7,7}};
-
-/* PID初始化 */
-void pid_init(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float kp,float ki,float kd,float output_limit,float i_limit)
-{
-	pid_paraments -> p = kp;
-	pid_paraments -> i = ki;
-	pid_paraments -> d = kd;
-	pid_paraments -> output_limit = output_limit;
-	pid_paraments -> i_limit = i_limit;
-	pid_variable -> delta = 0;    
-	pid_variable -> now_err = 0;      
-	pid_variable -> last_err = 0;      
-	pid_variable -> last_last_err = 0;  
-	pid_variable -> sigma_err = 0;  
-	pid_variable -> value = 0;  
-    pid_variable -> value_output = 0;  
-    pid_variable -> value_delta = 0;  
-}
-
-/* 增量式PID */
-float incremental_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback)
-{
-	pid_variable -> now_err = target-feedback;
-	pid_variable -> delta = 0;	
-    // 增量式 p
-	pid_variable -> delta += (pid_paraments -> p)*(pid_variable -> now_err-pid_variable -> last_err);
-	// 增量式 i
-	pid_variable -> delta += (pid_paraments -> i)*pid_variable -> now_err;
-	// 增量式 d
-	pid_variable -> delta += (pid_paraments -> d)*(pid_variable -> now_err-2*pid_variable -> last_err+pid_variable -> last_last_err);
+// 增量式 PID
+float incremental_pid(struct DOG_PID* this ,float target, float feedback){
+	this -> now_err = target-feedback;
+    // 增量式 Kp
+	this -> value += (this -> Kp)*(this -> now_err-this -> last_err);
+	// 增量式 Ki
+	this -> value += (this -> Ki)*(this -> now_err);
+	// 增量式 Kd
+	this -> value += (this -> Kd)*(this -> now_err-2*this -> last_err+this -> last_last_err);
 				
 	// 更新参数
-	pid_variable -> value += pid_variable -> delta;
-	pid_variable -> last_err = pid_variable -> now_err;
-	pid_variable -> last_last_err = pid_variable -> last_err;
-   
-	pid_variable -> value_output = pid_variable -> value;
+	this -> last_err = this -> now_err;
+	this -> last_last_err = this -> last_err;
 	
 	// 输出限幅
-	if(pid_variable -> value_output > pid_paraments -> output_limit)
+	if(this -> value > this -> output_limit)
 	{
-		pid_variable -> value_output = pid_paraments -> output_limit;
+		this -> value = this -> output_limit;
 	}
-	if(pid_variable -> value_output < -pid_paraments -> output_limit)
+	if(this -> value < -this -> output_limit)
 	{
-		pid_variable -> value_output = -pid_paraments -> output_limit;
+		this -> value = -this -> output_limit;
 	}
-	return pid_variable -> value_output;
+	return this -> value;
 }
 
-/* 增量式PID（速度环版） */
-float incremental_speed_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback)
-{   
-	pid_variable -> now_err = target-feedback;
-	 
-    pid_variable -> delta = (pid_variable -> now_err - pid_variable -> last_err);	
-	
-    pid_variable -> value_delta = ((pid_paraments -> p) * pid_variable -> delta)
-                            + ((pid_paraments -> i) * pid_variable -> now_err) 
-                            + ((pid_paraments -> d) * (pid_variable -> now_err-2*pid_variable -> last_err+pid_variable -> last_last_err));				
-    
-    pid_variable -> sjc_now_delta = pid_variable -> value_delta;
-	
-    pid_variable ->sjc_err = pid_variable -> sjc_now_delta - pid_variable -> sjc_last_delta;
-    
-    pid_variable -> value += pid_variable ->value_delta + pid_paraments -> d * pid_variable ->sjc_err;
-    pid_variable -> last_err = pid_variable -> now_err;
-    
-    pid_variable -> sjc_last_delta = pid_variable ->value_delta;
-    
-    pid_variable -> last_last_err = pid_variable -> last_err;
-    
-    
-//    if (pid_paraments -> value>=0){        
-//        pid_paraments -> value_output= pid_paraments -> value* 4 + 600;	// 加这个会导致开启震一下
-//    }
-//    else if (pid_paraments -> value<0){        
-//        pid_paraments -> value_output= pid_paraments -> value* 4 - 600;	// 加这个会导致开启震一下
-//    }
-//  pid_paraments -> value_output= pid_paraments -> value* 1.3 + (pid_paraments -> value / pid_paraments -> value + 1 ) *800;	// 加这个会导致开启震一下
-//	pid_paraments -> value_output = KalmanFilter(&Output_Kalman,pid_paraments -> value);
-	pid_variable -> value_output = pid_variable -> value;
-	// 输出限幅
-	if(pid_variable -> value_output > pid_paraments -> output_limit)
-	{
-		pid_variable -> value_output = pid_paraments -> output_limit;
-	}
-	if(pid_variable -> value_output < -pid_paraments -> output_limit)
-	{
-		pid_variable -> value_output = -pid_paraments -> output_limit;
-	}
-	return pid_variable -> value_output;
-}
-
-/*位置式PID*/
-float positional_pid(_PID_PARAMETERS_* pid_paraments,_PID_VARIABLE_* pid_variable,float target,float feedback)
-{
-	pid_variable -> now_err = target-feedback;
-	// 位置式 p
-	pid_variable -> value += (pid_paraments -> p)*(pid_variable -> now_err);
-	// 位置式 i
-	pid_variable -> value += (pid_paraments -> i)*pid_variable -> sigma_err;
-	// 位置式 d
-	pid_variable -> value += (pid_paraments -> d)*(pid_variable -> now_err-pid_variable -> last_err);
+// 位置式 PID
+float positional_pid(struct DOG_PID* this ,float target, float feedback){
+	float value_buffer = 0;
+	this -> now_err = target-feedback;
+	// 位置式 Kp
+	value_buffer += (this -> Kp)*(this -> now_err);
+	// 位置式 Ki
+	value_buffer += (this -> Ki)*this -> sigma_err;
+	// 位置式 Kd
+	value_buffer += (this -> Kd)*(this -> now_err-this -> last_err);
 				
 	// 更新参数
-	pid_variable -> sigma_err += pid_variable -> now_err;
-	pid_variable -> last_err = pid_variable -> now_err;
+	this -> sigma_err += this -> now_err;
+	this -> last_err = this -> now_err;
 	
-    pid_variable -> value_output = pid_variable -> value; 
-	pid_variable -> value = 0;
 	// 输出限幅
-	if(pid_variable -> value_output > pid_paraments -> output_limit)
+	if(value_buffer > this -> output_limit)
 	{
-		pid_variable -> value_output = pid_paraments -> output_limit;
+		value_buffer = this -> output_limit;
 	}
-	if(pid_variable -> value_output < -pid_paraments -> output_limit)
+	if(value_buffer < -this -> output_limit)
 	{
-		pid_variable -> value_output = -pid_paraments -> output_limit;
+		value_buffer = -this -> output_limit;
 	}
 	// 积分限幅
-	if(pid_variable -> sigma_err > pid_paraments -> i_limit)
+	if(this -> sigma_err > this -> i_limit)
 	{
-		pid_variable -> sigma_err = pid_paraments -> i_limit;
+		this -> sigma_err = this -> i_limit;
 	}
-	if(pid_variable -> sigma_err < -pid_paraments -> i_limit)
+	if(this -> sigma_err < -this -> i_limit)
 	{
-		pid_variable -> sigma_err = -pid_paraments -> i_limit;
+		this -> sigma_err = -this -> i_limit;
 	}
 	
-	return pid_variable -> value_output;
+	this -> value = value_buffer; 
+	value_buffer = 0;
+	
+	return this -> value;
 }
 
-/* 模糊PID */
-_PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float err,float err_c,float* small,float* medium,float* big,uint8_t order)
-{
-	_FUZZY_SUBSET_ fuzzy_subset_err[2] = {PID_NONE};
-	_FUZZY_SUBSET_ fuzzy_subset_err_c[2] = {PID_NONE};
+/*
+	模糊 PID 初始化
+	参数说明：
+	fuzzy_rule 模糊规则表：fuzzy_rule[8][8]
+	range 范围值：range[2][3] = {{小， 中， 大}, {小， 中， 大}}
+*/
+void fuzzy_pid_init(struct DOG_PID* this, _fuzzy_subset_ fuzzy_rules[][8], float range[][3]){
+	for(uint8 i = 0; i < 8;i++){
+		for(uint8 j = 0; j < 8;j++){
+			this -> fuzzy_rules[i][j] = fuzzy_rules[i][j];
+		}
+	}
+	
+	for(uint8 i = 0; i < 2;i++){
+		for(uint8 j = 0; j < 3;j++){
+			this -> range[i][j] = range[i][j];
+		}
+	}
+}
+
+/* 
+	模糊 PID
+	参数说明：
+	err 一维/二维误差：err/err[2]
+	Kp 比例：p[4]
+	Ki 积分：i[4]
+	Kd 微分：d[4]
+	i_limit 积分项限幅：i_limit[4]
+	output_limit 输出限幅：output_limit[4]
+	order 模糊化阶数
+*/
+void fuzzy_pid(struct DOG_PID* this, float* err, float* Kp, float* Ki, float* Kd, float* i_limit, float* output_limit, uint8 order){
+	/* 初始化PID */
+	float Kp_fuzzy = 0, Ki_fuzzy = 0, Kd_fuzzy = 0, i_limit_fuzzy = 0, output_limit_fuzzy = 0;
+	/* 隶属子集 */
+	_fuzzy_subset_ fuzzy_subset_err[2] = {PID_NONE};
+	_fuzzy_subset_ fuzzy_subset_err_c[2] = {PID_NONE};
+	/* 隶属度 */
 	float affiliation_degree_err[2] = {0};
 	float affiliation_degree_err_c[2] = {0};
-	_FUZZY_SUBSET_ fuzzy_subset[2][2] = {PID_NONE};
+	/* 查表对应的隶属子集和隶属度 */
+	_fuzzy_subset_ fuzzy_subset[2][2] = {PID_NONE};
 	float affiliation_degree[2][2] = {0};
 	
-	_PID_PARAMETERS_ pid_paraments_return;
-	float delta_p = 0;
-	float delta_i = 0;
-	float delta_d = 0;
-	float delta_output_limit = 0;
-	float delta_i_limit = 0;
-	
 	// err隶属子集与隶属度计算
-	if(err <= -big[0])
+	if(err[0] <= -this -> range[0][2])
 	{
-		fuzzy_subset_err[0] = NEGATIVE_BIG;
+		fuzzy_subset_err[0] = NB;
 		affiliation_degree_err[0] = 1;
 		fuzzy_subset_err[1] = PID_NONE;
 		affiliation_degree_err[1] = 0;
 	}
-	else if(err < -medium[0] && err > -big[0])
+	else if(err[0] < -this -> range[0][1] && err[0] > -this -> range[0][2])
 	{
-		fuzzy_subset_err[0] = NEGATIVE_BIG;
-		affiliation_degree_err[0] = (float)fabs(err+medium[0])/(float)fabs(medium[0]-big[0]);
-		fuzzy_subset_err[1] = NEGATIVE_MEDIUM;
-		affiliation_degree_err[1] = (float)fabs(err+big[0])/(float)fabs(medium[0]-big[0]);
+		fuzzy_subset_err[0] = NB;
+		affiliation_degree_err[0] = (float)fabs(err[0]+this -> range[0][1])/(float)fabs(this -> range[0][1]-this -> range[0][2]);
+		fuzzy_subset_err[1] = NM;
+		affiliation_degree_err[1] = (float)fabs(err[0]+this -> range[0][2])/(float)fabs(this -> range[0][1]-this -> range[0][2]);
 	}
-	else if(err == -medium[0])
+	else if(err[0] == -this -> range[0][1])
 	{
-		fuzzy_subset_err[0] = NEGATIVE_MEDIUM;
+		fuzzy_subset_err[0] = NM;
 		affiliation_degree_err[0] = 1;
 		fuzzy_subset_err[1] = PID_NONE;
 		affiliation_degree_err[1] = 0;
 	}
-	else if(err < -small[0] && err > -medium[0])
+	else if(err[0] < -this -> range[0][0] && err[0] > -this -> range[0][1])
 	{
-		fuzzy_subset_err[0] = NEGATIVE_MEDIUM;
-		affiliation_degree_err[0] = (float)fabs(err+small[0])/(float)fabs(small[0]-medium[0]);
-		fuzzy_subset_err[1] = NEGATIVE_SMALL;
-		affiliation_degree_err[1] = (float)fabs(err+medium[0])/(float)fabs(small[0]-medium[0]);
+		fuzzy_subset_err[0] = NM;
+		affiliation_degree_err[0] = (float)fabs(err[0]+this -> range[0][0])/(float)fabs(this -> range[0][0]-this -> range[0][1]);
+		fuzzy_subset_err[1] = NS;
+		affiliation_degree_err[1] = (float)fabs(err[0]+this -> range[0][1])/(float)fabs(this -> range[0][0]-this -> range[0][1]);
 	}
-	else if(err == -small[0])
+	else if(err[0] == -this -> range[0][0])
 	{
-		fuzzy_subset_err[0] = NEGATIVE_SMALL;
+		fuzzy_subset_err[0] = NS;
 		affiliation_degree_err[0] = 1;
 		fuzzy_subset_err[1] = PID_NONE;
 		affiliation_degree_err[1] = 0;
 	}
-	else if(err < 0 && err > -small[0])
+	else if(err[0] < 0 && err[0] > -this -> range[0][0])
 	{
-		fuzzy_subset_err[0] = NEGATIVE_SMALL;
-		affiliation_degree_err[0] = (float)fabs(err)/(float)fabs(small[0]);
+		fuzzy_subset_err[0] = NS;
+		affiliation_degree_err[0] = (float)fabs(err[0])/(float)fabs(this -> range[0][0]);
 		fuzzy_subset_err[1] = ZERO;
-		affiliation_degree_err[1] = (float)fabs(err+small[0])/(float)fabs(small[0]);
+		affiliation_degree_err[1] = (float)fabs(err[0]+this -> range[0][0])/(float)fabs(this -> range[0][0]);
 	}
-	else if(err == 0)
+	else if(err[0] == 0)
 	{
 		fuzzy_subset_err[0] = ZERO;
 		affiliation_degree_err[0] = 1;
 		fuzzy_subset_err[1] = PID_NONE;
 		affiliation_degree_err[1] = 0;
 	}
-	else if(err > 0 && err < small[0])
+	else if(err[0] > 0 && err[0] < this -> range[0][0])
 	{
 		fuzzy_subset_err[0] = ZERO;
-		affiliation_degree_err[0] = (float)fabs(err-small[0])/(float)fabs(small[0]);
-		fuzzy_subset_err[1] = POSITIVE_SMALL;
-		affiliation_degree_err[1] = (float)fabs(err)/(float)fabs(small[0]);
+		affiliation_degree_err[0] = (float)fabs(err[0]-this -> range[0][0])/(float)fabs(this -> range[0][0]);
+		fuzzy_subset_err[1] = PS;
+		affiliation_degree_err[1] = (float)fabs(err[0])/(float)fabs(this -> range[0][0]);
 	}
-	else if(err == small[0])
+	else if(err[0] == this -> range[0][0])
 	{
-		fuzzy_subset_err[0] = POSITIVE_SMALL;
+		fuzzy_subset_err[0] = PS;
 		affiliation_degree_err[0] = 1;
 		fuzzy_subset_err[1] = PID_NONE;
 		affiliation_degree_err[1] = 0;
 	}
-	else if(err > small[0] && err < medium[0])
+	else if(err[0] > this -> range[0][0] && err[0] < this -> range[0][1])
 	{
-		fuzzy_subset_err[0] = POSITIVE_MEDIUM;
-		affiliation_degree_err[0] = (float)fabs(err-small[0])/(float)fabs(small[0]-medium[0]);
-		fuzzy_subset_err[1] = POSITIVE_SMALL;
-		affiliation_degree_err[1] = (float)fabs(err-medium[0])/(float)fabs(small[0]-medium[0]);
+		fuzzy_subset_err[0] = PM;
+		affiliation_degree_err[0] = (float)fabs(err[0]-this -> range[0][0])/(float)fabs(this -> range[0][0]-this -> range[0][1]);
+		fuzzy_subset_err[1] = PS;
+		affiliation_degree_err[1] = (float)fabs(err[0]-this -> range[0][1])/(float)fabs(this -> range[0][0]-this -> range[0][1]);
 	}
-	else if(err == medium[0])
+	else if(err[0] == this -> range[0][1])
 	{
-		fuzzy_subset_err[0] = POSITIVE_MEDIUM;
+		fuzzy_subset_err[0] = PM;
 		affiliation_degree_err[0] = 1;
 		fuzzy_subset_err[1] = PID_NONE;
 		affiliation_degree_err[1] = 0;
 	}
-	else if(err > medium[0] && err < big[0])
+	else if(err[0] > this -> range[0][1] && err[0] < this -> range[0][2])
 	{
-		fuzzy_subset_err[0] = POSITIVE_BIG;
-		affiliation_degree_err[0] = (float)fabs(err-medium[0])/(float)fabs(big[0]-medium[0]);
-		fuzzy_subset_err[1] = POSITIVE_MEDIUM;
-		affiliation_degree_err[1] = (float)fabs(err-big[0])/(float)fabs(big[0]-medium[0]);
+		fuzzy_subset_err[0] = PB;
+		affiliation_degree_err[0] = (float)fabs(err[0]-this -> range[0][1])/(float)fabs(this -> range[0][2]-this -> range[0][1]);
+		fuzzy_subset_err[1] = PM;
+		affiliation_degree_err[1] = (float)fabs(err[0]-this -> range[0][2])/(float)fabs(this -> range[0][2]-this -> range[0][1]);
 	}
-	else if(err >= big[0])
+	else if(err[0] >= this -> range[0][2])
 	{
-		fuzzy_subset_err[0] = POSITIVE_BIG;
+		fuzzy_subset_err[0] = PB;
 		affiliation_degree_err[0] = 1;
 		fuzzy_subset_err[1] = PID_NONE;
 		affiliation_degree_err[1] = 0;
@@ -269,7 +215,7 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 			// 模糊规则表查找：模糊化
 			for(uint8_t i = 0; i < 2;i++)
 			{
-				fuzzy_subset[i][0] = fuzzy_rules[fuzzy_subset_err[i]][ZERO];
+				fuzzy_subset[i][0] = this -> fuzzy_rules[fuzzy_subset_err[i]][ZERO];
 				affiliation_degree[i][0] = affiliation_degree_err[i];
 			}
 			break;
@@ -278,93 +224,93 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 		case 2:
 		{
 			// err_c隶属子集与隶属度计算
-			if(err_c <= -big[1])
+			if(err[1] <= -this -> range[1][2])
 			{
-				fuzzy_subset_err_c[0] = NEGATIVE_BIG;
+				fuzzy_subset_err_c[0] = NB;
 				affiliation_degree_err_c[0] = 1;
 				fuzzy_subset_err_c[1] = PID_NONE;
 				affiliation_degree_err_c[1] = 0;
 			}
-			else if(err_c < -medium[1] && err_c > -big[1])
+			else if(err[1] < -this -> range[1][1] && err[1] > -this -> range[1][2])
 			{
-				fuzzy_subset_err_c[0] = NEGATIVE_BIG;
-				affiliation_degree_err_c[0] = (float)fabs(err_c+medium[1])/(float)fabs(medium[1]-big[1]);
-				fuzzy_subset_err_c[1] = NEGATIVE_MEDIUM;
-				affiliation_degree_err_c[1] = (float)fabs(err_c+big[1])/(float)fabs(medium[1]-big[1]);
+				fuzzy_subset_err_c[0] = NB;
+				affiliation_degree_err_c[0] = (float)fabs(err[1]+this -> range[1][1])/(float)fabs(this -> range[1][1]-this -> range[1][2]);
+				fuzzy_subset_err_c[1] = NM;
+				affiliation_degree_err_c[1] = (float)fabs(err[1]+this -> range[1][2])/(float)fabs(this -> range[1][1]-this -> range[1][2]);
 			}
-			else if(err_c == -medium[1])
+			else if(err[1] == -this -> range[1][1])
 			{
-				fuzzy_subset_err_c[0] = NEGATIVE_MEDIUM;
+				fuzzy_subset_err_c[0] = NM;
 				affiliation_degree_err_c[0] = 1;
 				fuzzy_subset_err_c[1] = PID_NONE;
 				affiliation_degree_err_c[1] = 0;
 			}
-			else if(err_c < -small[1] && err_c > -medium[1])
+			else if(err[1] < -this -> range[1][0] && err[1] > -this -> range[1][1])
 			{
-				fuzzy_subset_err_c[0] = NEGATIVE_MEDIUM;
-				affiliation_degree_err_c[0] = (float)fabs(err_c+small[1])/(float)fabs(small[1]-medium[1]);
-				fuzzy_subset_err_c[1] = NEGATIVE_SMALL;
-				affiliation_degree_err_c[1] = (float)fabs(err_c+medium[1])/(float)fabs(small[1]-medium[1]);
+				fuzzy_subset_err_c[0] = NM;
+				affiliation_degree_err_c[0] = (float)fabs(err[1]+this -> range[1][0])/(float)fabs(this -> range[1][0]-this -> range[1][1]);
+				fuzzy_subset_err_c[1] = NS;
+				affiliation_degree_err_c[1] = (float)fabs(err[1]+this -> range[1][1])/(float)fabs(this -> range[1][0]-this -> range[1][1]);
 			}
-			else if(err_c == -small[1])
+			else if(err[1] == -this -> range[1][0])
 			{
-				fuzzy_subset_err_c[0] = NEGATIVE_SMALL;
+				fuzzy_subset_err_c[0] = NS;
 				affiliation_degree_err_c[0] = 1;
 				fuzzy_subset_err_c[1] = PID_NONE;
 				affiliation_degree_err_c[1] = 0;
 			}
-			else if(err_c < 0 && err_c > -small[1])
+			else if(err[1] < 0 && err[1] > -this -> range[1][0])
 			{
-				fuzzy_subset_err_c[0] = NEGATIVE_SMALL;
-				affiliation_degree_err_c[0] = (float)fabs(err_c)/(float)fabs(small[1]);
+				fuzzy_subset_err_c[0] = NS;
+				affiliation_degree_err_c[0] = (float)fabs(err[1])/(float)fabs(this -> range[1][0]);
 				fuzzy_subset_err_c[1] = ZERO;
-				affiliation_degree_err_c[1] = (float)fabs(err_c+small[1])/(float)fabs(small[1]);
+				affiliation_degree_err_c[1] = (float)fabs(err[1]+this -> range[1][0])/(float)fabs(this -> range[1][0]);
 			}
-			else if(err_c == 0)
+			else if(err[1] == 0)
 			{
 				fuzzy_subset_err_c[0] = ZERO;
 				affiliation_degree_err_c[0] = 1;
 				fuzzy_subset_err_c[1] = PID_NONE;
 				affiliation_degree_err_c[1] = 0;
 			}
-			else if(err_c > 0 && err_c < small[1])
+			else if(err[1] > 0 && err[1] < this -> range[1][0])
 			{
 				fuzzy_subset_err_c[0] = ZERO;
-				affiliation_degree_err_c[0] = (float)fabs(err_c-small[1])/(float)fabs(small[1]);
-				fuzzy_subset_err_c[1] = POSITIVE_SMALL;
-				affiliation_degree_err_c[1] = (float)fabs(err_c)/(float)fabs(small[1]);
+				affiliation_degree_err_c[0] = (float)fabs(err[1]-this -> range[1][0])/(float)fabs(this -> range[1][0]);
+				fuzzy_subset_err_c[1] = PS;
+				affiliation_degree_err_c[1] = (float)fabs(err[1])/(float)fabs(this -> range[1][0]);
 			}
-			else if(err_c == small[1])
+			else if(err[1] == this -> range[1][0])
 			{
-				fuzzy_subset_err_c[0] = POSITIVE_SMALL;
+				fuzzy_subset_err_c[0] = PS;
 				affiliation_degree_err_c[0] = 1;
 				fuzzy_subset_err_c[1] = PID_NONE;
 				affiliation_degree_err_c[1] = 0;
 			}
-			else if(err_c > small[1] && err_c < medium[1])
+			else if(err[1] > this -> range[1][0] && err[1] < this -> range[1][1])
 			{
-				fuzzy_subset_err_c[0] = POSITIVE_MEDIUM;
-				affiliation_degree_err_c[0] = (float)fabs(err_c-small[1])/(float)fabs(small[1]-medium[1]);
-				fuzzy_subset_err_c[1] = POSITIVE_SMALL;
-				affiliation_degree_err_c[1] = (float)fabs(err_c-medium[1])/(float)fabs(small[1]-medium[1]);
+				fuzzy_subset_err_c[0] = PM;
+				affiliation_degree_err_c[0] = (float)fabs(err[1]-this -> range[1][0])/(float)fabs(this -> range[1][0]-this -> range[1][1]);
+				fuzzy_subset_err_c[1] = PS;
+				affiliation_degree_err_c[1] = (float)fabs(err[1]-this -> range[1][1])/(float)fabs(this -> range[1][0]-this -> range[1][1]);
 			}
-			else if(err_c == medium[1])
+			else if(err[1] == this -> range[1][1])
 			{
-				fuzzy_subset_err_c[0] = POSITIVE_MEDIUM;
+				fuzzy_subset_err_c[0] = PM;
 				affiliation_degree_err_c[0] = 1;
 				fuzzy_subset_err_c[1] = PID_NONE;
 				affiliation_degree_err_c[1] = 0;
 			}
-			else if(err_c > medium[1] && err_c < big[1])
+			else if(err[1] > this -> range[1][1] && err[1] < this -> range[1][2])
 			{
-				fuzzy_subset_err_c[0] = POSITIVE_BIG;
-				affiliation_degree_err_c[0] = (float)fabs(err_c-medium[1])/(float)fabs(big[1]-medium[1]);
-				fuzzy_subset_err_c[1] = POSITIVE_MEDIUM;
-				affiliation_degree_err_c[1] = (float)fabs(err_c-big[1])/(float)fabs(big[1]-medium[1]);
+				fuzzy_subset_err_c[0] = PB;
+				affiliation_degree_err_c[0] = (float)fabs(err[1]-this -> range[1][1])/(float)fabs(this -> range[1][2]-this -> range[1][1]);
+				fuzzy_subset_err_c[1] = PM;
+				affiliation_degree_err_c[1] = (float)fabs(err[1]-this -> range[1][2])/(float)fabs(this -> range[1][2]-this -> range[1][1]);
 			}
-			else if(err_c >= big[1])
+			else if(err[1] >= this -> range[1][2])
 			{
-				fuzzy_subset_err_c[0] = POSITIVE_BIG;
+				fuzzy_subset_err_c[0] = PB;
 				affiliation_degree_err_c[0] = 1;
 				fuzzy_subset_err_c[1] = PID_NONE;
 				affiliation_degree_err_c[1] = 0;
@@ -374,7 +320,7 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 			{
 				for(uint8_t j = 0;j < 2;j++)
 				{
-					fuzzy_subset[i][j] = fuzzy_rules[fuzzy_subset_err[i]][fuzzy_subset_err_c[j]];
+					fuzzy_subset[i][j] = this -> fuzzy_rules[fuzzy_subset_err[i]][fuzzy_subset_err_c[j]];
 					affiliation_degree[i][j] = affiliation_degree_err[i]*affiliation_degree_err_c[j];
 				}
 			}
@@ -387,50 +333,83 @@ _PID_PARAMETERS_ fuzzy_pid_paraments_get(_PID_PARAMETERS_* pid_paraments,float e
 	{
 		for(uint8_t j = 0;j < 2;j++)
 		{
-			if(fuzzy_subset[i][j] == NEGATIVE_BIG || fuzzy_subset[i][j] == POSITIVE_BIG)
+			if(fuzzy_subset[i][j] == NB || fuzzy_subset[i][j] == PB)
 			{
-				delta_p += affiliation_degree[i][j]*pid_paraments[3].p;
-				delta_i += affiliation_degree[i][j]*pid_paraments[3].i;
-				delta_d += affiliation_degree[i][j]*pid_paraments[3].d;
-				delta_output_limit += affiliation_degree[i][j]*pid_paraments[3].output_limit;
-				delta_i_limit += affiliation_degree[i][j]*pid_paraments[3].i_limit;
+				Kp_fuzzy += affiliation_degree[i][j]*Kp[3];
+				Ki_fuzzy += affiliation_degree[i][j]*Ki[3];
+				Kd_fuzzy += affiliation_degree[i][j]*Kd[3];
+				i_limit_fuzzy += affiliation_degree[i][j]*i_limit[3];
+				output_limit_fuzzy += affiliation_degree[i][j]*output_limit[3];
 			}
-			else if(fuzzy_subset[i][j] == NEGATIVE_MEDIUM || fuzzy_subset[i][j] == POSITIVE_MEDIUM)
+			else if(fuzzy_subset[i][j] == NM || fuzzy_subset[i][j] == PM)
 			{
-				delta_p += affiliation_degree[i][j]*pid_paraments[2].p;
-				delta_i += affiliation_degree[i][j]*pid_paraments[2].i;
-				delta_d += affiliation_degree[i][j]*pid_paraments[2].d;
-				delta_output_limit += affiliation_degree[i][j]*pid_paraments[2].output_limit;
-				delta_i_limit += affiliation_degree[i][j]*pid_paraments[2].i_limit;
+				Kp_fuzzy += affiliation_degree[i][j]*Kp[2];
+				Ki_fuzzy += affiliation_degree[i][j]*Ki[2];
+				Kd_fuzzy += affiliation_degree[i][j]*Kd[2];
+				i_limit_fuzzy += affiliation_degree[i][j]*i_limit[2];
+				output_limit_fuzzy += affiliation_degree[i][j]*output_limit[2];
 			}
-			else if(fuzzy_subset[i][j] == NEGATIVE_SMALL || fuzzy_subset[i][j] == POSITIVE_SMALL)
+			else if(fuzzy_subset[i][j] == NS || fuzzy_subset[i][j] == PS)
 			{
-				delta_p += affiliation_degree[i][j]*pid_paraments[1].p;
-				delta_i += affiliation_degree[i][j]*pid_paraments[1].i;
-				delta_d += affiliation_degree[i][j]*pid_paraments[1].d;
-				delta_output_limit += affiliation_degree[i][j]*pid_paraments[1].output_limit;
-				delta_i_limit += affiliation_degree[i][j]*pid_paraments[1].i_limit;
+				Kp_fuzzy += affiliation_degree[i][j]*Kp[1];
+				Ki_fuzzy += affiliation_degree[i][j]*Ki[1];
+				Kd_fuzzy += affiliation_degree[i][j]*Kd[1];
+				i_limit_fuzzy += affiliation_degree[i][j]*i_limit[1];
+				output_limit_fuzzy += affiliation_degree[i][j]*output_limit[1];
 			}
 			else if(fuzzy_subset[i][j] == ZERO)
 			{
-				delta_p += affiliation_degree[i][j]*pid_paraments[0].p;
-				delta_i += affiliation_degree[i][j]*pid_paraments[0].i;
-				delta_d += affiliation_degree[i][j]*pid_paraments[0].d;
-				delta_output_limit += affiliation_degree[i][j]*pid_paraments[0].output_limit;
-				delta_i_limit += affiliation_degree[i][j]*pid_paraments[0].i_limit;
+				Kp_fuzzy += affiliation_degree[i][j]*Kp[0];
+				Ki_fuzzy += affiliation_degree[i][j]*Ki[0];
+				Kd_fuzzy += affiliation_degree[i][j]*Kd[0];
+				i_limit_fuzzy += affiliation_degree[i][j]*i_limit[0];
+				output_limit_fuzzy += affiliation_degree[i][j]*output_limit[0];
 			}
 		}
 	}
+	this -> Kp = Kp_fuzzy;
+	this -> Ki = Ki_fuzzy;
+	this -> Kd = Kd_fuzzy;
+	this -> i_limit = i_limit_fuzzy;
+	this -> output_limit = output_limit_fuzzy;
+}
+
+// 构造函数
+void pid(struct DOG_PID* this){
+	/* 成员变量 */ 
+	this -> Kp = 0;
+	this -> Ki = 0;
+	this -> Kd = 0;
+	this -> output_limit = 0;
+	this -> i_limit = 0;
+	this -> now_err = 0;
+	this -> last_err = 0;
+	this -> last_last_err = 0;
+	this -> sigma_err = 0;
+	this -> value = 0;
+	this -> value_delta = 0;
 	
-//	just_float(5,err_c,(float)fuzzy_subset_err_c[0],(float)fuzzy_subset_err_c[1],affiliation_degree_err_c[0],affiliation_degree_err_c[1]);
-//	update_data_end();
+	/* 成员函数 */
+	this -> incremental_pid = incremental_pid;
+	this -> positional_pid = positional_pid;
+	this -> fuzzy_pid_init = fuzzy_pid_init;
+	this -> fuzzy_pid = fuzzy_pid;
 	
-	// 计算模糊输出
-	pid_paraments_return.p = delta_p;
-	pid_paraments_return.i = delta_i;
-	pid_paraments_return.d = delta_d;
-	pid_paraments_return.output_limit = delta_output_limit;
-	pid_paraments_return.i_limit = delta_i_limit;
-	
-	return pid_paraments_return;
+	return;
+}
+
+// 析构函数
+void _pid(struct DOG_PID* this){
+	/* 成员变量 */ 
+	this -> Kp = 0;
+	this -> Ki = 0;
+	this -> Kd = 0;
+	this -> output_limit = 0;
+	this -> i_limit = 0;
+	this -> now_err = 0;
+	this -> last_err = 0;
+	this -> last_last_err = 0;
+	this -> sigma_err = 0;
+	this -> value = 0;
+	this -> value_delta = 0;
 }

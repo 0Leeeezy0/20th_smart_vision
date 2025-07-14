@@ -41,11 +41,8 @@ typedef struct
 /* 菜单电机数据 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ motor_1_dir;
 	_MENU_DATA_NAME_TYPE_ motor_1_duty;
-	_MENU_DATA_NAME_TYPE_ motor_2_dir;
 	_MENU_DATA_NAME_TYPE_ motor_2_duty;
-	_MENU_DATA_NAME_TYPE_ motor_3_dir;
 	_MENU_DATA_NAME_TYPE_ motor_3_duty;
 	_MENU_DATA_NAME_TYPE_ motor_1_speed;
 	_MENU_DATA_NAME_TYPE_ motor_2_speed;
@@ -78,8 +75,10 @@ typedef struct
 /* 位移数据 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ shift_yaw;
-	_MENU_DATA_NAME_TYPE_ shift_distance;
+	_MENU_DATA_NAME_TYPE_ distance;
+	_MENU_DATA_NAME_TYPE_ world_x;
+	_MENU_DATA_NAME_TYPE_ world_y;
+	_MENU_DATA_NAME_TYPE_ world_yaw;
 }_MENU_SHIFT_;
 
 /* 菜单参数 */
@@ -98,40 +97,39 @@ extern _MENU_SHIFT_ MENU_SHIFT;
 //{
 //}_MENU_SYMMETRY_RECTIFICATE_;
 
+/* 方案 参数 */
+typedef struct
+{
+	_MENU_DATA_NAME_TYPE_ plan_idx;		// 方案索引
+}_MENU_PLAN_;
+
 /* AI摄像头0 参数 */
 typedef struct
 {
 	_MENU_DATA_NAME_TYPE_ ai_camera_0_enable_flag;		// 使能
-	_MENU_DATA_NAME_TYPE_ track_linear_speed_target;	// 接近阶段线速度
 	_MENU_DATA_NAME_TYPE_ detection_box_width_limit;	// 开始接近的检测框宽度阈值
-	_MENU_DATA_NAME_TYPE_ detection_box_width_std;		// 开始定位的检测框宽度阈值
+	_MENU_DATA_NAME_TYPE_ detection_box_width_target;	// 开始定位的检测框目标宽度
 	_MENU_DATA_NAME_TYPE_ detection_box_center_limit;	// 结束定位的检测框中心与图像中心误差阈值
+	_MENU_DATA_NAME_TYPE_ box_x_speed_target;			// 箱子目标X速度
+	_MENU_DATA_NAME_TYPE_ box_x_angular_speed_rate;		// 箱子目标旋转速度
+	_MENU_DATA_NAME_TYPE_ box_fxxk_speed;				// 推箱子速度
+	_MENU_DATA_NAME_TYPE_ box_distance;					// 箱子间距
 }_MENU_AI_CAMERA_0_;
 
 /* AI摄像头1/2 参数 */
 typedef struct
 {
+	_MENU_DATA_NAME_TYPE_ ai_camera_1_enable_flag;		// 使能
+	_MENU_DATA_NAME_TYPE_ ai_camera_2_enable_flag;		// 使能
 	_MENU_DATA_NAME_TYPE_ supplement_lamp_enable_flag;	// 补光灯使能
-	_MENU_DATA_NAME_TYPE_ supplement_lamp_color;		// 补光灯颜色
 	_MENU_DATA_NAME_TYPE_ detection_result;		// 标志识别结果
 }_MENU_AI_CAMERA_1_2_;
-
-/* 菜单底盘参数 */
-typedef struct
-{
-	_MENU_DATA_NAME_TYPE_ motion_kind;
-	_MENU_DATA_NAME_TYPE_ chassis_yaw;
-	_MENU_DATA_NAME_TYPE_ linear_speed;
-	_MENU_DATA_NAME_TYPE_ angular_speed;
-	_MENU_DATA_NAME_TYPE_ rotate_angle;
-}_MENU_CHASSIS_;
 
 /* 菜单循线参数 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ linear_speed_target_pre;
-	_MENU_DATA_NAME_TYPE_ linear_speed_target_min;
-	_MENU_DATA_NAME_TYPE_ linear_speed_target_max;
+	_MENU_DATA_NAME_TYPE_ zebra_enable_flag;			// 使能
+	_MENU_DATA_NAME_TYPE_ y_speed_target;
 	_MENU_DATA_NAME_TYPE_ path_start;
 	_MENU_DATA_NAME_TYPE_ path_end;
 	_MENU_DATA_NAME_TYPE_ control_point_0;
@@ -143,19 +141,16 @@ typedef struct
 /* 菜单圆环循线参数 */
 typedef struct
 {
-	_MENU_DATA_NAME_TYPE_ circle_path_enable_flag;
-	_MENU_DATA_NAME_TYPE_ circle_path_linear_speed_target;
+	_MENU_DATA_NAME_TYPE_ circle_enable_flag;
+	_MENU_DATA_NAME_TYPE_ circle_y_speed_target;
+	_MENU_DATA_NAME_TYPE_ circle_angular_speed_target;
 	_MENU_DATA_NAME_TYPE_ circle_check_y;
-	_MENU_DATA_NAME_TYPE_ circle_in_linear_speed_target;
-	_MENU_DATA_NAME_TYPE_ circle_in_angular_speed_target;
 	_MENU_DATA_NAME_TYPE_ circle_in_angle;
-	_MENU_DATA_NAME_TYPE_ circle_out_linear_speed_target;
-	_MENU_DATA_NAME_TYPE_ circle_out_angular_speed_target;
 	_MENU_DATA_NAME_TYPE_ circle_out_angle;
 	_MENU_DATA_NAME_TYPE_ side_extract_start;
 	_MENU_DATA_NAME_TYPE_ side_extract_end;
-	_MENU_DATA_NAME_TYPE_ side_X_delta_max_limit;
-	_MENU_DATA_NAME_TYPE_ side_X_delta_min_limit;
+	_MENU_DATA_NAME_TYPE_ circle_in_distance_limit;
+	_MENU_DATA_NAME_TYPE_ circle_out_distance_limit;
 }_MENU_CIRCLE_PATH_;
 
 /* 菜单PID参数 */
@@ -192,24 +187,16 @@ typedef struct
 	_MENU_PID_ PATH_PID;
 }_MENU_PATH_PID_;
 
-/* 菜单转动角度PID参数 */
-typedef struct
-{
-	_MENU_DATA_NAME_TYPE_ pid_kind;
-	_MENU_PID_ ROTATE_PID;
-}_MENU_ROTATE_PID_;
-
 /* 菜单数据 */
+extern _MENU_PLAN_ MENU_PLAN;
 extern _MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
 extern _MENU_AI_CAMERA_1_2_ MENU_AI_CAMERA_1_2;
-extern _MENU_CHASSIS_ MENU_CHASSIS;
 extern _MENU_PATH_ MENU_PATH;
 extern _MENU_CIRCLE_PATH_ MENU_CIRCLE_PATH;
 extern _MENU_MOTOR_PID_ MENU_MOTOR_1_PID;
 extern _MENU_MOTOR_PID_ MENU_MOTOR_2_PID;
 extern _MENU_MOTOR_PID_ MENU_MOTOR_3_PID;
 extern _MENU_PATH_PID_ MENU_PATH_PID;
-extern _MENU_ROTATE_PID_ MENU_ROTATE_PID;
 
 //--------------------------------------------------------------------------//
 
