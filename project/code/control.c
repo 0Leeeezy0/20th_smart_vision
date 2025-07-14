@@ -387,9 +387,12 @@ static void circle_rotate_pid_calc(void){
 
 /* BOX X PID计算 */
 static void box_x_pid_calu(void){
+	// AI摄像头卡尔曼滤波
+	box_center_x_karman.karman_filter(&box_center_x_karman, detection_box_center_x);
+	
 	static uint16 num = 0;	// 符合偏移阈值的图像次数
 	
-	float detection_box_center_err = detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2; 
+	float detection_box_center_err = box_center_x_karman.value-AI_CAMERA_0_IMAGE_WIDTH/2; 
 	move_solve_kind = XY_SPEED_SOLVE;
 	
 	/* BOX X */
@@ -425,9 +428,12 @@ static void box_x_pid_calu(void){
 
 /* BOX Y PID计算 */
 static void box_y_pid_calu(void){
+	// AI摄像头卡尔曼滤波
+	box_width_karman.karman_filter(&box_width_karman, detection_box_width);
+	
 	static uint16 num = 0;	// 符合偏移阈值的图像次数
 	
-	float detection_box_width_err = detection_box_width-detection_box_width_target;	
+	float detection_box_width_err = box_width_karman.value-detection_box_width_target;
 	move_solve_kind = XY_SPEED_SOLVE;
 	
 	/* BOX Y */
@@ -463,10 +469,14 @@ static void box_y_pid_calu(void){
 
 /* BOX X/Y PID计算 */
 static void box_xy_pid_calu(void){
+	// AI摄像头卡尔曼滤波
+	box_center_x_karman.karman_filter(&box_center_x_karman, detection_box_center_x);
+	box_width_karman.karman_filter(&box_width_karman, detection_box_width);
+	
 	static uint16 num = 0;	// 符合偏移阈值的图像次数
 	
-	float detection_box_center_err = detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2; 
-	float detection_box_width_err = detection_box_width-detection_box_width_target;
+	float detection_box_center_err = box_center_x_karman.value-AI_CAMERA_0_IMAGE_WIDTH/2; 
+	float detection_box_width_err = box_width_karman.value-detection_box_width_target;
 	move_solve_kind = XY_SPEED_SOLVE;
 	
 	/* BOX X */
@@ -526,25 +536,15 @@ static void box_xy_pid_calu(void){
 	_path_x_speed_target_ 目标速度
 	speed_slow_change_enable_flag 缓变速使能标志位
 */
-void x_speed_slow_change(float _path_x_speed_target_, _bool_ speed_slow_change_enable_flag){
-	// 计算前后两次函数调用时间间隔
-	uint32 speed_slow_change_timer_time_delta = speed_slow_change_timer.time-last_x_speed_slow_change_timer_time;
-	
-	// 若间隔大于100ms，则需要重置上一次时间
-	if(speed_slow_change_timer_time_delta > 100)
-		last_x_speed_slow_change_timer_time = speed_slow_change_timer.time;
-	
+void x_speed_slow_change(float _path_x_speed_target_, float slow_change_rate, _bool_ speed_slow_change_enable_flag){
 	// 启用缓变速（需消除死区）
-	if(speed_slow_change_enable_flag == True && x_speed_target < _path_x_speed_target_){
+	if(speed_slow_change_enable_flag == True && fabsf(x_speed_target) < fabsf(_path_x_speed_target_)){
 		// 缓变速
-		x_speed_target += (_path_x_speed_target_-displacement_solve.x_speed)*speed_slow_change_timer_time_delta*x_speed_slow_change_rate;
+		x_speed_target += (_path_x_speed_target_-displacement_solve.x_speed)*slow_change_rate;
 	}	
 	// 关闭缓变速
 	else
 		x_speed_target = _path_x_speed_target_;
-	
-	// 更新上一次缓变速计时器时间
-	last_x_speed_slow_change_timer_time = speed_slow_change_timer.time;
 }
 
 /* 
@@ -553,24 +553,14 @@ void x_speed_slow_change(float _path_x_speed_target_, _bool_ speed_slow_change_e
 	_path_y_speed_target_ 目标速度
 	speed_slow_change_enable_flag 缓变速使能标志位
 */
-void y_speed_slow_change(float _path_y_speed_target_, _bool_ speed_slow_change_enable_flag){
-	// 计算前后两次函数调用时间间隔
-	uint32 speed_slow_change_timer_time_delta = speed_slow_change_timer.time-last_y_speed_slow_change_timer_time;
-	
-	// 若间隔大于100ms，则需要重置上一次时间
-	if(speed_slow_change_timer_time_delta > 100)
-		last_y_speed_slow_change_timer_time = speed_slow_change_timer.time;
-	
+void y_speed_slow_change(float _path_y_speed_target_, float slow_change_rate, _bool_ speed_slow_change_enable_flag){
 	// 启用缓变速（需消除死区）
-	if(speed_slow_change_enable_flag == True && y_speed_target < _path_y_speed_target_){
+	if(speed_slow_change_enable_flag == True && fabsf(y_speed_target) < fabsf(_path_y_speed_target_)){
 		// 缓变速
-		y_speed_target += (_path_y_speed_target_-displacement_solve.y_speed)*speed_slow_change_timer_time_delta*y_speed_slow_change_rate;
+		y_speed_target += (_path_y_speed_target_-displacement_solve.y_speed)*slow_change_rate;
 	}	
 	// 关闭缓变速
 	else
 		y_speed_target = _path_y_speed_target_;
-	
-	// 更新上一次缓变速计时器时间
-	last_y_speed_slow_change_timer_time = speed_slow_change_timer.time;
 }
 

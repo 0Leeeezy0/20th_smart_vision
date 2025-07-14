@@ -58,12 +58,15 @@ void PIT_IRQHandler(void)
 		imu660ra.gyro_get(&imu660ra);
 		imu660ra.acc_get(&imu660ra);
 		euler_angle_solve.euler_angle(&euler_angle_solve, imu660ra);
+		displacement_solve.move_solve(&displacement_solve, encoder_1.wheel_speed, encoder_2.wheel_speed, encoder_3.wheel_speed, euler_angle_solve.yaw);
+		rotate_euler_angle_solve.diff_yaw = displacement_solve.diff_yaw;
 		rotate_euler_angle_solve.euler_angle(&rotate_euler_angle_solve, imu660ra);
+		circle_euler_angle_solve.diff_yaw = displacement_solve.diff_yaw;
 		circle_euler_angle_solve.euler_angle(&circle_euler_angle_solve, imu660ra);
+		box_euler_angle_solve.diff_yaw = displacement_solve.diff_yaw;
 		box_euler_angle_solve.euler_angle(&box_euler_angle_solve, imu660ra);
 		gray_sensor.voltage_get(&gray_sensor);
 		bat_voltage.voltage_get(&bat_voltage);
-		displacement_solve.move_solve(&displacement_solve, encoder_1.wheel_speed, encoder_2.wheel_speed, encoder_3.wheel_speed, euler_angle_solve.yaw);
 		
         pit_flag_clear(PIT_CH0);
     }
@@ -85,14 +88,21 @@ void PIT_IRQHandler(void)
     }
     if(pit_flag_get(PIT_CH2))
     {
+		// ¼ÆÊ±Æ÷
 		zebra_path_timer.ticking(&zebra_path_timer);
         motor_debug_timer.ticking(&motor_debug_timer);
-		speed_slow_change_timer.ticking(&speed_slow_change_timer);
+		rwr_timer.ticking(&rwr_timer);
+		
         pit_flag_clear(PIT_CH2);
     }
     if(pit_flag_get(PIT_CH3))
     {
+		// °´¼ü
 		key_action_get();
+		// RWR
+		dog_rwr.radar_scanning(&dog_rwr);
+		dog_rwr.radar_tracking(&dog_rwr);
+		dog_rwr.missile_launch(&dog_rwr);
         pit_flag_clear(PIT_CH3);
     }
 
