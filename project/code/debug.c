@@ -19,7 +19,8 @@ void vofa_debug(void){
 //	wireless_vofa.justfloat_add(&wireless_vofa, 2, PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x),(displacement_solve.world_y_displacement-last_box_world_y)), (float)path_state);
 //    wireless_vofa.justfloat_send(&wireless_vofa);
 	
-	wireless_vofa.justfloat_add(&wireless_vofa, 5, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance, (float)path_state);
+//	wireless_vofa.justfloat_add(&wireless_vofa, 5, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance, (float)path_state);
+	wireless_vofa.justfloat_add(&wireless_vofa, 3, x_speed_target, y_speed_target, angular_speed_target);
 	wireless_vofa.justfloat_send(&wireless_vofa);
 }
 //增加调试效率 请勿删除

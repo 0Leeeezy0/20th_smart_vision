@@ -10,7 +10,10 @@ void euler_angle(struct DOG_SOLVE* this, struct DOG_IMU imu_data){
 	{
 		this -> roll += imu_data.gyro_x*this -> solve_IT_time/1000.;
 		this -> pitch += imu_data.gyro_y*this -> solve_IT_time/1000.;
-		this -> yaw += imu_data.gyro_z*this -> solve_IT_time/1000;
+		if(this -> encoder_merge_enable_flag == True)	// 若开启编码器融合则使用 this->diff_yaw 进行融合
+			this -> yaw += (imu_data.gyro_z*this -> solve_IT_time/1000+this -> diff_yaw)/2.0;
+		else
+			this -> yaw += imu_data.gyro_z*this -> solve_IT_time/1000;
 		
 		this -> roll =  fmod(this -> roll, 360);
 		this -> pitch = fmod(this -> pitch, 360);
@@ -165,6 +168,7 @@ void solve(struct DOG_SOLVE* this, float radius, uint16 solve_IT_time){
 	this -> radius = radius;	
 	this -> solve_IT_time = solve_IT_time;
 	this -> solve_flag = False;
+	this -> encoder_merge_enable_flag = False;
 	this -> diff_world_x_displacement = 0.;	// 世界X位移微分
 	this -> diff_world_y_displacement = 0.;	// 世界Y位移微分
 	this -> diff_x_displacement = 0.;		// 车身X位移微分
@@ -198,6 +202,7 @@ void _solve(struct DOG_SOLVE* this){
 	this -> displacement = 0;			// 位移
 	this -> displacement_yaw = 0;		// 位移航向角
 	this -> solve_flag = False;
+	this -> encoder_merge_enable_flag = False;
 	this -> diff_world_x_displacement = 0.;	// 世界X位移微分
 	this -> diff_world_y_displacement = 0.;	// 世界Y位移微分
 	this -> diff_x_displacement = 0.;		// 车身X位移微分

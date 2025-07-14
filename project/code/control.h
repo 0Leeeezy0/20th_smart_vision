@@ -103,16 +103,18 @@ static void box_xy_pid_calu(void);
 	X缓变速 
 	变量说明：
 	_path_x_speed_target_ 目标速度
+	slow_change_rate 变化率（越小越慢）
 	speed_slow_change_enable_flag 缓变速使能标志位
 */
-void x_speed_slow_change(float _path_x_speed_target_, _bool_ speed_slow_change_enable_flag);
+void x_speed_slow_change(float _path_x_speed_target_, float slow_change_rate, _bool_ speed_slow_change_enable_flag);
 
 /* 
 	Y缓变速 
 	变量说明：
 	_path_y_speed_target_ 目标速度
+	slow_change_rate 变化率（越小越慢）
 	speed_slow_change_enable_flag 缓变速使能标志位
 */
-void y_speed_slow_change(float _path_y_speed_target_, _bool_ speed_slow_change_enable_flag);
+void y_speed_slow_change(float _path_y_speed_target_, float slow_change_rate, _bool_ speed_slow_change_enable_flag);
 
 #endif

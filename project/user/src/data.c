@@ -2,48 +2,49 @@
 #include "data.h"
 
 /* 类定义 */	
-DOG_MOTOR motor_1;					// 电机1
-DOG_MOTOR motor_2;					// 电机2
-DOG_MOTOR motor_3;					// 电机3
-DOG_ENCODER encoder_1;				// 编码器1
-DOG_ENCODER encoder_2;				// 编码器2
-DOG_ENCODER encoder_3;				// 编码器3
-DOG_CURRENT current_1;				// 电流采样1
-DOG_CURRENT current_2;				// 电流采样2
-DOG_CURRENT current_3;				// 电流采样3
-DOG_VOLTAGE gray_sensor;			// 灰度传感器
-DOG_VOLTAGE bat_voltage;			// 电池电压检测
-DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
-DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
-DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
-DOG_KARMAN_FILTER path_gyro_karman;	// 路径陀螺仪 卡尔曼滤波 
-DOG_PID motor_1_pid;				// 电机PID1
-DOG_PID motor_2_pid;				// 电机PID2
-DOG_PID motor_3_pid;				// 电机PID3
-DOG_PID current_1_pid;				// 电机电流PID1
-DOG_PID current_2_pid;				// 电机电流PID2
-DOG_PID current_3_pid;				// 电机电流PID3
-DOG_PID path_pid;					// 路径PID
-DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
-DOG_PID angle_rotate_pid;			// 角度环旋转PID
-DOG_PID circle_rotate_pid;			// 圆环旋转PID
-DOG_PID box_x_pid;					// 箱子X PID
-DOG_PID box_y_pid;					// 箱子Y PID
-DOG_VOFA wireless_vofa;				// 无线串口VOFA
-DOG_IMU imu660ra;					// IMU660RA陀螺仪
-DOG_SOLVE euler_angle_solve;		// 欧拉角解算
-DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
-DOG_SOLVE circle_euler_angle_solve;	// 圆环欧拉角解算
-DOG_SOLVE box_euler_angle_solve;	// 箱子欧拉角解算
-DOG_SOLVE chassis_solve;			// 底盘解算
-DOG_SOLVE displacement_solve;		// 位移解算
-DOG_TIMER zebra_path_timer;			// 斑马线计时器
-DOG_TIMER speed_slow_change_timer;  // 缓变速计时器
-DOG_TIMER motor_debug_timer;        // 电机调试计时器
-DOG_TIMER rwr_timer;				// RWR计时器
-DOG_CV dog_cv;						// 计算机视觉
-DOG_PATH dog_path;					// 循迹
-DOG_RWR dog_rwr;					// RWR
+DOG_MOTOR motor_1;						// 电机1
+DOG_MOTOR motor_2;						// 电机2
+DOG_MOTOR motor_3;						// 电机3
+DOG_ENCODER encoder_1;					// 编码器1
+DOG_ENCODER encoder_2;					// 编码器2
+DOG_ENCODER encoder_3;					// 编码器3
+DOG_CURRENT current_1;					// 电流采样1
+DOG_CURRENT current_2;					// 电流采样2
+DOG_CURRENT current_3;					// 电流采样3
+DOG_VOLTAGE gray_sensor;				// 灰度传感器
+DOG_VOLTAGE bat_voltage;				// 电池电压检测
+DOG_KARMAN_FILTER current_1_karman;		// 电流采样1 卡尔曼滤波 
+DOG_KARMAN_FILTER current_2_karman;		// 电流采样2 卡尔曼滤波 
+DOG_KARMAN_FILTER current_3_karman;		// 电流采样3 卡尔曼滤波 
+DOG_KARMAN_FILTER path_gyro_karman;		// 路径陀螺仪 卡尔曼滤波 
+DOG_KARMAN_FILTER box_center_x_karman;	// 箱子中点X坐标 卡尔曼滤波 
+DOG_KARMAN_FILTER box_width_karman;		// 箱子宽度 卡尔曼滤波 
+DOG_PID motor_1_pid;					// 电机PID1
+DOG_PID motor_2_pid;					// 电机PID2
+DOG_PID motor_3_pid;					// 电机PID3
+DOG_PID current_1_pid;					// 电机电流PID1
+DOG_PID current_2_pid;					// 电机电流PID2
+DOG_PID current_3_pid;					// 电机电流PID3
+DOG_PID path_pid;						// 路径PID
+DOG_PID path_gyroz_pid;					// 路径陀螺仪PID
+DOG_PID angle_rotate_pid;				// 角度环旋转PID
+DOG_PID circle_rotate_pid;				// 圆环旋转PID
+DOG_PID box_x_pid;						// 箱子X PID
+DOG_PID box_y_pid;						// 箱子Y PID
+DOG_VOFA wireless_vofa;					// 无线串口VOFA
+DOG_IMU imu660ra;						// IMU660RA陀螺仪
+DOG_SOLVE euler_angle_solve;			// 欧拉角解算
+DOG_SOLVE rotate_euler_angle_solve;		// 旋转欧拉角解算
+DOG_SOLVE circle_euler_angle_solve;		// 圆环欧拉角解算
+DOG_SOLVE box_euler_angle_solve;		// 箱子欧拉角解算
+DOG_SOLVE chassis_solve;				// 底盘解算
+DOG_SOLVE displacement_solve;			// 位移解算
+DOG_TIMER zebra_path_timer;				// 斑马线计时器
+DOG_TIMER motor_debug_timer;       	 	// 电机调试计时器
+DOG_TIMER rwr_timer;					// RWR计时器
+DOG_CV dog_cv;							// 计算机视觉
+DOG_PATH dog_path;						// 循迹
+DOG_RWR dog_rwr;						// RWR
 
 /* 使能标志位 */
 _bool_ circle_enable_flag = True;			// 圆环 使能标志位
@@ -100,8 +101,6 @@ float angle_rotation_yaw_target;				// 目标角度环旋转角度
 float circle_rotation_yaw_target;				// 目标圆环旋转角度
 float data_1;									// 运动学逆解算参数1（线速度/X速度）
 float data_2;									// 运动学逆解算参数2（航向角/Y速度）
-float x_speed_slow_change_rate = 0.0003;		// X缓变速率（越大缓变速越快）
-float y_speed_slow_change_rate = 0.003;			// Y缓变速率（越大缓变速越快）
 float x_speed_rate = 2.4;						// 循线x速度比例（目标循线x速度/目标循线旋转速度）
 /* 箱子 */
 uint8 detection_box_width;						// 识别框宽度
@@ -129,17 +128,15 @@ float last_box_world_y = 0;								// 上一个箱子相对于起始点的世界Y坐标
 float box_distance = 100;								// 箱子间距
 /* 速度/角度/时间 */
 uint8 plan_idx = 0;									// 方案索引（由低至高，方案速度逐渐变快）			
-float path_y_speed_target[3] = {170, 190, 210};		// 目标循迹Y速度
-float circle_y_speed_target[3] = {150, 160, 170};	// 目标圆环Y速度
+float path_y_speed_target[4] = {130, 170, 190, 210};		// 目标循迹Y速度
+float circle_y_speed_target[4] = {130, 160, 180, 200};		// 目标圆环Y速度
 float path_x_speed_enable_y_speed_rate = 0.8;		// 目标循迹Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
 float circle_x_speed_enable_y_speed_rate = 0.8;		// 目标圆环Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
 float circle_angular_speed_target = 50;				// 出入环目标角速度
 float circle_angle_target[2] = {70, 65};			// 出入环目标转动角度
 float box_x_speed_target = 65;						// 箱子目标X速度
 float box_x_angular_speed_rate = 0.33;				// 箱子 转动速度/X速度 比例（越大旋转半径越小）
-float box_fxxk_y_speed_target[3] = {80, 80, 80};	// 推箱子Y速度目标值
-uint32 last_x_speed_slow_change_timer_time = 0;		// X缓变速上一次计时器时间
-uint32 last_y_speed_slow_change_timer_time = 0;		// Y缓变速上一次计时器时间
+float box_fxxk_y_speed_target[4] = {80, 80, 80, 80};	// 推箱子Y速度目标值
 
 /*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd */
 // 电机
@@ -215,6 +212,8 @@ float BOX_Y_PID[4][5] =  {{ 0.45,  0,     1.27,  2,           35 },
 /* KARMAN滤波器参数		   	 Q     R     Q越小越平滑   R越小越接近(收敛越快)*/
 float I_KARMAN[2] = 	   { 0.01, 0.1};
 float PATH_GYRO_KARMAN[2] ={ 0.01, 0.1};
+float BOX_CENTER_X_KARMAN[2] ={ 0.01, 0.1};
+float BOX_WIDTH_KARMAN[2] ={ 0.01, 0.1};
 
 /* 模糊PID 规则表 */
 // 速度环
@@ -294,13 +293,15 @@ void flag_init(void){
 	// 解算使能标志位
 	euler_angle_solve.solve_flag = False;
 	rotate_euler_angle_solve.solve_flag = False;
+	rotate_euler_angle_solve.encoder_merge_enable_flag = False;
 	circle_euler_angle_solve.solve_flag = False;
+	circle_euler_angle_solve.encoder_merge_enable_flag = False;
 	box_euler_angle_solve.solve_flag = False;
+	box_euler_angle_solve.encoder_merge_enable_flag = False;
 	chassis_solve.solve_flag = False;
 	displacement_solve.solve_flag = False;
 	// 计时器使能标志位
 	zebra_path_timer.ticking_flag = False;
-	speed_slow_change_timer.ticking_flag = False;
 	rwr_timer.ticking_flag = False;
 	// 完成标志位
 	angle_rotate_finsh_flag = False;	// 角度环旋转完成标志位
@@ -319,8 +320,6 @@ void variable_init(void){
 	memset(wheel_speed_target, 0, sizeof(wheel_speed_target));			// 轮子目标速度
 	memset(motor_current_target, 0, sizeof(motor_current_target));		// 电机电流目标值
 	memset(motor_pwm_duty, 0, sizeof(motor_pwm_duty));					// 电机PWM占空比
-	memset(detection_result_list, 0, sizeof(detection_result_list));	// 识别结果列表
-	detection_result_num = 0;
 	sum_weight_normalization = 0;		// 加权和归一化	
 	last_box_world_x = 0;				// 上一个箱子相对于起始点的世界X坐标
 	last_box_world_y = 0;				// 上一个箱子相对于起始点的世界Y坐标
@@ -333,8 +332,6 @@ void variable_init(void){
 	circle_rotation_yaw_target = 0;		// 目标圆环旋转角度
 	data_1 = 0;							// 运动学逆解算参数1（线速度/X速度）
 	data_2 = 0;							// 运动学逆解算参数2（航向角/Y速度）
-	last_x_speed_slow_change_timer_time = 0;	// X缓变速上一次计时器时间
-	last_y_speed_slow_change_timer_time = 0;	// Y缓变速上一次计时器时间
 	circle_in_distance = 0;			// 圆环进环处相对起始点的路程
 	circle_out_distance = 0;		// 圆环出环处相对起始点的路程
 	dog_rwr.radar_scanning_enable_flag = False;

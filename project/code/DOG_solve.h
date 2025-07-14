@@ -49,7 +49,8 @@ typedef struct DOG_SOLVE{
 	/* 解算中断时间 */
 	uint16 solve_IT_time;
 	/* 解算标志位 */
-	_bool_ solve_flag;
+	_bool_ solve_flag;	// 解算标志位
+	_bool_ encoder_merge_enable_flag;	// 融合编码器使能标志位
 	
 	/* 成员函数 */
 	void (*euler_angle)(struct DOG_SOLVE* this, struct DOG_IMU imu_data);	// 欧拉角解算

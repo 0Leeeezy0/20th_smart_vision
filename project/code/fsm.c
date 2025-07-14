@@ -30,7 +30,7 @@ void fsm(void){
 			control_kind = CircleAngle2Inv2Speed; 	// 设置控制类型
 			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 			x_speed_target = 0;
-			y_speed_slow_change(circle_y_speed_target[plan_idx], False);
+			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.008, False);
 			circle_rotation_yaw_target = -circle_angle_target[0];
 			// 判断是否转到指定角度
 			if(circle_rotate_finsh_flag == True)
@@ -58,7 +58,7 @@ void fsm(void){
 			control_kind = CircleAngle2Inv2Speed; 	// 设置控制类型
 			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 			x_speed_target = 0;
-			y_speed_slow_change(circle_y_speed_target[plan_idx], False);
+			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.008, False);
 			circle_rotation_yaw_target = -circle_angle_target[1];
 			// 判断是否转到指定角度
 			if(circle_rotate_finsh_flag == True)
@@ -86,7 +86,7 @@ void fsm(void){
 			control_kind = CircleAngle2Inv2Speed; 	// 设置控制类型
 			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 			x_speed_target = 0;
-			y_speed_slow_change(circle_y_speed_target[plan_idx], False);
+			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.008, False);
 			circle_rotation_yaw_target = circle_angle_target[0];
 			// 判断是否转到指定角度
 			if(circle_rotate_finsh_flag == True)
@@ -114,7 +114,7 @@ void fsm(void){
 			control_kind = CircleAngle2Inv2Speed; 	// 设置控制类型
 			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
 			x_speed_target = 0;
-			y_speed_slow_change(circle_y_speed_target[plan_idx], False);
+			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.008, False);
 			circle_rotation_yaw_target = circle_angle_target[1];
 			// 判断是否转到指定角度
 			if(circle_rotate_finsh_flag == True)
@@ -169,6 +169,8 @@ void fsm(void){
 				wheel_speed_target[1] = 0;
 				wheel_speed_target[2] = 0;
 				
+				x_speed_target = 0;	// 设置缓加速初始值
+				
 				/* 初始化识别结果 */
 				detection_result.tool_detection_finsh_flag = False;
 				detection_result.num_detection_finsh_flag = False;
@@ -215,9 +217,9 @@ void fsm(void){
 				// 防止两个摄像头都失能时，数据乱变（我也不知道为啥数据会乱跳）
 				if(ai_camera_1_enable_flag == False && ai_camera_2_enable_flag == False)
 					box_dir = 1;
-				x_speed_target = box_dir*box_x_speed_target;
+				x_speed_slow_change(box_dir*box_x_speed_target, 0.0085, True);	// X缓加速
 				y_speed_target = 0;
-				angular_speed_target = -box_dir*box_x_speed_target*box_x_angular_speed_rate;
+				angular_speed_target = -box_dir*fabsf(x_speed_target)*box_x_angular_speed_rate;	// 不能用实际值，否则会导致旋转速度和X速度不匹配，从而旋转错误
 				// 计算对称度
 				symmetry_rectificate(dog_cv.image_OTSU);
 				// 找最大归一化加权和与其对应航向角（取加权和对应的角度较大的那个）
@@ -256,9 +258,8 @@ void fsm(void){
 					/* 运动设置 */
 					control_kind = Inv2Speed; 				// 设置控制类型
 					move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
-					x_speed_target = -box_dir*box_x_speed_target;
-					y_speed_target = 0;
-					angular_speed_target = box_dir*box_x_speed_target*box_x_angular_speed_rate;
+					x_speed_target = 0;	// 设置缓加速初始值
+					angular_speed_target = 0;
 					/* 状态切换 */
 					path_state = box_inv_calibration;		// 进入箱子逆矫正状态
 					/* 存储识别结果 */
@@ -274,7 +275,15 @@ void fsm(void){
 			/* 音效设置 */
 			dog_rwr.radar_scanning_enable_flag = False;
 			dog_rwr.radar_tracking_enable_flag = True;
-			dog_rwr.missile_launch_enable_flag = False;		
+			dog_rwr.missile_launch_enable_flag = False;	
+			
+			/* 运动设置 */
+			control_kind = Inv2Speed; 				// 设置控制类型
+			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
+			x_speed_slow_change(-box_dir*box_x_speed_target, 0.0085, True);	// X缓加速
+			y_speed_target = 0;
+			angular_speed_target = box_dir*fabsf(x_speed_target)*box_x_angular_speed_rate;
+			
 			// 防止有时候为0的情况就默认转90度
 			if(max_sum_weight_normalization_yaw == 0){
 				max_sum_weight_normalization_yaw = 90;
@@ -315,14 +324,14 @@ void fsm(void){
 				wheel_speed_target[2] = 0;
 				path_state = box_fxxk;		// 进入箱子推离状态
 				
-				y_speed_target = 0;			// 设置推箱子缓启动速度
+				y_speed_target = 30;			// 设置推箱子缓启动速度
 				break;
 			}
 			break;
 		}
 		// 箱子推离状态
 		case box_fxxk:{	// 为防止启动瞬间偏转，因此加入陀螺仪抑制
-			static uint8 num = 0;
+			static int8 num = 0;
 			/* 音效设置 */
 			dog_rwr.radar_scanning_enable_flag = False;
 			dog_rwr.radar_tracking_enable_flag = False;
@@ -342,10 +351,15 @@ void fsm(void){
 			control_kind = X2Inv2Speed;		// 设置控制模式
 //			y_speed_target = box_fxxk_y_speed_target[plan_idx];
 			angular_speed_target = -PATH_PID[plan_idx][0][5]*imu660ra.gyro_z;
-			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], True);		// 设置推箱子目标速度  
+			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], 0.009, True);		// 设置推箱子目标速度  
 			/* 判断是否在赛道内 */
-			if(gray_sensor.voltage < 0.3 && num < 22)
+			if(gray_sensor.voltage < 0.3 && num < 22)	// 在赛道内计数自增
 				num++;
+			if(gray_sensor.voltage > 0.6 && num < 22){	// 不在赛道内计数自减
+				num--;
+				if(num < 2)
+					num = 2;
+			}
 			if(num > 20)
 				is_in_track = True;
 			if(is_in_track == True && gray_sensor.voltage > 0.6)
@@ -438,7 +452,7 @@ void fsm(void){
 				x_speed_target = angular_speed_target*x_speed_rate;
 			else
 				x_speed_target = 0;
-			y_speed_slow_change(circle_y_speed_target[plan_idx], True);				// Y缓变速
+			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.008, True);				// Y缓变速
 		}
 		// 普通赛道/斑马线
 		else{
@@ -450,7 +464,7 @@ void fsm(void){
 				x_speed_target = angular_speed_target*x_speed_rate;
 			else
 				x_speed_target = 0;
-			y_speed_slow_change(path_y_speed_target[plan_idx], True);					// Y缓变速
+			y_speed_slow_change(path_y_speed_target[plan_idx], 0.009, True);					// Y缓变速
 		}
 	}
 }

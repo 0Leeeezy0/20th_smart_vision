@@ -329,6 +329,9 @@ void start(void)
 	flag_init();
 	// 变量初始化
 	variable_init();
+	// 清空识别结果列表
+	detection_result_num = 0;
+	memset(detection_result_list, 0, sizeof(detection_result_list));	// 识别结果列表
 	
 	system_delay_ms(100);
 	
@@ -341,10 +344,12 @@ void start(void)
 	displacement_solve.solve_flag = True;
 	zebra_path_timer.ticking_flag = False;
 	rwr_timer.ticking_flag = True;
-	speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
 	circle_rotate_finsh_flag = False;
+	rotate_euler_angle_solve.encoder_merge_enable_flag = True;
+	circle_euler_angle_solve.encoder_merge_enable_flag = True;
+	box_euler_angle_solve.encoder_merge_enable_flag = True;
 	
 	system_delay_ms(100);
 		
@@ -369,6 +374,9 @@ void debug(void)
 	flag_init();
 	// 变量初始化
 	variable_init();
+	// 清空识别结果列表
+	detection_result_num = 0;
+	memset(detection_result_list, 0, sizeof(detection_result_list));	// 识别结果列表
 	
 	system_delay_ms(200);
 	
@@ -383,10 +391,12 @@ void debug(void)
 	zebra_enable_flag = True;
 	zebra_path_timer.ticking_flag = False;
 	rwr_timer.ticking_flag = True;
-	speed_slow_change_timer.ticking_flag = True;
 	box_XY_finsh_flag = False;
 	angle_rotate_finsh_flag = False;
 	circle_rotate_finsh_flag = False;
+	rotate_euler_angle_solve.encoder_merge_enable_flag = True;
+	circle_euler_angle_solve.encoder_merge_enable_flag = True;
+	box_euler_angle_solve.encoder_merge_enable_flag = True;
 		
 	while(1)
 	{
@@ -497,7 +507,7 @@ void sensor_calibrate(void)
 		menu_point();
 		menu_title_show();		
 		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True){
-			#ifdef SPEED_AND_CURRENT
+			#ifndef SPEED
 			if(current_1.current_calibration_flag == True && current_2.current_calibration_flag == True && current_3.current_calibration_flag == True){
 				menu_root_page();
 			}
@@ -818,6 +828,13 @@ void menu_ai_camera_1_and_2_page(void)
 	menu_page_init(menu_ai_camera_1_and_2_page);
 	while(1)
 	{
+		/* 发送开始识别串口 */
+		uint8 detection_start[5] = {0x4f, 0x16, 0x08, 0x76, 0x76};
+		uart_write_buffer(AI_CAMERA_1_UART_INDEX, detection_start, sizeof(detection_start));
+		#ifndef AI_CAMERA_MERGE
+		uart_write_buffer(AI_CAMERA_2_UART_INDEX, detection_start, sizeof(detection_start));
+		#endif
+		
 		menu_back(NULL);
 		menu_point();
 		menu_data_change(menu_ai_camera_1_and_2_data_add_service,menu_ai_camera_1_and_2_data_reduce_service);
@@ -862,7 +879,7 @@ void menu_ai_camera_1_and_2_page(void)
 		else if(detection_result.tool == 0X10)
 		{
 			screen_string(0,6*MENU_ROW_PITCH,"              ");
-			screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,detection_result.num,3);
+			screen_int(0,6*MENU_ROW_PITCH,detection_result.num,3);
 		}
 		
 		screen_string(0,8*MENU_ROW_PITCH,"DETECTION_RAW_DATA");
@@ -879,10 +896,9 @@ void menu_detection_list(void)
 	
 	int8 detection_list_page_num = 0;
 	int8 row_num = MAX_ROW-2;
-	// 标志位初始化
-	flag_init();
-	// 变量初始化
-	variable_init();
+	dog_rwr.radar_scanning_enable_flag = False;
+	dog_rwr.radar_tracking_enable_flag = False;
+	dog_rwr.missile_launch_enable_flag = False;		
 	
 	while(1)
 	{
@@ -910,37 +926,33 @@ void menu_detection_list(void)
 			detection_list_page_num = ROUND(detection_result_num,row_num);
 		
 		// 支持无限页数
-		for(int i = 0;i < detection_result_num;i++)
+		for(int i = detection_list_page_num*(MAX_ROW-2);i < (detection_list_page_num+1)*(MAX_ROW-2);i++)
 		{
-			if(i >= detection_list_page_num*(MAX_ROW-2) && i < (detection_list_page_num+1)*(MAX_ROW-2))
+			if(detection_result_list[i].tool != 0X10)
 			{
-				screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3);
-				if(detection_result_list[i].tool != 0X10)
+				switch(detection_result_list[i].tool)
 				{
-					switch(detection_result_list[i].tool)
-					{
-						case wrench:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"WRENCH"); break; }
-						case soldering_iron:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"SOLDERING_IRON"); break; }
-						case electrodrill:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"ELECTRODRILL"); break; }
-						case tape_measure:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"TAPE_MEASURE"); break; }
-						case screwdriver:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"SCREWDRIVER"); break; }
-						case pliers:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"PLIERS"); break; }
-						case oscillograph:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"OSCILLOGRAPH"); break; }
-						case multimeter:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"MULTIMETER"); break; }
-						case printer:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"PRINTER"); break; }
-						case keyboard:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"KEYBOARD"); break; }
-						case mobilephone:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"MOBILEPHONE"); break; }
-						case mouse:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"MOUSE"); break; }
-						case headphones:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"HEADPHONES"); break; }
-						case monitor:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"MONITOR"); break; }
-						case speaker:{ screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"SPEAKER"); break; }
-						default:break;
-					}
+					case wrench:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"WRENCH"); break; }
+					case soldering_iron:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"SOLDERING_IRON"); break; }
+					case electrodrill:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"ELECTRODRILL"); break; }
+					case tape_measure:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"TAPE_MEASURE"); break; }
+					case screwdriver:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"SCREWDRIVER"); break; }
+					case pliers:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"PLIERS"); break; }
+					case oscillograph:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"OSCILLOGRAPH"); break; }
+					case multimeter:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"MULTIMETER"); break; }
+					case printer:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"PRINTER"); break; }
+					case keyboard:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"KEYBOARD"); break; }
+					case mobilephone:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"MOBILEPHONE"); break; }
+					case mouse:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"MOUSE"); break; }
+					case headphones:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"HEADPHONES"); break; }
+					case monitor:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"MONITOR"); break; }
+					case speaker:{ screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3); screen_string(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,"SPEAKER"); break; }
+					default:break;
 				}
-				else if(detection_result_list[i].tool == 0X10)
-				{
-					screen_int(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,detection_result_list[i].num,3);
-				}
+			}
+			else if(detection_result_list[i].tool == 0X10)
+			{
+				screen_int(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,detection_result_list[i].num,3);
 			}
 			vofa_debug();
 		}
@@ -1408,7 +1420,7 @@ void menu_plan_data_add_service(void)
 	{
 		case 0:{ plan_idx+=1; break; }
 	}
-	if(plan_idx > 2)
+	if(plan_idx > 3)
 		plan_idx = 0;
 }
 void menu_plan_data_reduce_service(void)
@@ -1417,8 +1429,8 @@ void menu_plan_data_reduce_service(void)
 	{
 		case 0:{ plan_idx-=1; break; }
 	}
-	if(plan_idx > 2)
-		plan_idx = 2;
+	if(plan_idx > 3)
+		plan_idx = 3;
 }
 
 /* 电机数据页面服务 */

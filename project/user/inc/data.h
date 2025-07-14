@@ -98,48 +98,49 @@ typedef struct _ai_camera_detection_result_{
 }_ai_camera_detection_result_;
 
 /* 类定义 */
-extern DOG_MOTOR motor_1;					// 电机1
-extern DOG_MOTOR motor_2;					// 电机2
-extern DOG_MOTOR motor_3;					// 电机3
-extern DOG_ENCODER encoder_1;				// 编码器1
-extern DOG_ENCODER encoder_2;				// 编码器2
-extern DOG_ENCODER encoder_3;				// 编码器3
-extern DOG_CURRENT current_1;				// 电流采样1
-extern DOG_CURRENT current_2;				// 电流采样2
-extern DOG_CURRENT current_3;				// 电流采样3
-extern DOG_VOLTAGE gray_sensor;				// 灰度传感器
-extern DOG_VOLTAGE bat_voltage;				// 电池电压检测
-extern DOG_KARMAN_FILTER current_1_karman;	// 电流采样1 卡尔曼滤波 
-extern DOG_KARMAN_FILTER current_2_karman;	// 电流采样2 卡尔曼滤波 
-extern DOG_KARMAN_FILTER current_3_karman;	// 电流采样3 卡尔曼滤波 
-extern DOG_KARMAN_FILTER path_gyro_karman;	// 路径陀螺仪 卡尔曼滤波 
-extern DOG_PID motor_1_pid;					// 电机PID1
-extern DOG_PID motor_2_pid;					// 电机PID2
-extern DOG_PID motor_3_pid;					// 电机PID3
-extern DOG_PID current_1_pid;				// 电机电流PID1
-extern DOG_PID current_2_pid;				// 电机电流PID2
-extern DOG_PID current_3_pid;				// 电机电流PID3
-extern DOG_PID path_pid;					// 路径PID
-extern DOG_PID path_gyroz_pid;				// 路径陀螺仪PID
-extern DOG_PID angle_rotate_pid;			// 角度环旋转PID
-extern DOG_PID circle_rotate_pid;			// 圆环旋转PID
-extern DOG_PID box_x_pid;					// 箱子X PID
-extern DOG_PID box_y_pid;					// 箱子Y PID
-extern DOG_VOFA wireless_vofa;				// 无线串口VOFA
-extern DOG_IMU imu660ra;					// IMU660RA陀螺仪
-extern DOG_SOLVE euler_angle_solve;			// 欧拉角解算
-extern DOG_SOLVE rotate_euler_angle_solve;	// 旋转欧拉角解算
-extern DOG_SOLVE circle_euler_angle_solve;	// 圆环欧拉角解算
-extern DOG_SOLVE box_euler_angle_solve;		// 箱子欧拉角解算
-extern DOG_SOLVE chassis_solve;				// 底盘解算
-extern DOG_SOLVE displacement_solve;		// 位移解算
-extern DOG_TIMER zebra_path_timer;			// 斑马线计时器
-extern DOG_TIMER speed_slow_change_timer;   // 缓变速计时器
-extern DOG_TIMER motor_debug_timer;         // 电机调试计时器
-extern DOG_TIMER rwr_timer;					// RWR计时器
-extern DOG_CV dog_cv;						// 计算机视觉
-extern DOG_PATH dog_path;					// 循迹
-extern DOG_RWR dog_rwr;						// RWR
+extern DOG_MOTOR motor_1;						// 电机1
+extern DOG_MOTOR motor_2;						// 电机2
+extern DOG_MOTOR motor_3;						// 电机3
+extern DOG_ENCODER encoder_1;					// 编码器1
+extern DOG_ENCODER encoder_2;					// 编码器2
+extern DOG_ENCODER encoder_3;					// 编码器3
+extern DOG_CURRENT current_1;					// 电流采样1
+extern DOG_CURRENT current_2;					// 电流采样2
+extern DOG_CURRENT current_3;					// 电流采样3
+extern DOG_VOLTAGE gray_sensor;					// 灰度传感器
+extern DOG_VOLTAGE bat_voltage;					// 电池电压检测
+extern DOG_KARMAN_FILTER current_1_karman;		// 电流采样1 卡尔曼滤波 
+extern DOG_KARMAN_FILTER current_2_karman;		// 电流采样2 卡尔曼滤波 
+extern DOG_KARMAN_FILTER current_3_karman;		// 电流采样3 卡尔曼滤波 
+extern DOG_KARMAN_FILTER path_gyro_karman;		// 路径陀螺仪 卡尔曼滤波 
+extern DOG_KARMAN_FILTER box_center_x_karman;	// 箱子中点X坐标 卡尔曼滤波 
+extern DOG_KARMAN_FILTER box_width_karman;		// 箱子宽度 卡尔曼滤波 
+extern DOG_PID motor_1_pid;						// 电机PID1
+extern DOG_PID motor_2_pid;						// 电机PID2
+extern DOG_PID motor_3_pid;						// 电机PID3
+extern DOG_PID current_1_pid;					// 电机电流PID1
+extern DOG_PID current_2_pid;					// 电机电流PID2
+extern DOG_PID current_3_pid;					// 电机电流PID3
+extern DOG_PID path_pid;						// 路径PID
+extern DOG_PID path_gyroz_pid;					// 路径陀螺仪PID
+extern DOG_PID angle_rotate_pid;				// 角度环旋转PID
+extern DOG_PID circle_rotate_pid;				// 圆环旋转PID
+extern DOG_PID box_x_pid;						// 箱子X PID
+extern DOG_PID box_y_pid;						// 箱子Y PID
+extern DOG_VOFA wireless_vofa;					// 无线串口VOFA
+extern DOG_IMU imu660ra;						// IMU660RA陀螺仪
+extern DOG_SOLVE euler_angle_solve;				// 欧拉角解算
+extern DOG_SOLVE rotate_euler_angle_solve;		// 旋转欧拉角解算
+extern DOG_SOLVE circle_euler_angle_solve;		// 圆环欧拉角解算
+extern DOG_SOLVE box_euler_angle_solve;			// 箱子欧拉角解算
+extern DOG_SOLVE chassis_solve;					// 底盘解算
+extern DOG_SOLVE displacement_solve;			// 位移解算
+extern DOG_TIMER zebra_path_timer;				// 斑马线计时器
+extern DOG_TIMER motor_debug_timer;         	// 电机调试计时器
+extern DOG_TIMER rwr_timer;						// RWR计时器
+extern DOG_CV dog_cv;							// 计算机视觉
+extern DOG_PATH dog_path;						// 循迹
+extern DOG_RWR dog_rwr;							// RWR
 
 /* 使能标志位 */
 extern _bool_ circle_enable_flag;			// 圆环 使能标志位
@@ -196,8 +197,6 @@ extern float angle_rotation_yaw_target;				// 目标角度环旋转角度
 extern float circle_rotation_yaw_target;			// 目标圆环旋转角度
 extern float data_1;								// 运动学逆解算参数1（线速度/X速度）
 extern float data_2;								// 运动学逆解算参数2（航向角/Y速度）
-extern float x_speed_slow_change_rate;				// X缓变速率（越大缓变速越快）
-extern float y_speed_slow_change_rate;				// Y缓变速率（越大缓变速越快）
 extern float x_speed_rate;							// 循线x速度比例（目标循线x速度/目标循线旋转速度）
 /* 箱子 */
 extern int16 detection_center_err;						// 识别框中心误差
@@ -226,17 +225,15 @@ extern float last_box_world_y;							// 上一个箱子相对于起始点的世界Y坐标
 extern float box_distance;								// 箱子间距
 /* 速度/角度/时间 */
 extern uint8 plan_idx;								// 方案索引（由低至高，方案速度逐渐变快）	
-extern float path_y_speed_target[3];				// 目标循迹Y速度
-extern float circle_y_speed_target[3];				// 目标圆环Y速度
+extern float path_y_speed_target[4];				// 目标循迹Y速度
+extern float circle_y_speed_target[4];				// 目标圆环Y速度
 extern float path_x_speed_enable_y_speed_rate;		// 目标循迹Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
 extern float circle_x_speed_enable_y_speed_rate;	// 目标圆环Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
 extern float circle_angular_speed_target;			// 出入环目标角速度
 extern float circle_angle_target[2];				// 出入环目标转动角度
 extern float box_x_speed_target;					// 箱子目标X速度
 extern float box_x_angular_speed_rate;				// 箱子 转动速度/X速度 比例
-extern float box_fxxk_y_speed_target[3];			// 推箱子Y速度目标值
-extern uint32 last_x_speed_slow_change_timer_time;	// X缓变速上一次计时器时间
-extern uint32 last_y_speed_slow_change_timer_time;	// Y缓变速上一次计时器时间
+extern float box_fxxk_y_speed_target[4];			// 推箱子Y速度目标值
 
 /* PID参数 */
 // 电机
@@ -267,11 +264,11 @@ extern float BOX_Y_RANGE[3];
 extern float BOX_Y_PID[4][5];
 
 /* KARMAN滤波器参数 */
-extern float MOTOR_1_KARMAN[2];
-extern float MOTOR_2_KARMAN[2];
-extern float MOTOR_3_KARMAN[2];
 extern float I_KARMAN[2];
 extern float PATH_GYRO_KARMAN[2];
+extern float BOX_CENTER_X_KARMAN[2];
+extern float BOX_WIDTH_KARMAN[2];
+
 
 /* 模糊PID 规则表 */
 extern _fuzzy_subset_ motor_fuzzy_rules[8][8];
