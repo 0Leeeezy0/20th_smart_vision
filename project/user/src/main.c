@@ -71,10 +71,14 @@ int main(void)
 	/* 电池电压检测 */
 	voltage(&bat_voltage, BAT_VOLTAGE_PIN, ADC_12BIT);
 	
-	/* 电流卡滤波 */
+	/* 电流卡尔曼滤波 */
 	karman(&current_1_karman, I_KARMAN[0], I_KARMAN[1]);
 	karman(&current_2_karman, I_KARMAN[0], I_KARMAN[1]);
 	karman(&current_3_karman, I_KARMAN[0], I_KARMAN[1]);
+	
+	/* AI CAMERA 0卡尔曼滤波 */
+	karman(&box_center_x_karman, BOX_CENTER_X_KARMAN[0], BOX_CENTER_X_KARMAN[1]);
+	karman(&box_width_karman, BOX_WIDTH_KARMAN[0], BOX_WIDTH_KARMAN[1]);
     
     /* 路径陀螺仪滤波 */
     karman(&path_gyro_karman, PATH_GYRO_KARMAN[0], PATH_GYRO_KARMAN[1]);
@@ -88,7 +92,7 @@ int main(void)
 	/* 计时器 */
 	timer(&zebra_path_timer, 5);
     timer(&motor_debug_timer, 5);
-	timer(&speed_slow_change_timer, 5);
+	timer(&rwr_timer, 5);
 	
 	/* 欧拉角解算 */
 	solve(&euler_angle_solve, RADIUS, SENSOR_SOLVE_IT_TIME);
@@ -107,6 +111,9 @@ int main(void)
 	
 	/* 路径 */
 	path(&dog_path, path_start, path_end, side_extract_start_y, side_extract_end_y, prediction_point);
+	
+	/* RWR */
+	rwr(&dog_rwr, BUZZER_PIN, &rwr_timer.time);
 	
 	/* PID */
 	pid(&motor_1_pid);
@@ -159,24 +166,9 @@ int main(void)
 	/* 菜单 */
 	menu_init();
 	
-	/* 标志位 */
-//	euler_angle_solve.solve_flag = True;
-//	rotate_euler_angle_solve.solve_flag = False;
-//	circle_euler_angle_solve.solve_flag = False;
-//	box_euler_angle_solve.solve_flag = False;
-//	chassis_solve.solve_flag = True;
-//	displacement_solve.solve_flag = True;
-//	circle_enable_flag = True;
-//	zebra_enable_flag = True;
-//	zebra_path_timer.ticking_flag = False;
-//	circle_in_timer.ticking_flag = False;
-//	circle_out_timer.ticking_flag = True;
-//	box_XY_finsh_flag = False;
-//	rotate_finsh_flag = False;
-	
 	circle_enable_flag = True;			// 圆环 使能标志位
 	zebra_enable_flag = True;			// 斑马线 使能标志位
-	ai_camera_0_enable_flag = False;		// AI相机0 使能标志位
+	ai_camera_0_enable_flag = True;		// AI相机0 使能标志位
 	ai_camera_1_enable_flag = False;		// AI相机1 使能标志位
 	ai_camera_2_enable_flag = False;		// AI相机2 使能标志位
 	
@@ -192,7 +184,7 @@ int main(void)
 
     // 此处编写用户代码 例如外设初始化代码等
     while(1)
-    {
+    {	
 		// 此处编写需要循环执行的代码
 		#ifdef SPEED
 		if(imu660ra.gyro_calibration_flag == True && imu660ra.acc_calibration_flag == True && ai_camera_0_init_flag == True && detection_result.ai_camera_init_flag[0] == True && detection_result.ai_camera_init_flag[1] == True)
@@ -203,6 +195,9 @@ int main(void)
 		#endif
 			// 此处编写需要循环执行的代码
 			menu_service_start(); 
+//			control_kind = XY2Inv2Speed;
+//			wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)detection_box_center_x, (float)detection_box_width, (float)box_center_x_karman.value, (float)box_width_karman.value);
+//			wireless_vofa.justfloat_send(&wireless_vofa);
 		}
     }
 	

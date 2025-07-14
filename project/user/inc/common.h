@@ -150,7 +150,7 @@
 #define TIMER_IT_CH 							( PIT_CH2 )				// 计时器中断号
 #define TIMER_IT_TIME							( 5 )					// 计时器中断周期 ms
 #define MENU_KEY_SCAN_IT_CH 					( PIT_CH3 )				// 按键扫描中断号
-#define MENU_KEY_SCAN_IT_TIME					( 20 )  				// 按键扫描中断周期 ms
+#define MENU_KEY_SCAN_IT_TIME					( 40 )  				// 按键扫描中断周期 ms
 #define AI_CAMERA_0_UART_PRIORITY     			( LPUART4_IRQn )  		// AI摄像头0 串口接收中断号
 #define AI_CAMERA_1_UART_PRIORITY     			( LPUART1_IRQn )  		// AI摄像头1 串口接收中断号
 #define AI_CAMERA_2_UART_PRIORITY     			( LPUART2_IRQn )  		// AI摄像头1 串口接收中断号
@@ -176,6 +176,7 @@
 #include "DOG_filter.h"
 #include "DOG_pid.h"
 #include "DOG_timer.h"
+#include "DOG_rwr.h"
 //#include "DOG_menu.h"
 
 /* 用户头文件 */
