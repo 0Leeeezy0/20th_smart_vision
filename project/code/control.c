@@ -350,7 +350,7 @@ static void angle_rotate_pid_calc(void){
 	float i_limit[4] = { ROTATE_PID[0][3], ROTATE_PID[1][3], ROTATE_PID[2][3], ROTATE_PID[3][3] };
 	float output_limit[4] = { ROTATE_PID[0][4], ROTATE_PID[1][4], ROTATE_PID[2][4], ROTATE_PID[3][4] };
 	
-	angle_rotate_pid.fuzzy_pid(&angle_rotate_pid, &rotate_euler_angle_solve.yaw, Kp, Ki, Kd, i_limit, output_limit, 1);
+	angle_rotate_pid.fuzzy_pid(&angle_rotate_pid, &err, Kp, Ki, Kd, i_limit, output_limit, 1);
 	
 	angular_speed_target = angle_rotate_pid.positional_pid(&angle_rotate_pid, angle_rotation_yaw_target, rotate_euler_angle_solve.yaw);
 
@@ -373,7 +373,7 @@ static void circle_rotate_pid_calc(void){
 	float i_limit[4] = { ROTATE_PID[0][3], ROTATE_PID[1][3], ROTATE_PID[2][3], ROTATE_PID[3][3] };
 	float output_limit[4] = { circle_angular_speed_target, circle_angular_speed_target, circle_angular_speed_target, circle_angular_speed_target };
 	
-	circle_rotate_pid.fuzzy_pid(&circle_rotate_pid, &circle_euler_angle_solve.yaw, Kp, Ki, Kd, i_limit, output_limit, 1);
+	circle_rotate_pid.fuzzy_pid(&circle_rotate_pid, &err, Kp, Ki, Kd, i_limit, output_limit, 1);
 	
 	angular_speed_target = circle_rotate_pid.positional_pid(&circle_rotate_pid, circle_rotation_yaw_target, circle_euler_angle_solve.yaw);
 
