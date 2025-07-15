@@ -209,7 +209,7 @@ extern int16 detection_box_center_x;					// 识别框中心横坐标
 extern uint16 detection_box_center_x_limit;				// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
 extern uint8 box_y_track_enable_center_x_limit;			// 箱子Y方向定位使能的中心横坐标阈值
 extern _ai_camera_detection_result_ detection_result;	// 识别结果
-extern _ai_camera_detection_result_ detection_result_list[100];	// 识别结果列表
+extern _ai_camera_detection_result_ detection_result_list[BOX_NUM_MAX];	// 识别结果列表
 extern uint8 detection_result_num;						// 识别结果列表数量
 extern uint16 rectificate_weight[4];					// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
 extern uint32 sum_weight;								// 加权和
@@ -220,8 +220,9 @@ extern float sum_weight_normalization_limit[2];			// 加权和归一化阈值
 extern float frame_white_num_normalization[2];			// 对称法矫正图像左右边框白点数量归一化
 extern float frame_white_num_normalization_limit;		// 对称法矫正图像左右边框白点数量归一化阈值
 extern uint16 frame_offset;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
-extern float last_box_world_x;							// 上一个箱子相对于起始点的世界X坐标
-extern float last_box_world_y;							// 上一个箱子相对于起始点的世界Y坐标
+extern float last_box_world_x[BOX_NUM_MAX];				// 上一个箱子相对于起始点的世界X坐标
+extern float last_box_world_y[BOX_NUM_MAX];				// 上一个箱子相对于起始点的世界Y坐标
+extern uint8 box_num;									// 已经推过的箱子数量
 extern float box_distance;								// 箱子间距
 /* 速度/角度/时间 */
 extern uint8 plan_idx;								// 方案索引（由低至高，方案速度逐渐变快）	
@@ -229,7 +230,7 @@ extern float path_y_speed_target[4];				// 目标循迹Y速度
 extern float circle_y_speed_target[4];				// 目标圆环Y速度
 extern float path_x_speed_enable_y_speed_rate;		// 目标循迹Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
 extern float circle_x_speed_enable_y_speed_rate;	// 目标圆环Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
-extern float circle_angular_speed_target;			// 出入环目标角速度
+extern float circle_angular_speed_target[4];			// 出入环目标角速度
 extern float circle_angle_target[2];				// 出入环目标转动角度
 extern float box_x_speed_target;					// 箱子目标X速度
 extern float box_x_angular_speed_rate;				// 箱子 转动速度/X速度 比例

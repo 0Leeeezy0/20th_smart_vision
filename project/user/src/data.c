@@ -112,7 +112,7 @@ int16 detection_box_center_x;					// 识别框中心横坐标
 uint16 detection_box_center_x_limit = 65;		// 识别框中心横坐标阈值（在阈值范围内才可以进入箱子追踪模式）
 uint8 box_y_track_enable_center_x_limit = 40;	// 箱子Y方向定位使能的中心横坐标阈值
 _ai_camera_detection_result_ detection_result;	// 识别结果
-_ai_camera_detection_result_ detection_result_list[100] = {0};	// 识别结果列表
+_ai_camera_detection_result_ detection_result_list[BOX_NUM_MAX] = {0};	// 识别结果列表
 uint8 detection_result_num = 0;					// 识别结果列表数量
 uint16 rectificate_weight[4] = {1 ,5 ,55 ,85};	// 矫正权重（中线±MT9V03X_W/8 ，中线±2*MT9V03X_W/8 ，中线±3*MT9V03X_W/8 ，中线±4*MT9V03X_W/8）
 uint32 sum_weight = 0;							// 加权和
@@ -123,20 +123,21 @@ float sum_weight_normalization_limit[2] = {0.94, 0.80};	// 加权和归一化阈值
 float frame_white_num_normalization[2] = {0};			// 对称法矫正图像左右边框白点数量归一化
 float frame_white_num_normalization_limit = 0.25;		// 对称法矫正图像左右边框白点数量归一化阈值
 uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率超级大的弯道无法使用对称法进行矫正） 
-float last_box_world_x = 0;								// 上一个箱子相对于起始点的世界X坐标
-float last_box_world_y = 0;								// 上一个箱子相对于起始点的世界Y坐标
+float last_box_world_x[BOX_NUM_MAX] = {0};				// 上一个箱子相对于起始点的世界X坐标
+float last_box_world_y[BOX_NUM_MAX] = {0};				// 上一个箱子相对于起始点的世界Y坐标
+uint8 box_num = 0;										// 已经推过的箱子数量
 float box_distance = 100;								// 箱子间距
 /* 速度/角度/时间 */
 uint8 plan_idx = 0;									// 方案索引（由低至高，方案速度逐渐变快）			
-float path_y_speed_target[4] = {130, 170, 190, 210};		// 目标循迹Y速度
-float circle_y_speed_target[4] = {130, 160, 180, 200};		// 目标圆环Y速度
+float path_y_speed_target[4] = {170, 170, 180, 190};		// 目标循迹Y速度
+float circle_y_speed_target[4] = {160, 170, 170, 180};		// 目标圆环Y速度
 float path_x_speed_enable_y_speed_rate = 0.8;		// 目标循迹Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
 float circle_x_speed_enable_y_speed_rate = 0.8;		// 目标圆环Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
-float circle_angular_speed_target = 50;				// 出入环目标角速度
+float circle_angular_speed_target[4] = {45, 50, 50, 55 };	// 出入环目标角速度
 float circle_angle_target[2] = {70, 65};			// 出入环目标转动角度
-float box_x_speed_target = 65;						// 箱子目标X速度
+float box_x_speed_target = 75;						// 箱子目标X速度
 float box_x_angular_speed_rate = 0.33;				// 箱子 转动速度/X速度 比例（越大旋转半径越小）
-float box_fxxk_y_speed_target[4] = {80, 80, 80, 80};	// 推箱子Y速度目标值
+float box_fxxk_y_speed_target[4] = {110, 120, 120, 120};	// 推箱子Y速度目标值
 
 /*    PID参数     			Kp     Ki     Kd     积分限幅     输出限幅     陀螺仪Kd */
 // 电机
@@ -192,22 +193,23 @@ float PATH_PID[3][4][6] ={{{ 2.3, 0,     0.0,   2,           75,          0.25},
 
 // 旋转
 float ROTATE_RANGE[3] =   { 15.0,  50.0,  120.0 };		// 角度环误差区间						  
-float ROTATE_PID[4][5] = {{ 0.7,   0,     1.54,  20,          45 },
-						  { 1.3,   0,     1.20,  20,          75 },
+float ROTATE_PID[4][5] = {{ 0.8,   0,     1.54,  20,          45 },
+						  { 1.35,  0,     1.20,  20,          75 },
 						  { 1.6,   0,     0.84,  20,          105 },
 						  { 2.1,   0,     0.58,  20,	      130 }};							  
 // BOX X
 float BOX_X_RANGE[3] =    { 10.0,  20.0,  30.0 };		// BOX X误差区间	
-float BOX_X_PID[4][5] =  {{ 0.45,  0,     1.27,  2,           35 },
+float BOX_X_PID[4][5] =  {{ 0.45,  0,     2.27,  2,           35 },
 						  { 0.75,  0,     1.00,  2,           60 },
-					      { 0.9,   0,     0.37,  2,           80 },
-						  { 1.2,   0,     0.47,  2,           100 }};					  
+					      { 1.5,   0,     0.37,  2,           90 },
+						  { 2.1,   0,     0.47,  2,           130 }};	
+
 // BOX Y
 float BOX_Y_RANGE[3] =    { 10.0,  20.0,  45.0 };		// BOX Y误差区间	
-float BOX_Y_PID[4][5] =  {{ 0.45,  0,     1.27,  2,           35 },
-						  { 0.75,  0,     1.00,  2,           60 },
-					      { 1.2,   0,     0.37,  2,           80 },
-						  { 1.7,   0,     0.47,  2,           100 }};
+float BOX_Y_PID[4][5] =  {{ 0.45,  0,     2.27,  2,           35 },
+						  { 0.85,  0,     1.00,  2,           60 },
+					      { 1.5,   0,     0.37,  2,           90 },
+						  { 2.1,   0,     0.47,  2,           130 }};
  
 /* KARMAN滤波器参数		   	 Q     R     Q越小越平滑   R越小越接近(收敛越快)*/
 float I_KARMAN[2] = 	   { 0.01, 0.1};
@@ -317,15 +319,16 @@ void variable_init(void){
 	path_state = common_path;			// 赛道状态
 	last_path_state = common_path;		// 上一次赛道状态
 	control_kind = Stop;				// 控制类型
-	memset(wheel_speed_target, 0, sizeof(wheel_speed_target));			// 轮子目标速度
-	memset(motor_current_target, 0, sizeof(motor_current_target));		// 电机电流目标值
-	memset(motor_pwm_duty, 0, sizeof(motor_pwm_duty));					// 电机PWM占空比
+	memset(wheel_speed_target, 0, sizeof(wheel_speed_target));		// 轮子目标速度
+	memset(motor_current_target, 0, sizeof(motor_current_target));	// 电机电流目标值
+	memset(motor_pwm_duty, 0, sizeof(motor_pwm_duty));				// 电机PWM占空比
 	sum_weight_normalization = 0;		// 加权和归一化	
-	last_box_world_x = 0;				// 上一个箱子相对于起始点的世界X坐标
-	last_box_world_y = 0;				// 上一个箱子相对于起始点的世界Y坐标
+	memset(last_box_world_x, 0, sizeof(last_box_world_x));			// 上一个箱子相对于起始点的世界X坐标    
+	memset(last_box_world_y, 0, sizeof(last_box_world_y));			// 上一个箱子相对于起始点的世界Y坐标
+	box_num = 0;						// 已经推过的箱子数量
 	linear_speed_target = 0;			// 目标线速度
 	translation_yaw_target = 0;			// 目标平动角度
-	x_speed_target = 0;					// 目标x速度
+	x_speed_target = 0;					// 目标x速度    
 	y_speed_target = 0;					// 目标y速度
 	angular_speed_target = 0;			// 目标旋转速度
 	angle_rotation_yaw_target = 0;		// 目标角度环旋转角度
