@@ -83,6 +83,9 @@ int main(void)
     /* Â·¾¶ÍÓÂÝÒÇÂË²¨ */
     karman(&path_gyro_karman, PATH_GYRO_KARMAN[0], PATH_GYRO_KARMAN[1]);
 	
+	/* Î»ÒÆ½âËãÍÓÂÝÒÇÂË²¨ */
+	karman(&displacement_solve_gyro_karman, PATH_GYRO_KARMAN[0], PATH_GYRO_KARMAN[1]);
+	
 	/* VOFA */
 	vofa(&wireless_vofa, WIRELESS_UART_INDEX, 115200, WIRELESS_UART_TX_PIN, WIRELESS_UART_RX_PIN);
 	

@@ -131,6 +131,8 @@ void menu_service_start(void)
 	screen_string(20,40,"YJC");
 	screen_string(20,60,"SJC");
 	screen_string(20,80,"LZY");
+	screen_string(20,100,"CAMERA TEST");
+	screen_image(20, 120, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
 	system_delay_ms(1000);
 	menu_root_page();
 }
@@ -952,6 +954,7 @@ void menu_detection_list(void)
 			}
 			else if(detection_result_list[i].tool == 0X10)
 			{
+				screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3);
 				screen_int(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,detection_result_list[i].num,3);
 			}
 			vofa_debug();

@@ -115,6 +115,7 @@ extern DOG_KARMAN_FILTER current_3_karman;		// 电流采样3 卡尔曼滤波
 extern DOG_KARMAN_FILTER path_gyro_karman;		// 路径陀螺仪 卡尔曼滤波 
 extern DOG_KARMAN_FILTER box_center_x_karman;	// 箱子中点X坐标 卡尔曼滤波 
 extern DOG_KARMAN_FILTER box_width_karman;		// 箱子宽度 卡尔曼滤波 
+extern DOG_KARMAN_FILTER displacement_solve_gyro_karman;	// 位移解算 卡尔曼滤波
 extern DOG_PID motor_1_pid;						// 电机PID1
 extern DOG_PID motor_2_pid;						// 电机PID2
 extern DOG_PID motor_3_pid;						// 电机PID3
@@ -253,7 +254,7 @@ extern float I_3_PID[5];
 // 循线
 extern float PATH_RANGE[2][3];
 extern float GYRO_RANGE[2][3];
-extern float PATH_PID[3][4][6];
+extern float PATH_PID[4][4][6];
 // 旋转
 extern float ROTATE_RANGE[3];
 extern float ROTATE_PID[4][5];						  
