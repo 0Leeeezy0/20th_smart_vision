@@ -217,7 +217,7 @@ void fsm(void){
 				// 防止两个摄像头都失能时，数据乱变（我也不知道为啥数据会乱跳）
 				if(ai_camera_1_enable_flag == False && ai_camera_2_enable_flag == False)
 					box_dir = 1;
-				x_speed_slow_change(box_dir*box_x_speed_target, 0.0085, True);	// X缓加速
+				x_speed_slow_change(box_dir*box_x_speed_target, 0.012, True);	// X缓加速
 				y_speed_target = 0;
 				angular_speed_target = -box_dir*fabsf(x_speed_target)*box_x_angular_speed_rate;	// 不能用实际值，否则会导致旋转速度和X速度不匹配，从而旋转错误
 				// 计算对称度
@@ -280,7 +280,7 @@ void fsm(void){
 			/* 运动设置 */
 			control_kind = Inv2Speed; 				// 设置控制类型
 			move_solve_kind = XY_SPEED_SOLVE;		// 设置解算类型
-			x_speed_slow_change(-box_dir*box_x_speed_target, 0.0085, True);	// X缓加速
+			x_speed_slow_change(-box_dir*box_x_speed_target, 0.012, True);	// X缓加速
 			y_speed_target = 0;
 			angular_speed_target = box_dir*fabsf(x_speed_target)*box_x_angular_speed_rate;
 			
@@ -351,7 +351,7 @@ void fsm(void){
 			control_kind = X2Inv2Speed;		// 设置控制模式
 //			y_speed_target = box_fxxk_y_speed_target[plan_idx];
 			angular_speed_target = -PATH_PID[plan_idx][0][5]*imu660ra.gyro_z;
-			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], 0.009, True);		// 设置推箱子目标速度  
+			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], 0.012, True);		// 设置推箱子目标速度  
 			/* 判断是否在赛道内 */
 			if(gray_sensor.voltage < 0.3 && num < 22)	// 在赛道内计数自增
 				num++;
@@ -373,8 +373,9 @@ void fsm(void){
 				is_in_track = False;	
 				num = 0;
 				// 记录推箱子完成时的坐标
-				last_box_world_x = displacement_solve.world_x_displacement;
-				last_box_world_y = displacement_solve.world_y_displacement;
+				last_box_world_x[box_num] = displacement_solve.world_x_displacement;
+				last_box_world_y[box_num] = displacement_solve.world_y_displacement;
+				box_num++;
 				box_fxxk_finsh_distance = displacement_solve.distance;	// 记录推离箱子时的路程
 				/* 标志位设置 */
 				box_X_finsh_flag = False;
@@ -411,7 +412,7 @@ void fsm(void){
 					wheel_speed_target[1] = 0;
 					wheel_speed_target[2] = 0;
 					
-					y_speed_target = 0;			// 设置循线Y速度缓启动速度
+					y_speed_target = 60;		// 设置循线Y速度缓启动速度
 					/* 变量设置 */
 					dog_path.mid_x = MT9V03X_W/2;						// 设置循线起始中点（一定要有这个，不然会原地掉头）
 					// 最长白列
@@ -452,7 +453,7 @@ void fsm(void){
 				x_speed_target = angular_speed_target*x_speed_rate;
 			else
 				x_speed_target = 0;
-			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.008, True);				// Y缓变速
+			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.012, True);				// Y缓变速
 		}
 		// 普通赛道/斑马线
 		else{
@@ -464,7 +465,7 @@ void fsm(void){
 				x_speed_target = angular_speed_target*x_speed_rate;
 			else
 				x_speed_target = 0;
-			y_speed_slow_change(path_y_speed_target[plan_idx], 0.009, True);					// Y缓变速
+			y_speed_slow_change(path_y_speed_target[plan_idx], 0.014, True);					// Y缓变速
 		}
 	}
 }
@@ -587,11 +588,18 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 	}
 	// 箱子状态判断
 	// 箱子一次定位（宽度超过阈值且中心坐标在范围内时进入定位状态 或 高度超过阈值时进入状态 防止箱子在图像边缘导致无法进入定位状态从而掠过箱子）
-	if(ai_camera_0_enable_flag == True && ((detection_box_width >= detection_box_width_limit && abs(detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2) <= detection_box_center_x_limit) || detection_box_height >= detection_box_height_limit) && PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x),(displacement_solve.world_y_displacement-last_box_world_y)) >= box_distance){
-		// 识别框宽度或高度超过阈值，进入箱子定位状态
-		path_state_return = box_first_track;
-		box_track_num = 0;
-		// 只需要进入箱子一次定位状态就行，后续状态只需要保持，状态切换由上个状态结束完成
+	if(ai_camera_0_enable_flag == True && ((detection_box_width >= detection_box_width_limit && abs(detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2) <= detection_box_center_x_limit) || detection_box_height >= detection_box_height_limit)){
+		uint8 out_box_region_num = 0;	// 在箱子圆区域外的数量（当该数量等于已经推过的箱子数量，则进入箱子定位状态）
+		for(uint8 i = 0;i < box_num;i++){
+			if(PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x[i]),(displacement_solve.world_y_displacement-last_box_world_y[i])) >= box_distance)
+				out_box_region_num++;
+		}
+		if(out_box_region_num == box_num){
+			// 识别框宽度或高度超过阈值，进入箱子定位状态
+			path_state_return = box_first_track;
+			box_track_num = 0;
+			// 只需要进入箱子一次定位状态就行，后续状态只需要保持，状态切换由上个状态结束完成
+		}
 	}
 	// 上一次状态是箱子一次定位，且此次不是箱子一次定位时，不满足条件次数增加
 	if(path_state == box_first_track && path_state_return != box_first_track){

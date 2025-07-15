@@ -20,7 +20,10 @@ void vofa_debug(void){
 //    wireless_vofa.justfloat_send(&wireless_vofa);
 	
 //	wireless_vofa.justfloat_add(&wireless_vofa, 5, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance, (float)path_state);
-	wireless_vofa.justfloat_add(&wireless_vofa, 3, x_speed_target, y_speed_target, angular_speed_target);
+	if(box_num >= 1)
+		wireless_vofa.justfloat_add(&wireless_vofa, 4, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, last_box_world_x[box_num-1], last_box_world_y[box_num-1]);
+	else
+		wireless_vofa.justfloat_add(&wireless_vofa, 4, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, 0, 0);
 	wireless_vofa.justfloat_send(&wireless_vofa);
 }
 //增加调试效率 请勿删除
