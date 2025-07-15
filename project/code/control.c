@@ -356,7 +356,7 @@ static void angle_rotate_pid_calc(void){
 
 	if(fabsf(err) < 4.5)
 		angle_rotate_finsh_num_count++;
-	if(angle_rotate_finsh_num_count >= 5){
+	if(angle_rotate_finsh_num_count >= 3){
 		angle_rotate_finsh_flag = True;
 		angle_rotate_finsh_num_count = 0;
 	}		
@@ -371,7 +371,7 @@ static void circle_rotate_pid_calc(void){
 	float Ki[4] = { ROTATE_PID[0][1], ROTATE_PID[1][1], ROTATE_PID[2][1], ROTATE_PID[3][1] };
 	float Kd[4] = { ROTATE_PID[0][2], ROTATE_PID[1][2], ROTATE_PID[2][2], ROTATE_PID[3][2] };
 	float i_limit[4] = { ROTATE_PID[0][3], ROTATE_PID[1][3], ROTATE_PID[2][3], ROTATE_PID[3][3] };
-	float output_limit[4] = { circle_angular_speed_target, circle_angular_speed_target, circle_angular_speed_target, circle_angular_speed_target };
+	float output_limit[4] = { circle_angular_speed_target[plan_idx], circle_angular_speed_target[plan_idx], circle_angular_speed_target[plan_idx], circle_angular_speed_target[plan_idx] };
 	
 	circle_rotate_pid.fuzzy_pid(&circle_rotate_pid, &err, Kp, Ki, Kd, i_limit, output_limit, 1);
 	
@@ -379,7 +379,7 @@ static void circle_rotate_pid_calc(void){
 
 	if(fabsf(err) < 4.5)
 		circle_rotate_finsh_num_count++;
-	if(circle_rotate_finsh_num_count >= 5){
+	if(circle_rotate_finsh_num_count >= 3){
 		circle_rotate_finsh_flag = True;
 		circle_rotate_finsh_num_count = 0;
 	}		
@@ -418,7 +418,7 @@ static void box_x_pid_calu(void){
 		box_X_finsh_flag = True;
 	}
 	// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
-	if(num > 5)
+	if(num >= 3)
 	{
 		x_speed_target = 0;
 		num = 0;
@@ -459,7 +459,7 @@ static void box_y_pid_calu(void){
 		box_Y_finsh_flag = True;
 	}
 	// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
-	if(num > 5)
+	if(num >= 3)
 	{
 		x_speed_target = 0;
 		num = 0;
@@ -521,7 +521,7 @@ static void box_xy_pid_calu(void){
 		box_XY_finsh_flag = True;
 	}
 	// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
-	if(num > 3)
+	if(num >= 3)
 	{
 		x_speed_target = 0;
 		y_speed_target = 0;

@@ -1020,7 +1020,7 @@ void menu_circle_path_page(void)
 		
 		MENU_CIRCLE_PATH.circle_enable_flag.data_uint8 = circle_enable_flag;
 		MENU_CIRCLE_PATH.circle_y_speed_target.data_float = circle_y_speed_target[plan_idx];
-		MENU_CIRCLE_PATH.circle_angular_speed_target.data_float = circle_angular_speed_target;
+		MENU_CIRCLE_PATH.circle_angular_speed_target.data_float = circle_angular_speed_target[plan_idx];
 		MENU_CIRCLE_PATH.circle_check_y.data_int16 = circle_check_y;
 		MENU_CIRCLE_PATH.circle_in_angle.data_int16 = circle_angle_target[0];
 		MENU_CIRCLE_PATH.circle_out_angle.data_int16 = circle_angle_target[1];
@@ -1476,7 +1476,7 @@ void menu_ai_camera_0_data_add_service(void)
 		case 3:{ detection_box_center_x_limit+=1; break; }
 		case 4:{ box_x_speed_target+=0.5; break; }
 		case 5:{ box_x_angular_speed_rate+=0.01; break; }
-		case 6:{ box_fxxk_y_speed_target[plan_idx]+=1.0; break; }
+		case 6:{ box_fxxk_y_speed_target[plan_idx]+=5.0; break; }
 		case 7:{ box_distance+=5; break; }
 	}
 	if(ai_camera_0_enable_flag > 1)
@@ -1494,7 +1494,7 @@ void menu_ai_camera_0_data_reduce_service(void)
 		case 3:{ detection_box_center_x_limit-=1; break; }
 		case 4:{ box_x_speed_target-=0.5; break; }
 		case 5:{ box_x_angular_speed_rate-=0.01; break; }
-		case 6:{ box_fxxk_y_speed_target[plan_idx]-=1.0; break; }
+		case 6:{ box_fxxk_y_speed_target[plan_idx]-=5.0; break; }
 		case 7:{ box_distance-=5; break; }
 	}
 	if(ai_camera_0_enable_flag > 1)
@@ -1592,7 +1592,7 @@ void menu_circle_path_data_add_service(void)
 	{
 		case 0:{ circle_enable_flag+=1; break; }
 		case 1:{ circle_y_speed_target[plan_idx]+=5; break; }
-		case 2:{ circle_angular_speed_target+=1; break; }
+		case 2:{ circle_angular_speed_target[plan_idx]+=1; break; }
 		case 3:{ circle_check_y+=1; break; }
 		case 4:{ circle_angle_target[0]+=1; break; }
 		case 5:{ circle_angle_target[1]+=1; break; }
@@ -1612,7 +1612,7 @@ void menu_circle_path_data_reduce_service(void)
 	{
 		case 0:{ circle_enable_flag-=1; break; }
 		case 1:{ circle_y_speed_target[plan_idx]-=5; break; }
-		case 2:{ circle_angular_speed_target-=1; break; }
+		case 2:{ circle_angular_speed_target[plan_idx]-=1; break; }
 		case 3:{ circle_check_y-=1; break; }
 		case 4:{ circle_angle_target[0]-=1; break; }
 		case 5:{ circle_angle_target[1]-=1; break; }

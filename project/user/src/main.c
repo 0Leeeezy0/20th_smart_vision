@@ -195,8 +195,16 @@ int main(void)
 		#endif
 			// 此处编写需要循环执行的代码
 			menu_service_start(); 
+			
+			// 定位
 //			control_kind = XY2Inv2Speed;
 //			wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)detection_box_center_x, (float)detection_box_width, (float)box_center_x_karman.value, (float)box_width_karman.value);
+//			wireless_vofa.justfloat_send(&wireless_vofa);
+			
+			// 角度环
+//			control_kind = Angle2Inv2Speed;
+//			rotate_euler_angle_solve.solve_flag = True;
+//			wireless_vofa.justfloat_add(&wireless_vofa, 1, rotate_euler_angle_solve.yaw);
 //			wireless_vofa.justfloat_send(&wireless_vofa);
 		}
     }
