@@ -46,13 +46,14 @@ typedef enum _path_state_{
 typedef enum _control_kind_{
 	Angle2Inv2Speed = 0,		// 角度环->运动学逆解算->速度环
 	CircleAngle2Inv2Speed = 1,	// 圆环角度环->运动学逆解算->速度环
-	X2Inv2Speed = 2,			// 箱子X->运动学逆解算->速度环
-	Y2Inv2Speed = 3,			// 箱子Y->运动学逆解算->速度环
-	XY2Inv2Speed = 4,			// 箱子XY->运动学逆解算->速度环
-	Inv2Speed = 5,				// 运动学逆解算->速度环
-	Speed = 6,					// 纯速度环
-	PWM = 7,					// 纯PWM控制
-	Stop = 8,					// 电机停车
+	Track_X2Inv2Speed = 2,		// 箱子定位X->运动学逆解算->速度环
+	Track_Y2Inv2Speed = 3,		// 箱子定位Y->运动学逆解算->速度环
+	Track_XY2Inv2Speed = 4,		// 箱子定位XY->运动学逆解算->速度环
+	Fxxk_X2Inv2Speed = 5,		// 箱子推离X->运动学逆解算->速度环
+	Inv2Speed = 6,				// 运动学逆解算->速度环
+	Speed = 7,					// 纯速度环
+	PWM = 8,					// 纯PWM控制
+	Stop = 9,					// 电机停车
 }_control_kind_;
 
 /* AI摄像头序号 */
@@ -126,8 +127,9 @@ extern DOG_PID path_pid;						// 路径PID
 extern DOG_PID path_gyroz_pid;					// 路径陀螺仪PID
 extern DOG_PID angle_rotate_pid;				// 角度环旋转PID
 extern DOG_PID circle_rotate_pid;				// 圆环旋转PID
-extern DOG_PID box_x_pid;						// 箱子X PID
-extern DOG_PID box_y_pid;						// 箱子Y PID
+extern DOG_PID box_track_x_pid;					// 箱子定位X PID
+extern DOG_PID box_fxxk_x_pid;					// 箱子推离X PID
+extern DOG_PID box_track_y_pid;					// 箱子定位Y PID
 extern DOG_VOFA wireless_vofa;					// 无线串口VOFA
 extern DOG_IMU imu660ra;						// IMU660RA陀螺仪
 extern DOG_SOLVE euler_angle_solve;				// 欧拉角解算
@@ -158,10 +160,15 @@ extern _bool_ box_X_finsh_flag;			// 箱子X定位完成标志位
 extern _bool_ box_Y_finsh_flag;			// 箱子Y定位完成标志位
 extern _bool_ box_XY_finsh_flag;		// 箱子XY定位完成标志位
 
+/* 普通标志位 */
+extern _bool_ out_last_box_circle_flag;	// 不在上一个箱子圆区域内标志位
+
 /* 初始化标志位 */
 extern _bool_ ai_camera_0_init_flag;					// AI摄像头0 初始化标志位
 
 /* 全局变量 */
+/* 摄像头 */
+extern uint16 exp_time;					//摄像头曝光时间
 /* 赛道提取 */
 extern int16 path_err;					// 路径误差
 extern uint16 path_start;				// 路径线起始高度
@@ -169,7 +176,8 @@ extern uint16 path_end;					// 路径线结束高度
 extern uint16 side_extract_start_y;		// 边线提取起始高度
 extern uint16 side_extract_end_y;		// 边线提取结束高度
 extern uint16 prediction_point;			// 预测点高度：其横坐标将作为下一帧的搜线起点
-extern uint16 control_point[2];			// 控制点高度（0：最长白列；1：路径线提取）
+extern uint16 control_point[3];			// 控制点高度（0/1：最长白列最远控制点/最近控制点；2：路径线提取）
+extern uint16 longest_white_control_point;	// 最长白列控制点
 /* 圆环 */
 extern uint16 circle_check_y;			// 圆环检测线高度
 extern uint16 side_x_delta_range[2];	// 边线X差值阈值范围
@@ -199,6 +207,7 @@ extern float circle_rotation_yaw_target;			// 目标圆环旋转角度
 extern float data_1;								// 运动学逆解算参数1（线速度/X速度）
 extern float data_2;								// 运动学逆解算参数2（航向角/Y速度）
 extern float x_speed_rate;							// 循线x速度比例（目标循线x速度/目标循线旋转速度）
+extern uint16 auto_control_point_normalize_range[2];	// 动态前瞻归一化范围
 /* 箱子 */
 extern int16 detection_center_err;						// 识别框中心误差
 extern uint8 detection_box_width;						// 识别框宽度
@@ -258,12 +267,14 @@ extern float PATH_PID[4][4][6];
 // 旋转
 extern float ROTATE_RANGE[3];
 extern float ROTATE_PID[4][5];						  
-// BOX X
-extern float BOX_X_RANGE[3];	
-extern float BOX_X_PID[4][5];						  
-// BOX Y
-extern float BOX_Y_RANGE[3];		
-extern float BOX_Y_PID[4][5];
+// BOX X（定位）
+extern float BOX_TRACK_X_RANGE[3];	
+extern float BOX_TRACK_X_PID[4][5];		
+// BOX X （推离）
+extern float BOX_FXXK_X_PID[4][5];		
+// BOX Y（定位）
+extern float BOX_TRACK_Y_RANGE[3];		
+extern float BOX_TRACK_Y_PID[4][5];
 
 /* KARMAN滤波器参数 */
 extern float I_KARMAN[2];

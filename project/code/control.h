@@ -24,31 +24,40 @@ void Angle2Inv2Speed_control(void);
 void CircleAngle2Inv2Speed_control(void);
 
 /* 
-	箱子X->运动学逆解算->速度环 控制 
+	箱子定位X->运动学逆解算->速度环 控制 
 	控制类型：X2Inv2Speed
 	运动学解算类型：XY_SPEED_SOLVE（默认）
 	控制参数：目标Y速度：y_speed_target、识别框中心X坐标：detection_box_center_x
 	使用前要先将box_X_finsh_flag置False
 */
-void X2Inv2Speed_control(void);
+void Track_X2Inv2Speed_control(void);
 
 /* 
-	箱子Y->运动学逆解算->速度环 控制 
+	箱子定位Y->运动学逆解算->速度环 控制 
 	控制类型：X2Inv2Speed
 	运动学解算类型：XY_SPEED_SOLVE（默认）
 	控制参数：目标X速度：x_speed_target、识别框中心X坐标：detection_box_center_x
 	使用前要先将box_X_finsh_flag置False
 */
-void Y2Inv2Speed_control(void);
+void Track_Y2Inv2Speed_control(void);
 
 /* 
-	箱子XY->运动学逆解算->速度环 控制 
+	箱子定位XY->运动学逆解算->速度环 控制 
 	控制类型：XY2Inv2Speed
 	运动学解算类型：XY_SPEED_SOLVE（默认）
 	控制参数：识别框中心X坐标：detection_box_center_x、识别框宽度：detection_box_width
 	使用前要先将box_XY_finsh_flag置False
 */
-void XY2Inv2Speed_control(void);
+void Track_XY2Inv2Speed_control(void);
+
+/* 
+	箱子推离X->运动学逆解算->速度环 控制 
+	控制类型：X2Inv2Speed
+	运动学解算类型：XY_SPEED_SOLVE（默认）
+	控制参数：目标Y速度：y_speed_target、识别框中心X坐标：detection_box_center_x
+	使用前要先将box_X_finsh_flag置False
+*/
+void Fxxk_X2Inv2Speed_control(void);
 
 /* 
 	运动学逆解算->速度环 控制 
@@ -91,13 +100,14 @@ static void angle_rotate_pid_calc(void);
 static void circle_rotate_pid_calc(void);
 
 /* BOX X PID计算 */
-static void box_x_pid_calu(void);
+static void box_track_x_pid_calu(void);
+static void box_fxxk_x_pid_calu(void);
 
 /* BOX Y PID计算 */
-static void box_y_pid_calu(void);
+static void box_track_y_pid_calu(void);
 
 /* BOX X/Y PID计算 */
-static void box_xy_pid_calu(void);
+static void box_track_xy_pid_calu(void);
 
 /* 
 	X缓变速 

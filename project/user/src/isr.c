@@ -76,9 +76,10 @@ void PIT_IRQHandler(void)
 		switch(control_kind){
 			case Angle2Inv2Speed:{ Angle2Inv2Speed_control(); break; }
 			case CircleAngle2Inv2Speed:{ CircleAngle2Inv2Speed_control(); break; }
-			case X2Inv2Speed:{ X2Inv2Speed_control(); break; }
-			case Y2Inv2Speed:{ Y2Inv2Speed_control(); break; }
-			case XY2Inv2Speed:{ XY2Inv2Speed_control(); break; }
+			case Track_X2Inv2Speed:{ Track_X2Inv2Speed_control(); break; }
+			case Track_Y2Inv2Speed:{Track_Y2Inv2Speed_control(); break; }
+			case Track_XY2Inv2Speed:{ Track_XY2Inv2Speed_control(); break; }
+			case Fxxk_X2Inv2Speed:{ Fxxk_X2Inv2Speed_control(); break; }
 			case Inv2Speed:{ Inv2Speed_control(); break; }
 			case Speed:{ Speed_control(); break; }
 			case PWM:{ PWM_control(); break; }

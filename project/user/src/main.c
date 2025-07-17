@@ -111,6 +111,7 @@ int main(void)
 	
 	/* 视觉 */
 	cv(&dog_cv);
+	system_delay_ms(50);
 	
 	/* 路径 */
 	path(&dog_path, path_start, path_end, side_extract_start_y, side_extract_end_y, prediction_point);
@@ -138,10 +139,12 @@ int main(void)
 	angle_rotate_pid.fuzzy_pid_init(&angle_rotate_pid, angle_rotate_fuzzy_rules, ROTATE_RANGE);
 	pid(&circle_rotate_pid);
 	circle_rotate_pid.fuzzy_pid_init(&circle_rotate_pid, circle_rotate_fuzzy_rules, ROTATE_RANGE);
-	pid(&box_x_pid);
-	box_x_pid.fuzzy_pid_init(&box_x_pid, xy_fuzzy_rules, BOX_X_RANGE);
-	pid(&box_y_pid);
-	box_y_pid.fuzzy_pid_init(&box_y_pid, xy_fuzzy_rules, BOX_Y_RANGE);
+	pid(&box_track_x_pid);
+	box_track_x_pid.fuzzy_pid_init(&box_track_x_pid, xy_fuzzy_rules, BOX_TRACK_X_RANGE);
+	pid(&box_fxxk_x_pid);
+	box_fxxk_x_pid.fuzzy_pid_init(&box_fxxk_x_pid, xy_fuzzy_rules, BOX_TRACK_X_RANGE);
+	pid(&box_track_y_pid);
+	box_track_y_pid.fuzzy_pid_init(&box_track_y_pid, xy_fuzzy_rules, BOX_TRACK_Y_RANGE);
 	
 	/* 箱子矫正 */
 	symmetry_rectificate_init();
@@ -172,8 +175,8 @@ int main(void)
 	circle_enable_flag = True;			// 圆环 使能标志位
 	zebra_enable_flag = True;			// 斑马线 使能标志位
 	ai_camera_0_enable_flag = True;		// AI相机0 使能标志位
-	ai_camera_1_enable_flag = False;		// AI相机1 使能标志位
-	ai_camera_2_enable_flag = False;		// AI相机2 使能标志位
+	ai_camera_1_enable_flag = True;		// AI相机1 使能标志位
+	ai_camera_2_enable_flag = True;		// AI相机2 使能标志位
 	
 	ai_camera_0_init_flag = False;
 	detection_result.ai_camera_init_flag[0] = False;
@@ -200,7 +203,7 @@ int main(void)
 			menu_service_start(); 
 			
 			// 定位
-//			control_kind = XY2Inv2Speed;
+//			control_kind = Fxxk_X2Inv2Speed;
 //			wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)detection_box_center_x, (float)detection_box_width, (float)box_center_x_karman.value, (float)box_width_karman.value);
 //			wireless_vofa.justfloat_send(&wireless_vofa);
 			

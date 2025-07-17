@@ -15,4 +15,7 @@ void symmetry_rectificate_init(void);
 /* 对称法矫正 */
 void symmetry_rectificate(uint8 input[MT9V03X_H][MT9V03X_W]);
 
+/* 动态前瞻 */
+uint16 auto_control_point(void);
+
 #endif

@@ -161,6 +161,9 @@ void menu_translate_shift_page(void);
 
 /* 对称法矫正数据页面 */
 void menu_symmetry_rectificate_page(void);
+
+/* 普通摄像头 数据页面 */
+void menu_common_camera_page(void);
 	
 /* AI摄像头0 数据页面 */
 void menu_ai_camera_0_page(void);
@@ -228,6 +231,10 @@ void menu_plan_data_reduce_service(void);
 /* 电机数据页面服务 */
 void menu_motor_data_add_service(void);
 void menu_motor_data_reduce_service(void);
+
+/* 菜单普通摄像头数据页面服务 */
+void menu_common_camera_data_add_service(void);
+void menu_common_camera_data_reduce_service(void);
 
 /* 菜单AI摄像头0数据页面服务 */
 void menu_ai_camera_0_data_add_service(void);
