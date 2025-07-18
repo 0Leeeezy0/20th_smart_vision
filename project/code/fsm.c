@@ -294,7 +294,8 @@ void fsm(void){
 			if(max_sum_weight_normalization_yaw == 0){
 				max_sum_weight_normalization_yaw = 90;
 			}
-			if(fabsf(box_euler_angle_solve.yaw) <= fabsf(max_sum_weight_normalization_yaw))
+			if(	(box_euler_angle_solve.yaw >= max_sum_weight_normalization_yaw && max_sum_weight_normalization_yaw < 0) || /* 不能用绝对值，否则会有一直转的问题，因为绝对值失去了负半轴，使得yaw小的时候，一瞬间又变大了 */
+				(box_euler_angle_solve.yaw <= max_sum_weight_normalization_yaw && max_sum_weight_normalization_yaw > 0))
 			{
 				box_euler_angle_solve.solve_flag = False;	// 关闭箱子欧拉角解算
 				/* 清空中间量 */ 

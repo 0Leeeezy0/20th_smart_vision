@@ -913,6 +913,11 @@ void menu_ai_camera_1_and_2_page(void)
 		screen_string(0,8*MENU_ROW_PITCH,"DETECTION_RAW_DATA");
 		screen_uint(DATA_MAX_COL+20,8*MENU_ROW_PITCH,detection_result.tool_raw,3);
 		screen_uint(DATA_MAX_COL+50,8*MENU_ROW_PITCH,detection_result.num_raw,3);
+		
+		screen_string(0,10*MENU_ROW_PITCH,"BOX_FXXK_DIR");
+		if((detection_result.tool >= 0X01 && detection_result.tool <= 0X08) || ((detection_result.num&0X01) == 0 && detection_result.tool == 0X10)) screen_string(DATA_MAX_COL,10*MENU_ROW_PITCH,"RIGHT");
+		else if((detection_result.tool >= 0X09 && detection_result.tool <= 0X0F) || ((detection_result.num&0X01) == 1 && detection_result.tool == 0X10)) screen_string(DATA_MAX_COL,10*MENU_ROW_PITCH,"LEFT ");
+		else screen_string(DATA_MAX_COL,10*MENU_ROW_PITCH,"NONE ");
 		vofa_debug();
 	}
 }
