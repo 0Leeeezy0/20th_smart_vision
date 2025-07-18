@@ -13,10 +13,12 @@ void fsm(void){
 	dog_path.side_extract(&dog_path, dog_cv.image_OTSU);
 	// 边线点类型判断
 	dog_path.side_point_kind_judge(&dog_path);
-	// 最长白列
-	dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[0]);
 	// 路径线提取
 	dog_path.path_extract(&dog_path, dog_cv.image_OTSU);
+	// 动态前瞻
+	auto_control_point();
+	// 最长白列
+	dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, longest_white_control_point);
 	// 赛道状态判断
 	path_state = path_state_judge(dog_cv.image_OTSU);
 	
@@ -142,6 +144,10 @@ void fsm(void){
 				wheel_speed_target[0] = 0;
 				wheel_speed_target[1] = 0;
 				wheel_speed_target[2] = 0;
+				
+				system_delay_ms(500);
+	
+				control_kind = Stop; 		// 设置控制类型
 				/* 显示识别结果列表页面 */
 				menu_detection_list();
 				break;
@@ -151,7 +157,7 @@ void fsm(void){
 		// 箱子一次定位
 		case box_first_track:{
 			/* 运动设置 */
-			control_kind = XY2Inv2Speed;	// 设置控制模式
+			control_kind = Track_XY2Inv2Speed;	// 设置控制模式
 			angular_speed_target = 0;
 			/* 音效设置 */
 			dog_rwr.radar_scanning_enable_flag = False;
@@ -288,7 +294,8 @@ void fsm(void){
 			if(max_sum_weight_normalization_yaw == 0){
 				max_sum_weight_normalization_yaw = 90;
 			}
-			if(fabsf(box_euler_angle_solve.yaw) <= fabsf(max_sum_weight_normalization_yaw))
+			if(	(box_euler_angle_solve.yaw >= max_sum_weight_normalization_yaw && max_sum_weight_normalization_yaw < 0) || /* 不能用绝对值，否则会有一直转的问题，因为绝对值失去了负半轴，使得yaw小的时候，一瞬间又变大了 */
+				(box_euler_angle_solve.yaw <= max_sum_weight_normalization_yaw && max_sum_weight_normalization_yaw > 0))
 			{
 				box_euler_angle_solve.solve_flag = False;	// 关闭箱子欧拉角解算
 				/* 清空中间量 */ 
@@ -313,7 +320,7 @@ void fsm(void){
 			dog_rwr.radar_tracking_enable_flag = False;
 			dog_rwr.missile_launch_enable_flag = True;		
 			/* 运动设置 */
-			control_kind = X2Inv2Speed;
+			control_kind = Track_X2Inv2Speed;
 			angular_speed_target = 0;
 			if(box_X_finsh_flag == True){
 				box_X_finsh_flag = False;
@@ -341,14 +348,14 @@ void fsm(void){
 			rotate_euler_angle_solve.solve_flag = True;	// 开启旋转欧拉角解算
 			/* 设置箱子X方向定位 */
 			float detection_box_center_err = detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2; 
-			float X_Kp[4] = { BOX_X_PID[0][0], BOX_X_PID[1][0], BOX_X_PID[2][0], BOX_X_PID[3][0] };
-			float X_Ki[4] = { BOX_X_PID[0][1], BOX_X_PID[1][1], BOX_X_PID[2][1], BOX_X_PID[3][1] };
-			float X_Kd[4] = { BOX_X_PID[0][2], BOX_X_PID[1][2], BOX_X_PID[2][2], BOX_X_PID[3][2] };
-			float X_i_limit[4] = { BOX_X_PID[0][3], BOX_X_PID[1][3], BOX_X_PID[2][3], BOX_X_PID[3][3] };
-			float X_output_limit[4] = { BOX_X_PID[0][4], BOX_X_PID[1][4], BOX_X_PID[2][4], BOX_X_PID[3][4] };
+			float X_Kp[4] = { BOX_TRACK_X_PID[0][0], BOX_TRACK_X_PID[1][0], BOX_TRACK_X_PID[2][0], BOX_TRACK_X_PID[3][0] };
+			float X_Ki[4] = { BOX_TRACK_X_PID[0][1], BOX_TRACK_X_PID[1][1], BOX_TRACK_X_PID[2][1], BOX_TRACK_X_PID[3][1] };
+			float X_Kd[4] = { BOX_TRACK_X_PID[0][2], BOX_TRACK_X_PID[1][2], BOX_TRACK_X_PID[2][2], BOX_TRACK_X_PID[3][2] };
+			float X_i_limit[4] = { BOX_TRACK_X_PID[0][3], BOX_TRACK_X_PID[1][3], BOX_TRACK_X_PID[2][3], BOX_TRACK_X_PID[3][3] };
+			float X_output_limit[4] = { BOX_TRACK_X_PID[0][4], BOX_TRACK_X_PID[1][4], BOX_TRACK_X_PID[2][4], BOX_TRACK_X_PID[3][4] };
 			
 			/* 运动设置 */
-			control_kind = X2Inv2Speed;		// 设置控制模式
+			control_kind = Fxxk_X2Inv2Speed;		// 设置控制模式
 //			y_speed_target = box_fxxk_y_speed_target[plan_idx];
 			angular_speed_target = -PATH_PID[plan_idx][0][5]*imu660ra.gyro_z;
 			y_speed_slow_change(box_fxxk_y_speed_target[plan_idx], 0.012, True);		// 设置推箱子目标速度  
@@ -369,6 +376,8 @@ void fsm(void){
 				wheel_speed_target[0] = 0;
 				wheel_speed_target[1] = 0;
 				wheel_speed_target[2] = 0;
+				
+				y_speed_target = 0;		// 设置循线Y速度缓启动速度
 				/* 变量设置 */
 				is_in_track = False;	
 				num = 0;
@@ -401,7 +410,7 @@ void fsm(void){
 				move_solve_kind = XY_SPEED_SOLVE;	// 设置解算类型
 				x_speed_target = 0;
 				y_speed_target = 0;
-				angle_rotation_yaw_target = box_dir*90;
+				angle_rotation_yaw_target = box_dir*95;
 				
 				if(angle_rotate_finsh_flag == True){
 					rotate_euler_angle_solve.solve_flag = False;	// 关闭箱子欧拉角解算
@@ -428,7 +437,7 @@ void fsm(void){
 			/* 运动设置 */
 			control_kind = Inv2Speed;		// 设置控制模式
 			x_speed_target = 0;
-			y_speed_target = -box_fxxk_y_speed_target[plan_idx];
+			y_speed_slow_change(-box_fxxk_y_speed_target[plan_idx], 0.012, True);		// 设置回赛道目标速度  
 			angular_speed_target = -PATH_PID[plan_idx][0][5]*imu660ra.gyro_z;	// 注意极性
 			angle_rotate_finsh_flag = False;				// 初始化旋转完成标志位
 			break;
@@ -439,21 +448,28 @@ void fsm(void){
 	
 	// 循线控制
 	if(path_state == common_path || path_state == L_circle || path_state == R_circle || path_state == zebra_path){
-		dog_rwr.radar_scanning_enable_flag = True;
-		dog_rwr.radar_tracking_enable_flag = False;
+		if(out_last_box_circle_flag == True){
+			dog_rwr.radar_scanning_enable_flag = True;
+			dog_rwr.radar_tracking_enable_flag = False;
+		}
+		else{
+			dog_rwr.radar_scanning_enable_flag = False;
+			dog_rwr.radar_tracking_enable_flag = True;
+		}
 		dog_rwr.missile_launch_enable_flag = False;
+		
 		// 圆环
 		if(path_state == L_circle || path_state == R_circle){
 			// 循线误差计算
-//			path_err = dog_path.path[control_point[1]][0]-MT9V03X_W/2;	
-			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
+			path_err = dog_path.path[control_point[2]][0]-MT9V03X_W/2;	
+//			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
 			path_pid_calc();
 //			angular_speed_target*x_speed_rate;
 			if(displacement_solve.y_speed >= circle_y_speed_target[plan_idx]*circle_x_speed_enable_y_speed_rate)
 				x_speed_target = angular_speed_target*x_speed_rate;
 			else
 				x_speed_target = 0;
-			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.012, True);				// Y缓变速
+			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.011, True);				// Y缓变速
 		}
 		// 普通赛道/斑马线
 		else{
@@ -465,14 +481,13 @@ void fsm(void){
 				x_speed_target = angular_speed_target*x_speed_rate;
 			else
 				x_speed_target = 0;
-			y_speed_slow_change(path_y_speed_target[plan_idx], 0.014, True);					// Y缓变速
+			y_speed_slow_change(path_y_speed_target[plan_idx], 0.013, True);					// Y缓变速
 		}
 	}
 }
 
 /* 赛道状态判断 */
 static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
-	static uint8 box_track_num;	// 箱子定位不满足条件的次数
 	_path_state_ path_state_return = common_path;
 	
 	// 保证从箱子一次定位状态退出后能够切换回原状态
@@ -590,25 +605,43 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 	// 箱子一次定位（宽度超过阈值且中心坐标在范围内时进入定位状态 或 高度超过阈值时进入状态 防止箱子在图像边缘导致无法进入定位状态从而掠过箱子）
 	if(ai_camera_0_enable_flag == True && ((detection_box_width >= detection_box_width_limit && abs(detection_box_center_x-AI_CAMERA_0_IMAGE_WIDTH/2) <= detection_box_center_x_limit) || detection_box_height >= detection_box_height_limit)){
 		uint8 out_box_region_num = 0;	// 在箱子圆区域外的数量（当该数量等于已经推过的箱子数量，则进入箱子定位状态）
+//		float now_last_yaw = 0;
+//		float delta_x = 0;
+//		float delta_y = 0;
 		for(uint8 i = 0;i < box_num;i++){
-			if(PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x[i]),(displacement_solve.world_y_displacement-last_box_world_y[i])) >= box_distance)
+			// 计算XY距离
+//			delta_x = displacement_solve.world_x_displacement-last_box_world_x[i];
+//			delta_y = displacement_solve.world_y_displacement-last_box_world_y[i];
+//			// 计算上一个箱子相对于当前坐标的角度
+//			if(displacement_solve.world_y_displacement-last_box_world_y[i] != 0)
+//				now_last_yaw = RAD2DEG(atan(delta_x/delta_y));
+//			else if(delta_x >= 0 && delta_y == 0)
+//				now_last_yaw = 0;
+//			else if(delta_x < 0 && delta_y == 0)
+//				now_last_yaw = -180;
+//			// 修正角度
+//			if(delta_x > 0 && delta_y <0)
+//				now_last_yaw = now_last_yaw+180;
+//			else if(delta_x < 0 && delta_y <0)
+//				now_last_yaw = now_last_yaw-180;
+			if( PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x[i]),(displacement_solve.world_y_displacement-last_box_world_y[i])) >= box_distance)	/* 在上一个推过的箱子的一定半径圆区域外 */
 				out_box_region_num++;
+//			if( PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x[i]),(displacement_solve.world_y_displacement-last_box_world_y[i])) < box_distance &&	/* 在上一个推过的箱子的一定半径圆区域内 */
+//				/* 车头方向的正负90°内没有箱子 */
+//				((fabs(displacement_solve.world_yaw-now_last_yaw) >= 90 && fabsf(now_last_yaw) <= 90) ||		/* 若上个箱子在世界坐标系下在车坐标的一二象限 */
+//				((fabs(displacement_solve.world_yaw-now_last_yaw) >= 90 || displacement_solve.world_yaw < (270+now_last_yaw)) && now_last_yaw < -90) || 	/* 若上个箱子在世界坐标系下在车坐标的第三象限 */
+//				((fabs(displacement_solve.world_yaw-now_last_yaw) >= 90 || displacement_solve.world_yaw > (-270+now_last_yaw)) && now_last_yaw > 90)))	/* 若上个箱子在世界坐标系下在车坐标的第四象限 */
+//				out_box_region_num++;		
 		}
 		if(out_box_region_num == box_num){
 			// 识别框宽度或高度超过阈值，进入箱子定位状态
 			path_state_return = box_first_track;
-			box_track_num = 0;
+			out_last_box_circle_flag = False;
 			// 只需要进入箱子一次定位状态就行，后续状态只需要保持，状态切换由上个状态结束完成
 		}
+		else
+			out_last_box_circle_flag = True;
 	}
-	// 上一次状态是箱子一次定位，且此次不是箱子一次定位时，不满足条件次数增加
-	if(path_state == box_first_track && path_state_return != box_first_track){
-		box_track_num++;
-	}
-	if(path_state != box_first_track){
-		box_track_num = 0;
-	}
-		
 
 	// 赛道状态保持
 	switch(path_state){
@@ -619,7 +652,7 @@ static _path_state_ path_state_judge(uint8 input[MT9V03X_H][MT9V03X_W]){
 		case R_circle_out:{ path_state_return = R_circle_out; break; }
 		case L_circle_out:{ path_state_return = L_circle_out; break; }
 		case zebra_path:{ path_state_return = zebra_path; break; }						// 保持 zebra_path 状态，直到路程超过阈值即停车，切换至 zebra_path_stop 状态
-		case box_first_track:{ if(path_state_return == box_first_track || box_track_num <= 1)path_state_return = box_first_track; break; }			// 保持 box_first_track 状态（前提：判断不是common_path/R_circle/L_circle，以此保证可以在中途拿走箱子后还能继续循线或不满足条件的次数在阈值内，则保持箱子一次定位状态）（）
+		case box_first_track:{ if(path_state_return == box_first_track)path_state_return = box_first_track; break; }			// 保持 box_first_track 状态（前提：判断不是common_path/R_circle/L_circle，以此保证可以在中途拿走箱子后还能继续循线或不满足条件的次数在阈值内，则保持箱子一次定位状态）（）
 		case box_calibration:{ path_state_return = box_calibration; break; }			// 保持 box_calibration 状态
 		case box_inv_calibration:{ path_state_return = box_inv_calibration; break; }	// 保持 box_inv_calibration 状态
 		case box_second_track:{ path_state_return = box_second_track; break; }			// 保持 box_second_track 状态
@@ -691,4 +724,15 @@ void symmetry_rectificate(uint8 input[MT9V03X_H][MT9V03X_W])
 	sum_weight_normalization = (float)sum_weight_rectificate/(float)sum_weight;
 	frame_white_num_normalization[0] = (float)L_white_num/(float)(symmetry_rectificate_start_y-symmetry_rectificate_end_y+1);
 	frame_white_num_normalization[1] = (float)R_white_num/(float)(symmetry_rectificate_start_y-symmetry_rectificate_end_y+1);
+}
+
+/* 动态前瞻 */
+uint16 auto_control_point(void)
+{
+	float gyro_z_normalization = 0;
+	if(imu660ra.gyro_z > auto_control_point_normalize_range[0])
+		gyro_z_normalization = fabsf(imu660ra.gyro_z-auto_control_point_normalize_range[0])/(auto_control_point_normalize_range[1]-auto_control_point_normalize_range[0]);
+	if(gyro_z_normalization > 1)
+		gyro_z_normalization = 1;
+	longest_white_control_point = control_point[1]-(control_point[1]-control_point[0])*gyro_z_normalization;
 }

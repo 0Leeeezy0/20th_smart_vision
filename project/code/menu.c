@@ -43,7 +43,7 @@ API：
 static _MENU_PAGE_ menu_page[] = 
 {
 	/* 页面名称         标题使能     级别 序号    参数行数   页面函数指针 			        	*/
-	{"ROOT"         	,False 		,0 	,0 		,21 	,menu_root_page						},
+	{"ROOT"         	,False 		,0 	,0 		,22 	,menu_root_page						},
 	{"START"        	,True 		,1 	,0 		,0 		,start								},
 	{"DEBUG"        	,True 		,1 	,1 		,0 		,debug								},
 	{"PLAN"				,True		,1	,2		,1		,plan								},
@@ -56,15 +56,16 @@ static _MENU_PAGE_ menu_page[] =
 	{"EULER_ANGLE"      ,True		,1	,9		,0		,menu_euler_angle_page				},
 	{"TRANSLATE_SHIFT"	,True		,1	,10		,0		,menu_translate_shift_page			},
 	{"RECTIFICATE"		,True		,1	,11		,0		,menu_symmetry_rectificate_page		},
-	{"AI_CAMERA_0"		,True		,1	,12		,8		,menu_ai_camera_0_page				},
-	{"AI_CAMERA_1&2"	,True		,1	,13		,3		,menu_ai_camera_1_and_2_page		},
-	{"DETECTION_LIST"	,True		,1	,14		,0		,menu_detection_list				},
-	{"PATH"				,True		,1	,15		,8		,menu_path_page						},
-	{"CIRCLE_PATH"		,True		,1	,16		,10		,menu_circle_path_page				},
-	{"MOTOR_1 PID"		,True 		,1 	,17 	,11 	,menu_motor_1_pid_page				},
-	{"MOTOR_2 PID"		,True 		,1 	,18 	,11 	,menu_motor_2_pid_page				},
-	{"MOTOR_3 PID"		,True 		,1 	,19 	,11 	,menu_motor_3_pid_page				},
-	{"PATH PID"			,True 		,1 	,20 	,7 		,menu_path_pid_page					}
+	{"COMMON_CAMERA"	,True		,1	,12		,1		,menu_common_camera_page			},
+	{"AI_CAMERA_0"		,True		,1	,13		,8		,menu_ai_camera_0_page				},
+	{"AI_CAMERA_1&2"	,True		,1	,14		,3		,menu_ai_camera_1_and_2_page		},
+	{"DETECTION_LIST"	,True		,1	,15		,0		,menu_detection_list				},
+	{"PATH"				,True		,1	,16		,11		,menu_path_page						},
+	{"CIRCLE_PATH"		,True		,1	,17		,10		,menu_circle_path_page				},
+	{"MOTOR_1 PID"		,True 		,1 	,18 	,11 	,menu_motor_1_pid_page				},
+	{"MOTOR_2 PID"		,True 		,1 	,19 	,11 	,menu_motor_2_pid_page				},
+	{"MOTOR_3 PID"		,True 		,1 	,20 	,11 	,menu_motor_3_pid_page				},
+	{"PATH PID"			,True 		,1 	,21 	,7 		,menu_path_pid_page					}
 };
 
 static int16 num = 0;	// 页面在列表中的序号
@@ -131,6 +132,8 @@ void menu_service_start(void)
 	screen_string(20,40,"YJC");
 	screen_string(20,60,"SJC");
 	screen_string(20,80,"LZY");
+	screen_string(20,100,"CAMERA TEST");
+	screen_image(20, 120, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
 	system_delay_ms(1000);
 	menu_root_page();
 }
@@ -763,6 +766,31 @@ void menu_symmetry_rectificate_page(void)
 	}
 }
 
+/* 普通摄像头 数据页面 */
+void menu_common_camera_page(void)
+{
+	menu_page_init(menu_common_camera_page);
+	while(1)
+	{
+		menu_back(NULL);
+		menu_point();
+		menu_data_change(menu_common_camera_data_add_service,menu_common_camera_data_reduce_service);
+		menu_title_show();
+		
+		MENU_COMMON_CAMERA.exp_time.data_uint16 = exp_time;
+		mt9v03x_set_exposure_time(exp_time);
+		// 二值化
+		dog_cv.threshold(&dog_cv, mt9v03x_image);
+		
+		screen_string(0,MENU_ROW_PITCH,MENU_COMMON_CAMERA.exp_time.name);
+		screen_uint(DATA_MAX_COL,MENU_ROW_PITCH,MENU_COMMON_CAMERA.exp_time.data_uint16,3);
+		
+		// 显示图像
+		screen_image(0, 2*MENU_ROW_PITCH, dog_cv.image_OTSU[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
+		screen_image(0, MT9V03X_H+2*MENU_ROW_PITCH, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);		
+	}
+}
+
 /* AI摄像头0 数据页面 */
 void menu_ai_camera_0_page(void)
 {
@@ -885,6 +913,11 @@ void menu_ai_camera_1_and_2_page(void)
 		screen_string(0,8*MENU_ROW_PITCH,"DETECTION_RAW_DATA");
 		screen_uint(DATA_MAX_COL+20,8*MENU_ROW_PITCH,detection_result.tool_raw,3);
 		screen_uint(DATA_MAX_COL+50,8*MENU_ROW_PITCH,detection_result.num_raw,3);
+		
+		screen_string(0,10*MENU_ROW_PITCH,"BOX_FXXK_DIR");
+		if((detection_result.tool >= 0X01 && detection_result.tool <= 0X08) || ((detection_result.num&0X01) == 0 && detection_result.tool == 0X10)) screen_string(DATA_MAX_COL,10*MENU_ROW_PITCH,"RIGHT");
+		else if((detection_result.tool >= 0X09 && detection_result.tool <= 0X0F) || ((detection_result.num&0X01) == 1 && detection_result.tool == 0X10)) screen_string(DATA_MAX_COL,10*MENU_ROW_PITCH,"LEFT ");
+		else screen_string(DATA_MAX_COL,10*MENU_ROW_PITCH,"NONE ");
 		vofa_debug();
 	}
 }
@@ -952,6 +985,7 @@ void menu_detection_list(void)
 			}
 			else if(detection_result_list[i].tool == 0X10)
 			{
+				screen_int(0,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,i+1,3);
 				screen_int(50,(i%(MAX_ROW-2)+1)*MENU_ROW_PITCH,detection_result_list[i].num,3);
 			}
 			vofa_debug();
@@ -976,8 +1010,11 @@ void menu_path_page(void)
 		MENU_PATH.path_end.data_int16 = path_end;
 		MENU_PATH.control_point_0.data_int16 = control_point[0];
 		MENU_PATH.control_point_1.data_int16 = control_point[1];
+		MENU_PATH.control_point_2.data_int16 = control_point[2];
 		MENU_PATH.prediction_point.data_int16 = prediction_point;
 		MENU_PATH.x_speed_rate.data_float = x_speed_rate;
+		MENU_PATH.auto_control_point_min.data_uint16 = auto_control_point_normalize_range[0];
+		MENU_PATH.auto_control_point_max.data_uint16 = auto_control_point_normalize_range[1];
 	
 		// 显示循线数据
 		screen_string(0,MENU_ROW_PITCH,MENU_PATH.zebra_enable_flag.name);
@@ -998,11 +1035,20 @@ void menu_path_page(void)
 		screen_string(0,6*MENU_ROW_PITCH,MENU_PATH.control_point_1.name);
 		screen_int(DATA_MAX_COL,6*MENU_ROW_PITCH,MENU_PATH.control_point_1.data_int16,3);
 		
-		screen_string(0,7*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
-		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
+		screen_string(0,7*MENU_ROW_PITCH,MENU_PATH.control_point_2.name);
+		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_PATH.control_point_2.data_int16,3);
 		
-		screen_string(0,8*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.name);
-		screen_float(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.data_float,1,1);
+		screen_string(0,8*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
+		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
+		
+		screen_string(0,9*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.name);
+		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.data_float,1,1);
+		
+		screen_string(0,10*MENU_ROW_PITCH,MENU_PATH.auto_control_point_min.name);
+		screen_uint(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_PATH.auto_control_point_min.data_uint16,3);
+		
+		screen_string(0,11*MENU_ROW_PITCH,MENU_PATH.auto_control_point_max.name);
+		screen_uint(DATA_MAX_COL,11*MENU_ROW_PITCH,MENU_PATH.auto_control_point_max.data_uint16,3);
 		vofa_debug();
 	}
 }
@@ -1465,6 +1511,22 @@ void menu_motor_data_reduce_service(void)
 		motor_pwm_duty[0] = 0;
 }
 
+/* 菜单普通摄像头数据页面服务 */
+void menu_common_camera_data_add_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ exp_time+=1; break; }
+	}
+}
+void menu_common_camera_data_reduce_service(void)
+{
+	switch(point_row_num)
+	{
+		case 0:{ exp_time-=1; break; }
+	}
+}
+
 /* 菜单AI摄像头0数据页面服务 */
 void menu_ai_camera_0_data_add_service(void)
 {
@@ -1558,8 +1620,11 @@ void menu_path_data_add_service(void)
 		case 3:{ path_end+=1; break; }
 		case 4:{ control_point[0]+=1; break; }
 		case 5:{ control_point[1]+=1; break; }
-		case 6:{ prediction_point+=1; break; }
-		case 7:{ x_speed_rate+=0.1; break; }
+		case 6:{ control_point[2]+=1; break; }
+		case 7:{ prediction_point+=1; break; }
+		case 8:{ x_speed_rate+=0.1; break; }
+		case 9:{ auto_control_point_normalize_range[0]+=5; break; }
+		case 10:{ auto_control_point_normalize_range[1]+=5; break; }
 	}
 	if(zebra_enable_flag > 1)
 	{
@@ -1576,8 +1641,11 @@ void menu_path_data_reduce_service(void)
 		case 3:{ path_end-=1; break; }
 		case 4:{ control_point[0]-=1; break; }
 		case 5:{ control_point[1]-=1; break; }
-		case 6:{ prediction_point-=1; break; }
-		case 7:{ x_speed_rate-=0.1; break; }
+		case 6:{ control_point[2]-=1; break; }
+		case 7:{ prediction_point-=1; break; }
+		case 8:{ x_speed_rate-=0.1; break; }
+		case 9:{ auto_control_point_normalize_range[0]-=5; break; }
+		case 10:{ auto_control_point_normalize_range[1]-=5; break; }
 	}
 	if(zebra_enable_flag > 1)
 	{

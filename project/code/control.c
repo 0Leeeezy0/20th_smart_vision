@@ -29,9 +29,9 @@ void CircleAngle2Inv2Speed_control(void){
 	PWM_control(); 
 }
 
-/* 箱子X->运动学逆解算->速度环 控制 */
-void X2Inv2Speed_control(void){
-	box_x_pid_calu(); 
+/* 箱子定位X->运动学逆解算->速度环 控制 */
+void Track_X2Inv2Speed_control(void){
+	box_track_x_pid_calu(); 
 	chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target);  
 	wheel_speed_target[0] = chassis_solve.wheel_1_speed; 
 	wheel_speed_target[1] = chassis_solve.wheel_2_speed; 
@@ -40,9 +40,9 @@ void X2Inv2Speed_control(void){
 	PWM_control(); 
 }
 
-/* 箱子Y->运动学逆解算->速度环 控制 */
-void Y2Inv2Speed_control(void){
-	box_y_pid_calu(); 
+/* 箱子定位给Y->运动学逆解算->速度环 控制 */
+void Track_Y2Inv2Speed_control(void){
+	box_track_y_pid_calu(); 
 	chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target);  
 	wheel_speed_target[0] = chassis_solve.wheel_1_speed; 
 	wheel_speed_target[1] = chassis_solve.wheel_2_speed; 
@@ -51,9 +51,20 @@ void Y2Inv2Speed_control(void){
 	PWM_control(); 
 }
 
-/* 箱子XY->运动学逆解算->速度环 控制 */
-void XY2Inv2Speed_control(void){
-	box_xy_pid_calu(); 
+/* 箱子定位XY->运动学逆解算->速度环 控制 */
+void Track_XY2Inv2Speed_control(void){
+	box_track_xy_pid_calu(); 
+	chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target);  
+	wheel_speed_target[0] = chassis_solve.wheel_1_speed; 
+	wheel_speed_target[1] = chassis_solve.wheel_2_speed; 
+	wheel_speed_target[2] = chassis_solve.wheel_3_speed;
+	motor_pid_calc(); 
+	PWM_control(); 
+}
+
+/* 箱子推离X->运动学逆解算->速度环 控制 */
+void Fxxk_X2Inv2Speed_control(void){
+	box_fxxk_x_pid_calu(); 
 	chassis_solve.move_inv_solve(&chassis_solve, XY_SPEED_SOLVE, x_speed_target, y_speed_target, angular_speed_target);  
 	wheel_speed_target[0] = chassis_solve.wheel_1_speed; 
 	wheel_speed_target[1] = chassis_solve.wheel_2_speed; 
@@ -386,7 +397,7 @@ static void circle_rotate_pid_calc(void){
 }
 
 /* BOX X PID计算 */
-static void box_x_pid_calu(void){
+static void box_track_x_pid_calu(void){
 	// AI摄像头卡尔曼滤波
 	box_center_x_karman.karman_filter(&box_center_x_karman, detection_box_center_x);
 	
@@ -396,14 +407,14 @@ static void box_x_pid_calu(void){
 	move_solve_kind = XY_SPEED_SOLVE;
 	
 	/* BOX X */
-	float X_Kp[4] = { BOX_X_PID[0][0], BOX_X_PID[1][0], BOX_X_PID[2][0], BOX_X_PID[3][0] };
-	float X_Ki[4] = { BOX_X_PID[0][1], BOX_X_PID[1][1], BOX_X_PID[2][1], BOX_X_PID[3][1] };
-	float X_Kd[4] = { BOX_X_PID[0][2], BOX_X_PID[1][2], BOX_X_PID[2][2], BOX_X_PID[3][2] };
-	float X_i_limit[4] = { BOX_X_PID[0][3], BOX_X_PID[1][3], BOX_X_PID[2][3], BOX_X_PID[3][3] };
-	float X_output_limit[4] = { BOX_X_PID[0][4], BOX_X_PID[1][4], BOX_X_PID[2][4], BOX_X_PID[3][4] };
+	float X_Kp[4] = { BOX_TRACK_X_PID[0][0], BOX_TRACK_X_PID[1][0], BOX_TRACK_X_PID[2][0], BOX_TRACK_X_PID[3][0] };
+	float X_Ki[4] = { BOX_TRACK_X_PID[0][1], BOX_TRACK_X_PID[1][1], BOX_TRACK_X_PID[2][1], BOX_TRACK_X_PID[3][1] };
+	float X_Kd[4] = { BOX_TRACK_X_PID[0][2], BOX_TRACK_X_PID[1][2], BOX_TRACK_X_PID[2][2], BOX_TRACK_X_PID[3][2] };
+	float X_i_limit[4] = { BOX_TRACK_X_PID[0][3], BOX_TRACK_X_PID[1][3], BOX_TRACK_X_PID[2][3], BOX_TRACK_X_PID[3][3] };
+	float X_output_limit[4] = { BOX_TRACK_X_PID[0][4], BOX_TRACK_X_PID[1][4], BOX_TRACK_X_PID[2][4], BOX_TRACK_X_PID[3][4] };
 
-	box_x_pid.fuzzy_pid(&box_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
-	x_speed_target = box_x_pid.positional_pid(&box_x_pid, 0, -detection_box_center_err);
+	box_track_x_pid.fuzzy_pid(&box_track_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
+	x_speed_target = box_track_x_pid.positional_pid(&box_track_x_pid, 0, -detection_box_center_err);
 	
 	// 追踪到阈值周围
 	if(abs(detection_box_center_err) <= 6)
@@ -426,8 +437,49 @@ static void box_x_pid_calu(void){
 	}
 }
 
+/* BOX X PID计算 */
+static void box_fxxk_x_pid_calu(void){
+	// AI摄像头卡尔曼滤波
+	box_center_x_karman.karman_filter(&box_center_x_karman, detection_box_center_x);
+	
+	static uint16 num = 0;	// 符合偏移阈值的图像次数
+	
+	float detection_box_center_err = box_center_x_karman.value-AI_CAMERA_0_IMAGE_WIDTH/2; 
+	move_solve_kind = XY_SPEED_SOLVE;
+	
+	/* BOX X */
+	float X_Kp[4] = { BOX_FXXK_X_PID[0][0], BOX_FXXK_X_PID[1][0], BOX_FXXK_X_PID[2][0], BOX_FXXK_X_PID[3][0] };
+	float X_Ki[4] = { BOX_FXXK_X_PID[0][1], BOX_FXXK_X_PID[1][1], BOX_FXXK_X_PID[2][1], BOX_FXXK_X_PID[3][1] };
+	float X_Kd[4] = { BOX_FXXK_X_PID[0][2], BOX_FXXK_X_PID[1][2], BOX_FXXK_X_PID[2][2], BOX_FXXK_X_PID[3][2] };
+	float X_i_limit[4] = { BOX_FXXK_X_PID[0][3], BOX_FXXK_X_PID[1][3], BOX_FXXK_X_PID[2][3], BOX_FXXK_X_PID[3][3] };
+	float X_output_limit[4] = { BOX_FXXK_X_PID[0][4], BOX_FXXK_X_PID[1][4], BOX_FXXK_X_PID[2][4], BOX_FXXK_X_PID[3][4] };
+
+	box_fxxk_x_pid.fuzzy_pid(&box_fxxk_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
+	x_speed_target = box_fxxk_x_pid.positional_pid(&box_fxxk_x_pid, 0, -detection_box_center_err);
+	
+	// 追踪到阈值周围
+	if(abs(detection_box_center_err) <= 4)
+	{
+		num++;
+	}
+	// 追踪到阈值内
+	if(abs(detection_box_center_err) <= 2)
+	{
+		x_speed_target = 0;
+		num = 0;
+		box_X_finsh_flag = True;
+	}
+	// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
+	if(num >= 3)
+	{
+		x_speed_target = 0;
+		num = 0;
+		box_X_finsh_flag = True;
+	}
+}
+
 /* BOX Y PID计算 */
-static void box_y_pid_calu(void){
+static void box_track_y_pid_calu(void){
 	// AI摄像头卡尔曼滤波
 	box_width_karman.karman_filter(&box_width_karman, detection_box_width);
 	
@@ -437,14 +489,14 @@ static void box_y_pid_calu(void){
 	move_solve_kind = XY_SPEED_SOLVE;
 	
 	/* BOX Y */
-	float Y_Kp[4] = { BOX_Y_PID[0][0], BOX_Y_PID[1][0], BOX_Y_PID[2][0], BOX_Y_PID[3][0] };
-	float Y_Ki[4] = { BOX_Y_PID[0][1], BOX_Y_PID[1][1], BOX_Y_PID[2][1], BOX_Y_PID[3][1] };
-	float Y_Kd[4] = { BOX_Y_PID[0][2], BOX_Y_PID[1][2], BOX_Y_PID[2][2], BOX_Y_PID[3][2] };
-	float Y_i_limit[4] = { BOX_Y_PID[0][3], BOX_Y_PID[1][3], BOX_Y_PID[2][3], BOX_Y_PID[3][3] };
-	float Y_output_limit[4] = { BOX_Y_PID[0][4], BOX_Y_PID[1][4], BOX_Y_PID[2][4], BOX_Y_PID[3][4] };
+	float Y_Kp[4] = { BOX_TRACK_Y_PID[0][0], BOX_TRACK_Y_PID[1][0], BOX_TRACK_Y_PID[2][0], BOX_TRACK_Y_PID[3][0] };
+	float Y_Ki[4] = { BOX_TRACK_Y_PID[0][1], BOX_TRACK_Y_PID[1][1], BOX_TRACK_Y_PID[2][1], BOX_TRACK_Y_PID[3][1] };
+	float Y_Kd[4] = { BOX_TRACK_Y_PID[0][2], BOX_TRACK_Y_PID[1][2], BOX_TRACK_Y_PID[2][2], BOX_TRACK_Y_PID[3][2] };
+	float Y_i_limit[4] = { BOX_TRACK_Y_PID[0][3], BOX_TRACK_Y_PID[1][3], BOX_TRACK_Y_PID[2][3], BOX_TRACK_Y_PID[3][3] };
+	float Y_output_limit[4] = { BOX_TRACK_Y_PID[0][4], BOX_TRACK_Y_PID[1][4], BOX_TRACK_Y_PID[2][4], BOX_TRACK_Y_PID[3][4] };
 
-	box_y_pid.fuzzy_pid(&box_y_pid, &detection_box_width_err, Y_Kp, Y_Ki, Y_Kd, Y_i_limit, Y_output_limit, 1);
-	y_speed_target = box_y_pid.positional_pid(&box_y_pid, detection_box_width_target, detection_box_width);
+	box_track_y_pid.fuzzy_pid(&box_track_y_pid, &detection_box_width_err, Y_Kp, Y_Ki, Y_Kd, Y_i_limit, Y_output_limit, 1);
+	y_speed_target = box_track_y_pid.positional_pid(&box_track_y_pid, detection_box_width_target, detection_box_width);
 	
 	// 追踪到阈值周围
 	if(abs(detection_box_width_err) <= 6)
@@ -468,7 +520,7 @@ static void box_y_pid_calu(void){
 }
 
 /* BOX X/Y PID计算 */
-static void box_xy_pid_calu(void){
+static void box_track_xy_pid_calu(void){
 	// AI摄像头卡尔曼滤波
 	box_center_x_karman.karman_filter(&box_center_x_karman, detection_box_center_x);
 	box_width_karman.karman_filter(&box_width_karman, detection_box_width);
@@ -480,26 +532,27 @@ static void box_xy_pid_calu(void){
 	move_solve_kind = XY_SPEED_SOLVE;
 	
 	/* BOX X */
-	float X_Kp[4] = { BOX_X_PID[0][0], BOX_X_PID[1][0], BOX_X_PID[2][0], BOX_X_PID[3][0] };
-	float X_Ki[4] = { BOX_X_PID[0][1], BOX_X_PID[1][1], BOX_X_PID[2][1], BOX_X_PID[3][1] };
-	float X_Kd[4] = { BOX_X_PID[0][2], BOX_X_PID[1][2], BOX_X_PID[2][2], BOX_X_PID[3][2] };
-	float X_i_limit[4] = { BOX_X_PID[0][3], BOX_X_PID[1][3], BOX_X_PID[2][3], BOX_X_PID[3][3] };
-	float X_output_limit[4] = { BOX_X_PID[0][4], BOX_X_PID[1][4], BOX_X_PID[2][4], BOX_X_PID[3][4] };
+	float X_Kp[4] = { BOX_TRACK_X_PID[0][0], BOX_TRACK_X_PID[1][0], BOX_TRACK_X_PID[2][0], BOX_TRACK_X_PID[3][0] };
+	float X_Ki[4] = { BOX_TRACK_X_PID[0][1], BOX_TRACK_X_PID[1][1], BOX_TRACK_X_PID[2][1], BOX_TRACK_X_PID[3][1] };
+	float X_Kd[4] = { BOX_TRACK_X_PID[0][2], BOX_TRACK_X_PID[1][2], BOX_TRACK_X_PID[2][2], BOX_TRACK_X_PID[3][2] };
+	float X_i_limit[4] = { BOX_TRACK_X_PID[0][3], BOX_TRACK_X_PID[1][3], BOX_TRACK_X_PID[2][3], BOX_TRACK_X_PID[3][3] };
+	float X_output_limit[4] = { BOX_TRACK_X_PID[0][4], BOX_TRACK_X_PID[1][4], BOX_TRACK_X_PID[2][4], BOX_TRACK_X_PID[3][4] };
 	/* BOX Y */
-	float Y_Kp[4] = { BOX_Y_PID[0][0], BOX_Y_PID[1][0], BOX_Y_PID[2][0], BOX_Y_PID[3][0] };
-	float Y_Ki[4] = { BOX_Y_PID[0][1], BOX_Y_PID[1][1], BOX_Y_PID[2][1], BOX_Y_PID[3][1] };
-	float Y_Kd[4] = { BOX_Y_PID[0][2], BOX_Y_PID[1][2], BOX_Y_PID[2][2], BOX_Y_PID[3][2] };
-	float Y_i_limit[4] = { BOX_Y_PID[0][3], BOX_Y_PID[1][3], BOX_Y_PID[2][3], BOX_Y_PID[3][3] };
-	float Y_output_limit[4] = { BOX_Y_PID[0][4], BOX_Y_PID[1][4], BOX_Y_PID[2][4], BOX_Y_PID[3][4] };
+	float Y_Kp[4] = { BOX_TRACK_Y_PID[0][0], BOX_TRACK_Y_PID[1][0], BOX_TRACK_Y_PID[2][0], BOX_TRACK_Y_PID[3][0] };
+	float Y_Ki[4] = { BOX_TRACK_Y_PID[0][1], BOX_TRACK_Y_PID[1][1], BOX_TRACK_Y_PID[2][1], BOX_TRACK_Y_PID[3][1] };
+	float Y_Kd[4] = { BOX_TRACK_Y_PID[0][2], BOX_TRACK_Y_PID[1][2], BOX_TRACK_Y_PID[2][2], BOX_TRACK_Y_PID[3][2] };
+	float Y_i_limit[4] = { BOX_TRACK_Y_PID[0][3], BOX_TRACK_Y_PID[1][3], BOX_TRACK_Y_PID[2][3], BOX_TRACK_Y_PID[3][3] };
+	float Y_output_limit[4] = { BOX_TRACK_Y_PID[0][4], BOX_TRACK_Y_PID[1][4], BOX_TRACK_Y_PID[2][4], BOX_TRACK_Y_PID[3][4] };
 
-	box_x_pid.fuzzy_pid(&box_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
-	x_speed_target = box_x_pid.positional_pid(&box_x_pid, 0, -detection_box_center_err);
+	box_track_x_pid.fuzzy_pid(&box_track_x_pid, &detection_box_center_err, X_Kp, X_Ki, X_Kd, X_i_limit, X_output_limit, 1);
+	x_speed_target = box_track_x_pid.positional_pid(&box_track_x_pid, 0, -detection_box_center_err);
 	if(abs(detection_box_center_err) < box_y_track_enable_center_x_limit){
-		box_y_pid.fuzzy_pid(&box_y_pid, &detection_box_width_err, Y_Kp, Y_Ki, Y_Kd, Y_i_limit, Y_output_limit, 1);
-		y_speed_target = box_y_pid.positional_pid(&box_y_pid, detection_box_width_target, detection_box_width);
+		box_track_y_pid.fuzzy_pid(&box_track_y_pid, &detection_box_width_err, Y_Kp, Y_Ki, Y_Kd, Y_i_limit, Y_output_limit, 1);
+		y_speed_target = box_track_y_pid.positional_pid(&box_track_y_pid, detection_box_width_target, detection_box_width);
 	}
 	else
 		y_speed_target = 0;
+		
 	
 //	if(x_speed_target/x_speed_rate >= 6)
 //		angular_speed_target = 6;
@@ -507,27 +560,30 @@ static void box_xy_pid_calu(void){
 //		angular_speed_target = x_speed_target/x_speed_rate;
 	
 	// 追踪到阈值周围
-	if(abs(detection_box_width_err) <= 6 && abs(detection_box_center_err) <= 6)
+	if(abs(detection_box_width_err) <= 8 && abs(detection_box_center_err) <= 8)
 		num++;
 	// 不在阈值范围内清零
 //	if(abs(detection_box_width_err) > 6 && abs(detection_box_center_err) > 6)
 //		num = 0;
 	// 追踪到阈值内
-	if(abs(detection_box_width_err) <= 3 && abs(detection_box_center_err) <= 3)
+	if(abs(detection_box_width_err) <= 4 && abs(detection_box_center_err) <= 4)
 	{
 		x_speed_target = 0;
 		y_speed_target = 0;
+		angular_speed_target = 0;
 		num = 0;
 		box_XY_finsh_flag = True;
 	}
 	// 追踪到阈值周围，由于摩擦力等使车无法移动，超过判定次数
-	if(num >= 3)
+	if(num >= 5)
 	{
 		x_speed_target = 0;
 		y_speed_target = 0;
+		angular_speed_target = 0;
 		num = 0;
 		box_XY_finsh_flag = True;
 	}
+	angular_speed_target = 0;
 }
 
 /* 

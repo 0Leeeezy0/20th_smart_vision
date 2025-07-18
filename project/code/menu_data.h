@@ -103,6 +103,12 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ plan_idx;		// 方案索引
 }_MENU_PLAN_;
 
+/* 普通摄像头 参数 */
+typedef struct
+{
+	_MENU_DATA_NAME_TYPE_ exp_time;		// 曝光度
+}_MENU_COMMON_CAMERA_;
+
 /* AI摄像头0 参数 */
 typedef struct
 {
@@ -134,8 +140,11 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ path_end;
 	_MENU_DATA_NAME_TYPE_ control_point_0;
 	_MENU_DATA_NAME_TYPE_ control_point_1;
+	_MENU_DATA_NAME_TYPE_ control_point_2;
 	_MENU_DATA_NAME_TYPE_ prediction_point;
 	_MENU_DATA_NAME_TYPE_ x_speed_rate;
+	_MENU_DATA_NAME_TYPE_ auto_control_point_min;
+	_MENU_DATA_NAME_TYPE_ auto_control_point_max;
 }_MENU_PATH_;
 
 /* 菜单圆环循线参数 */
@@ -162,13 +171,6 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ output_limit;
 	_MENU_DATA_NAME_TYPE_ i_limit;
 	_MENU_DATA_NAME_TYPE_ gyro_d;
-	
-//	_MENU_DATA_NAME_TYPE_ value;
-//	_MENU_DATA_NAME_TYPE_ delta;
-//	_MENU_DATA_NAME_TYPE_ now_err;
-//	_MENU_DATA_NAME_TYPE_ last_err;
-//	_MENU_DATA_NAME_TYPE_ last_last_err;
-//	_MENU_DATA_NAME_TYPE_ sigma_err;
 }_MENU_PID_;
 
 /* 菜单电机PID参数 */
@@ -188,6 +190,7 @@ typedef struct
 }_MENU_PATH_PID_;
 
 /* 菜单数据 */
+extern _MENU_COMMON_CAMERA_ MENU_COMMON_CAMERA;
 extern _MENU_PLAN_ MENU_PLAN;
 extern _MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
 extern _MENU_AI_CAMERA_1_2_ MENU_AI_CAMERA_1_2;

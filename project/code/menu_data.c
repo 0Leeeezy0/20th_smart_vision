@@ -16,6 +16,7 @@ _MENU_GYRO_ACC_ MENU_GYRO_ACC;
 _MENU_EULER_ANGLE_ MENU_EULER_ANGLE;
 _MENU_SHIFT_ MENU_SHIFT;
 _MENU_PLAN_ MENU_PLAN;
+_MENU_COMMON_CAMERA_ MENU_COMMON_CAMERA;
 _MENU_AI_CAMERA_0_ MENU_AI_CAMERA_0;
 _MENU_AI_CAMERA_1_2_ MENU_AI_CAMERA_1_2;
 _MENU_PATH_ MENU_PATH;
@@ -63,6 +64,8 @@ void menu_data_leeeezy_init(void)
 	MENU_SHIFT.world_yaw.name = "WORLD_YAW";
 	
 	MENU_PLAN.plan_idx.name = "PLAN_IDX";
+	
+	MENU_COMMON_CAMERA.exp_time.name = "EXP_TIME";
 
 	MENU_AI_CAMERA_0.ai_camera_0_enable_flag.name = "CAMERA_0_EN";
 	MENU_AI_CAMERA_0.detection_box_width_limit.name = "W_LIMIT";
@@ -84,8 +87,11 @@ void menu_data_leeeezy_init(void)
 	MENU_PATH.path_end.name = "PATH_END";
 	MENU_PATH.control_point_0.name = "PATH_CONTROL_0";
 	MENU_PATH.control_point_1.name = "PATH_CONTROL_1";
+	MENU_PATH.control_point_2.name = "PATH_CONTROL_2";
 	MENU_PATH.prediction_point.name = "PATH_PREDICT";
 	MENU_PATH.x_speed_rate.name = "X_SPEED_RATE";
+	MENU_PATH.auto_control_point_min.name = "AUTO_CONTROL_MIN";
+	MENU_PATH.auto_control_point_max.name = "AUTO_CONTROL_MAX";
 	
 	MENU_CIRCLE_PATH.circle_enable_flag.name = "CIRCLE_EN";
 	MENU_CIRCLE_PATH.circle_y_speed_target.name = "CIRCLE_Y_SPEED_TAR";
