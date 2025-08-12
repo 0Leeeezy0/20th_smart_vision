@@ -295,5 +295,10 @@ extern _fuzzy_subset_ circle_rotate_fuzzy_rules[8][8];
 void flag_init(void);
 /* 变量初始化 */	
 void variable_init(void);
+/* 菜单可变参数读取 */
+void menu_changea_parameter_read(void);
+/* 菜单可变参数写入 */
+void menu_changea_parameter_write(void);
+
 
 #endif

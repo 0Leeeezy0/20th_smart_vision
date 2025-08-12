@@ -50,6 +50,8 @@ int main(void)
 
     // 此处编写用户代码 例如外设初始化代码等
 	
+	flash_init();
+
 	/* 电机 */
 	motor(&motor_1, MOTOR_1_DIR, MOTOR_1_PWM, 10000, MOTOR_1_FRONT_DIR);
 	motor(&motor_2, MOTOR_2_DIR, MOTOR_2_PWM, 10000, MOTOR_2_FRONT_DIR);
@@ -200,8 +202,15 @@ int main(void)
 		{
 		#endif
 			// 此处编写需要循环执行的代码
+			/* 代码修改完参数后使用 */
+			// menu_changea_parameter_write();
+			menu_changea_parameter_read();
 			menu_service_start(); 
 			
+            // 动态前瞻
+//			auto_control_point();
+//            vofa_debug();
+            
 			// 定位
 //			control_kind = Fxxk_X2Inv2Speed;
 //			wireless_vofa.justfloat_add(&wireless_vofa, 4, (float)detection_box_center_x, (float)detection_box_width, (float)box_center_x_karman.value, (float)box_width_karman.value);

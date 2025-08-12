@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "locale": "c",
+        "zf_driver_flash.h": "c"
+    }
+}

@@ -177,6 +177,7 @@ void menu_back(FUNC_PAGE_BACK_SERVICE func_page_back_service)
 				{
 					func_page_back_service();
 				}
+				menu_changea_parameter_write();
 				system_delay_ms(100);
 				menu_page[i].func_page();	
 				break;
@@ -264,6 +265,7 @@ void menu_data_change(FUNC_PAGE_SERVICE func_service_add,FUNC_PAGE_SERVICE func_
 	{
 		func_service_reduce();
 		screen_clear();
+
 		key_clear_all_state();
 	}
 	else if(key_get_state(RIGHT) == KEY_SHORT_PRESS)	// 右键短按右移
@@ -778,7 +780,7 @@ void menu_common_camera_page(void)
 		menu_title_show();
 		
 		MENU_COMMON_CAMERA.exp_time.data_uint16 = exp_time;
-		mt9v03x_set_exposure_time(exp_time);
+		
 		// 二值化
 		dog_cv.threshold(&dog_cv, mt9v03x_image);
 		
@@ -1518,6 +1520,7 @@ void menu_common_camera_data_add_service(void)
 	{
 		case 0:{ exp_time+=1; break; }
 	}
+	mt9v03x_set_exposure_time(exp_time);
 }
 void menu_common_camera_data_reduce_service(void)
 {
@@ -1525,6 +1528,7 @@ void menu_common_camera_data_reduce_service(void)
 	{
 		case 0:{ exp_time-=1; break; }
 	}
+	mt9v03x_set_exposure_time(exp_time);
 }
 
 /* 菜单AI摄像头0数据页面服务 */

@@ -15,10 +15,6 @@ void fsm(void){
 	dog_path.side_point_kind_judge(&dog_path);
 	// 路径线提取
 	dog_path.path_extract(&dog_path, dog_cv.image_OTSU);
-	// 动态前瞻
-	auto_control_point();
-	// 最长白列
-	dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, longest_white_control_point);
 	// 赛道状态判断
 	path_state = path_state_judge(dog_cv.image_OTSU);
 	
@@ -462,26 +458,37 @@ void fsm(void){
 		if(path_state == L_circle || path_state == R_circle){
 			// 循线误差计算
 			path_err = dog_path.path[control_point[2]][0]-MT9V03X_W/2;	
-//			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
 			path_pid_calc();
-//			angular_speed_target*x_speed_rate;
-			if(displacement_solve.y_speed >= circle_y_speed_target[plan_idx]*circle_x_speed_enable_y_speed_rate)
+			if(displacement_solve.y_speed >= circle_y_speed_target[plan_idx]*circle_x_speed_enable_y_speed_rate){
 				x_speed_target = angular_speed_target*x_speed_rate;
-			else
+			}
+			else{
 				x_speed_target = 0;
+			}
 			y_speed_slow_change(circle_y_speed_target[plan_idx], 0.011, True);				// Y缓变速
 		}
 		// 普通赛道/斑马线
 		else{
-			// 循线误差计算
-			path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
-			path_pid_calc();
-//			angular_speed_target*x_speed_rate;
-			if(displacement_solve.y_speed >= path_y_speed_target[plan_idx]*path_x_speed_enable_y_speed_rate)
-				x_speed_target = angular_speed_target*x_speed_rate;
-			else
-				x_speed_target = 0;
 			y_speed_slow_change(path_y_speed_target[plan_idx], 0.013, True);					// Y缓变速
+			if(displacement_solve.y_speed >= path_y_speed_target[plan_idx]*path_x_speed_enable_y_speed_rate){
+				// 动态前瞻
+				auto_control_point();
+				// 最长白列
+				dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, longest_white_control_point);
+				// 循线误差计算
+				path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
+				path_pid_calc();
+				x_speed_target = angular_speed_target*x_speed_rate;
+				
+			}
+			else{	// 在缓加速过程中使用短前瞻
+				// 最长白列
+				dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[2]);
+				// 循线误差计算
+				path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
+				path_pid_calc();
+				x_speed_target = 0;
+			}
 		}
 	}
 }
@@ -730,8 +737,8 @@ void symmetry_rectificate(uint8 input[MT9V03X_H][MT9V03X_W])
 uint16 auto_control_point(void)
 {
 	float gyro_z_normalization = 0;
-	if(imu660ra.gyro_z > auto_control_point_normalize_range[0])
-		gyro_z_normalization = fabsf(imu660ra.gyro_z-auto_control_point_normalize_range[0])/(auto_control_point_normalize_range[1]-auto_control_point_normalize_range[0]);
+	if(fabsf(imu660ra.gyro_z) > auto_control_point_normalize_range[0])
+		gyro_z_normalization = (fabsf(imu660ra.gyro_z)-auto_control_point_normalize_range[0])/(auto_control_point_normalize_range[1]-auto_control_point_normalize_range[0]);
 	if(gyro_z_normalization > 1)
 		gyro_z_normalization = 1;
 	longest_white_control_point = control_point[1]-(control_point[1]-control_point[0])*gyro_z_normalization;

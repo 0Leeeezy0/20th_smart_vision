@@ -110,7 +110,7 @@ float circle_rotation_yaw_target;				// 目标圆环旋转角度
 float data_1;									// 运动学逆解算参数1（线速度/X速度）
 float data_2;									// 运动学逆解算参数2（航向角/Y速度）
 float x_speed_rate = 2.4;						// 循线x速度比例（目标循线x速度/目标循线旋转速度）
-uint16 auto_control_point_normalize_range[2] = {150, 250};	// 动态前瞻归一化范围
+uint16 auto_control_point_normalize_range[2] = {200, 300};	// 动态前瞻归一化范围
 /* 箱子 */
 uint8 detection_box_width;						// 识别框宽度
 uint8 detection_box_width_limit = 26;			// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
@@ -135,11 +135,11 @@ uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率
 float last_box_world_x[BOX_NUM_MAX] = {0};				// 上一个箱子相对于起始点的世界X坐标
 float last_box_world_y[BOX_NUM_MAX] = {0};				// 上一个箱子相对于起始点的世界Y坐标
 uint8 box_num = 0;										// 已经推过的箱子数量
-float box_distance = 80;								// 箱子间距
+float box_distance = 50;								// 箱子间距
 /* 速度/角度/时间 */
 uint8 plan_idx = 0;									// 方案索引（由低至高，方案速度逐渐变快）			
-float path_y_speed_target[4] = {170, 180, 190, 210};		// 目标循迹Y速度
-float circle_y_speed_target[4] = {170, 180, 180, 190};		// 目标圆环Y速度
+float path_y_speed_target[4] = {180, 150, 190, 210};		// 目标循迹Y速度
+float circle_y_speed_target[4] = {180, 150, 180, 190};		// 目标圆环Y速度
 float path_x_speed_enable_y_speed_rate = 0.8;		// 目标循迹Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
 float circle_x_speed_enable_y_speed_rate = 0.8;		// 目标圆环Y速度比例（实时目标速度/目标速度 大于该比例才开启X方向速度）
 float circle_angular_speed_target[4] = {55, 50, 50, 55 };	// 出入环目标角速度
@@ -381,4 +381,276 @@ void variable_init(void){
 	dog_path.point_distance = 10;			// 拐点/弯点距离
 	dog_path.bend_point_angle_min = 0;		// 弯点最小角度阈值
 	dog_path.bend_point_angle_max = 170;	// 弯点最大角度阈值
+}
+
+/* 菜单可变参数读取 */
+void menu_changea_parameter_read(void){
+	flash_read_page_to_buffer(127, FLASH_PAGE_3);
+
+	uint16_t read_buffer_idx = 0;
+	
+	exp_time = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	detection_box_width_limit = flash_union_buffer[read_buffer_idx].uint8_type;
+	read_buffer_idx++;
+	detection_box_width_target = flash_union_buffer[read_buffer_idx].uint8_type;
+	read_buffer_idx++;
+	detection_box_center_x_limit = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	box_x_speed_target = flash_union_buffer[read_buffer_idx].float_type;
+	read_buffer_idx++;
+	box_x_angular_speed_rate = flash_union_buffer[read_buffer_idx].float_type;
+	read_buffer_idx++;
+	for(uint8_t i = 0;i < 4;i++){
+		box_fxxk_y_speed_target[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+	}
+	box_distance = flash_union_buffer[read_buffer_idx].float_type;
+	read_buffer_idx++;
+	for(uint8_t i = 0;i < 4;i++){
+		path_y_speed_target[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+	}
+	path_start = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	path_end = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	for(uint8_t i = 0;i < 3;i++){
+		control_point[i] = flash_union_buffer[read_buffer_idx].uint16_type;
+		read_buffer_idx++;
+	}
+	prediction_point = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	x_speed_rate = flash_union_buffer[read_buffer_idx].float_type;
+	read_buffer_idx++;
+	auto_control_point_normalize_range[0] = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	auto_control_point_normalize_range[1] = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	for(uint8_t i = 0;i < 4;i++){
+		circle_y_speed_target[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+	}
+	for(uint8_t i = 0;i < 4;i++){
+		circle_angular_speed_target[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+	}
+	circle_check_y = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	circle_angle_target[0] = flash_union_buffer[read_buffer_idx].float_type;
+	read_buffer_idx++;
+	circle_angle_target[1] = flash_union_buffer[read_buffer_idx].float_type;
+	read_buffer_idx++;
+	side_extract_start_y = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	side_extract_end_y = flash_union_buffer[read_buffer_idx].uint16_type;
+	read_buffer_idx++;
+	circle_in_distance_limit = flash_union_buffer[read_buffer_idx].float_type;
+	read_buffer_idx++;
+	circle_out_distance_limit = flash_union_buffer[read_buffer_idx].float_type;
+	read_buffer_idx++;
+
+	#ifndef FUZZY_SPEED_AND_CURRENT
+	for(uint8_t i = 0;i < 5;i++){
+		#ifdef SPEED_AND_CURRENT
+		MOTOR_1_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+		I_1_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+		#endif
+		#ifdef SPEED
+		MOTOR_1_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+		#endif
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		#ifdef SPEED_AND_CURRENT
+		MOTOR_2_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+		I_2_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+		#endif
+		#ifdef SPEED
+		MOTOR_2_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+		#endif
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		#ifdef SPEED_AND_CURRENT
+		MOTOR_3_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+		I_3_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+		#endif
+		#ifdef SPEED
+		MOTOR_3_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+		#endif
+	}
+	#else
+	for(uint8_t i = 0;i < 4;i++){
+		for(uint8_t j = 0;j < 5;j++){
+			MOTOR_PID[i][j] = flash_union_buffer[read_buffer_idx].float_type;
+			read_buffer_idx++;
+		}
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		I_1_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		I_2_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		I_3_PID[i] = flash_union_buffer[read_buffer_idx].float_type;
+		read_buffer_idx++;
+	}
+	#endif
+
+	for(uint8_t i = 0;i < 4;i++){
+		for(uint8_t j = 0;j < 4;j++){
+			for(uint8_t k = 0;k < 6;k++){
+				PATH_PID[i][j][k] = flash_union_buffer[read_buffer_idx].float_type;
+				read_buffer_idx++;
+			}
+		}
+	}
+}
+
+/* 菜单可变参数写入 */
+void menu_changea_parameter_write(void){
+	flash_buffer_clear();
+
+	uint16_t read_buffer_idx = 0;
+	
+	flash_union_buffer[read_buffer_idx].uint16_type = exp_time;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].uint8_type = detection_box_width_limit;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].uint8_type = detection_box_width_target;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].uint16_type = detection_box_center_x_limit;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].float_type = box_x_speed_target;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].float_type = box_x_angular_speed_rate;
+	read_buffer_idx++;
+	for(uint8_t i = 0;i < 4;i++){
+		flash_union_buffer[read_buffer_idx].float_type = box_fxxk_y_speed_target[i];
+		read_buffer_idx++;
+	}
+	flash_union_buffer[read_buffer_idx].float_type = box_distance;
+	read_buffer_idx++;
+	for(uint8_t i = 0;i < 4;i++){
+		flash_union_buffer[read_buffer_idx].float_type = path_y_speed_target[i];
+		read_buffer_idx++;
+	}
+	flash_union_buffer[read_buffer_idx].uint16_type = path_start;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].uint16_type = path_end;
+	read_buffer_idx++;
+	for(uint8_t i = 0;i < 3;i++){
+		flash_union_buffer[read_buffer_idx].uint16_type = control_point[i];
+		read_buffer_idx++;
+	}
+	flash_union_buffer[read_buffer_idx].uint16_type = prediction_point;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].float_type = x_speed_rate;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].uint16_type = auto_control_point_normalize_range[0];
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].uint16_type = auto_control_point_normalize_range[1];
+	read_buffer_idx++;
+	for(uint8_t i = 0;i < 4;i++){
+		flash_union_buffer[read_buffer_idx].float_type = circle_y_speed_target[i];
+		read_buffer_idx++;
+	}
+	for(uint8_t i = 0;i < 4;i++){
+		flash_union_buffer[read_buffer_idx].float_type = circle_angular_speed_target[i];
+		read_buffer_idx++;
+	}
+	flash_union_buffer[read_buffer_idx].uint16_type = circle_check_y;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].float_type = circle_angle_target[0];
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].float_type = circle_angle_target[1];
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].uint16_type = side_extract_start_y;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].uint16_type = side_extract_end_y;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].float_type = circle_in_distance_limit;
+	read_buffer_idx++;
+	flash_union_buffer[read_buffer_idx].float_type = circle_out_distance_limit;
+	read_buffer_idx++;
+
+	#ifndef FUZZY_SPEED_AND_CURRENT
+	for(uint8_t i = 0;i < 5;i++){
+		#ifdef SPEED_AND_CURRENT
+		flash_union_buffer[read_buffer_idx].float_type = MOTOR_1_PID[i];
+		read_buffer_idx++;
+		flash_union_buffer[read_buffer_idx].float_type = I_1_PID[i];
+		read_buffer_idx++;
+		#endif
+		#ifdef SPEED
+		flash_union_buffer[read_buffer_idx].float_type = MOTOR_1_PID[i];
+		read_buffer_idx++;
+		#endif
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		#ifdef SPEED_AND_CURRENT
+		flash_union_buffer[read_buffer_idx].float_type = MOTOR_2_PID[i];
+		read_buffer_idx++;
+		flash_union_buffer[read_buffer_idx].float_type = I_2_PID[i];
+		read_buffer_idx++;
+		#endif
+		#ifdef SPEED
+		flash_union_buffer[read_buffer_idx].float_type = MOTOR_2_PID[i];
+		read_buffer_idx++;
+		#endif
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		#ifdef SPEED_AND_CURRENT
+		flash_union_buffer[read_buffer_idx].float_type = MOTOR_3_PID[i];
+		read_buffer_idx++;
+		flash_union_buffer[read_buffer_idx].float_type = I_3_PID[i];
+		read_buffer_idx++;
+		#endif
+		#ifdef SPEED
+		flash_union_buffer[read_buffer_idx].float_type = MOTOR_3_PID[i];
+		read_buffer_idx++;
+		#endif
+	}
+	#else
+	for(uint8_t i = 0;i < 4;i++){
+		for(uint8_t j = 0;j < 5;j++){
+			flash_union_buffer[read_buffer_idx].float_type = MOTOR_PID[i][j];
+			read_buffer_idx++;
+		}
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		flash_union_buffer[read_buffer_idx].float_type = I_1_PID[i];
+		read_buffer_idx++;
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		flash_union_buffer[read_buffer_idx].float_type = I_2_PID[i];
+		read_buffer_idx++;
+	}
+	for(uint8_t i = 0;i < 5;i++){
+		flash_union_buffer[read_buffer_idx].float_type = I_3_PID[i];
+		read_buffer_idx++;
+	}
+	#endif
+
+	for(uint8_t i = 0;i < 4;i++){
+		for(uint8_t j = 0;j < 4;j++){
+			for(uint8_t k = 0;k < 6;k++){
+				flash_union_buffer[read_buffer_idx].float_type = PATH_PID[i][j][k];
+				read_buffer_idx++;
+			}
+		}
+	}
+
+	flash_write_page_from_buffer(127, FLASH_PAGE_3);
 }
