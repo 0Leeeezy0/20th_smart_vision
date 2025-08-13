@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1064.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1064.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Tue Aug 12 00:36:45 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6190004: Last Updated: Wed Aug 13 14:02:57 2025
 <BR><P>
 <H3>Maximum Stack Usage =       1512 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -3213,7 +3213,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;memset
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_write
+<BR>[Called By]<UL><LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_write
 </UL>
 
 <P><STRONG><a name="[293]"></a>flash_check</STRONG> (Thumb, 120 bytes, Stack size 24 bytes, zf_driver_flash.o(.text.flash_check))
@@ -3249,7 +3249,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[29b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rom_api_flexspi_nor_flash_read
 <LI><a href="#[1c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DCACHE_CleanInvalidateByRange
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_read
+<BR>[Called By]<UL><LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_read
 </UL>
 
 <P><STRONG><a name="[29c]"></a>flash_write_page</STRONG> (Thumb, 332 bytes, Stack size 296 bytes, zf_driver_flash.o(.text.flash_write_page))
@@ -3275,7 +3275,7 @@ Global Symbols
 <LI><a href="#[296]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;interrupt_global_enable
 <LI><a href="#[274]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;interrupt_global_disable
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_write
+<BR>[Called By]<UL><LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_write
 </UL>
 
 <P><STRONG><a name="[272]"></a>fsm</STRONG> (Thumb, 4964 bytes, Stack size 176 bytes, fsm.o(.text.fsm))
@@ -3637,20 +3637,21 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[2e1]"></a>key_clear_all_state</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, zf_device_key.o(.text.key_clear_all_state))
-<BR><BR>[Called By]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<P><STRONG><a name="[2e0]"></a>key_clear_all_state</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, zf_device_key.o(.text.key_clear_all_state))
+<BR><BR>[Called By]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[270]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_point
 <LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_detection_list
 </UL>
 
-<P><STRONG><a name="[2e0]"></a>key_get_state</STRONG> (Thumb, 24 bytes, Stack size 4 bytes, zf_device_key.o(.text.key_get_state))
+<P><STRONG><a name="[2df]"></a>key_get_state</STRONG> (Thumb, 24 bytes, Stack size 4 bytes, zf_device_key.o(.text.key_get_state))
 <BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = key_get_state
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Called By]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[270]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_point
 <LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_detection_list
+<LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
 </UL>
 
 <P><STRONG><a name="[2cf]"></a>key_init</STRONG> (Thumb, 124 bytes, Stack size 24 bytes, zf_device_key.o(.text.key_init))
@@ -3678,11 +3679,10 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dog_path.o(.text.path)
 </UL>
-<P><STRONG><a name="[c1]"></a>main</STRONG> (Thumb, 1716 bytes, Stack size 152 bytes, main.o(.text.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 1224<LI>Call Chain = main &rArr; menu_init &rArr; ips200_init &rArr; ips200_clear &rArr; ips200_set_region &rArr; ips200_write_command &rArr; spi_write_8bit &rArr; spi_write_8bit_array &rArr; spi_write &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_CheckTransferArgument &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[c1]"></a>main</STRONG> (Thumb, 1712 bytes, Stack size 152 bytes, main.o(.text.main))
+<BR><BR>[Stack]<UL><LI>Max Depth = 1240<LI>Call Chain = main &rArr; menu_service_start &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
-<LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_read
+<BR>[Calls]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
 <LI><a href="#[2dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_init
 <LI><a href="#[25c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ai_camera_init
 <LI><a href="#[2db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pit_enable
@@ -3723,7 +3723,7 @@ Global Symbols
 <P><STRONG><a name="[f]"></a>menu_ai_camera_0_page</STRONG> (Thumb, 722 bytes, Stack size 96 bytes, menu.o(.text.menu_ai_camera_0_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1160<LI>Call Chain = menu_ai_camera_0_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -3746,7 +3746,7 @@ Global Symbols
 <P><STRONG><a name="[10]"></a>menu_ai_camera_1_and_2_page</STRONG> (Thumb, 1114 bytes, Stack size 96 bytes, menu.o(.text.menu_ai_camera_1_and_2_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1160<LI>Call Chain = menu_ai_camera_1_and_2_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -3760,9 +3760,9 @@ Global Symbols
 <P><STRONG><a name="[26f]"></a>menu_back</STRONG> (Thumb, 286 bytes, Stack size 16 bytes, menu.o(.text.menu_back))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1064<LI>Call Chain = menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_clear_all_state
-<LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_get_state
-<LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_write
+<BR>[Calls]<UL><LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_clear_all_state
+<LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_get_state
+<LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_write
 <LI><a href="#[26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_delay_ms
 </UL>
 <BR>[Called By]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_path_pid_page
@@ -3787,21 +3787,22 @@ Global Symbols
 <LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_detection_list
 </UL>
 
-<P><STRONG><a name="[2dd]"></a>menu_changea_parameter_read</STRONG> (Thumb, 1476 bytes, Stack size 24 bytes, data.o(.text.menu_changea_parameter_read))
+<P><STRONG><a name="[2e2]"></a>menu_changea_parameter_read</STRONG> (Thumb, 1476 bytes, Stack size 24 bytes, data.o(.text.menu_changea_parameter_read))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = menu_changea_parameter_read &rArr; flash_read_page_to_buffer &rArr; DCACHE_CleanInvalidateByRange &rArr; L1CACHE_CleanInvalidateDCacheByRange
 </UL>
 <BR>[Calls]<UL><LI><a href="#[29a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_read_page_to_buffer
 </UL>
-<BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<BR>[Called By]<UL><LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
 </UL>
 
-<P><STRONG><a name="[2e2]"></a>menu_changea_parameter_write</STRONG> (Thumb, 1480 bytes, Stack size 24 bytes, data.o(.text.menu_changea_parameter_write))
+<P><STRONG><a name="[2e1]"></a>menu_changea_parameter_write</STRONG> (Thumb, 1480 bytes, Stack size 24 bytes, data.o(.text.menu_changea_parameter_write))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1048<LI>Call Chain = menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[29f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_write_page_from_buffer
 <LI><a href="#[292]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flash_buffer_clear
 </UL>
 <BR>[Called By]<UL><LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
+<LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
 </UL>
 
 <P><STRONG><a name="[10a]"></a>menu_circle_path_data_add_service</STRONG> (Thumb, 338 bytes, Stack size 4 bytes, menu.o(.text.menu_circle_path_data_add_service))
@@ -3817,7 +3818,7 @@ Global Symbols
 <P><STRONG><a name="[13]"></a>menu_circle_path_page</STRONG> (Thumb, 670 bytes, Stack size 88 bytes, menu.o(.text.menu_circle_path_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1152<LI>Call Chain = menu_circle_path_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -3844,7 +3845,7 @@ Global Symbols
 <P><STRONG><a name="[e]"></a>menu_common_camera_page</STRONG> (Thumb, 242 bytes, Stack size 56 bytes, menu.o(.text.menu_common_camera_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1120<LI>Call Chain = menu_common_camera_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[270]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_point
@@ -3853,11 +3854,11 @@ Global Symbols
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_common_camera_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[2df]"></a>menu_data_change</STRONG> (Thumb, 152 bytes, Stack size 16 bytes, menu.o(.text.menu_data_change))
+<P><STRONG><a name="[2de]"></a>menu_data_change</STRONG> (Thumb, 152 bytes, Stack size 16 bytes, menu.o(.text.menu_data_change))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = menu_data_change &rArr; key_get_state
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_clear_all_state
-<LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_get_state
+<BR>[Calls]<UL><LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_clear_all_state
+<LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_get_state
 </UL>
 <BR>[Called By]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_path_pid_page
 <LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_motor_3_pid_page
@@ -3893,8 +3894,8 @@ Global Symbols
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
 <LI><a href="#[270]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_point
 <LI><a href="#[26b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_page_init
-<LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_clear_all_state
-<LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_get_state
+<LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_clear_all_state
+<LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_get_state
 </UL>
 <BR>[Called By]<UL><LI><a href="#[272]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm
 </UL>
@@ -3958,7 +3959,7 @@ Global Symbols
 <P><STRONG><a name="[14]"></a>menu_motor_1_pid_page</STRONG> (Thumb, 544 bytes, Stack size 64 bytes, menu.o(.text.menu_motor_1_pid_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1128<LI>Call Chain = menu_motor_1_pid_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -3982,7 +3983,7 @@ Global Symbols
 <P><STRONG><a name="[15]"></a>menu_motor_2_pid_page</STRONG> (Thumb, 560 bytes, Stack size 64 bytes, menu.o(.text.menu_motor_2_pid_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1128<LI>Call Chain = menu_motor_2_pid_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -4006,7 +4007,7 @@ Global Symbols
 <P><STRONG><a name="[16]"></a>menu_motor_3_pid_page</STRONG> (Thumb, 528 bytes, Stack size 56 bytes, menu.o(.text.menu_motor_3_pid_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1120<LI>Call Chain = menu_motor_3_pid_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -4039,7 +4040,7 @@ Global Symbols
 <P><STRONG><a name="[9]"></a>menu_motor_page</STRONG> (Thumb, 628 bytes, Stack size 80 bytes, menu.o(.text.menu_motor_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1144<LI>Call Chain = menu_motor_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -4104,7 +4105,7 @@ Global Symbols
 <P><STRONG><a name="[12]"></a>menu_path_page</STRONG> (Thumb, 672 bytes, Stack size 88 bytes, menu.o(.text.menu_path_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1152<LI>Call Chain = menu_path_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -4122,7 +4123,7 @@ Global Symbols
 <P><STRONG><a name="[17]"></a>menu_path_pid_page</STRONG> (Thumb, 592 bytes, Stack size 64 bytes, menu.o(.text.menu_path_pid_page))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1128<LI>Call Chain = menu_path_pid_page &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -4146,8 +4147,8 @@ Global Symbols
 <P><STRONG><a name="[270]"></a>menu_point</STRONG> (Thumb, 842 bytes, Stack size 16 bytes, menu.o(.text.menu_point))
 <BR><BR>[Stack]<UL><LI>Max Depth = 648<LI>Call Chain = menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_clear_all_state
-<LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_get_state
+<BR>[Calls]<UL><LI><a href="#[2e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_clear_all_state
+<LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_get_state
 <LI><a href="#[26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_delay_ms
 </UL>
 <BR>[Called By]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_path_pid_page
@@ -4183,15 +4184,18 @@ Global Symbols
 <LI><a href="#[26d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flag_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sensor_calibrate
-<LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
+<LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
 </UL>
 <BR>[Address Reference Count : 2]<UL><LI> menu.o(.text.menu_root_page)
 <LI> menu.o(.data.menu_page)
 </UL>
-<P><STRONG><a name="[2de]"></a>menu_service_start</STRONG> (Thumb, 186 bytes, Stack size 40 bytes, menu.o(.text.menu_service_start))
-<BR><BR>[Stack]<UL><LI>Max Depth = 704<LI>Call Chain = menu_service_start &rArr; menu_root_page &rArr; menu_point &rArr; system_delay_ms &rArr; GPT_SetOutputCompareValue &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_Vprintf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[2dd]"></a>menu_service_start</STRONG> (Thumb, 216 bytes, Stack size 40 bytes, menu.o(.text.menu_service_start))
+<BR><BR>[Stack]<UL><LI>Max Depth = 1088<LI>Call Chain = menu_service_start &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_root_page
+<LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;key_get_state
+<LI><a href="#[2e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_write
+<LI><a href="#[2e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_changea_parameter_read
 <LI><a href="#[26c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_delay_ms
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
@@ -4429,7 +4433,7 @@ Global Symbols
 <P><STRONG><a name="[4]"></a>plan</STRONG> (Thumb, 340 bytes, Stack size 56 bytes, menu.o(.text.plan))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1120<LI>Call Chain = plan &rArr; menu_back &rArr; menu_changea_parameter_write &rArr; flash_write_page_from_buffer &rArr; flash_write_page &rArr; debug_assert_handler &rArr; debug_protective_handler &rArr; pwm_set_duty &rArr;  debug_assert_handler (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
+<BR>[Calls]<UL><LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_data_change
 <LI><a href="#[26f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_back
 <LI><a href="#[271]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_title_show
 <LI><a href="#[273]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vofa_debug
@@ -4789,7 +4793,7 @@ Global Symbols
 <LI><a href="#[272]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fsm
 <LI><a href="#[2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu660ra_init
 <LI><a href="#[26a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mt9v03x_init
-<LI><a href="#[2de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
+<LI><a href="#[2dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;menu_service_start
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[2f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mt9v03x_set_config_sccb
 <LI><a href="#[2ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mt9v03x_get_version

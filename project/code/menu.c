@@ -134,7 +134,11 @@ void menu_service_start(void)
 	screen_string(20,80,"LZY");
 	screen_string(20,100,"CAMERA TEST");
 	screen_image(20, 120, mt9v03x_image[0], MT9V03X_W, MT9V03X_H, MT9V03X_W, MT9V03X_H, 0);
-	system_delay_ms(1000);
+	system_delay_ms(500);
+	if(key_get_state(PRESS) == KEY_LONG_PRESS)
+		menu_changea_parameter_write();
+	menu_changea_parameter_read();
+	system_delay_ms(500);
 	menu_root_page();
 }
 

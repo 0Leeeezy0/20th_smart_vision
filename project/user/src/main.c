@@ -202,9 +202,6 @@ int main(void)
 		{
 		#endif
 			// 此处编写需要循环执行的代码
-			/* 代码修改完参数后使用 */
-			// menu_changea_parameter_write();
-			menu_changea_parameter_read();
 			menu_service_start(); 
 			
             // 动态前瞻
