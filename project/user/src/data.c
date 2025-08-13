@@ -79,7 +79,9 @@ uint16 path_end = 30;					// 路径线结束高度
 uint16 side_extract_start_y = 80;		// 边线提取起始高度
 uint16 side_extract_end_y = 20;			// 边线提取结束高度
 uint16 prediction_point = 30;			// 预测点高度：其横坐标将作为下一帧的搜线起点
-uint16 control_point[3] = {63, 73, 55};	// 控制点高度（0/1：最长白列最近控制点/最远控制点；2：路径线提取）
+
+uint16 control_point[3] = {70, 70, 55};	// 控制点高度（0/1：最长白列最近控制点/最远控制点；2：路径线提取）
+
 uint16 longest_white_control_point = 73;	// 最长白列控制点
 /* 圆环 */
 uint16 circle_check_y = 45;				// 圆环检测线高度（越大越晚进环）
@@ -109,8 +111,10 @@ float angle_rotation_yaw_target;				// 目标角度环旋转角度
 float circle_rotation_yaw_target;				// 目标圆环旋转角度
 float data_1;									// 运动学逆解算参数1（线速度/X速度）
 float data_2;									// 运动学逆解算参数2（航向角/Y速度）
-float x_speed_rate = 2.4;						// 循线x速度比例（目标循线x速度/目标循线旋转速度）
-uint16 auto_control_point_normalize_range[2] = {200, 300};	// 动态前瞻归一化范围
+
+float x_speed_rate = 2.3;						// 循线x速度比例（目标循线x速度/目标循线旋转速度）
+
+uint16 auto_control_point_normalize_range[2] = {100, 200};	// 动态前瞻归一化范围
 /* 箱子 */
 uint8 detection_box_width;						// 识别框宽度
 uint8 detection_box_width_limit = 26;			// 识别框宽度阈值（大于此阈值才可以进入箱子追踪模式）
@@ -185,10 +189,10 @@ float GYRO_RANGE[2][3] = {{ 40.0,  200.0,  400.0 },		// 循迹误差区间
 //						   { 1.4, 0,     0.0,   2,           75,          0.16},
 //						   { 0.6, 0,     0.0,   2,           75,          0.13}};
 						  
-float PATH_PID[4][4][6] ={{{ 2.725, 0,   0.0,   2,           75,          0.200},		/* 高 190*/
-						   { 2.100, 0,   0.0,   2,           75,          0.150},
-						   { 1.600, 0,   0.0,   2,           75,          0.095},
-						   { 0.635, 0,   0.0,   2,           75,          0.080}},
+float PATH_PID[4][4][6] ={{{ 1.165, 0,   0.0,   2,           75,          0.149},		/* 高 190*/
+						   { 1.120, 0,   0.0,   2,           75,          0.149},
+						   { 1.200, 0,   0.0,   2,           75,          0.149},
+						   { 1.100, 0,   0.0,   2,           75,          0.149}},
 
 						  {{ 2.725, 0,   0.0,   2,           75,          0.200},		/* 高 190*/
 						   { 2.100, 0,   0.0,   2,           75,          0.150},

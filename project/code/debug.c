@@ -6,9 +6,9 @@ extern float wheel_speed_target[3];
 // ����
 void vofa_debug(void){
 	/* VOFA */
-//    wireless_vofa.justfloat_add(&wireless_vofa, 1,37.27*bat_voltage.voltage);
-//    wireless_vofa.justfloat_add(&wireless_vofa, 5, (float)path_err,(float)path_pid.Kp,(float)path_pid.Kd,(float)path_pid.value,(float)angular_speed_target) ;
-//    wireless_vofa.justfloat_add(&wireless_vofa, 3,(float)path_gyro_karman.value,(float)path_gyroz_pid.Kd,(float)path_gyroz_pid.Kd*path_gyro_karman.value);
+    wireless_vofa.justfloat_add(&wireless_vofa, 1,37.27*bat_voltage.voltage);
+    wireless_vofa.justfloat_add(&wireless_vofa, 5, (float)path_err,(float)path_pid.Kp,(float)path_pid.Kd,(float)path_pid.value,(float)angular_speed_target) ;
+    wireless_vofa.justfloat_add(&wireless_vofa, 3,(float)path_gyro_karman.value,(float)path_gyroz_pid.Kd,(float)path_gyroz_pid.Kd*path_gyro_karman.value);
 //    wireless_vofa.justfloat_add(&wireless_vofa, 3,displacement_solve.x_speed,displacement_solve.y_speed,displacement_solve.angular_speed);
 	
     //    wireless_vofa.justfloat_add(&wireless_vofa, 3, (float)wheel_speed_target[0], (float)wheel_speed_target[1], (float)wheel_speed_target[2]);
@@ -19,7 +19,7 @@ void vofa_debug(void){
 	// wireless_vofa.justfloat_add(&wireless_vofa, 2, PYTHAGOREAN((displacement_solve.world_x_displacement-last_box_world_x),(displacement_solve.world_y_displacement-last_box_world_y)), (float)path_state);
 //    wireless_vofa.justfloat_send(&wireless_vofa);
 	
-	wireless_vofa.justfloat_add(&wireless_vofa, 5, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance, (float)path_state);
+//	wireless_vofa.justfloat_add(&wireless_vofa, 5, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, displacement_solve.world_yaw, displacement_solve.distance, (float)path_state);
 //	if(box_num >= 1)
 //		wireless_vofa.justfloat_add(&wireless_vofa, 4, displacement_solve.world_x_displacement, displacement_solve.world_y_displacement, last_box_world_x[box_num-1], last_box_world_y[box_num-1]);
 //	else
