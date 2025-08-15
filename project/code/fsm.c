@@ -421,7 +421,7 @@ void fsm(void){
 					/* 变量设置 */
 					dog_path.mid_x = MT9V03X_W/2;						// 设置循线起始中点（一定要有这个，不然会原地掉头）
 					// 最长白列
-					dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[0]);
+					dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[1]);
 					// 路径线提取
 					dog_path.path_extract(&dog_path, dog_cv.image_OTSU);
 					/* 状态切换 */
@@ -457,7 +457,7 @@ void fsm(void){
 		// 圆环
 		if(path_state == L_circle || path_state == R_circle){
 			// 循线误差计算
-			path_err = dog_path.path[control_point[2]][0]-MT9V03X_W/2;	
+			path_err = dog_path.path[control_point[3]][0]-MT9V03X_W/2;	
 			path_pid_calc();
 			if(displacement_solve.y_speed >= circle_y_speed_target[plan_idx]*circle_x_speed_enable_y_speed_rate){
 				x_speed_target = angular_speed_target*x_speed_rate;
@@ -483,7 +483,7 @@ void fsm(void){
 			}
 			else{	// 在缓加速过程中使用短前瞻
 				// 最长白列
-				dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[2]);
+				dog_path.longest_white_col(&dog_path, dog_cv.image_OTSU, control_point[0]);
 				// 循线误差计算
 				path_err = dog_path.longest_white_col_x-MT9V03X_W/2;
 				path_pid_calc();
@@ -741,5 +741,5 @@ uint16 auto_control_point(void)
 		gyro_z_normalization = (fabsf(imu660ra.gyro_z)-auto_control_point_normalize_range[0])/(auto_control_point_normalize_range[1]-auto_control_point_normalize_range[0]);
 	if(gyro_z_normalization > 1)
 		gyro_z_normalization = 1;
-	longest_white_control_point = control_point[1]-(control_point[1]-control_point[0])*gyro_z_normalization;
+	longest_white_control_point = control_point[2]-(control_point[2]-control_point[1])*gyro_z_normalization;
 }

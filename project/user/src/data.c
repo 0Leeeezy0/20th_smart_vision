@@ -80,7 +80,7 @@ uint16 side_extract_start_y = 80;		// 边线提取起始高度
 uint16 side_extract_end_y = 20;			// 边线提取结束高度
 uint16 prediction_point = 30;			// 预测点高度：其横坐标将作为下一帧的搜线起点
 
-uint16 control_point[3] = {70, 70, 55};	// 控制点高度（0/1：最长白列最近控制点/最远控制点；2：路径线提取）
+uint16 control_point[4] = {60, 70, 70, 55};	// 控制点高度（0：最长白列缓加速控制点；1/2：最长白列最近控制点/最远控制点；3：路径线提取控制点）
 
 uint16 longest_white_control_point = 73;	// 最长白列控制点
 /* 圆环 */
@@ -139,7 +139,7 @@ uint16 frame_offset = 15;								// 图像边框偏移量（左框右偏，右框左偏，防止曲率
 float last_box_world_x[BOX_NUM_MAX] = {0};				// 上一个箱子相对于起始点的世界X坐标
 float last_box_world_y[BOX_NUM_MAX] = {0};				// 上一个箱子相对于起始点的世界Y坐标
 uint8 box_num = 0;										// 已经推过的箱子数量
-float box_distance = 50;								// 箱子间距
+float box_distance = 50;								// 箱子间距（cm）
 /* 速度/角度/时间 */
 uint8 plan_idx = 0;									// 方案索引（由低至高，方案速度逐渐变快）			
 float path_y_speed_target[4] = {180, 150, 190, 210};		// 目标循迹Y速度
@@ -419,7 +419,7 @@ void menu_changea_parameter_read(void){
 	read_buffer_idx++;
 	path_end = flash_union_buffer[read_buffer_idx].uint16_type;
 	read_buffer_idx++;
-	for(uint8_t i = 0;i < 3;i++){
+	for(uint8_t i = 0;i < 4;i++){
 		control_point[i] = flash_union_buffer[read_buffer_idx].uint16_type;
 		read_buffer_idx++;
 	}
@@ -554,7 +554,7 @@ void menu_changea_parameter_write(void){
 	read_buffer_idx++;
 	flash_union_buffer[read_buffer_idx].uint16_type = path_end;
 	read_buffer_idx++;
-	for(uint8_t i = 0;i < 3;i++){
+	for(uint8_t i = 0;i < 4;i++){
 		flash_union_buffer[read_buffer_idx].uint16_type = control_point[i];
 		read_buffer_idx++;
 	}

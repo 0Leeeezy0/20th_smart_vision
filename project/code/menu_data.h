@@ -141,6 +141,7 @@ typedef struct
 	_MENU_DATA_NAME_TYPE_ control_point_0;
 	_MENU_DATA_NAME_TYPE_ control_point_1;
 	_MENU_DATA_NAME_TYPE_ control_point_2;
+	_MENU_DATA_NAME_TYPE_ control_point_3;
 	_MENU_DATA_NAME_TYPE_ prediction_point;
 	_MENU_DATA_NAME_TYPE_ x_speed_rate;
 	_MENU_DATA_NAME_TYPE_ auto_control_point_min;

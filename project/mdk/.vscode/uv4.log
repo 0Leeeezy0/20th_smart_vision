@@ -1,3 +1,4 @@
 Load "e:\\FILE_SMART_CAR\\ÖÇÄÜÊÓ¾õ\\RT1064_Library-master\\RT1064_Library-master\\RE\\project\\mdk\\Objects\\rt1064.axf" 
-Erase Done.Programming Done.Verify OK.Application running ...
-Flash Load finished at 00:36:57
+Internal DLL Error
+Error: Flash Download failed  -  Target DLL has been cancelled
+Flash Load finished at 21:00:33

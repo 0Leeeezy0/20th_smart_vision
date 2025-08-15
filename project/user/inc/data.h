@@ -176,7 +176,7 @@ extern uint16 path_end;					// 路径线结束高度
 extern uint16 side_extract_start_y;		// 边线提取起始高度
 extern uint16 side_extract_end_y;		// 边线提取结束高度
 extern uint16 prediction_point;			// 预测点高度：其横坐标将作为下一帧的搜线起点
-extern uint16 control_point[3];			// 控制点高度（0/1：最长白列最远控制点/最近控制点；2：路径线提取）
+extern uint16 control_point[4];			// 控制点高度（0：最长白列缓加速控制点；1/2：最长白列最近控制点/最远控制点；3：路径线提取控制点）
 extern uint16 longest_white_control_point;	// 最长白列控制点
 /* 圆环 */
 extern uint16 circle_check_y;			// 圆环检测线高度

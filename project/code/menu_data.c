@@ -1,11 +1,11 @@
 /*
-¸ÃÎÄ¼þÓÃÓÚ²Ëµ¥ÊµÏÖ
+ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ú²Ëµï¿½Êµï¿½ï¿½
 
-API£º
-****ÓÃ»§****
+APIï¿½ï¿½
+****ï¿½Ã»ï¿½****
 ************
 
-****µ×²ã****
+****ï¿½×²ï¿½****
 ************
 */
 #include "common.h"
@@ -26,7 +26,7 @@ _MENU_MOTOR_PID_ MENU_MOTOR_2_PID;
 _MENU_MOTOR_PID_ MENU_MOTOR_3_PID;
 _MENU_PATH_PID_ MENU_PATH_PID;
 
-/* ´ó×ôÊý¾Ý³õÊ¼»¯ */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½Ê¼ï¿½ï¿½ */
 void menu_data_leeeezy_init(void)
 {
 	MENU_ENCODER.encoder_1_count.name = "1_COUNT";
@@ -88,6 +88,7 @@ void menu_data_leeeezy_init(void)
 	MENU_PATH.control_point_0.name = "PATH_CONTROL_0";
 	MENU_PATH.control_point_1.name = "PATH_CONTROL_1";
 	MENU_PATH.control_point_2.name = "PATH_CONTROL_2";
+	MENU_PATH.control_point_3.name = "PATH_CONTROL_3";
 	MENU_PATH.prediction_point.name = "PATH_PREDICT";
 	MENU_PATH.x_speed_rate.name = "X_SPEED_RATE";
 	MENU_PATH.auto_control_point_min.name = "AUTO_CONTROL_MIN";
@@ -156,7 +157,7 @@ void menu_data_leeeezy_init(void)
 	MENU_PATH_PID.PATH_PID.gyro_d.name = "GYRO_D";
 }
 
-/* Ñî¶Ó²Ëµ¥Êý¾Ý³õÊ¼»¯ */
+/* ï¿½ï¿½Ó²Ëµï¿½ï¿½ï¿½ï¿½Ý³ï¿½Ê¼ï¿½ï¿½ */
 void menu_data_yjc_init(void)
 {
 

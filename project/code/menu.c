@@ -60,7 +60,7 @@ static _MENU_PAGE_ menu_page[] =
 	{"AI_CAMERA_0"		,True		,1	,13		,8		,menu_ai_camera_0_page				},
 	{"AI_CAMERA_1&2"	,True		,1	,14		,3		,menu_ai_camera_1_and_2_page		},
 	{"DETECTION_LIST"	,True		,1	,15		,0		,menu_detection_list				},
-	{"PATH"				,True		,1	,16		,11		,menu_path_page						},
+	{"PATH"				,True		,1	,16		,12		,menu_path_page						},
 	{"CIRCLE_PATH"		,True		,1	,17		,10		,menu_circle_path_page				},
 	{"MOTOR_1 PID"		,True 		,1 	,18 	,11 	,menu_motor_1_pid_page				},
 	{"MOTOR_2 PID"		,True 		,1 	,19 	,11 	,menu_motor_2_pid_page				},
@@ -1017,6 +1017,7 @@ void menu_path_page(void)
 		MENU_PATH.control_point_0.data_int16 = control_point[0];
 		MENU_PATH.control_point_1.data_int16 = control_point[1];
 		MENU_PATH.control_point_2.data_int16 = control_point[2];
+		MENU_PATH.control_point_3.data_int16 = control_point[3];
 		MENU_PATH.prediction_point.data_int16 = prediction_point;
 		MENU_PATH.x_speed_rate.data_float = x_speed_rate;
 		MENU_PATH.auto_control_point_min.data_uint16 = auto_control_point_normalize_range[0];
@@ -1043,18 +1044,21 @@ void menu_path_page(void)
 		
 		screen_string(0,7*MENU_ROW_PITCH,MENU_PATH.control_point_2.name);
 		screen_int(DATA_MAX_COL,7*MENU_ROW_PITCH,MENU_PATH.control_point_2.data_int16,3);
+
+		screen_string(0,8*MENU_ROW_PITCH,MENU_PATH.control_point_3.name);
+		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_PATH.control_point_3.data_int16,3);
 		
-		screen_string(0,8*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
-		screen_int(DATA_MAX_COL,8*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
+		screen_string(0,9*MENU_ROW_PITCH,MENU_PATH.prediction_point.name);
+		screen_int(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_PATH.prediction_point.data_int16,3);
 		
-		screen_string(0,9*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.name);
-		screen_float(DATA_MAX_COL,9*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.data_float,1,1);
+		screen_string(0,10*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.name);
+		screen_float(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_PATH.x_speed_rate.data_float,1,1);
 		
-		screen_string(0,10*MENU_ROW_PITCH,MENU_PATH.auto_control_point_min.name);
-		screen_uint(DATA_MAX_COL,10*MENU_ROW_PITCH,MENU_PATH.auto_control_point_min.data_uint16,3);
+		screen_string(0,11*MENU_ROW_PITCH,MENU_PATH.auto_control_point_min.name);
+		screen_uint(DATA_MAX_COL,11*MENU_ROW_PITCH,MENU_PATH.auto_control_point_min.data_uint16,3);
 		
-		screen_string(0,11*MENU_ROW_PITCH,MENU_PATH.auto_control_point_max.name);
-		screen_uint(DATA_MAX_COL,11*MENU_ROW_PITCH,MENU_PATH.auto_control_point_max.data_uint16,3);
+		screen_string(0,12*MENU_ROW_PITCH,MENU_PATH.auto_control_point_max.name);
+		screen_uint(DATA_MAX_COL,12*MENU_ROW_PITCH,MENU_PATH.auto_control_point_max.data_uint16,3);
 		vofa_debug();
 	}
 }
@@ -1629,10 +1633,11 @@ void menu_path_data_add_service(void)
 		case 4:{ control_point[0]+=1; break; }
 		case 5:{ control_point[1]+=1; break; }
 		case 6:{ control_point[2]+=1; break; }
-		case 7:{ prediction_point+=1; break; }
-		case 8:{ x_speed_rate+=0.1; break; }
-		case 9:{ auto_control_point_normalize_range[0]+=5; break; }
-		case 10:{ auto_control_point_normalize_range[1]+=5; break; }
+		case 7:{ control_point[3]+=1; break; }
+		case 8:{ prediction_point+=1; break; }
+		case 9:{ x_speed_rate+=0.1; break; }
+		case 10:{ auto_control_point_normalize_range[0]+=5; break; }
+		case 11:{ auto_control_point_normalize_range[1]+=5; break; }
 	}
 	if(zebra_enable_flag > 1)
 	{
@@ -1650,10 +1655,11 @@ void menu_path_data_reduce_service(void)
 		case 4:{ control_point[0]-=1; break; }
 		case 5:{ control_point[1]-=1; break; }
 		case 6:{ control_point[2]-=1; break; }
-		case 7:{ prediction_point-=1; break; }
-		case 8:{ x_speed_rate-=0.1; break; }
-		case 9:{ auto_control_point_normalize_range[0]-=5; break; }
-		case 10:{ auto_control_point_normalize_range[1]-=5; break; }
+		case 7:{ control_point[3]-=1; break; }
+		case 8:{ prediction_point-=1; break; }
+		case 9:{ x_speed_rate-=0.1; break; }
+		case 10:{ auto_control_point_normalize_range[0]-=5; break; }
+		case 11:{ auto_control_point_normalize_range[1]-=5; break; }
 	}
 	if(zebra_enable_flag > 1)
 	{

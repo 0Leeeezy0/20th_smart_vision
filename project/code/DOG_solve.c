@@ -111,7 +111,7 @@ void move_solve(struct DOG_SOLVE* this, float wheel_1_speed_real, float wheel_2_
 		
 		// 世界X,Y方向上的位移微分和位移（含惯性修正系数）
 		this -> diff_world_x_displacement = this -> diff_displacement*sinf(DEG2RAD(this -> diff_displacement_yaw+this -> world_yaw*1.06));
-		this -> diff_world_y_displacement = this -> diff_displacement*cosf(DEG2RAD(this -> diff_displacement_yaw+this -> world_yaw*1.06));
+		this -> diff_world_y_displacement = this -> diff_displacement*cosf(DEG2RAD(this -> diff_displacement_yaw+this -> world_yaw*1.04));
 		this -> world_x_displacement += this -> diff_world_x_displacement;
 		this -> world_y_displacement += this -> diff_world_y_displacement;
 	
