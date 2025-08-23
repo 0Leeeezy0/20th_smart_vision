@@ -151,7 +151,7 @@ extern _bool_ zebra_enable_flag;			// 斑马线 使能标志位
 extern _bool_ ai_camera_0_enable_flag;		// AI相机0 使能标志位
 extern _bool_ ai_camera_1_enable_flag;		// AI相机1 使能标志位
 extern _bool_ ai_camera_2_enable_flag;		// AI相机2 使能标志位
-extern _bool_ supplement_lamp_enable_flag;	// 补光灯 使能标志位
+extern uint8 supplement_lamp_enable_flag;	// 补光灯 使能标志位
 
 /* 完成标志位 */
 extern _bool_ angle_rotate_finsh_flag;	// 角度环旋转完成标志位

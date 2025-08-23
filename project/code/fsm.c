@@ -191,6 +191,7 @@ void fsm(void){
 			dog_rwr.radar_tracking_enable_flag = True;
 			dog_rwr.missile_launch_enable_flag = False;		
 			// 在没接收到数据前一直发送开始识别串口（防止AI摄像头没收到）
+			supplement_lamp(0);		// 开/关补光灯
 			if( (ai_camera_1_enable_flag == True && ai_camera_2_enable_flag == True && detection_result.tool_detection_finsh_flag == False && detection_result.num_detection_finsh_flag == False) ||
 				(ai_camera_1_enable_flag == True && ai_camera_2_enable_flag == False && detection_result.tool_detection_finsh_flag == False && detection_result.num_detection_finsh_flag == False) ||
 				(ai_camera_1_enable_flag == False && ai_camera_2_enable_flag == True && detection_result.num_detection_finsh_flag == False && detection_result.tool_detection_finsh_flag == False)){
@@ -207,6 +208,7 @@ void fsm(void){
 				(ai_camera_1_enable_flag == True && ai_camera_2_enable_flag == False && detection_result.tool_detection_finsh_flag == True && detection_result.num_detection_finsh_flag == False) ||
 				(ai_camera_1_enable_flag == False && ai_camera_2_enable_flag == True && detection_result.num_detection_finsh_flag == True && detection_result.tool_detection_finsh_flag == False) ||
 				(ai_camera_1_enable_flag == False && ai_camera_2_enable_flag == False)){
+				supplement_lamp(1);		// 关/开补光灯
 				/* 运动设置 */
 				control_kind = Inv2Speed; 			// 设置控制类型
 				move_solve_kind = XY_SPEED_SOLVE;	// 设置解算类型
@@ -444,6 +446,7 @@ void fsm(void){
 	
 	// 循线控制
 	if(path_state == common_path || path_state == L_circle || path_state == R_circle || path_state == zebra_path){
+		supplement_lamp(1);		// 关/开补光灯
 		if(out_last_box_circle_flag == True){
 			dog_rwr.radar_scanning_enable_flag = True;
 			dog_rwr.radar_tracking_enable_flag = False;

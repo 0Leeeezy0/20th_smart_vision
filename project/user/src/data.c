@@ -54,7 +54,7 @@ _bool_ zebra_enable_flag = True;			// 斑马线 使能标志位
 _bool_ ai_camera_0_enable_flag = True;		// AI相机0 使能标志位
 _bool_ ai_camera_1_enable_flag = True;		// AI相机1 使能标志位
 _bool_ ai_camera_2_enable_flag = True;		// AI相机2 使能标志位
-_bool_ supplement_lamp_enable_flag = True;	// 补光灯 使能标志位
+uint8 supplement_lamp_enable_flag = 0;		// 补光灯 使能标志位
 
 /* 完成标志位 */
 _bool_ angle_rotate_finsh_flag = False;		// 角度环旋转完成标志位

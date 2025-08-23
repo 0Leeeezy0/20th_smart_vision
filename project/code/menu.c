@@ -1594,7 +1594,7 @@ void menu_ai_camera_1_and_2_data_add_service(void)
 	{
 		ai_camera_2_enable_flag = 0;
 	}
-	if(supplement_lamp_enable_flag > 1)
+	if(supplement_lamp_enable_flag > 3)
 	{
 		supplement_lamp_enable_flag = 0;
 	}
@@ -1615,9 +1615,9 @@ void menu_ai_camera_1_and_2_data_reduce_service(void)
 	{
 		ai_camera_2_enable_flag = 1;
 	}
-	if(supplement_lamp_enable_flag > 1)
+	if(supplement_lamp_enable_flag > 3)
 	{
-		supplement_lamp_enable_flag = 1;
+		supplement_lamp_enable_flag = 3;
 	}
 }
 

@@ -24,6 +24,7 @@ void ai_camera_init(void){
 	#ifndef AI_CAMERA_MERGE
 	ai_camera_2_init();
 	#endif
+	gpio_init(SUPPLEMENT_LAMP_EN_PIN, GPO, 0, GPO_PUSH_PULL);
 }
 
 /* AI摄像头0 初始化 */
@@ -107,6 +108,30 @@ static void detection_result_trans(_ai_camera_idx_ ai_camera_idx, ...){
 		}
 	}
 	va_end(args);
+}
+
+/* 补光灯控制 */ 
+void supplement_lamp(uint8_t status){
+	/* 补光灯常关 */
+	if(supplement_lamp_enable_flag == 0)
+		gpio_set_level(SUPPLEMENT_LAMP_EN_PIN,0);
+	/* 补光灯循线开，识别关 */
+	if(supplement_lamp_enable_flag == 1){
+		if(status == 0)
+			gpio_set_level(SUPPLEMENT_LAMP_EN_PIN,0);
+		else
+			gpio_set_level(SUPPLEMENT_LAMP_EN_PIN,1);
+	}
+	/* 补光灯循线关，识别开 */
+	if(supplement_lamp_enable_flag == 2){
+		if(status == 0)
+			gpio_set_level(SUPPLEMENT_LAMP_EN_PIN,1);
+		else
+			gpio_set_level(SUPPLEMENT_LAMP_EN_PIN,0);
+	}	
+	/* 补光灯常开 */
+	if(supplement_lamp_enable_flag == 3)
+		gpio_set_level(SUPPLEMENT_LAMP_EN_PIN,1);
 }
 
 //-------------------------------------------------------------------------------------------------------------------

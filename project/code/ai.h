@@ -23,6 +23,9 @@ static void ai_camera_2_init(void);
 */
 static void detection_result_trans(_ai_camera_idx_ ai_camera_idx, ...);
 
+/* 补光灯控制 */ 
+void supplement_lamp(uint8_t status);
+
 /* 串口中断 */
 void uart_rx_interrupt_handler_ai_camera_0 (void);
 void uart_rx_interrupt_handler_ai_camera_1 (void);
